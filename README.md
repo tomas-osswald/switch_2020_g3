@@ -1,10 +1,10 @@
 # README #
 
-This is the repository used for training solutions for SWitCH, 2018-2019 Edition.
+This is the repository used for the SWitCH 2020 project
 
 ## What is this repository for? ##
 
-It contains some training solutions.
+It contains the project developed by the group.
 
 
 ## Who do I talk to? ##
