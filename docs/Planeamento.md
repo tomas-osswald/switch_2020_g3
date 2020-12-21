@@ -6,14 +6,14 @@ The Workgroup is comprised of the following students:
 
 | Student No.	   | Student Name			    |
 |--------------|------------------------------|
-| **[1201780](/docs/1201780.md/)**  | Ricardo Nogueira          |
-| **[1201778](/docs/1170000/)**  | Ricardo Batista      | 						        |
-| **[1201762](/docs/1170000/)**  | Bruno Tamames        | 						        |
-| **[1201768](/docs/1170000/)**  | José Diogo Ribeiro         | 						        |
-| **[1201770](/docs/1170000/)**  | Manuel Almeida             | 						        |
-| **[1181945](/docs/1170000/)**  | Miguel Loureiro             | 						        |
-| **[1201765](/docs/1170000/)**  | João Pinto             | 						        |
-**[1201784](/docs/1170000/)**  | Tomás Osswald
+| **[1201780](/docs/1201780.md/)**  | Ricardo Nogueira |
+| **[1201778](/docs/1170000/)**  | Ricardo Batista |
+| **[1201762](/docs/1170000/)**  | Bruno Tamames |
+| **[1201768](/docs/1170000/)**  | José Diogo Ribeiro |
+| **[1201770](/docs/1170000/)**  | Manuel Almeida |
+| **[1181945](/docs/1170000/)**  | Miguel Loureiro |
+| **[1201765](/docs/1170000/)**  | João Pinto  |
+| **[1201784](/docs/1170000/)**  | Tomás Osswald
 
 # 2. Functionality Distribution ###
 The distribution of requirements/functionalities throughout the project's development period by the group's elements was the following:
