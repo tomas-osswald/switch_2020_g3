@@ -36,7 +36,7 @@ participant ": UI" as UI
 participant ": addFamilyMemberController" as controller
 participant ": FFM Application" as app
 participant "aFamily : Family" as family
-participant "aPerson : Person" as person
+participant "aFamilyMember : FamilyMember" as person
 participant "aVat : VAT" as vat
 participant "aAddress : address" as address
 participant "aPhone : Phone" as phone
@@ -108,20 +108,23 @@ deactivate actor
 
 
 ## 3.1. Functionality Use
-The AddEmailController will invoke the Application object, which stores the Family object, which in turns stores the FamilyMember objects.
-Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI). 
+The AddFamilyMemberController will invoke the Application object, which stores the Family object.
+The App will return the FamilyID from the FamilyAdmin and will invoke the addFamilyMember method. First, there will be an email validation inside the Application to ensure that is unique, then the same will be done to the vatNumber inside the Family object because we are assuming that the same Person can be part of different Families. If any of those validations turn to be true the method fails, otherwise the method is executed by calling the FamilyMember constructor, creating a new Person and storing it inside the Family object. 
+To finish this process, the Application return a confirmation message to the controller that will inform the UI, and therefore the user, that the method succeeded. 
 
 
 
 ## 3.2. Class Diagram
 The main Classes involved are:
-- AddEmailController
+- AddFamilyMemberController
 - Application
 - Family
 - FamilyMember
 - Email
+- Vat
+- Phone
 
-![Class Diagram](https://i.imgur.com/aIvHqZg.png)
+![Class Diagram](https://imgur.com/86GIpDB.png)
 
 ## 3.3. Applied Patterns
 We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
