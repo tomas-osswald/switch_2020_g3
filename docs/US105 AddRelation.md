@@ -4,6 +4,8 @@
 
 # 1. Requirements
 
+## 1.1. Client Notes
+
 As administrator, I want to create a relation between two family members:
 
 **Demonstration 1** As administrator, I want to...
@@ -17,6 +19,40 @@ As administrator, I want to create a relation between two family members:
 
 The interpretation made of this requirement is that the family administrator can create relationships between family members and him, and these relationships are not restricted to normal family relationships.
 
+## 1.2 System Sequence Diagram
+
+```puml
+autonumber
+title System Sequence Diagram - US105
+
+actor "Family Administrator" as familyAdministrator
+participant ": System" as system
+
+activate familyAdministrator
+familyAdministrator -> system : add relation to member
+activate system
+system -> familyAdministrator : sk:selfID, otherID, relationDesignation, familyID
+deactivate system 
+familyAdministrator -> system : imputs required data
+activate system
+
+alt failure
+system -> familyAdministrator : Inform Failure
+
+else sucess
+system -> familyAdministrator : Inform Sucess
+
+end
+
+deactivate system
+
+deactivate familyAdministrator
+```
+
+
+## 1.3 Dependencies from other User Stories
+
+
 # 2. Analysis
 
 For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the impute of the family administrator of the following data:
@@ -28,16 +64,22 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 
 From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app.
 
-##2.1 Model Diagram
+*"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
+
+##2.1 Domain Model Diagram
 
 *Neste secção a equipa deve relatar o estudo/análise/comparação que fez com o intuito de tomar as melhores opções de design para a funcionalidade bem como aplicar diagramas/artefactos de análise adequados.*
-
 
 # 3. Design 
 
 *Nesta secção a equipa deve descrever o design adotado para satisfazer a funcionalidade. Entre outros, a equipa deve apresentar diagrama(s) de realização da funcionalidade, diagrama(s) de classes, identificação de padrões aplicados e quais foram os principais testes especificados para validar a funcionalidade.*
 
 *Para além das secções sugeridas, podem ser incluídas outras.*
+
+* os principais artefactos são o Diagrama de Sequência (SD) e o Diagrama de classes (CD). Os padrões aplicados servem para suportar/justificar as opções/decisões tomadas e refletidas nos artefactos. Os conceitos de negócio (MD) inspiram a existência de classes de software*
+
+
+## 3.1. Functionality Use
 
 **createRelation( ).1**
 ```puml
@@ -143,13 +185,39 @@ deactivate app
 
 ```
 
-## 3.1. Functionality Use
-
-*Nesta secção deve apresentar e descrever o fluxo/sequência que permite realizar a funcionalidade.*
-
 ## 3.2. Class Diagram
 
-*Nesta secção deve apresentar e descrever as principais classes envolvidas na realização da funcionalidade.*
+```puml
+title Class Diagram
+
+class FFMapp {
+- Category list
+
+}
+
+class Family {
+- familyID
+- registrationDate
+- familyID
+
+}
+
+class Person {
+- personID
+- name
+- birthDate
+
+}
+
+class Relation {
+- designation
+
+}
+
+FFMapp -> Family : has list of 
+Family -> Person : has list of 
+Person -> Relation : has 
+```
 
 ## 3.3. Applied Patterns
 
