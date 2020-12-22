@@ -16,11 +16,17 @@ Our interpretation of this requirement was to create the function for a family a
 
 The concepts Family and Cash Account are closely coupled as a family can have one or no cash accounts.
 
+In the future, it is expected that the Family Members will also have their own cash accounts, at which point the relation between all involved classes has to be analyzed.
+
+A cash account will have a cash balance as well as an unique ID number.
+
 # 3. Design
 
 The family class will be the creator of the cash account object, because it has the information necessary to create one (the familyID it will be associated with) and will also record its instance.
 
 The Class FFMApplication keeps a list of families where the family with a given ID can be obtained.
+
+## 3.1. Functionality Use
 
 ```puml
 autonumber 1
@@ -87,8 +93,6 @@ family -> family: addFamilyCashAccount\n(newFamilyCashAccount)
 deactivate family
 ```
 
-## 3.1. Functionality Use
-
 For this function the actor Family Administrator requests the creation of a cash account for the family he administrates to the UI.
 The UI will forward this request to the CreateFamilyCashAccountController, who will in turn call the FFMApplication class to select from a list the family to which a cash account is to be added. After obtaining said family, the request is forwarded to the family object.
 The Family object will first check if it already has a cash account, at which point a fail message can be sent back if there is an associated cash account.
@@ -140,10 +144,13 @@ FFMApplication --> Family
 
 ## 3.3. Applied Patterns
 
-*Nesta secção deve apresentar e explicar quais e como foram os padrões de design aplicados e as melhores práticas*
+For this user story the main GRASP principles used were the Creator, in this case the Family class that records instances of CashAccount, and the Controller, a class created to deal with all system events related.
 
 ## 3.4. Tests 
-*Nesta secção deve sistematizar como os testes foram concebidos para permitir uma correta aferição da satisfação dos requisitos.*
+
+The creation of a cash account faces one main conditions that must be true for its success:
+
+The given family does not yet have a cash account.
 
 **Test 1:** Verify that the family does not yet have a cash account
 
@@ -152,7 +159,14 @@ FFMApplication --> Family
 		Exemplo instance = new Exemplo(null, null);
 	}
 
-**Test 2:** Verify that the cash account has been added
+**Test 2:** Verify that the family already has a cash account
+
+	@Test(expected = IllegalArgumentException.class)
+		public void ensureNullIsNotAllowed() {
+		Exemplo instance = new Exemplo(null, null);
+	}
+
+**Test 3:** Verify that the cash account has been added
 
 	@Test(expected = IllegalArgumentException.class)
 		public void ensureNullIsNotAllowed() {
