@@ -52,4 +52,21 @@ class EmailAddressTest {
                     EmailAddress badEmail = new EmailAddress("1120717@@isep.ipp.pt");
                 });
     }
+
+    @Test
+    public void CreatingEmotyEmailAddress() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("");
+                });
+    }
+
+    @Test
+    public void CreatingNullEmailAddress() {
+        String nullEmail = null;
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress(nullEmail);
+                });
+    }
 }
