@@ -4,75 +4,30 @@
 
 # 1. Requirements
 
-EDIT EDIT EDIT EDIT
-
-*As a family member, I want to add an email account to my profile*
+*As a family administrator, I want to get the list of family members and their relationship*
 
 
-**Demo1** As a family member, I want to add...
+**Demo1** As a family administrator, I want to get... 
 
-- Demo1.1. The new email familymember@gmail.com
+- Demo1.1. The list of family members of the Ferreira family and their relationship towards me.
 
-- Demo1.2. The already existing email familymember@gmail.com
-
-We interpreted this requirment as the function of a user to add an email account to his profile information. The email account must not previously exist on his profile, and it must be a valid email format.
+We interpreted this requirement as the function of obtaining the list of all the family members from the family administrator's family
+and the family members' relationship towards him.   
 
 # 2. Analysis
 
-In order to fulfill this requirement, we need two main data pieces:
-- e-mail address to add
-- Family Member ID of the actor's profile
+In order to fulfill this requirement, we need one data piece:
+- *familyID* of the Family Administrator's family
 
-At a later iteration, the family member's ID would be aquired through the Log In information. For this sprint, the ID will have to be inputed along with the e-mail.
-
+At a later iteration, the family's ID would be aquired through the Log In information of the Family Administrator.
+For this sprint, the *familyID* will have to be inputed as a parameter.
 
 
 # 3. Design
 
-The main process to fulfill this requirement would require the actor to select they want to add an email in the UI, which would then prompt the input of the email adress. In lieu of not having an UI, the Int *FamilyMemberID* and String *emailAdress* will be directly inputed into the AddEmailController. 
-````puml
-@startuml
-
-' startuml é syntax para iniciar esquema em PlantUML
-
-' autonumber é auto-explicativo
-' actor é syntax de ator. participant é syntax de uma Lifeline
-' "as" define alias que queremos dar ao participant ou actor
-
-autonumber
-title "Obtain list of Family Members and their relationship"
-actor "Family Administrator" as actor
-participant " : UI" as UI
-participant " : getFamilyMembersListController" as controller
-participant " : FFMApplication" as application
-participant " aFamily : Family" as family
-
-/' Comentário: activate é a syntax para ativar lifeline "preenchida" (Não tracejada). 
-    Activate só deve ser inserido no momento em que se quer ativar a lifeline preenchida
-'/
-
-activate actor
-
-
-
-actor -> UI : I want to see the list of family members and their relationship
-activate UI
-UI -> controller : getFamilyMembersAndRelationship(familyId)
-activate controller
-controller -> application : getFamilyMembersAndRelationship(familyId)
-activate application
-application -> family :  getFamilyMembersAndRelationship(familyId)
-activate family
-family -> family : getFamilyMembers()
-family --> application : return List<familyMember>
-application -> application : List<familyMember>.toString()
-application -> controller : List<familyMember>.toString()
-controller -> UI : List<familyMember>.toString()
-UI -> actor : show list of family members and their relationship
-
-@enduml
-````
-
+The main process to achieve this requirement would require the actor to select they want to see
+the list of family members and the relationships they have towards him. Since we don't have an
+UI at the moment, the *familyID* will have to be manually inserted.
 ````puml
 @startuml
 
@@ -116,9 +71,7 @@ loop for each Family Member in List<FamilyMember>
      family -> DTO ** : create(name, Relationship)
     DTO -> DTOlist : add()
      end
-note right
-The list is only stored inside the method scope
-end note
+note over family : The list is only stored inside the method scope
 family --> application : FMRlist
 application -> application : FMRlist.toString()
 application -> controller : readableFMRlist
@@ -129,92 +82,9 @@ UI -> actor : show list of family members and their relationship
 ````
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-````puml
-@startuml
-autonumber
-title addEmail
-actor "Family Member" as actor
-participant ": UI" as UI
-participant ": addEmailController" as controller
-participant ": FFMApplication" as application
-participant ": Family" as family
-participant "ID : FamilyMember" as familym
-participant "anEmail: Email" as email
-
-activate actor
-actor -> UI: Add Email
-activate UI
-UI -> actor: Request Necessary Data
-deactivate UI
-actor -> UI: Input Data(ID, email)
-activate UI
-UI -> controller: addEmail(ID,email)
-activate controller
-controller -> application: addEmail(ID,email)
-activate application
-application -> family: addEmail(ID,email)
-activate family
-loop find family member
-    family -> family: findFamilyMember(ID)
-    end
-family -> familym: addEmail(email)
-activate familym
-
-alt check if email already present TRUE
-
-    familym -> familym: email already registered
-
-else check if email already present FALSE
-    familym -> email: createEmail(email)
-    activate email
-    end
-
-email -> email: validate(email)
-
-alt email valid
-    
-    familym -> familym: storeEmail(anEmail)
-    deactivate email
-    familym -> family: Ok
-    family -> application: Ok
-    application -> controller: Ok
-    controller -> UI: Ok
-    UI -> actor: Success
-
-else email invalid
-    
-    familym -> family: Fail
-    deactivate familym
-    family -> application: Fail
-    deactivate family
-    application -> controller: Fail
-    deactivate application
-    controller -> UI: Fail
-    deactivate controller
-    UI -> actor: Failure
-    deactivate UI
-    deactivate actor
-    end
-@enduml
-````
-
-
-
-
 ## 3.1. Functionality Use
+EDIT EDIT EDIT EDIT
+
 The AddEmailController will invoke the Application object, which stores the Family object, which in turns stores the FamilyMember objects.
 Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI). 
 
