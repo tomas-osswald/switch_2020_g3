@@ -31,10 +31,7 @@ participant ": System" as system
 activate familyAdministrator
 familyAdministrator -> system : add relation to member
 activate system
-system -> familyAdministrator : sk:selfID, otherID, relationDesignation, familyID
-deactivate system 
 familyAdministrator -> system : imputs required data
-activate system
 
 alt failure
 system -> familyAdministrator : Inform Failure
@@ -154,16 +151,22 @@ else isAdmin
 
 fam -> app: isAdmin()
 deactivate fam
-app -> app : hasDesignation(relationDesignation)
+app -> fam : hasDesignation(relationDesignation)
+activate fam
 
 alt !hasDesignation()
+fam -> app : !hasDesignation()
+
 
 app -> "relation : Relation"** : createRelation(relationDesignation)
-app -> app : addToRelationList(relation)
+app -> fam : addToRelationList(relation)
 
 else hasDesignation()
 
-app -> app : relation = relation(relationDesignation)
+fam -> app : hasDesignation
+app -> fam : relation = copyRelation(relationDesignation)
+fam -> app : relation
+deactivate fam
 
 end
 
@@ -214,9 +217,9 @@ class Relation {
 
 }
 
-FFMapp -> Family : has list of 
-Family -> Person : has list of 
-Person -> Relation : has 
+FFMapp -down-> Family : has list of 
+Family -down-> Person : has list of 
+Person -down-> Relation : has 
 ```
 
 ## 3.3. Applied Patterns

@@ -1,4 +1,4 @@
-package switch2020.project.model;
+package java.switch2020.project.model;
 
 import java.util.regex.Pattern;
 

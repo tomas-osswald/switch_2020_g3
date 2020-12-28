@@ -1,4 +1,4 @@
-package switch2020.project.model;
+package java.switch2020.project.model;
 
 public class PhoneNumber {
     private final String phoneNumber;
