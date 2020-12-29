@@ -3,8 +3,7 @@ package switch2020.project.model;
 public class PhoneNumber {
     private final String phoneNumber;
 
-    public PhoneNumber(String phoneNumber)
-    {
+    public PhoneNumber(String phoneNumber) {
         if (!validate(phoneNumber))
             throw new IllegalArgumentException("Invalid Phone Number.");
         this.phoneNumber = phoneNumber;

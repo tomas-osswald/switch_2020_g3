@@ -221,29 +221,42 @@ The main Classes involved are:
 We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
 We also used the SOLID SRP principle.
 
-## 3.4. Tests 
+## 3.4. Domain Tests 
 
 #####Test 1: Verify that a vatNumber is accepted
-- **1.1.** If it has the correct amount of numbers
-- **1.2.** If it doesn't have letters
+- **1.1.** Verify if the value is not null
+- **1.2.** Throw an error if the amount of numbers is incorrect
+- **1.3.** Throw an error if there are letters
     
 #####Test 2: Verify that an address is accepted
-- **2.1.** If it has street
-- **2.2.** If it has postalCode
-- **2.3.** If it has a local
-- **2.4.** If it has a city
+- **2.1.** Verify if the street is not null
+- **2.2.** Verify if the postalCode is not null
+- **2.3.** Throw an error if the amount of numbers from postalCode is incorrect
+- **2.4.** Throw an error if the postalCode has letters
+- **2.5.** Verify if the local is not null
+- **2.6.** Throw an error if the local has numbers
+- **2.7.** Verify if the city is not null
+- **2.8.** Throw an error if the city has numbers
 
 #####Test 3: Verify that a birthDate is accepted
+- **3.1.** Verify if the birthDate is not null
 
 #####Test 4: Verify that a phone is accepted
-- **4.1.** If it has the correct amount of numbers
+- **4.1.** Verify if the phoneNumber is not null
+- **4.2.** Throw an error if the amount of numbers is incorrect
 
-#####Test 5: Verify that an email is accepted (all email tests are in **US151**)
+#####Test 5: Verify that an email is accepted 
+- **5.1.** All email tests are in **US151**
 
 #####Test 6: Verify if the email already exists in the system
+- **6.1** Throw an error if the email already exists
 
 #####Test 7: Verify if the VatNumber already belongs to a familyMember inside this family 
+- **6.1** Throw an error if the vatNumber already exists in the family
 
+## 3.5. Integration Tests
+
+To assure that the system works correctly with all integrated parts, it's necessary to define a group of Integration Tests that simulate real system actions. The tests are the following:
 
 
 # 4. Implementation
