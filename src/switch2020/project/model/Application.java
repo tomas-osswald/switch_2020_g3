@@ -1,6 +1,8 @@
 package switch2020.project.model;
 
 
+import java.util.ArrayList;
+
 public class Application {
 
     private ArrayList<Family> families = new ArrayList() <>;
