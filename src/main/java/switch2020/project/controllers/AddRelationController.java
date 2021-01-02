@@ -10,6 +10,13 @@ public class AddRelationController {
     }
 
     public boolean createRelation(int selfID, int otherID, String relationDesignation, int familyID) {
-        return this.app.createRelation(selfID, otherID, relationDesignation, familyID);
+        try {
+            this.app.createRelation(selfID, otherID, relationDesignation, familyID);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return false;
+        }
+
+        return true;
     }
 }
