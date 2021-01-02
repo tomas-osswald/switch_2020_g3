@@ -73,13 +73,13 @@ loop for each Family Member in List<FamilyMember>
      end
 note over family : The list is only stored inside the method scope
 family --> application : FMRlist
-application -> application : FMRlist.toString()
-application -> controller : readableFMRlist
-controller -> UI : readableFMRlist
+application -> controller : FMRlist
+controller -> UI : FMRlist
 UI -> actor : show list of family members and their relationship
 
 @enduml
 ````
+
 
 
 ## 3.1. Functionality Use
