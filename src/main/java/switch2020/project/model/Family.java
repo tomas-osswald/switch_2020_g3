@@ -1,23 +1,22 @@
-package java.switch2020.project.model;
+package switch2020.project.model;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Family {
     private int familyID;
-    private ArrayList<FamilyMember> familyMembers = new ArrayList<FamilyMember>();
-    private ArrayList<Relation> relations = new ArrayList<Relation>();
+    private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
+    private ArrayList<Relation> relations = new ArrayList<>();
 
-    public Family(int familyID) {
+    protected Family(int familyID) {
         this.familyID = familyID;
     }
 
-    public int getFamilyID() {
+    protected int getFamilyID() {
         return familyID;
     }
 
-    public boolean isAdmin(int familyMemberID) {
+    protected boolean isAdmin(int familyMemberID) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.getFamilyMemberID() == familyMemberID)
                 return familyMember.isAdmin();
@@ -25,19 +24,19 @@ public class Family {
         return false;
     }
 
-    public boolean hasDesignation(String relationDesignation) {
-        for (Relation relation: relations) {
-            if (relation.getRelationDesignation().equals(relationDesignation))
+    protected boolean hasDesignation(String relationDesignation) {
+        for (Relation relation : relations) {
+            if (relation.getRelationDesignation().toLowerCase().equals(relationDesignation.toLowerCase()))
                 return true;
         }
         return false;
     }
 
-    public boolean addToRelationList(Relation relation){
+    protected boolean addToRelationList(Relation relation) {
         return relations.add(relation);
     }
 
-    public boolean addRelationToFamilyMember(int familyMemberID, Relation relation){
+    protected boolean addRelationToFamilyMember(int familyMemberID, Relation relation) {
         FamilyMember familyMember = getFamilyMember(familyMemberID);
 
         familyMember.addRelation(relation);
@@ -51,5 +50,21 @@ public class Family {
                 return familyMember;
         }
         throw new IllegalArgumentException("No family member with such ID");
+    }
+
+    protected void addFamilyMember(FamilyMember familyMember) {
+        this.familyMembers.add(familyMember);
+    }
+
+    protected void addFamilyMemberArray(ArrayList<FamilyMember> familyMembers) {
+        this.familyMembers.addAll(familyMembers);
+    }
+
+    protected int numberOfFamilyMembers() {
+        return this.familyMembers.size();
+    }
+
+    protected int numberOfRelationDesignations() {
+        return this.relations.size();
     }
 }

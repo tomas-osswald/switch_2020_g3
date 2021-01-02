@@ -1,17 +1,21 @@
-package java.switch2020.project.model;
+package switch2020.project.model;
 
 import java.util.ArrayList;
-import java.switch2020.project.model.Family;
-import java.switch2020.project.model.Category;
+import switch2020.project.model.Family;
+import switch2020.project.model.Category;
 
 
 public class Application {
 
-    private ArrayList<Family> families = new ArrayList<Family>();
-    private ArrayList<Category> categories = new ArrayList<Category>();
+    private ArrayList<Family> families = new ArrayList<>();
+    private ArrayList<Category> categories = new ArrayList<>();
 
     public Application() {
 
+    }
+
+    protected void addFamily(Family family) {
+        this.families.add(family);
     }
 
     public boolean createRelation(int selfID, int otherID, String relationDesignation, int familyID) {
@@ -33,7 +37,7 @@ public class Application {
         return false;
     }
 
-    private Family getFamily(int familyID) {
+    protected Family getFamily(int familyID) {
         for (Family family : families) {
             if (family.getFamilyID() == familyID)
                 return family;

@@ -1,4 +1,4 @@
-package java.switch2020.project.model;
+package switch2020.project.model;
 
 
 public class Category {

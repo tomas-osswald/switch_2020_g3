@@ -1,4 +1,4 @@
-package java.switch2020.project.model;
+package switch2020.project.model;
 
 
 public class FamilyMember {
@@ -6,19 +6,26 @@ public class FamilyMember {
     private Relation relation;
     private boolean administrator;
 
-    public FamilyMember() {
-
+    protected FamilyMember(int familyMemberID) {
+        this.familyMemberID = familyMemberID;
     }
 
-    public boolean isAdmin() {
+    protected void makeAdmin() {
+        this.administrator = true;
+    }
+
+    protected boolean isAdmin() {
         return this.administrator;
     }
 
-    public int getFamilyMemberID() {
+    protected int getFamilyMemberID() {
         return this.familyMemberID;
     }
 
-    public void addRelation(Relation relation) {
+    protected void addRelation(Relation relation) {
+        if (this.relation != null)
+            throw new IllegalArgumentException("This family member already has an assigned relationship");
+
         this.relation = relation;
     }
 }

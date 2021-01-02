@@ -1,6 +1,6 @@
-package java.switch2020.project.controllers;
+package switch2020.project.controllers;
 
-import java.switch2020.project.model.Application;
+import switch2020.project.model.Application;
 
 public class AddRelationController {
     private Application app;
