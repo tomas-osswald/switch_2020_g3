@@ -117,94 +117,142 @@ The main Classes involved are:
 ![Class Diagram](https://i.imgur.com/aIvHqZg.png)
 
 ## 3.3. Applied Patterns
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
+We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern.
 We also used the SOLID SRP principle.
 
 ## 3.4. Tests 
+    
+The following preparation was made for the execution of the tests:
+
+    FamilyMember familyMember1 = new FamilyMember(666);
+    FamilyMember familyMember2 = new FamilyMember(777);
+    Family testFamily = new Family(familyMember1, familyMember2);
+    Application app = new Application(testFamily);
+    AddEmailController controller = new AddEmailController(app);
+    
 
 **Test 1:** Verify that a correct email is accepted
 
-	@Test
-    public void verifyCorrectEmail() {
-            String emailToAdd = "email@domain.com";
-            assertDoesNotThrow(Email.validateEmail(emailToAdd));
-	}
-**Test 2:** Verify that a null email String is not accepted
+    @Test
+    public void checkifEmailAdded() {
+    assertTrue(controller.addEmail("test@isep.ipp.pt", 666));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-            String emailToAdd = null;
-		Email email = new Email(emailToAdd);
+**Test 2:** Verify that a correct email is not accepted if already entered before
 
-	}
-**Test 3:** Verify that an email with two @s is not accepted
+    @Test
+    public void checkEmailAlreadyPresent() {
+        controller.addEmail("test2@isep.ipp.pt", 666);
+        assertFalse(controller.addEmail("test2@isep.ipp.pt", 666));
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureDoubleAtNotAllowed() {
-            String emailToAdd = "member@domain@com";
-		Email email = new Email(emailToAdd);
+    }
+**Test 3:** Verify that an exception is thrown when there is no family member with the inserted ID
 
-	}
-**Test 4:** Verify that an email with no @ is not accepted
+    @Test
+    public void checkIfThrowsWhenNoSuchID() {
+        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("test3@isep.ipp.pt", 888));
+    }
+**Test 4:** Verify that an exception is thrown when there is a space in the inserted email string
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNoAtNotAllowed() {
-            String emailToAdd = "member.domain.com";
-		Email email = new Email(emailToAdd);
+    @Test
+    public void CreatingEmailAddressWithSpace() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("11207 17@isep.ipp.pt");
+                });
+    }
+**Test 5:** Verify that an exception is thrown when there is an illegal character in the inserted email string
 
-	}
-**Test 5:** Verify that an email with no dots is not accepted
+    @Test
+    public void CreatingEmailAddressWithIllegalCharacters() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("!1120717@isep.ipp.pt");
+                });
+    }
+**Test 6:** Verify that an exception is thrown when there are two Ats in the inserted email string
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNoDotNotAllowed() {
-            String emailToAdd = "member@domaindotcom";
-		Email email = new Email(emailToAdd);
+    @Test
+    public void CreatingEmailAddressWithTwoAts() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("1120717@@isep.ipp.pt");
+                });
+    }
+**Test 7:** Verify that an exception is thrown when the inserted email is Blank
 
-	}
-**Test 6:** Verify that an email with illegal characters is not accepted
+    @Test
+    public void CreatingEmotyEmailAddress() {
+    Throwable exception =
+    assertThrows(IllegalArgumentException.class, () -> {
+    EmailAddress badEmail = new EmailAddress("");
+    });
+    }
+**Test 8:** Verify that an exception is thrown when the inserted email is null
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureExclamationNotAllowed() {
-            String emailToAdd = "cool!member@domain.com";
-		Email email = new Email(emailToAdd);
-
-	}
-**Test 7:** Verify that an email with spaces is not accepted
-
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureSpaceNotAllowed() {
-            String emailToAdd = "new member@domain.com";
-		Email email = new Email(emailToAdd);
-
-	}
-**Test 8:** Verify that an already inserted email isn't added
-
-	@Test(expected = IllegalArgumentException.class)
-		public void checkEmailAlreadyPresent() {
-            ArrayList<Email> expected = new ArrayList<>();
-            expected.add(Email email = new Email("member@domain.com");
-            String emailToAdd = "member@domain.com";
-            String emailToAddDuplicate = "member@domain.com";
-            FamilyMember member = new FamilyMember();
-            FamilyMember.addEmail(emailToAdd);
-            FamilyMember.addEmail(emailToAddDuplicate);
-            assertArrayEquals(expected, member.getEmailList());
-
-	}
+    @Test
+    public void CreatingNullEmailAddress() {
+        String nullEmail = null;
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress(nullEmail);
+                });
+    }
 
 # 4. Implementation
 
-*Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
+**Finding the correct FamilyMember**
 
-*Recomenda-se que organize este conteúdo por subsecções.*
+In order to find the relevant FamilyMember by its ID, a method was constructed to retrieve their index in the FamilyMember array in the Family Class:
+
+    private int findFamilyMemberIndexByID(int familyMemberID){
+        int index = 0;
+        for (FamilyMember member : this.family) {
+            if (member.getID() == familyMemberID) {
+            return index;
+            }
+            index++;
+        }
+        throw new IllegalArgumentException("No family member with that ID was found");
+    }
+
+Following that, we can use it to retrieve the correct FamilyMember object:
+
+    public boolean addEmail(String emailToAdd, int familyMemberID) {
+        return family.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
+    }
+
+**Creating and Adding the EmailAddress Object**
+
+In the FamilyMember Class, we must first check if the email to add is already present in the EmailAddress array list. For that, the following method is used:
+
+    private boolean isEmailAlreadyPresent(String emailToCheck){
+        for (EmailAddress email : emails) {
+            if (email.getEmail().equalsIgnoreCase(emailToCheck)) {
+                return true;
+            }
+        }
+        return false;
+        }
+
+So we can now create and add the EmailAdress object to the array list (emails):
+
+    public boolean addEmail(String emailToAdd) {
+        if (!isEmailAlreadyPresent(emailToAdd)) {
+            EmailAddress newEmail = new EmailAddress(emailToAdd);
+            emails.add(newEmail);
+            return true;
+        }
+        return false;
+    }
 
 # 5. Integration/Demonstration
 
-*Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as restantes funcionalidades do sistema.*
+As of this sprint, this function has no integration with other functions.
 
 # 6. Observations
 
-*Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por exemplo, outras alternativas e ou trabalhos futuros relacionados.*
+In the future, the Family Member ID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputed.  
 
 
 
