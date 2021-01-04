@@ -3,7 +3,8 @@ package switch2020.project.model;
 import org.junit.jupiter.api.Test;
 import switch2020.project.controllers.AddEmailController;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AddEmailAddressTest {
 
@@ -23,7 +24,8 @@ class AddEmailAddressTest {
     @Test
     public void checkEmailAlreadyPresent() {
         controller.addEmail("test2@isep.ipp.pt", 666);
-        assertFalse(controller.addEmail("test2@isep.ipp.pt", 666));
+        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("test2@isep.ipp.pt", 666));
+
 
     }
 
