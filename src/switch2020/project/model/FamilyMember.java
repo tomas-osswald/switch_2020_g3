@@ -9,27 +9,85 @@ public class FamilyMember {
     private PhoneNumber phoneNumber;
     private EmailAddress email;
     private VatNumber vatNumber;
-    private int admin;
+    private Relationship relationship;
+    private boolean isAdmin;
 
-    public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, int admin){
-        if(!checkBirthDate(birthDate))
+    public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship, boolean isAdmin){
+        if(!validate(name))
+            throw new IllegalArgumentException();
+        this.name = name;
+
+        if(!validate(birthDate))
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
-        if(!checkName(name))
-            throw new IllegalArgumentException();
+        if(!validatePhone(phone))
+            throw new IllegalArgumentException("Invalid Phone");
         this.phoneNumber = phone;
+
+        if(!validateEmail(email))
+            throw new IllegalArgumentException("Invalid Email");
         this.email = email;
+
+        if(!validateVat(vat))
+            throw new IllegalArgumentException("Invalid VatNumber");
         this.vatNumber = vat;
+
+        if(!validateRelation(relationship))
+            throw new IllegalArgumentException("Invalid Relationship");
+        this.relationship = relationship;
+
+        this.isAdmin = isAdmin;
     }
 
-    private boolean checkBirthDate(String birthDate){
+    public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship){
+        if(!validate(name))
+            throw new IllegalArgumentException();
+        this.name = name;
+
+        if(!validate(birthDate))
+            throw new IllegalArgumentException("Invalid Date");
+        this.birthDate = birthDate;
+
+        if(!validatePhone(phone))
+            throw new IllegalArgumentException("Invalid Phone");
+        this.phoneNumber = phone;
+
+        if(!validateEmail(email))
+            throw new IllegalArgumentException("Invalid Email");
+        this.email = email;
+
+        if(!validateVat(vat))
+            throw new IllegalArgumentException("Invalid VatNumber");
+        this.vatNumber = vat;
+
+        if(!validateRelation(relationship))
+            throw new IllegalArgumentException("Invalid Relationship");
+        this.relationship = relationship;
+    }
+
+    private boolean validate(String birthDate){
         if (birthDate == null)
             return false;
     }
 
-    private boolean checkName(String name){
-        if (name==null)
+    private boolean validatePhone(PhoneNumber phone){
+        if (phone == null)
+            return false;
+    }
+
+    private boolean validateEmail(EmailAddress email){
+        if (email == null)
+            return false;
+    }
+
+    private boolean validateVat(VatNumber vat){
+        if (vat == null)
+            return false;
+    }
+
+    private boolean validateRelation(Relationship relation){
+        if(relation == null)
             return false;
     }
 
