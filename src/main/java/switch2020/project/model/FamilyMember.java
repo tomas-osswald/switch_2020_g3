@@ -12,6 +12,10 @@ public class FamilyMember {
         this.familyMemberID = iD;
     }
 
+    public ArrayList<EmailAddress> getEmails() {
+        return emails;
+    }
+
     /**
      * @return Int representing the FamilyMember's ID.
      */
@@ -26,26 +30,12 @@ public class FamilyMember {
      * @return True if the EmailAddress object is successfully created and added to the EmailAddress ArrayList
      */
     public boolean addEmail(String emailToAdd) {
-        if (!isEmailAlreadyPresent(emailToAdd)) {
-            EmailAddress newEmail = new EmailAddress(emailToAdd);
-            emails.add(newEmail);
-            return true;
-        }
-        return false;
+        EmailAddress newEmail = new EmailAddress(emailToAdd);
+        emails.add(newEmail);
+        return true;
     }
 
-    /**
-     * Method to check if a given email address is already present in the ArrayList of EmailAddress objects
-     *
-     * @param emailToCheck String representing the email address to check if present
-     * @return True if the passed email address is already present
-     */
-    private boolean isEmailAlreadyPresent(String emailToCheck) {
-        for (EmailAddress email : emails) {
-            if (email.getEmail().equalsIgnoreCase(emailToCheck)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
+
+
+

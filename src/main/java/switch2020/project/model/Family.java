@@ -14,6 +14,10 @@ public class Family {
         family.add(member2);
     }
 
+    public ArrayList<FamilyMember> getFamily() {
+        return family;
+    }
+
     /**
      * Method to add a FamilyMemeber object to the ArrayList of FamilyMembers
      * @param member FamilyMember object to add
