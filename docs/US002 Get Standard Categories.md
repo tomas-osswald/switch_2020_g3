@@ -45,9 +45,9 @@ systemManager -> ui : request standard categories
 activate ui
 ui -> controller : getList()
 activate controller
-controller -> app : getStandardCategories()
+controller -> app : getCategories()
 activate app
-app -> list : getCategories()
+app -> list : getStandardCategories()
 activate list
 list -> list : createStandardCategoriesList()
 loop for each category in list
@@ -55,11 +55,11 @@ activate category
          category -> category: getParentNumber()
          category -> list : parentNumber
          alt parentNumber == -1
-         category --> list : addToStandardCategoriesTree()
+         category --> list : addToStandardCategoriesList()
          deactivate category
         end
        end
-list --> app : standardCategoriesTree
+list --> app : standardCategoriesList
 deactivate list
 app --> controller : standardCategoriesTree
 deactivate app
@@ -73,27 +73,49 @@ deactivate systemManager
 
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the Application object, which stores the Categories object, which in turns stores
-the Category objects. First is created a Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it
-will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create
-an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will
-be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI).
+The CategoriesController will invoke the Application object, that has the Categories list and inside are all the category objects.
+There is still no hierarchy defined and in this US we will only show the standard categories.
+the Category objects.
+
+````puml
+@startsalt
+{
+{T
+ + Root
+ ++ Base Category 1
+ +++ Category 1 Branch 1
+ ++++ Category 1 Banch 1 Branch 1
+ +++++ Category 1 Banch 1 Branch 1 Leaf 1
+ +++++ Category 1 Banch 1 Branch 1 Leaf 2
+ ++++ Category 1 Banch 1 Branch 2
+ +++ Category 1 Branch 2
+ +++ Category 1 Branch 3
+ ++ Base Category 2
+ ++ Base Category 3
+ +++ Category 3 Branch 1
+ +++ Category 3 Branch 2
+ ++++ Category 3 Branch 2 Leaf 1
+ ++++ Category 3 Branch 2 Leaf 1
+ ++ Base Category 4
+}
+}
+@endsalt
+````
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- AddEmailController
-- Application
-- Family
-- FamilyMember
-- Email
+- FFMApplication
+- CategoriesController
+- Categories List
+- Category
 
 ![Class Diagram](https://i.imgur.com/aIvHqZg.png)
 
 ## 3.3. Applied Patterns
 
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
+We applied the principles of Controller, Information Expert from the GRASP pattern. We also
 used the SOLID SRP principle.
 
 ## 3.4. Tests

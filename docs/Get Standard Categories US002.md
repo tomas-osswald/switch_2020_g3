@@ -11,16 +11,25 @@
 
 - Demo1.2. show standard categories tree from categories list that has new added categories
 
-We interpreted this requirement as the function of the system manager to get the standard categories. The standard categories tree must show the "built-in" categories of the application.
+We interpreted this requirement as the function of the system manager to get the standard categories. The standard categories tree must show the "built-in" categories of the application, i.e. the categories that are original from the first state of the application and therefore the ones that are non-editable.
+
 
 # 2. Analysis
 
-In order to fulfill this requirement, we need two data pieces:
+Client requirements define that each transaction has a category and that transactions may grouped by category or class(group) of categories.
+In order to fulfill this requirement, we need to define categories as a data structure called tree.
+Properties of a Tree: 
+ - A tree can contain no nodes or it can contain one special node called the root with zero or more subtrees.
+ - Every edge of the tree is directly or indirectly originated from the root.
+ - Every child has only one parent, but one parent can have many children.
+This data structure is hierarchical and unlike other linear structures like LinkedList thThe standard categories are located right above root.
+
 
 - categoryID
 - parentNumber
 
-For this sprint, the system manager only gets the standard categories.
+For this sprint, the system manager only gets the standard categories tree i.e. the base categories.
+
 
 # 3. Design
 
@@ -31,11 +40,10 @@ autonumber
 title get standard categories list
 actor "System Manager" as systemManager
 participant ": UI" as ui
-participant ": CategoriesController" as controller
+participant ": TreeController" as controller
 participant ":FFMApplication" as app
 participant "Categories: \nList<categories>" as list
 participant "Category" as category
-
 note left of systemManager:  get the list of \nstandard categories
 activate systemManager
 systemManager -> ui : request standard categories
@@ -52,13 +60,13 @@ activate category
          category -> category: getParentNumber()
          category -> list : parentNumber
          alt parentNumber == -1
-         category --> list : addToStandardCategoriesTree()
+         category --> list : addToStandardCategoriesList()
          deactivate category
         end
        end
-list --> app : standardCategoriesTree
+list --> app : standardCategoriesList
 deactivate list
-app --> controller : standardCategoriesTree
+app --> controller : standardCategoriesList
 deactivate app
 controller --> ui :send createStandardCategoriesTree
 deactivate controller
@@ -77,17 +85,15 @@ category objects. The SystemManager.
 
 The main Classes involved are:
 
-- CategoriesController
+- TreeController
 - FFMApplication
-- Categories
+- CategoriesList
 - Category
-
-![Class Diagram](https://i.imgur.com/aIvHqZg.png)
 
 ## 3.3. Applied Patterns
 
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
-used the SOLID SRP principle.
+We applied the GRASP principles of Creator (CategoriesList creates category instances), Information Expert (CategoriesList has all the onformation needed to crete instances of Category)
+
 
 ## 3.4. Tests
 
@@ -154,7 +160,7 @@ used the SOLID SRP principle.
 	}
 
 **Test 8:** Verify that an already inserted email isn't added
-
+git 
 	@Test(expected = IllegalArgumentException.class)
 		public void checkEmailAlreadyPresent() {
             ArrayList<Email> expected = new ArrayList<>();
