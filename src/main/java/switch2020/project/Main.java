@@ -1,4 +1,4 @@
-package switch2020.project;
+package main.java.switch2020.project;
 
 public class Main {
     public static void main(String[] args) {

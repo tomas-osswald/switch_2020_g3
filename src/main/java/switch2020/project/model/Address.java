@@ -1,4 +1,4 @@
-package switch2020.project.model;
+package main.java.switch2020.project.model;
 
 public class Address {
     private final String street;

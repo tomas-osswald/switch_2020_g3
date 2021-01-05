@@ -1,6 +1,6 @@
-package switch2020.project.controllers;
+package main.java.switch2020.project.controllers;
 
-import switch2020.project.model.*;
+import main.java.switch2020.project.model.*;
 
 public class addFamilyMemberController {
 
