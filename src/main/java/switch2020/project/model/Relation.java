@@ -9,9 +9,19 @@ public class Relation {
         this.relationDesignation = relationDesignation;
     }
 
+    /**
+     *
+     * @return
+     */
+
     protected String getRelationDesignation() {
         return this.relationDesignation;
     }
+
+    /**
+     *
+     * @param relationDesignation
+     */
 
     private void isEmpty(String relationDesignation) {
         if (relationDesignation == null || relationDesignation.equals(""))

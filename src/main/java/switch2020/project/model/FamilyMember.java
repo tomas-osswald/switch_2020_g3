@@ -10,17 +10,39 @@ public class FamilyMember {
         this.familyMemberID = familyMemberID;
     }
 
+    /**
+     * Method to make a familyMember Administrator
+     */
+
     protected void makeAdmin() {
         this.administrator = true;
     }
+
+    /**
+     * Method to verify if a given Family Member is Administrator
+     *
+     * @return boolean
+     */
 
     protected boolean isAdmin() {
         return this.administrator;
     }
 
+    /**
+     * Method to get a FamilyMember his ID
+     *
+     * @return Family Member ID
+     */
+
     protected int getFamilyMemberID() {
         return this.familyMemberID;
     }
+
+    /**
+     * Method to add a Relation to Family Member
+     *
+     * @param relation Relation to add
+     */
 
     protected void addRelation(Relation relation) {
         if (this.relation != null)
