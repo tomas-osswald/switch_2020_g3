@@ -7,16 +7,17 @@ public class FamilyMember {
     private int familyMemberID;
     private String name;
     private String birthDate;
-    private PhoneNumber phoneNumber;
+    private ArrayList<PhoneNumber> phoneNumbers = new ArrayList();
     private ArrayList<EmailAddress> emails = new ArrayList();
     private VatNumber vatNumber;
+    private Address address;
     private Relationship relationship;
     private boolean isAdmin;
 
-    /* CONSTRUCTORS */
+    /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship, boolean isAdmin){
+    public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship, boolean isAdmin){
         if(!validate(name))
             throw new IllegalArgumentException();
         this.name = name;
@@ -25,17 +26,25 @@ public class FamilyMember {
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
-        if(!validatePhone(phone))
+        if(!validate(phone))
             throw new IllegalArgumentException("Invalid Phone");
-        this.phoneNumber = phone;
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
 
-        if(!validateEmail(email))
+        if(!validate(email))
             throw new IllegalArgumentException("Invalid Email");
-        this.emails.add(email);
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
 
-        if(!validateVat(vat))
+        if(!validate(vat))
             throw new IllegalArgumentException("Invalid VatNumber");
-        this.vatNumber = vat;
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        if(!validate(street) && !validate(codPostal) && !validate(local) && !validate(city))
+            throw new IllegalArgumentException("Invalid Address");
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
 
         if(!validateRelation(relationship))
             throw new IllegalArgumentException("Invalid Relationship");
@@ -45,7 +54,7 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member
-    public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship){
+    public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship){
         if(!validate(name))
             throw new IllegalArgumentException();
         this.name = name;
@@ -54,21 +63,31 @@ public class FamilyMember {
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
-        if(!validatePhone(phone))
+        if(!validate(phone))
             throw new IllegalArgumentException("Invalid Phone");
-        this.phoneNumber = phone;
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
 
-        if(!validateEmail(email))
+        if(!validate(email))
             throw new IllegalArgumentException("Invalid Email");
-        this.emails.add(email);
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
 
-        if(!validateVat(vat))
+        if(!validate(vat))
             throw new IllegalArgumentException("Invalid VatNumber");
-        this.vatNumber = vat;
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        if(!validate(street) && !validate(codPostal) && !validate(local) && !validate(city))
+            throw new IllegalArgumentException("Invalid Address");
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
 
         if(!validateRelation(relationship))
             throw new IllegalArgumentException("Invalid Relationship");
         this.relationship = relationship;
+
+        this.isAdmin = false;
     }
 
     // Add email to FamilyMember
@@ -76,24 +95,15 @@ public class FamilyMember {
         this.familyMemberID = iD;
     }
 
-    /* VALIDATORS */
+    /********************** GETTERS AND SETTERS **********************/
+
     private boolean validate(String birthDate){
         if (birthDate == null);
             return false;
     }
 
-    private boolean validatePhone(PhoneNumber phone){
+    private boolean validate(Integer phone){
         if (phone == null);
-            return false;
-    }
-
-    private boolean validateEmail(EmailAddress email){
-        if (email == null);
-            return false;
-    }
-
-    private boolean validateVat(VatNumber vat){
-        if (vat == null);
             return false;
     }
 
@@ -102,17 +112,22 @@ public class FamilyMember {
             return false;
     }
 
-    /* GETTERS & SETTERS */
+    /*********************************/
+
     public ArrayList<EmailAddress> getEmails() {
         return emails;
+    }
+
+    public Integer getVatNumber() {
+        return this.vatNumber.getVatNumber();
     }
 
     /**
      * @return Int representing the FamilyMember's ID.
      */
-    public int getID() {
-        return this.familyMemberID;
-    }
+    public int getID() { return this.familyMemberID; }
+
+    /********************** USER STORIES **********************/
 
     /**
      * Method to create an EmailAddress object and add it to the ArrayList of EmailAddress objects
@@ -125,6 +140,8 @@ public class FamilyMember {
         emails.add(newEmail);
         return true;
     }
+
+
 
 }
 

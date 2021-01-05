@@ -6,6 +6,8 @@ public class Address {
     private final String local;
     private final String city;
 
+    /********************** CONSTRUCTORS **********************/
+
     public Address(String street, String postalCode,String local, String city){
         if(!validateEmpty(street))
             throw new IllegalArgumentException("Inserir Rua");
@@ -23,6 +25,8 @@ public class Address {
             throw new IllegalArgumentException("Inserir Cidade");
         this.city = city;
     }
+
+    /********************** GETTERS AND SETTERS **********************/
 
     private boolean validateEmpty(String x){
         if (x == null)

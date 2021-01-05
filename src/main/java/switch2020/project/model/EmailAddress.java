@@ -6,6 +6,8 @@ public class EmailAddress {
 
     private String email;
 
+    /********************** CONSTRUCTORS **********************/
+
     public EmailAddress(String email)
     {
         if (!validate(email))
@@ -13,15 +15,16 @@ public class EmailAddress {
         this.email = email;
     }
 
+    /********************** GETTERS AND SETTERS **********************/
+
     public String getEmail() {
         return email;
     }
 
-
     private boolean validate(String email) {
         if (email == null)
             return false;
-        if (email.isEmpty())
+        if (email.isEmpty() || email.isBlank())
             return false;
         // Check for other invalid criteria here
 

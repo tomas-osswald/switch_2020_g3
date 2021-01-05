@@ -7,6 +7,8 @@ public class Family {
     private int familyID;
     private ArrayList<FamilyMember> family = new ArrayList();
 
+    /********************** CONSTRUCTORS ***************/
+
     public Family() {
     }
 
@@ -19,11 +21,11 @@ public class Family {
         this.familyID = familyID;
     }
 
+    /********************** GETTERS AND SETTERS **********************/
+
     public ArrayList<FamilyMember> getFamily() {
         return family;
     }
-
-    public ArrayList<FamilyMember> getFamily(int familyID){ return family;}
 
     /**
      * Method to add a FamilyMember object to the ArrayList of FamilyMembers
@@ -31,17 +33,6 @@ public class Family {
      */
     public void addFamilyMember(FamilyMember member) {
         family.add(member);
-    }
-
-    /**
-     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
-     *
-     * @param emailToAdd String of the email address to add
-     * @param familyMemberID Integer representing the family member's ID
-     * @return True if email successfully added to the Family Member with the passed ID
-     */
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return family.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
     }
 
     /**
@@ -62,8 +53,47 @@ public class Family {
         throw new IllegalArgumentException("No family member with that ID was found");
     }
 
+    /*************************/
+
     public int getFamilyID(){
         return this.familyID;
+    }
+
+    private boolean doesVatExist(Integer vat){
+        ArrayList<Integer> vatList = new ArrayList();
+        for ( FamilyMember member : family ) {
+            vatList.add(member.getVatNumber());
+        }
+        for ( Integer nif : vatList) {
+            if( nif == vat){
+                return true;
+            }
+            return false;
+        }
+    }
+
+    /********************** USER STORIES **********************/
+
+    /**
+     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
+     *
+     * @param emailToAdd String of the email address to add
+     * @param familyMemberID Integer representing the family member's ID
+     * @return True if email successfully added to the Family Member with the passed ID
+     */
+    public boolean addEmail(String emailToAdd, int familyMemberID) {
+        return family.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
+    }
+
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship){
+        if(!doesVatExist(vat)){
+            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            family.add(newFamilyMember);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Vat already exists in the Family");
+        }
+
     }
 
 }

@@ -1,21 +1,22 @@
 package main.java.switch2020.project.model;
 
 public class PhoneNumber {
-    private final String phoneNumber;
+    private final Integer phoneNumber;
 
-    public PhoneNumber(String phoneNumber) {
+    /********************** CONSTRUCTORS **********************/
+
+    public PhoneNumber(Integer phoneNumber) {
         if (!validate(phoneNumber))
             throw new IllegalArgumentException("Invalid Phone Number.");
         this.phoneNumber = phoneNumber;
     }
 
-    private boolean validate(String phoneNumber) {
+    /********************** GETTERS AND SETTERS **********************/
+
+    private boolean validate(Integer phoneNumber) {
         if (phoneNumber == null)
             return false;
-        if (phoneNumber.isEmpty() || phoneNumber.isBlank())
-            return false;
         // Check for other invalid criteria here
-
         return true;
     }
 }
