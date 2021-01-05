@@ -1,29 +1,22 @@
 package switch2020.project.model;
 
-import java.util.Scanner;
-
 public class Category {
-    //atributes
+    //attributes
     private String cname;
-    private int parentNumber;
     private boolean isStandard;
 
-    //constructor
-
-    public Category(String cname, int parentNumber) {
+    //constructors
+    public Category(String cname){
         this.cname = cname;
-        this.parentNumber = parentNumber;
+        this.isStandard = true;
+    }
 
-        if(cname.length() < 1){
-            try {
-                throw new Exception("Category Name must have at least 1 character");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            else {
-                this.cname = cname;
-            }
-        }
+    public String getCname() {
+        return cname;
+    }
+
+    public boolean isStandard() {
+        return isStandard;
     }
 
 }

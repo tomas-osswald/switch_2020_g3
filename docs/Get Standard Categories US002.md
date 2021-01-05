@@ -3,7 +3,7 @@
 
 # 1. Requirements
 
-### *"As a system manager, I want to get the standard categories tree."*
+*As a system manager, I want to get the standard categories tree.*
 
 **Demo1** As a system manager, I want to ...
 
@@ -11,83 +11,170 @@
 
 - Demo1.2. show standard categories tree from categories list that has new added categories
 
-We interpreted this requirement as the function of the system manager to get the standard categories. The standard categories tree must show the "built-in" categories of the application, i.e. the categories that are original from the first state of the application and therefore the ones that are non-editable.
-
+We interpreted this requirement as the function of the system manager to get the standard categories. The standard
+categories tree must show the "built-in" categories of the application.
 
 # 2. Analysis
 
-Client requirements define that each transaction has a category and that transactions may grouped by category or class(group) of categories.
-In order to fulfill this requirement, we need to define categories as a data structure called tree.
-Properties of a Tree: 
- - A tree can contain no nodes or it can contain one special node called the root with zero or more subtrees.
- - Every edge of the tree is directly or indirectly originated from the root.
- - Every child has only one parent, but one parent can have many children.
-This data structure is hierarchical and unlike other linear structures like LinkedList thThe standard categories are located right above root.
-
+In order to fulfill this requirement, we need two data pieces:
 
 - categoryID
 - parentNumber
 
-For this sprint, the system manager only gets the standard categories tree i.e. the base categories.
-
+For this sprint, the system manager only gets the standard categories from the categories list.
 
 # 3. Design
 
-The main process to fulfill this requirement is to request(infer) in the UI for the standard categories. This is achieved through the UI, asking the controller to the application for the standard categories. The application then returns a list object containing the categories identified as standard
+The main process to fulfill this requirement is to request(infer) in the UI for the standard categories.
+This is achieved through the UI, asking the controller to the application for the standard categories.
+The application then returns a list object containing the categories identified as standard
 
 ````puml
 autonumber
 title get standard categories list
 actor "System Manager" as systemManager
 participant ": UI" as ui
-participant ": StandardCategories \nController" as controller
+participant ": CategoriesController" as controller
 participant ":FFMApplication" as app
 participant "Categories: \nList<categories>" as list
+participant "Category" as category
 
 note left of systemManager:  get the list of \nstandard categories
 activate systemManager
 systemManager -> ui : request standard categories
 activate ui
-ui -> controller : getStandardCategoriesList()
+ui -> controller : getList()
 activate controller
-controller -> app : getStandardCategoriesList()
-loop forEach Category in CategoriesList
-app -> app : checkIfIsStandardCategory()
-end
+controller -> app : getStandardCategories()
 activate app
-
+app -> app : createStandardCategoriesList()
+loop for each Category in CategoriesList
 activate list
+activate category
 
-
+app -> category : getParentNumber()
+alt parentNumber == -1
+category -> app : addCategoryToStandardList()
+deactivate category
+end
+end
 deactivate list
 app --> controller : standardCategoriesList
 deactivate app
-controller --> ui :send StandardCategoriesList
+controller --> ui :StandardCategoriesList
 deactivate controller
-ui --> systemManager : present categories list
+ui --> systemManager : present standard categories list
 deactivate ui
 deactivate systemManager
 @enduml
 ````
 
+````puml
+autonumber
+title get standard categories list
+actor "System Manager" as systemManager
+participant ": UI" as ui
+participant ": CategoriesController" as controller
+participant ":FFMApplication" as app
+participant ": CategoryService" as service
+participant ": Categories List" as list
+participant "Category" as category
+
+note left of systemManager:  get the list of \nstandard categories
+activate systemManager
+systemManager -> ui : request standard categories
+activate ui
+ui -> controller : getList()
+activate controller
+controller -> app : getStandardCategories()
+activate app
+app -> service : getCategoryService()
+activate service
+service -> service : createStandardCategoriesList()
+activate category
+loop for each Category in Categories List
+activate list
+list -> category : getParentNumber()
+alt parentNumber == -1
+deactivate list
+category -> service : addCategoryToStandardList()
+service -> app : standardCategories
+deactivate service
+deactivate category
+end
+end
+
+app --> controller : standardCategoriesList
+deactivate app
+controller --> ui :StandardCategoriesList
+deactivate controller
+ui --> systemManager : present standard categories list
+deactivate ui
+deactivate systemManager
+@enduml
+````
+
+````puml
+autonumber
+title get standard categories list - version service 2
+actor "System Manager" as systemManager
+participant ": UI" as ui
+participant ": CategoriesController" as controller
+participant ":FFMApplication" as app
+participant ": CategoryService" as service
+
+note left of systemManager:  get the list of \nstandard categories
+activate systemManager
+systemManager -> ui : request standard categories
+activate ui
+ui -> controller : getStandardCategories()
+activate controller
+controller -> app : getCategoryService()
+activate app
+activate service
+
+app -> controller : CategoryListService
+deactivate app
+controller -> service : getCategoryService()
+service -> service : createStandardCategoriesList()
+activate category
+loop for each Category in Categories List
+service -> category : getParentNumber()
+alt parentNumber == -1
+category -> service : addCategoryToStandardList()
+service -> app : standardCategories
+deactivate service
+deactivate category
+end
+end
+
+app --> controller : standardCategoriesList
+deactivate app
+controller --> ui :StandardCategoriesList
+deactivate controller
+ui --> systemManager : present standard categories list
+deactivate ui
+deactivate systemManager
+@enduml
+````
+
+
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the Application object, which stores the CategoriesList object, and in it are the various
-category objects. 
+The CategoriesController will invoke the FFMApplication object, which handles the Category Service Object.
+Category Service has the responsability of managing the categories list.
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- StandardCategoriesController
+- CategoriesController
 - FFMApplication
-- CategoriesList
-- Category
+- CategoryService
 
 ## 3.3. Applied Patterns
 
-We applied the GRASP principles of Creator (CategoriesList creates category instances), Information Expert (CategoriesList has all the onformation needed to crete instances of Category)
-
+We applied some GRASP principles as Controller and Creator.
 
 ## 3.4. Tests
 
@@ -154,7 +241,7 @@ We applied the GRASP principles of Creator (CategoriesList creates category inst
 	}
 
 **Test 8:** Verify that an already inserted email isn't added
-git 
+
 	@Test(expected = IllegalArgumentException.class)
 		public void checkEmailAlreadyPresent() {
             ArrayList<Email> expected = new ArrayList<>();
@@ -185,6 +272,7 @@ restantes funcionalidades do sistema.*
 
 *Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por
 exemplo, outras alternativas e ou trabalhos futuros relacionados.*
+
 
 
 
