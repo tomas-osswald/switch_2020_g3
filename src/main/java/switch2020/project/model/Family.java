@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Family {
     private ArrayList<FamilyMember> family = new ArrayList();
+    private CashAccount familyCashAccount;
+    private int familyID;
 
     public Family() {
     }
@@ -54,5 +56,23 @@ public class Family {
         }
         throw new IllegalArgumentException("No family member with that ID was found");
     }
+
+    public int getFamilyID() {
+        return this.familyID;
+    }
+
+    public boolean hasCashAccount() {
+        boolean hasCashAccount = true;
+        if (this.familyCashAccount == null) {
+            hasCashAccount = false;
+        }
+        return hasCashAccount;
+    }
+
+    public void createFamilyCashAccount() {
+        CashAccount newFamilyCashAccount = new CashAccount();
+    }
+
+
 
 }

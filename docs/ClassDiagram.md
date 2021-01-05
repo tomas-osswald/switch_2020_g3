@@ -8,6 +8,9 @@ title Class Diagram
 class FFMApplication {
   - List<Family> families
   - List<Category> categories
+  - addEmail(String emailToAdd, int familyMemberID)
+  - checkIfEmailPresent(String emailToCheck)
+  - createFamilyCashAccount(int familyID)
 }
 
 class Family {
@@ -49,7 +52,7 @@ class Address {
   - String streetName
   - String locality
   - String postalCode
-  + validatePostalCode()
+  - validatePostalCode()
 }
 
 class PhoneNumber {

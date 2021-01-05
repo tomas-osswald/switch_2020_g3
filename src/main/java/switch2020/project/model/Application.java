@@ -57,4 +57,27 @@ public class Application {
     }
 
 
+
+
+    public boolean createFamilyCashAccount(int familyID) {
+        boolean cashAccountCreated = true;
+        if (!families.get(findFamilyIndexByID(familyID)).hasCashAccount()) {
+            families.get(findFamilyIndexByID(familyID)).createFamilyCashAccount();
+            return cashAccountCreated;
+        }
+        throw new IllegalStateException("Family already has a cash account");
+    }
+
+    private int findFamilyIndexByID(int familyID) {
+        int index = 0;
+        for (Family family : this.families) {
+            if (family.getFamilyID() == familyID) {
+                return index;
+            }
+            index++;
+        }
+        throw new IllegalArgumentException("No family member with that ID was found");
+    }
+
+
 }
