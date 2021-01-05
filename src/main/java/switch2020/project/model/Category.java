@@ -1,14 +1,22 @@
 package switch2020.project.model;
 
 public class Category {
+    //attributes
     private String cname;
-    private int parentNumber;
+    private boolean isStandard;
 
-    public Category(){
-        this.cname = " ";
-        this.parentNumber = -1;
+    //constructors
+    public Category(String cname){
+        this.cname = cname;
+        this.isStandard = true;
     }
 
-    public Category(String cname, int parentNumber){
+    public String getCname() {
+        return cname;
     }
+
+    public boolean isStandard() {
+        return isStandard;
+    }
+
 }

@@ -34,9 +34,9 @@ autonumber
 title get standard categories list
 actor "System Manager" as systemManager
 participant ": UI" as ui
-participant ": StandardCategoriesController" as controller
+participant ": CategoriesController" as controller
 participant ":FFMApplication" as app
-participant "StandardCategories: \nList<categories>" as list
+participant "Categories: \nList<categories>" as list
 participant "Category" as category
 
 note left of systemManager:  get the list of \nstandard categories
@@ -52,8 +52,8 @@ loop for each Category in CategoriesList
 activate list
 activate category
 
-app -> category : checkIfIsStandard()
-alt checkifIsStandard() == true
+app -> category : getParentNumber()
+alt parentNumber == -1
 category -> app : addCategoryToStandardList()
 deactivate category
 end
@@ -69,22 +69,112 @@ deactivate systemManager
 @enduml
 ````
 
+````puml
+autonumber
+title get standard categories list
+actor "System Manager" as systemManager
+participant ": UI" as ui
+participant ": CategoriesController" as controller
+participant ":FFMApplication" as app
+participant ": CategoryService" as service
+participant ": Categories List" as list
+participant "Category" as category
+
+note left of systemManager:  get the list of \nstandard categories
+activate systemManager
+systemManager -> ui : request standard categories
+activate ui
+ui -> controller : getList()
+activate controller
+controller -> app : getStandardCategories()
+activate app
+app -> service : getCategoryService()
+activate service
+service -> service : createStandardCategoriesList()
+activate category
+loop for each Category in Categories List
+activate list
+list -> category : getParentNumber()
+alt parentNumber == -1
+deactivate list
+category -> service : addCategoryToStandardList()
+service -> app : standardCategories
+deactivate service
+deactivate category
+end
+end
+
+app --> controller : standardCategoriesList
+deactivate app
+controller --> ui :StandardCategoriesList
+deactivate controller
+ui --> systemManager : present standard categories list
+deactivate ui
+deactivate systemManager
+@enduml
+````
+
+````puml
+autonumber
+title get standard categories list - version service 2
+actor "System Manager" as systemManager
+participant ": UI" as ui
+participant ": CategoriesController" as controller
+participant ":FFMApplication" as app
+participant ": CategoryService" as service
+
+note left of systemManager:  get the list of \nstandard categories
+activate systemManager
+systemManager -> ui : request standard categories
+activate ui
+ui -> controller : getStandardCategories()
+activate controller
+controller -> app : getCategoryService()
+activate app
+activate service
+
+app -> controller : CategoryListService
+deactivate app
+controller -> service : getCategoryService()
+service -> service : createStandardCategoriesList()
+activate category
+loop for each Category in Categories List
+service -> category : getParentNumber()
+alt parentNumber == -1
+category -> service : addCategoryToStandardList()
+service -> app : standardCategories
+deactivate service
+deactivate category
+end
+end
+
+app --> controller : standardCategoriesList
+deactivate app
+controller --> ui :StandardCategoriesList
+deactivate controller
+ui --> systemManager : present standard categories list
+deactivate ui
+deactivate systemManager
+@enduml
+````
+
+
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the Application object, which stores the Categories object, which in turns stores
-the Category objects. 
+The CategoriesController will invoke the FFMApplication object, which handles the Category Service Object.
+Category Service has the responsability of managing the categories list.
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- StandardCategoriesController
+- CategoriesController
 - FFMApplication
-- CategoriesList
+- CategoryService
 
 ## 3.3. Applied Patterns
 
-We applied some GRASP principles as Controller.
+We applied some GRASP principles as Controller and Creator.
 
 ## 3.4. Tests
 
