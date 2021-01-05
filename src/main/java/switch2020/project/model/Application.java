@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class Application {
 
     private ArrayList<Family> families = new ArrayList();
-    private ArrayList<Category> categories = new ArrayList();
+    private CategoryService categoryService;
 
     public Application() {
-
+        this.categoryService = new CategoryService();
     }
 
     public Application(Family family) {
@@ -53,8 +53,15 @@ public class Application {
             }
         }
         return false;
-
     }
 
 
+
+
+
+
+    public CategoryService getCategoryService(){
+        return this.categoryService;
+    }
+    
 }
