@@ -1,18 +1,18 @@
 package switch2020.project.controllers;
 
-import switch2020.project.model.Application;
+import switch2020.project.model.*;
 
 public class addFamilyMemberController {
 
     private Application app;
 
     public addFamilyMemberController(Application app){
-        this.app.add;
+        this.app = app;
     }
 
-    private boolean addFamilyMember(/* colocar variaveis que sao necessarias para FamilyMember */){
+    private boolean addFamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship){
 
-        return this.app.createFamilyMember(/* colocar variaveis que sao necessarias para FamilyMember */);
+        return this.app.addFamilyMember(name, birthDate, phone, email, vat, relationship);
 
     }
 }

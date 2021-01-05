@@ -12,6 +12,7 @@ public class FamilyMember {
     private Relationship relationship;
     private boolean isAdmin;
 
+    // System Manager
     public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship, boolean isAdmin){
         if(!validate(name))
             throw new IllegalArgumentException();
@@ -40,6 +41,7 @@ public class FamilyMember {
         this.isAdmin = isAdmin;
     }
 
+    // Family Admin
     public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship){
         if(!validate(name))
             throw new IllegalArgumentException();
