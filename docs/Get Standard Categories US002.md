@@ -40,37 +40,31 @@ autonumber
 title get standard categories list
 actor "System Manager" as systemManager
 participant ": UI" as ui
-participant ": TreeController" as controller
+participant ": StandardCategories \nController" as controller
 participant ":FFMApplication" as app
 participant "Categories: \nList<categories>" as list
-participant "Category" as category
+
 note left of systemManager:  get the list of \nstandard categories
 activate systemManager
 systemManager -> ui : request standard categories
 activate ui
-ui -> controller : getList()
+ui -> controller : getStandardCategoriesList()
 activate controller
-controller -> app : getStandardCategories()
+controller -> app : getStandardCategoriesList()
+loop forEach Category in CategoriesList
+app -> app : checkIfIsStandardCategory()
+end
 activate app
-app -> list : getCategories()
+
 activate list
-list -> list : createStandardCategoriesList()
-loop for each category in list
-activate category
-         category -> category: getParentNumber()
-         category -> list : parentNumber
-         alt parentNumber == -1
-         category --> list : addToStandardCategoriesList()
-         deactivate category
-        end
-       end
-list --> app : standardCategoriesList
+
+
 deactivate list
 app --> controller : standardCategoriesList
 deactivate app
-controller --> ui :send createStandardCategoriesTree
+controller --> ui :send StandardCategoriesList
 deactivate controller
-ui --> systemManager : present categories tree
+ui --> systemManager : present categories list
 deactivate ui
 deactivate systemManager
 @enduml
@@ -79,13 +73,13 @@ deactivate systemManager
 ## 3.1. Functionality Use
 
 The CategoriesController will invoke the Application object, which stores the CategoriesList object, and in it are the various
-category objects. The SystemManager.
+category objects. 
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- TreeController
+- StandardCategoriesController
 - FFMApplication
 - CategoriesList
 - Category
