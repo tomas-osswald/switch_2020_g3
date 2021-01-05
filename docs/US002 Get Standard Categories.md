@@ -21,7 +21,7 @@ In order to fulfill this requirement, we need two data pieces:
 - categoryID
 - parentNumber
 
-For this sprint, the system manager only gets the standard caave to be inputed along with the e-mail.
+For this sprint, the system manager only gets the standard categories from the categories list.
 
 # 3. Design
 
@@ -34,9 +34,9 @@ autonumber
 title get standard categories list
 actor "System Manager" as systemManager
 participant ": UI" as ui
-participant ": CategoriesController" as controller
+participant ": StandardCategoriesController" as controller
 participant ":FFMApplication" as app
-participant "Categories: \nList<categories>" as list
+participant "StandardCategories: \nList<categories>" as list
 participant "Category" as category
 
 note left of systemManager:  get the list of \nstandard categories
@@ -47,9 +47,13 @@ ui -> controller : getList()
 activate controller
 controller -> app : getStandardCategories()
 activate app
+loop for each Category in CategoriesList
+app -> category : checkIfIsStandard()
+app -> list
+end
 app -> list : getCategories()
 activate list
-list -> list : createStandardCategoriesList()
+list -> list : StandardCategoriesList()
 loop for each category in list
 activate category
          category -> category: getParentNumber()
@@ -88,8 +92,6 @@ The main Classes involved are:
 - Family
 - FamilyMember
 - Email
-
-![Class Diagram](https://i.imgur.com/aIvHqZg.png)
 
 ## 3.3. Applied Patterns
 
