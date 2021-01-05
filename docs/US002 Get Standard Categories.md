@@ -47,29 +47,23 @@ ui -> controller : getList()
 activate controller
 controller -> app : getStandardCategories()
 activate app
+app -> app : createStandardCategoriesList()
 loop for each Category in CategoriesList
-app -> category : checkIfIsStandard()
-app -> list
-end
-app -> list : getCategories()
 activate list
-list -> list : StandardCategoriesList()
-loop for each category in list
 activate category
-         category -> category: getParentNumber()
-         category -> list : parentNumber
-         alt parentNumber == -1
-         category --> list : addToStandardCategoriesTree()
-         deactivate category
-        end
-       end
-list --> app : standardCategoriesTree
+
+app -> category : checkIfIsStandard()
+alt checkifIsStandard() == true
+category -> app : addCategoryToStandardList()
+deactivate category
+end
+end
 deactivate list
-app --> controller : standardCategoriesTree
+app --> controller : standardCategoriesList
 deactivate app
-controller --> ui :send createStandardCategoriesTree
+controller --> ui :StandardCategoriesList
 deactivate controller
-ui --> systemManager : present categories tree
+ui --> systemManager : present standard categories list
 deactivate ui
 deactivate systemManager
 @enduml
@@ -78,25 +72,19 @@ deactivate systemManager
 ## 3.1. Functionality Use
 
 The CategoriesController will invoke the Application object, which stores the Categories object, which in turns stores
-the Category objects. First is created a Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it
-will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create
-an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will
-be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI).
+the Category objects. 
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- AddEmailController
-- Application
-- Family
-- FamilyMember
-- Email
+- StandardCategoriesController
+- FFMApplication
+- CategoriesList
 
 ## 3.3. Applied Patterns
 
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
-used the SOLID SRP principle.
+We applied some GRASP principles as Controller.
 
 ## 3.4. Tests
 
