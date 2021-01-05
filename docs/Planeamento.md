@@ -6,7 +6,7 @@ The Workgroup is comprised of the following students:
 
 | Student No.	   | Student Name			    |
 |--------------|------------------------------|
-| **[1201780](/docs/1201780.md/)**  | Ricardo Nogueira          |
+| **[1201780](/docs/1201780/)**  | Ricardo Nogueira          |
 | **[1201778](/docs/1170000/)**  | Ricardo Batista      | 						        |
 | **[1201762](/docs/1170000/)**  | Bruno Tamames        | 						        |
 | **[1201768](/docs/1170000/)**  | José Diogo Ribeiro         | 						        |

@@ -8,8 +8,5 @@ public class CategoriesList {
         this.catList = new ArrayList();
         }
 
-        public addCat(String cname){
-        Category c;
 
     }
-}
