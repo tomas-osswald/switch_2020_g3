@@ -1,8 +1,6 @@
 package switch2020.project.model;
 
 import java.util.ArrayList;
-import switch2020.project.model.Family;
-import switch2020.project.model.Category;
 
 
 public class Application {
@@ -14,9 +12,23 @@ public class Application {
 
     }
 
+    /**
+     *
+     * @param family
+     */
+
     protected void addFamily(Family family) {
         this.families.add(family);
     }
+
+    /**
+     *
+     * @param selfID
+     * @param otherID
+     * @param relationDesignation
+     * @param familyID
+     * @return
+     */
 
     public boolean createRelation(int selfID, int otherID, String relationDesignation, int familyID) {
         Relation relation;
@@ -29,7 +41,7 @@ public class Application {
 
             } else {
                 relation = new Relation(relationDesignation);
-                fam.addToRelationList(relation);
+                fam.addToRelationDesignationList(relationDesignation);
                 fam.addRelationToFamilyMember(otherID,relation);
             }
             return true;
@@ -37,12 +49,17 @@ public class Application {
         return false;
     }
 
+    /**
+     *
+     * @param familyID
+     * @return
+     */
+
     protected Family getFamily(int familyID) {
         for (Family family : families) {
             if (family.getFamilyID() == familyID)
                 return family;
         }
-
         throw new IllegalArgumentException("No family with such ID");
     }
 

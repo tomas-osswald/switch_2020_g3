@@ -159,14 +159,13 @@ fam -> app : !hasDesignation()
 
 
 app -> "relation : Relation"** : createRelation(relationDesignation)
-app -> fam : addToRelationList(relation)
+app -> fam : addToRelationDesignationList(relationDesignation)
 
 else hasDesignation()
 
 fam -> app : hasDesignation
-app -> fam : relation = copyRelation(relationDesignation)
-fam -> app : relation
 deactivate fam
+app -> "relation : Relation"** : createRelation(relationDesignation)
 
 end
 
