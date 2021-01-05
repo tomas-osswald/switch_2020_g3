@@ -1,18 +1,21 @@
 package main.java.switch2020.project.model;
 
+import java.util.ArrayList;
 
 public class FamilyMember {
 
-    private int personID;
+    private int familyMemberID;
     private String name;
     private String birthDate;
     private PhoneNumber phoneNumber;
-    private EmailAddress email;
+    private ArrayList<EmailAddress> emails = new ArrayList();
     private VatNumber vatNumber;
     private Relationship relationship;
     private boolean isAdmin;
 
-    // System Manager
+    /* CONSTRUCTORS */
+
+    // System Manager - add FamilyMember
     public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship, boolean isAdmin){
         if(!validate(name))
             throw new IllegalArgumentException();
@@ -28,7 +31,7 @@ public class FamilyMember {
 
         if(!validateEmail(email))
             throw new IllegalArgumentException("Invalid Email");
-        this.email = email;
+        this.emails.add(email);
 
         if(!validateVat(vat))
             throw new IllegalArgumentException("Invalid VatNumber");
@@ -41,7 +44,7 @@ public class FamilyMember {
         this.isAdmin = isAdmin;
     }
 
-    // Family Admin
+    // Family Admin - add Family Member
     public FamilyMember(String name, String birthDate, PhoneNumber phone, EmailAddress email, VatNumber vat, Relationship relationship){
         if(!validate(name))
             throw new IllegalArgumentException();
@@ -57,7 +60,7 @@ public class FamilyMember {
 
         if(!validateEmail(email))
             throw new IllegalArgumentException("Invalid Email");
-        this.email = email;
+        this.emails.add(email);
 
         if(!validateVat(vat))
             throw new IllegalArgumentException("Invalid VatNumber");
@@ -68,29 +71,62 @@ public class FamilyMember {
         this.relationship = relationship;
     }
 
+    // Add email to FamilyMember
+    public FamilyMember(int iD) {
+        this.familyMemberID = iD;
+    }
+
+    /* VALIDATORS */
     private boolean validate(String birthDate){
-        if (birthDate == null)
+        if (birthDate == null);
             return false;
     }
 
     private boolean validatePhone(PhoneNumber phone){
-        if (phone == null)
+        if (phone == null);
             return false;
     }
 
     private boolean validateEmail(EmailAddress email){
-        if (email == null)
+        if (email == null);
             return false;
     }
 
     private boolean validateVat(VatNumber vat){
-        if (vat == null)
+        if (vat == null);
             return false;
     }
 
-    private boolean validateRelation(Relationship relation){
-        if(relation == null)
+    private boolean validateRelation(Relationship relation) {
+        if (relation == null);
             return false;
+    }
+
+    /* GETTERS & SETTERS */
+    public ArrayList<EmailAddress> getEmails() {
+        return emails;
+    }
+
+    /**
+     * @return Int representing the FamilyMember's ID.
+     */
+    public int getID() {
+        return this.familyMemberID;
+    }
+
+    /**
+     * Method to create an EmailAddress object and add it to the ArrayList of EmailAddress objects
+     *
+     * @param emailToAdd String of the email address to add
+     * @return True if the EmailAddress object is successfully created and added to the EmailAddress ArrayList
+     */
+    public boolean addEmail(String emailToAdd) {
+        EmailAddress newEmail = new EmailAddress(emailToAdd);
+        emails.add(newEmail);
+        return true;
     }
 
 }
+
+
+

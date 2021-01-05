@@ -13,10 +13,15 @@ public class EmailAddress {
         this.email = email;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+
     private boolean validate(String email) {
         if (email == null)
             return false;
-        if (email.isEmpty() || email.isBlank())
+        if (email.isEmpty())
             return false;
         // Check for other invalid criteria here
 
