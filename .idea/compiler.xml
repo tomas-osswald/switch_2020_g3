@@ -10,10 +10,8 @@
         <module name="switch_2020_g3" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11" />
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="11">
       <module name="project" target="11" />
-      <module name="switch_2020_g3" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
