@@ -241,7 +241,7 @@ In the FamilyMember Class, we must first check if the email to add is already pr
         return false;
         }
 
-So we can now create and add the EmailAdress object to the array list (emails):
+So we can now create and add the EmailAddress object to the array list (emails):
 
     public boolean addEmail(String emailToAdd) {
         if (!isEmailAlreadyPresent(emailToAdd)) {
@@ -258,7 +258,7 @@ As of this sprint, this function has no integration with other functions.
 
 # 6. Observations
 
-In the future, the Family Member ID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputed.  
+In the future, the Family Member ID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputted.  
 
 
 
