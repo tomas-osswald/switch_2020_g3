@@ -4,6 +4,14 @@
 ```puml
 title Class Diagram
 
+class AddEmailController {}
+
+class AddRelationController {}
+
+class CategoriesController{}
+
+class CreateFamilyCashAccountController{}
+
 class Application {
   - CategoryService categoryService
   - FamilyService familyService
@@ -129,6 +137,10 @@ class Relation {
   - isEmpty(String relationDesignation)
 }
 
+AddEmailController --> Application
+AddRelationController --> Application
+CategoriesController --> Application
+CreateFamilyCashAccountController --> Application
 Family --> CashAccount
 Family --> FamilyMember
 FamilyMember --> Address
