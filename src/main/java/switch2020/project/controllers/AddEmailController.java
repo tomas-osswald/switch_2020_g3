@@ -1,7 +1,7 @@
-package main.java.switch2020.project.controllers;
+package switch2020.project.controllers;
 
 //import switch2020.project.model.Application;
-import main.java.switch2020.project.model.*;
+import switch2020.project.model.Application;
 
 public class AddEmailController {
     private Application FFMapp;

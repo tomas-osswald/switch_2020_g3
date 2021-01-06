@@ -1,4 +1,4 @@
-package main.java.switch2020.project.model;
+package switch2020.project.model;
 
 public class Relationship {
     private String relation;

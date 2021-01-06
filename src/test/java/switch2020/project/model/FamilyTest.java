@@ -1,8 +1,6 @@
-package main.java.switch2020.project.model;
+package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

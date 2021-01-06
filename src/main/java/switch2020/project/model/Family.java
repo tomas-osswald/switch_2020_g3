@@ -1,4 +1,4 @@
-package main.java.switch2020.project.model;
+package switch2020.project.model;
 
 
 import java.util.ArrayList;
@@ -59,7 +59,8 @@ public class Family {
         return this.familyID;
     }
 
-    private boolean checkIfVatExists(int vat){
+    private boolean checkIfVatExists(int vat) {
+
         ArrayList<Integer> vatList = new ArrayList();
         for ( FamilyMember member : family ) {
             vatList.add(member.getVatNumber());
@@ -68,8 +69,8 @@ public class Family {
             if( nif == vat){
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     /********************** USER STORIES **********************/
