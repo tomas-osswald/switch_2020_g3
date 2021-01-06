@@ -9,13 +9,14 @@ public class CategoryService {
         this.categories = new ArrayList<>();
     }
 
-    /*public List<Category> getStandardCategories(){
+    public List<Category> getStandardCategories(){
         List standardCategories = new ArrayList<Category>();
-        *//*for (int i = 0; i < standardCategories.size(); i++) {
+        /*for (int i = 0; i < standardCategories.size(); i++) {
+                if(standardCategories)
 
-
-            }*//*
-        }*/
+            }*/
+        return null;
+    }
     }
 
 
