@@ -1,21 +1,23 @@
 package switch2020.project.model;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Application {
-    //attributes
-    //private ArrayList<Category> categories = new ArrayList();
+
     private CategoryService categoryService;
+    private FamilyService familyService;
 
-
-    //constructors
     public Application() {
         this.categoryService = new CategoryService();
+        this.familyService = new FamilyService();
     }
 
     public CategoryService getCategoryService() {
         return this.categoryService;
+    }
+
+    public FamilyService getFamilyService() {
+        return this.familyService;
     }
 
 
