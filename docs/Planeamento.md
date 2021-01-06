@@ -21,10 +21,11 @@ The distribution of requirements/functionalities throughout the project's develo
 
 | Student No.	| Sprint 1 | Sprint 2 | Sprint 3 |
 |------------|----------|----------|----------|
-| [**1170000**](/docs/1170000/)| [USDemo1](/docs/USDemo1)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
-|          	|          |          |          |
-|          	|          |          |          |
-|          	|          |          |          |
-|          	|          |          |          |
-|          	|          |          |          |
-|          	|          |          |          |
+| [**1201780**](/docs/1201780/)| [US151](/docs/US151 AddEmail.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201778**](/docs/1201778/)| [US104](/docs/US104 GetFamilyMembersAndRelationship.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201762**](/docs/1201762/)| [US01](/docs/US001CreateStandardCategory.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201768**](/docs/1201768/)| [US101](/docs/US101 AddFamilyMembers.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201770**](/docs/1201770/)| [US150](/docs/US150 GetMemberProfileInfo.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1181945**](/docs/1181945/)| [US002](/docs/US002 GetStandardCategories.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201765**](/docs/1201765/)| [US105](/docs/US105 AddRelation.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201784**](/docs/1201784/)| [US120](/docs/US120 CreateFamilyCashAccount.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
