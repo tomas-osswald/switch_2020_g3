@@ -4,8 +4,8 @@ package switch2020.project.model;
 import java.util.ArrayList;
 
 public class Family {
-    private ArrayList<FamilyMember> members = new ArrayList();
-    private int familyID;
+    private final ArrayList<FamilyMember> members = new ArrayList();
+    private final int familyID;
 
     public Family(int familyID) {
         this.familyID = familyID;
@@ -37,7 +37,8 @@ public class Family {
      * @return True if email successfully added to the Family Member with the passed ID
      */
     public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return members.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
+        FamilyMember targetMember = members.get(findFamilyMemberIndexByID(familyMemberID));
+        return targetMember.addEmail(emailToAdd);
     }
 
     /**

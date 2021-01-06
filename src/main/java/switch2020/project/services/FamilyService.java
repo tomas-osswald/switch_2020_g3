@@ -32,7 +32,8 @@ public class FamilyService {
      */
     public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
         if (!checkIfEmailPresent(emailToAdd)) {
-            return this.families.get(findFamilyIndexByID(familyID)).addEmail(emailToAdd, familyMemberID);
+            Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
+            return targetFamily.addEmail(emailToAdd,familyMemberID);
         }
         throw new IllegalArgumentException("This email is already present");
     }
