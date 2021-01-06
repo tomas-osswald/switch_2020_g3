@@ -11,7 +11,6 @@ public class FamilyService {
     private ArrayList<Family> families = new ArrayList();
 
     public FamilyService() {
-
     }
 
     public FamilyService(Family family) {
