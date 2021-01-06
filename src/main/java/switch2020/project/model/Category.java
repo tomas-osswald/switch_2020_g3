@@ -15,6 +15,7 @@ public class Category {
         return categoryName;
     }
 
+
     public boolean checkIfIsStandard(){
         if(this.standard == true){
             return true;
