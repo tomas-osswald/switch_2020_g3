@@ -12,7 +12,7 @@ public class Category {
 
     public Category(String categoryName){
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
-        this.categoryName = categoryName;
+        this.categoryName = categoryName.trim().toUpperCase();
         categoryLevel = 0;
         isStandard = true;
     }
