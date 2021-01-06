@@ -36,6 +36,7 @@ actor "Family Member" as actor
 participant ": UI" as UI
 participant ": addEmailController" as controller
 participant ": FFMApplication" as application
+participant ": familyService" as service
 participant ": Family" as family
 participant "ID : FamilyMember" as familym
 participant "anEmail: Email" as email
@@ -51,7 +52,9 @@ UI -> controller: addEmail(ID,email)
 activate controller
 controller -> application: addEmail(ID,email)
 activate application
-application -> family: addEmail(ID,email)
+application -> service: addEmail(ID,email)
+activate service
+service -> family: addEmail(ID,email)
 activate family
 loop find family member
     family -> family: findFamilyMember(ID)
@@ -75,7 +78,8 @@ alt email valid
     familym -> familym: storeEmail(anEmail)
     deactivate email
     familym -> family: Ok
-    family -> application: Ok
+    family -> service: Ok
+    service -> application: Ok
     application -> controller: Ok
     controller -> UI: Ok
     UI -> actor: Success
@@ -84,8 +88,10 @@ else email invalid
     
     familym -> family: Fail
     deactivate familym
-    family -> application: Fail
+    family -> service: Fail
     deactivate family
+    service -> application: Fail
+    deactivate service
     application -> controller: Fail
     deactivate application
     controller -> UI: Fail
@@ -235,7 +241,7 @@ In the FamilyMember Class, we must first check if the email to add is already pr
         return false;
         }
 
-So we can now create and add the EmailAdress object to the array list (emails):
+So we can now create and add the EmailAddress object to the array list (emails):
 
     public boolean addEmail(String emailToAdd) {
         if (!isEmailAlreadyPresent(emailToAdd)) {
@@ -252,7 +258,7 @@ As of this sprint, this function has no integration with other functions.
 
 # 6. Observations
 
-In the future, the Family Member ID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputed.  
+In the future, the Family Member ID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputted.  
 
 
 
