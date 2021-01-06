@@ -1,8 +1,9 @@
 package switch2020.project.model;
 
-<<<<<<< HEAD
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Relation;
 
 class RelationTest {
 
@@ -40,13 +41,6 @@ class RelationTest {
 
         assertEquals(expected, relation.getRelationDesignation());
     }
-}
-=======
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class RelationTest {
 
     @Test
     public void getDesignation() {
@@ -76,4 +70,4 @@ class RelationTest {
 
 
     }
->>>>>>> feature/US104
+

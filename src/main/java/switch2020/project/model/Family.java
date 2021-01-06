@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Family {
 
-    private final int familyID;
+    private int familyID;
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
 
@@ -15,8 +15,25 @@ public class Family {
     }
 
 
+    public Family() {
+
+    }
+
+
+    public Family(int familyID, ArrayList<FamilyMember> members) {
+        if (members == null) {
+            throw new IllegalArgumentException("Family can't be null");
+        }
+        if (familyID < 0) {
+            throw new IllegalArgumentException("ID can't be a negative number");
+        }
+        this.familyID = familyID;
+        this.familyMembers = members;
+    }
+
     /**
      * Method to return family ID
+     *
      * @return family ID
      */
 
@@ -25,11 +42,9 @@ public class Family {
         return familyID;
     }
 
-
     public ArrayList<FamilyMember> getMembers() {
         return familyMembers;
     }
-
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -39,7 +54,7 @@ public class Family {
      * @return True if email successfully added to the Family Member with the passed ID
      */
     public boolean addEmail(String emailToAdd, int familyMemberID) {
-        FamilyMember targetMember = members.get(findFamilyMemberIndexByID(familyMemberID));
+        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
         return targetMember.addEmail(emailToAdd);
     }
 
@@ -52,7 +67,7 @@ public class Family {
      */
     private int findFamilyMemberIndexByID(int familyMemberID) {
         int index = 0;
-        for (FamilyMember member : this.members) {
+        for (FamilyMember member : this.familyMembers) {
             if (member.getID() == familyMemberID) {
                 return index;
             }
@@ -106,7 +121,7 @@ public class Family {
      * Method to add a Relation to A family Member
      *
      * @param familyMemberID FamilyMemberID of the member to be added a Relation
-     * @param relation Relation to be added
+     * @param relation       Relation to be added
      * @return boolean
      */
 
@@ -150,7 +165,7 @@ public class Family {
      * @param familyMembers FamilyMember arry to add to list
      */
 
-    protected void addFamilyMemberArray(ArrayList<FamilyMember> familyMembers) {
+    public void addFamilyMemberArray(ArrayList<FamilyMember> familyMembers) {
         this.familyMembers.addAll(familyMembers);
     }
 
@@ -160,7 +175,7 @@ public class Family {
      * @return number of Family Members
      */
 
-    protected int numberOfFamilyMembers() {
+    public int numberOfFamilyMembers() {
         return this.familyMembers.size();
     }
 
@@ -173,29 +188,10 @@ public class Family {
     public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
 
+    }
 
-
-        // Parte do Batista
-
-
-    public Family() {
-
-        }
-
-    public Family (int familyID, ArrayList<FamilyMember> members){
-            if(members == null) {
-                throw new IllegalArgumentException("Family can't be null");
-            }
-            if(familyID < 0) {
-                throw new IllegalArgumentException("ID can't be a negative number");
-            }
-            this.familyID = familyID;
-            this.members = members;
-        }
-
-
-        public void addFamilyMember(int familyMemberId){
-        }
+    public void addFamilyMember(int familyMemberId) {
+    }
 
 
 }

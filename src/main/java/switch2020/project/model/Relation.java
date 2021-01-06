@@ -1,24 +1,16 @@
 package switch2020.project.model;
 
 public class Relation {
-<<<<<<< HEAD
+
     private String relationDesignation;
+
 
     public Relation(String relationDesignation) {
         isEmpty(relationDesignation);
-
         this.relationDesignation = relationDesignation;
     }
 
-    /**
-     * Method to get relation designation of Relation
-     *
-     * @return
-     */
 
-    protected String getRelationDesignation() {
-        return this.relationDesignation;
-    }
 
     /**
      * Method to verify if a given relation designation to instantiate is null or empty
@@ -32,23 +24,11 @@ public class Relation {
             throw new IllegalArgumentException("Empty or Null relation designation");
     }
 
-=======
 
-    private String relationDesignation;
 
-    /**
-     * Construtor com obrigatoriedade de ser passado parâmetro de designação da relação. Admite valores null ou "" (String vazia),
-     * convertendo esses valores em "relação por definir" como value do atributo relationDesignation (Isto de acordo com a informação
-     * do PO que referiu que não há obrigatoriedade de definir relação quando se adiciona um FamilyMember, por serem
-     * US diferentes, logo serão funcionalidades distintas).
-     * @param relationDesignation
-     */
-    public Relation(String relationDesignation) {
-        if (relationDesignation == null || relationDesignation == ""){
-            relationDesignation = "relação por definir";
-        }
-        this.relationDesignation = relationDesignation;
-    }
+
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -72,5 +52,5 @@ public class Relation {
     public String getRelationDesignation() {
         return relationDesignation;
     }
->>>>>>> feature/US104
+
 }

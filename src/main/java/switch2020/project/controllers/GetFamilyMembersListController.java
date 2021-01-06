@@ -10,9 +10,6 @@ public class GetFamilyMembersListController {
     private Application FFMapp;
 
     public GetFamilyMembersListController(Application app) {
-        if (this.FFMapp == null) {
-            throw new IllegalArgumentException("Application cannot be null");
-        }
         this.FFMapp = app;
     }
 

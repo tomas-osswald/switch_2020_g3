@@ -1,6 +1,7 @@
 package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.controllers.GetFamilyMembersListController;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
@@ -22,7 +23,8 @@ class GetFamilyMembersListControllerTest {
     Family Alves = new Family(123, osBatistas);
     Family Felix = new Family(456, osFelix);
     ArrayList<Family> families = new ArrayList<>();
-    Application FFMapp = new Application(families);
+    Application FFMapp = new Application();
+
     GetFamilyMembersListController getMembersDTO = new GetFamilyMembersListController(FFMapp);
     FamilyMemberRelationDTO memberOne = new FamilyMemberRelationDTO("Ricardo", "filho");
     FamilyMemberRelationDTO memberTwo = new FamilyMemberRelationDTO("Jorge", "filho");
@@ -32,6 +34,9 @@ class GetFamilyMembersListControllerTest {
 
     @Test
     void getFamilyMemberAndRelation() {
+        FFMapp.getFamilyService().addFamily(Batista);
+        FFMapp.getFamilyService().addFamily(Alves);
+        FFMapp.getFamilyService().addFamily(Felix);
         osBatistas.add(filhoOne);
         osBatistas.add(filhoTwo);
         osBatistas.add(filhoThree);
