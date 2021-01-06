@@ -17,8 +17,8 @@ public class AddEmailController {
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return this.FFMapp.addEmail(emailToAdd, familyMemberID);
+    public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
+        return this.FFMapp.addEmail(emailToAdd, familyID, familyMemberID);
     }
 
 

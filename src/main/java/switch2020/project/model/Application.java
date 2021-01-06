@@ -19,7 +19,7 @@ public class Application {
 
     }
 
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return this.familyService.addEmail(emailToAdd, familyMemberID);
+    public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
+        return this.familyService.addEmail(emailToAdd, familyID, familyMemberID);
     }
 }

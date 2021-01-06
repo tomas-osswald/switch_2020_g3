@@ -29,11 +29,29 @@ public class FamilyService {
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
+    public boolean addEmail(String emailToAdd,int familyID, int familyMemberID) {
         if (!checkIfEmailPresent(emailToAdd)) {
-            return this.families.get(0).addEmail(emailToAdd, familyMemberID);
+            return this.families.get(findFamilyIndexByID(familyID)).addEmail(emailToAdd, familyMemberID);
         }
         throw new IllegalArgumentException("This email is already present");
+    }
+
+    /**
+     * Method to find the index of a family with a specific ID in the Families ArrayList
+     *
+     * @param familyID Integer representing the ID to find
+     * @return Int corresponding to the index of the family  that has the passed ID
+     * @throws IllegalArgumentException if there is no family with the passed ID
+     */
+    private int findFamilyIndexByID(int familyID) {
+        int index = 0;
+        for (Family family : this.families) {
+            if (family.getFamilyID() == familyID) {
+                return index;
+            }
+            index++;
+        }
+        throw new IllegalArgumentException("No family with that ID was found");
     }
 
 

@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 public class Family {
     private ArrayList<FamilyMember> family = new ArrayList();
+    private int familyID;
 
-    public Family() {
+    public Family(int familyID) {
+        this.familyID = familyID;
     }
 
-    public Family(FamilyMember member1, FamilyMember member2) {
+    public Family(int familyID, FamilyMember member1, FamilyMember member2) {
+        this.familyID = familyID;
         family.add(member1);
         family.add(member2);
     }
@@ -18,8 +21,13 @@ public class Family {
         return family;
     }
 
+    public int getFamilyID() {
+        return familyID;
+    }
+
     /**
      * Method to add a FamilyMemeber object to the ArrayList of FamilyMembers
+     *
      * @param member FamilyMember object to add
      */
     public void addFamilyMember(FamilyMember member) {
@@ -29,7 +37,7 @@ public class Family {
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
-     * @param emailToAdd String of the email address to add
+     * @param emailToAdd     String of the email address to add
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
