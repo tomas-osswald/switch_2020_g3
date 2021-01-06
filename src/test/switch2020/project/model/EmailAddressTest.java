@@ -54,10 +54,17 @@ class EmailAddressTest {
     }
 
     @Test
-    public void CreatingEmotyEmailAddress() {
+    public void CreatingEmptyEmailAddress() {
         Throwable exception =
                 assertThrows(IllegalArgumentException.class, () -> {
                     EmailAddress badEmail = new EmailAddress("");
+                });
+    }
+    @Test
+    public void CreatingBlankEmailAddress() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("    ");
                 });
     }
 

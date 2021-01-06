@@ -4,37 +4,41 @@ package switch2020.project.model;
 import java.util.ArrayList;
 
 public class Family {
-    private ArrayList<FamilyMember> family = new ArrayList();
+    private final ArrayList<FamilyMember> members = new ArrayList();
+    private final int familyID;
 
-    public Family() {
+    public Family(int familyID) {
+        this.familyID = familyID;
     }
 
-    public Family(FamilyMember member1, FamilyMember member2) {
-        family.add(member1);
-        family.add(member2);
+
+    public int getFamilyID() {
+        return familyID;
     }
 
-    public ArrayList<FamilyMember> getFamily() {
-        return family;
+    public ArrayList<FamilyMember> getMembers() {
+        return members;
     }
 
     /**
-     * Method to add a FamilyMemeber object to the ArrayList of FamilyMembers
+     * Method to add a FamilyMember object to the ArrayList of FamilyMembers
+     *
      * @param member FamilyMember object to add
      */
     public void addFamilyMember(FamilyMember member) {
-        family.add(member);
+        members.add(member);
     }
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
-     * @param emailToAdd String of the email address to add
+     * @param emailToAdd     String of the email address to add
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
     public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return family.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
+        FamilyMember targetMember = members.get(findFamilyMemberIndexByID(familyMemberID));
+        return targetMember.addEmail(emailToAdd);
     }
 
     /**
@@ -46,7 +50,7 @@ public class Family {
      */
     private int findFamilyMemberIndexByID(int familyMemberID) {
         int index = 0;
-        for (FamilyMember member : this.family) {
+        for (FamilyMember member : this.members) {
             if (member.getID() == familyMemberID) {
                 return index;
             }
