@@ -17,20 +17,18 @@ class AddEmailAddressTest {
 
     @Test
     public void checkifEmailAdded() {
-        assertTrue(controller.addEmail("test@isep.ipp.pt", 666));
+        assertTrue(controller.addEmail("adolin@highprince.com", 666));
     }
 
 
     @Test
     public void checkEmailAlreadyPresent() {
-        controller.addEmail("test2@isep.ipp.pt", 666);
-        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("test2@isep.ipp.pt", 666));
-
-
+        controller.addEmail("kaladin@depression.com", 666);
+        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("kaladin@depression.com", 666));
     }
 
     @Test
     public void checkIfThrowsWhenNoSuchID() {
-        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("test3@isep.ipp.pt", 888));
+        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("hoid@cosmere.com", 888));
     }
 }
