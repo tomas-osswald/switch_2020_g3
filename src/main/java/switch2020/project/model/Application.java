@@ -1,13 +1,17 @@
 package switch2020.project.model;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import switch2020.project.services.FamilyService;
 
 public class Application {
     //attributes
     //private ArrayList<Category> categories = new ArrayList();
     private CategoryService categoryService;
 
+    private ArrayList<Category> categories = new ArrayList<>();
+
+    private FamilyService familyService;
 
     //constructors
     public Application() {
@@ -18,5 +22,7 @@ public class Application {
         return this.categoryService;
     }
 
-
+    public FamilyService getFamilyService() {
+        return this.familyService;
+    }
 }
