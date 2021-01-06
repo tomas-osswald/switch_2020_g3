@@ -9,11 +9,11 @@ class FamilyMemberTest {
     @Test
     public void createFamilyMember() {
         String name = "José";
-        String relationship = "filho";
-        Relationship son = new Relationship(relationship);
+        String relation = "filho";
+        Relation son = new Relation(relation);
         FamilyMember José = new FamilyMember("José", son, 123);
         String expected = "filho";
-        String result = José.getRelationship();
+        String result = José.getRelation();
         assertTrue(expected.equals(result));
         assertTrue(name.equals(José.getName()));
     }

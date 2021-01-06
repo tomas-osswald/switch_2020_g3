@@ -1,7 +1,7 @@
 package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.utils.FamilyMemberRelationshipDTO;
+import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ class ApplicationTest {
     @Test
     void testGetFamily() {
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
-        Relationship filho = new Relationship("filho");
+        Relation filho = new Relation("filho");
         FamilyMember filhoOne = new FamilyMember("Ricardo", filho, 123);
         FamilyMember filhoTwo = new FamilyMember("Jorge", filho, 123456);
         FamilyMember filhoThree = new FamilyMember("Woody", filho, 123456789);
@@ -35,7 +35,7 @@ class ApplicationTest {
     @Test
     void testGetFamilyMembers() {
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
-        Relationship filho = new Relationship("filho");
+        Relation filho = new Relation("filho");
         FamilyMember filhoOne = new FamilyMember("Ricardo", filho, 123);
         FamilyMember filhoTwo = new FamilyMember("Jorge", filho, 123456);
         FamilyMember filhoThree = new FamilyMember("Woody", filho, 123456789);
@@ -58,7 +58,7 @@ class ApplicationTest {
     @Test
     void getDTOList() {
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
-        Relationship filho = new Relationship("filho");
+        Relation filho = new Relation("filho");
         FamilyMember filhoOne = new FamilyMember("Ricardo", filho, 123);
         FamilyMember filhoTwo = new FamilyMember("Jorge", filho, 123456);
         FamilyMember filhoThree = new FamilyMember("Woody", filho, 123456789);
@@ -72,14 +72,14 @@ class ApplicationTest {
         families.add(Batista);
         families.add(Alves);
         Application FFMapp = new Application(families);
-        FamilyMemberRelationshipDTO memberOne = new FamilyMemberRelationshipDTO("Ricardo", "filho");
-        FamilyMemberRelationshipDTO memberTwo = new FamilyMemberRelationshipDTO("Jorge", "filho");
-        FamilyMemberRelationshipDTO memberThree = new FamilyMemberRelationshipDTO("Woody", "filho");
-        ArrayList<FamilyMemberRelationshipDTO> expected = new ArrayList();
+        FamilyMemberRelationDTO memberOne = new FamilyMemberRelationDTO("Ricardo", "filho");
+        FamilyMemberRelationDTO memberTwo = new FamilyMemberRelationDTO("Jorge", "filho");
+        FamilyMemberRelationDTO memberThree = new FamilyMemberRelationDTO("Woody", "filho");
+        ArrayList<FamilyMemberRelationDTO> expected = new ArrayList();
         expected.add(memberOne);
         expected.add(memberTwo);
         expected.add(memberThree);
-        ArrayList<FamilyMemberRelationshipDTO> result = new ArrayList<>();
+        ArrayList<FamilyMemberRelationDTO> result = new ArrayList<>();
         result = FFMapp.getDTOList(200489);
         assertEquals(expected, result);
 

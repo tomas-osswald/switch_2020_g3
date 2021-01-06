@@ -4,7 +4,7 @@ package switch2020.project.model;
 public class FamilyMember {
 
     private String name;
-    private Relationship relationship;
+    private Relation relation;
     private int memberId;
 
     /**
@@ -12,18 +12,18 @@ public class FamilyMember {
      * não nulos no familyMember. A US 101 é que irá implementar a funcionalidade de invocar o construtor de FamilyMember
      * e consequentemente criar objetos deste tipo.
      * @param name
-     * @param relationship
+     * @param relation
      */
-    public FamilyMember (String name, Relationship relationship, int memberId){
+    public FamilyMember (String name, Relation relation, int memberId){
     if (name == null){
         throw new IllegalArgumentException("Nome não pode ser nulo");
     }
         this.name = name;
-        this.relationship = relationship;
+        this.relation = relation;
     }
 
-    public String getRelationship(){
-        return relationship.getDesignation();
+    public String getRelation(){
+        return relation.getRelationDesignation();
     }
 
     public String getName() {

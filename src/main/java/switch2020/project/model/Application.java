@@ -1,6 +1,6 @@
 package switch2020.project.model;
 
-import switch2020.project.utils.FamilyMemberRelationshipDTO;
+import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 
@@ -20,17 +20,16 @@ public class Application {
         this.families = families;
     }
 
- /*   public void addFamily(int familyId){
+ /*   public void addFamily(int familyID){
         this.families.add(Family);
     }
-
   */
 
-    public Family getFamily(int familyId) {
+    public Family getFamily(int familyID) {
         boolean exists = false;
         Family familyToGet = new Family();
         for (Family family : families) {
-            if (family.getID() == familyId) {
+            if (family.getID() == familyID) {
                 exists = true;
                 familyToGet = family;
             }
@@ -44,17 +43,17 @@ public class Application {
     /*Testar throw para o caso de o ID não se encontrar dentro da lista de famílias armazenadas na
     aplicação */
 
-  /*  public ArrayList<FamilyMember> getFamilyMembers(int familyId) {
+  /*  public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
         ArrayList<FamilyMember> members = new ArrayList<>();
         boolean exists = false;
         for (Family family : families) {
-            if (family.getID() == familyId) {
+            if (family.getID() == familyID) {
                 exists = true;
             }
         }
         if (exists == true) {
             for (Family family : families) {
-                if (family.getID() == familyId) {
+                if (family.getID() == familyID) {
                     members = family.getMembers();
                 }
             }
@@ -64,19 +63,19 @@ public class Application {
         return members;
     } */
 
-    public ArrayList<FamilyMember> getFamilyMembers(int familyId) {
-        Family family = getFamily(familyId);
+    public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
+        Family family = getFamily(familyID);
         return family.getMembers();
     }
 
 
-    public ArrayList<FamilyMemberRelationshipDTO> getDTOList(int familyId) {
-        ArrayList<FamilyMember> members = getFamily(familyId).getMembers();
-        ArrayList<FamilyMemberRelationshipDTO> DTOList = new ArrayList<>();
+    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
+        ArrayList<FamilyMember> members = getFamily(familyID).getMembers();
+        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember member : members) {
             String name = member.getName();
-            String relationship = member.getRelationship();
-            FamilyMemberRelationshipDTO newMember = new FamilyMemberRelationshipDTO(name, relationship);
+            String relation = member.getRelation();
+            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
             DTOList.add(newMember);
         }
         return DTOList;

@@ -1,32 +1,32 @@
-# US104 Get List of Family Members and Relationship
+# US104 Get List of Family Members and their Relation
 =======================================
 
 
 # 1. Requirements
 
-*As a family administrator, I want to get the list of family members and their relationship*
+*As a family administrator, I want to get the list of family members and their relation*
 
 
 **Demo1** As a family administrator, I want to get... 
 
-- Demo1.1. The list of family members of the Ferreira family and their relationship towards me.
+- Demo1.1. The list of family members of the Simpsons' family and their relation towards me.
 
 We interpreted this requirement as the function of obtaining the list of all the family members from the family administrator's family
-and the family members' relationship towards him.   
+and the family members' relation towards him.   
 
 # 2. Analysis
 
 In order to fulfill this requirement, we need one data piece:
 - *familyID* of the Family Administrator's family
 
-At a later iteration, the family's ID would be aquired through the Log In information of the Family Administrator.
+At a later iteration, the *familyID* would be acquired through the Login information of the Family Administrator.
 For this sprint, the *familyID* will have to be inputed as a parameter.
 
 
 # 3. Design
 
-The main process to achieve this requirement would require the actor to select they want to see
-the list of family members and the relationships they have towards him. Since we don't have an
+The main process to achieve this requirement would need the actor to select that he wants to see
+the list of family members and the relation they have towards him. Since we don't have an
 UI at the moment, the *familyID* will have to be manually inserted.
 ````puml
 @startuml
@@ -38,14 +38,15 @@ UI at the moment, the *familyID* will have to be manually inserted.
 ' "as" define alias que queremos dar ao participant ou actor
 
 autonumber
-title "Obtain list of Family Members and their relationship"
+title "Obtain list of Family Members and their relation"
 actor "Family Administrator" as actor
 participant " : UI" as UI
-participant " : getFamilyMembersListController" as controller
-participant " : FFMApplication" as application
+participant " : GetFamilyMembersListController" as controller
+participant " : Application" as application
+participant " : FamilyService" as service
 participant " aFamily : Family" as family
-participant " oneFamilyMemberRelationship : FamilyMemberRelationship" as DTO
-participant " FMRlist : List <FamilyMemberRelationship> " as DTOlist
+participant " oneFamilyMemberRelation : FamilyMemberRelation" as DTO
+participant " FMRlist : List <FamilyMemberRelation> " as DTOlist
 
 /' Comentário: activate é a syntax para ativar lifeline "preenchida" (Não tracejada). 
     Activate só deve ser inserido no momento em que se quer ativar a lifeline preenchida
@@ -55,35 +56,42 @@ activate actor
 
 
 
-actor -> UI : I want to see the list of family members and their relationship
+actor -> UI : I want to see the list of family members and their relation
 activate UI
-UI -> controller : getFamilyMembersAndRelationship(familyId)
+UI -> controller : getFamilyMembersAndRelation(familyID)
 activate controller
-controller -> application : getFamilyMembersAndRelationship(familyId)
+controller -> application : getFamilyService
 activate application
-application -> family :  getFamilyMembersAndRelationship(familyId)
+application -> family :  getFamilyMembersAndRelation(familyID)
 activate family
 family -> family : getFamilyMembers()
 family --> application : return List<familyMember>
 application -> family : convertToFMR
 loop for each Family Member in List<FamilyMember>
     family -> DTOlist ** : create
-     family -> DTO ** : create(name, Relationship)
+     family -> DTO ** : create(name, Relation)
     DTO -> DTOlist : add()
      end
 note over family : The list is only stored inside the method scope
 family --> application : FMRlist
 application -> controller : FMRlist
 controller -> UI : FMRlist
-UI -> actor : show list of family members and their relationship
+UI -> actor : show list of family members and their relation
 
 @enduml
 ````
+
+````puml
+Class Application {
+ }
+````
+
 
 
 
 ## 3.1. Functionality Use
 EDIT EDIT EDIT EDIT
+
 
 The AddEmailController will invoke the Application object, which stores the Family object, which in turns stores the FamilyMember objects.
 Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI). 

@@ -4,31 +4,31 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RelationshipTest {
+class RelationTest {
 
     @Test
     public void getDesignation() {
-        Relationship uncle = new Relationship("uncle");
+        Relation uncle = new Relation("uncle");
         String expectedString = "uncle";
-        Relationship expected = new Relationship(expectedString);
+        Relation expected = new Relation(expectedString);
         assertEquals(uncle, expected);
     }
 
     @Test
-    public void getDesignationTestNullRelationship() {
+    public void getDesignationTestNullRelation() {
         String designation = null;
-        Relationship nullType = new Relationship(designation);
+        Relation nullType = new Relation(designation);
         String expected = "relação por definir";
-        String result = nullType.getDesignation();
+        String result = nullType.getRelationDesignation();
         expected.equals(result);
     }
 
     @Test
-    public void getDesignationTestEmptyRelationship() {
+    public void getDesignationTestEmptyRelation() {
         String designation = "";
-        Relationship empty = new Relationship(designation);
+        Relation empty = new Relation(designation);
         String expected = "relação por definir";
-        String result = empty.getDesignation();
+        String result = empty.getRelationDesignation();
         expected.equals(result);
     }
 
