@@ -9,8 +9,6 @@ class Application {
   - FamilyService familyService
   + getFamilyService()
   + getCategoryService()
-  + addEmail(String emailToAdd, int familyMemberID)
-  - checkIfEmailPresent(String emailToCheck)
 }
 
 class CategoryService {
@@ -18,6 +16,9 @@ class CategoryService {
   + createStandardCategoriesList()
   + checkIfIsStandard()
   + addCategoryToStandardList
+  + doesCategoryAlreadyExist(String name)
+  + create(String name)
+  + addCategory(Category newCategory)
 }
 
 class Category {
@@ -35,6 +36,8 @@ class FamilyService {
   + getDTOList(int familyID)
   + findFamily(int familyID)
   + getMemberProfile(int familyMemberID)
+  + addEmail(String emailToAdd, int familyMemberID)
+  - checkIfEmailPresent(String emailToCheck)
 }
 
 class FamilyMemberRelationDTO {
@@ -50,22 +53,23 @@ class Family {
   - date registrationDate
   - List <FamilyMember> familyMembers
   - CashAccount cashAccount
-  + addFamilyMember(FamilyMember member)
-  + addEmail(String emailToAdd, int familyMemberID)
-  - findFamilyMemberIndexByID(int familyMemberID)
   + getFamilyID()
+  + createFamilyMember(name,dateBirth,vat,phone,address)
+  + addFamilyMember(FamilyMember familyMember)
+  - findFamilyMemberIndexByID(int familyMemberID)
+  + getFamilyMember(int familyMemberID)
+  - addFamilyMemberArray(ArrayList<FamilyMember> familyMembers)
+  - numberOfFamilyMembers()
+  + getMemberProfile()
+  + checkIfVatExists()
+  + addEmail(String emailToAdd, int familyMemberID)
   + hasCashAccount()
   + createFamilyCashAccount()
   + isAdmin(int familyMemberID)
   + hasDesignation(String relationDesignation)
   + addToRelationDesignationList(String relation)
   + addRelationToFamilyMember(int familyMemberID, Relation relation)
-  + getFamilyMember(int familyMemberID)
-  + addFamilyMember(FamilyMember familyMember)
-  - addFamilyMemberArray(ArrayList<FamilyMember> familyMembers)
-  - numberOfFamilyMembers()
   - numberOfRelationDesignations()
-  + getMemberProfile()
 }
 
 class CashAccount {
@@ -87,9 +91,12 @@ class FamilyMember {
   - getRelation()
   - getProfilInformation()
   + makeAdministrator()
-  - isAdmin
-  + getFamilyMemberID
-  + createProfile()  
+  - isAdmin()
+  + getFamilyMemberID()
+  + createProfile()
+  + createVat(vat)
+  + createAddress(Address)
+  + createPhoneNumber(phoneNumber)
 }
 
 class MemberProfile {
