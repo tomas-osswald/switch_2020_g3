@@ -6,23 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Application {
-    //attributes
-    //private ArrayList<Category> categories = new ArrayList();
-    private CategoryService categoryService;
-    private FamilyService familyService;
 
-    //constructors
-    public Application() {
-        this.categoryService = new CategoryService();
-    }
+    private CategoryService categoryService = new CategoryService();
+    private FamilyService familyService = new FamilyService();
 
-    public CategoryService getCategoryService() {
-        return this.categoryService;
+    public Application(){
+
     }
 
     public Application(Family family) {
         this.familyService.addFamily(family);
+    }
 
+    public CategoryService getCategoryService() {
+        return this.categoryService;
     }
 
     /**
