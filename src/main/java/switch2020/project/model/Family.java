@@ -59,7 +59,7 @@ public class Family {
         return this.familyID;
     }
 
-    private boolean doesVatExist(Integer vat){
+    private boolean checkIfVatExists(Integer vat){
         ArrayList<Integer> vatList = new ArrayList();
         for ( FamilyMember member : family ) {
             vatList.add(member.getVatNumber());
@@ -86,7 +86,7 @@ public class Family {
     }
 
     public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship){
-        if(!doesVatExist(vat)){
+        if(!checkIfVatExists(vat)){
             FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             family.add(newFamilyMember);
             return true;

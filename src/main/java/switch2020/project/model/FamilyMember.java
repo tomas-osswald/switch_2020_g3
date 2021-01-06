@@ -12,82 +12,62 @@ public class FamilyMember {
     private VatNumber vatNumber;
     private Address address;
     private Relationship relationship;
-    private boolean isAdmin;
+    private boolean administrator;
 
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship, boolean isAdmin){
-        if(!validate(name))
+    public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship, boolean administrator){
+        if(!validateBirthDate(name))
             throw new IllegalArgumentException();
         this.name = name;
 
-        if(!validate(birthDate))
+        if(!validateBirthDate(birthDate))
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
-        if(!validate(phone))
-            throw new IllegalArgumentException("Invalid Phone");
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
 
-        if(!validate(email))
-            throw new IllegalArgumentException("Invalid Email");
         EmailAddress mail = new EmailAddress(email);
         this.emails.add(mail);
 
-        if(!validate(vat))
-            throw new IllegalArgumentException("Invalid VatNumber");
         VatNumber nif = new VatNumber(vat);
         this.vatNumber = nif;
 
-        if(!validate(street) && !validate(codPostal) && !validate(local) && !validate(city))
-            throw new IllegalArgumentException("Invalid Address");
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        if(!validateRelation(relationship))
-            throw new IllegalArgumentException("Invalid Relationship");
         this.relationship = relationship;
 
-        this.isAdmin = isAdmin;
+        this.administrator = administrator;
     }
 
     // Family Admin - add Family Member
     public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship){
-        if(!validate(name))
+        if(!validateName(name))
             throw new IllegalArgumentException();
         this.name = name;
 
-        if(!validate(birthDate))
+        if(!validateBirthDate(birthDate))
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
-        if(!validate(phone))
-            throw new IllegalArgumentException("Invalid Phone");
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
 
-        if(!validate(email))
-            throw new IllegalArgumentException("Invalid Email");
         EmailAddress mail = new EmailAddress(email);
         this.emails.add(mail);
 
-        if(!validate(vat))
-            throw new IllegalArgumentException("Invalid VatNumber");
         VatNumber nif = new VatNumber(vat);
         this.vatNumber = nif;
 
-        if(!validate(street) && !validate(codPostal) && !validate(local) && !validate(city))
-            throw new IllegalArgumentException("Invalid Address");
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        if(!validateRelation(relationship))
-            throw new IllegalArgumentException("Invalid Relationship");
         this.relationship = relationship;
 
-        this.isAdmin = false;
+        this.administrator = false;
     }
 
     // Add email to FamilyMember
@@ -97,13 +77,13 @@ public class FamilyMember {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    private boolean validate(String birthDate){
-        if (birthDate == null);
-            return false;
+    private boolean validateName(String name){
+        if (name == null);
+        return false;
     }
 
-    private boolean validate(Integer phone){
-        if (phone == null);
+    private boolean validateBirthDate(String birthDate){
+        if (birthDate == null);
             return false;
     }
 

@@ -24,7 +24,7 @@ public class EmailAddress {
     private boolean validate(String email) {
         if (email == null)
             return false;
-        if (email.isEmpty() || email.isBlank())
+        if (email.isEmpty())
             return false;
         // Check for other invalid criteria here
 
