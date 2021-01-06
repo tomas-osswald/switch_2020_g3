@@ -11,11 +11,6 @@ public class Family {
         this.familyID = familyID;
     }
 
-    public Family(int familyID, FamilyMember member1, FamilyMember member2) {
-        this.familyID = familyID;
-        members.add(member1);
-        members.add(member2);
-    }
 
     public int getFamilyID() {
         return familyID;
