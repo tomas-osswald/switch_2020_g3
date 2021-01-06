@@ -1,7 +1,8 @@
-package switch2020.project.model;
+package java.switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.EmailAddress;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

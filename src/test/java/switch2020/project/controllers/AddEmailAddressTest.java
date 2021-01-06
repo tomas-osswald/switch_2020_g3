@@ -1,7 +1,10 @@
-package switch2020.project.model;
+package java.switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
 import switch2020.project.controllers.AddEmailController;
+import switch2020.project.model.Application;
+import switch2020.project.model.Family;
+import switch2020.project.model.FamilyMember;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
