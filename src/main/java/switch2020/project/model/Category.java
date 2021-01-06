@@ -4,12 +4,12 @@ public class Category {
     //attributes
     private String categoryName;
     private int categoryLevel;
-    private boolean isStandard;
+    private boolean standard;
 
     //constructors
     public Category(String categoryName){
         this.categoryName = categoryName;
-        this.isStandard = true;
+        this.standard = true;
     }
 
     public String getCname() {
@@ -17,8 +17,10 @@ public class Category {
     }
 
     public boolean isStandard() {
-        return isStandard;
+        return standard;
     }
+
+
 }
 
 

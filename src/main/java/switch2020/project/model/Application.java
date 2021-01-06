@@ -10,8 +10,4 @@ public class Application {
         this.categoryService = new CategoryService();
     }
 
-    public Application(Category standardCategory){
-
-    }
-
 }

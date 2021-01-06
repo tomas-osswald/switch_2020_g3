@@ -1,15 +1,15 @@
 package switch2020.project.controllers;
-
+import java.util.ArrayList;
+import java.util.List;
 import switch2020.project.model.Application;
+import switch2020.project.model.Category;
 import switch2020.project.model.CategoryService;
 
 public class GetStandardCategoriesController {
-    //attributes
-    private Application FFMAplication;
+    private Application FFMApplication;
 
-
-    //constructors
-    public GetStandardCategoriesController(Application app) {
-        this.FFMAplication = app;
+    public Application getFFMApplication() {
+        return FFMApplication;
     }
+
 }
