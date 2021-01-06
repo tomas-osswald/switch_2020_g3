@@ -21,7 +21,7 @@ In order to fulfill this requirement, we need two data pieces:
 - categoryID
 - parentNumber
 
-For this sprint, the system manager only gets the standard categories from the categories list.
+For this sprint, the system manager only gets the standard caave to be inputed along with the e-mail.
 
 # 3. Design
 
@@ -45,136 +45,76 @@ systemManager -> ui : request standard categories
 activate ui
 ui -> controller : getList()
 activate controller
-controller -> app : getStandardCategories()
+controller -> app : getCategories()
 activate app
-app -> app : createStandardCategoriesList()
-loop for each Category in CategoriesList
+app -> list : getStandardCategories()
 activate list
+list -> list : createStandardCategoriesList()
+loop for each category in list
 activate category
-
-app -> category : getParentNumber()
-alt parentNumber == -1
-category -> app : addCategoryToStandardList()
-deactivate category
-end
-end
+         category -> category: getParentNumber()
+         category -> list : parentNumber
+         alt parentNumber == -1
+         category --> list : addToStandardCategoriesList()
+         deactivate category
+        end
+       end
+list --> app : standardCategoriesList
 deactivate list
-app --> controller : standardCategoriesList
+app --> controller : standardCategoriesTree
 deactivate app
-controller --> ui :StandardCategoriesList
+controller --> ui :send createStandardCategoriesTree
 deactivate controller
-ui --> systemManager : present standard categories list
+ui --> systemManager : present categories tree
 deactivate ui
 deactivate systemManager
 @enduml
 ````
-
-````puml
-autonumber
-title get standard categories list
-actor "System Manager" as systemManager
-participant ": UI" as ui
-participant ": CategoriesController" as controller
-participant ":FFMApplication" as app
-participant ": CategoryService" as service
-participant ": Categories List" as list
-participant "Category" as category
-
-note left of systemManager:  get the list of \nstandard categories
-activate systemManager
-systemManager -> ui : request standard categories
-activate ui
-ui -> controller : getList()
-activate controller
-controller -> app : getStandardCategories()
-activate app
-app -> service : getCategoryService()
-activate service
-service -> service : createStandardCategoriesList()
-activate category
-loop for each Category in Categories List
-activate list
-list -> category : getParentNumber()
-alt parentNumber == -1
-deactivate list
-category -> service : addCategoryToStandardList()
-service -> app : standardCategories
-deactivate service
-deactivate category
-end
-end
-
-app --> controller : standardCategoriesList
-deactivate app
-controller --> ui :StandardCategoriesList
-deactivate controller
-ui --> systemManager : present standard categories list
-deactivate ui
-deactivate systemManager
-@enduml
-````
-
-````puml
-autonumber
-title get standard categories list - version service 2
-actor "System Manager" as systemManager
-participant ": UI" as ui
-participant ": CategoriesController" as controller
-participant ":FFMApplication" as app
-participant ": CategoryService" as service
-
-note left of systemManager:  get the list of \nstandard categories
-activate systemManager
-systemManager -> ui : request standard categories
-activate ui
-ui -> controller : getStandardCategories()
-activate controller
-controller -> app : getCategoryService()
-activate app
-activate service
-
-app -> controller : CategoryListService
-deactivate app
-controller -> service : getCategoryService()
-service -> service : createStandardCategoriesList()
-activate category
-loop for each Category in Categories List
-service -> category : getParentNumber()
-alt parentNumber == -1
-category -> service : addCategoryToStandardList()
-service -> app : standardCategories
-deactivate service
-deactivate category
-end
-end
-
-app --> controller : standardCategoriesList
-deactivate app
-controller --> ui :StandardCategoriesList
-deactivate controller
-ui --> systemManager : present standard categories list
-deactivate ui
-deactivate systemManager
-@enduml
-````
-
 
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the FFMApplication object, which handles the Category Service Object.
-Category Service has the responsability of managing the categories list.
+The CategoriesController will invoke the Application object, that uses the Category Service.
+Category Service manage categories and their related operations such as: creation, editing, grouping, etc..
+There is still no hierarchy defined and in this US we will only show the standard categories.
+
+````puml
+@startsalt
+{
+{T
+ + Root
+ ++ Base Category 1
+ +++ Category 1 Branch 1
+ ++++ Category 1 Banch 1 Branch 1
+ +++++ Category 1 Banch 1 Branch 1 Leaf 1
+ +++++ Category 1 Banch 1 Branch 1 Leaf 2
+ ++++ Category 1 Banch 1 Branch 2
+ +++ Category 1 Branch 2
+ +++ Category 1 Branch 3
+ ++ Base Category 2
+ ++ Base Category 3
+ +++ Category 3 Branch 1
+ +++ Category 3 Branch 2
+ ++++ Category 3 Branch 2 Leaf 1
+ ++++ Category 3 Branch 2 Leaf 1
+ ++ Base Category 4
+}
+}
+@endsalt
+````
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- CategoriesController
 - FFMApplication
-- CategoryService
+- CategoriesController
+- Category Service
+- Category
 
 ## 3.3. Applied Patterns
 
-We applied some GRASP principles as Controller and Creator.
+We applied the principles of Controller, Information Expert from the GRASP pattern. We also
+used the SOLID SRP principle.
 
 ## 3.4. Tests
 
@@ -272,7 +212,6 @@ restantes funcionalidades do sistema.*
 
 *Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por
 exemplo, outras alternativas e ou trabalhos futuros relacionados.*
-
 
 
 
