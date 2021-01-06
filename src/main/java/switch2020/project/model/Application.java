@@ -1,24 +1,43 @@
 package switch2020.project.model;
 
+
+import switch2020.project.services.CategoryService;
+import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 
-
 public class Application {
 
-    private ArrayList<Family> families = new ArrayList();
-    private ArrayList<Category> categories = new ArrayList();
+    private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<Family> families = new ArrayList(); //A alterar para Service - Batista
+    private CategoryService categoryService = new CategoryService();
+    private FamilyService familyService = new FamilyService();
 
-    public Application(Family initialFamily) {
-        ArrayList<Family> initialFamilies = new ArrayList<>();
-        initialFamilies.add(initialFamily);
-        this.families = initialFamilies;
+    public Application() {
     }
 
-    public Application(ArrayList<Family> families) {
-        this.families = families;
+    public Application(Family family) {
+        this.familyService.addFamily(family);
     }
+
+
+
+    public CategoryService getCategoryService() {
+        return this.categoryService;
+    }
+
+    public FamilyService getFamilyService() {
+        return this.familyService;
+    }
+
+
+
+
+
+
+
+
 
  /*   public void addFamily(int familyID){
         this.families.add(Family);
@@ -29,7 +48,7 @@ public class Application {
         boolean exists = false;
         Family familyToGet = new Family();
         for (Family family : families) {
-            if (family.getID() == familyID) {
+            if (family.getFamilyID() == familyID) {
                 exists = true;
                 familyToGet = family;
             }
@@ -40,28 +59,6 @@ public class Application {
         return familyToGet;
     }
 
-    /*Testar throw para o caso de o ID não se encontrar dentro da lista de famílias armazenadas na
-    aplicação */
-
-  /*  public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
-        ArrayList<FamilyMember> members = new ArrayList<>();
-        boolean exists = false;
-        for (Family family : families) {
-            if (family.getID() == familyID) {
-                exists = true;
-            }
-        }
-        if (exists == true) {
-            for (Family family : families) {
-                if (family.getID() == familyID) {
-                    members = family.getMembers();
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("There is no family with such ID");
-        }
-        return members;
-    } */
 
     public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
         Family family = getFamily(familyID);
@@ -80,7 +77,5 @@ public class Application {
         }
         return DTOList;
     }
-
-
 
 }

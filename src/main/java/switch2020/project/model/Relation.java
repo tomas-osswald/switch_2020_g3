@@ -4,19 +4,31 @@ public class Relation {
 
     private String relationDesignation;
 
-    /**
-     * Construtor com obrigatoriedade de ser passado parâmetro de designação da relação. Admite valores null ou "" (String vazia),
-     * convertendo esses valores em "relação por definir" como value do atributo relationDesignation (Isto de acordo com a informação
-     * do PO que referiu que não há obrigatoriedade de definir relação quando se adiciona um FamilyMember, por serem
-     * US diferentes, logo serão funcionalidades distintas).
-     * @param relationDesignation
-     */
+
     public Relation(String relationDesignation) {
-        if (relationDesignation == null || relationDesignation == ""){
-            relationDesignation = "relação por definir";
-        }
+        isEmpty(relationDesignation);
         this.relationDesignation = relationDesignation;
     }
+
+
+
+    /**
+     * Method to verify if a given relation designation to instantiate is null or empty
+     *
+     * @param relationDesignation Relation Designation to instantiate a Relation
+     */
+
+    private void isEmpty(String relationDesignation) {
+        if (relationDesignation == null || relationDesignation.equals(""))
+            // If is null or empty, a exception is throw
+            throw new IllegalArgumentException("Empty or Null relation designation");
+    }
+
+
+
+
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -40,4 +52,5 @@ public class Relation {
     public String getRelationDesignation() {
         return relationDesignation;
     }
+
 }
