@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public class Family {
 
-<<<<<<< HEAD
-    private final ArrayList<FamilyMember> members = new ArrayList();
     private final int familyID;
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
@@ -29,8 +27,9 @@ public class Family {
 
 
     public ArrayList<FamilyMember> getMembers() {
-        return members;
+        return familyMembers;
     }
+
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -173,36 +172,30 @@ public class Family {
 
     public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
-=======
-    private int ID;
-    private ArrayList<FamilyMember> members;
+
+
+
+        // Parte do Batista
+
 
     public Family() {
 
-    }
+        }
 
     public Family (int familyID, ArrayList<FamilyMember> members){
-        if(members == null) {
-            throw new IllegalArgumentException("Family can't be null");
+            if(members == null) {
+                throw new IllegalArgumentException("Family can't be null");
+            }
+            if(familyID < 0) {
+                throw new IllegalArgumentException("ID can't be a negative number");
+            }
+            this.familyID = familyID;
+            this.members = members;
         }
-        if(familyID < 0) {
-            throw new IllegalArgumentException("ID can't be a negative number");
+
+
+        public void addFamilyMember(int familyMemberId){
         }
-        this.ID = familyID;
-        this.members = members;
-    }
 
-
-    public void addFamilyMember(int familyMemberId){
-    }
-
-    public ArrayList<FamilyMember> getMembers(){
-        return members;
-    }
-
-    public int getID() {
-        return this.ID;
->>>>>>> feature/US104
-    }
 
 }
