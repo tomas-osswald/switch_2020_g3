@@ -1,16 +1,17 @@
 package switch2020.project.model;
 
-
 import java.util.ArrayList;
 
 public class FamilyMember {
+
+    // Attributes
     private int familyMemberID;
     private Relation relation;
     private boolean isAdministrator;
     private ArrayList<EmailAddress> emails = new ArrayList<>();
     private String name;
 
-
+    // Constructors
     /**
      * Para efeitos de teste da US 104 (Obter lista de membros e relacionamento) só tem estes dois parâmetros
      * não nulos no familyMember. A US 101 é que irá implementar a funcionalidade de invocar o construtor de FamilyMember
@@ -26,6 +27,7 @@ public class FamilyMember {
         this.relation = relation;
     }
 
+    // Business Methods
     public String getRelation(){
         return relation.getRelationDesignation();
     }

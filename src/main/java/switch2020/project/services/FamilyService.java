@@ -8,8 +8,10 @@ import java.util.ArrayList;
 
 public class FamilyService {
 
+    // Attributes
     private ArrayList<Family> families = new ArrayList();
 
+    // Constructors
     public FamilyService() {
     }
 
@@ -17,6 +19,7 @@ public class FamilyService {
         this.families.add(family);
     }
 
+    // Business Methods
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *

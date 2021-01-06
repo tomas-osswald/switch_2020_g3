@@ -9,11 +9,14 @@ import java.util.ArrayList;
 
 public class Application {
 
+    // Attributes
     private ArrayList<Category> categories = new ArrayList<>();
     private ArrayList<Family> families = new ArrayList(); //A alterar para Service - Batista
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
 
+
+    // Constructors
     public Application() {
     }
 
@@ -21,8 +24,7 @@ public class Application {
         this.familyService.addFamily(family);
     }
 
-
-
+    // Business methods
     public CategoryService getCategoryService() {
         return this.categoryService;
     }

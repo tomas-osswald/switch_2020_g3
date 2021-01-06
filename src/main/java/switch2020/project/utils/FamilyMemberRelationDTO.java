@@ -1,14 +1,18 @@
 package switch2020.project.utils;
 
 public class FamilyMemberRelationDTO {
+
+    // Attributes
     private String name;
     private String relation;
 
+    // Constructors
     public FamilyMemberRelationDTO(String name, String relation) {
         this.name = name;
         this.relation = relation;
     }
 
+    // Business Methods
     public String getName() {
         return name;
     }

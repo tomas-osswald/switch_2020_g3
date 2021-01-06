@@ -2,16 +2,16 @@ package switch2020.project.model;
 
 public class Relation {
 
+    // Attributes
     private String relationDesignation;
 
-
+    // Constructors
     public Relation(String relationDesignation) {
         isEmpty(relationDesignation);
         this.relationDesignation = relationDesignation;
     }
 
-
-
+    // Business Methods
     /**
      * Method to verify if a given relation designation to instantiate is null or empty
      *
@@ -23,12 +23,6 @@ public class Relation {
             // If is null or empty, a exception is throw
             throw new IllegalArgumentException("Empty or Null relation designation");
     }
-
-
-
-
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -48,6 +42,12 @@ public class Relation {
     public int hashCode() {
         return relationDesignation != null ? relationDesignation.hashCode() : 0;
     }
+
+    /**
+     * Method to get the relation designation of the Relation
+     *
+     * @return String relation designation
+     */
 
     public String getRelationDesignation() {
         return relationDesignation;

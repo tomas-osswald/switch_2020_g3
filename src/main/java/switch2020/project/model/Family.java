@@ -5,20 +5,19 @@ import java.util.ArrayList;
 
 public class Family {
 
+    // Attributes
     private int familyID;
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
 
 
+    //Constructors
     public Family(int familyID) {
         this.familyID = familyID;
     }
 
-
     public Family() {
-
     }
-
 
     public Family(int familyID, ArrayList<FamilyMember> members) {
         if (members == null) {
@@ -31,16 +30,18 @@ public class Family {
         this.familyMembers = members;
     }
 
+    // Get and Setter methods
     /**
      * Method to return family ID
      *
      * @return family ID
      */
 
-
     public int getFamilyID() {
         return familyID;
     }
+
+    // Business methods
 
     public ArrayList<FamilyMember> getMembers() {
         return familyMembers;
@@ -53,6 +54,7 @@ public class Family {
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
+
     public boolean addEmail(String emailToAdd, int familyMemberID) {
         FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
         return targetMember.addEmail(emailToAdd);
@@ -65,6 +67,7 @@ public class Family {
      * @return Int corresponding to the index of the family member that has the passed ID
      * @throws IllegalArgumentException if there is no family member with the passed ID
      */
+
     private int findFamilyMemberIndexByID(int familyMemberID) {
         int index = 0;
         for (FamilyMember member : this.familyMembers) {
@@ -189,9 +192,4 @@ public class Family {
         return this.relationDesignations.size();
 
     }
-
-    public void addFamilyMember(int familyMemberId) {
-    }
-
-
 }
