@@ -2,13 +2,15 @@ package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
+import switch2020.project.model.EmailAddress;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class EmailAddressTest {
+
     @Test
     public void CreatingValidEmailAddress() {
+
         EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
         Assertions.assertNotNull(email);
     }
@@ -54,10 +56,17 @@ class EmailAddressTest {
     }
 
     @Test
-    public void CreatingEmotyEmailAddress() {
+    public void CreatingEmptyEmailAddress() {
         Throwable exception =
                 assertThrows(IllegalArgumentException.class, () -> {
                     EmailAddress badEmail = new EmailAddress("");
+                });
+    }
+    @Test
+    public void CreatingBlankEmailAddress() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("    ");
                 });
     }
 
@@ -70,3 +79,4 @@ class EmailAddressTest {
                 });
     }
 }
+
