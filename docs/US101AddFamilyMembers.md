@@ -30,6 +30,7 @@ actor "FamilyAdmin" as actor
 participant ": UI" as UI
 participant ": addFamilyMemberController" as controller
 participant ": FFM Application" as app
+participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
 participant "aVat : VAT" as vat
@@ -43,6 +44,10 @@ UI -> controller: getFamilyById(familyID)
 activate controller
 controller -> app: getFamilyById(familyID)
 activate app
+app -> famService: getFamilyById(familyID)
+activate famService
+famService -> app: ok
+deactivate famService
 app -> controller: ok
 deactivate app
 controller -> UI: ok
@@ -61,19 +66,23 @@ UI -> controller: addFamilyMember(name,dateBirth,vat,phone,address)
 activate controller
 controller -> app: addFamilyMember(name,dateBirth,vat,phone,address)
 activate app
+app -> famService: addFamilyMember(name,dateBirth,vat,phone,address)
+activate famService
 alt email exists - TRUE
-  app -> app: doesEmailExist()
+  famService -> famService: doesEmailExist()
+  famService -> app: fail
   app -> controller: fail
   controller -> UI: fail
   UI -> actor: failure
 else email does not exists - FALSE
 end
-app -> family: addFamilyMember(name,dateBirth,vat,phone,address)
-
+famService -> family: addFamilyMember(name,dateBirth,vat,phone,address)
 activate family
+
 alt vat exists - TRUE
-  family -> family: doesVatExist()
-  family -> app: fail
+  family -> family: checkIfVatExist()
+  family -> famService: fail
+  famService -> app: fail
   app -> controller: fail
   controller -> UI: fail
   UI -> actor: failure
@@ -87,8 +96,10 @@ person -> address **: create(address)
 person -> phone **: create(phone)
 deactivate person
 family -> family: addMember(aPerson)
-family -> app: ok
+family -> famService
 deactivate family
+famService -> app: ok
+deactivate famService
 app -> controller: ok
 deactivate app
 controller -> UI: ok

@@ -17,7 +17,10 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship, boolean administrator){
+    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship, boolean administrator){
+
+        this.familyMemberID = familyMemberID;
+
         if(!validateBirthDate(name))
             throw new IllegalArgumentException();
         this.name = name;
@@ -44,7 +47,9 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member
-    public FamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relationship relationship){
+    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship){
+        this.familyMemberID = familyMemberID;
+
         if(!validateName(name))
             throw new IllegalArgumentException();
         this.name = name;
@@ -71,7 +76,7 @@ public class FamilyMember {
     }
 
     // Add email to FamilyMember
-    public FamilyMember(int iD) {
+    public FamilyMember(String name, String birthDate, int iD, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship) {
         this.familyMemberID = iD;
     }
 
@@ -98,7 +103,7 @@ public class FamilyMember {
         return emails;
     }
 
-    public Integer getVatNumber() {
+    public int getVatNumber() {
         return this.vatNumber.getVatNumber();
     }
 
