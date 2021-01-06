@@ -50,9 +50,11 @@ actor -> UI: Input Data(email, familyID, familyMemberID)
 activate UI
 UI -> controller: addEmail(email, familyID, familyMemberID)
 activate controller
-controller -> application: addEmail(email, familyID, familyMemberID)
+controller -> application: getFamilyService
 activate application
-application -> service: addEmail(email, familyID, familyMemberID)
+application -> controller: return familyService
+deactivate application
+controller -> service: addEmail(email, familyID, familyMemberID)
 activate service
 loop find family
     service -> service: findFamily(familyID)
@@ -82,8 +84,7 @@ alt email valid
     deactivate email
     familym -> family: Ok
     family -> service: Ok
-    service -> application: Ok
-    application -> controller: Ok
+    service -> controller: Ok
     controller -> UI: Ok
     UI -> actor: Success
 
@@ -93,10 +94,9 @@ else email invalid
     deactivate familym
     family -> service: Fail
     deactivate family
-    service -> application: Fail
+    service -> controller: Fail
     deactivate service
-    application -> controller: Fail
-    deactivate application
+    
     controller -> UI: Fail
     deactivate controller
     UI -> actor: Failure
@@ -110,7 +110,7 @@ else email invalid
 
 
 ## 3.1. Functionality Use
-The AddEmailController will invoke the Application object, which stores the Family object, which in turns stores the FamilyMember objects.
+The AddEmailController will invoke the Application object, which stores the FamilyService object. The Application will return the FamilyService, so that the addEmail method can be called. The FamilyService will find the correct Family object by the familyID, and the Family object will find the correct FamilyMember object by the familyMemberID.
 Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI). 
 
 
