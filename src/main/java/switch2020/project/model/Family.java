@@ -4,7 +4,7 @@ package switch2020.project.model;
 import java.util.ArrayList;
 
 public class Family {
-    private ArrayList<FamilyMember> family = new ArrayList();
+    private ArrayList<FamilyMember> members = new ArrayList();
     private int familyID;
 
     public Family(int familyID) {
@@ -12,17 +12,17 @@ public class Family {
     }
 
     public Family(int familyID, FamilyMember member1, FamilyMember member2) {
-        this.familyID = familyID;
-        family.add(member1);
-        family.add(member2);
-    }
-
-    public ArrayList<FamilyMember> getFamily() {
-        return family;
+        this.familyID=familyID;
+        members.add(member1);
+        members.add(member2);
     }
 
     public int getFamilyID() {
         return familyID;
+    }
+
+    public ArrayList<FamilyMember> getMembers() {
+        return members;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Family {
      * @param member FamilyMember object to add
      */
     public void addFamilyMember(FamilyMember member) {
-        family.add(member);
+        members.add(member);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Family {
      * @return True if email successfully added to the Family Member with the passed ID
      */
     public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return family.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
+        return members.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
     }
 
     /**
@@ -54,7 +54,7 @@ public class Family {
      */
     private int findFamilyMemberIndexByID(int familyMemberID) {
         int index = 0;
-        for (FamilyMember member : this.family) {
+        for (FamilyMember member : this.members) {
             if (member.getID() == familyMemberID) {
                 return index;
             }
