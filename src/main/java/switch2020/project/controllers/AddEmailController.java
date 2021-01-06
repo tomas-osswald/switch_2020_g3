@@ -19,7 +19,11 @@ public class AddEmailController {
      * @return True if email successfully added to the Family Member with the passed ID
      */
     public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
-        return this.FFMapp.addEmail(emailToAdd, familyID, familyMemberID);
+        try {
+            return this.FFMapp.addEmail(emailToAdd, familyID, familyMemberID);
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
     }
 
 

@@ -6,8 +6,7 @@ import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AddEmailAddressTest {
 
@@ -27,16 +26,16 @@ class AddEmailAddressTest {
     @Test
     public void checkEmailAlreadyPresent() {
         controller.addEmail("kaladin@depression.com", 10,666);
-        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("kaladin@depression.com", 10,666));
+        assertFalse(controller.addEmail("kaladin@depression.com", 10,666));
     }
 
     @Test
     public void checkIfThrowsWhenNoSuchMemberID() {
-        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("hoid@cosmere.com",10, 888));
+        assertFalse(controller.addEmail("hoid@cosmere.com",10, 888));
     }
 
     @Test
     public void checkIfThrowsWhenNoSuchFamilyID() {
-        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("shallan@mentalhospital.com",11, 888));
+        assertFalse(controller.addEmail("shallan@mentalhospital.com",11, 888));
     }
 }

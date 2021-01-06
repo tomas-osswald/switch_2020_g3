@@ -12,7 +12,7 @@ public class Family {
     }
 
     public Family(int familyID, FamilyMember member1, FamilyMember member2) {
-        this.familyID=familyID;
+        this.familyID = familyID;
         members.add(member1);
         members.add(member2);
     }
@@ -26,7 +26,7 @@ public class Family {
     }
 
     /**
-     * Method to add a FamilyMemeber object to the ArrayList of FamilyMembers
+     * Method to add a FamilyMember object to the ArrayList of FamilyMembers
      *
      * @param member FamilyMember object to add
      */
