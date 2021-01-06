@@ -80,7 +80,7 @@ activate app
 activate service
 app -> controller : CategoryService
 deactivate app
-controller -> service : getStandardCategories()
+controller -> service : getCategories()
 service -> service : createStandardCategoriesList()
 activate category
 loop for each Category in Categories List
@@ -102,7 +102,6 @@ deactivate ui
 deactivate systemManager
 @enduml
 ````
-
 
 ## 3.1. Functionality Use
 

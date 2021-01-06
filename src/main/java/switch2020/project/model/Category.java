@@ -1,12 +1,11 @@
 package switch2020.project.model;
 
 public class Category {
-    //attributes
+
     private String categoryName;
     private int categoryLevel;
     private boolean standard;
 
-    //constructors
     public Category(String categoryName){
         this.categoryName = categoryName;
         this.standard = true;
@@ -22,7 +21,6 @@ public class Category {
         }
         return false;
     }
-
 }
 
 

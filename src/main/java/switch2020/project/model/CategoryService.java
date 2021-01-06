@@ -1,4 +1,5 @@
 package switch2020.project.model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +10,21 @@ public class CategoryService {
         this.categories = new ArrayList<>();
     }
 
-    public List<Category> getStandardCategories(){
-        List standardCategories = new ArrayList<Category>();
-        /*for (int i = 0; i < standardCategories.size(); i++) {
-                if(standardCategories)
+    public List<Category> getCategories() {
+        return this.categories;
+    }
 
-            }*/
-        return null;
+    public List<Category> getStandardCategories() {
+        List standardCategories = new ArrayList<Category>();
+
+        for (Category cat : categories) {
+            if (cat.checkIfIsStandard()) {
+                standardCategories.add(cat);
+            }
+        }
+        return standardCategories;
     }
-    }
+}
 
 
 
