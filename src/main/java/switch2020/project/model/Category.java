@@ -16,10 +16,12 @@ public class Category {
         return categoryName;
     }
 
-    public boolean isStandard() {
-        return standard;
+    public boolean checkIfIsStandard(){
+        if(this.standard == true){
+            return true;
+        }
+        return false;
     }
-
 
 }
 
