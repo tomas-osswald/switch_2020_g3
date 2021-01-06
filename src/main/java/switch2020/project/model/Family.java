@@ -8,7 +8,7 @@ public class Family {
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
 
-    protected Family(int familyID) {
+    public Family(int familyID) {
         this.familyID = familyID;
     }
 
@@ -17,7 +17,7 @@ public class Family {
      * @return family ID
      */
 
-    protected int getFamilyID() {
+    public int getFamilyID() {
         return familyID;
     }
 
@@ -28,7 +28,7 @@ public class Family {
      * @return boolean
      */
 
-    protected boolean isAdmin(int familyMemberID) {
+    public boolean isAdmin(int familyMemberID) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.getFamilyMemberID() == familyMemberID)
                 return familyMember.isAdmin();
@@ -43,7 +43,7 @@ public class Family {
      * @return boolean
      */
 
-    protected boolean hasDesignation(String relationDesignation) {
+    public boolean hasDesignation(String relationDesignation) {
         for (String relationDesigantion : relationDesignations) {
             if (relationDesigantion.toLowerCase().equals(relationDesignation.toLowerCase()))
                 return true;
@@ -58,7 +58,7 @@ public class Family {
      * @return boolean
      */
 
-    protected boolean addToRelationDesignationList(String relation) {
+    public boolean addToRelationDesignationList(String relation) {
         return relationDesignations.add(relation);
     }
 
@@ -70,7 +70,7 @@ public class Family {
      * @return boolean
      */
 
-    protected boolean addRelationToFamilyMember(int familyMemberID, Relation relation) {
+    public boolean addRelationToFamilyMember(int familyMemberID, Relation relation) {
         FamilyMember familyMember = getFamilyMember(familyMemberID);
 
         familyMember.addRelation(relation);
@@ -100,7 +100,7 @@ public class Family {
      * @param familyMember FamilyMember to add to list
      */
 
-    protected void addFamilyMember(FamilyMember familyMember) {
+    public void addFamilyMember(FamilyMember familyMember) {
         this.familyMembers.add(familyMember);
     }
 
@@ -130,7 +130,7 @@ public class Family {
      * @return number of relation designations
      */
 
-    protected int numberOfRelationDesignations() {
+    public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
     }
 }

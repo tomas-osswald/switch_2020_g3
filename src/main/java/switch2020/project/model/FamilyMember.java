@@ -4,9 +4,9 @@ package switch2020.project.model;
 public class FamilyMember {
     private int familyMemberID;
     private Relation relation;
-    private boolean administrator;
+    private boolean isAdministrator;
 
-    protected FamilyMember(int familyMemberID) {
+    public FamilyMember(int familyMemberID) {
         this.familyMemberID = familyMemberID;
     }
 
@@ -14,8 +14,8 @@ public class FamilyMember {
      * Method to make a familyMember Administrator
      */
 
-    protected void makeAdmin() {
-        this.administrator = true;
+    public void makeAdmin() {
+        this.isAdministrator = true;
     }
 
     /**
@@ -25,7 +25,7 @@ public class FamilyMember {
      */
 
     protected boolean isAdmin() {
-        return this.administrator;
+        return this.isAdministrator;
     }
 
     /**

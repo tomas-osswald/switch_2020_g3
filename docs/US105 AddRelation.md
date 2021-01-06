@@ -88,6 +88,8 @@ actor "Family Administrator" as familyAdministrator
 participant ": UI" as ui
 participant ": ControllerAddRelation" as controler
 participant ": App" as app
+participant "familyService : FamilyService" as service
+
 
 activate familyAdministrator
 familyAdministrator -> ui : add realation to member
@@ -98,16 +100,22 @@ familyAdministrator -> ui : imputs required data
 activate ui
 ui -> controler : createRelation(sefID, otherID, relationDesignation, familyID)
 activate controler
-controler -> app : createRelation(sefID, otherID, relationDesignation, familyID)
+
+controler -> app : getFamilyService()
 activate app
+app -> controler : familyService
+deactivate app
 
-alt failure: Actor is not Admin
+controler -> service : createRelation(sefID, otherID, relationDesignation, familyID)
+activate service
 
-app -> controler : failure
+alt failure: Actor is not Admin or a exception was thrown
+
+service -> controler : failure
 controler -> ui : failure
 ui -> familyAdministrator : Inform Failure
 
-ref over app
+ref over service
 
 createRelation( ).2 
 
@@ -115,9 +123,9 @@ end ref
 
 else sucess
 
-app -> controler : ok
+service -> controler : ok
 
-deactivate app
+deactivate service
 controler -> ui : ok
 deactivate controler
 ui -> familyAdministrator : Sucess
@@ -132,44 +140,44 @@ end
 autonumber
 title createRelation( ).2
 
-participant ": App" as app
+participant ": FamilyService" as service
 participant "fam : Family" as fam
 participant "person : Person" as person
 
-activate app
--> app : createRelation(sefID, otherID, relationDesignation, familyID)
-app -> app : fam =  1. getFamily(familyID)
+activate service
+-> service : createRelation(sefID, otherID, relationDesignation, familyID)
+service -> service : fam =  1. getFamily(familyID)
 
-app -> fam : isAdmin(selfID)
+service -> fam : isAdmin(selfID)
 activate fam
 
 alt !isDdmin
-fam -> app : !isAdmin()
-<- app : failure
+fam -> service : !isAdmin()
+<- service : failure
 
 else isAdmin
 
-fam -> app: isAdmin()
+fam -> service: isAdmin()
 deactivate fam
-app -> fam : hasDesignation(relationDesignation)
+service -> fam : hasDesignation(relationDesignation)
 activate fam
 
 alt !hasDesignation()
-fam -> app : !hasDesignation()
+fam -> service : !hasDesignation()
 
 
-app -> "relation : Relation"** : createRelation(relationDesignation)
-app -> fam : addToRelationDesignationList(relationDesignation)
+service -> "relation : Relation"** : createRelation(relationDesignation)
+service -> fam : addToRelationDesignationList(relationDesignation)
 
 else hasDesignation()
 
-fam -> app : hasDesignation
+fam -> service : hasDesignation
 deactivate fam
-app -> "relation : Relation"** : createRelation(relationDesignation)
+service -> "relation : Relation"** : createRelation(relationDesignation)
 
 end
 
-app -> fam : addRelation(otherID, relation)
+service -> fam : addRelation(otherID, relation)
 activate fam
 fam -> fam : person = getPerson(otherID)
 fam -> person : addRelation(relation)
@@ -177,13 +185,13 @@ activate person
 person -> person : addRelation(relation)
 person -> fam : ok
 deactivate person
-fam -> app : ok
+fam -> service : ok
 deactivate fam
-<- app : ok
+<- service : ok
 
 end
 
-deactivate app
+deactivate service
 
 ```
 
@@ -201,6 +209,7 @@ class Family {
 - familyID
 - registrationDate
 - familyID
+- relationDesignationsList
 
 }
 
