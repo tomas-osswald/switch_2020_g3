@@ -1,10 +1,12 @@
 package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Family;
+import switch2020.project.model.FamilyMember;
+import switch2020.project.model.Relation;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyTest {
@@ -114,11 +116,10 @@ class FamilyTest {
 
         assertThrows(IllegalArgumentException.class, () -> family.addRelationToFamilyMember(familyMemberIDThatDoesntExist, relation));
     }
-=======
-class FamilyTest {
+
 
     @Test
-    public void testGetFamilyMembers(){
+    public void testGetFamilyMembers() {
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
         Family Batista = new Family(200489, osBatistas);
         Relation filho = new Relation("filho");
@@ -131,5 +132,5 @@ class FamilyTest {
         Batista.getMembers();
     }
 
->>>>>>> feature/US104
+
 }

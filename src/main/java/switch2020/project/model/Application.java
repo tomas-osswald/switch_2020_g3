@@ -21,6 +21,8 @@ public class Application {
         this.familyService.addFamily(family);
     }
 
+
+
     public CategoryService getCategoryService() {
         return this.categoryService;
     }
@@ -33,15 +35,9 @@ public class Application {
 
 
 
-    public Application(Family initialFamily) {
-        ArrayList<Family> initialFamilies = new ArrayList<>();
-        initialFamilies.add(initialFamily);
-        this.families = initialFamilies;
-    }
 
-    public Application(ArrayList<Family> families) {
-        this.families = families;
-    }
+
+
 
  /*   public void addFamily(int familyID){
         this.families.add(Family);
@@ -52,7 +48,7 @@ public class Application {
         boolean exists = false;
         Family familyToGet = new Family();
         for (Family family : families) {
-            if (family.getID() == familyID) {
+            if (family.getFamilyID() == familyID) {
                 exists = true;
                 familyToGet = family;
             }

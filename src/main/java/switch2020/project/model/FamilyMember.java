@@ -36,7 +36,7 @@ public class FamilyMember {
 
         // tERMINA AQUI O Batista
 
-
+    }
 
     public ArrayList<EmailAddress> getEmails() {
         return emails;
