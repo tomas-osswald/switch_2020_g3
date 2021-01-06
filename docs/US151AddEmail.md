@@ -46,18 +46,21 @@ actor -> UI: Add Email
 activate UI
 UI -> actor: Request Necessary Data
 deactivate UI
-actor -> UI: Input Data(ID, email)
+actor -> UI: Input Data(email, familyID, familyMemberID)
 activate UI
-UI -> controller: addEmail(ID,email)
+UI -> controller: addEmail(email, familyID, familyMemberID)
 activate controller
-controller -> application: addEmail(ID,email)
+controller -> application: addEmail(email, familyID, familyMemberID)
 activate application
-application -> service: addEmail(ID,email)
+application -> service: addEmail(email, familyID, familyMemberID)
 activate service
-service -> family: addEmail(ID,email)
+loop find family
+    service -> service: findFamily(familyID)
+    end
+service -> family: addEmail(email, familyMemberID)
 activate family
 loop find family member
-    family -> family: findFamilyMember(ID)
+    family -> family: findFamilyMember(familyMemberID)
     end
 family -> familym: addEmail(email)
 activate familym
