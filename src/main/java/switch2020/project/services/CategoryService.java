@@ -1,4 +1,6 @@
-package switch2020.project.model;
+package switch2020.project.services;
+import switch2020.project.model.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 
