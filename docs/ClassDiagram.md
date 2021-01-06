@@ -1,16 +1,47 @@
 # Class Diagram
 =======================================
 
-
 ```puml
 title Class Diagram
 
-class FFMApplication {
-  - List<Family> families
-  - List<Category> categories
-  - addEmail(String emailToAdd, int familyMemberID)
+class Application {
+  - CategoryService categoryService
+  - FamilyService familyService
+  + getFamilyService()
+  + getCategoryService()
+  + addEmail(String emailToAdd, int familyMemberID)
   - checkIfEmailPresent(String emailToCheck)
-  - createFamilyCashAccount(int familyID)
+}
+
+class CategoryService {
+  - List<Category> categories
+  + createStandardCategoriesList()
+  + checkIfIsStandard()
+  + addCategoryToStandardList
+}
+
+class Category {
+  - int ID
+  - int parentID
+  - String categoryName
+  - boolean standard
+  - int categoryLevel
+}
+
+class FamilyService {
+  - List<Family> families
+  - getFamilyByID()
+  + createFamilyCashAccount(int familyID)
+  + getDTOList(int familyID)
+  + findFamily(int familyID)
+  + getMemberProfile(int familyMemberID)
+}
+
+class FamilyMemberRelationDTO {
+  - String name
+  - String relationDesignation
+  + getName()
+  + getRelation()
 }
 
 class Family {
@@ -19,19 +50,28 @@ class Family {
   - date registrationDate
   - List <FamilyMember> familyMembers
   - CashAccount cashAccount
-  - hasCashAccount()
-  - createFamilyCashAccount()
-}
-
-class Category {
-  - int categoryID
-  - int parentCategoryID
-  - String designation
+  + addFamilyMember(FamilyMember member)
+  + addEmail(String emailToAdd, int familyMemberID)
+  - findFamilyMemberIndexByID(int familyMemberID)
+  + getFamilyID()
+  + hasCashAccount()
+  + createFamilyCashAccount()
+  + isAdmin(int familyMemberID)
+  + hasDesignation(String relationDesignation)
+  + addToRelationDesignationList(String relation)
+  + addRelationToFamilyMember(int familyMemberID, Relation relation)
+  + getFamilyMember(int familyMemberID)
+  + addFamilyMember(FamilyMember familyMember)
+  - addFamilyMemberArray(ArrayList<FamilyMember> familyMembers)
+  - numberOfFamilyMembers()
+  - numberOfRelationDesignations()
+  + getMemberProfile()
 }
 
 class CashAccount {
   - int CashAccountID
   - double balance
+  + getID()
 }
 
 class FamilyMember {
@@ -42,10 +82,18 @@ class FamilyMember {
   - date birthDate
   - PhoneNumber phoneNumber
   - Email email
-  - Relationship relationship
-  - getRelationship()
+  - Relation relationDesignation
+  - boolean administrator
+  - getRelation()
   - getProfilInformation()
-  - addEmailAccount()
+  + makeAdministrator()
+  - isAdmin
+  + getFamilyMemberID
+  + createProfile()  
+}
+
+class MemberProfile {
+  
 }
 
 class Address {
@@ -57,16 +105,21 @@ class Address {
 
 class PhoneNumber {
   - String phoneNumber
+  - validate()
 }
 
 class Email {
   - String email
-  + isSameEmail()
+  + getEmail()
+  - validate()
+  - checkFormat()
 }
 
-class Relationship {
-  - String designation
+class Relation {
+  - String relationDesignation
   - int relatedFamilyMemberID
+  - getRelationDesignation()
+  - isEmpty(String relationDesignation)
 }
 
 Family --> CashAccount
@@ -74,7 +127,11 @@ Family --> FamilyMember
 FamilyMember --> Address
 FamilyMember --> PhoneNumber
 FamilyMember --> Email
-FFMApplication --> Family
-FFMApplication --> Category
-FamilyMember --> Relationship
+Application --> FamilyService
+FamilyService --> FamilyMemberRelationDTO
+FamilyService --> Family
+Application --> CategoryService
+CategoryService --> Category
+FamilyMember --> Relation
+FamilyMember --> MemberProfile
 ```

@@ -1,7 +1,6 @@
 # US120 Create family cash account.
 =======================================
 
-
 # 1. Requirements
 
 **Demo1** US120 As a family administrator, I want to create a family cash account.
