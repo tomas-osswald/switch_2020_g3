@@ -173,4 +173,5 @@ public class Family {
     public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
     }
+
 }
