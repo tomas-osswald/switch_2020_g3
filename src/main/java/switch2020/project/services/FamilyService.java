@@ -18,7 +18,7 @@ public class FamilyService {
         this.families.add(family);
     }
 
-    public void addFamily(Family family){
+    public void addFamily(Family family) {
         this.families.add(family);
     }
 
@@ -26,10 +26,11 @@ public class FamilyService {
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
      * @param emailToAdd     String of the email address to add
+     * @param familyID       Integer representing the family's ID
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
-    public boolean addEmail(String emailToAdd,int familyID, int familyMemberID) {
+    public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
         if (!checkIfEmailPresent(emailToAdd)) {
             return this.families.get(findFamilyIndexByID(familyID)).addEmail(emailToAdd, familyMemberID);
         }
@@ -53,7 +54,6 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("No family with that ID was found");
     }
-
 
 
     /**
