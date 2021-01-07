@@ -152,11 +152,8 @@ public class Family {
         }
         return false;
     }
-    /*************************/
-
 
     private boolean checkIfVatExists(int vat) {
-
         ArrayList<Integer> vatList = new ArrayList();
         for ( FamilyMember member : familyMembers ) {
             vatList.add(member.getVatNumber());
@@ -279,11 +276,16 @@ public class Family {
 
     public boolean addFamilyMember(String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
-            familyMembers.add(newFamilyMember);
-            return true;
+            try {
+                FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                familyMembers.add(newFamilyMember);
+                return true;
+            } catch (IllegalArgumentException exception) {
+                return false;
+            }
         } else {
-            throw new IllegalArgumentException("Vat already exists in the Family");
+            return false;
+            //throw new IllegalArgumentException("Vat already exists in the Family");
         }
     }
 

@@ -1,13 +1,16 @@
 package switch2020.project.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FamilyMember {
 
     // Attributes
     private int familyMemberID;
     private String name;
-    private String birthDate;
+    private Date birthDate;
     private ArrayList<PhoneNumber> phoneNumbers = new ArrayList();
     private ArrayList<EmailAddress> emails = new ArrayList();
     private VatNumber vatNumber;
@@ -23,12 +26,12 @@ public class FamilyMember {
         this.familyMemberID = familyMemberID;
 
         if (!validateName(name))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid Name");
         this.name = name;
 
         if (!validateBirthDate(birthDate))
-            throw new IllegalArgumentException("Invalid Date");
-        this.birthDate = birthDate;
+            throw new IllegalArgumentException("Invalid Date. Correct format: dd/mm/yyyy");
+        this.birthDate = validateFormatDate(birthDate);
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -57,7 +60,7 @@ public class FamilyMember {
 
         if (!validateBirthDate(birthDate))
             throw new IllegalArgumentException("Invalid Date");
-        this.birthDate = birthDate;
+        this.birthDate = validateFormatDate(birthDate);
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -81,6 +84,10 @@ public class FamilyMember {
         this.familyMemberID = iD;
     }
 
+    public FamilyMember(int familyMemberID) {
+        this.familyMemberID = familyMemberID;
+    }
+
     /********************** GETTERS AND SETTERS **********************/
 
     private boolean validateName(String name) {
@@ -95,13 +102,23 @@ public class FamilyMember {
         return false;
     }
 
+    private Date validateFormatDate(String birthDate){
+        Date data = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        sdf.setLenient(false);
+        try{
+            data = sdf.parse(birthDate);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Invalid Date. Correct format: dd/mm/yyyy");
+        }
+        return data;
+    }
+
     private boolean validateRelation(Relation relation) {
         if (this.relation != null)
             return true;
         return false;
     }
-
-    /*********************************/
 
     public ArrayList<EmailAddress> getEmails() {
         return emails;
@@ -125,10 +142,6 @@ public class FamilyMember {
 
     public String getName() {
         return name;
-    }
-
-    public FamilyMember(int familyMemberID) {
-        this.familyMemberID = familyMemberID;
     }
 
     /**
@@ -184,7 +197,7 @@ public class FamilyMember {
     protected void addRelation(Relation relation) {
         if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
-        this.relation = this.relation;
+        this.relation = relation;
     }
 
 }
