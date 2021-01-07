@@ -1,25 +1,12 @@
 package switch2020.project.model;
 
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import switch2020.project.model.Relation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class RelationTest {
 
-    @Test
-    void NullRelationDesignationIsGiven() {
-        String relationDesignation = null;
-
-        assertThrows(IllegalArgumentException.class, () -> new Relation(relationDesignation));
-    }
-
-    @Test
-    void EmptyRelationDesignation() {
-        String relationDesignatin = "";
-
-        assertThrows(IllegalArgumentException.class, () -> new Relation(relationDesignatin));
-    }
 
     @Test
     void CreatingRelation() {
@@ -54,7 +41,7 @@ class RelationTest {
     public void getDesignationTestNullRelation() {
         String designation = null;
         Relation nullType = new Relation(designation);
-        String expected = "relação por definir";
+        String expected = "Undefined Relation";
         String result = nullType.getRelationDesignation();
         expected.equals(result);
     }
@@ -63,11 +50,11 @@ class RelationTest {
     public void getDesignationTestEmptyRelation() {
         String designation = "";
         Relation empty = new Relation(designation);
-        String expected = "relação por definir";
+        String expected = "Undefined Relation";
         String result = empty.getRelationDesignation();
         expected.equals(result);
     }
 
 
-    }
+}
 
