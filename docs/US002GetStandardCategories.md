@@ -118,7 +118,7 @@ The main Classes involved are:
 
 ## 3.3. Applied Patterns
 
-We applied some GRASP principles as Controller and Creator.
+We applied some GRASP principles as Controller, Creator and Information Expert.
 
 ## 3.4. Tests
 
