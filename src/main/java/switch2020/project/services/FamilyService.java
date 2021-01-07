@@ -1,9 +1,7 @@
 package switch2020.project.services;
 
-import switch2020.project.model.EmailAddress;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
+import switch2020.project.model.*;
+
 import java.util.ArrayList;
 
 public class FamilyService {
@@ -132,5 +130,24 @@ public class FamilyService {
                 return family;
         }
         throw new IllegalArgumentException("No family with such ID");
+    }
+
+    private boolean checkIfFamilyExists(int familyID){
+        for (Family family : families ) {
+            if(familyID == family.getFamilyID())
+                return true;
+        }
+        return false;
+    }
+
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+        if(checkIfFamilyExists(familyID)){
+            if(!checkIfEmailPresent(email)){
+                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+                return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            }
+            throw new IllegalArgumentException("This email already exists");
+        }
+        throw new IllegalArgumentException("Family does not exist");
     }
 }

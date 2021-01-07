@@ -28,6 +28,9 @@ public class Application {
         return this.categoryService;
     }
 
+
+    /********************** GETTERS AND SETTERS **********************/
+
     public FamilyService getFamilyService() {
         return this.familyService;
     }
@@ -38,6 +41,8 @@ public class Application {
     }
   */
 
+    // BATISTA METHOD
+    /*
     public Family getFamily(int familyID) {
         boolean exists = false;
         Family familyToGet = new Family();
@@ -53,10 +58,23 @@ public class Application {
         return familyToGet;
     }
 
+     */
+
 
     public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
         Family family = getFamily(familyID);
         return family.getMembers();
+    }
+
+    /*************************/
+
+
+    private Family getFamily(int familyID){
+        for (Family familia : families ) {
+            if(familyID == familia.getFamilyID())
+                return familia;
+        }
+        return null;
     }
 
 

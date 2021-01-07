@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         // write your code here
         System.out.println("OK!");
-
+        /*
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
         Family Batista = new Family(200489, osBatistas);
         Relation filho = new Relation("filho");
@@ -23,6 +23,8 @@ public class Main {
         osBatistas.add(filhoTwo);
         osBatistas.add(filhoThree);
         System.out.println(Batista.getMembers());
+
+         */
 
     }
 
