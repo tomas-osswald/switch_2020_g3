@@ -1,7 +1,7 @@
 package switch2020.project.controllers;
 
 import switch2020.project.model.Application;
-import switch2020.project.model.FamilyService;
+import switch2020.project.services.FamilyService;
 
 public class AddFamilyController {
 

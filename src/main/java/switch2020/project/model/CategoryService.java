@@ -18,7 +18,7 @@ public class CategoryService {
         List standardCategories = new ArrayList<Category>();
 
         for (Category cat : categories) {
-            if (cat.isStandard()) {
+            if (cat.isStandardCategory()) {
                 standardCategories.add(cat);
             }
         }
