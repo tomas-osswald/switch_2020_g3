@@ -1,11 +1,11 @@
 package switch2020.project.model;
-import switch2020.project.model.FFMApplication;
+import switch2020.project.model.Application;
 
 public class StandardCategoriesController {
-    private FFMApplication FFMAplication;
+    private Application FFMAplication;
 
-
-
+    public StandardCategoriesController(Application FFMAplication) {
+        this.FFMAplication = FFMAplication;
+    }
 }
 
-public StandardCategoriesController()

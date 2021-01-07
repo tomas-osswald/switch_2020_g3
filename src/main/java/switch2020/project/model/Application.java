@@ -1,6 +1,5 @@
 package switch2020.project.model;
 
-
 import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
@@ -79,5 +78,4 @@ public class Application {
         }
         return DTOList;
     }
-
 }
