@@ -1,6 +1,7 @@
 package switch2020.project.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FamilyMember {
 
@@ -8,8 +9,8 @@ public class FamilyMember {
     private int familyMemberID;
     private String name;
     private String birthDate;
-    private ArrayList<PhoneNumber> phoneNumbers = new ArrayList();
-    private ArrayList<EmailAddress> emails = new ArrayList();
+    private List<PhoneNumber> phoneNumbers = new ArrayList();
+    private List<EmailAddress> emails = new ArrayList<>();
     private VatNumber vatNumber;
     private Address address;
     private Relation relation;
@@ -139,7 +140,7 @@ public class FamilyMember {
 
     /*********************************/
 
-    public ArrayList<EmailAddress> getEmails() {
+    public List<EmailAddress> getEmails() {
         return emails;
     }
 
