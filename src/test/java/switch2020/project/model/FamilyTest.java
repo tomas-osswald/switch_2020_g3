@@ -1,15 +1,24 @@
 package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
-
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyTest {
+
+    int id = 1111;
+    String name = "Diogo";
+    String date = "26/08/1990";
+    int numero = 919999999;
+    String email = "josediogoccbr@gmail.com";
+    int nif = 212122233;
+    String rua = "Rua Nossa";
+    String codPostal = "4444-555";
+    String local = "Zinde";
+    String city = "Porto";
+    String relacao = "filho";
+    Relation relation = new Relation(relacao);
+    boolean admin = false;
 
     @Test
     void AddFamilyMembers() {
@@ -120,6 +129,7 @@ class FamilyTest {
 
     @Test
     public void testGetFamilyMembers() {
+        /*
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
         Family Batista = new Family(200489, osBatistas);
         Relation filho = new Relation("filho");
@@ -130,7 +140,17 @@ class FamilyTest {
         osBatistas.add(filhoTwo);
         osBatistas.add(filhoThree);
         Batista.getMembers();
+
+         */
     }
 
+    @Test /** Test if Family Member is added to Family **/
+    void addFamilyMemberTest1_checkIfMemberWasAdded() {
+        FamilyMember Diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
+        Family Ribeiros = new Family(1);
+        Ribeiros.addFamilyMember(Diogo);
+        Family expected = new Family(1,Diogo);
+        assertEquals(Ribeiros, expected);
+    }
 
 }

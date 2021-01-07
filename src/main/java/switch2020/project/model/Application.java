@@ -1,6 +1,5 @@
 package switch2020.project.model;
 
-
 import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
@@ -9,11 +8,14 @@ import java.util.ArrayList;
 
 public class Application {
 
+    // Attributes
     private ArrayList<Category> categories = new ArrayList<>();
     private ArrayList<Family> families = new ArrayList(); //A alterar para Service - Batista
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
 
+
+    // Constructors
     public Application() {
     }
 
@@ -21,11 +23,13 @@ public class Application {
         this.familyService.addFamily(family);
     }
 
-
-
-    public CategoryService getCategoryService() {
+    // Business methods
+    public CategoryService getCategoryService(){
         return this.categoryService;
     }
+
+
+    /********************** GETTERS AND SETTERS **********************/
 
     public FamilyService getFamilyService() {
         return this.familyService;
@@ -37,6 +41,8 @@ public class Application {
     }
   */
 
+    // BATISTA METHOD
+    /*
     public Family getFamily(int familyID) {
         boolean exists = false;
         Family familyToGet = new Family();
@@ -52,10 +58,23 @@ public class Application {
         return familyToGet;
     }
 
+     */
+
 
     public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
         Family family = getFamily(familyID);
         return family.getMembers();
+    }
+
+    /*************************/
+
+
+    private Family getFamily(int familyID){
+        for (Family familia : families ) {
+            if(familyID == familia.getFamilyID())
+                return familia;
+        }
+        return null;
     }
 
 
@@ -70,5 +89,4 @@ public class Application {
         }
         return DTOList;
     }
-
 }

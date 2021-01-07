@@ -1,6 +1,6 @@
 package switch2020.project.controllers;
 
-
+//import switch2020.project.model.Application;
 import switch2020.project.model.Application;
 import switch2020.project.services.FamilyService;
 
@@ -11,6 +11,7 @@ public class AddEmailController {
         this.ffmApp = app;
     }
 
+    /*
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *

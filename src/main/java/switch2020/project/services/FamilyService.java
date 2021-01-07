@@ -1,24 +1,26 @@
 package switch2020.project.services;
 
-import switch2020.project.model.EmailAddress;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
-import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.model.*;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FamilyService {
 
-    private ArrayList<Family> families = new ArrayList();
+    // Attributes
+    private List<Family> families;
 
+    // Constructors
     public FamilyService() {
+        this.families = new ArrayList<>();
     }
 
     public FamilyService(Family family) {
         this.families.add(family);
     }
 
+    // Business Methods
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
@@ -89,6 +91,16 @@ public class FamilyService {
         this.families.add(family);
     }
 
+    public boolean addFamily(String familyName) {
+        try {
+            Family newFamily = new Family(familyName);
+            families.add(newFamily);
+            return true;
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
+    }
+
     /**
      * Method to create a Relation and assign it to a Family Member
      *
@@ -133,4 +145,24 @@ public class FamilyService {
         throw new IllegalArgumentException("No family with such ID");
     }
 
- }
+
+    private boolean checkIfFamilyExists(int familyID){
+        for (Family family : families ) {
+            if(familyID == family.getFamilyID())
+                return true;
+        }
+        return false;
+    }
+
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+        if(checkIfFamilyExists(familyID)){
+            if(!checkIfEmailPresent(email)){
+                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+                return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            }
+            throw new IllegalArgumentException("This email already exists");
+        }
+        throw new IllegalArgumentException("Family does not exist");
+    }
+}
+

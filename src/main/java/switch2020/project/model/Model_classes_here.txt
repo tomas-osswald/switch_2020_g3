@@ -1,1 +1,1 @@
-Put model clases here.
+Put model classes here.
