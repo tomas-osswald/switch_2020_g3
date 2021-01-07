@@ -1,6 +1,7 @@
 package switch2020.project.services;
 
 import switch2020.project.model.EmailAddress;
+import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 import java.util.ArrayList;

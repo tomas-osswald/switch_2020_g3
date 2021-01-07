@@ -3,7 +3,7 @@ package switch2020.project.model;
 import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
-
+import switch2020.project.model.Family;
 
 import java.util.ArrayList;
 
@@ -32,13 +32,6 @@ public class Application {
     public FamilyService getFamilyService() {
         return this.familyService;
     }
-
-
-
-
-
-
-
 
 
  /*   public void addFamily(int familyID){
