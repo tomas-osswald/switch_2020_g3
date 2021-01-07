@@ -184,7 +184,7 @@ public class FamilyMember {
     protected void addRelation(Relation relation) {
         if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
-        this.relation = this.relation;
+        this.relation = relation;
     }
 
 }
