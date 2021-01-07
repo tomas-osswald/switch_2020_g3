@@ -35,10 +35,7 @@ public class EmailAddress {
     // Extracted from https://www.geeksforgeeks.org/check-email-address-valid-not-java/
     private boolean checkFormat(String email)
     {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
+        String emailRegex = "[A-Z0-9a-z._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
 
         Pattern pat = Pattern.compile(emailRegex);
         return pat.matcher(email).matches();

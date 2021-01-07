@@ -2,7 +2,7 @@ package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switch2020.project.model.EmailAddress;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -48,6 +48,14 @@ class EmailAddressTest {
     }
 
     @Test
+    public void CreatingEmailAddressWithPlusCharacters() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("1120+717@isep.ipp.pt");
+                });
+    }
+
+    @Test
     public void CreatingEmailAddressWithTwoAts() {
         Throwable exception =
                 assertThrows(IllegalArgumentException.class, () -> {
@@ -62,6 +70,7 @@ class EmailAddressTest {
                     EmailAddress badEmail = new EmailAddress("");
                 });
     }
+
     @Test
     public void CreatingBlankEmailAddress() {
         Throwable exception =
