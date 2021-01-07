@@ -1,4 +1,4 @@
-package switch2020.project.model;
+package switch2020.project.services;
 
 import org.junit.jupiter.api.Test;
 

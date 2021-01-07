@@ -25,7 +25,7 @@ public class Application {
     }
 
     // Business methods
-    public CategoryService getCategoryService() {
+    public CategoryService getCategoryService(){
         return this.categoryService;
     }
 
