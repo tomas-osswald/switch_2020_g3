@@ -2,11 +2,18 @@ package switch2020.project.model;
 
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Family {
 
     // Attributes
+    private List<FamilyMember> family;
+    //private int familyID;
+    private String familyName;
+    private Date registrationDate;
+    //private FamilyMember familyAdministrator;
     private int familyID;
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
@@ -34,6 +41,44 @@ public class Family {
         }
         this.familyID = familyID;
         this.familyMembers = members;
+    }
+
+    /**
+     * Constructor for an empty Family, uses the current date as the registation date for the created family
+     * @param familyName String with Name of the family to be created
+     */
+    public Family(String familyName) {
+        if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
+        this.family= new ArrayList<>();
+        this.registrationDate = new Date();
+        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+    }
+
+    /**
+     * Constructor for an empty family for registrations requiring a different registration date
+     * @param familyName String with the name of the family to be created
+     * @param registrationDate Date of the registration of the given family
+     */
+    public Family(String familyName, Date registrationDate) {
+        if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
+        if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
+        this.family= new ArrayList<>();
+        this.registrationDate = registrationDate;
+        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+    }
+
+    // Validations
+
+    private boolean isNameValid(String familyName){
+        if(familyName==null||familyName.isBlank()||familyName.isEmpty()) return false;
+
+        return true;
+    }
+
+    private boolean isDateValid(Date registrationDate){
+        Date today = new Date();
+        if(registrationDate.after(today)) return false; //means registration date is after current date
+        return true;
     }
 
     /********************** GETTERS AND SETTERS **********************/

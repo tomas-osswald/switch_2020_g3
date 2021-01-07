@@ -91,7 +91,7 @@ class CategoryTest {
         String categoryName = "Serviços";
         Category newCategory = new Category(categoryName);
 
-        boolean result = newCategory.isStandard();
+        boolean result = newCategory.isStandardCategory();
 
         assertTrue(result);
     }
