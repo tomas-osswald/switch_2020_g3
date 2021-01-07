@@ -1,7 +1,6 @@
 package switch2020.project;
 
 
-import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 

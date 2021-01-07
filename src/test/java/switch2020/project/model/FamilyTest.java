@@ -1,9 +1,6 @@
 package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
 
 import java.util.ArrayList;
 
