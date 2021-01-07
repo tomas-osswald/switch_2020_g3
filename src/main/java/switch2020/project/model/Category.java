@@ -25,7 +25,7 @@ public class Category {
         if (this == o) return true;
         if (!(o instanceof Category)) return false;
         Category category = (Category) o;
-        return Objects.equals(categoryName, category.categoryName);
+        return Objects.equals(categoryName);
     }
  */
 
@@ -37,7 +37,7 @@ public class Category {
 
 
     private boolean isNameValid (String categoryName) {
-        if (categoryName == null || categoryName == "") return false; //utilizar isBlank e isEmpty e verificar testes
+        if (categoryName==null || categoryName.isBlank()) return false;
         return true;
     }
 
