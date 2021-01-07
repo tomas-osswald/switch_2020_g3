@@ -2,7 +2,6 @@ package switch2020.project.model;
 
 import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
-import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ public class Application {
 
     // Attributes
     private ArrayList<Category> categories = new ArrayList<>();
-    private ArrayList<Family> families = new ArrayList(); //A alterar para Service - Batista
+
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
 
@@ -36,11 +35,6 @@ public class Application {
     }
 
 
- /*   public void addFamily(int familyID){
-        this.families.add(Family);
-    }
-  */
-
     // BATISTA METHOD
     /*
     public Family getFamily(int familyID) {
@@ -60,33 +54,6 @@ public class Application {
 
      */
 
-
-    public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
-        Family family = getFamily(familyID);
-        return family.getMembers();
-    }
-
     /*************************/
 
-
-    private Family getFamily(int familyID){
-        for (Family familia : families ) {
-            if(familyID == familia.getFamilyID())
-                return familia;
-        }
-        return null;
-    }
-
-
-    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
-        ArrayList<FamilyMember> members = getFamily(familyID).getMembers();
-        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        for (FamilyMember member : members) {
-            String name = member.getName();
-            String relation = member.getRelation();
-            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-            DTOList.add(newMember);
-        }
-        return DTOList;
-    }
 }
