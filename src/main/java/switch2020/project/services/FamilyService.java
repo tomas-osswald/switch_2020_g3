@@ -167,4 +167,16 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("Family does not exist");
     }
+
+    /**
+     * Method to create a family cash account for a family object
+     * @param familyID identifier of the family object
+     * @return returns true if an account was created and stored by the family object
+     */
+    public boolean createFamilyCashAccount(int familyID) {
+        boolean success;
+        Family aFamily = getFamily(familyID);
+        success = aFamily.createFamilyCashAccount();
+        return success;
+    }
 }
