@@ -18,15 +18,15 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship, boolean administrator){
+    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
 
-        if(!validateBirthDate(name))
+        if (!validateName(name))
             throw new IllegalArgumentException();
         this.name = name;
 
-        if(!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate))
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
@@ -48,14 +48,14 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member
-    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship){
+    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relationship relationship) {
         this.familyMemberID = familyMemberID;
 
-        if(!validateName(name))
+        if (!validateName(name))
             throw new IllegalArgumentException();
         this.name = name;
 
-        if(!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate))
             throw new IllegalArgumentException("Invalid Date");
         this.birthDate = birthDate;
 
@@ -83,19 +83,22 @@ public class FamilyMember {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    private boolean validateName(String name){
-        if (name == null);
+    private boolean validateName(String name) {
+        if (name != null)
+            return true;
         return false;
     }
 
-    private boolean validateBirthDate(String birthDate){
-        if (birthDate == null);
-            return false;
+    private boolean validateBirthDate(String birthDate) {
+        if (birthDate != null)
+            return true;
+        return false;
     }
 
     private boolean validateRelation(Relationship relation) {
-        if (relation == null);
-            return false;
+        if (relation != null)
+            return true;
+        return false;
     }
 
     /*********************************/
@@ -111,7 +114,9 @@ public class FamilyMember {
     /**
      * @return Int representing the FamilyMember's ID.
      */
-    public int getID() { return this.familyMemberID; }
+    public int getID() {
+        return this.familyMemberID;
+    }
 
     /********************** USER STORIES **********************/
 
@@ -126,7 +131,6 @@ public class FamilyMember {
         emails.add(newEmail);
         return true;
     }
-
 
 
 }

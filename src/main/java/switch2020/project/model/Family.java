@@ -2,6 +2,7 @@ package switch2020.project.model;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Family {
     private int familyID;
@@ -12,13 +13,18 @@ public class Family {
     public Family() {
     }
 
+    public Family(int familyID){
+        this.familyID = familyID;
+    }
+
+    public Family(int ID, FamilyMember member){
+        this.familyID = ID;
+        this.family.add(member);
+    }
+
     public Family(FamilyMember member1, FamilyMember member2) {
         family.add(member1);
         family.add(member2);
-    }
-
-    public Family(int familyID){
-        this.familyID = familyID;
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -72,6 +78,15 @@ public class Family {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Family)) return false;
+        final Family family1 = (Family) o;
+        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamily(), family1.getFamily());
+    }
+
 
     /********************** USER STORIES **********************/
 
