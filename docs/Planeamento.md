@@ -27,6 +27,6 @@ The distribution of requirements/functionalities throughout the project's develo
 | [**1201768**](/docs/1201768/)| [US101](/docs/US101 AddFamilyMembers.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
 | [**1201770**](/docs/1201770/)| [US150](/docs/US150 GetMemberProfileInfo.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
 | [**1181945**](/docs/1181945/)| [US002](/docs/US002 GetStandardCategories.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
-| [**1201765**](/docs/1201765/)| [US105](/docs/US105 AddRelation.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
-| [**1201784**](/docs/1201784/)| [US120](/docs/US120 CreateFamilyCashAccount.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201765**](/docs/1201765/)| [US105](/docs/US105AddRelation.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+| [**1201784**](/docs/1201784/)| [US120](/docs/US120CreateFamilyCashAccount.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
 
