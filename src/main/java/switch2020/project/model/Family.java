@@ -2,6 +2,7 @@ package switch2020.project.model;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Family {
 
@@ -10,13 +11,18 @@ public class Family {
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
 
-
+    /********************** CONSTRUCTORS ***************/
     //Constructors
     public Family(int familyID) {
         this.familyID = familyID;
     }
 
     public Family() {
+    }
+
+    public Family(int ID, FamilyMember member){
+        this.familyID = ID;
+        this.familyMembers.add(member);
     }
 
     public Family(int familyID, ArrayList<FamilyMember> members) {
@@ -28,6 +34,12 @@ public class Family {
         }
         this.familyID = familyID;
         this.familyMembers = members;
+    }
+
+    /********************** GETTERS AND SETTERS **********************/
+
+    public ArrayList<FamilyMember> getFamily() {
+        return familyMembers;
     }
 
     // Get and Setter methods
@@ -45,19 +57,6 @@ public class Family {
 
     public ArrayList<FamilyMember> getMembers() {
         return familyMembers;
-    }
-
-    /**
-     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
-     *
-     * @param emailToAdd     String of the email address to add
-     * @param familyMemberID Integer representing the family member's ID
-     * @return True if email successfully added to the Family Member with the passed ID
-     */
-
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
-        return targetMember.addEmail(emailToAdd);
     }
 
     /**
@@ -105,6 +104,22 @@ public class Family {
         for (String relationDesigantion : relationDesignations) {
             if (relationDesigantion.toLowerCase().equals(relationDesignation.toLowerCase()))
                 return true;
+        }
+        return false;
+    }
+    /*************************/
+
+
+    private boolean checkIfVatExists(int vat) {
+
+        ArrayList<Integer> vatList = new ArrayList();
+        for ( FamilyMember member : familyMembers ) {
+            vatList.add(member.getVatNumber());
+        }
+        for ( Integer nif : vatList) {
+            if( nif == vat){
+                return true;
+            }
         }
         return false;
     }
@@ -192,4 +207,39 @@ public class Family {
         return this.relationDesignations.size();
 
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Family)) return false;
+        final Family family1 = (Family) o;
+        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamily(), family1.getFamily());
+    }
+
+
+    /********************** USER STORIES **********************/
+
+    /**
+     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
+     *
+     * @param emailToAdd String of the email address to add
+     * @param familyMemberID Integer representing the family member's ID
+     * @return True if email successfully added to the Family Member with the passed ID
+     */
+
+    public boolean addEmail(String emailToAdd, int familyMemberID) {
+        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
+        return targetMember.addEmail(emailToAdd);
+    }
+
+    public boolean addFamilyMember(String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        if(!checkIfVatExists(vat)){
+            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            familyMembers.add(newFamilyMember);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Vat already exists in the Family");
+        }
+    }
+
 }

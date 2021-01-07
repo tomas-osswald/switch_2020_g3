@@ -20,7 +20,6 @@ public class EmailAddress {
         return email;
     }
 
-
     private boolean validate(String email) {
         if (email == null)
             return false;

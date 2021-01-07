@@ -1,4 +1,4 @@
-# Project for  LEI-ISEP Sem4 2019-20
+# Project for  LEI-ISEP Sem4 2019-20 
 
 # 1. Workgroup Composition
 
@@ -9,7 +9,7 @@ The Workgroup is comprised of the following students:
 | **[1201780](/docs/1201780/)**  | Ricardo Nogueira          |
 | **[1201778](/docs/1170000/)**  | Ricardo Batista      | 						        |
 | **[1201762](/docs/1170000/)**  | Bruno Tamames        | 						        |
-| **[1201768](/docs/1170000/)**  | José Diogo Ribeiro         | 						        |
+| **[1201768](/docs/US101AddFamilyMembers.md)**  | José Diogo Ribeiro | 						        |
 | **[1201770](/docs/1170000/)**  | Manuel Almeida             | 						        |
 | **[1181945](/docs/US002%20GetStandardCategories.md/)**  | Miguel Loureiro             | 						        |
 | **[1201765](/docs/1170000/)**  | João Pinto             | 						        |
@@ -29,3 +29,4 @@ The distribution of requirements/functionalities throughout the project's develo
 | [**1181945**](/docs/1181945/)| [US002](/docs/US002 GetStandardCategories.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
 | [**1201765**](/docs/1201765/)| [US105](/docs/US105 AddRelation.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
 | [**1201784**](/docs/1201784/)| [US120](/docs/US120 CreateFamilyCashAccount.md/)| [USDemo2](/docs/USDemo2)| [USDemo3](/docs/USDemo3) |
+
