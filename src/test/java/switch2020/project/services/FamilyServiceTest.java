@@ -1,6 +1,7 @@
 package switch2020.project.services;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 
 import static org.junit.jupiter.api.Assertions.*;
