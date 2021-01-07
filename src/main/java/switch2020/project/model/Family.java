@@ -1,21 +1,18 @@
 package switch2020.project.model;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Family {
 
     // Attributes
-    private List<FamilyMember> family;
+
     //private int familyID;
     private String familyName;
     private Date registrationDate;
     //private FamilyMember familyAdministrator;
     private int familyID;
-    private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
+    private List<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
 
     /********************** CONSTRUCTORS ***************/
@@ -49,7 +46,7 @@ public class Family {
      */
     public Family(String familyName) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
-        this.family= new ArrayList<>();
+        this.familyMembers= new ArrayList<>();
         this.registrationDate = new Date();
         this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
     }
@@ -62,7 +59,7 @@ public class Family {
     public Family(String familyName, Date registrationDate) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
-        this.family= new ArrayList<>();
+        this.familyMembers= new ArrayList<>();
         this.registrationDate = registrationDate;
         this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
     }
@@ -83,8 +80,9 @@ public class Family {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public ArrayList<FamilyMember> getFamily() {
-        return familyMembers;
+    public List<FamilyMember> getFamily() {
+
+        return Collections.unmodifiableList(familyMembers);
     }
 
     // Get and Setter methods
@@ -100,9 +98,6 @@ public class Family {
 
     // Business methods
 
-    public ArrayList<FamilyMember> getMembers() {
-        return familyMembers;
-    }
 
     /**
      * Method to find the index of a family member with a specific ID in the Family ArrayList
