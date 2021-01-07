@@ -5,7 +5,7 @@ public class CategoriesController {
     private Application FFMApplication;
 
     public Application getFFMApplication() {
-        return FFMApplication;
+        return this.FFMApplication;
     }
 
 }

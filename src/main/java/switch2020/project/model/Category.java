@@ -48,7 +48,7 @@ public class Category {
                 try {
                     throw new Exception("Category Name must have at least 1 character");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("Something went wronggit a");
                 }
 
             } else {
