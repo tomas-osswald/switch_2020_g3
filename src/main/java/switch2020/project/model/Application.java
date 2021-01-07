@@ -1,36 +1,83 @@
 package switch2020.project.model;
 
+
+import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
+import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Application {
 
+    // Attributes
+    private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<Family> families = new ArrayList(); //A alterar para Service - Batista
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
 
-    public Application(){
 
+    // Constructors
+    public Application() {
     }
 
     public Application(Family family) {
         this.familyService.addFamily(family);
     }
 
+    // Business methods
     public CategoryService getCategoryService() {
         return this.categoryService;
     }
 
-    /**
-     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
-     *
-     * @param emailToAdd     String of the email address to add
-     * @param familyID       Integer representing the family's ID
-     * @param familyMemberID Integer representing the family member's ID
-     * @return True if email successfully added to the Family Member with the passed ID
-     */
-    public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
-        return this.familyService.addEmail(emailToAdd, familyID, familyMemberID);
+    public FamilyService getFamilyService() {
+        return this.familyService;
     }
+
+
+
+
+
+
+
+
+
+ /*   public void addFamily(int familyID){
+        this.families.add(Family);
+    }
+  */
+
+    public Family getFamily(int familyID) {
+        boolean exists = false;
+        Family familyToGet = new Family();
+        for (Family family : families) {
+            if (family.getFamilyID() == familyID) {
+                exists = true;
+                familyToGet = family;
+            }
+        }
+        if (!exists) {
+            throw new IllegalArgumentException("There is no family with such ID");
+        }
+        return familyToGet;
+    }
+
+
+    public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
+        Family family = getFamily(familyID);
+        return family.getMembers();
+    }
+
+
+    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
+        ArrayList<FamilyMember> members = getFamily(familyID).getMembers();
+        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember member : members) {
+            String name = member.getName();
+            String relation = member.getRelation();
+            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+            DTOList.add(newMember);
+        }
+        return DTOList;
+    }
+
 }

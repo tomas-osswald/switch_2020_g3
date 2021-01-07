@@ -2,6 +2,7 @@ package switch2020.project.controllers;
 
 
 import switch2020.project.model.Application;
+import switch2020.project.services.FamilyService;
 
 public class AddEmailController {
     private Application ffmApp;
@@ -20,7 +21,8 @@ public class AddEmailController {
      */
     public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
         try {
-            return this.ffmApp.addEmail(emailToAdd, familyID, familyMemberID);
+            FamilyService familyService = this.ffmApp.getFamilyService();
+            return familyService.addEmail(emailToAdd, familyID, familyMemberID);
         } catch (IllegalArgumentException exception) {
             return false;
         }

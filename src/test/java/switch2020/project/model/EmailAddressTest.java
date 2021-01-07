@@ -1,15 +1,16 @@
-package java.switch2020.project.model;
+package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.EmailAddress;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class EmailAddressTest {
+
     @Test
     public void CreatingValidEmailAddress() {
+
         EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
         Assertions.assertNotNull(email);
     }
@@ -78,3 +79,4 @@ class EmailAddressTest {
                 });
     }
 }
+

@@ -4,8 +4,10 @@ import java.util.regex.Pattern;
 
 public class EmailAddress {
 
+    // Attributes
     private String email;
 
+    // Constructors
     public EmailAddress(String email)
     {
         if (!validate(email))
@@ -13,6 +15,7 @@ public class EmailAddress {
         this.email = email;
     }
 
+    // Business Methods
     public String getEmail() {
         return email;
     }

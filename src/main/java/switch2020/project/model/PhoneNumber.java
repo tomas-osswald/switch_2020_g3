@@ -1,8 +1,11 @@
 package switch2020.project.model;
 
 public class PhoneNumber {
+
+    // Attributes
     private final String phoneNumber;
 
+    // Constructors
     public PhoneNumber(String phoneNumber)
     {
         if (!validate(phoneNumber))
@@ -10,6 +13,7 @@ public class PhoneNumber {
         this.phoneNumber = phoneNumber;
     }
 
+    // Business Methods
     private boolean validate(String phoneNumber) {
         if (phoneNumber == null)
             return false;
