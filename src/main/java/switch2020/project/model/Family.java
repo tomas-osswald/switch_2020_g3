@@ -6,7 +6,7 @@ import java.util.*;
 public class Family {
 
     // Attributes
-    private List<FamilyMember> family;
+
     //private int familyID;
     private String familyName;
     private Date registrationDate;
