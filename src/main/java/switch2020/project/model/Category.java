@@ -1,13 +1,13 @@
 package switch2020.project.model;
 
-import java.util.Objects;
-
 public class Category {
 
     //private int categoryID;
     private String categoryName;
     private int categoryLevel;
     // private int parentID; //zero if one of the root categories
+    //atributes
+    private int parentNumber;
     private boolean isStandard;
 
     public Category(String categoryName){
@@ -36,12 +36,27 @@ public class Category {
      */
 
 
-    private boolean isNameValid (String categoryName){
-        if (categoryName==null||categoryName=="") return false; //utilizar isBlank e isEmpty e verificar testes
+    private boolean isNameValid (String categoryName) {
+        if (categoryName == null || categoryName == "") return false; //utilizar isBlank e isEmpty e verificar testes
         return true;
+        //constructor
     }
 
+    public Category(String categoryName,int parentNumber){
+            this.categoryName = this.categoryName;
+            this.parentNumber = parentNumber;
 
+            if (this.categoryName.length() < 1) {
+                try {
+                    throw new Exception("Category Name must have at least 1 character");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                this.categoryName = this.categoryName;
+            }
+        }
 
     public String getName(){
         return this.categoryName;
@@ -55,5 +70,4 @@ public class Category {
     public boolean isStandard(){
         return this.isStandard;
     }
-
 }

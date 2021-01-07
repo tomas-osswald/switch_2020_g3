@@ -11,7 +11,7 @@ The Workgroup is comprised of the following students:
 | **[1201762](/docs/1170000/)**  | Bruno Tamames        | 						        |
 | **[1201768](/docs/1170000/)**  | José Diogo Ribeiro         | 						        |
 | **[1201770](/docs/1170000/)**  | Manuel Almeida             | 						        |
-| **[1181945](/docs/1170000/)**  | Miguel Loureiro             | 						        |
+| **[1181945](/docs/US002%20GetStandardCategories.md/)**  | Miguel Loureiro             | 						        |
 | **[1201765](/docs/1170000/)**  | João Pinto             | 						        |
 **[1201784](/docs/1170000/)**  | Tomás Osswald
 
