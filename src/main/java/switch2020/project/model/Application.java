@@ -24,7 +24,7 @@ public class Application {
     }
 
     // Business methods
-    public CategoryService getCategoryService(){
+    public CategoryService getCategoryService() {
         return this.categoryService;
     }
 
@@ -63,15 +63,15 @@ public class Application {
 
     public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
         Family family = getFamily(familyID);
-        return family.getMembers();
+        return family.getFamily();
     }
 
     /*************************/
 
 
-    private Family getFamily(int familyID){
-        for (Family familia : families ) {
-            if(familyID == familia.getFamilyID())
+    private Family getFamily(int familyID) {
+        for (Family familia : families) {
+            if (familyID == familia.getFamilyID())
                 return familia;
         }
         return null;
@@ -79,7 +79,7 @@ public class Application {
 
 
     public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
-        ArrayList<FamilyMember> members = getFamily(familyID).getMembers();
+        ArrayList<FamilyMember> members = getFamily(familyID).getFamily();
         ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember member : members) {
             String name = member.getName();

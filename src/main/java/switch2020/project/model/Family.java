@@ -100,9 +100,6 @@ public class Family {
 
     // Business methods
 
-    public ArrayList<FamilyMember> getMembers() {
-        return familyMembers;
-    }
 
     /**
      * Method to find the index of a family member with a specific ID in the Family ArrayList

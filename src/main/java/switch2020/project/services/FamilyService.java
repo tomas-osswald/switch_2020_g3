@@ -64,7 +64,7 @@ public class FamilyService {
         ArrayList<FamilyMember> allFamilyMembers = new ArrayList();
         ArrayList<EmailAddress> allEmails = new ArrayList();
         for (Family family : this.families) {
-            allFamilyMembers.addAll(family.getMembers());
+            allFamilyMembers.addAll(family.getFamily());
 
         }
         for (FamilyMember familyMember : allFamilyMembers) {
