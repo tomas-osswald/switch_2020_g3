@@ -15,8 +15,18 @@ public class GetFamilyMembersListController {
         this.FFMapp = app;
     }
 
+    /**
+     * Method that obtains the FFMapp, that has the FamilyService as
+     * its attribute. Then uses a method of the FamilyService
+     * which is the getDTOList, that iterates through the
+     * specific family (familyID) obtains the necessary info from its familyMembers
+     * and converts it to a DTO, returning it back here to the Controller
+     * @param familyID representing the unique ID given to each family
+     * @return DTOList with members name and the relation they have towards the Family Administrator
+     */
     public ArrayList<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID){
-        return this.FFMapp.getDTOList(familyID);
+        FamilyService familyService = this.FFMapp.getFamilyService();
+        return familyService.getDTOList(familyID);
     }
 
 }
