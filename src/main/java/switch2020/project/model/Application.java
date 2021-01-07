@@ -4,6 +4,7 @@ import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Application {
 
@@ -23,7 +24,7 @@ public class Application {
     }
 
     // Business methods
-    public CategoryService getCategoryService(){
+    public CategoryService getCategoryService() {
         return this.categoryService;
     }
 
@@ -34,26 +35,5 @@ public class Application {
         return this.familyService;
     }
 
-
-    // BATISTA METHOD
-    /*
-    public Family getFamily(int familyID) {
-        boolean exists = false;
-        Family familyToGet = new Family();
-        for (Family family : families) {
-            if (family.getFamilyID() == familyID) {
-                exists = true;
-                familyToGet = family;
-            }
-        }
-        if (!exists) {
-            throw new IllegalArgumentException("There is no family with such ID");
-        }
-        return familyToGet;
-    }
-
-     */
-
-    /*************************/
 
 }

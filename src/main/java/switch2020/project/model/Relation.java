@@ -7,9 +7,7 @@ public class Relation {
 
     // Constructors
     public Relation(String relationDesignation) {
-        if (isEmpty(relationDesignation)) {
-            this.relationDesignation = "Undefined Relation";
-        }
+        isEmpty(relationDesignation);
         this.relationDesignation = relationDesignation;
     }
 
@@ -21,11 +19,10 @@ public class Relation {
      * @param relationDesignation Relation Designation to instantiate a Relation
      */
 
-    private boolean isEmpty(String relationDesignation) {
+    private void isEmpty(String relationDesignation) {
         if (relationDesignation == null || relationDesignation.equals("")) {
-            return false;
-        } else {
-            return true;
+            // If is null or empty, a exception is throw
+            throw new IllegalArgumentException("Empty or Null relation designation");
         }
     }
 

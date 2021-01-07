@@ -1,22 +1,19 @@
 package switch2020.project.model;
 
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Family {
 
     // Attributes
-    private List<FamilyMember> family;
+
     //private int familyID;
     private String familyName;
     private Date registrationDate;
     //private FamilyMember familyAdministrator;
     private int familyID;
-    private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
-    private ArrayList<String> relationDesignations = new ArrayList<>();
+    private List<FamilyMember> familyMembers = new ArrayList<>();
+    private List<String> relationDesignations = new ArrayList<>();
+    private CashAccount familyCashAccount = null;
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
@@ -49,7 +46,7 @@ public class Family {
      */
     public Family(String familyName) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
-        this.family= new ArrayList<>();
+        this.familyMembers= new ArrayList<>();
         this.registrationDate = new Date();
         this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
     }
@@ -62,7 +59,7 @@ public class Family {
     public Family(String familyName, Date registrationDate) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
-        this.family= new ArrayList<>();
+        this.familyMembers= new ArrayList<>();
         this.registrationDate = registrationDate;
         this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
     }
@@ -83,8 +80,9 @@ public class Family {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public ArrayList<FamilyMember> getFamily() {
-        return familyMembers;
+    public List<FamilyMember> getFamilyMembers() {
+
+        return Collections.unmodifiableList(familyMembers);
     }
 
     // Get and Setter methods
@@ -100,9 +98,6 @@ public class Family {
 
     // Business methods
 
-    public ArrayList<FamilyMember> getMembers() {
-        return familyMembers;
-    }
 
     /**
      * Method to find the index of a family member with a specific ID in the Family ArrayList
@@ -258,7 +253,7 @@ public class Family {
         if (this == o) return true;
         if (!(o instanceof Family)) return false;
         final Family family1 = (Family) o;
-        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamily(), family1.getFamily());
+        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamilyMembers(), family1.getFamilyMembers());
     }
 
 
@@ -285,6 +280,31 @@ public class Family {
         } else {
             throw new IllegalArgumentException("Vat already exists in the Family");
         }
+    }
+
+    /**
+     * Method that creates a cash account for this family and stores it in this family's attributes
+     * @return returns true if an account was successfully created and stored
+     */
+    public boolean createFamilyCashAccount() {
+        boolean success = false;
+        if (!hasCashAccount()){
+            this.familyCashAccount = new CashAccount();
+            success = true;
+        }
+        return success;
+    }
+
+    /**
+     * Method that returns if a cash account has already been created for a this family
+     * @return returns true if a cash account alreay exists
+     */
+    private boolean hasCashAccount() {
+        boolean hasCashAccount = false;
+        if (this.familyCashAccount != null) {
+            hasCashAccount = true;
+        }
+        return hasCashAccount;
     }
 
 }

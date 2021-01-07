@@ -4,11 +4,11 @@ import switch2020.project.model.Application;
 import switch2020.project.model.Relation;
 import switch2020.project.services.FamilyService;
 
-public class addFamilyMemberController {
+public class AddFamilyMemberController {
 
     private Application FFMapp;
 
-    public addFamilyMemberController(Application app){
+    public AddFamilyMemberController(Application app){
         this.FFMapp = app;
     }
 

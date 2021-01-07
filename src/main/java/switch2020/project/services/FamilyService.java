@@ -1,6 +1,10 @@
 package switch2020.project.services;
 
-import switch2020.project.model.*;
+
+import switch2020.project.model.EmailAddress;
+import switch2020.project.model.Family;
+import switch2020.project.model.FamilyMember;
+import switch2020.project.model.Relation;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 
@@ -10,7 +14,7 @@ import java.util.List;
 public class FamilyService {
 
     // Attributes
-    private List<Family> families;
+    private List<Family> families = new ArrayList<>();
 
     // Constructors
     public FamilyService() {
@@ -22,6 +26,7 @@ public class FamilyService {
     }
 
     // Business Methods
+
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
@@ -33,7 +38,7 @@ public class FamilyService {
     public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
         if (!checkIfEmailPresent(emailToAdd)) {
             Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
-            return targetFamily.addEmail(emailToAdd,familyMemberID);
+            return targetFamily.addEmail(emailToAdd, familyMemberID);
         }
         throw new IllegalArgumentException("This email is already present");
     }
@@ -63,14 +68,15 @@ public class FamilyService {
      * @return True if the passed email address is already present
      */
     private boolean checkIfEmailPresent(String emailToCheck) {
-        ArrayList<FamilyMember> allFamilyMembers = new ArrayList();
-        ArrayList<EmailAddress> allEmails = new ArrayList();
+        List<FamilyMember> allFamilyMembers = new ArrayList();
+        List<EmailAddress> allEmails = new ArrayList();
         for (Family family : this.families) {
-            allFamilyMembers.addAll(family.getMembers());
+            allFamilyMembers.addAll(family.getFamilyMembers());
 
         }
         for (FamilyMember familyMember : allFamilyMembers) {
             allEmails.addAll(familyMember.getEmails());
+
         }
 
         for (EmailAddress email : allEmails) {
@@ -105,10 +111,10 @@ public class FamilyService {
     /**
      * Method to create a Relation and assign it to a Family Member
      *
-     * @param selfID ID of the Family Member how wants to create a Relation
-     * @param otherID ID of the Family Member to be added a Relation
+     * @param selfID              ID of the Family Member how wants to create a Relation
+     * @param otherID             ID of the Family Member to be added a Relation
      * @param relationDesignation Relation Designation
-     * @param familyID FamilyID of Family Member how wants to create a Relation
+     * @param familyID            FamilyID of Family Member how wants to create a Relation
      * @return boolean
      */
 
@@ -124,7 +130,7 @@ public class FamilyService {
             } else { // If not, add to list of relations assigned
                 relation = new Relation(relationDesignation);
                 fam.addToRelationDesignationList(relationDesignation);
-                fam.addRelationToFamilyMember(otherID,relation); // Create a Relation instance and assign to a Family Member
+                fam.addRelationToFamilyMember(otherID, relation); // Create a Relation instance and assign to a Family Member
             }
             return true; // Return true if is administrator and a Relation has been created and assigned to given Family Member
         }
@@ -132,7 +138,7 @@ public class FamilyService {
     }
 
     /**
-     *  Method to get a family by ID in families
+     * Method to get a family by ID in families
      *
      * @param familyID FamilyID of required family
      * @return Family instance
@@ -147,17 +153,17 @@ public class FamilyService {
     }
 
 
-    private boolean checkIfFamilyExists(int familyID){
-        for (Family family : families ) {
-            if(familyID == family.getFamilyID())
+    private boolean checkIfFamilyExists(int familyID) {
+        for (Family family : families) {
+            if (familyID == family.getFamilyID())
                 return true;
         }
         return false;
     }
 
-    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
-        if(checkIfFamilyExists(familyID)){
-            if(!checkIfEmailPresent(email)){
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+        if (checkIfFamilyExists(familyID)) {
+            if (!checkIfEmailPresent(email)) {
                 int posicaoFamilia = this.families.indexOf(getFamily(familyID));
                 return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
@@ -184,7 +190,7 @@ public class FamilyService {
      * @return DTOList
      */
     public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
-        ArrayList<FamilyMember> members = getFamily(familyID).getMembers();
+        List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
         ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember member : members) {
             String name = member.getName();
@@ -197,7 +203,17 @@ public class FamilyService {
 
 
 
-
+    /**
+     * Method to create a family cash account for a family object
+     * @param familyID identifier of the family object
+     * @return returns true if an account was created and stored by the family object
+     */
+    public boolean createFamilyCashAccount(int familyID) {
+        boolean success;
+        Family aFamily = getFamily(familyID);
+        success = aFamily.createFamilyCashAccount();
+        return success;
+    }
 
 }
 
