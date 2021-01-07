@@ -16,7 +16,6 @@ public class Category {
         categoryLevel = 0;
         standardCategory = true;
     }
-
     //Create constructor to create family category. uses name, level and parent id as arguments.//
 
 /*
@@ -34,7 +33,6 @@ public class Category {
      * @param categoryName
      * @return
      */
-
 
     private boolean isNameValid (String categoryName) {
         if (categoryName == null || categoryName == "") return false; //utilizar isBlank e isEmpty e verificar testes
