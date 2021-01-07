@@ -13,7 +13,7 @@ public class Family {
     //private FamilyMember familyAdministrator;
     private int familyID;
     private List<FamilyMember> familyMembers = new ArrayList<>();
-    private ArrayList<String> relationDesignations = new ArrayList<>();
+    private List<String> relationDesignations = new ArrayList<>();
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
