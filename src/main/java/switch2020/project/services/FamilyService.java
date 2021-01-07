@@ -3,14 +3,16 @@ package switch2020.project.services;
 import switch2020.project.model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FamilyService {
 
     // Attributes
-    private ArrayList<Family> families = new ArrayList();
+    private List<Family> families;
 
     // Constructors
     public FamilyService() {
+        this.families = new ArrayList<>();
     }
 
     public FamilyService(Family family) {
@@ -86,6 +88,16 @@ public class FamilyService {
 
     public void addFamily(Family family) {
         this.families.add(family);
+    }
+
+    public boolean addFamily(String familyName) {
+        try {
+            Family newFamily = new Family(familyName);
+            families.add(newFamily);
+            return true;
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
     }
 
     /**

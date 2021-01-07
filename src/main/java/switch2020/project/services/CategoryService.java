@@ -48,5 +48,19 @@ public class CategoryService {
         return categoryPresent;
     }
 
+    public List<Category> getCategories() {
+        return this.categories;
+    }
+
+    public List<Category> getStandardCategories() {
+        List standardCategories = new ArrayList<Category>();
+
+        for (Category cat : categories) {
+            if (cat.isStandardCategory()) {
+                standardCategories.add(cat);
+            }
+        }
+        return standardCategories;
+    }
 
 }

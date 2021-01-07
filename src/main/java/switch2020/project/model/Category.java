@@ -2,19 +2,19 @@ package switch2020.project.model;
 
 public class Category {
 
+    //atributes
     //private int categoryID;
     private String categoryName;
     private int categoryLevel;
     // private int parentID; //zero if one of the root categories
-    //atributes
     private int parentNumber;
-    private boolean isStandard;
+    private boolean standardCategory;
 
     public Category(String categoryName){
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
         this.categoryName = categoryName.trim().toUpperCase();
         categoryLevel = 0;
-        isStandard = true;
+        standardCategory = true;
     }
 
     //Create constructor to create family category. uses name, level and parent id as arguments.//
@@ -39,11 +39,11 @@ public class Category {
     private boolean isNameValid (String categoryName) {
         if (categoryName == null || categoryName == "") return false; //utilizar isBlank e isEmpty e verificar testes
         return true;
-        //constructor
     }
 
+    //constructor
     public Category(String categoryName,int parentNumber){
-            this.categoryName = this.categoryName;
+            this.categoryName = categoryName;
             this.parentNumber = parentNumber;
 
             if (this.categoryName.length() < 1) {
@@ -67,7 +67,7 @@ public class Category {
      * @return true if one of the Standard categories, false otherwise
      */
 
-    public boolean isStandard(){
-        return this.isStandard;
+    public boolean isStandardCategory(){
+        return this.standardCategory;
     }
 }
