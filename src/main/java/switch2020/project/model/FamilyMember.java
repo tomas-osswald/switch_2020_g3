@@ -1,6 +1,7 @@
 package switch2020.project.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FamilyMember {
 
@@ -49,6 +50,7 @@ public class FamilyMember {
 
     // Family Admin - add Family Member
     public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+
         this.familyMemberID = familyMemberID;
 
         if (!validateName(name))
@@ -80,6 +82,8 @@ public class FamilyMember {
     public FamilyMember(String name, String birthDate, int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
         this.familyMemberID = iD;
     }
+
+
 
     /********************** GETTERS AND SETTERS **********************/
 
