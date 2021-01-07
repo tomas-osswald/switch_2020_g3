@@ -1,6 +1,4 @@
 # US105 Create a relation between two family members
-=======================================
-
 
 # 1. Requirements
 
@@ -22,7 +20,7 @@ We did not get an answer from Product Owner for the question: *"The family membe
 
 The interpretation made of this requirement is that the family administrator can create relationships between family members and him, and these relationships are not restricted to normal family relationships.
 
-## 1.2 System Sequence Diagram
+## 1.2. System Sequence Diagram
 
 ```puml
 autonumber
@@ -34,7 +32,7 @@ participant ": System" as system
 activate familyAdministrator
 familyAdministrator -> system : add relation to member
 activate system
-familyAdministrator -> system : imputs required data
+familyAdministrator -> system : inputs required data
 
 alt failure
 system -> familyAdministrator : Inform Failure
@@ -50,7 +48,7 @@ deactivate familyAdministrator
 ```
 
 
-## 1.3 Dependencies from other User Stories
+## 1.3. Dependencies from other User Stories
 
 
 # 2. Analysis
@@ -68,11 +66,11 @@ As we did not get an answer to the question about the previous existence of a Re
 
 *"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
 
-##2.1 Domain Model Diagram
+##2.1. Domain Model Diagram
 
 *Neste secção a equipa deve relatar o estudo/análise/comparação que fez com o intuito de tomar as melhores opções de design para a funcionalidade bem como aplicar diagramas/artefactos de análise adequados.*
 
-# 3. Design 
+# 3. Design
 
 *Nesta secção a equipa deve descrever o design adotado para satisfazer a funcionalidade. Entre outros, a equipa deve apresentar diagrama(s) de realização da funcionalidade, diagrama(s) de classes, identificação de padrões aplicados e quais foram os principais testes especificados para validar a funcionalidade.*
 
@@ -239,7 +237,7 @@ Person -down-> Relation : has
 
 *Nesta secção deve apresentar e explicar quais e como foram os padrões de design aplicados e as melhores práticas*
 
-## 3.4. Tests   
+## 3.4. Tests
 *Nesta secção deve sistematizar como os testes foram concebidos para permitir uma correta aferição da satisfação dos requisitos.*
 
 **Teste 1:** Verificar que não é possível criar uma instância da classe Exemplo com valores nulos.

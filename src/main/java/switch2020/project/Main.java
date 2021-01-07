@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         // write your code here
-        System.out.println("OK!");
+        //System.out.println("OK!");
         /*
         ArrayList<FamilyMember> osBatistas = new ArrayList<>();
         Family Batista = new Family(200489, osBatistas);
