@@ -1,6 +1,7 @@
 package switch2020.project.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FamilyMember {
@@ -141,7 +142,7 @@ public class FamilyMember {
     /*********************************/
 
     public List<EmailAddress> getEmails() {
-        return emails;
+        return Collections.unmodifiableList(emails);
     }
 
     public int getVatNumber() {

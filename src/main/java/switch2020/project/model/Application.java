@@ -5,6 +5,7 @@ import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Application {
 
@@ -61,7 +62,7 @@ public class Application {
      */
 
 
-    public ArrayList<FamilyMember> getFamilyMembers(int familyID) {
+    public List<FamilyMember> getFamilyMembers(int familyID) {
         Family family = getFamily(familyID);
         return family.getFamily();
     }
@@ -78,9 +79,9 @@ public class Application {
     }
 
 
-    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
-        ArrayList<FamilyMember> members = getFamily(familyID).getFamily();
-        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+    public List<FamilyMemberRelationDTO> getDTOList(int familyID) {
+        List<FamilyMember> members = getFamily(familyID).getFamily();
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember member : members) {
             String name = member.getName();
             String relation = member.getRelation();
