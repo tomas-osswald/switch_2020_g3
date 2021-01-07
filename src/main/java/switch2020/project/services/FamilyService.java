@@ -1,6 +1,7 @@
 package switch2020.project.services;
 
 import switch2020.project.model.*;
+import switch2020.project.utils.FamilyMemberRelationDTO;
 
 
 import java.util.ArrayList;
@@ -164,5 +165,39 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("Family does not exist");
     }
+
+   /* //Temporariamente comentado para não ter conflito até se decidir se retorna null ou exception
+    private Family getFamily(int familyID){
+        for (Family familia : families ) {
+            if(familyID == familia.getFamilyID())
+                return familia;
+        }
+        return null;
+    } */
+
+    /**
+     * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
+     * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
+     * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
+     * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
+     * @param familyID
+     * @return DTOList
+     */
+    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
+        ArrayList<FamilyMember> members = getFamily(familyID).getMembers();
+        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember member : members) {
+            String name = member.getName();
+            String relation = member.getRelation();
+            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+            DTOList.add(newMember);
+        }
+        return DTOList;
+    }
+
+
+
+
+
 }
 
