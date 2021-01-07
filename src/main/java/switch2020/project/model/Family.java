@@ -17,6 +17,7 @@ public class Family {
     private int familyID;
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
+    private CashAccount familyCashAccount = null;
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
@@ -285,6 +286,31 @@ public class Family {
         } else {
             throw new IllegalArgumentException("Vat already exists in the Family");
         }
+    }
+
+    /**
+     * Method that creates a cash account for this family and stores it in this family's attributes
+     * @return returns true if an account was successfully created and stored
+     */
+    public boolean createFamilyCashAccount() {
+        boolean success = false;
+        if (!hasCashAccount()){
+            this.familyCashAccount = new CashAccount();
+            success = true;
+        }
+        return success;
+    }
+
+    /**
+     * Method that returns if a cash account has already been created for a this family
+     * @return returns true if a cash account alreay exists
+     */
+    private boolean hasCashAccount() {
+        boolean hasCashAccount = false;
+        if (this.familyCashAccount != null) {
+            hasCashAccount = true;
+        }
+        return hasCashAccount;
     }
 
 }
