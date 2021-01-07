@@ -1,7 +1,6 @@
 package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.controllers.GetFamilyMembersListController;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
