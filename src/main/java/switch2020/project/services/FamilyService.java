@@ -4,6 +4,8 @@ import switch2020.project.model.EmailAddress;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
+import switch2020.project.utils.FamilyMemberRelationDTO;
+
 import java.util.ArrayList;
 
 public class FamilyService {
@@ -123,11 +125,12 @@ public class FamilyService {
      * @return Family instance
      */
 
-    public Family getFamily(int familyID) {
+   public Family getFamily(int familyID) {
         for (Family family : families) {
             if (family.getFamilyID() == familyID)
                 return family;
         }
         throw new IllegalArgumentException("No family with such ID");
     }
-}
+
+ }

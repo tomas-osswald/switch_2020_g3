@@ -20,13 +20,13 @@ In order to fulfill this requirement, we need one data piece:
 - *familyID* of the Family Administrator's family
 
 At a later iteration, the *familyID* would be acquired through the Login information of the Family Administrator.
-For this sprint, the *familyID* will have to be inputed as a parameter.
+For this sprint, the *familyID* will have to be inserted as a parameter.
 
 
 # 3. Design
 
 The main process to achieve this requirement would need the actor to select that he wants to see
-the list of family members and the relation they have towards him. Since we don't have an
+the list of family members and their relation towards him. Since we don't have an
 UI at the moment, the *familyID* will have to be manually inserted.
 ````puml
 @startuml
@@ -43,7 +43,7 @@ actor "Family Administrator" as actor
 participant " : UI" as UI
 participant " : GetFamilyMembersListController" as controller
 participant " : Application" as application
-participant " : FamilyService" as service
+participant " aFamilyService : FamilyService" as service
 participant " aFamily : Family" as family
 participant " oneFamilyMemberRelation : FamilyMemberRelation" as DTO
 participant " FMRlist : List <FamilyMemberRelation> " as DTOlist
@@ -53,29 +53,39 @@ participant " FMRlist : List <FamilyMemberRelation> " as DTOlist
 '/
 
 activate actor
-
-
-
 actor -> UI : I want to see the list of family members and their relation
 activate UI
 UI -> controller : getFamilyMembersAndRelation(familyID)
 activate controller
-controller -> application : getFamilyService
+controller -> application : getFamilyService()
 activate application
-application -> family :  getFamilyMembersAndRelation(familyID)
+application --> controller : aFamilyService
+deactivate application
+controller -> service :  getFamilyMembersAndRelation(familyID)
+activate service
+loop for each Family in List<Family>
+service -> service : getFamily(familyID)
 activate family
-family -> family : getFamilyMembers()
-family --> application : return List<familyMember>
-application -> family : convertToFMR
+end
+service -> family : getFamilyMembers()
+family --> service : List<familyMember>
+service -> family : convertToFamilyMemberRelation()
 loop for each Family Member in List<FamilyMember>
     family -> DTOlist ** : create
+    activate DTOlist
      family -> DTO ** : create(name, Relation)
+    activate DTO
     DTO -> DTOlist : add()
+deactivate DTO
+deactivate DTOlist
      end
 note over family : The list is only stored inside the method scope
-family --> application : FMRlist
-application -> controller : FMRlist
+family --> service : FMRlist
+deactivate family
+service --> controller : FMRlist
+deactivate service
 controller -> UI : FMRlist
+deactivate controller
 UI -> actor : show list of family members and their relation
 
 @enduml

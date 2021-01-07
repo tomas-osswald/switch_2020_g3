@@ -149,23 +149,17 @@ class FamilyServiceTest {
         String relationDesignation1 = "Mother";
         String relationDesignation2 = "Father";
         FamilyService familyService = new FamilyService();
-
         int familyMemberID1 = 1;
         int familyMemberID2 = 2;
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
         familyMember1.makeAdmin();
-
         int familyID = 1;
         Family family = new Family(familyID);
-
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
-
         familyService.addFamily(family);
-
         familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation1, familyID);
-
         assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation2, familyID));
     }
 }

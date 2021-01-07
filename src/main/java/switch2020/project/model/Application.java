@@ -32,13 +32,6 @@ public class Application {
     }
 
 
-
-
-
-
-
-
-
  /*   public void addFamily(int familyID){
         this.families.add(Family);
     }
