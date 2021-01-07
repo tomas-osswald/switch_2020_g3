@@ -16,6 +16,9 @@ As administrator, I want to create a relation between two family members:
 
 - *"All relations use the level of the main user of the family as a reference. Be aware that SWS wants its application to be as inclusive as possible, in order to wider its market base"*;
 - *"When creating relationships, they are relative to the "main user level", not at all restricted to the main user"*.
+- *"Relationships are created by the Family Administrator. Eventually he can make some mistakes, but it is not expected that this will have a major impact on the operation of the application. If this is relevant in the future then this problem is addressed."*
+
+We did not get an answer from Product Owner for the question: *"The family member who already has an assigned relationship, when trying to add a new relationship what do you want to happen?"*
 
 The interpretation made of this requirement is that the family administrator can create relationships between family members and him, and these relationships are not restricted to normal family relationships.
 
@@ -59,7 +62,9 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 - Relation Designation (Relationship name);
 - Family ID (User's family ID).
 
-From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app.
+From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app. 
+
+As we did not get an answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
 
 *"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
 

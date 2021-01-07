@@ -2,23 +2,35 @@ package switch2020.project.model;
 
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class Family {
 
+    // Attributes
+    private List<FamilyMember> family;
+    //private int familyID;
+    private String familyName;
+    private Date registrationDate;
+    //private FamilyMember familyAdministrator;
     private int familyID;
     private ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     private ArrayList<String> relationDesignations = new ArrayList<>();
 
-
+    /********************** CONSTRUCTORS ***************/
+    //Constructors
     public Family(int familyID) {
         this.familyID = familyID;
     }
 
-
     public Family() {
-
     }
 
+    public Family(int ID, FamilyMember member){
+        this.familyID = ID;
+        this.familyMembers.add(member);
+    }
 
     public Family(int familyID, ArrayList<FamilyMember> members) {
         if (members == null) {
@@ -32,30 +44,64 @@ public class Family {
     }
 
     /**
+     * Constructor for an empty Family, uses the current date as the registation date for the created family
+     * @param familyName String with Name of the family to be created
+     */
+    public Family(String familyName) {
+        if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
+        this.family= new ArrayList<>();
+        this.registrationDate = new Date();
+        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+    }
+
+    /**
+     * Constructor for an empty family for registrations requiring a different registration date
+     * @param familyName String with the name of the family to be created
+     * @param registrationDate Date of the registration of the given family
+     */
+    public Family(String familyName, Date registrationDate) {
+        if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
+        if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
+        this.family= new ArrayList<>();
+        this.registrationDate = registrationDate;
+        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+    }
+
+    // Validations
+
+    private boolean isNameValid(String familyName){
+        if(familyName==null||familyName.isBlank()||familyName.isEmpty()) return false;
+
+        return true;
+    }
+
+    private boolean isDateValid(Date registrationDate){
+        Date today = new Date();
+        if(registrationDate.after(today)) return false; //means registration date is after current date
+        return true;
+    }
+
+    /********************** GETTERS AND SETTERS **********************/
+
+    public ArrayList<FamilyMember> getFamily() {
+        return familyMembers;
+    }
+
+    // Get and Setter methods
+    /**
      * Method to return family ID
      *
      * @return family ID
      */
 
-
     public int getFamilyID() {
         return familyID;
     }
 
+    // Business methods
+
     public ArrayList<FamilyMember> getMembers() {
         return familyMembers;
-    }
-
-    /**
-     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
-     *
-     * @param emailToAdd     String of the email address to add
-     * @param familyMemberID Integer representing the family member's ID
-     * @return True if email successfully added to the Family Member with the passed ID
-     */
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
-        return targetMember.addEmail(emailToAdd);
     }
 
     /**
@@ -65,6 +111,7 @@ public class Family {
      * @return Int corresponding to the index of the family member that has the passed ID
      * @throws IllegalArgumentException if there is no family member with the passed ID
      */
+
     private int findFamilyMemberIndexByID(int familyMemberID) {
         int index = 0;
         for (FamilyMember member : this.familyMembers) {
@@ -102,6 +149,22 @@ public class Family {
         for (String relationDesigantion : relationDesignations) {
             if (relationDesigantion.toLowerCase().equals(relationDesignation.toLowerCase()))
                 return true;
+        }
+        return false;
+    }
+    /*************************/
+
+
+    private boolean checkIfVatExists(int vat) {
+
+        ArrayList<Integer> vatList = new ArrayList();
+        for ( FamilyMember member : familyMembers ) {
+            vatList.add(member.getVatNumber());
+        }
+        for ( Integer nif : vatList) {
+            if( nif == vat){
+                return true;
+            }
         }
         return false;
     }
@@ -190,8 +253,38 @@ public class Family {
 
     }
 
-    public void addFamilyMember(int familyMemberId) {
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Family)) return false;
+        final Family family1 = (Family) o;
+        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamily(), family1.getFamily());
     }
 
+
+    /********************** USER STORIES **********************/
+
+    /**
+     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
+     *
+     * @param emailToAdd String of the email address to add
+     * @param familyMemberID Integer representing the family member's ID
+     * @return True if email successfully added to the Family Member with the passed ID
+     */
+
+    public boolean addEmail(String emailToAdd, int familyMemberID) {
+        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
+        return targetMember.addEmail(emailToAdd);
+    }
+
+    public boolean addFamilyMember(String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        if(!checkIfVatExists(vat)){
+            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            familyMembers.add(newFamilyMember);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Vat already exists in the Family");
+        }
+    }
 
 }

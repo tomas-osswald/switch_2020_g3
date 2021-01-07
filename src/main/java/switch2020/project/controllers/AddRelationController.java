@@ -22,12 +22,10 @@ public class AddRelationController {
     public boolean createRelation(int selfID, int otherID, String relationDesignation, int familyID) {
         try {
             FamilyService familyService = this.app.getFamilyService();
-            familyService.createRelation(selfID, otherID, relationDesignation, familyID);
+            return familyService.createRelation(selfID, otherID, relationDesignation, familyID);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             return false;
         }
-
-        return true;
     }
 }
