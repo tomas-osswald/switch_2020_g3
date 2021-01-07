@@ -21,7 +21,7 @@ In order to fulfill this requirement, we need two data pieces:
 - categoryID
 - parentNumber
 
-For this sprint, the system manager only gets the standard caave to be inputed along with the e-mail.
+For this sprint, the system manager only gets the standard categories from the categories list.
 
 # 3. Design
 
@@ -47,54 +47,134 @@ ui -> controller : getList()
 activate controller
 controller -> app : getStandardCategories()
 activate app
-app -> list : getCategories()
+app -> app : createStandardCategoriesList()
+loop for each Category in CategoriesList
 activate list
-list -> list : createStandardCategoriesList()
-loop for each category in list
 activate category
-         category -> category: getParentNumber()
-         category -> list : parentNumber
-         alt parentNumber == -1
-         category --> list : addToStandardCategoriesTree()
-         deactivate category
-        end
-       end
-list --> app : standardCategoriesTree
+
+app -> category : getParentNumber()
+alt parentNumber == -1
+category -> app : addCategoryToStandardList()
+deactivate category
+end
+end
 deactivate list
-app --> controller : standardCategoriesTree
+app --> controller : standardCategoriesList
 deactivate app
-controller --> ui :send createStandardCategoriesTree
+controller --> ui :StandardCategoriesList
 deactivate controller
-ui --> systemManager : present categories tree
+ui --> systemManager : present standard categories list
 deactivate ui
 deactivate systemManager
 @enduml
 ````
 
+````puml
+autonumber
+title get standard categories list
+actor "System Manager" as systemManager
+participant ": UI" as ui
+participant ": CategoriesController" as controller
+participant ":FFMApplication" as app
+participant ": CategoryService" as service
+participant ": Categories List" as list
+participant "Category" as category
+
+note left of systemManager:  get the list of \nstandard categories
+activate systemManager
+systemManager -> ui : request standard categories
+activate ui
+ui -> controller : getList()
+activate controller
+controller -> app : getStandardCategories()
+activate app
+app -> service : getCategoryService()
+activate service
+service -> service : createStandardCategoriesList()
+activate category
+loop for each Category in Categories List
+activate list
+list -> category : getParentNumber()
+alt parentNumber == -1
+deactivate list
+category -> service : addCategoryToStandardList()
+service -> app : standardCategories
+deactivate service
+deactivate category
+end
+end
+
+app --> controller : standardCategoriesList
+deactivate app
+controller --> ui :StandardCategoriesList
+deactivate controller
+ui --> systemManager : present standard categories list
+deactivate ui
+deactivate systemManager
+@enduml
+````
+
+````puml
+autonumber
+title get standard categories list - version service 2
+actor "System Manager" as systemManager
+participant ": UI" as ui
+participant ": CategoriesController" as controller
+participant ":FFMApplication" as app
+participant ": CategoryService" as service
+
+note left of systemManager:  get the list of \nstandard categories
+activate systemManager
+systemManager -> ui : request standard categories
+activate ui
+ui -> controller : getStandardCategories()
+activate controller
+controller -> app : getCategoryService()
+activate app
+activate service
+
+app -> controller : CategoryListService
+deactivate app
+controller -> service : getCategoryService()
+service -> service : createStandardCategoriesList()
+activate category
+loop for each Category in Categories List
+service -> category : getParentNumber()
+alt parentNumber == -1
+category -> service : addCategoryToStandardList()
+service -> app : standardCategories
+deactivate service
+deactivate category
+end
+end
+
+app --> controller : standardCategoriesList
+deactivate app
+controller --> ui :StandardCategoriesList
+deactivate controller
+ui --> systemManager : present standard categories list
+deactivate ui
+deactivate systemManager
+@enduml
+````
+
+
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the Application object, which stores the Categories object, which in turns stores
-the Category objects. First is created a Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it
-will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create
-an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will
-be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI).
+The CategoriesController will invoke the FFMApplication object, which handles the Category Service Object.
+Category Service has the responsability of managing the categories list.
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- AddEmailController
-- Application
-- Family
-- FamilyMember
-- Email
-
-![Class Diagram](https://i.imgur.com/aIvHqZg.png)
+- CategoriesController
+- FFMApplication
+- CategoryService
 
 ## 3.3. Applied Patterns
 
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
-used the SOLID SRP principle.
+We applied some GRASP principles as Controller and Creator.
 
 ## 3.4. Tests
 

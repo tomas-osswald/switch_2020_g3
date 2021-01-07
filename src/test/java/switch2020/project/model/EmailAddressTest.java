@@ -7,8 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class EmailAddressTest {
+
     @Test
     public void CreatingValidEmailAddress() {
+
         EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
         Assertions.assertNotNull(email);
     }
@@ -46,6 +48,14 @@ class EmailAddressTest {
     }
 
     @Test
+    public void CreatingEmailAddressWithPlusCharacters() {
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, () -> {
+                    EmailAddress badEmail = new EmailAddress("1120+717@isep.ipp.pt");
+                });
+    }
+
+    @Test
     public void CreatingEmailAddressWithTwoAts() {
         Throwable exception =
                 assertThrows(IllegalArgumentException.class, () -> {
@@ -60,6 +70,7 @@ class EmailAddressTest {
                     EmailAddress badEmail = new EmailAddress("");
                 });
     }
+
     @Test
     public void CreatingBlankEmailAddress() {
         Throwable exception =
@@ -77,3 +88,4 @@ class EmailAddressTest {
                 });
     }
 }
+
