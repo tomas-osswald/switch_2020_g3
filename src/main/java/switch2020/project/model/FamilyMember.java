@@ -1,7 +1,6 @@
 package switch2020.project.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class FamilyMember {
 
@@ -77,6 +76,7 @@ public class FamilyMember {
 
         this.administrator = false;
     }
+
     //Constructor without relation
     public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
 
@@ -102,6 +102,8 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
+        this.relation = new Relation(null);
+
         this.administrator = false;
     }
 
@@ -111,6 +113,9 @@ public class FamilyMember {
     }
 
 
+    public FamilyMember(int familyMemberID) {
+        this.familyMemberID = familyMemberID;
+    }
 
     /********************** GETTERS AND SETTERS **********************/
 
@@ -150,16 +155,12 @@ public class FamilyMember {
     }
 
     // Business Methods
-    public String getRelation(){
+    public String getRelation() {
         return relation.getRelationDesignation();
     }
 
     public String getName() {
         return name;
-    }
-
-    public FamilyMember(int familyMemberID) {
-        this.familyMemberID = familyMemberID;
     }
 
     /**
@@ -186,7 +187,7 @@ public class FamilyMember {
      * @return Family Member ID
      */
 
- // Importado do Head
+    // Importado do Head
     protected int getFamilyMemberID() {
         return this.familyMemberID;
     }
