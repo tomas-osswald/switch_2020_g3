@@ -2,25 +2,22 @@ package switch2020.project.model;
 
 public class PhoneNumber {
 
-    // Attributes
-    private final String phoneNumber;
+    private final int phoneNumber;
 
-    // Constructors
-    public PhoneNumber(String phoneNumber)
-    {
+    /********************** CONSTRUCTORS **********************/
+
+    public PhoneNumber(int phoneNumber) {
         if (!validate(phoneNumber))
             throw new IllegalArgumentException("Invalid Phone Number.");
         this.phoneNumber = phoneNumber;
     }
 
-    // Business Methods
-    private boolean validate(String phoneNumber) {
-        if (phoneNumber == null)
-            return false;
-        if (phoneNumber.isEmpty() || phoneNumber.isBlank())
+    /********************** GETTERS AND SETTERS **********************/
+
+    private boolean validate(int phoneNumber) {
+        if (phoneNumber == 0)
             return false;
         // Check for other invalid criteria here
-
         return true;
     }
 }
