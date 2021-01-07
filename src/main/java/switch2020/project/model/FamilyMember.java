@@ -49,6 +49,7 @@ public class FamilyMember {
 
     // Family Admin - add Family Member
     public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+
         this.familyMemberID = familyMemberID;
 
         if (!validateName(name))
@@ -76,9 +77,44 @@ public class FamilyMember {
         this.administrator = false;
     }
 
+    //Constructor without relation
+    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
+
+        this.familyMemberID = familyMemberID;
+
+        if (!validateName(name))
+            throw new IllegalArgumentException();
+        this.name = name;
+
+        if (!validateBirthDate(birthDate))
+            throw new IllegalArgumentException("Invalid Date");
+        this.birthDate = birthDate;
+
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
+
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
+
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
+
+        this.relation = new Relation(null);
+
+        this.administrator = false;
+    }
+
     // Add email to FamilyMember
     public FamilyMember(String name, String birthDate, int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
         this.familyMemberID = iD;
+    }
+
+
+    public FamilyMember(int familyMemberID) {
+        this.familyMemberID = familyMemberID;
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -119,16 +155,12 @@ public class FamilyMember {
     }
 
     // Business Methods
-    public String getRelation(){
+    public String getRelation() {
         return relation.getRelationDesignation();
     }
 
     public String getName() {
         return name;
-    }
-
-    public FamilyMember(int familyMemberID) {
-        this.familyMemberID = familyMemberID;
     }
 
     /**
@@ -155,7 +187,7 @@ public class FamilyMember {
      * @return Family Member ID
      */
 
- // Importado do Head
+    // Importado do Head
     protected int getFamilyMemberID() {
         return this.familyMemberID;
     }
