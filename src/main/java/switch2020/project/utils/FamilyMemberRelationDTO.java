@@ -4,12 +4,12 @@ public class FamilyMemberRelationDTO {
 
     // Attributes
     private String name;
-    private String relation;
+    private String relationDesignation;
 
     // Constructors
-    public FamilyMemberRelationDTO(String name, String relation) {
+    public FamilyMemberRelationDTO(String name, String relationDesignation) {
         this.name = name;
-        this.relation = relation;
+        this.relationDesignation = relationDesignation;
     }
 
     // Business Methods
@@ -17,8 +17,8 @@ public class FamilyMemberRelationDTO {
         return name;
     }
 
-    public String getRelation() {
-        return relation;
+    public String getRelationDesignation() {
+        return relationDesignation;
     }
 
     @Override
@@ -35,13 +35,13 @@ public class FamilyMemberRelationDTO {
         if (name != null ? !name.equals(that.name) : that.name != null) {
             return false;
         }
-        return relation != null ? relation.equals(that.relation) : that.relation == null;
+        return relationDesignation != null ? relationDesignation.equals(that.relationDesignation) : that.relationDesignation == null;
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (relation != null ? relation.hashCode() : 0);
+        result = 31 * result + (relationDesignation != null ? relationDesignation.hashCode() : 0);
         return result;
     }
 }

@@ -1,6 +1,7 @@
 package switch2020.project.services;
 
 import switch2020.project.model.Category;
+import switch2020.project.model.CategoryTree;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +32,10 @@ public class CategoryService {
             return false;
         }
     }
-
+    public CategoryTree getCategoryTree(int familyID, FamilyService familyService){
+        CategoryTree categoryTree = new CategoryTree(this, familyService, familyID);
+        return categoryTree;
+    }
     /**
      * Method to determine if a new category is present in the list of categories
      *
