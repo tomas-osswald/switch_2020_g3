@@ -1,6 +1,9 @@
 package switch2020.project.services;
 
 import switch2020.project.model.Category;
+import switch2020.project.model.FamilyMember;
+import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +65,16 @@ public class CategoryService {
         }
         return standardCategories;
     }
+
+    /*public List<StandardCategoryDTO> getSCDTOList(Category) {
+        List<Category> standardCategories = new ArrayList<Category>()
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<StandardCategoryDTO>();
+        for (Category cat : categories) {
+            if(cat.isStandardCategory())
+            String categoryName = cat.getName();
+
+        }
+        return DTOList;
+    }*/
 
 }

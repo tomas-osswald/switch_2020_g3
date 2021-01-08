@@ -78,7 +78,6 @@ public class Application {
         return null;
     }
 
-
     public List<FamilyMemberRelationDTO> getDTOList(int familyID) {
         List<FamilyMember> members = getFamily(familyID).getFamily();
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
