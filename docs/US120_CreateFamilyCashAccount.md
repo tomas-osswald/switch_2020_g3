@@ -34,6 +34,7 @@ actor "FamilyAdministrator" as familyAdmin
 participant ": UI" as UI
 participant ": CreateFamilyCash\nAccountController" as controller
 participant ": FFMApplication" as app
+participant ": familyService : FamilyService" as famSer
 participant "aFamily : Family" as family
 
 activate familyAdmin
@@ -41,18 +42,22 @@ familyAdmin -> UI: create a Family Cash \n Account (familyID)
 activate UI
 UI -> controller: createFamilyCash\nAccount(familyID)
 activate controller
-controller -> app: createFamilyCash\nAccount(familyID)
+controller -> app: getFamilyService()
 activate app
-app -> app: aFamily = \ngetFamilyByID(FamilyID)
+app -> controller: FamilyService
+deactivate app
+controller -> famSer: createFamilyCash\nAccount(familyID)
+activate famSer
+famSer -> famSer: aFamily = \ngetFamilyByID(FamilyID)
 
-app -> family: createFamily\nCashAccount()
+famSer -> family: createFamily\nCashAccount()
 activate family
 family -> family: hasCashAccount()
 
 alt failure
 
-family --> app: fail
-app --> controller: fail
+family --> famSer: fail
+famSer --> controller: fail
 controller --> UI: fail
 UI --> familyAdmin: Failure
 
@@ -61,10 +66,10 @@ ref over family
 Success
 end ref
 
-family --> app: ok
+family --> famSer: ok
 deactivate family
-app --> controller: ok
-deactivate app
+famSer --> controller: ok
+deactivate famSer
 controller --> UI: ok
 deactivate controller
 UI --> familyAdmin: ok
@@ -103,42 +108,40 @@ If there is no associated cash account, the Family object will first create a ne
 
 title Class Diagram
 
-class UI {
-  - createFamilyCashAccount()
-}
-
 class CreateFamilyCashAccountController {
-  - createFamilyCashAccount()
+  - Application app
+  + createFamilyCashAccount()
 }
 
-class FFMApplication {
+class Application {
+  - FamilyService familyService
+  + getFamilyService()
+}
+
+class FamilyService {
   - List<Family> families
-  - List<Category> categories
   - getFamilyByID()
-  - createFamilyCashAccount()
+  + createFamilyCashAccount()
 }
 
 class Family {
   - int familyID
-  - String name
-  - date registrationDate
-  - List <FamilyMember> familyMembers
   - CashAccount cashAccount
   - hasCashAccount()
-  - createFamilyCashAccount()
+  + createFamilyCashAccount()
 }
 
 class CashAccount {
   - int CashAccountID
   - double balance
+  + getBalance()
+  + changeBalance(double value)
 }
 
-
-UI --> CreateFamilyCashAccountController
-CreateFamilyCashAccountController --> FFMApplication
+CreateFamilyCashAccountController --> Application
+Application --> FamilyService
 Family --> CashAccount
-FFMApplication --> Family
-
+FamilyService --> Family
 ```
 
 ## 3.3. Applied Patterns
