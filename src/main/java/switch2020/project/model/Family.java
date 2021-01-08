@@ -17,6 +17,10 @@ public class Family {
     private CashAccount familyCashAccount = null;
     private List<Category> familyCustomCategories = new ArrayList<>();
 
+    public List<Category> getFamilyCustomCategories() {
+        return familyCustomCategories;
+    }
+
     /********************** CONSTRUCTORS ***************/
     //Constructors
     public Family(int familyID) {

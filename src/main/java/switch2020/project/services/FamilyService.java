@@ -1,9 +1,6 @@
 package switch2020.project.services;
 
-import switch2020.project.model.EmailAddress;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
+import switch2020.project.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +20,11 @@ public class FamilyService {
     }
 
     // Business Methods
+
+    public List<Category> getCustomCategories(int familyID) {
+        Family family = getFamily(familyID);
+        return family.getFamilyCustomCategories();
+    }
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -170,6 +172,7 @@ public class FamilyService {
 
     /**
      * Method to create a family cash account for a family object
+     *
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
