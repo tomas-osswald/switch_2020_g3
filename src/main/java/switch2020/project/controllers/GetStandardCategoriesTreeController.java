@@ -8,9 +8,6 @@ import java.util.List;
 public class GetStandardCategoriesTreeController {
     private Application app;
 
-    public Application getApp() {
-        return app;
-    }
 
     public GetStandardCategoriesTreeController(Application app) {
         this.app = app;

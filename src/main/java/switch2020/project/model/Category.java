@@ -48,7 +48,7 @@ public class Category {
                 try {
                     throw new Exception("Category Name must have at least 1 character");
                 } catch (Exception e) {
-                    System.out.println("Something went wronggit a");
+                    System.out.println("Something went wrong at");
                 }
 
             } else {
@@ -68,4 +68,6 @@ public class Category {
     public boolean isStandardCategory(){
         return this.standardCategory;
     }
+
+
 }

@@ -87,7 +87,7 @@ class CategoryTest {
 
 
     @Test
-    void isStandardTest1_true() {
+    void isStandardTest5_true() {
         String categoryName = "Serviços";
         Category newCategory = new Category(categoryName);
 

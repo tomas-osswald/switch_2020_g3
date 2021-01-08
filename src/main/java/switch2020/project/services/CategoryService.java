@@ -50,10 +50,10 @@ public class CategoryService {
         }
         return categoryPresent;
     }
-/*
+
     public List<Category> getCategories() {
         return this.categories;
-    }*/
+    }
 
     public List getStandardCategories() {
         List standardCategories = new ArrayList<Category>();
@@ -67,5 +67,7 @@ public class CategoryService {
         }
         throw new IllegalArgumentException("There are no standard categories");
     }
+
+
 
 }
