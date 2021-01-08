@@ -1,6 +1,5 @@
 package switch2020.project.model;
 
-
 import java.util.*;
 
 public class Family {
@@ -86,7 +85,7 @@ public class Family {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public List<FamilyMember> getFamily() {
+    public List<FamilyMember> getFamilyMembers() {
 
         return Collections.unmodifiableList(familyMembers);
     }
@@ -160,11 +159,8 @@ public class Family {
         }
         return false;
     }
-    /*************************/
-
 
     private boolean checkIfVatExists(int vat) {
-
         ArrayList<Integer> vatList = new ArrayList();
         for ( FamilyMember member : familyMembers ) {
             vatList.add(member.getVatNumber());
@@ -266,7 +262,7 @@ public class Family {
         if (this == o) return true;
         if (!(o instanceof Family)) return false;
         final Family family1 = (Family) o;
-        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamily(), family1.getFamily());
+        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamilyMembers(), family1.getFamilyMembers());
     }
 
 
