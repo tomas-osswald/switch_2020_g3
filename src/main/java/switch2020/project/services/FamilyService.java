@@ -1,9 +1,12 @@
 package switch2020.project.services;
 
+
 import switch2020.project.model.EmailAddress;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
+import switch2020.project.utils.FamilyMemberRelationDTO;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +73,7 @@ public class FamilyService {
         List<FamilyMember> allFamilyMembers = new ArrayList();
         List<EmailAddress> allEmails = new ArrayList();
         for (Family family : this.families) {
-            allFamilyMembers.addAll(family.getFamily());
+            allFamilyMembers.addAll(family.getFamilyMembers());
 
         }
         for (FamilyMember familyMember : allFamilyMembers) {
@@ -143,13 +146,14 @@ public class FamilyService {
      * @return Family instance
      */
 
-    public Family getFamily(int familyID) {
+   public Family getFamily(int familyID) {
         for (Family family : families) {
             if (family.getFamilyID() == familyID)
                 return family;
         }
         throw new IllegalArgumentException("No family with such ID");
     }
+
 
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {
@@ -170,6 +174,37 @@ public class FamilyService {
         throw new IllegalArgumentException("Family does not exist");
     }
 
+   /* //Temporariamente comentado para não ter conflito até se decidir se retorna null ou exception
+    private Family getFamily(int familyID){
+        for (Family familia : families ) {
+            if(familyID == familia.getFamilyID())
+                return familia;
+        }
+        return null;
+    } */
+
+    /**
+     * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
+     * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
+     * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
+     * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
+     * @param familyID
+     * @return DTOList
+     */
+    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
+        List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
+        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember member : members) {
+            String name = member.getName();
+            String relation = member.getRelation();
+            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+            DTOList.add(newMember);
+        }
+        return DTOList;
+    }
+
+
+
     /**
      * Method to create a family cash account for a family object
      * @param familyID identifier of the family object
@@ -181,4 +216,6 @@ public class FamilyService {
         success = aFamily.createFamilyCashAccount();
         return success;
     }
+
 }
+
