@@ -221,6 +221,10 @@ public class FamilyMember {
         this.relation = relation;
     }
 
+    public MemberProfile createProfile(){
+        return new MemberProfile(emails, name, birthDate, phoneNumbers, vatNumber, address);
+    }
+
 }
 
 

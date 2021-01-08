@@ -198,7 +198,7 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    private FamilyMember getFamilyMember(int familyMemberID) {
+    public FamilyMember getFamilyMember(int familyMemberID) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.getFamilyMemberID() == familyMemberID)
                 return familyMember;

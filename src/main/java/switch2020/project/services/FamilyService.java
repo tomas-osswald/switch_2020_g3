@@ -1,9 +1,6 @@
 package switch2020.project.services;
 
-import switch2020.project.model.EmailAddress;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
+import switch2020.project.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,5 +163,13 @@ public class FamilyService {
             throw new IllegalArgumentException("This email already exists");
         }
         throw new IllegalArgumentException("Family does not exist");
+    }
+    public MemberProfile getFamilyMemberProfile(int familyId, int familyMemberId){
+
+        Family family = getFamily(familyId);
+        FamilyMember familyMember = family.getFamilyMember(familyMemberId);
+        MemberProfile memberProfile = familyMember.createProfile();
+
+        return memberProfile;
     }
 }
