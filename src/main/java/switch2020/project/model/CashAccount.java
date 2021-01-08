@@ -20,6 +20,17 @@ public class CashAccount {
         this.balance = 0;
     }
 
+    public CashAccount(int cashAccountID, double balance) {
+        if (!validateID(cashAccountID)) {
+            throw new IllegalArgumentException("Cash Account ID is not valid");
+        }
+        if (!validateBalance(balance)) {
+            throw new IllegalArgumentException("Balance can't be less than 0");
+        }
+        this.cashAccountID = cashAccountID;
+        this.balance = balance;
+    }
+
     // Business Methods
     /**
      * A method that validates if the given cash account ID is valid
@@ -33,6 +44,20 @@ public class CashAccount {
             validID = true;
         }
         return validID;
+    }
+
+    /**
+     * A method that validates if the given cash account balance is valid.
+     * Balance of a physical cash account can never be less than 0.
+     * @param balance given cash account balance to validate
+     * @return boolean validBalance, true if valid, false if invalid
+     */
+    private boolean validateBalance(double balance) {
+        boolean validBalance = false;
+        if (balance >= 0) {
+            validBalance = true;
+        }
+        return validBalance;
     }
 
     /**
@@ -56,6 +81,9 @@ public class CashAccount {
      * @param value given value to add to this cash account's balance
      */
     public void changeBalance(double value) {
+        if (!validateBalance(balance + value)) {
+            throw new IllegalStateException("Balance can't be less than 0");
+        }
         this.balance = this.balance + value;
     }
 }

@@ -1,6 +1,5 @@
 package switch2020.project.model;
 
-
 import java.util.*;
 
 public class Family {
@@ -15,6 +14,11 @@ public class Family {
     private List<FamilyMember> familyMembers = new ArrayList<>();
     private List<String> relationDesignations = new ArrayList<>();
     private CashAccount familyCashAccount = null;
+    private List<Category> familyCustomCategories = new ArrayList<>();
+
+    public List<Category> getFamilyCustomCategories() {
+        return familyCustomCategories;
+    }
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
@@ -81,7 +85,7 @@ public class Family {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public List<FamilyMember> getFamily() {
+    public List<FamilyMember> getFamilyMembers() {
 
         return Collections.unmodifiableList(familyMembers);
     }
@@ -95,6 +99,13 @@ public class Family {
 
     public int getFamilyID() {
         return familyID;
+    }
+
+    //delete later
+    public void addCustomCategory(Category category){
+        if(!category.isStandardCategory()){
+            this.familyCustomCategories.add(category);
+        }
     }
 
     // Business methods
@@ -148,11 +159,8 @@ public class Family {
         }
         return false;
     }
-    /*************************/
-
 
     private boolean checkIfVatExists(int vat) {
-
         ArrayList<Integer> vatList = new ArrayList();
         for ( FamilyMember member : familyMembers ) {
             vatList.add(member.getVatNumber());
@@ -199,7 +207,7 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    private FamilyMember getFamilyMember(int familyMemberID) {
+    public FamilyMember getFamilyMember(int familyMemberID) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.getFamilyMemberID() == familyMemberID)
                 return familyMember;
@@ -254,7 +262,7 @@ public class Family {
         if (this == o) return true;
         if (!(o instanceof Family)) return false;
         final Family family1 = (Family) o;
-        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamily(), family1.getFamily());
+        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamilyMembers(), family1.getFamilyMembers());
     }
 
 
