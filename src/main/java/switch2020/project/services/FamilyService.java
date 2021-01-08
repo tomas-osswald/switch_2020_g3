@@ -19,8 +19,10 @@ public class FamilyService {
     }
 
     public FamilyService(Family family) {
+        this.families = new ArrayList<>(); // NEW: Acrescentei isto (by Diogo)
         this.families.add(family);
     }
+
 
     // Business Methods
 
@@ -157,10 +159,10 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
-        if (checkIfFamilyExists(familyID)) {
-            if (!checkIfEmailPresent(email)) {
-                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+        if(checkIfFamilyExists(familyID)){
+            int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+            if(!checkIfEmailPresent(email)){
                 return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
             throw new IllegalArgumentException("This email already exists");

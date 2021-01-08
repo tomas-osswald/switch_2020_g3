@@ -156,11 +156,8 @@ public class Family {
         }
         return false;
     }
-    /*************************/
-
 
     private boolean checkIfVatExists(int vat) {
-
         ArrayList<Integer> vatList = new ArrayList();
         for ( FamilyMember member : familyMembers ) {
             vatList.add(member.getVatNumber());

@@ -24,20 +24,17 @@ public class Application {
         this.familyService.addFamily(family);
     }
 
+    /********************** GETTERS AND SETTERS **********************/
     // Business methods
     public CategoryService getCategoryService() {
         return this.categoryService;
     }
 
-
-    /********************** GETTERS AND SETTERS **********************/
-
     public FamilyService getFamilyService() {
         return this.familyService;
     }
 
-
- /*   public void addFamily(int familyID){
+ /* public void addFamily(int familyID){
         this.families.add(Family);
     }
   */
@@ -66,8 +63,6 @@ public class Application {
         Family family = getFamily(familyID);
         return family.getFamily();
     }
-
-    /*************************/
 
 
     private Family getFamily(int familyID) {
