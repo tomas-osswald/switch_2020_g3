@@ -7,8 +7,9 @@ public class Category {
     private String categoryName;
     private int categoryLevel;
     // private int parentID; //zero if one of the root categories
-    private int parentNumber;
+    private int parentID;
     private boolean standardCategory;
+    private int categoryID;
 
     public Category(String categoryName){
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
@@ -44,7 +45,7 @@ public class Category {
     //constructor
     public Category(String categoryName,int parentNumber){
             this.categoryName = categoryName;
-            this.parentNumber = parentNumber;
+            this.parentID = parentNumber;
 
             if (this.categoryName.length() < 1) {
                 try {
