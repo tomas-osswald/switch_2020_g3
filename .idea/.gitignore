@@ -8,3 +8,6 @@
 /httpRequests/
 
 /.idea/inspectionProfiles/Project_Default.xml
+
+#
+.idea/**/Project_Default.xml
