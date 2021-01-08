@@ -10,6 +10,6 @@ class CategoryServiceTest {
     Application app = new Application();
 
     @Test
-    void addStandardCategory() {
+    void getStandardCategory() {
     }
 }

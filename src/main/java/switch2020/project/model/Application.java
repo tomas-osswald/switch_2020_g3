@@ -29,8 +29,7 @@ public class Application {
         return this.categoryService;
     }
 
-
-    /********************** GETTERS AND SETTERS **********************/
+        /********************** GETTERS AND SETTERS **********************/
 
     public FamilyService getFamilyService() {
         return this.familyService;
@@ -89,4 +88,6 @@ public class Application {
         }
         return DTOList;
     }
+
+
 }

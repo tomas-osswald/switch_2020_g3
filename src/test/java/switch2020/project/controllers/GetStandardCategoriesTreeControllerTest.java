@@ -17,8 +17,6 @@ class GetStandardCategoriesTreeControllerTest {
     Application App = new Application();
     GetStandardCategoriesTreeController getStandard = new GetStandardCategoriesTreeController(App);
 
-
-
     @Test
     void testGetStandardCategories(){
         App.getCategoryService().getStandardCategories();

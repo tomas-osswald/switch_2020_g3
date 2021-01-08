@@ -58,7 +58,6 @@ public class CategoryService {
     public List getStandardCategories() {
         List standardCategories = new ArrayList<Category>();
 
-
         for (Category cat : categories) {
             if (cat.isStandardCategory()) {
                 standardCategories.add(cat);
@@ -67,7 +66,4 @@ public class CategoryService {
         }
         throw new IllegalArgumentException("There are no standard categories");
     }
-
-
-
 }
