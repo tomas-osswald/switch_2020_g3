@@ -10,6 +10,7 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/**/Project_Default.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -115,6 +116,9 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+
+#ignoring project default
+
 
 
 # End of https://www.gitignore.io/api/java,maven,intellij
