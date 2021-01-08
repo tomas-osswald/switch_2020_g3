@@ -153,4 +153,21 @@ class FamilyTest {
         assertEquals(Ribeiros, expected);
     }
 
+
+    @Test
+    void familyConstructorTest1_validNameSimpson(){
+        String familyName = "Simpson";
+        Family newFamily = new Family(familyName);
+
+        assertNotNull(newFamily);
+    }
+
+    @Test
+    void familyConstructorTest2_validNameMoura(){
+        String familyName = "Moura";
+        Family newFamily = new Family(familyName);
+
+        assertNotNull(newFamily);
+    }
+
 }
