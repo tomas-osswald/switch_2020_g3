@@ -17,6 +17,7 @@ public class GetCategoryTreeController {
         FamilyService familyService = this.ffmApp.getFamilyService();
         CategoryService categoryService = this.ffmApp.getCategoryService();
         CategoryTree categoryTree = categoryService.getCategoryTree(familyID, familyService);
+        categoryTree.printTree();
         return categoryTree;
     }
 
