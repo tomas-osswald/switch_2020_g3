@@ -276,16 +276,11 @@ public class Family {
 
     public boolean addFamilyMember(String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
         if(!checkIfVatExists(vat)){
-            try {
-                FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
-                familyMembers.add(newFamilyMember);
-                return true;
-            } catch (IllegalArgumentException exception) {
-                return false;
-            }
+            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            familyMembers.add(newFamilyMember);
+            return true;
         } else {
-            return false;
-            //throw new IllegalArgumentException("Vat already exists in the Family");
+            throw new IllegalArgumentException("Vat already exists in the Family");
         }
     }
 

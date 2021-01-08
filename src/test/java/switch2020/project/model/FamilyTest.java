@@ -158,12 +158,12 @@ class FamilyTest {
     }
 
     @Test
-    void addFamilyMember_VatExists() {
+    void NotAddFamilyMember_VatExists() {
         FamilyMember pessoa1 = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
         FamilyMember pessoa2 = pessoa1;
         Family familia = new Family(1);
         familia.addFamilyMember(pessoa1);
-        assertFalse(familia.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation));
+        assertThrows(IllegalArgumentException.class, ()-> familia.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
     @Test

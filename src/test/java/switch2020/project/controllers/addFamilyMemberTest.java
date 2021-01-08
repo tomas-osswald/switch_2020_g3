@@ -1,6 +1,7 @@
 package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
@@ -40,18 +41,19 @@ class addFamilyMemberTest {
 
     @Test
     /** Test if Family Member is added to Family **/
-    void AddFamilyMember() {
+    void AddFamilyMember_FamilyExists() {
         Family Ribeiros = new Family(1);
-        FamilyService service = new FamilyService(Ribeiros);
-        assertTrue(service.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local, city, relation,1));
-
+        Application app = new Application(Ribeiros);
+        AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
+        assertTrue(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation,1));
     }
 
     @Test
     void NotAddFamilyMember_FamilyNotExists(){
         Family Ribeiros = new Family(1);
-        FamilyService service = new FamilyService(Ribeiros);
-        assertThrows(IllegalArgumentException.class, ()-> service.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local, city, relation,2));
+        Application app = new Application(Ribeiros);
+        AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
+        assertFalse(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local, city, relation,2));
     }
 
     @Test /** Missing data entry validation : name, date, phone, email etc **/
