@@ -10,7 +10,7 @@ public class Category {
     private int parentNumber;
     private boolean standardCategory;
 
-    public Category(String categoryName){
+    public Category(String categoryName) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
         this.categoryName = categoryName.trim().toUpperCase();
         categoryLevel = 0;
@@ -31,43 +31,46 @@ public class Category {
 
     /**
      * Method to validate if name is not null
+     *
      * @param categoryName
      * @return
      */
 
 
-    private boolean isNameValid (String categoryName) {
-        if (categoryName==null || categoryName.isBlank()) return false;
+    private boolean isNameValid(String categoryName) {
+        if (categoryName == null || categoryName.isBlank()) return false;
         return true;
     }
 
     //constructor
-    public Category(String categoryName,int parentNumber){
-            this.categoryName = categoryName;
-            this.parentNumber = parentNumber;
+    public Category(String categoryName, int parentNumber) {
+        this.categoryName = categoryName;
+        this.parentNumber = parentNumber;
 
-            if (this.categoryName.length() < 1) {
-                try {
-                    throw new Exception("Category Name must have at least 1 character");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                this.categoryName = this.categoryName;
+        if (this.categoryName.length() < 1) {
+            try {
+                throw new Exception("Category Name must have at least 1 character");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
 
-    public String getName(){
+        } else {
+            this.categoryName = this.categoryName;
+        }
+    }
+
+    public String getName() {
         return this.categoryName;
+
     }
 
     /**
      * Method to determine if this category is one of the Standard categories
+     *
      * @return true if one of the Standard categories, false otherwise
      */
 
-    public boolean isStandardCategory(){
+    public boolean isStandardCategory() {
         return this.standardCategory;
     }
 }

@@ -47,7 +47,7 @@ deactivate manager
 For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the impute of the system administrator of the following data:
 
 - The Family he wants to add an administrator;
-- And the data necessery to create a new administrator (id, name, vatNumber, address, birthDate, phoneNumber and emailAddress).
+- And the data necessary to create a new administrator (id, name, vatNumber, address, birthDate, phoneNumber and emailAddress).
 
 From analysis done to requirements gathering, a new administrator will be created to a family that has no administrator.
 
