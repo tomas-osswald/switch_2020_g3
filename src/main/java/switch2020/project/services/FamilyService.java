@@ -1,12 +1,8 @@
 package switch2020.project.services;
 
 
-import switch2020.project.model.EmailAddress;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
+import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +145,7 @@ public class FamilyService {
      * @return Family instance
      */
 
-   public Family getFamily(int familyID) {
+    public Family getFamily(int familyID) {
         for (Family family : families) {
             if (family.getFamilyID() == familyID)
                 return family;
@@ -191,6 +187,7 @@ public class FamilyService {
      * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
      * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
      * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
+     *
      * @param familyID
      * @return DTOList
      */
@@ -207,9 +204,9 @@ public class FamilyService {
     }
 
 
-
     /**
      * Method to create a family cash account for a family object
+     *
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
