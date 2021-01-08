@@ -1,29 +1,55 @@
-# US151 Add email to profile
+# US151 Add family administrator
 =======================================
 
 
 # 1. Requirements
 
-*As a family member, I want to add an email account to my profile*
+## 1.1. Client Notes
 
+As a system manager, I want to add a family administrator:
 
-**Demo1** As a family member, I want to add...
+**Demonstratim 1** As a system manager, I want to add...
 
-- Demo1.1. The new email familymember@gmail.com
+- 1.1. A new administrator.
 
-- Demo1.2. The already existing email familymember@gmail.com
+The interpretation made of this requirement is that the system administrator can add a new administrator to a family.
 
-We interpreted this requirment as the function of a user to add an email account to his profile information. The email account must not previously exist on his profile, and it must be a valid email format.
+## 1.2 System Sequence Diagram
+
+```puml
+autonumber
+title System Sequence Diagram - US011
+
+actor "System Manager" as manager
+participant ": System" as system
+
+activate manager
+manager -> system : add relation to member
+activate system
+manager -> system : choose family with no administrator
+manager -> system : inputs required data
+
+alt failure
+system -> manager : Inform Failure
+
+else sucess
+system -> manager : Inform Sucess
+
+end
+
+deactivate system
+
+deactivate manager
+```
 
 # 2. Analysis
 
-In order to fulfill this requirement, we need two main data pieces:
-- e-mail address to add
-- Family Member ID of the actor's profile
+For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the impute of the system administrator of the following data:
 
-At a later iteration, the family member's ID would be aquired through the Log In information. For this sprint, the ID will have to be inputed along with the e-mail.
+- The Family he wants to add an administrator;
+- And the data necessery to create a new administrator (id, name, vatNumber, address, birthDate, phoneNumber and emailAddress).
 
-
+From analysis done to requirements gathering, a new administrator will be created to a family that has no administrator.
 
 # 3. Design
 

@@ -85,6 +85,6 @@ class AddRelationControllerTest {
 
         AddRelationController addRelationController = new AddRelationController(application);
 
-        assertTrue(addRelationController.createRelation(selfID, otherID, relationDesignation, familyID));
+        assertFalse(addRelationController.createRelation(selfID, otherID, relationDesignation, familyID));
     }
 }

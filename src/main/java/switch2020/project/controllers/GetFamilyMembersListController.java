@@ -4,6 +4,7 @@ import switch2020.project.model.Application;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GetFamilyMembersListController {
@@ -13,7 +14,7 @@ public class GetFamilyMembersListController {
         this.FFMapp = app;
     }
 
-    public ArrayList<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID){
+    public List<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID){
         return this.FFMapp.getDTOList(familyID);
     }
 
