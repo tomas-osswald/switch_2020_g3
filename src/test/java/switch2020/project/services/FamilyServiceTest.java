@@ -1,6 +1,8 @@
 package switch2020.project.services;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.controllers.CreateFamilyCashAccountController;
+import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 
@@ -167,5 +169,32 @@ class FamilyServiceTest {
         familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation1, familyID);
 
         assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation2, familyID));
+    }
+
+    @Test
+    void createFamilyCashAccountResultFalseAccountAlreadyExists() {
+        FamilyService familyService = new FamilyService();
+        int familyID = 1;
+        Family aFamily = new Family(familyID);
+        familyService.addFamily(aFamily);
+        boolean expected = true;
+
+        boolean result = familyService.createFamilyCashAccount(familyID);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createFamilyCashAccountResultTrueAccountCreated() {
+        FamilyService familyService = new FamilyService();
+        int familyID = 1;
+        Family aFamily = new Family(familyID);
+        familyService.addFamily(aFamily);
+        familyService.createFamilyCashAccount(familyID);
+        boolean expected = false;
+
+        boolean result = familyService.createFamilyCashAccount(familyID);
+
+        assertEquals(expected, result);
     }
 }

@@ -1,6 +1,8 @@
 package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.controllers.CreateFamilyCashAccountController;
+
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -151,6 +153,29 @@ class FamilyTest {
         Ribeiros.addFamilyMember(Diogo);
         Family expected = new Family(1,Diogo);
         assertEquals(Ribeiros, expected);
+    }
+
+    @Test
+    void createFamilyCashAccountResultFalseAccountAlreadyExists() {
+        int familyID = 1;
+        Family familyOne = new Family(familyID);
+        familyOne.createFamilyCashAccount();
+        boolean expected = false;
+
+        boolean result = familyOne.createFamilyCashAccount();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createFamilyCashAccountResultTrueAccountCreated() {
+        int familyID = 1;
+        Family familyOne = new Family(familyID);
+        boolean expected = true;
+
+        boolean result = familyOne.createFamilyCashAccount();
+
+        assertEquals(expected, result);
     }
 
 }
