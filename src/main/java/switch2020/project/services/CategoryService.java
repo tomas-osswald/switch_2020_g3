@@ -1,9 +1,7 @@
 package switch2020.project.services;
 
 import switch2020.project.model.Category;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.utils.FamilyMemberRelationDTO;
-import switch2020.project.utils.StandardCategoryDTO;
+import switch2020.project.model.CategoryTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,10 @@ public class CategoryService {
             return false;
         }
     }
-
+    public CategoryTree getCategoryTree(int familyID, FamilyService familyService){
+        CategoryTree categoryTree = new CategoryTree(this, familyService, familyID);
+        return categoryTree;
+    }
     /**
      * Method to determine if a new category is present in the list of categories
      * @param categoryName String with the name of the category
@@ -65,16 +66,5 @@ public class CategoryService {
         }
         return standardCategories;
     }
-
-    /*public List<StandardCategoryDTO> getSCDTOList(Category) {
-        List<Category> standardCategories = new ArrayList<Category>()
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<StandardCategoryDTO>();
-        for (Category cat : categories) {
-            if(cat.isStandardCategory())
-            String categoryName = cat.getName();
-
-        }
-        return DTOList;
-    }*/
 
 }

@@ -1,12 +1,8 @@
 package switch2020.project.services;
 
-
-import switch2020.project.model.EmailAddress;
-import switch2020.project.model.Family;
-import switch2020.project.model.FamilyMember;
-import switch2020.project.model.Relation;
+import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
-
+import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +18,15 @@ public class FamilyService {
     }
 
     public FamilyService(Family family) {
-        this.families = new ArrayList<>(); // NEW: Acrescentei isto (by Diogo)
         this.families.add(family);
     }
 
-
     // Business Methods
+
+    public List<Category> getCustomCategories(int familyID) {
+        Family family = getFamily(familyID);
+        return family.getFamilyCustomCategories();
+    }
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -145,13 +144,16 @@ public class FamilyService {
      * @param familyID FamilyID of required family
      * @return Family instance
      */
-
-   public Family getFamily(int familyID) {
-        for (Family family : families) {
-            if (family.getFamilyID() == familyID)
-                return family;
+    public Family getFamily(int familyID) {
+        if (checkIfFamilyExists(familyID)) {
+            for (Family family : families) {
+                if (family.getFamilyID() == familyID)
+                    return family;
+            }
+        } else {
+            throw new IllegalArgumentException("No family with such ID");
         }
-        throw new IllegalArgumentException("No family with such ID");
+        return null;
     }
 
 
@@ -163,10 +165,10 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
-        if(checkIfFamilyExists(familyID)){
-            int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if(!checkIfEmailPresent(email)){
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+        if (checkIfFamilyExists(familyID)) {
+            if (!checkIfEmailPresent(email)) {
+                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
                 return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
             throw new IllegalArgumentException("This email already exists");
@@ -188,6 +190,7 @@ public class FamilyService {
      * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
      * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
      * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
+     *
      * @param familyID
      * @return DTOList
      */
@@ -204,9 +207,9 @@ public class FamilyService {
     }
 
 
-
     /**
      * Method to create a family cash account for a family object
+     *
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
@@ -217,5 +220,13 @@ public class FamilyService {
         return success;
     }
 
+    public MemberProfileDTO getFamilyMemberProfile(int familyId, int familyMemberId){
+
+        Family family = getFamily(familyId);
+        FamilyMember familyMember = family.getFamilyMember(familyMemberId);
+        MemberProfileDTO memberProfile = familyMember.createProfile();
+
+        return memberProfile;
+    }
 }
 
