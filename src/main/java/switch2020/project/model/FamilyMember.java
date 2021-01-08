@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.MemberProfileDTO;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -232,6 +234,10 @@ public class FamilyMember {
         if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
         this.relation = relation;
+    }
+
+    public MemberProfileDTO createProfile(){
+        return new MemberProfileDTO(emails, name, birthDate, phoneNumbers, vatNumber, address);
     }
 
 }

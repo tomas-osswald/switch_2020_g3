@@ -1,8 +1,8 @@
 package switch2020.project.services;
 
-
 import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,5 +220,13 @@ public class FamilyService {
         return success;
     }
 
+    public MemberProfileDTO getFamilyMemberProfile(int familyId, int familyMemberId){
+
+        Family family = getFamily(familyId);
+        FamilyMember familyMember = family.getFamilyMember(familyMemberId);
+        MemberProfileDTO memberProfile = familyMember.createProfile();
+
+        return memberProfile;
+    }
 }
 
