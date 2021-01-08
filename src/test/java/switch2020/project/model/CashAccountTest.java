@@ -17,6 +17,26 @@ class CashAccountTest {
     }
 
     @Test
+    void constructorValidBalanceValidID() {
+        assertDoesNotThrow(() -> {CashAccount cashAccountOne = new CashAccount(1, 1);});
+    }
+
+    @Test
+    void constructorInvalidBalanceValidID() {
+        assertThrows(IllegalArgumentException.class, () -> {CashAccount cashAccountOne = new CashAccount(1, -1);});
+    }
+
+    @Test
+    void constructorValidBalanceInvalidID() {
+        assertThrows(IllegalArgumentException.class, () -> {CashAccount cashAccountOne = new CashAccount(-1, 1);});
+    }
+
+    @Test
+    void constructorInvalidBalanceInvalidID() {
+        assertThrows(IllegalArgumentException.class, () -> {CashAccount cashAccountOne = new CashAccount(-1, -1);});
+    }
+
+    @Test
     void getCashAccountIDNoGivenID() {
         CashAccount cashAccountZero = new CashAccount();
         int expected = 0;
@@ -69,13 +89,19 @@ class CashAccountTest {
 
     @Test
     void changeBalanceByMinusFive() {
-        CashAccount cashAccountOne = new CashAccount(1);
-        double expected = -5;
+        CashAccount cashAccountOne = new CashAccount(1, 5);
+        double expected = 0;
 
         cashAccountOne.changeBalance(-5.00);
         double result = cashAccountOne.getBalance();
 
         assertEquals(expected, result, 0.001);
+    }
+
+    @Test
+    void changeBalanceInvalidNegativeBalance() {
+        CashAccount cashAccountOne = new CashAccount(1);
+        assertThrows(IllegalStateException.class, () -> {cashAccountOne.changeBalance(-5.00);});
     }
 
 }

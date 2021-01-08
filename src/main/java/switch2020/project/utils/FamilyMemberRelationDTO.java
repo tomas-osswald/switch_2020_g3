@@ -17,7 +17,7 @@ public class FamilyMemberRelationDTO {
         return name;
     }
 
-    public String getrelation() {
+    public String getRelation() {
         return relation;
     }
 
