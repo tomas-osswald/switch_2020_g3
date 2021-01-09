@@ -90,7 +90,6 @@ public class FamilyService {
 
     /**
      * Method to add a Family to Families List -> families
-     *
      * @param family Family to add
      */
 
@@ -110,7 +109,6 @@ public class FamilyService {
 
     /**
      * Method to create a Relation and assign it to a Family Member
-     *
      * @param selfID              ID of the Family Member how wants to create a Relation
      * @param otherID             ID of the Family Member to be added a Relation
      * @param relationDesignation Relation Designation
@@ -139,7 +137,6 @@ public class FamilyService {
 
     /**
      * Method to get a family by ID in families
-     *
      * @param familyID FamilyID of required family
      * @return Family instance
      */
@@ -152,7 +149,6 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("No family with such ID");
     }
-
 
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {

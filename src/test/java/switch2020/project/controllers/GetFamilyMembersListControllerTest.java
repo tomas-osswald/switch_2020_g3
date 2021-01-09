@@ -76,9 +76,6 @@ class GetFamilyMembersListControllerTest {
     List<FamilyMemberRelationDTO> expected = new ArrayList<FamilyMemberRelationDTO>();
 
 
-
-
-
     @Test
     void getFamilyMemberAndRelation() {
             //Arrange
@@ -91,20 +88,18 @@ class GetFamilyMembersListControllerTest {
             expected.add(diogoDTO);
             expected.add(jorgeDTO);
             expected.add(manuelAdminDTO);
-            FamilyService familyService = new FamilyService();
-            familyService.addFamily(family);
             Application app = new Application();
             GetFamilyMembersListController test = new GetFamilyMembersListController(app);
+            app.getFamilyService().addFamily(family);
             //Act
             List<FamilyMemberRelationDTO> result = test.getFamilyMemberAndRelation(family.getFamilyID(), manuelAdmin.getID());
-            //familyService.getDTOList(family.getFamilyID(), manuelAdmin.getID());
             //Assert
             assertEquals(expected, result);
             assertNotSame(expected, result);
         }
 
         @Test
-        void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEqualsBecauseTheFamilyMemberIsNotAdministratorAndTheReturnIsEmptyList() {
+        void getDTOList_TestWithNoAdministratorExpectingEmptyListAsReturn() {
             //Arrange
             familyMembers.add(diogo);
             familyMembers.add(jorge);
@@ -112,14 +107,13 @@ class GetFamilyMembersListControllerTest {
             family.addFamilyMemberArray(familyMembers);
             familyTwo.addFamilyMember(diogo);
             familyTwo.addFamilyMember(jorge);
-            expected.add(diogoDTO);
-            expected.add(jorgeDTO);
-            expected.add(manuelAdminDTO);
-            FamilyService familyService = new FamilyService(family);
+            Application app = new Application();
+            app.getFamilyService().addFamily(family);
+            GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
             //Act
-            List<FamilyMemberRelationDTO> result = familyService.getDTOList(family.getFamilyID(), jorge.getID());
+            List<FamilyMemberRelationDTO> result = controller.getFamilyMemberAndRelation(family.getFamilyID(), diogo.getID());
             //Assert
-            assertNotEquals(expected, result);
+            assertEquals(expected, result);
             assertNotSame(expected, result);
         }
 
