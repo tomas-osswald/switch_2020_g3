@@ -117,5 +117,8 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
+#ignoring project default
+
+
 
 # End of https://www.gitignore.io/api/java,maven,intellij

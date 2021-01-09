@@ -15,6 +15,7 @@ public class CreateFamilyCashAccountController {
      * @param familyID given family object ID
      * @return returns true if the task was successful
      */
+
     public boolean createFamilyCashAccount(int familyID) {
         boolean success;
         FamilyService familyService = this.ffmApp.getFamilyService();
