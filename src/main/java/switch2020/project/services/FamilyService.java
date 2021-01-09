@@ -7,7 +7,6 @@ import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +17,10 @@ public class FamilyService {
 
     // Constructors
     public FamilyService() {
-        this.families = new ArrayList<>();
+
     }
 
     public FamilyService(Family family) {
-        this.families = new ArrayList<>(); // NEW: Acrescentei isto (by Diogo)
         this.families.add(family);
     }
 
@@ -146,10 +144,11 @@ public class FamilyService {
      * @return Family instance
      */
 
-   public Family getFamily(int familyID) {
+    public Family getFamily(int familyID) {
         for (Family family : families) {
-            if (family.getFamilyID() == familyID)
+            if (family.getFamilyID() == familyID) {
                 return family;
+            }
         }
         throw new IllegalArgumentException("No family with such ID");
     }
@@ -157,16 +156,17 @@ public class FamilyService {
 
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {
-            if (familyID == family.getFamilyID())
+            if (familyID == family.getFamilyID()) {
                 return true;
+            }
         }
         return false;
     }
 
-    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
-        if(checkIfFamilyExists(familyID)){
+    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+        if (checkIfFamilyExists(familyID)) {
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if(!checkIfEmailPresent(email)){
+            if (!checkIfEmailPresent(email)) {
                 return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
             throw new IllegalArgumentException("This email already exists");
@@ -183,30 +183,40 @@ public class FamilyService {
         return null;
     } */
 
+    public boolean verifyAdministratorPermission(int familyID, int familyAdministratorID) {
+        Family family = getFamily(familyID);
+        boolean isAdmin = family.isAdmin(familyAdministratorID);
+        return isAdmin;
+    }
+
+
     /**
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
      * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
      * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
      * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
+     *
      * @param familyID
      * @return DTOList
      */
-    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
-        List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
-        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        for (FamilyMember member : members) {
-            String name = member.getName();
-            String relation = member.getRelation();
-            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-            DTOList.add(newMember);
+    public List<FamilyMemberRelationDTO> getDTOList(int familyID, int familyAdministratorID) {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        if (verifyAdministratorPermission(familyID, familyAdministratorID)) {
+            List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
+            for (FamilyMember member : members) {
+                String name = member.getName();
+                String relation = member.getRelation();
+                FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+                DTOList.add(newMember);
+            }
         }
         return DTOList;
     }
 
 
-
     /**
      * Method to create a family cash account for a family object
+     *
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
