@@ -1,25 +1,16 @@
 package switch2020.project.utils;
 
-import java.util.Objects;
+import switch2020.project.model.Category;
 
 public class StandardCategoryDTO {
     private String categoryName;
-    private boolean standardCategory;
 
-    public StandardCategoryDTO(String categoryName){
+    public StandardCategoryDTO(String categoryName ){
         this.categoryName = categoryName;
-        this.standardCategory = true;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
 
-    public boolean isStandardCategory() {
-        return standardCategory;
-    }
-
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -30,5 +21,5 @@ public class StandardCategoryDTO {
     @Override
     public int hashCode() {
         return Objects.hash(categoryName, standardCategory);
-    }
+    }*/
 }

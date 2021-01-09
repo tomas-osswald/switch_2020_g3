@@ -2,6 +2,9 @@ package switch2020.project.services;
 
 import switch2020.project.model.Category;
 import switch2020.project.model.CategoryTree;
+import switch2020.project.model.FamilyMember;
+import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +62,7 @@ public class CategoryService {
         return this.categories;
     }
 
+
     public List getStandardCategories() {
         List standardCategories = new ArrayList<Category>();
 
@@ -66,8 +70,12 @@ public class CategoryService {
             if (cat.isStandardCategory()) {
                 standardCategories.add(cat);
             }
-            return Collections.unmodifiableList(standardCategories);
+            return standardCategories;
         }
         throw new IllegalArgumentException("There are no standard categories");
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }
