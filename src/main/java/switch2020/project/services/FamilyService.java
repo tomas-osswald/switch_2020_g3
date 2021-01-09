@@ -6,6 +6,7 @@ import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FamilyService {
@@ -159,7 +160,7 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+    public boolean addFamilyMember(String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
         if(checkIfFamilyExists(familyID)){
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
             if(!checkIfEmailPresent(email)){

@@ -7,13 +7,15 @@ import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyServiceTest {
 
     int id = 1111;
     String name = "Diogo";
-    String date = "26/08/1990";
+    Date date = new Date(1990,8,26);
     int numero = 919999999;
     String email = "abc@gmail.com";
     int nif = 212122233;
@@ -27,7 +29,7 @@ class FamilyServiceTest {
 
     int id2 = 2222;
     String name2 = "Tony";
-    String date2 = "26/08/1954";
+    Date date2 = new Date(1954,8,26);
     int numero2 = 919999998;
     String email2 = "tony@gmail.com";
     int nif2 = 212122000;
