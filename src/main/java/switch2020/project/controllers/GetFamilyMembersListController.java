@@ -9,12 +9,12 @@ import java.util.List;
 
 
 public class GetFamilyMembersListController {
-    private FamilyService service;
     private Application FFMapp;
 
     public GetFamilyMembersListController(Application app) {
         this.FFMapp = app;
     }
+
 
     /**
      * Method that obtains the FFMapp, that has the FamilyService as
@@ -25,9 +25,9 @@ public class GetFamilyMembersListController {
      * @param familyID representing the unique ID given to each family
      * @return DTOList with members name and the relation they have towards the Family Administrator
      */
-    public ArrayList<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID){
+    public List<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID, int familyAdministratorID){
         FamilyService familyService = this.FFMapp.getFamilyService();
-        return familyService.getDTOList(familyID);
+        return familyService.getDTOList(familyID, familyAdministratorID);
     }
 
 }
