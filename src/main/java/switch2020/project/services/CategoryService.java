@@ -18,6 +18,10 @@ public class CategoryService {
         this.categories = new ArrayList<>();
     }
 
+    public CategoryService(List<Category> categories) {
+        this.categories = categories;
+    }
+
     /**
      * Method to add a Standard Category to the list of Categories in the application
      *
@@ -75,7 +79,16 @@ public class CategoryService {
         throw new IllegalArgumentException("There are no standard categories");
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public List<StandardCategoryDTO> getScDTOList() {
+        List<Category> categories = getCategories();
+        List<StandardCategoryDTO> ScDTOList = new ArrayList<>();
+        for (Category cat : categories) {
+            if (cat.isStandardCategory()){
+                String categoryName = cat.getName();
+                StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
+                ScDTOList.add(newcat);
+            }
+        }
+        return ScDTOList;
     }
 }

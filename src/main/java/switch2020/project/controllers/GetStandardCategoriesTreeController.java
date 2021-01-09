@@ -5,6 +5,7 @@ import switch2020.project.model.Category;
 import switch2020.project.services.CategoryService;
 import switch2020.project.utils.StandardCategoryDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetStandardCategoriesTreeController {
@@ -17,6 +18,6 @@ public class GetStandardCategoriesTreeController {
 
     public List<StandardCategoryDTO> getStandardCategories(){
         CategoryService categoryService = this.app.getCategoryService();
-        return categoryService.
+        return categoryService.getScDTOList();
     }
 }
