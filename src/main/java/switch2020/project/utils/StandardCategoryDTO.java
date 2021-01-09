@@ -1,7 +1,5 @@
 package switch2020.project.utils;
 
-import switch2020.project.model.Category;
-
 public class StandardCategoryDTO {
     private String categoryName;
 
