@@ -54,35 +54,30 @@ From analysis done to requirements gathering, a new administrator will be create
 # 3. Design
 
 The main process to fulfill this requirement would require the actor to select they want to add an email in the UI, which would then prompt the input of the email adress. In lieu of not having an UI, the Int *FamilyMemberID* and String *emailAdress* will be directly inputed into the AddEmailController. 
-````puml
-@startuml
+
+## 3.1 Functionality Use
+
+**addFamilyAdministrator( ).1**
+```puml
+
 autonumber
-title createStandardCategory
+title addFamilyAdministrator( ).1
 actor "System Manager" as systemManager
 participant ": UI" as UI
-participant ": CreateStandardCategoryController" as controller
-participant ": FFMApplication" as application
-participant ": familyService" as famServ
-participant "aFamily : Family" as family
-participant "newFamilyMember : FamilyMember" as familyMember
-participant "aVATNumber : VATNumber" as vatNumber
-participant "anAddress : Address" as address
-participant "aPhoneNumber : PhoneNumber" as phoneNumber
-participant "anEmail : Email" as email
+participant ": AddFamilyAdministratorController" as controller
 
 activate systemManager
 systemManager -> UI: add a family administrator
 activate UI
 UI -> controller: getFamiliesWithoutAdministrator()
 activate controller
-controller -> application: getFamilyService()
-activate application
-application --> controller: FamilyService
-deactivate application
-controller -> famServ: getFamiliesWithoutAdministrator()
-activate famServ
-famServ --> controller: listOfFamilies
-deactivate famServ
+
+ref over controller
+
+addFamilyAdministrator( ).2
+
+end ref
+
 controller --> UI: listOfFamilies
 deactivate controller
 UI --> systemManager: show list of families without an administrator and ask to select one
@@ -97,42 +92,101 @@ systemManager -> UI: input data
 activate UI
 UI -> controller: addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
 activate controller
-controller -> application: getFamilyService()
-activate application
-application --> controller: FamilyService
-deactivate application
-controller -> famServ: addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
-activate famServ
 
-famServ -> famServ: doesEmailAlreadyExist(email)
+ref over controller : addFamilyAdministrator( ).3
 
-alt email already exists
-famServ --> controller: failed
-controller --> UI: failed
+
+alt 
+controller --> UI: inform failure
 UI --> systemManager: inform failure
 
-else else
+else 
 
-famServ -> famServ: aFamily = getFamilyByID(familyID)
 
-famServ -> familyMember**: create(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress)
-activate familyMember
-familyMember -> vat**: create(vatNumber)
-familyMember -> address**: create(address)
-familyMember -> phoneNumber**: create(phoneNumber)
-familyMember -> email**: create(email)
-deactivate familyMember
-
-famServ -> family: addFamilyAdministrator(newFamilyMember)
-activate family
-family --> application: ok
-deactivate family
-famServ --> controller: ok
-deactivate famServ
-controller --> UI: ok
+controller --> UI: inform sucess
 deactivate controller
 UI --> systemManager: inform success
 deactivate UI
 
 end
-@enduml
+
+```
+
+**addFamilyAdministrator( ).2**
+```puml
+autonumber
+title addFamilyAdministrator( ).2
+
+participant ": AddFamilyAdministratorController" as controller
+participant ": App" as app
+participant "familyService : FamilyService" as familyService
+
+-> controller : getFamiliesWithoutAdministrator
+activate controller
+controller -> app : getFamilyService( )
+activate app
+app -> controller : familyService
+deactivate app
+controller -> familyService: getFamiliesWithoutAdministrator( )
+activate familyService
+familyService -> controller: listOfFamilies
+deactivate familyService
+<- controller : ListOfFamilies
+deactivate controller 
+```
+
+**addFamilyAdministrator( ).3**
+```puml
+autonumber
+title addFamilyAdministrator( ).3
+
+participant ": AddFamilyAdministratorController" as controller
+participant ": App" as app
+participant "familyService : FamilyService" as familyService
+participant "aFamily : Family" as family
+participant "aFamily : Family" as family
+participant "familyAdministrator : FamilyMember" as administrator
+participant "aVATNumber : VATNumber" as vatNumber
+participant "anAddress : Address" as address
+participant "aPhoneNumber : PhoneNumber" as phoneNumber
+participant "anEmail : Email" as email
+
+-> controller : addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
+activate controller
+controller -> app: getFamilyService()
+activate app
+app --> controller: FamilyService
+deactivate app
+controller -> familyService: addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
+activate familyService
+
+familyService -> familyService: aFamily = getFamily(familyID)
+
+familyService -> family : addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress)
+activate family
+
+activate administrator
+family -> administrator**
+administrator -> vatNumber**
+administrator -> address**
+administrator -> phoneNumber**
+administrator -> email**
+deactivate administrator
+
+family -> administrator : makeAdministrator( )
+activate administrator
+administrator -> family : inform sucess
+deactivate administrator
+
+family -> family : addFamilyMember( )
+
+family -> familyService : inform sucess
+deactivate family
+
+familyService -> controller : inform sucess
+deactivate familyService
+
+<- controller : inform sucess
+deactivate controller
+
+```
