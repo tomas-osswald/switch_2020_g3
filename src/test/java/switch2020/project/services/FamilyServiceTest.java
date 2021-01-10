@@ -1,8 +1,6 @@
 package switch2020.project.services;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.controllers.CreateFamilyCashAccountController;
-import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
@@ -289,29 +287,6 @@ class FamilyServiceTest {
 
     }
 
-    //Test related to validation before obtaining FamilyMemberRelationDTOList
-    @Test
-    void verifyAdministratorPermissionBeforeInvokingGetDTOList_TestWithAdministratorExpectingTrue() {
-        FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-        Family ribeiro = new Family(1, diogo);
-        FamilyService family = new FamilyService(ribeiro);
-        diogo.makeAdmin();
-        boolean expected = true;
-        boolean result = family.verifyAdministratorPermission(ribeiro.getFamilyID(), diogo.getID());
-        assertTrue(result);
-    }
-
-    //Test related to validation before obtaining FamilyMemberRelationDTOList
-    @Test
-    void verifyAdministratorPermissionBeforeInvokingGetDTOList_TestWithNoAdministratorExpectingFalse() {
-        FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-        Family ribeiro = new Family(1, diogo);
-        FamilyService family = new FamilyService(ribeiro);
-        boolean expected = false;
-        boolean result = family.verifyAdministratorPermission(ribeiro.getFamilyID(), 12);
-        assertFalse(result);
-    }
-
     @Test
     void getDTOList_ExpectingToHaveEqualListsBecauseMemberIsAdminAndMethodWillReturnFilledList() {
         //Arrange
@@ -326,7 +301,7 @@ class FamilyServiceTest {
         expected.add(manuelAdminDTO);
         FamilyService familyService = new FamilyService(family);
         //Act
-        List<FamilyMemberRelationDTO> result = familyService.getDTOList(family.getFamilyID(), manuelAdmin.getID());
+        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), manuelAdmin.getID());
         //Assert
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -346,7 +321,7 @@ class FamilyServiceTest {
         expected.add(manuelAdminDTO);
         FamilyService familyService = new FamilyService(family);
         //Act
-        List<FamilyMemberRelationDTO> result = familyService.getDTOList(family.getFamilyID(), jorge.getID());
+        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), jorge.getID());
         //Assert
         assertNotEquals(expected, result);
         assertNotSame(expected, result);

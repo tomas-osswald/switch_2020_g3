@@ -5,7 +5,6 @@ import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
-import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ class GetFamilyMembersListControllerTest {
             GetFamilyMembersListController test = new GetFamilyMembersListController(app);
             app.getFamilyService().addFamily(family);
             //Act
-            List<FamilyMemberRelationDTO> result = test.getFamilyMemberAndRelation(family.getFamilyID(), manuelAdmin.getID());
+            List<FamilyMemberRelationDTO> result = test.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
             //Assert
             assertEquals(expected, result);
             assertNotSame(expected, result);
@@ -111,7 +110,7 @@ class GetFamilyMembersListControllerTest {
             app.getFamilyService().addFamily(family);
             GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
             //Act
-            List<FamilyMemberRelationDTO> result = controller.getFamilyMemberAndRelation(family.getFamilyID(), diogo.getID());
+            List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
             //Assert
             assertEquals(expected, result);
             assertNotSame(expected, result);

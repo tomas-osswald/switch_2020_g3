@@ -182,13 +182,6 @@ public class FamilyService {
         return null;
     } */
 
-    public boolean verifyAdministratorPermission(int familyID, int familyAdministratorID) {
-        Family family = getFamily(familyID);
-        boolean isAdmin = family.isAdmin(familyAdministratorID);
-        return isAdmin;
-    }
-
-
     /**
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
      * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
@@ -198,10 +191,11 @@ public class FamilyService {
      * @param familyID
      * @return DTOList
      */
-    public List<FamilyMemberRelationDTO> getDTOList(int familyID, int familyAdministratorID) {
+    public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        if (verifyAdministratorPermission(familyID, familyAdministratorID)) {
-            List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
+        Family family = getFamily(familyID);
+        if (family.isAdmin(familyAdministratorID)) {
+            List<FamilyMember> members = family.getFamilyMembers();
             for (FamilyMember member : members) {
                 String name = member.getName();
                 String relation = member.getRelation();
@@ -211,7 +205,6 @@ public class FamilyService {
         }
         return DTOList;
     }
-
 
     /**
      * Method to create a family cash account for a family object
