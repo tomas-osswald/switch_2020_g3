@@ -23,7 +23,7 @@ public class FamilyService {
 
     // Business Methods
 
-    public List<Category> getCustomCategories(int familyID) {
+    public List<StandardCategory> getCustomCategories(int familyID) {
         Family family = getFamily(familyID);
         return family.getFamilyCustomCategories();
     }

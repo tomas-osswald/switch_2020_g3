@@ -96,6 +96,8 @@ class FamilyServiceTest {
     void GivenFamilyIDNotFound() {
         int familyID1 = 1;
         int familyID2 = 2;
+        int selfID = 1;
+        int otherID = 2;
         Family family1 = new Family(familyID1);
         Family family2 = new Family(familyID2);
         FamilyService familyService = new FamilyService();
@@ -105,7 +107,7 @@ class FamilyServiceTest {
 
         int familyID = 3; //Dont exist any family with that ID number
 
-        assertThrows(IllegalArgumentException.class, () -> familyService.getFamily(familyID));
+        assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(selfID,otherID,"prima",familyID));
     }
 
     @Test
