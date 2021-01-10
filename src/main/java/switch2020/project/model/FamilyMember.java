@@ -51,7 +51,7 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member
-    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) throws ParseException {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
 
@@ -194,16 +194,6 @@ public class FamilyMember {
         return true;
     }
 
-    private Date validateDateFormat(String birthDate) {
-        Date data = null;
-        try {
-            data = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH).parse(birthDate);
-        } catch(ParseException e){
-
-        }
-        return data;
-    }
-
 
     private boolean validateRelation(Relation relation) {
         if (this.relation != null)
@@ -217,6 +207,10 @@ public class FamilyMember {
 
     public int getVatNumber() {
         return this.vatNumber.getVatNumber();
+    }
+
+    public boolean validateVat(int vat){
+        return this.vatNumber.validateFormat(vat);
     }
 
     /**
@@ -262,25 +256,6 @@ public class FamilyMember {
     // Importado do Head
     protected int getFamilyMemberID() {
         return this.familyMemberID;
-    }
-
-    /**
-     * Method to compare Date formats
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FamilyMember)) return false;
-        FamilyMember that = (FamilyMember) o;
-        return Objects.equals(birthDate, that.birthDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(birthDate);
     }
 
     /********************** USER STORIES **********************/
