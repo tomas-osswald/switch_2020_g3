@@ -216,4 +216,23 @@ class FamilyTest {
         assertThrows(IllegalArgumentException.class, ()-> familia.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
+    /*
+    @Test
+    void familyHasAdministrator() {
+        Family family = new Family(name);
+        FamilyMember familyMember = new FamilyMember(name, date, numero, email, nif, rua, codPostal, local, city)
+        family.addFamilyMember();
+    }
+    */
+
+
+    @Test
+    void familyHasNoAdministratorWithFamilyMembers() {
+
+    }
+
+    @Test
+    void familyHasNoAministratorWithNoFamilyMembers() {
+
+    }
 }

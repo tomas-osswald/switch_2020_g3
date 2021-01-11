@@ -253,4 +253,19 @@ class FamilyServiceTest {
         assertThrows(IllegalArgumentException.class, ()-> familias.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2,2));
 
     }
+
+    @Test
+    void listOfFamiliesWithoutFamilyAdministratorWithNoFamilies_AllFamiliesHaveAdministrator() {
+
+    }
+
+    @Test
+    void listOfFamiliesWithoutFamilyAdministratorWithFamiliesWithAndWithoutAdministrator() {
+
+    }
+
+    @Test
+    void listOfFamiliesWithoutFamilyAdministratorAllFamiliesHaveAdministrator() {
+
+    }
 }
