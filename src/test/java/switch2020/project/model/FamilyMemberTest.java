@@ -30,4 +30,6 @@ class FamilyMemberTest {
     }
 
     // Falta ainda testar o throw para o constructor de FamilyMember.
+
+
 }
