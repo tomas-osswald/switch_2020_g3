@@ -26,8 +26,9 @@ class CreateFamilyCashAccountControllerTest {
         boolean expected = true;
         Family aFamily = new Family(familyID);
         app.getFamilyService().addFamily(aFamily);
+        double balance = 0;
 
-        boolean result = controller.createFamilyCashAccount(familyID);
+        boolean result = controller.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }
@@ -40,9 +41,10 @@ class CreateFamilyCashAccountControllerTest {
         boolean expected = false;
         Family aFamily = new Family(familyID);
         app.getFamilyService().addFamily(aFamily);
-        controller.createFamilyCashAccount(familyID);
+        double balance = 0;
+        controller.createFamilyCashAccount(familyID, balance);
 
-        boolean result = controller.createFamilyCashAccount(familyID);
+        boolean result = controller.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }

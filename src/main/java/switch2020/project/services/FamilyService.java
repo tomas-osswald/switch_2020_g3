@@ -213,10 +213,10 @@ public class FamilyService {
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
-    public boolean createFamilyCashAccount(int familyID) {
+    public boolean createFamilyCashAccount(int familyID, double balance) {
         boolean success;
         Family aFamily = getFamily(familyID);
-        success = aFamily.createFamilyCashAccount();
+        success = aFamily.createFamilyCashAccount(balance);
         return success;
     }
 

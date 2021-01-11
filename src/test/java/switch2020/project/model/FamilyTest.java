@@ -178,11 +178,12 @@ class FamilyTest {
     @Test
     void createFamilyCashAccountResultFalseAccountAlreadyExists() {
         int familyID = 1;
+        double balance = 0;
         Family familyOne = new Family(familyID);
-        familyOne.createFamilyCashAccount();
+        familyOne.createFamilyCashAccount(balance);
         boolean expected = false;
 
-        boolean result = familyOne.createFamilyCashAccount();
+        boolean result = familyOne.createFamilyCashAccount(balance);
 
         assertEquals(expected, result);
     }
@@ -190,10 +191,11 @@ class FamilyTest {
     @Test
     void createFamilyCashAccountResultTrueAccountCreated() {
         int familyID = 1;
+        double balance = 0;
         Family familyOne = new Family(familyID);
         boolean expected = true;
 
-        boolean result = familyOne.createFamilyCashAccount();
+        boolean result = familyOne.createFamilyCashAccount(balance);
 
         assertEquals(expected, result);
     }

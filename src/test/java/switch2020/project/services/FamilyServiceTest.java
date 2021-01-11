@@ -201,8 +201,9 @@ class FamilyServiceTest {
         Family aFamily = new Family(familyID);
         familyService.addFamily(aFamily);
         boolean expected = true;
+        double balance = 0;
 
-        boolean result = familyService.createFamilyCashAccount(familyID);
+        boolean result = familyService.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }
@@ -211,12 +212,13 @@ class FamilyServiceTest {
     void createFamilyCashAccountResultTrueAccountCreated() {
         FamilyService familyService = new FamilyService();
         int familyID = 1;
+        double balance = 0;
         Family aFamily = new Family(familyID);
         familyService.addFamily(aFamily);
-        familyService.createFamilyCashAccount(familyID);
+        familyService.createFamilyCashAccount(familyID, balance);
         boolean expected = false;
 
-        boolean result = familyService.createFamilyCashAccount(familyID);
+        boolean result = familyService.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }

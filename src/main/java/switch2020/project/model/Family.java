@@ -295,10 +295,10 @@ public class Family {
      * Method that creates a cash account for this family and stores it in this family's attributes
      * @return returns true if an account was successfully created and stored
      */
-    public boolean createFamilyCashAccount() {
+    public boolean createFamilyCashAccount(double balance) {
         boolean success = false;
         if (!hasCashAccount()){
-            this.familyCashAccount = new CashAccount();
+            this.familyCashAccount = new CashAccount(balance);
             success = true;
         }
         return success;

@@ -15,10 +15,10 @@ public class CreateFamilyCashAccountController {
      * @param familyID given family object ID
      * @return returns true if the task was successful
      */
-    public boolean createFamilyCashAccount(int familyID) {
+    public boolean createFamilyCashAccount(int familyID, double balance) {
         boolean success;
         FamilyService familyService = this.ffmApp.getFamilyService();
-        success = familyService.createFamilyCashAccount(familyID);
+        success = familyService.createFamilyCashAccount(familyID, balance);
         return success;
     }
 }
