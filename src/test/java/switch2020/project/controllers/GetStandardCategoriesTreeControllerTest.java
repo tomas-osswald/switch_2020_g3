@@ -3,33 +3,26 @@ package switch2020.project.controllers;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.StandardCategory;
-import switch2020.project.services.CategoryService;
-import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetStandardCategoriesTreeControllerTest {
 
-    List<StandardCategory> categoriesOne = new ArrayList<>();
-    StandardCategory cat1 = new StandardCategory("Alimentação", null,1);
-    StandardCategory cat2 = new StandardCategory("Saúde", null,2);
-    StandardCategory cat3 = new StandardCategory("Educação", null,3);
-    StandardCategory cat4 = new StandardCategory("Diversos", null,4);
-
-/*    GetStandardCategoriesTreeController getStandard = new GetStandardCategoriesTreeController(App);*/
-
+    Application App = new Application();
+    GetStandardCategoriesTreeController standardCategoriesTreeController = new GetStandardCategoriesTreeController(App);
 
     @Test
-    void Controller_Test1() {
-        Application app = new Application();
-        GetStandardCategoriesTreeController tester = new GetStandardCategoriesTreeController(app);
-        app.getCategoryService();
-
-
-
+    public void Controller_Test1() {
+        List<StandardCategory> stdCategoriesOne = new ArrayList<>();
+        StandardCategory cat1 = new StandardCategory("Casa", 0);
+        StandardCategory cat2 = new StandardCategory("Saude", 0);
+        StandardCategory cat3 = new StandardCategory("Educacao", 0);
+        stdCategoriesOne.add(cat1);
+        stdCategoriesOne.add(cat2);
+        stdCategoriesOne.add(cat3);
+        assertTrue(standardCategoriesTreeController.getStandardCategoriesList());
     }
 }

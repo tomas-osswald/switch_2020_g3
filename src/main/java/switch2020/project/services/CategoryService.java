@@ -12,7 +12,7 @@ public class CategoryService {
 
     private List<StandardCategory> categories;
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -23,7 +23,7 @@ public class CategoryService {
     @Override
     public int hashCode() {
         return Objects.hash(categories);
-    }
+    }*/
 
     public CategoryService() {
         this.categories = new ArrayList<>();
@@ -133,22 +133,10 @@ public class CategoryService {
         return standardCategories;
     }
 
-    public List cloneOfStandardcategoriesList(){
+    public List cloneOfStandardCategoriesList(){
         List<StandardCategory> clonedList = new ArrayList<StandardCategory>();
         clonedList.addAll(getStandardCategories());
         return clonedList;
     }
 
-    public List<StandardCategoryDTO> getStandardCategoriesDTOList() {
-
-        List<StandardCategoryDTO> standardCategoriesDTOList = new ArrayList<>();
-        /*for (StandardCategory cat : categories) {
-            if (cat.isStandardCategory()){
-            String categoryName = cat.getName();
-            StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
-            standardCategoriesDTOList.add(newcat);
-            }
-        }*/
-        return standardCategoriesDTOList;
-    }
 }
