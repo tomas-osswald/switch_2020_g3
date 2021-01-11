@@ -7,7 +7,8 @@ public class CustomCategory {
     private CustomCategory parentCustomCategory;
 
     public CustomCategory(String categoryName, StandardCategory parentCategory, int categoryID) {
-        this.categoryName = categoryName;
+        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
+        this.categoryName = categoryName.trim().toUpperCase();
         this.parentStandardCategory = parentCategory;
         this.categoryID = categoryID;
     }
