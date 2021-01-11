@@ -1,16 +1,18 @@
-package switch2020.project.model;
+package switch2020.project.utils;
 
+import switch2020.project.model.CustomCategory;
+import switch2020.project.model.StandardCategory;
 import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryTree {
+public class CategoryTreeDTO {
     List<StandardCategory> standardCategories = new ArrayList();
     List<CustomCategory> customCategories = new ArrayList();
 
-    public CategoryTree(CategoryService categoryService, FamilyService familyService, int familyID) {
+    public CategoryTreeDTO(CategoryService categoryService, FamilyService familyService, int familyID) {
         this.standardCategories.addAll(categoryService.getStandardCategories());
         this.customCategories.addAll(familyService.getCustomCategories(familyID));
     }

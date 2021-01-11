@@ -1,7 +1,7 @@
 package switch2020.project.services;
 
+import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
-import switch2020.project.model.CategoryTree;
 import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
@@ -17,8 +17,9 @@ public class CategoryService {
 
     /**
      * Method to add a Standard Category to the list of Categories in the application
+     *
      * @param categoryName categoryName String - name of the category to be added to the list
-     * @param parentID categoryID of the Parent Category
+     * @param parentID     categoryID of the Parent Category
      * @return true if the category was created and added successful, false otherwise
      */
 
@@ -36,7 +37,7 @@ public class CategoryService {
         }
     }
 
-    private StandardCategory getStandardCategoryByID(int categoryID){
+    private StandardCategory getStandardCategoryByID(int categoryID) {
         StandardCategory selectedCategory = null;
         int size = this.categories.size();
         for (int index = 0; index < size; index++) {
@@ -69,11 +70,12 @@ public class CategoryService {
 
     /**
      * Method to determine if a standard category with a given name already exists
+     *
      * @param parentID int representing the categoryID of the parent category
      * @return true if the ID exists in the list of Standard Categories, false otherwise
      */
-    private boolean isParentIDInList(int parentID){
-        if (parentID==0) return true;
+    private boolean isParentIDInList(int parentID) {
+        if (parentID == 0) return true;
         boolean idPresent = false;
         int size = this.categories.size();
         for (int index = 0; index < size; index++) {
@@ -87,38 +89,36 @@ public class CategoryService {
 
     /**
      * Method that generates an ID for a Standard Category
+     *
      * @return generated ID
      */
 
-    private int generateCategoryID(){
+    private int generateCategoryID() {
         int maxID = 0;
-        for (StandardCategory category: this.categories) {
-            if (maxID<category.getCategoryID()) maxID = category.getCategoryID();
+        for (StandardCategory category : this.categories) {
+            if (maxID < category.getCategoryID()) maxID = category.getCategoryID();
         }
-        return maxID+1;
+        return maxID + 1;
     }
-
 
 
     public List<StandardCategory> getCategories() {
         return this.categories;
     }
 
-    public CategoryTree getCategoryTree(int familyID, FamilyService familyService){
-        CategoryTree categoryTree = new CategoryTree(this, familyService, familyID);
+    public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
+        CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
 
     public List getStandardCategories() {
-        List standardCategories = new ArrayList<StandardCategory>();
-
-        for (StandardCategory cat : categories) {
-            //if (cat.isStandardCategory()) {
-                standardCategories.add(cat);
-            //}
-            return standardCategories;
+        if (categories.size() == 0) {
+            throw new IllegalArgumentException("There are no standard categories");
         }
-        throw new IllegalArgumentException("There are no standard categories");
+        List standardCategories = new ArrayList<StandardCategory>();
+        standardCategories = categories;
+        return standardCategories;
+
     }
 
     public List<StandardCategoryDTO> getStandardCategoriesDTOList() {
@@ -126,9 +126,9 @@ public class CategoryService {
         List<StandardCategoryDTO> standardCategoriesDTOList = new ArrayList<>();
         for (StandardCategory cat : categories) {
             //if (cat.isStandardCategory()){
-                String categoryName = cat.getName();
-                StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
-                standardCategoriesDTOList.add(newcat);
+            String categoryName = cat.getName();
+            StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
+            standardCategoriesDTOList.add(newcat);
             //}
         }
         return standardCategoriesDTOList;
