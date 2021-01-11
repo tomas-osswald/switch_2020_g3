@@ -39,10 +39,12 @@ public class CategoryService {
             return false;
         }
     }
-    public CategoryTree getCategoryTree(int familyID, FamilyService familyService){
+
+    public CategoryTree getCategoryTree(int familyID, FamilyService familyService) {
         CategoryTree categoryTree = new CategoryTree(this, familyService, familyID);
         return categoryTree;
     }
+
     /**
      * Method to determine if a new category is present in the list of categories
      *
@@ -67,28 +69,29 @@ public class CategoryService {
     }
 
 
-    public List getStandardCategories() {
+    public boolean getStandardCategories() {
         List standardCategories = new ArrayList<Category>();
-
         for (Category cat : categories) {
             if (cat.isStandardCategory()) {
-                standardCategories.add(cat);
+                try {
+                    standardCategories.add(cat);
+                    return true;
+                } catch (IllegalArgumentException nameException) {
+                    return false;
+                }
             }
-            return standardCategories;
         }
-        throw new IllegalArgumentException("There are no standard categories");
-    }
 
-    public List<StandardCategoryDTO> getScDTOList() {
-        List<Category> categories = getCategories();
-        List<StandardCategoryDTO> ScDTOList = new ArrayList<>();
-        for (Category cat : categories) {
-            if (cat.isStandardCategory()){
-                String categoryName = cat.getName();
-                StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
-                ScDTOList.add(newcat);
+        public List<StandardCategoryDTO> getScDTOList () {
+            List<Category> categories = getCategories();
+            List<StandardCategoryDTO> ScDTOList = new ArrayList<>();
+            for (Category cat : categories) {
+                if (cat.isStandardCategory()) {
+                    String categoryName = cat.getName();
+                    StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
+                    ScDTOList.add(newcat);
+                }
             }
+            return ScDTOList;
         }
-        return ScDTOList;
     }
-}

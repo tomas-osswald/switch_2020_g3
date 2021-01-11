@@ -19,7 +19,7 @@ class GetStandardCategoriesTreeControllerTest {
 
     @Test
     void testGetStandardCategories(){
-        App.getCategoryService().getStandardCategories();
+
 
     }
 }

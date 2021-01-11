@@ -28,8 +28,7 @@ The main process to fulfill this requirement is to request(infer) in the UI for 
 This is achieved through the UI, asking the controller to the application for the standard categories.
 The application then returns a list object containing the categories identified as standard
 
-
-
+### Sequence diagram
 ````puml
 autonumber
 title get standard categories list - sequence diagram
@@ -119,6 +118,7 @@ Categories "1"  --> "*" Category  : has >
 ## 3.3. Applied Patterns
 
 We applied some GRASP principles as Controller, Creator and Information Expert.
+We also applied the SOLID SRP (Single Responsabity Principle) in each of the classes.
 
 ## 3.4. Tests
 
@@ -127,11 +127,9 @@ We applied some GRASP principles as Controller, Creator and Information Expert.
 # 4. Implementation
 
 To get the Standard Categories List we design and implement a method that iterates over the elements of the general list of categories.
+We return the Standard Categories List in form of a DTO (Data Transfer Object) because we get the categories that pass the verification if they are Standard, i.e. if the attribute standardCategory is true we add that Category to the DTO Object (that is a List).
 
-
-
-
-
+# 4.1. As shown in the sequence diagram above, first we 
 *Recomenda-se que organize este conteúdo por subsecções.*
 
 # 5. Integration/Demonstration
