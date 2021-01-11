@@ -3,6 +3,7 @@ package switch2020.project.model;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,10 +11,10 @@ class FamilyTest {
 
     int id = 1111;
     String name = "Diogo";
-    String date = "26/08/1990";
+    Date date = new Date(1990,8,26);
     int numero = 919999999;
     String email = "diogo@gmail.com";
-    int nif = 212122233;
+    int nif = 212122230;
     String rua = "Rua Nossa";
     String codPostal = "4444-555";
     String local = "Zinde";
@@ -24,7 +25,7 @@ class FamilyTest {
 
     int id2 = 2222;
     String name2 = "Tony";
-    String date2 = "26/08/1954";
+    Date date2 = new Date(1954,8,26);
     int numero2 = 919999998;
     String email2 = "tony@gmail.com";
     int nif2 = 212122000;
@@ -201,7 +202,6 @@ class FamilyTest {
     @Test
     void addFamilyMember_VatNotExists() {
         FamilyMember pessoa1 = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
-        FamilyMember pessoa2 = pessoa1;
         Family familia = new Family(1);
         familia.addFamilyMember(pessoa1);
         assertTrue(familia.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2));
@@ -210,29 +210,16 @@ class FamilyTest {
     @Test
     void NotAddFamilyMember_VatExists() {
         FamilyMember pessoa1 = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
-        FamilyMember pessoa2 = pessoa1;
         Family familia = new Family(1);
         familia.addFamilyMember(pessoa1);
         assertThrows(IllegalArgumentException.class, ()-> familia.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
-    /*
     @Test
-    void familyHasAdministrator() {
-        Family family = new Family(name);
-        FamilyMember familyMember = new FamilyMember(name, date, numero, email, nif, rua, codPostal, local, city)
-        family.addFamilyMember();
-    }
-    */
-
-
-    @Test
-    void familyHasNoAdministratorWithFamilyMembers() {
-
+    void AddFamilyMember_() {
+        assertThrows(IllegalArgumentException.class, ()-> new FamilyMember(id,"",date,numero,email,nif,rua,codPostal,local,city,relation,admin));
     }
 
-    @Test
-    void familyHasNoAministratorWithNoFamilyMembers() {
 
-    }
+
 }
