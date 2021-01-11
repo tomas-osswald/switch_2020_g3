@@ -49,7 +49,7 @@ class FamilyServiceTest {
     //Added 3rd FamilyMember to test
     int id3 = 3333;
     String name3 = "TonyZe";
-    String date3 = "26/08/1955";
+    Date date3 = new Date(1955,8,26);
     int numero3 = 919939998;
     String email3 = "tonyze@gmail.com";
     int nif3 = 212122000;
