@@ -1,11 +1,10 @@
 package switch2020.project.controllers;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetCategoryTreeControllerTest {
@@ -15,7 +14,7 @@ class GetCategoryTreeControllerTest {
     GetCategoryTreeController categoryTreeController = new GetCategoryTreeController(app);
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
 
-    @BeforeEach
+
     public void setup() {
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
         addStandardCategoryController.addStandardCategory("Electricity", 1); //id 2
@@ -34,14 +33,15 @@ class GetCategoryTreeControllerTest {
 
     @Test
     public void getCategoryTreeTest() {
+        setup();
         assertTrue(categoryTreeController.getCategoryTree(10));
     }
 
     @Test
     public void getCategoryTreeNoFamilyIDTest() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            categoryTreeController.getCategoryTree(11);
-        });
+        setup();
+        assertFalse(categoryTreeController.getCategoryTree(11));
+
     }
 
 }
