@@ -1,11 +1,12 @@
 package switch2020.project.controllers;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
+import switch2020.project.utils.CategoryTreeDTO;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GetCategoryTreeControllerTest {
 
@@ -15,8 +16,10 @@ class GetCategoryTreeControllerTest {
     Application app = new Application(testFamily);
     GetCategoryTreeController categoryTreeController = new GetCategoryTreeController(app);
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
+    String[] expected = {"HOUSE", "ELECTRICITY", "WATER", "TRANSPORT", "CAR", "PUBLIC TRANSPORT", "FUEL", "REPAIRS", "PARKING", "TAXES", "INCOME", "SALES", "GAS"};
 
 
+    @BeforeEach
     public void setup() {
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
         addStandardCategoryController.addStandardCategory("Electricity", 1); //id 2
@@ -31,17 +34,24 @@ class GetCategoryTreeControllerTest {
         addStandardCategoryController.addStandardCategory("Income", 10);//id11
         addStandardCategoryController.addStandardCategory("Sales", 10);//id 12
         addStandardCategoryController.addStandardCategory("Gas", 1);//id 13
+
+
     }
 
     @Test
+    public void compareCategoryTree() {
+        CategoryTreeDTO categoryTree = app.getCategoryService().getCategoryTree(10, app.getFamilyService());
+        assertArrayEquals(categoryTree.getArrayOfStandardCategoriesNames(), expected);
+    }
+
+
+    @Test
     public void getCategoryTreeTest() {
-        setup();
         assertTrue(categoryTreeController.getCategoryTree(10));
     }
 
     @Test
     public void getCategoryTreeNoFamilyIDTest() {
-        setup();
         assertFalse(categoryTreeController.getCategoryTree(11));
 
     }

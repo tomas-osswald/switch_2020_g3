@@ -38,7 +38,8 @@ class CashAccountTest {
 
     @Test
     void getCashAccountIDNoGivenID() {
-        CashAccount cashAccountZero = new CashAccount();
+        double balance = 0;
+        CashAccount cashAccountZero = new CashAccount(balance);
         int expected = 0;
 
         int result = cashAccountZero.getCashAccountID();

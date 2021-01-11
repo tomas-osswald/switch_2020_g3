@@ -10,7 +10,7 @@ public class Family {
     private String familyName;
     private Date registrationDate;
     //private FamilyMember familyAdministrator;
-    private List<FamilyMember> familyMembers = new ArrayList<>();
+    private List<FamilyMember> familyMembers;
     private List<String> relationDesignations = new ArrayList<>();
     private CashAccount familyCashAccount = null;
     private List<CustomCategory> familyCustomCategories = new ArrayList<>();
@@ -33,8 +33,7 @@ public class Family {
 
     /**
      * Constructor for an empty family for registrations requiring a different registration date
-     *
-     * @param familyName       String with the name of the family to be created
+     * @param familyName String with the name of the family to be created
      * @param registrationDate Date of the registration of the given family
      */
     public Family(String familyName, Date registrationDate, int familyID) {
@@ -68,7 +67,6 @@ public class Family {
     }
 
     // Get and Setter methods
-
     /**
      * Method to return family ID
      *
@@ -137,11 +135,11 @@ public class Family {
 
     private boolean checkIfVatExists(int vat) {
         ArrayList<Integer> vatList = new ArrayList();
-        for (FamilyMember member : familyMembers) {
+        for ( FamilyMember member : familyMembers ) {
             vatList.add(member.getVatNumber());
         }
-        for (Integer nif : vatList) {
-            if (nif == vat) {
+        for ( Integer nif : vatList) {
+            if( nif == vat){
                 return true;
             }
         }
@@ -246,7 +244,7 @@ public class Family {
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
-     * @param emailToAdd     String of the email address to add
+     * @param emailToAdd String of the email address to add
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
@@ -256,8 +254,8 @@ public class Family {
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember(String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship) {
-        if (!checkIfVatExists(vat)) {
+    public boolean addFamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        if(!checkIfVatExists(vat)){
             FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             familyMembers.add(newFamilyMember);
             return true;
@@ -271,10 +269,10 @@ public class Family {
      *
      * @return returns true if an account was successfully created and stored
      */
-    public boolean createFamilyCashAccount() {
+    public boolean createFamilyCashAccount(double balance) {
         boolean success = false;
-        if (!hasCashAccount()) {
-            this.familyCashAccount = new CashAccount();
+        if (!hasCashAccount()){
+            this.familyCashAccount = new CashAccount(balance);
             success = true;
         }
         return success;
