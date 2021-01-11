@@ -178,7 +178,7 @@ activate administrator
 administrator -> family : inform sucess
 deactivate administrator
 
-family -> family : addFamilyMember( )
+family -> family : addFamilyMember(familyAdministrator)
 
 family -> familyService : inform sucess
 deactivate family

@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+
 import java.util.*;
 
 public class Family {
@@ -308,6 +310,7 @@ public class Family {
      * Method that returns if a cash account has already been created for a this family
      * @return returns true if a cash account alreay exists
      */
+
     private boolean hasCashAccount() {
         boolean hasCashAccount = false;
         if (this.familyCashAccount != null) {
@@ -316,4 +319,26 @@ public class Family {
         return hasCashAccount;
     }
 
+    /**
+     * Method to verify if a Family has an administrator
+     * @return boolean
+     */
+
+    public boolean hasAdministrator () {
+        for (FamilyMember familyMember : familyMembers) {
+            if(familyMember.isAdmin())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Method to create a DTO (familyWithoutAdministratorDTO) with name and id of a Family
+     * @return aFamilyWithoutAdministratorDTO
+     */
+
+    public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
+        FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
+     return  familyWithoutAdministratorDTO;
+    }
 }

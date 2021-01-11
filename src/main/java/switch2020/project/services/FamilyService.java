@@ -2,6 +2,7 @@ package switch2020.project.services;
 
 import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.FamilyWithoutAdministratorDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -227,6 +228,23 @@ public class FamilyService {
         MemberProfileDTO memberProfile = familyMember.createProfile();
 
         return memberProfile;
+    }
+
+    /**
+     * Method to return a List of Families without Administrator
+     * @return List<FamilyWithoutAdministratorDTO>
+     */
+
+    public List<FamilyWithoutAdministratorDTO> familiesWithoutAdministrator() {
+        List<FamilyWithoutAdministratorDTO> listOfFamiliesWithoutAdministrator = new ArrayList<>();
+
+        for (Family family : families) {
+            if (!family.hasAdministrator()){
+                FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = family.familyWithoutAdministratorDTO();
+                listOfFamiliesWithoutAdministrator.add(familyWithoutAdministratorDTO);
+            }
+        }
+        return listOfFamiliesWithoutAdministrator;
     }
 }
 
