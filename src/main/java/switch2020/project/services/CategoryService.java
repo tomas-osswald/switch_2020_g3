@@ -1,6 +1,6 @@
 package switch2020.project.services;
 
-import switch2020.project.model.CategoryTree;
+import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
 import switch2020.project.utils.StandardCategoryDTO;
 
@@ -106,8 +106,8 @@ public class CategoryService {
         return this.categories;
     }
 
-    public CategoryTree getCategoryTree(int familyID, FamilyService familyService) {
-        CategoryTree categoryTree = new CategoryTree(this, familyService, familyID);
+    public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
+        CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
 
