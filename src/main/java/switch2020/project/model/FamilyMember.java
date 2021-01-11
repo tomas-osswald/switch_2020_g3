@@ -212,7 +212,12 @@ public class FamilyMember {
     }
 
     public boolean validateVat(int vat){
-        return this.vatNumber.validateFormat(vat);
+        return this.vatNumber.validate(vat);
+    }
+
+    public boolean validatePhone(int phone){
+        PhoneNumber mobile = new PhoneNumber(phone);
+        return mobile.validate(phone);
     }
 
     /**
