@@ -6,69 +6,43 @@ public class Family {
 
     // Attributes
 
-    //private int familyID;
+    private int familyID;
     private String familyName;
     private Date registrationDate;
     //private FamilyMember familyAdministrator;
-    private int familyID;
-    private List<FamilyMember> familyMembers = new ArrayList<>();
+    private List<FamilyMember> familyMembers;
     private List<String> relationDesignations = new ArrayList<>();
     private CashAccount familyCashAccount = null;
     private List<CustomCategory> familyCustomCategories = new ArrayList<>();
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
-    public Family(int familyID) {
-        this.familyID = familyID;
-    }
-
-    public Family() {
-    }
-
-    public Family(int ID, FamilyMember member) {
-        this.familyID = ID;
-        this.familyMembers.add(member);
-    }
-
-    public Family(int familyID, ArrayList<FamilyMember> members) {
-        if (members == null) {
-            throw new IllegalArgumentException("Family can't be null");
-        }
-        if (familyID < 0) {
-            throw new IllegalArgumentException("ID can't be a negative number");
-        }
-        this.familyID = familyID;
-        this.familyMembers = members;
-    }
 
     /**
      * Constructor for an empty Family, uses the current date as the registation date for the created family
      *
      * @param familyName String with Name of the family to be created
      */
-    public Family(String familyName) {
+    public Family(String familyName, int familyID) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         this.familyMembers = new ArrayList<>();
         this.registrationDate = new Date();
         this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+        this.familyID = familyID;
     }
 
     /**
      * Constructor for an empty family for registrations requiring a different registration date
-     *
-     * @param familyName       String with the name of the family to be created
+     * @param familyName String with the name of the family to be created
      * @param registrationDate Date of the registration of the given family
      */
-    public Family(String familyName, Date registrationDate) {
+    public Family(String familyName, Date registrationDate, int familyID) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
         this.familyMembers = new ArrayList<>();
         this.registrationDate = registrationDate;
         this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
-    }
-
-    public List<CustomCategory> getFamilyCustomCategories() {
-        return familyCustomCategories;
+        this.familyID = familyID;
     }
 
     // Validations
@@ -93,7 +67,6 @@ public class Family {
     }
 
     // Get and Setter methods
-
     /**
      * Method to return family ID
      *
@@ -102,6 +75,10 @@ public class Family {
 
     public int getFamilyID() {
         return familyID;
+    }
+
+    public List<CustomCategory> getFamilyCustomCategories() {
+        return familyCustomCategories;
     }
 
     // Business methods
@@ -158,11 +135,11 @@ public class Family {
 
     private boolean checkIfVatExists(int vat) {
         ArrayList<Integer> vatList = new ArrayList();
-        for (FamilyMember member : familyMembers) {
+        for ( FamilyMember member : familyMembers ) {
             vatList.add(member.getVatNumber());
         }
-        for (Integer nif : vatList) {
-            if (nif == vat) {
+        for ( Integer nif : vatList) {
+            if( nif == vat){
                 return true;
             }
         }
@@ -254,11 +231,11 @@ public class Family {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Family)) return false;
-        final Family family1 = (Family) o;
-        return this.getFamilyID() == family1.getFamilyID() && Objects.equals(this.getFamilyMembers(), family1.getFamilyMembers());
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Family)) return false;
+        Family otherFamily = (Family) other;
+        return (this.familyID==otherFamily.familyID && this.familyName.equals(otherFamily.familyName));
     }
 
 
@@ -267,7 +244,7 @@ public class Family {
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
-     * @param emailToAdd     String of the email address to add
+     * @param emailToAdd String of the email address to add
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
@@ -277,8 +254,8 @@ public class Family {
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember(String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship) {
-        if (!checkIfVatExists(vat)) {
+    public boolean addFamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        if(!checkIfVatExists(vat)){
             FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             familyMembers.add(newFamilyMember);
             return true;
@@ -292,10 +269,10 @@ public class Family {
      *
      * @return returns true if an account was successfully created and stored
      */
-    public boolean createFamilyCashAccount() {
+    public boolean createFamilyCashAccount(double balance) {
         boolean success = false;
-        if (!hasCashAccount()) {
-            this.familyCashAccount = new CashAccount();
+        if (!hasCashAccount()){
+            this.familyCashAccount = new CashAccount(balance);
             success = true;
         }
         return success;

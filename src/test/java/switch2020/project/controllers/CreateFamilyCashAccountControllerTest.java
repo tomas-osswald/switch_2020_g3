@@ -23,11 +23,13 @@ class CreateFamilyCashAccountControllerTest {
         Application app = new Application();
         CreateFamilyCashAccountController controller = new CreateFamilyCashAccountController(app);
         int familyID = 1;
+        String familyName = "Moura";
         boolean expected = true;
-        Family aFamily = new Family(familyID);
+        Family aFamily = new Family(familyName, familyID);
         app.getFamilyService().addFamily(aFamily);
+        double balance = 0;
 
-        boolean result = controller.createFamilyCashAccount(familyID);
+        boolean result = controller.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }
@@ -37,12 +39,14 @@ class CreateFamilyCashAccountControllerTest {
         Application app = new Application();
         CreateFamilyCashAccountController controller = new CreateFamilyCashAccountController(app);
         int familyID = 1;
+        String familyName = "Moura";
         boolean expected = false;
-        Family aFamily = new Family(familyID);
+        Family aFamily = new Family(familyName, familyID);
         app.getFamilyService().addFamily(aFamily);
-        controller.createFamilyCashAccount(familyID);
+        double balance = 0;
+        controller.createFamilyCashAccount(familyID, balance);
 
-        boolean result = controller.createFamilyCashAccount(familyID);
+        boolean result = controller.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }
