@@ -13,12 +13,12 @@ public class GetCategoryTreeController {
         this.ffmApp = app;
     }
 
-    public CategoryTree getCategoryTree(int familyID) {
+    public boolean getCategoryTree(int familyID) {
         FamilyService familyService = this.ffmApp.getFamilyService();
         CategoryService categoryService = this.ffmApp.getCategoryService();
         CategoryTree categoryTree = categoryService.getCategoryTree(familyID, familyService);
         categoryTree.printTree();
-        return categoryTree;
+        return true;
     }
 
 }

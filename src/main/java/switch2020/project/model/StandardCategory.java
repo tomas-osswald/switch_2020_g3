@@ -8,7 +8,7 @@ public class StandardCategory {
     private String categoryName;
     private StandardCategory parentCategory;
 
-    public StandardCategory(String categoryName, StandardCategory parentCategory, int categoryID){
+    public StandardCategory(String categoryName, StandardCategory parentCategory, int categoryID) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
         this.categoryID = categoryID;
         this.categoryName = categoryName.trim().toUpperCase();
@@ -16,7 +16,12 @@ public class StandardCategory {
     }
 
     public int getParentID() {
-        return parentCategory.getCategoryID();
+        try {
+            return parentCategory.getCategoryID();
+        } catch (NullPointerException e) {
+            return 0;
+        }
+
     }
 
     public int getCategoryID() {
@@ -39,6 +44,7 @@ public class StandardCategory {
 
     /**
      * Method to validate if name is valid. Tests if String is null, empty or composed only of blank spaces
+     *
      * @param categoryName String representing the name to be validated
      * @return true if name follows the rules, false otherwise
      */
