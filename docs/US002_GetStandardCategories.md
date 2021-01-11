@@ -18,8 +18,7 @@ categories tree must show the "built-in" categories of the application.
 
 In order to fulfill this requirement, we need two data pieces:
 
-- categoryID
-- parentNumber
+- categoryName
 
 For this sprint, the system manager only gets the standard categories from the categories list.
 
@@ -29,36 +28,7 @@ The main process to fulfill this requirement is to request(infer) in the UI for 
 This is achieved through the UI, asking the controller to the application for the standard categories.
 The application then returns a list object containing the categories identified as standard
 
-```puml
-title Class Diagram
 
-class Application {
-  - CategoryService categoryService
-  + getCategoryService()
-  + getStandardCategories()
-  }
-
-class CategoryService {
-  - List<Category> categories
-}
-
-class Categories {
- +createStandardCategoriesList()
- }
- 
-class Category {
-  - String categoryName
-  - boolean standard
-  - int categoryLevel
-  + checkIfIsStandard()
-  + addCategoryToStandardList()
-}
-
-Application --> CategoryService
-CategoryService --> Categories
-Categories "1"  --> "*" Category  : has >
-
-```
 
 ````puml
 autonumber
@@ -116,9 +86,39 @@ The main Classes involved are:
 - FFMApplication
 - CategoryService
 
+```puml
+title Class Diagram
+
+class Application {
+  - CategoryService categoryService
+  + getCategoryService()
+  + getStandardCategories()
+  }
+
+class CategoryService {
+  - List<Category> categories
+}
+
+class Categories {
+ +createStandardCategoriesList()
+ }
+ 
+class Category {
+  - String categoryName
+  - boolean standard
+  - int categoryLevel
+  + checkIfIsStandard()
+  + addCategoryToStandardList()
+}
+
+Application --> CategoryService
+CategoryService --> Categories
+Categories "1"  --> "*" Category  : has >
+```
+
 ## 3.3. Applied Patterns
 
-We applied some GRASP principles as Controller and Creator.
+We applied some GRASP principles as Controller, Creator and Information Expert.
 
 ## 3.4. Tests
 
@@ -126,9 +126,11 @@ We applied some GRASP principles as Controller and Creator.
 
 # 4. Implementation
 
-*Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade
-com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração)
-relevantes e destacar commits relevantes;*
+To get the Standard Categories List we design and implement a method that iterates over the elements of the general list of categories.
+
+
+
+
 
 *Recomenda-se que organize este conteúdo por subsecções.*
 
