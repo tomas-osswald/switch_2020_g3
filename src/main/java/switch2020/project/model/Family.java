@@ -205,7 +205,7 @@ public class Family {
             if (familyMember.getFamilyMemberID() == familyMemberID)
                 return familyMember;
         }
-        // If given ID is not present, a expection is throw
+        // If given ID is not present, a exception is thrown
         throw new IllegalArgumentException("No family member with such ID");
     }
 
