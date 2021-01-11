@@ -4,10 +4,7 @@ import switch2020.project.utils.MemberProfileDTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 
 
 public class FamilyMember {
@@ -26,7 +23,7 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
 
@@ -35,8 +32,8 @@ public class FamilyMember {
         this.name = name;
 
         if (!validateBirthDate(birthDate))
-            throw new IllegalArgumentException("Invalid Date. Correct format: dd/mm/yyyy");
-        this.birthDate = validateFormatDate(birthDate);
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -56,7 +53,7 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member
-    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
 
@@ -65,8 +62,68 @@ public class FamilyMember {
         this.name = name;
 
         if (!validateBirthDate(birthDate))
-            throw new IllegalArgumentException("Invalid Date");
-        this.birthDate = validateFormatDate(birthDate);
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
+
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
+
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
+
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
+
+        this.relation = relation;
+
+        this.administrator = false;
+    }
+
+    // System Manager - add FamilyMember | ID is generated inside de APP
+    public FamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+
+        this.familyMemberID = familyMemberID; // Generate ID
+
+        if (!validateName(name))
+            throw new IllegalArgumentException("Invalid Name");
+        this.name = name;
+
+        if (!validateBirthDate(birthDate))
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
+
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
+
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
+
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
+
+        this.relation = relation;
+
+        this.administrator = administrator;
+    }
+
+    // Family Admin - add Family Member | ID is generated inside de APP
+    public FamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+
+        this.familyMemberID = familyMemberID;
+
+        if (!validateName(name))
+            throw new IllegalArgumentException();
+        this.name = name;
+
+        if (!validateBirthDate(birthDate))
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -86,17 +143,17 @@ public class FamilyMember {
     }
 
     //Constructor without relation
-    public FamilyMember(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
 
         this.familyMemberID = familyMemberID;
 
         if (!validateName(name))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Insert Name");
         this.name = name;
 
         if (!validateBirthDate(birthDate))
-            throw new IllegalArgumentException("Invalid Date");
-        this.birthDate = validateFormatDate(birthDate);
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -116,7 +173,7 @@ public class FamilyMember {
     }
 
     // Add email to FamilyMember
-    public FamilyMember(String name, String birthDate, int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember( int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
         this.familyMemberID = iD;
     }
 
@@ -126,29 +183,19 @@ public class FamilyMember {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    private boolean validateName(String name) {
-        if (name != null)
-            return true;
-        return false;
+    public boolean validateName(String name) {
+        if (name == null || name.isEmpty() || name.isBlank())
+            return false;
+        return true;
     }
 
-    private boolean validateBirthDate(String birthDate) {
-        if (birthDate != null)
-            return true;
-        return false;
+    public boolean validateBirthDate(Date birthDate) {
+        String date = birthDate.toString();
+        if (date == null || date.isEmpty())
+            return false;
+        return true;
     }
 
-    private Date validateFormatDate(String birthDate){
-        Date data = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-        sdf.setLenient(false);
-        try{
-            data = sdf.parse(birthDate);
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Invalid Date. Correct format: dd/mm/yyyy");
-        }
-        return data;
-    }
 
     private boolean validateRelation(Relation relation) {
         if (this.relation != null)
@@ -162,6 +209,10 @@ public class FamilyMember {
 
     public int getVatNumber() {
         return this.vatNumber.getVatNumber();
+    }
+
+    public boolean validateVat(int vat){
+        return this.vatNumber.validateFormat(vat);
     }
 
     /**

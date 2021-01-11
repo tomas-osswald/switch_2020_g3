@@ -33,4 +33,14 @@ public class Address {
             return false;
         return true;
     }
+
+    private boolean validatePostalCodeFormat(int vatNumber){
+        String regex = "\\d{4}(-\\d{3})?";
+        String vat = String.valueOf(vatNumber);
+        if (vat != regex) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

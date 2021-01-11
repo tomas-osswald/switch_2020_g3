@@ -4,11 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
-import switch2020.project.model.StandardCategory;
 import switch2020.project.utils.CategoryTreeDTO;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +14,7 @@ class GetCategoryTreeControllerTest {
     Application app = new Application(testFamily);
     GetCategoryTreeController categoryTreeController = new GetCategoryTreeController(app);
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
-    List<StandardCategory> expected = new ArrayList();
+    String[] expected = {"HOUSE", "ELECTRICITY", "WATER", "TRANSPORT", "CAR", "PUBLIC TRANSPORT", "FUEL", "REPAIRS", "PARKING", "TAXES", "INCOME", "SALES", "GAS"};
 
 
     @BeforeEach
@@ -43,7 +39,7 @@ class GetCategoryTreeControllerTest {
     @Test
     public void compareCategoryTree() {
         CategoryTreeDTO categoryTree = app.getCategoryService().getCategoryTree(10, app.getFamilyService());
-        assertArrayEquals(categoryTree.getArrayOfStandardCategoriesNames(), null);
+        assertArrayEquals(categoryTree.getArrayOfStandardCategoriesNames(), expected);
     }
 
 
