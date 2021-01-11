@@ -1,13 +1,24 @@
 package switch2020.project.controllers;
 
-import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
+import switch2020.project.model.StandardCategory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class GetStandardCategoriesTreeControllerTest {
 
-    @Test
+    List<StandardCategory> categoriesOne = new ArrayList<>();
+    StandardCategory cat1 = new StandardCategory("Alimentação", null,1);
+    StandardCategory cat2 = new StandardCategory("Saúde", null,2);
+    StandardCategory cat3 = new StandardCategory("Educação", null,3);
+    StandardCategory cat4 = new StandardCategory("Diversos", null,4);
+    Application App = new Application();
+    GetStandardCategoriesTreeController getStandard = new GetStandardCategoriesTreeController(App);
+
+   /* @Test
     void testGetStandardCategories(){
-        Application App = new Application();
-        GetStandardCategoriesTreeController controller = new GetStandardCategoriesTreeController(App);
-    }
+        App.getCategoryService().getStandardCategories();
+
+    } */
 }

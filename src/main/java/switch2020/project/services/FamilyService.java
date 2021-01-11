@@ -15,7 +15,7 @@ public class FamilyService {
 
     // Constructors
     public FamilyService() {
-        this.families = new ArrayList<>();
+
     }
 
     public FamilyService(Family family) {
@@ -24,7 +24,7 @@ public class FamilyService {
 
     // Business Methods
 
-    public List<Category> getCustomCategories(int familyID) {
+    public List<StandardCategory> getCustomCategories(int familyID) {
         Family family = getFamily(familyID);
         return family.getFamilyCustomCategories();
     }
@@ -92,7 +92,6 @@ public class FamilyService {
 
     /**
      * Method to add a Family to Families List -> families
-     *
      * @param family Family to add
      */
 
@@ -112,7 +111,6 @@ public class FamilyService {
 
     /**
      * Method to create a Relation and assign it to a Family Member
-     *
      * @param selfID              ID of the Family Member how wants to create a Relation
      * @param otherID             ID of the Family Member to be added a Relation
      * @param relationDesignation Relation Designation
@@ -141,7 +139,6 @@ public class FamilyService {
 
     /**
      * Method to get a family by ID in families
-     *
      * @param familyID FamilyID of required family
      * @return Family instance
      */
@@ -157,11 +154,11 @@ public class FamilyService {
         return null;
     }
 
-
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {
-            if (familyID == family.getFamilyID())
+            if (familyID == family.getFamilyID()) {
                 return true;
+            }
         }
         return false;
     }
@@ -186,6 +183,13 @@ public class FamilyService {
         return null;
     } */
 
+    public boolean verifyAdministratorPermission(int familyID, int familyAdministratorID) {
+        Family family = getFamily(familyID);
+        boolean isAdmin = family.isAdmin(familyAdministratorID);
+        return isAdmin;
+    }
+
+
     /**
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
      * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
@@ -195,14 +199,16 @@ public class FamilyService {
      * @param familyID
      * @return DTOList
      */
-    public ArrayList<FamilyMemberRelationDTO> getDTOList(int familyID) {
-        List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
-        ArrayList<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        for (FamilyMember member : members) {
-            String name = member.getName();
-            String relation = member.getRelation();
-            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-            DTOList.add(newMember);
+    public List<FamilyMemberRelationDTO> getDTOList(int familyID, int familyAdministratorID) {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        if (verifyAdministratorPermission(familyID, familyAdministratorID)) {
+            List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
+            for (FamilyMember member : members) {
+                String name = member.getName();
+                String relation = member.getRelation();
+                FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+                DTOList.add(newMember);
+            }
         }
         return DTOList;
     }

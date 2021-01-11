@@ -4,12 +4,11 @@ import switch2020.project.services.CategoryService;
 import switch2020.project.services.FamilyService;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Application {
 
     // Attributes
-    private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<StandardCategory> categories = new ArrayList<>();
 
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
@@ -32,4 +31,5 @@ public class Application {
     public FamilyService getFamilyService() {
         return this.familyService;
     }
+
 }
