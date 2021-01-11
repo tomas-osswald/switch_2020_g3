@@ -7,6 +7,7 @@ import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import java.util.Date;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ class GetFamilyMembersListControllerTest {
 
     int id = 1111;
     String name = "Diogo";
-    String date = "26/08/1990";
+    Date date = new Date(1990,8,12);
     int numero = 919999999;
     String email = "abc@gmail.com";
     int nif = 212122233;
@@ -32,7 +33,7 @@ class GetFamilyMembersListControllerTest {
     //Added 2nd FamilyMember to test
     int id2 = 2222;
     String name2 = "Tony";
-    String date2 = "26/08/1954";
+    Date date2 = new Date(1954,8, 12);
     int numero2 = 919999998;
     String email2 = "tony@gmail.com";
     int nif2 = 212122000;
@@ -47,7 +48,7 @@ class GetFamilyMembersListControllerTest {
     //Added 3rd FamilyMember to test
     int id3 = 3333;
     String name3 = "TonyZe";
-    String date3 = "26/08/1955";
+    Date date3 = new Date(1955,8,1);
     int numero3 = 919939998;
     String email3 = "tonyze@gmail.com";
     int nif3 = 212122000;
@@ -60,7 +61,7 @@ class GetFamilyMembersListControllerTest {
     boolean admin3 = true;
 
     //DTO Test Setup
-    FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
+    FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
     FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
     int familyID = 123;
