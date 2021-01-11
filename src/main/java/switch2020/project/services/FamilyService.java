@@ -5,6 +5,7 @@ import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FamilyService {
@@ -162,10 +163,10 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
-        if (checkIfFamilyExists(familyID)) {
-            if (!checkIfEmailPresent(email)) {
-                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+    public boolean addFamilyMember(String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+        if(checkIfFamilyExists(familyID)){
+            int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+            if(!checkIfEmailPresent(email)){
                 return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
             throw new IllegalArgumentException("This email already exists");

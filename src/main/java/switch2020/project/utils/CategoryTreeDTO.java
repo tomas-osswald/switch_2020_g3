@@ -30,22 +30,30 @@ public class CategoryTreeDTO {
         for (StandardCategory standardCategory : standardCategories) {
             if (!ids.contains(standardCategory.getCategoryID())) {
                 System.out.println("== " + standardCategory.getName() + " ==");
+
                 ids.add(standardCategory.getCategoryID());
             }
             for (StandardCategory standardCategory1 : standardCategories) {
                 if (standardCategory1.getParentID() == standardCategory.getCategoryID() && !ids.contains(standardCategory1.getCategoryID())) {
                     System.out.println("    -- " + standardCategory1.getName() + " --");
                     ids.add(standardCategory1.getCategoryID());
+                    for (StandardCategory standardCategory2 : standardCategories) {
+                        if (standardCategory2.getParentID() == standardCategory1.getCategoryID() && !ids.contains(standardCategory2.getCategoryID())) {
+                            System.out.println("        - " + standardCategory2.getName() + " -");
+                            ids.add(standardCategory2.getCategoryID());
+                        }
+                    }
                 }
-            }
-            for (CustomCategory customCategory : customCategories) {
-                if (customCategory.getParentID() == standardCategory.getCategoryID()) {
-                    System.out.println("    -- " + customCategory.getCategoryName() + " --");
-                    printChildren(customCategory);
-                }
-            }
-        }
 
+                for (CustomCategory customCategory : customCategories) {
+                    if (customCategory.getParentID() == standardCategory.getCategoryID()) {
+                        System.out.println("    -- " + customCategory.getCategoryName() + " --");
+                        printChildren(customCategory);
+                    }
+                }
+            }
+
+        }
     }
 
     public String[] getArrayOfStandardCategoriesNames() {
@@ -56,6 +64,15 @@ public class CategoryTreeDTO {
             index++;
         }
         return categoriesNames;
+    }
+
+    public void printChildren(StandardCategory category) {
+        for (StandardCategory standardCategory : standardCategories) {
+            if (category.getCategoryID() == standardCategory.getParentID()) {
+                System.out.println("        - " + standardCategory.getName() + " -");
+                printChildren(standardCategory);
+            }
+        }
     }
 
     public void printChildren(CustomCategory category) {
