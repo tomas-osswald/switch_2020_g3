@@ -14,9 +14,9 @@ public class Family {
     private List<FamilyMember> familyMembers = new ArrayList<>();
     private List<String> relationDesignations = new ArrayList<>();
     private CashAccount familyCashAccount = null;
-    private List<Category> familyCustomCategories = new ArrayList<>();
+    private List<StandardCategory> familyCustomCategories = new ArrayList<>();
 
-    public List<Category> getFamilyCustomCategories() {
+    public List<StandardCategory> getFamilyCustomCategories() {
         return familyCustomCategories;
     }
 
@@ -99,13 +99,6 @@ public class Family {
 
     public int getFamilyID() {
         return familyID;
-    }
-
-    //delete later
-    public void addCustomCategory(Category category){
-        if(!category.isStandardCategory()){
-            this.familyCustomCategories.add(category);
-        }
     }
 
     // Business methods

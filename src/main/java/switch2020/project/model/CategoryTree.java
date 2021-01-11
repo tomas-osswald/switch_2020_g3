@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryTree {
-    List<Category> standardCategories = new ArrayList();
-    List<Category> customCategories = new ArrayList();
+    List<StandardCategory> standardCategories = new ArrayList();
+    List<StandardCategory> customCategories = new ArrayList();
 
     public CategoryTree(CategoryService categoryService, FamilyService familyService, int familyID) {
         this.standardCategories.addAll(categoryService.getStandardCategories());
@@ -16,9 +16,9 @@ public class CategoryTree {
     }
 
     public void printTree() {
-        for (Category standardCategory : standardCategories) {
+        for (StandardCategory standardCategory : standardCategories) {
             System.out.println("== " + standardCategory.getName() + " ==");
-            for (Category customCategory : customCategories) {
+            for (StandardCategory customCategory : customCategories) {
                 if (customCategory.getParentID() == standardCategory.getCategoryID()) {
                     System.out.println("    -- " + customCategory.getName() + " --");
                     printChildren(customCategory);
@@ -28,8 +28,8 @@ public class CategoryTree {
 
     }
 
-    public void printChildren(Category category) {
-        for (Category childCategory : customCategories) {
+    public void printChildren(StandardCategory category) {
+        for (StandardCategory childCategory : customCategories) {
             if (category.getCategoryID() == childCategory.getParentID()) {
                 System.out.println("        - " + childCategory.getName() + " -");
                 printChildren(childCategory);

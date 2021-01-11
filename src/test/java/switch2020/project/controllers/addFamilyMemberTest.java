@@ -48,13 +48,14 @@ class addFamilyMemberTest {
         assertTrue(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation,1));
     }
 
+    /*
     @Test
     void NotAddFamilyMember_FamilyNotExists(){
         Family Ribeiros = new Family(1);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
         assertFalse(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local, city, relation,2));
-    }
+    } */
 
     @Test /** Missing data entry validation : name, date, phone, email etc **/
     void NotAddFamilyMember_WrongDataEntry(){

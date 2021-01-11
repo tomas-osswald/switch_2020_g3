@@ -13,8 +13,9 @@ class AddStandardCategoryControllerTest {
         Application FFMapp = new Application();
         AddStandardCategoryController controller = new AddStandardCategoryController(FFMapp);
         String categoryName = "Habitação";
+        int parentID = 0;
         //Act
-        boolean result = controller.addStandardCategory(categoryName);
+        boolean result = controller.addStandardCategory(categoryName,parentID);
         //Assert
         assertTrue(result);
     }
@@ -25,8 +26,9 @@ class AddStandardCategoryControllerTest {
         Application FFMapp = new Application();
         AddStandardCategoryController controller = new AddStandardCategoryController(FFMapp);
         String categoryName = "";
+        int parentID = 0;
         //Act
-        boolean result = controller.addStandardCategory(categoryName);
+        boolean result = controller.addStandardCategory(categoryName,parentID);
         //Assert
         assertFalse(result);
     }
