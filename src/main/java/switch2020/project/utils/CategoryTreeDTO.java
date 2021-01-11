@@ -48,6 +48,16 @@ public class CategoryTreeDTO {
 
     }
 
+    public String[] getArrayOfStandardCategoriesNames() {
+        String[] categoriesNames = new String[standardCategories.size()];
+        int index = 0;
+        for (StandardCategory standardcategory : standardCategories) {
+            categoriesNames[index] = standardcategory.getName();
+            index++;
+        }
+        return categoriesNames;
+    }
+
     public void printChildren(CustomCategory category) {
         for (CustomCategory childCategory : customCategories) {
             if (category.getCategoryID() == childCategory.getParentID()) {
