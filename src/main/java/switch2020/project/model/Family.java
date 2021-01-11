@@ -286,6 +286,16 @@ public class Family {
         }
     }
 
+    public boolean addFamilyAdministrator(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship, boolean administrator){
+        if(!checkIfVatExists(vat)){
+            FamilyMember newFamilyMember = new FamilyMember(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
+            familyMembers.add(newFamilyMember);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Vat already exists in the Family");
+        }
+    }
+
     /**
      * Method that creates a cash account for this family and stores it in this family's attributes
      * @return returns true if an account was successfully created and stored

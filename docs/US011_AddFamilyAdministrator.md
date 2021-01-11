@@ -24,10 +24,10 @@ actor "System Manager" as manager
 participant ": System" as system
 
 activate manager
-manager -> system : add relation to member
+
 activate system
 manager -> system : choose family with no administrator
-manager -> system : inputs required data
+manager -> system : input required data
 
 alt failure
 system -> manager : Inform Failure
@@ -73,11 +73,10 @@ UI -> controller: getFamiliesWithoutAdministrator()
 activate controller
 
 ref over controller
-
 addFamilyAdministrator( ).2
-
 end ref
 
+autonumber 7
 controller --> UI: listOfFamilies
 deactivate controller
 UI --> systemManager: show list of families without an administrator and ask to select one
@@ -85,24 +84,24 @@ deactivate UI
 
 systemManager -> UI: select chosen family
 activate UI
-UI --> systemManager: ask family administrator's data (id, name, vatNumber, address, birthDate, phoneNumber, emailAddress)
+UI --> systemManager: ask family administrator's data (id, name, vatNumber, address, \nbirthDate, phoneNumber, emailAddress)
 deactivate UI
 
 systemManager -> UI: input data
 activate UI
-UI -> controller: addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
+UI -> controller: addFamilyAdministrator(id, name, vatNumber, address, \nbirthDate, phoneNumber, emailAddress, familyID)
 activate controller
 
 ref over controller : addFamilyAdministrator( ).3
 
-
+autonumber 26
 alt 
 controller --> UI: inform failure
 UI --> systemManager: inform failure
 
 else 
 
-
+autonumber 26
 controller --> UI: inform sucess
 deactivate controller
 UI --> systemManager: inform success
@@ -114,7 +113,7 @@ end
 
 **addFamilyAdministrator( ).2**
 ```puml
-autonumber
+autonumber 2
 title addFamilyAdministrator( ).2
 
 participant ": AddFamilyAdministratorController" as controller
@@ -137,32 +136,55 @@ deactivate controller
 
 **addFamilyAdministrator( ).3**
 ```puml
-autonumber
+autonumber 12
 title addFamilyAdministrator( ).3
 
 participant ": AddFamilyAdministratorController" as controller
 participant ": App" as app
 participant "familyService : FamilyService" as familyService
 participant "aFamily : Family" as family
-participant "aFamily : Family" as family
-participant "familyAdministrator : FamilyMember" as administrator
-participant "aVATNumber : VATNumber" as vatNumber
-participant "anAddress : Address" as address
-participant "aPhoneNumber : PhoneNumber" as phoneNumber
-participant "anEmail : Email" as email
 
--> controller : addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
+-> controller : addFamilyAdministrator(id, name, \nvatNumber, address, birthDate, phoneNumber, \nemailAddress, familyID, administrator)
 activate controller
 controller -> app: getFamilyService()
 activate app
 app --> controller: FamilyService
 deactivate app
-controller -> familyService: addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress, familyID)
+controller -> familyService: addFamilyAdministrator(id, name, vatNumber, address, \nbirthDate, phoneNumber, emailAddress, familyID, administrator)
 activate familyService
 
 familyService -> familyService: aFamily = getFamily(familyID)
 
-familyService -> family : addFamilyAdministrator(id, name, vatNumber, address, birthDate, phoneNumber, emailAddress)
+familyService -> family : addFamilyAdministrator(id, name, vatNumber, address, \nbirthDate, phoneNumber, emailAddress, administrator)
+activate family
+
+ref over family : addFamilyAdministrator( ).4
+
+autonumber 24
+family -> familyService : inform sucess
+deactivate family
+
+familyService -> controller : inform sucess
+deactivate familyService
+
+<- controller : inform sucess
+deactivate controller
+
+```
+
+**addFamilyAdministrator( ).4**
+```puml
+autonumber 17
+title addFamilyAdministrator( ).4
+
+participant "aFamily : Family" as family
+participant "familyAdministrator \n: FamilyMember" as administrator
+participant "aVATNumber \n: VATNumber" as vatNumber
+participant "anAddress \n: Address" as address
+participant "aPhoneNumber \n: PhoneNumber" as phoneNumber
+participant "anEmail : Email" as email
+
+-> family : addFamilyAdministrator(id, name, \nvatNumber, address, birthDate, phoneNumber, \nemailAddress, administrator)
 activate family
 
 activate administrator
@@ -173,20 +195,9 @@ administrator -> phoneNumber**
 administrator -> email**
 deactivate administrator
 
-family -> administrator : makeAdministrator( )
-activate administrator
-administrator -> family : inform sucess
-deactivate administrator
+family -> family : addFamilyMember\n(familyAdministrator)
 
-family -> family : addFamilyMember(familyAdministrator)
-
-family -> familyService : inform sucess
+<- family : inform sucess
 deactivate family
-
-familyService -> controller : inform sucess
-deactivate familyService
-
-<- controller : inform sucess
-deactivate controller
 
 ```

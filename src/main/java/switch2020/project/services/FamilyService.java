@@ -174,6 +174,17 @@ public class FamilyService {
         throw new IllegalArgumentException("Family does not exist");
     }
 
+    public boolean addFamilyAdministrator(int familyMemberID, String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID, boolean administrator) {
+        if (checkIfFamilyExists(familyID)) {
+            if (!checkIfEmailPresent(email)) {
+                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+                return this.families.get(posicaoFamilia).addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
+            }
+            throw new IllegalArgumentException("This email already exists");
+        }
+        throw new IllegalArgumentException("Family does not exist");
+    }
+
    /* //Temporariamente comentado para não ter conflito até se decidir se retorna null ou exception
     private Family getFamily(int familyID){
         for (Family familia : families ) {
