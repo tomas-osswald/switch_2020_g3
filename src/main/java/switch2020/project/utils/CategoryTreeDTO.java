@@ -26,11 +26,16 @@ public class CategoryTreeDTO {
     }
 
     public void printTree() {
+        ArrayList<Integer> ids = new ArrayList<>();
         for (StandardCategory standardCategory : standardCategories) {
-            System.out.println("== " + standardCategory.getName() + " ==");
+            if (!ids.contains(standardCategory.getCategoryID())) {
+                System.out.println("== " + standardCategory.getName() + " ==");
+                ids.add(standardCategory.getCategoryID());
+            }
             for (StandardCategory standardCategory1 : standardCategories) {
-                if (standardCategory1.getParentID() == standardCategory.getCategoryID()) {
+                if (standardCategory1.getParentID() == standardCategory.getCategoryID() && !ids.contains(standardCategory1.getCategoryID())) {
                     System.out.println("    -- " + standardCategory1.getName() + " --");
+                    ids.add(standardCategory1.getCategoryID());
                 }
             }
             for (CustomCategory customCategory : customCategories) {
