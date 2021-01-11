@@ -2,6 +2,7 @@
 =======================================
 
 ```puml
+
 title Class Diagram
 
 class AddEmailController {
@@ -210,7 +211,7 @@ GetStandardCategoriesTreeController --> Application
 Application --> FamilyService
 Application --> CategoryService
 CategoryService --> Category
-FamilyService --> FamilyMemberRelationDTO
+FamilyService -left-> FamilyMemberRelationDTO
 FamilyService --> Family
 Family --> CashAccount
 Family --> FamilyMember

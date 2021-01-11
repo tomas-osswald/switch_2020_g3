@@ -14,7 +14,7 @@ class StandardCategoryTest {
         String categoryName = "Habitação";
         int categoryID = 2;
 
-        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory, categoryID);
 
         assertNotNull(newStandardCategory);
     }

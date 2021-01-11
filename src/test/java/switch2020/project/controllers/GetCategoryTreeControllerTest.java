@@ -10,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GetCategoryTreeControllerTest {
 
-    Family testFamily = new Family(10);
+    int testFamilyID = 10;
+    String testFamilyName = "Silva";
+    Family testFamily = new Family(testFamilyName,testFamilyID);
     Application app = new Application(testFamily);
     GetCategoryTreeController categoryTreeController = new GetCategoryTreeController(app);
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
