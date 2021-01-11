@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.StandardCategory;
+import switch2020.project.utils.CategoryTreeDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GetCategoryTreeControllerTest {
 
@@ -37,41 +37,15 @@ class GetCategoryTreeControllerTest {
         addStandardCategoryController.addStandardCategory("Sales", 10);//id 12
         addStandardCategoryController.addStandardCategory("Gas", 1);//id 13
 
-        StandardCategory house = new StandardCategory("House", 1);
-        expected.add(house);
-        StandardCategory elec = new StandardCategory("Electricity", house, 2);
-        expected.add(elec);
-        StandardCategory water = new StandardCategory("Water", house, 3);
-        expected.add(water);
-        StandardCategory transport = new StandardCategory("Transport", 4);
-        expected.add(transport);
-        StandardCategory car = new StandardCategory("Car", transport, 5);
-        expected.add(car);
-        StandardCategory publicTransport = new StandardCategory("Public Transport", transport, 6);
-        expected.add(publicTransport);
-        StandardCategory fuel = new StandardCategory("Fuel", car, 7);
-        expected.add(fuel);
-        StandardCategory repairs = new StandardCategory("Repairs", car, 8);
-        expected.add(repairs);
-        StandardCategory park = new StandardCategory("Parking", car, 9);
-        expected.add(park);
-        StandardCategory taxes = new StandardCategory("Taxes", 10);
-        expected.add(taxes);
-        StandardCategory income = new StandardCategory("Income", taxes, 11);
-        expected.add(income);
-        StandardCategory sales = new StandardCategory("Sales", taxes, 12);
-        expected.add(sales);
-        StandardCategory gas = new StandardCategory("Gas", house, 13);
-        expected.add(gas);
+
     }
-    /*
+
     @Test
-    public void compareCategoryTree(){
-        CategoryTreeDTO categoryTree = app.getCategoryService().getCategoryTree(10,app.getFamilyService());
-        List<StandardCategory> result = categoryTree.getStandardCategories();
-        assertArrayEquals(expected,result);
+    public void compareCategoryTree() {
+        CategoryTreeDTO categoryTree = app.getCategoryService().getCategoryTree(10, app.getFamilyService());
+        assertArrayEquals(categoryTree.getArrayOfStandardCategoriesNames(), null);
     }
-    */
+
 
     @Test
     public void getCategoryTreeTest() {
