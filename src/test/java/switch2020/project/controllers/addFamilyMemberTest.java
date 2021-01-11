@@ -44,7 +44,9 @@ class addFamilyMemberTest {
     @Test
     /** Test if Family Member is added to Family **/
     void AddFamilyMember_FamilyExists() {
-        Family Ribeiros = new Family(1);
+        String familyName = "Ribeiro";
+        int familyID = 1;
+        Family Ribeiros = new Family(familyName, familyID);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
         assertTrue(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation,1));

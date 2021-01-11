@@ -24,6 +24,20 @@ public class FamilyService {
 
     // Business Methods
 
+    /**
+     * Method that generates an ID for a Family
+     *
+     * @return generated ID
+     */
+
+    private int generateFamilyID() {
+        int maxID = 0;
+        for (Family family : this.families) {
+            if (maxID < family.getFamilyID()) maxID = family.getFamilyID();
+        }
+        return maxID + 1;
+    }
+
     public List<CustomCategory> getCustomCategories(int familyID) {
         Family family = getFamily(familyID);
         return family.getFamilyCustomCategories();
@@ -101,7 +115,8 @@ public class FamilyService {
 
     public boolean addFamily(String familyName) {
         try {
-            Family newFamily = new Family(familyName);
+            int familyID = generateFamilyID();
+            Family newFamily = new Family(familyName, familyID);
             families.add(newFamily);
             return true;
         } catch (IllegalArgumentException exception) {
@@ -220,10 +235,10 @@ public class FamilyService {
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
-    public boolean createFamilyCashAccount(int familyID) {
+    public boolean createFamilyCashAccount(int familyID, double balance) {
         boolean success;
         Family aFamily = getFamily(familyID);
-        success = aFamily.createFamilyCashAccount();
+        success = aFamily.createFamilyCashAccount(balance);
         return success;
     }
 
