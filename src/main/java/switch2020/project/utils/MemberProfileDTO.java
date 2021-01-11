@@ -5,6 +5,7 @@ import switch2020.project.model.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class MemberProfileDTO {
     private String name;
@@ -28,5 +29,18 @@ public class MemberProfileDTO {
         this.address = address;
         this.relation = relation;
         this.administrator = administrator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MemberProfileDTO)) return false;
+        MemberProfileDTO that = (MemberProfileDTO) o;
+        return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address) && relation.equals(that.relation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
     }
 }

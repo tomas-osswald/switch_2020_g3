@@ -1,5 +1,6 @@
 package switch2020.project.model;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class VatNumber {
@@ -7,28 +8,28 @@ public class VatNumber {
 
     /********************** CONSTRUCTORS **********************/
 
-    public VatNumber(int vatNumber){
-        if(!validateNull(vatNumber))
+    public VatNumber(int vatNumber) {
+        if (!validateNull(vatNumber))
             throw new IllegalArgumentException("Inserir vatNumber.");
-        if(!validateFormat(vatNumber))
+        if (!validateFormat(vatNumber))
             throw new IllegalArgumentException("Inserir o numero de valores do vatNumber correctamente.");
         this.vatNumber = vatNumber;
     }
 
     /********************** GETTERS AND SETTERS **********************/
 
-    private boolean validateNull(int vatNumber){
-        if (vatNumber == 0 ) {
+    private boolean validateNull(int vatNumber) {
+        if (vatNumber == 0) {
             return false;
         } else {
             return true;
         }
     }
 
-    public boolean validateFormat(int vatNumber){
+    public boolean validateFormat(int vatNumber) {
         String regex = "\\d{9}"; //"\\d{9}(-\\d{1})?";
         String vat = String.valueOf(vatNumber);
-        boolean test = Pattern.matches(regex,vat);
+        boolean test = Pattern.matches(regex, vat);
         if (test) {
             return true;
         } else {
@@ -38,8 +39,20 @@ public class VatNumber {
 
     //AND(ISPICKVAL( Account.Country_Codec ,"Portugal"),NOT(REGEX( Account.Zip_Postal_Codec , "^\d{4}-\d{3}$")))
 
-    public int getVatNumber(){
+    public int getVatNumber() {
         return this.vatNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VatNumber)) return false;
+        VatNumber vatNumber1 = (VatNumber) o;
+        return vatNumber == vatNumber1.vatNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vatNumber);
+    }
 }

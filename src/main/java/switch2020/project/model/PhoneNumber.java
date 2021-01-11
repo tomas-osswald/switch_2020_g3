@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import java.util.Objects;
+
 public class PhoneNumber {
 
     private final int phoneNumber;
@@ -19,5 +21,18 @@ public class PhoneNumber {
             return false;
         // Check for other invalid criteria here
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PhoneNumber)) return false;
+        PhoneNumber that = (PhoneNumber) o;
+        return phoneNumber == that.phoneNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phoneNumber);
     }
 }
