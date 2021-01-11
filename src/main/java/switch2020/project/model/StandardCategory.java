@@ -1,12 +1,15 @@
 package switch2020.project.model;
 
+import java.util.Objects;
+
 public class StandardCategory {
 
-    //atributes
-
+    //Attributes
     private int categoryID;
     private String categoryName;
     private StandardCategory parentCategory;
+
+    //Constructor
 
     public StandardCategory(String categoryName, StandardCategory parentCategory, int categoryID) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
@@ -15,13 +18,15 @@ public class StandardCategory {
         this.parentCategory = parentCategory;
     }
 
+
+    //
+
     public int getParentID() {
         try {
             return parentCategory.getCategoryID();
         } catch (NullPointerException e) {
             return 0;
         }
-
     }
 
     public int getCategoryID() {
@@ -32,15 +37,15 @@ public class StandardCategory {
         return this.categoryName;
     }
 
-/*
+    //Validation Methods
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Category)) return false;
-        Category category = (Category) o;
-        return Objects.equals(categoryName);
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof StandardCategory)) return false;
+        StandardCategory otherCategory = (StandardCategory) other;
+        return categoryName.equals(otherCategory.categoryName);
     }
- */
 
     /**
      * Method to validate if name is valid. Tests if String is null, empty or composed only of blank spaces

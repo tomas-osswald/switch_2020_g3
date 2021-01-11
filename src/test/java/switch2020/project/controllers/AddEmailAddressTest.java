@@ -14,7 +14,9 @@ class AddEmailAddressTest {
     FamilyMember familyMember1 = new FamilyMember(666);
     FamilyMember familyMember2 = new FamilyMember(777);
     FamilyMember familyMember3 = new FamilyMember(888);
-    Family testFamily = new Family(10);
+    String testFamilyName = "Moura";
+    int testFamilyID = 10;
+    Family testFamily = new Family(testFamilyName, testFamilyID);
     Application app = new Application(testFamily);
     AddEmailController controller = new AddEmailController(app);
 
