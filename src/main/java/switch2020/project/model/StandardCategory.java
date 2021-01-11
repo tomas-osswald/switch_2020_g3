@@ -21,6 +21,14 @@ public class StandardCategory {
 
     //
 
+    //delete later, for tests
+    public StandardCategory(String categoryName, int categoryID) {
+        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
+        this.categoryID = categoryID;
+        this.categoryName = categoryName.trim().toUpperCase();
+
+    }
+
     public int getParentID() {
         try {
             return parentCategory.getCategoryID();

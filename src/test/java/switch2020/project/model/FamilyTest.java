@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,10 +12,10 @@ class FamilyTest {
 
     int id = 1111;
     String name = "Diogo";
-    String date = "26/08/1990";
+    Date date = new Date(1990,8,26);
     int numero = 919999999;
     String email = "diogo@gmail.com";
-    int nif = 212122233;
+    int nif = 212122230;
     String rua = "Rua Nossa";
     String codPostal = "4444-555";
     String local = "Zinde";
@@ -25,7 +26,7 @@ class FamilyTest {
 
     int id2 = 2222;
     String name2 = "Tony";
-    String date2 = "26/08/1954";
+    Date date2 = new Date(1954,8,26);
     int numero2 = 919999998;
     String email2 = "tony@gmail.com";
     int nif2 = 212122000;
@@ -211,11 +212,12 @@ class FamilyTest {
     void createFamilyCashAccountResultFalseAccountAlreadyExists() {
         String familyName = "Simpson";
         int familyID = 1;
+        double balance = 0;
         Family familyOne = new Family(familyName, familyID);
         familyOne.createFamilyCashAccount();
         boolean expected = false;
 
-        boolean result = familyOne.createFamilyCashAccount();
+        boolean result = familyOne.createFamilyCashAccount(balance);
 
         assertEquals(expected, result);
     }
@@ -224,10 +226,11 @@ class FamilyTest {
     void createFamilyCashAccountResultTrueAccountCreated() {
         String familyName = "Simpson";
         int familyID = 1;
+        double balance = 0;
         Family familyOne = new Family(familyName, familyID);
         boolean expected = true;
 
-        boolean result = familyOne.createFamilyCashAccount();
+        boolean result = familyOne.createFamilyCashAccount(balance);
 
         assertEquals(expected, result);
     }
@@ -253,5 +256,12 @@ class FamilyTest {
         familia.addFamilyMember(pessoa1);
         assertThrows(IllegalArgumentException.class, ()-> familia.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation));
     }
+
+    @Test
+    void AddFamilyMember_() {
+        assertThrows(IllegalArgumentException.class, ()-> new FamilyMember(id,"",date,numero,email,nif,rua,codPostal,local,city,relation,admin));
+    }
+
+
 
 }
