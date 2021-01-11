@@ -289,7 +289,8 @@ public class Family {
         }
     }
 
-    public boolean addFamilyAdministrator(int familyMemberID, String name, String birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship, boolean administrator){
+    public boolean addFamilyAdministrator(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        boolean administrator = true;
         if(!checkIfVatExists(vat)){
             FamilyMember newFamilyMember = new FamilyMember(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
             familyMembers.add(newFamilyMember);

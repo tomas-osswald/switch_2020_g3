@@ -6,6 +6,7 @@ import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddFamilyAdministratorController {
@@ -21,8 +22,8 @@ public class AddFamilyAdministratorController {
         return familyService.familiesWithoutAdministrator();
     }
 
-    public boolean addFamilyAdministrator(int familyMemberID, String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID, boolean administrator){
+    public boolean addFamilyAdministrator(int familyMemberID, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
         FamilyService familyService = this.application.getFamilyService();
-        return familyService.addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, familyID, administrator);
+        return familyService.addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, familyID);
     }
 }
