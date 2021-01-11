@@ -7,9 +7,9 @@ public class CashAccount {
     private double balance;
 
     // Constructors
-    public CashAccount() {
+    public CashAccount(double balance) {
         this.cashAccountID = 0;
-        this.balance = 0;
+        this.balance = balance;
     }
 
     public CashAccount(int cashAccountID) {

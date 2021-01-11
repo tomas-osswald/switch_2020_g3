@@ -7,13 +7,15 @@ import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
 import switch2020.project.services.FamilyService;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class addFamilyMemberTest {
 
     int id = 1111;
     String name = "Diogo";
-    String date = "26/08/1990";
+    Date date = new Date(1990,8,26);
     int numero = 919999999;
     String email = "abc@gmail.com";
     int nif = 212122233;
@@ -27,7 +29,7 @@ class addFamilyMemberTest {
 
     int id2 = 2222;
     String name2 = "";
-    String date2 = "26/08/199";
+    Date date2 = new Date(1954,8,26);
     int numero2 = 91999999;
     String email2 = "abcgmail.com";
     int nif2 = 21212;
@@ -42,7 +44,9 @@ class addFamilyMemberTest {
     @Test
     /** Test if Family Member is added to Family **/
     void AddFamilyMember_FamilyExists() {
-        Family Ribeiros = new Family(1);
+        String familyName = "Ribeiro";
+        int familyID = 1;
+        Family Ribeiros = new Family(familyName, familyID);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
         assertTrue(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation,1));
