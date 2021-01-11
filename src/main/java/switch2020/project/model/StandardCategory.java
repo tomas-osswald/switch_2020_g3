@@ -57,7 +57,6 @@ public class StandardCategory {
      * @return true if name follows the rules, false otherwise
      */
 
-
     private boolean isNameValid(String categoryName) {
         if (categoryName == null || categoryName.isEmpty() || categoryName.isBlank()) return false;
         return true;

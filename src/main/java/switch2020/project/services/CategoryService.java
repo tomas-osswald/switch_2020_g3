@@ -6,10 +6,24 @@ import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryService {
 
     private List<StandardCategory> categories;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryService that = (CategoryService) o;
+        return Objects.equals(categories, that.categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categories);
+    }
 
     public CategoryService() {
         this.categories = new ArrayList<>();
@@ -101,7 +115,6 @@ public class CategoryService {
         return maxID + 1;
     }
 
-
     public List<StandardCategory> getCategories() {
         return this.categories;
     }
@@ -111,26 +124,31 @@ public class CategoryService {
         return categoryTree;
     }
 
-    public List getStandardCategories() {
+    private List getStandardCategories() {
         if (categories.size() == 0) {
             throw new IllegalArgumentException("There are no standard categories");
         }
-        List standardCategories = new ArrayList<StandardCategory>();
+        List standardCategories;
         standardCategories = categories;
         return standardCategories;
+    }
 
+    public List cloneOfStandardcategoriesList(){
+        List<StandardCategory> clonedList = new ArrayList<StandardCategory>();
+        clonedList.addAll(getStandardCategories());
+        return clonedList;
     }
 
     public List<StandardCategoryDTO> getStandardCategoriesDTOList() {
-        List<StandardCategory> categories = getCategories();
+
         List<StandardCategoryDTO> standardCategoriesDTOList = new ArrayList<>();
-        for (StandardCategory cat : categories) {
-            //if (cat.isStandardCategory()){
+        /*for (StandardCategory cat : categories) {
+            if (cat.isStandardCategory()){
             String categoryName = cat.getName();
             StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
             standardCategoriesDTOList.add(newcat);
-            //}
-        }
+            }
+        }*/
         return standardCategoriesDTOList;
     }
 }

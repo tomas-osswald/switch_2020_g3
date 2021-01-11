@@ -13,7 +13,7 @@ public class CategoryTreeDTO {
     List<CustomCategory> customCategories = new ArrayList();
 
     public CategoryTreeDTO(CategoryService categoryService, FamilyService familyService, int familyID) {
-        this.standardCategories.addAll(categoryService.getStandardCategories());
+        this.standardCategories.addAll(categoryService.cloneOfStandardcategoriesList());
         this.customCategories.addAll(familyService.getCustomCategories(familyID));
     }
 
