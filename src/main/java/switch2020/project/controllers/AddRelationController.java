@@ -23,7 +23,7 @@ public class AddRelationController {
         try {
             FamilyService familyService = this.app.getFamilyService();
             return familyService.createRelation(selfID, otherID, relationDesignation, familyID);
-        } catch (IllegalArgumentException exception) {
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
             return false;
         }

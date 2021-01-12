@@ -1,5 +1,6 @@
 package switch2020.project.services;
 
+import switch2020.project.model.CategoryMap;
 import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
 import switch2020.project.utils.StandardCategoryDTO;
@@ -133,10 +134,18 @@ public class CategoryService {
         return standardCategories;
     }
 
-    public List cloneOfStandardCategoriesList(){
+    /*public List cloneOfStandardCategoriesList(){
         List<StandardCategory> clonedList = new ArrayList<StandardCategory>();
         clonedList.addAll(getStandardCategories());
-        return clonedList;
+        return clonedList;*/
+
+    public CategoryMap getStandardCategoriesDTOList() {
+        CategoryMap mapa = new CategoryMap();
+        for (StandardCategory cat : categories
+        ) {
+            mapa.addToMap(cat.getParentName(), cat.getName());
+        }
+        return mapa;
     }
 
 }

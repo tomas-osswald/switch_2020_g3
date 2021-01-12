@@ -1,12 +1,22 @@
 package switch2020.project.utils;
 
+import switch2020.project.model.StandardCategory;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class StandardCategoryDTO {
     private String categoryName;
+    private List<StandardCategoryDTO> childs = new ArrayList<StandardCategoryDTO>();
 
-    public StandardCategoryDTO(String categoryName ){
+    public StandardCategoryDTO(String categoryName, StandardCategoryDTO parentCategory , StandardCategoryDTO child ){
         this.categoryName = categoryName;
+        this.childs.add(StandardCategoryDTO);
     }
 
+    public addToChilds(){
+
+    }
 
     /*@Override
     public boolean equals(Object o) {
