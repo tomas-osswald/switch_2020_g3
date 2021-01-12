@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyTest {
 
-    int id = 1111;
     String cc = "000000000ZZ4";
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
@@ -25,7 +24,7 @@ class FamilyTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
-    int id2 = 2222;
+    String cc2 = "000000000ZZ3";
     String name2 = "Tony";
     Date date2 = new Date(1954, 8, 26);
     int numero2 = 919999998;
@@ -240,7 +239,7 @@ class FamilyTest {
 
     @Test
     void AddFamilyMember_VatNotExists() {
-        FamilyMember pessoa1 = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
         FamilyMember pessoa2 = pessoa1;
         String familyName = "Moreira";
         int familyID = 1;
@@ -251,7 +250,7 @@ class FamilyTest {
 
     @Test
     void NotAddFamilyMember_VatExists() {
-        FamilyMember pessoa1 = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
         FamilyMember pessoa2 = pessoa1;
         String familyName = "Moreira";
         int familyID = 1;
@@ -262,7 +261,7 @@ class FamilyTest {
 
     @Test
     void AddFamilyMember_() {
-        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(id, "", date, numero, email, nif, rua, codPostal, local, city, relation, admin));
+        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, "", date, numero, email, nif, rua, codPostal, local, city, relation, admin));
     }
 
 

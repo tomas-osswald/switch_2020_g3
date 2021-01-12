@@ -25,7 +25,7 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
 
@@ -55,8 +55,7 @@ public class FamilyMember {
     }
 
     //Constructor that uses a CCNumber as ID
-
-    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -85,7 +84,7 @@ public class FamilyMember {
         this.administrator = administrator;
     }
 
-    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -97,11 +96,15 @@ public class FamilyMember {
             throw new IllegalArgumentException("Insert Date");
         this.birthDate = birthDate;
 
-        PhoneNumber telef = new PhoneNumber(phone);
-        this.phoneNumbers.add(telef);
+        if (validatePhone(phone)) {
+            PhoneNumber telef = new PhoneNumber(phone);
+            this.phoneNumbers.add(telef);
+        }
 
-        EmailAddress mail = new EmailAddress(email);
-        this.emails.add(mail);
+        if (validateEmail(email)) {
+            EmailAddress mail = new EmailAddress(email);
+            this.emails.add(mail);
+        }
 
         VatNumber nif = new VatNumber(vat);
         this.vatNumber = nif;
@@ -149,7 +152,7 @@ public class FamilyMember {
     }
 
     // System Manager - add FamilyMember | ID is generated inside de APP
-    public FamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID; // Generate ID
 
@@ -180,7 +183,7 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member | ID is generated inside de APP
-    public FamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
 
