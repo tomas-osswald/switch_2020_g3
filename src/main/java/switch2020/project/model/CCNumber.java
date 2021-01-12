@@ -36,7 +36,7 @@ public class CCNumber {
         return (sum % 10) == 0;
     }
 
-    public int GetNumberFromChar(char letter) throws InvalidPropertiesFormatException {
+    private int GetNumberFromChar(char letter) throws InvalidPropertiesFormatException {
         switch (letter) {
             case '0':
                 return 0;
