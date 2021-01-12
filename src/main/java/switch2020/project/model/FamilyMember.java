@@ -8,6 +8,7 @@ import java.util.*;
 public class FamilyMember {
 
     // Attributes
+    private CCNumber ccNumber;
     private int familyMemberID;
     private String name;
     private Date birthDate;
@@ -50,6 +51,36 @@ public class FamilyMember {
         this.administrator = administrator;
     }
 
+    //Constructor that uses a CCNumber as ID
+    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+
+        this.ccNumber = new CCNumber(ccNumber);
+
+        if (!validateName(name))
+            throw new IllegalArgumentException("Invalid Name");
+        this.name = name;
+
+        if (!validateBirthDate(birthDate))
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
+
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
+
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
+
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
+
+        this.relation = relation;
+
+        this.administrator = administrator;
+    }
+
     // Family Admin - add Family Member
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
@@ -63,12 +94,12 @@ public class FamilyMember {
             throw new IllegalArgumentException("Insert Date");
         this.birthDate = birthDate;
 
-        if (validatePhone(phone)){
+        if (validatePhone(phone)) {
             PhoneNumber telef = new PhoneNumber(phone);
             this.phoneNumbers.add(telef);
         }
 
-        if (validateEmail(email)){
+        if (validateEmail(email)) {
             EmailAddress mail = new EmailAddress(email);
             this.emails.add(mail);
         }
@@ -128,12 +159,12 @@ public class FamilyMember {
             throw new IllegalArgumentException("Insert Date");
         this.birthDate = birthDate;
 
-        if (validatePhone(phone)){
+        if (validatePhone(phone)) {
             PhoneNumber telef = new PhoneNumber(phone);
             this.phoneNumbers.add(telef);
         }
 
-        if (validateEmail(email)){
+        if (validateEmail(email)) {
             EmailAddress mail = new EmailAddress(email);
             this.emails.add(mail);
         }
@@ -180,12 +211,16 @@ public class FamilyMember {
     }
 
     // Add email to FamilyMember
-    public FamilyMember( int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
         this.familyMemberID = iD;
     }
 
     public FamilyMember(int familyMemberID) {
         this.familyMemberID = familyMemberID;
+    }
+
+    public String getCcNumber() {
+        return ccNumber.getCcNumber();
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -203,15 +238,15 @@ public class FamilyMember {
         return true;
     }
 
-    public boolean validateEmail(String email){
-        if (email == null || email.isEmpty() || email.isBlank()){
+    public boolean validateEmail(String email) {
+        if (email == null || email.isEmpty() || email.isBlank()) {
             return false;
         }
         return true;
     }
 
-    public boolean validatePhone(Integer phone){
-        if (phone == null){
+    public boolean validatePhone(Integer phone) {
+        if (phone == null) {
             return false;
         }
         return true;
@@ -231,11 +266,11 @@ public class FamilyMember {
         return this.vatNumber.getVatNumber();
     }
 
-    public boolean validateVat(int vat){
+    public boolean validateVat(int vat) {
         return this.vatNumber.validateVatNumber(vat);
     }
 
-    public boolean validatePhone(int phone){
+    public boolean validatePhone(int phone) {
         PhoneNumber mobile = new PhoneNumber(phone);
         return mobile.validate(phone);
     }
@@ -312,7 +347,7 @@ public class FamilyMember {
         this.relation = relation;
     }
 
-    public MemberProfileDTO createProfile(){
+    public MemberProfileDTO createProfile() {
         return new MemberProfileDTO(emails, name, birthDate, phoneNumbers, vatNumber, address);
     }
 }

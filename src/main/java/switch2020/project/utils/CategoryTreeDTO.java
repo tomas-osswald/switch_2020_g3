@@ -66,14 +66,6 @@ public class CategoryTreeDTO {
         return categoriesNames;
     }
 
-    public void printChildren(StandardCategory category) {
-        for (StandardCategory standardCategory : standardCategories) {
-            if (category.getCategoryID() == standardCategory.getParentID()) {
-                System.out.println("        - " + standardCategory.getName() + " -");
-                printChildren(standardCategory);
-            }
-        }
-    }
 
     public void printChildren(CustomCategory category) {
         for (CustomCategory childCategory : customCategories) {
