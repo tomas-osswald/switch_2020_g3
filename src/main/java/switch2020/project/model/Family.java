@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
+
 import java.util.*;
 
 public class Family {
@@ -130,10 +132,10 @@ public class Family {
      * @return boolean
      */
 
-    public boolean isAdmin(int familyMemberID) {
+    public boolean verifyAdministratorPermission(int familyMemberID) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.getFamilyMemberID() == familyMemberID)
-                return familyMember.isAdmin();
+                return familyMember.isAdministrator();
         }
         return false;
     }
@@ -308,5 +310,29 @@ public class Family {
         }
         return hasCashAccount;
     }
+
+    /**
+     * This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
+     * it iterates through the familyMembers (getMembers()) obtaining the name and the relationDesignation,
+     * using them to create a new instance of the FamilyMemberRelationDTO object which is stored in the FMRList.
+     * Returns said List back to the Family Service.
+     * @return List of FamilyMembersRelationDTO
+     */
+    public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember familyMembers : familyMembers) {
+            String name = familyMembers.getName();
+            String relation;
+            if (familyMembers.getRelation().equals(null)){ // Testar se apontador == funciona.
+               relation = "relação por definir";
+            } else {
+               relation = familyMembers.getRelation();
+            }
+            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+            DTOList.add(newMember);
+            }
+        return DTOList;
+        }
+
 
 }

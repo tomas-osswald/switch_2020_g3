@@ -91,7 +91,7 @@ class FamilyTest {
 
         family.addFamilyMember(familyMember1);
 
-        assertTrue(family.isAdmin(familyMemberID));
+        assertTrue(family.verifyAdministratorPermission(familyMemberID));
     }
 
     @Test
@@ -104,7 +104,7 @@ class FamilyTest {
 
         family.addFamilyMember(familyMember1);
 
-        assertFalse(family.isAdmin(familyMemberID));
+        assertFalse(family.verifyAdministratorPermission(familyMemberID));
     }
 
     @Test
@@ -123,7 +123,7 @@ class FamilyTest {
 
         int notAtribuitedID = 3;
 
-        assertFalse(family.isAdmin(notAtribuitedID));
+        assertFalse(family.verifyAdministratorPermission(notAtribuitedID));
     }
 
     @Test

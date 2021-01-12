@@ -194,7 +194,7 @@ public class FamilyMember {
      * @return boolean
      */
 
-    public boolean isAdmin() {
+    public boolean isAdministrator() {
         return this.administrator;
     }
 

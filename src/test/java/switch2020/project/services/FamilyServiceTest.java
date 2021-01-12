@@ -57,10 +57,24 @@ class FamilyServiceTest {
     Relation relation3 = new Relation(relacao3);
     boolean admin3 = true;
 
+    //Added 4th FamilyMember to test no relation attribution
+    int id4= 4444;
+    String name4 = "TonyZe";
+    String date4 = "26/08/1955";
+    int numero4 = 919939998;
+    String email4 = "tonyze@gmail.com";
+    int nif4 = 212122000;
+    String rua4 = "Rua";
+    String codPostal4 = "4444-556";
+    String local4 = "Gaia";
+    String city4 = "Porto";
+    boolean admin4 = true;
+
     //DTO Test Setup
     FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
     FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
+    FamilyMember noRelationMember = new FamilyMember(id4, name4, date4, numero4, email4, nif4, rua4, codPostal4, local4, city4);
     Family family = new Family();
     Family familyTwo = new Family();
     Family familyThree = new Family();
@@ -313,6 +327,26 @@ class FamilyServiceTest {
         familyMembers.add(diogo);
         familyMembers.add(jorge);
         familyMembers.add(manuelAdmin);
+        family.addFamilyMemberArray(familyMembers);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        expected.add(diogoDTO);
+        expected.add(jorgeDTO);
+        expected.add(manuelAdminDTO);
+        FamilyService familyService = new FamilyService(family);
+        //Act
+        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), jorge.getID());
+        //Assert
+        assertNotEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+    @Test
+    void getDTOList_TestWithFamilyMemberWithNoRelationPreviouslyAttributedExpectingDTOToConvertToRelationNotDefined() {
+        //Arrange
+        familyMembers.add(diogo);
+        familyMembers.add(jorge);
+        familyMembers.add(noRelationMember);
         family.addFamilyMemberArray(familyMembers);
         familyTwo.addFamilyMember(diogo);
         familyTwo.addFamilyMember(jorge);

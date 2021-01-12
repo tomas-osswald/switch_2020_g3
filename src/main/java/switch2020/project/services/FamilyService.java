@@ -121,7 +121,7 @@ public class FamilyService {
         Relation relation;
         Family fam = getFamily(familyID);
 
-        if (fam.isAdmin(selfID)) { // If is Administrator
+        if (fam.verifyAdministratorPermission(selfID)) { // If is Administrator
             if (fam.hasDesignation(relationDesignation)) { // Verify if a given relation designation is already present in list of relations assigned
                 relation = new Relation(relationDesignation);
                 fam.addRelationToFamilyMember(otherID, relation); // Create a Relation instance and assign to a Family Member
@@ -184,24 +184,17 @@ public class FamilyService {
 
     /**
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
-     * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
-     * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
-     * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
-     *
-     * @param familyID
-     * @return DTOList
+     * With the familyID the method delegates to the Family Class the responsibility of returning a List of DTOs from
+     * the Family's Family Members. If the User isn't the Family Administrator the return is an Empty List.
+     * @param familyID representing the Id of the family to find.
+     * @param familyAdministratorID representing the userID. Has to be verified in order to provide access to the information
+     * @return DTOList containing Family Members' name and the relationDesignation.
      */
     public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         Family family = getFamily(familyID);
-        if (family.isAdmin(familyAdministratorID)) {
-            List<FamilyMember> members = family.getFamilyMembers();
-            for (FamilyMember member : members) {
-                String name = member.getName();
-                String relation = member.getRelation();
-                FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-                DTOList.add(newMember);
-            }
+        if (family.verifyAdministratorPermission(familyAdministratorID)) {
+            DTOList = family.getFamilyMembersRelationDTOList();
         }
         return DTOList;
     }
