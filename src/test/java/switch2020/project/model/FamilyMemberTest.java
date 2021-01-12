@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyMemberTest {
 
-    int id = 1111;
+    String cc = "000000000ZZ4";
     String name = "Diogo";
     Date date = new Date(1990,8,26);
     Integer numero = 919999999;
@@ -24,7 +24,7 @@ class FamilyMemberTest {
 
     @Test
     public void createFamilyMember() {
-        FamilyMember José = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
+        FamilyMember José = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
         String expected = "filho";
         String result = José.getRelation();
         assertTrue(expected.equals(result));
@@ -35,50 +35,50 @@ class FamilyMemberTest {
     /* Empty with Admin */
     @Test
     void NotCreateMember_NameEmpty_Admin() {
-        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,"",date,numero,email,nif,rua,codPostal,local,city,relation, admin));
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(cc,"",date,numero,email,nif,rua,codPostal,local,city,relation, admin));
     }
 
     /* Empty with NoAdmin */
     @Test
     void NotCreateMember_NameEmpty_NoAdmin() {
-        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,"",date,numero,email,nif,rua,codPostal,local,city,relation));
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(cc,"",date,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
     /* Blank with Admin */
     @Test
     void NotCreateMember_NameBlank_Admin() {
-        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,"      ",date,numero,email,nif,rua,codPostal,local,city,relation, admin));
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(cc,"      ",date,numero,email,nif,rua,codPostal,local,city,relation, admin));
     }
 
     /* Blank with NoAdmin */
     @Test
     void NotCreateMember_NameBlank_NoAdmin() {
-        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,"      ",date,numero,email,nif,rua,codPostal,local,city,relation));
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(cc,"      ",date,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
     /* Null with Admin */
     @Test
     void NotCreateMember_NameNull_Admin() {
-        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,null,date,numero,email,nif,rua,codPostal,local,city,relation, admin));
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(cc,null,date,numero,email,nif,rua,codPostal,local,city,relation, admin));
     }
 
     /* Null with NoAdmin */
     @Test
     void NotCreateMember_NameNull_NoAdmin() {
-        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,null,date,numero,email,nif,rua,codPostal,local,city,relation));
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(cc,null,date,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
     /* Valid with Admin */
     @Test
     void CreateMember_NameValid_Admin() {
-        FamilyMember person = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
+        FamilyMember person = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
         assertTrue(person.validateName(name));
     }
 
     /* Valid with NoAdmin */
     @Test
     void CreateMember_NameValid_NoAdmin() {
-        FamilyMember person = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation);
+        FamilyMember person = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city,relation);
         assertTrue(person.validateName(name));
     }
 
@@ -86,26 +86,26 @@ class FamilyMemberTest {
     /* Null with Admin */
     @Test
     void NotCreateMember_BirthDateNull_Admin() {
-        assertThrows(NullPointerException.class,()-> new FamilyMember(id,name,null,numero,email,nif,rua,codPostal,local,city,relation, admin));
+        assertThrows(NullPointerException.class,()-> new FamilyMember(cc,name,null,numero,email,nif,rua,codPostal,local,city,relation, admin));
     }
 
     /* Null with NoAdmin */
     @Test
     void NotCreateMember_BirthDateNull_NoAdmin() {
-        assertThrows(NullPointerException.class,()-> new FamilyMember(id,name,null,numero,email,nif,rua,codPostal,local,city,relation));
+        assertThrows(NullPointerException.class,()-> new FamilyMember(cc,name,null,numero,email,nif,rua,codPostal,local,city,relation));
     }
 
     /* Valid with Admin */
     @Test
     void CreateMember_BirthDateValid_Admin() {
-        FamilyMember person = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
+        FamilyMember person = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
         assertTrue(person.validateBirthDate(date));
     }
 
     /* Valid with NoAdmin */
     @Test
     void CreateMember_BirthDateValid_NoAdmin() {
-        FamilyMember person = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation);
+        FamilyMember person = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local, city, relation);
         assertTrue(person.validateBirthDate(date));
     }
 
@@ -114,7 +114,7 @@ class FamilyMemberTest {
     @Test
     void CreateMember_PhoneNull_NoAdmin() {
         Integer phone = null;
-        FamilyMember person = new FamilyMember(id,name,date,phone,email,nif,rua,codPostal,local,city,relation);
+        FamilyMember person = new FamilyMember(cc,name,date,phone,email,nif,rua,codPostal,local,city,relation);
         assertFalse(person.validatePhone(phone));
     }
 
@@ -123,7 +123,7 @@ class FamilyMemberTest {
     @Test
     void CreateMember_EmailNull_NoAdmin() {
         String emailx = null;
-        FamilyMember person = new FamilyMember(id,name,date,numero,emailx,nif,rua,codPostal,local,city,relation);
+        FamilyMember person = new FamilyMember(cc,name,date,numero,emailx,nif,rua,codPostal,local,city,relation);
         assertFalse(person.validateEmail(emailx));
     }
 
