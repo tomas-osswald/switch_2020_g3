@@ -28,16 +28,13 @@ public class Relation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Relation)) {
-            return false;
-        }
+        if (this == o) return true;
 
-        Relation that = (Relation) o;
+        if (!(o instanceof Relation)) return false;
 
-        return relationDesignation != null ? relationDesignation.equals(that.relationDesignation) : that.relationDesignation == null;
+        Relation otherRelation = (Relation) o;
+
+        return this.relationDesignation.equals(otherRelation.getRelationDesignation());
     }
 
     @Override
