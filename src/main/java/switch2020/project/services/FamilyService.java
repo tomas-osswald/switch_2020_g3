@@ -179,12 +179,12 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(int selfId,String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+    public boolean addFamilyMember(int selfId,String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
         if(checkIfFamilyExists(familyID)){
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
             if(this.families.get(posicaoFamilia).isAdmin(selfId)){
                 if(!checkIfEmailPresent(email)){
-                    return this.families.get(posicaoFamilia).addFamilyMember( name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                    return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
                 }
                 throw new IllegalArgumentException("This email already exists");
             }

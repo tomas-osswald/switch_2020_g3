@@ -256,9 +256,9 @@ public class Family {
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember( String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             familyMembers.add(newFamilyMember);
             return true;
         } else {

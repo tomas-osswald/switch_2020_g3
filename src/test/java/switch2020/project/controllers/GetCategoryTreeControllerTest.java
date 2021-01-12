@@ -22,14 +22,15 @@ class GetCategoryTreeControllerTest {
     GetCategoryTreeController categoryTreeController = new GetCategoryTreeController(app);
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
     String[] expected = {"HOUSE", "ELECTRICITY", "WATER", "TRANSPORT", "CAR", "PUBLIC TRANSPORT", "FUEL", "REPAIRS", "PARKING", "TAXES", "INCOME", "SALES", "GAS", "FOOD", "OTHERS", "GROCERIES", "RESTAURANTS", "BUS", "TAXI"};
-    Date birthdate = new Date(1954,8,26);
+    Date birthdate = new Date(1954, 8, 26);
     Relation relation = new Relation("Filho");
+    String cc = "000000000ZZ4";
 
     @BeforeEach
     public void setup() {
 
-        familyMemberController.addFamilyMember(11,"Not Admin",birthdate,919999999,"abc@gmail.com",212122233,"Rua Nossa","4444-555","Zinde","Porto",relation,13);
-        familyAdministratorController.addFamilyAdministrator(12,"Admin",birthdate,919999999,"lol@gmail.com",212122233,"Rua Nossa","4444-555","Zinde","Porto",relation,10);
+        familyMemberController.addFamilyMember(11, cc, "Not Admin", birthdate, 919999999, "abc@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 13);
+        familyAdministratorController.addFamilyAdministrator(12, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 10);
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
         addStandardCategoryController.addStandardCategory("Electricity", 1); //id 2
         addStandardCategoryController.addStandardCategory("WatEr", 1);//id 3

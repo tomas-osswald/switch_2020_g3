@@ -11,8 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class FamilyTest {
 
     int id = 1111;
+    String cc = "000000000ZZ4";
     String name = "Diogo";
-    Date date = new Date(1990,8,26);
+    Date date = new Date(1990, 8, 26);
     int numero = 919999999;
     String email = "diogo@gmail.com";
     int nif = 212122230;
@@ -26,7 +27,7 @@ class FamilyTest {
 
     int id2 = 2222;
     String name2 = "Tony";
-    Date date2 = new Date(1954,8,26);
+    Date date2 = new Date(1954, 8, 26);
     int numero2 = 919999998;
     String email2 = "tony@gmail.com";
     int nif2 = 212122000;
@@ -151,16 +152,16 @@ class FamilyTest {
     }
 
     @Test
-    void familyConstructorTest1_validNameSimpson(){
+    void familyConstructorTest1_validNameSimpson() {
         String familyName = "Simpson";
         int familyID = 1;
-        Family newFamily = new Family(familyName,familyID);
+        Family newFamily = new Family(familyName, familyID);
 
         assertNotNull(newFamily);
     }
 
     @Test
-    void familyConstructorTest2_validNameMoura(){
+    void familyConstructorTest2_validNameMoura() {
         String familyName = "Moura";
         int familyID = 1;
         Family newFamily = new Family(familyName, familyID);
@@ -169,7 +170,7 @@ class FamilyTest {
     }
 
     @Test
-    void familyConstructorTest3_validNameAndLargeID(){
+    void familyConstructorTest3_validNameAndLargeID() {
         String familyName = "Moura";
         int familyID = 200;
         Family newFamily = new Family(familyName, familyID);
@@ -178,31 +179,31 @@ class FamilyTest {
     }
 
     @Test
-    void familyConstructorTest4_invalidNameNull(){
+    void familyConstructorTest4_invalidNameNull() {
         String familyName = null;
         int familyID = 1;
 
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Family newFamily = new Family(familyName, familyID);
         });
     }
 
     @Test
-    void familyConstructorTest5_invalidNameEmpty(){
+    void familyConstructorTest5_invalidNameEmpty() {
         String familyName = "";
         int familyID = 1;
 
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Family newFamily = new Family(familyName, familyID);
         });
     }
 
     @Test
-    void familyConstructorTest6_invalidNameBlank(){
+    void familyConstructorTest6_invalidNameBlank() {
         String familyName = "    ";
         int familyID = 1;
 
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Family newFamily = new Family(familyName, familyID);
         });
     }
@@ -237,31 +238,30 @@ class FamilyTest {
 
     @Test
     void AddFamilyMember_VatNotExists() {
-        FamilyMember pessoa1 = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
+        FamilyMember pessoa1 = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
         FamilyMember pessoa2 = pessoa1;
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2));
+        assertTrue(familia.addFamilyMember(cc,name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2));
     }
 
     @Test
     void NotAddFamilyMember_VatExists() {
-        FamilyMember pessoa1 = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
+        FamilyMember pessoa1 = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
         FamilyMember pessoa2 = pessoa1;
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, ()-> familia.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation));
     }
 
     @Test
     void AddFamilyMember_() {
-        assertThrows(IllegalArgumentException.class, ()-> new FamilyMember(id,"",date,numero,email,nif,rua,codPostal,local,city,relation,admin));
+        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(id, "", date, numero, email, nif, rua, codPostal, local, city, relation, admin));
     }
-
 
 
 }

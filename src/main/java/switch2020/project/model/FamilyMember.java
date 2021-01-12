@@ -2,7 +2,10 @@ package switch2020.project.model;
 
 import switch2020.project.utils.MemberProfileDTO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 
 public class FamilyMember {
@@ -52,7 +55,37 @@ public class FamilyMember {
     }
 
     //Constructor that uses a CCNumber as ID
+
     public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+
+        this.ccNumber = new CCNumber(ccNumber);
+
+        if (!validateName(name))
+            throw new IllegalArgumentException("Invalid Name");
+        this.name = name;
+
+        if (!validateBirthDate(birthDate))
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
+
+        PhoneNumber telef = new PhoneNumber(phone);
+        this.phoneNumbers.add(telef);
+
+        EmailAddress mail = new EmailAddress(email);
+        this.emails.add(mail);
+
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
+
+        this.relation = relation;
+
+        this.administrator = administrator;
+    }
+
+    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
