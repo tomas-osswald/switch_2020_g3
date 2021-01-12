@@ -25,9 +25,9 @@ public class GetFamilyMembersListController {
      * @param familyID representing the unique ID given to each family
      * @return DTOList with members name and the relation they have towards the Family Administrator
      */
-    public List<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID, int familyAdministratorID){
+    public List<FamilyMemberRelationDTO> getFamilyMemberAndRelation(int familyID, String adminCCNumber){
         FamilyService familyService = this.FFMapp.getFamilyService();
-        return familyService.getDTOList(familyID, familyAdministratorID);
+        return familyService.getDTOList(familyID, adminCCNumber);
     }
 
 }

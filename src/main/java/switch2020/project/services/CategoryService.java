@@ -7,24 +7,10 @@ import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CategoryService {
 
     private List<StandardCategory> categories;
-
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CategoryService that = (CategoryService) o;
-        return Objects.equals(categories, that.categories);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(categories);
-    }*/
 
     public CategoryService() {
         this.categories = new ArrayList<>();
@@ -53,10 +39,9 @@ public class CategoryService {
     }
 
     /**
-     * Method to get StandardCategory object by is CategoryID
-     *
-     * @param categoryID int that represents the CategoryID
-     * @return selectedCategory object
+     * This method returns a StandardCategory of a given ID
+     * @param categoryID ID of the StandardCategory to be returned
+     * @return chosen StandardCategory, if the StandardCategory is not found returns null;
      */
     private StandardCategory getStandardCategoryByID(int categoryID) {
         StandardCategory selectedCategory = null;
@@ -81,7 +66,7 @@ public class CategoryService {
         int size = this.categories.size();
         boolean categoryPresent = false;
         for (int index = 0; index < size; index++) {
-            if (this.categories.get(index).getName().compareToIgnoreCase(categoryName) == 0) {
+            if (this.categories.get(index).isDesignationOfThisCategory(categoryName)) {
                 categoryPresent = true;
                 index = size;
             }
@@ -100,7 +85,7 @@ public class CategoryService {
         boolean idPresent = false;
         int size = this.categories.size();
         for (int index = 0; index < size; index++) {
-            if (this.categories.get(index).getCategoryID() == parentID) {
+            if (this.categories.get(index).isIDOfThisCategory(parentID)) {
                 idPresent = true;
                 index = size;
             }
@@ -122,17 +107,11 @@ public class CategoryService {
         return maxID + 1;
     }
 
+
     public List<StandardCategory> getCategories() {
         return this.categories;
     }
 
-    /**
-     * Method
-     *
-     * @param familyID
-     * @param familyService
-     * @return
-     */
     public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
@@ -142,35 +121,18 @@ public class CategoryService {
         if (categories.size() == 0) {
             throw new IllegalArgumentException("There are no standard categories");
         }
-        List<StandardCategory> stdCatList = new ArrayList<StandardCategory>();
-        for (StandardCategory cat : stdCatList) {
-            stdCatList.add(cat);
-        }
-        return stdCatList;
+        List standardCategories = new ArrayList<StandardCategory>();
+        standardCategories = categories;
+        return standardCategories;
+
     }
 
-    /**
-     * Method that returns a copy of the Standard Categories List
-     * @return clonedList
-     */
-   /* public List cloneOfStandardCategoriesList() {
-        List<StandardCategory> clonedList = new ArrayList<StandardCategory>();
-        clonedList.addAll(getStandardCategories());
-        return clonedList;
-    }*/
-
-    /**
-     * Method that returns a Map Object with ParentName and CategoryName of a Category
-     *
-     * @return CategoryMap object stdCatMap
-     */
     public CategoryMap getStandardCategoriesDTOList() {
-        CategoryMap stdCatMap = new CategoryMap();
+        CategoryMap mapa = new CategoryMap();
         for (StandardCategory cat : categories
         ) {
-            stdCatMap.addToMap(cat.getParentName(), cat.getName());
+            mapa.addToMap(cat.getParentName(), cat.getName());
         }
-        return stdCatMap;
+        return mapa;
     }
-
 }

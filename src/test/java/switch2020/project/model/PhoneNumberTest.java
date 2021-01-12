@@ -8,7 +8,7 @@ class PhoneNumberTest {
 
     @Test
     void CreatePhone_Null(){
-        assertThrows(IllegalArgumentException.class,()-> new PhoneNumber(0));
+        assertThrows(IllegalArgumentException.class,()-> new PhoneNumber(null));
     }
 
     @Test

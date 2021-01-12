@@ -8,7 +8,7 @@ public class PhoneNumber {
 
     /********************** CONSTRUCTORS **********************/
 
-    public PhoneNumber(int phoneNumber) {
+    public PhoneNumber(Integer phoneNumber) {
         if (!validate(phoneNumber))
             throw new IllegalArgumentException("Invalid Phone Number.");
         this.phoneNumber = phoneNumber;
@@ -16,11 +16,11 @@ public class PhoneNumber {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public boolean validate(int phoneNumber) {
+    public boolean validate(Integer phoneNumber) {
         String regex = "\\d{9}";
         String phone = String.valueOf(phoneNumber);
         boolean test = Pattern.matches(regex,phone);
-        if (phoneNumber == 0){
+        if (phoneNumber == null){
             return false;
         } else if(!test) {
             return false;

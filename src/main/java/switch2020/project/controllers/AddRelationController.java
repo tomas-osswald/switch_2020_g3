@@ -12,18 +12,18 @@ public class AddRelationController {
 
     /**
      *
-     * @param selfID
-     * @param otherID
+     * @param selfCCNumber
+     * @param otherCCNumber
      * @param relationDesignation
      * @param familyID
      * @return
      */
 
-    public boolean createRelation(int selfID, int otherID, String relationDesignation, int familyID) {
+    public boolean createRelation(String selfCCNumber, String otherCCNumber, String relationDesignation, int familyID) {
         try {
             FamilyService familyService = this.app.getFamilyService();
-            return familyService.createRelation(selfID, otherID, relationDesignation, familyID);
-        } catch (Exception exception) {
+            return familyService.createRelation(selfCCNumber, otherCCNumber, relationDesignation, familyID);
+        } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             return false;
         }
