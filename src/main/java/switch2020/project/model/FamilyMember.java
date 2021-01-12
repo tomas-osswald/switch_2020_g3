@@ -204,7 +204,7 @@ public class FamilyMember {
     }
 
     public boolean validateEmail(String email){
-        if (email == null || email.isEmpty() || email.isBlank()){
+        if (email == null){
             return false;
         }
         return true;
