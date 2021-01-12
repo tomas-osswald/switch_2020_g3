@@ -1,11 +1,10 @@
 # US110 Get family's category tree
 =======================================
 
-
 # 1. Requirements
 
-*  As a family administrator, I want to get the list of the categories on the family’s category tree.
-
+* As a family administrator, I want to get the list of the categories on the
+  family’s category tree.
 
 **Demo1** As a family admin I want to get:
 
@@ -13,21 +12,27 @@
 
 - Demo1.2. The category tree of the family with ID 12 (which doesn't exist).
 
-We interpreted this requirement as the function of a family admin to get the list of categories that their family has. 
+We interpreted this requirement as the function of a family admin to get the
+list of categories that their family has.
 
 # 2. Analysis
 
 In order to fulfill this requirement, we need two main data pieces:
+
 - familyID, in order to know which family to retireve the CategoryTree from
-- familyMemberID, in order to verify it's the family Administrator that's requesting the tree.
+- familyMemberID, in order to verify it's the family Administrator that's
+  requesting the tree.
 
-At a later iteration, the family member's ID and familyID would be acquired through the Log In information. For this sprint, both will need to be inputted.
-
-
+At a later iteration, the family member's ID and familyID would be acquired
+through the Log In information. For this sprint, both will need to be inputted.
 
 # 3. Design
 
-The main process to fulfill this requirement would require the actor to select they want to get the FamilyTree from the UI. In lieu of not having an UI, the Int *FamilyMemberID* and Int *familyID* will be directly inputed into the getCategoryTreeController.
+The main process to fulfill this requirement would require the actor to select
+they want to get the FamilyTree from the UI. In lieu of not having an UI, the
+Int *FamilyMemberID* and Int *familyID* will be directly inputed into the
+getCategoryTreeController.
+
 ````puml
 @startuml
 autonumber
@@ -97,28 +102,33 @@ else is the Admin
 @enduml
 ````
 
-
-
-
 ## 3.1. Functionality Use
-The getCategoryTreeController will invoke the Application object, which stores the FamilyService and CategoryService objects. The Application will return both services, and the getCategoryTree method will be called from the CategoryService once the FamilyAdministrator ID is verified by the FamilyService. The CategoryTree DTO will be instantiated, and will fetch the StandardCategory objects stored in the CategoryService and the CustomCategories stored in the Family. It will store and present both Lists back to the UI.
 
-
+The getCategoryTreeController will invoke the Application object, which stores
+the FamilyService and CategoryService objects. The Application will return both
+services, and the getCategoryTree method will be called from the CategoryService
+once the FamilyAdministrator ID is verified by the FamilyService. The
+CategoryTree DTO will be instantiated, and will fetch the StandardCategory
+objects stored in the CategoryService and the CustomCategories stored in the
+Family. It will store and present both Lists back to the UI.
 
 ## 3.2. Class Diagram
+
 The main Classes involved are:
+
 - getCategoryTreeController
 - Application
 - Family
 - FamilyService
 - CategoryService
--CategoryTreeDTO
+- CategoryTreeDTO
 
-![Class Diagram](https://i.imgur.com/aIvHqZg.png)
+)![Class Diagram](US110ClassDiagram.png)
 
 ## 3.3. Applied Patterns
-We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern.
-We also used the SOLID SRP principle.
+
+We applied the principles of Controller, Information Expert, Creator and
+PureFabrication from the GRASP pattern. We also used the SOLID SRP principle.
 
 ## 3.4. Tests
 
@@ -160,8 +170,6 @@ The following preparation was made for the execution of the tests:
         addStandardCategoryController.addStandardCategory("Bus", 6);//id 18
         addStandardCategoryController.addStandardCategory("Taxi", 6);//id 19
 
-
-
 **Test 1:** Compare the returned array of categories with the expected array
 
     @Test
@@ -177,14 +185,16 @@ The following preparation was made for the execution of the tests:
         assertTrue(categoryTreeController.getCategoryTree(10, 12));
     }
 
-**Test 3:** Verify that an exception is thrown when there is no family with the inserted ID
+**Test 3:** Verify that an exception is thrown when there is no family with the
+inserted ID
 
     @Test
     public void getCategoryTreeNoFamilyWithThatIDTest() {
     assertFalse(categoryTreeController.getCategoryTree(11, 12));
     }
 
-**Test 4:** Verify that an exception is thrown when the inserted familyMemberID is not the FamilyAdmin
+**Test 4:** Verify that an exception is thrown when the inserted familyMemberID
+is not the FamilyAdmin
 
     @Test
     public void getCategoryTreeNotAnAdminTest() {
@@ -192,7 +202,8 @@ The following preparation was made for the execution of the tests:
 
     }
 
-**Test 5:** Verify that an exception is thrown when the inserted familyMemberID is not of any member of the family.
+**Test 5:** Verify that an exception is thrown when the inserted familyMemberID
+is not of any member of the family.
 
     @Test
     public void getCategoryTreeNoSuchFamilyMemberID() {
@@ -202,9 +213,13 @@ The following preparation was made for the execution of the tests:
 
 # 4. Implementation
 
-**Fetching the  Family and Category services**
+**Fetching the Family and Category services**
 
-In order to find the relevant Family and validate the Admin permissions, we need to use the FamilyService. To fetch the StandardCategory List and continue the flow of retriveing the CategoryTree, we need to use the CategoryService. The controller for this function will fetch both services from the Application and start the process after the Admin validation:
+In order to find the relevant Family and validate the Admin permissions, we need
+to use the FamilyService. To fetch the StandardCategory List and continue the
+flow of retriveing the CategoryTree, we need to use the CategoryService. The
+controller for this function will fetch both services from the Application and
+start the process after the Admin validation:
 
      public boolean getCategoryTree(int familyID, int familyMemberID) {
         FamilyService familyService = this.ffmApp.getFamilyService();
@@ -222,26 +237,29 @@ In order to find the relevant Family and validate the Admin permissions, we need
         }
     }
 
-
-
 **Creating the CategoryTreeDTO object and Adding the Categories Objects**
 
-The CategoryTreeDTO accepts both services and the familyID as arguments. It will add the categories to its own Lists upon instantiating. 
+The CategoryTreeDTO accepts both services and the familyID as arguments. It will
+add the categories to its own Lists upon instantiating.
 
     public CategoryTreeDTO(CategoryService categoryService, FamilyService familyService, int familyID) {
         this.standardCategories.addAll(categoryService.getStandardCategories());
         this.customCategories.addAll(familyService.getCustomCategories(familyID));
     }
 
-
-
 # 5. Integration/Demonstration
 
-As of this sprint, this function integrates with the FamilyService, needing it to verify the Administrator Permission. It also integrates with the CategoryService and Family objects, in order to retrieve the Standard and Custom categories, respectively.
+As of this sprint, this function integrates with the FamilyService, needing it
+to verify the Administrator Permission. It also integrates with the
+CategoryService and Family objects, in order to retrieve the Standard and Custom
+categories, respectively.
 
 # 6. Observations
 
-In the future, the FamilyMemberID and FamilyID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the IDs being manually inputted. The CustomCategories, once correctly implemented, would also be presented to the User.  
+In the future, the FamilyMemberID and FamilyID would ideally have to be
+retrieved by a method that checks the log in info of the current user, instead
+of the IDs being manually inputted. The CustomCategories, once correctly
+implemented, would also be presented to the User.  
 
 
 
