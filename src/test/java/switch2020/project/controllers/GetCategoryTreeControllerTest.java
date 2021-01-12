@@ -24,13 +24,13 @@ class GetCategoryTreeControllerTest {
     String[] expected = {"HOUSE", "ELECTRICITY", "WATER", "TRANSPORT", "CAR", "PUBLIC TRANSPORT", "FUEL", "REPAIRS", "PARKING", "TAXES", "INCOME", "SALES", "GAS", "FOOD", "OTHERS", "GROCERIES", "RESTAURANTS", "BUS", "TAXI"};
     Date birthdate = new Date(1954, 8, 26);
     Relation relation = new Relation("Filho");
-    String cc = "000000000ZZ4";
-
+    String adminCC = "000000000ZZ4";
+    String cc2 = "137843828ZX3";
     @BeforeEach
     public void setup() {
+        familyAdministratorController.addFamilyAdministrator(adminCC, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 10);
+        familyMemberController.addFamilyMember(adminCC, cc2, "Not Admin", birthdate, 919999999, "abc@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 13);
 
-        familyMemberController.addFamilyMember(11, cc, "Not Admin", birthdate, 919999999, "abc@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 13);
-        familyAdministratorController.addFamilyAdministrator(12, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 10);
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
         addStandardCategoryController.addStandardCategory("Electricity", 1); //id 2
         addStandardCategoryController.addStandardCategory("WatEr", 1);//id 3
@@ -63,24 +63,24 @@ class GetCategoryTreeControllerTest {
 
     @Test
     public void getCategoryTreeTest() {
-        assertTrue(categoryTreeController.getCategoryTree(10, 12));
+        assertTrue(categoryTreeController.getCategoryTree(10, adminCC));
     }
 
     @Test
     public void getCategoryTreeNoFamilyWithThatIDTest() {
-        assertFalse(categoryTreeController.getCategoryTree(11, 12));
+        assertFalse(categoryTreeController.getCategoryTree(11, adminCC));
 
     }
 
     @Test
     public void getCategoryTreeNotAnAdminTest() {
-        assertFalse(categoryTreeController.getCategoryTree(11, 13));
+        assertFalse(categoryTreeController.getCategoryTree(11, cc2));
 
     }
 
     @Test
     public void getCategoryTreeNoSuchFamilyMemberID() {
-        assertFalse(categoryTreeController.getCategoryTree(10, 1));
+        assertFalse(categoryTreeController.getCategoryTree(10, "137476457tr4"));
 
     }
 

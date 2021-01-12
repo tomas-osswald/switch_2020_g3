@@ -214,9 +214,9 @@ public class FamilyMember {
     }
 
     //Constructor without relation
-    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
+    public FamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
 
-        this.familyMemberID = familyMemberID;
+        this.ccNumber = new CCNumber(cc);
 
         if (!validateName(name))
             throw new IllegalArgumentException("Insert Name");
@@ -248,13 +248,10 @@ public class FamilyMember {
         this.familyMemberID = iD;
     }
 
-    public FamilyMember(int familyMemberID) {
-        this.familyMemberID = familyMemberID;
+    public FamilyMember(String familyMemberID) {
+        this.ccNumber = new CCNumber(familyMemberID);
     }
 
-    public String getCcNumber() {
-        return ccNumber.getCcNumber();
-    }
 
     /********************** GETTERS AND SETTERS **********************/
 
@@ -309,10 +306,10 @@ public class FamilyMember {
     }
 
     /**
-     * @return Int representing the FamilyMember's ID.
+     * @return String representing the FamilyMember's ID.
      */
-    public int getID() {
-        return this.familyMemberID;
+    public String getID() {
+        return this.ccNumber.getCcNumber();
     }
 
     // Business Methods
@@ -349,8 +346,8 @@ public class FamilyMember {
      */
 
     // Importado do Head
-    protected int getFamilyMemberID() {
-        return this.familyMemberID;
+    protected String getFamilyMemberID() {
+        return this.ccNumber.getCcNumber();
     }
 
     /********************** USER STORIES **********************/

@@ -11,7 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class addFamilyMemberTest {
 
-    int id = 1111;
+
+    String id = "137843828ZX3";
+
     String ccNumber = "000000000ZZ4";
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);

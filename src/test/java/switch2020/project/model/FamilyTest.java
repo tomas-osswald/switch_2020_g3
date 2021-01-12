@@ -41,8 +41,8 @@ class FamilyTest {
 
     @Test
     void AddFamilyMembers() {
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "000000000ZZ4";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
 
@@ -62,8 +62,8 @@ class FamilyTest {
 
     @Test
     void AddFamilyMembersArray() {
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "000000000ZZ4";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
 
@@ -87,7 +87,8 @@ class FamilyTest {
 
     @Test
     void IsAdminTrue() {
-        int familyMemberID = 1;
+        String familyMemberID = "000000000ZZ4";
+
         FamilyMember familyMember1 = new FamilyMember(familyMemberID);
         familyMember1.makeAdmin();
 
@@ -102,7 +103,8 @@ class FamilyTest {
 
     @Test
     void IsAdminFalse() {
-        int familyMemberID = 1;
+        String familyMemberID = "000000000ZZ4";
+
         FamilyMember familyMember1 = new FamilyMember(familyMemberID);
 
         int familyID = 1;
@@ -116,8 +118,8 @@ class FamilyTest {
 
     @Test
     void AdminWithGivenIDNotFoundNoFamilyMemberWithThatID() {
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "137476450ZX0";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
         familyMember1.makeAdmin();
@@ -129,15 +131,15 @@ class FamilyTest {
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
 
-        int notAtribuitedID = 3;
+        String notAtribuitedID = "137843828ZX3";
 
         assertFalse(family.isAdmin(notAtribuitedID));
     }
 
     @Test
     void FamilyMemberWithGivenIDDoesntExist() {
-        int familyMemberID = 1;
-        int familyMemberIDThatDoesntExist = 2;
+        String familyMemberID = "000000000ZZ4";
+        String familyMemberIDThatDoesntExist = "000000020ZZ4";
         FamilyMember familyMember = new FamilyMember(familyMemberID);
 
         int familyID = 1;
@@ -244,7 +246,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyMember(cc,name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2));
+        assertTrue(familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2));
     }
 
     @Test
