@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+
 import java.util.*;
 
 public class Family {
@@ -254,9 +256,20 @@ public class Family {
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyMember( String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
         if(!checkIfVatExists(vat)){
             FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            familyMembers.add(newFamilyMember);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Vat already exists in the Family");
+        }
+    }
+
+    public boolean addFamilyAdministrator(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        boolean administrator = true;
+        if(!checkIfVatExists(vat)){
+            FamilyMember newFamilyMember = new FamilyMember(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -283,6 +296,7 @@ public class Family {
      *
      * @return returns true if a cash account alreay exists
      */
+
     private boolean hasCashAccount() {
         boolean hasCashAccount = false;
         if (this.familyCashAccount != null) {
@@ -291,4 +305,26 @@ public class Family {
         return hasCashAccount;
     }
 
+    /**
+     * Method to verify if a Family has an administrator
+     * @return boolean
+     */
+
+    public boolean hasAdministrator () {
+        for (FamilyMember familyMember : familyMembers) {
+            if(familyMember.isAdmin())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Method to create a DTO (familyWithoutAdministratorDTO) with name and id of a Family
+     * @return aFamilyWithoutAdministratorDTO
+     */
+
+    public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
+        FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
+     return  familyWithoutAdministratorDTO;
+    }
 }

@@ -2,6 +2,7 @@ package switch2020.project.services;
 
 import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.FamilyWithoutAdministratorDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -178,11 +179,25 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+    public boolean addFamilyMember(int selfId,String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
         if(checkIfFamilyExists(familyID)){
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if(!checkIfEmailPresent(email)){
-                return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            if(this.families.get(posicaoFamilia).isAdmin(selfId)){
+                if(!checkIfEmailPresent(email)){
+                    return this.families.get(posicaoFamilia).addFamilyMember( name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                }
+                throw new IllegalArgumentException("This email already exists");
+            }
+            throw new IllegalArgumentException("This user is not Administrator");
+        }
+        throw new IllegalArgumentException("Family does not exist");
+    }
+
+    public boolean addFamilyAdministrator(int familyMemberID, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+        if (checkIfFamilyExists(familyID)) {
+            if (!checkIfEmailPresent(email)) {
+                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+                return this.families.get(posicaoFamilia).addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
             throw new IllegalArgumentException("This email already exists");
         }
@@ -249,6 +264,23 @@ public class FamilyService {
         MemberProfileDTO memberProfile = familyMember.createProfile();
 
         return memberProfile;
+    }
+
+    /**
+     * Method to return a List of Families without Administrator
+     * @return List<FamilyWithoutAdministratorDTO>
+     */
+
+    public List<FamilyWithoutAdministratorDTO> familiesWithoutAdministrator() {
+        List<FamilyWithoutAdministratorDTO> listOfFamiliesWithoutAdministrator = new ArrayList<>();
+
+        for (Family family : families) {
+            if (!family.hasAdministrator()){
+                FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = family.familyWithoutAdministratorDTO();
+                listOfFamiliesWithoutAdministrator.add(familyWithoutAdministratorDTO);
+            }
+        }
+        return listOfFamiliesWithoutAdministrator;
     }
 }
 

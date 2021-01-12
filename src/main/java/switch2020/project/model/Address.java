@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import java.util.regex.Pattern;
+
 public class Address {
     private final String street;
     private final String postalCode;
@@ -9,38 +11,52 @@ public class Address {
     /********************** CONSTRUCTORS **********************/
 
     public Address(String street, String postalCode,String local, String city){
-        if(!validateEmpty(street))
-            throw new IllegalArgumentException("Inserir Rua");
+        if(!validateStreet(street))
+            throw new IllegalArgumentException("Insert street.");
         this.street = street;
 
-        if(!validateEmpty(postalCode))
-            throw new IllegalArgumentException("Inserir Codigo Postal");
+        if(!validatePostalCode(postalCode))
+            throw new IllegalArgumentException("Insert Postal Code correctly");
         this.postalCode = postalCode;
 
-        if(!validateEmpty(local))
-            throw new IllegalArgumentException("Inserir Localidade");
+        if(!validateLocal(local))
+            throw new IllegalArgumentException("Insert Local correctly");
         this.local = local;
 
-        if(!validateEmpty(city))
-            throw new IllegalArgumentException("Inserir Cidade");
+        if(!validateCity(city))
+            throw new IllegalArgumentException("Insert City correctly");
         this.city = city;
     }
 
     /********************** GETTERS AND SETTERS **********************/
 
-    private boolean validateEmpty(String x){
-        if (x == null)
+    public boolean validateStreet(String street){
+        if (street == null || street.isBlank() || street.isEmpty())
             return false;
         return true;
     }
 
-    private boolean validatePostalCodeFormat(int vatNumber){
+    public boolean validatePostalCode(String postalCode){
         String regex = "\\d{4}(-\\d{3})?";
-        String vat = String.valueOf(vatNumber);
-        if (vat != regex) {
+        boolean test = Pattern.matches(regex, postalCode);
+        if (postalCode == null || postalCode.isBlank() || postalCode.isEmpty()) {
+            return false;
+        }else if(!test) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public boolean validateLocal(String local){
+        if (local == null || local.isBlank() || local.isEmpty())
+            return false;
+        return true;
+    }
+
+    public boolean validateCity(String city){
+        if (city == null || city.isBlank() || city.isEmpty())
+            return false;
+        return true;
     }
 }

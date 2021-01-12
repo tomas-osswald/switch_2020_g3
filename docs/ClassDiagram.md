@@ -15,6 +15,12 @@ class AddFamilyController {
   + boolean addFamily(String familyName)
 }
 
+class AddFamilyAdministratorController {
+ - Application ffmApp
+ + familiesWithoutAdministrator ()
+ + addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, familyID)
+}
+
 class AddFamilyMemberController {
   - Application FFMapp;
   - boolean addFamilyMember(String name, String birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID)
@@ -200,6 +206,7 @@ class VatNumber {
 
 AddEmailController --> Application
 AddFamilyController --> Application
+AddFamilyAdministratorController --> Application
 AddFamilyMemberController --> Application
 AddRelationController --> Application
 AddStandardCategoryController --> Application
