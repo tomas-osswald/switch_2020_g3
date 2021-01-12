@@ -18,9 +18,6 @@ public class StandardCategory {
         this.parentCategory = parentCategory;
     }
 
-
-    //git status
-
     //delete later, for tests
     public StandardCategory(String categoryName, int categoryID) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");

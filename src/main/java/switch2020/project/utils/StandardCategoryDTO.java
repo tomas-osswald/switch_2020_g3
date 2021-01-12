@@ -11,11 +11,7 @@ public class StandardCategoryDTO {
 
     public StandardCategoryDTO(String categoryName, StandardCategoryDTO parentCategory , StandardCategoryDTO child ){
         this.categoryName = categoryName;
-        this.childs.add(StandardCategoryDTO);
-    }
-
-    public addToChilds(){
-
+        this.childs.add(child);
     }
 
     /*@Override
