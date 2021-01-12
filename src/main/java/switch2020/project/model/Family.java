@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+
 import java.util.*;
 
 public class Family {
@@ -87,15 +89,15 @@ public class Family {
     /**
      * Method to find the index of a family member with a specific ID in the Family ArrayList
      *
-     * @param familyMemberID Integer representing the ID to find
+     * @param ccNumber Integer representing the ID to find
      * @return Int corresponding to the index of the family member that has the passed ID
      * @throws IllegalArgumentException if there is no family member with the passed ID
      */
 
-    private int findFamilyMemberIndexByID(int familyMemberID) {
+    private int findFamilyMemberIndexByID(String ccNumber) {
         int index = 0;
         for (FamilyMember member : this.familyMembers) {
-            if (member.getID() == familyMemberID) {
+            if (member.getID() == ccNumber) {
                 return index;
             }
             index++;
@@ -106,13 +108,13 @@ public class Family {
     /**
      * Method to verify if a given Family Member is Administrator
      *
-     * @param familyMemberID Family Member ID to verify
+     * @param ccNumber Family Member ID to verify
      * @return boolean
      */
 
-    public boolean isAdmin(int familyMemberID) {
+    public boolean isAdmin(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID() == familyMemberID)
+            if (familyMember.getFamilyMemberID().equals(ccNumber))
                 return familyMember.isAdmin();
         }
         return false;
@@ -160,13 +162,13 @@ public class Family {
     /**
      * Method to add a Relation to A family Member
      *
-     * @param familyMemberID FamilyMemberID of the member to be added a Relation
+     * @param ccNumber FamilyMemberID of the member to be added a Relation
      * @param relation       Relation to be added
      * @return boolean
      */
 
-    public boolean addRelationToFamilyMember(int familyMemberID, Relation relation) {
-        FamilyMember familyMember = getFamilyMember(familyMemberID);
+    public boolean addRelationToFamilyMember(String ccNumber, Relation relation) {
+        FamilyMember familyMember = getFamilyMember(ccNumber);
 
         familyMember.addRelation(relation);
 
@@ -176,13 +178,13 @@ public class Family {
     /**
      * Method to get a Famaly Member by ID
      *
-     * @param familyMemberID FamilyMemberID to search
+     * @param ccNumber FamilyMemberID to search
      * @return FamilyMember with given ID
      */
 
-    public FamilyMember getFamilyMember(int familyMemberID) {
+    public FamilyMember getFamilyMember(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID() == familyMemberID)
+            if (familyMember.getFamilyMemberID().equals(ccNumber))
                 return familyMember;
         }
         // If given ID is not present, a exception is thrown
@@ -245,18 +247,29 @@ public class Family {
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
      * @param emailToAdd String of the email address to add
-     * @param familyMemberID Integer representing the family member's ID
+     * @param ccNumber Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
 
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(familyMemberID));
+    public boolean addEmail(String emailToAdd, String ccNumber) {
+        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(ccNumber));
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            familyMembers.add(newFamilyMember);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Vat already exists in the Family");
+        }
+    }
+
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+        boolean administrator = true;
+        if(!checkIfVatExists(vat)){
+            FamilyMember newFamilyMember = new FamilyMember(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -283,6 +296,7 @@ public class Family {
      *
      * @return returns true if a cash account alreay exists
      */
+
     private boolean hasCashAccount() {
         boolean hasCashAccount = false;
         if (this.familyCashAccount != null) {
@@ -291,4 +305,26 @@ public class Family {
         return hasCashAccount;
     }
 
+    /**
+     * Method to verify if a Family has an administrator
+     * @return boolean
+     */
+
+    public boolean hasAdministrator () {
+        for (FamilyMember familyMember : familyMembers) {
+            if(familyMember.isAdmin())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Method to create a DTO (familyWithoutAdministratorDTO) with name and id of a Family
+     * @return aFamilyWithoutAdministratorDTO
+     */
+
+    public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
+        FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
+     return  familyWithoutAdministratorDTO;
+    }
 }

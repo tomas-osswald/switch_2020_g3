@@ -2,6 +2,7 @@ package switch2020.project.services;
 
 import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.FamilyWithoutAdministratorDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -48,13 +49,13 @@ public class FamilyService {
      *
      * @param emailToAdd     String of the email address to add
      * @param familyID       Integer representing the family's ID
-     * @param familyMemberID Integer representing the family member's ID
+     * @param ccNumber Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
-    public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
+    public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         if (!checkIfEmailPresent(emailToAdd)) {
             Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
-            return targetFamily.addEmail(emailToAdd, familyMemberID);
+            return targetFamily.addEmail(emailToAdd, ccNumber);
         }
         throw new IllegalArgumentException("This email is already present");
     }
@@ -106,6 +107,7 @@ public class FamilyService {
 
     /**
      * Method to add a Family to Families List -> families
+     *
      * @param family Family to add
      */
 
@@ -126,26 +128,27 @@ public class FamilyService {
 
     /**
      * Method to create a Relation and assign it to a Family Member
-     * @param selfID              ID of the Family Member how wants to create a Relation
-     * @param otherID             ID of the Family Member to be added a Relation
+     *
+     * @param selfCCNumber        ID of the Family Member how wants to create a Relation
+     * @param otherccNumber       ID of the Family Member to be added a Relation
      * @param relationDesignation Relation Designation
      * @param familyID            FamilyID of Family Member how wants to create a Relation
      * @return boolean
      */
 
-    public boolean createRelation(int selfID, int otherID, String relationDesignation, int familyID) {
+    public boolean createRelation(String selfCCNumber, String otherccNumber, String relationDesignation, int familyID) {
         Relation relation;
         Family fam = getFamily(familyID);
 
-        if (fam.isAdmin(selfID)) { // If is Administrator
+        if (fam.isAdmin(selfCCNumber)) { // If is Administrator
             if (fam.hasDesignation(relationDesignation)) { // Verify if a given relation designation is already present in list of relations assigned
                 relation = new Relation(relationDesignation);
-                fam.addRelationToFamilyMember(otherID, relation); // Create a Relation instance and assign to a Family Member
+                fam.addRelationToFamilyMember(otherccNumber, relation); // Create a Relation instance and assign to a Family Member
 
             } else { // If not, add to list of relations assigned
                 relation = new Relation(relationDesignation);
                 fam.addToRelationDesignationList(relationDesignation);
-                fam.addRelationToFamilyMember(otherID, relation); // Create a Relation instance and assign to a Family Member
+                fam.addRelationToFamilyMember(otherccNumber, relation); // Create a Relation instance and assign to a Family Member
             }
             return true; // Return true if is administrator and a Relation has been created and assigned to given Family Member
         }
@@ -154,6 +157,7 @@ public class FamilyService {
 
     /**
      * Method to get a family by ID in families
+     *
      * @param familyID FamilyID of required family
      * @return Family instance
      */
@@ -178,11 +182,25 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
-        if(checkIfFamilyExists(familyID)){
+    public boolean addFamilyMember(String ccNumber, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+        if (checkIfFamilyExists(familyID)) {
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if(!checkIfEmailPresent(email)){
-                return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            if (this.families.get(posicaoFamilia).isAdmin(ccNumber)) {
+                if (!checkIfEmailPresent(email)) {
+                    return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                }
+                throw new IllegalArgumentException("This email already exists");
+            }
+            throw new IllegalArgumentException("This user is not Administrator");
+        }
+        throw new IllegalArgumentException("Family does not exist");
+    }
+
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+        if (checkIfFamilyExists(familyID)) {
+            if (!checkIfEmailPresent(email)) {
+                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
+                return this.families.get(posicaoFamilia).addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
             }
             throw new IllegalArgumentException("This email already exists");
         }
@@ -198,9 +216,9 @@ public class FamilyService {
         return null;
     } */
 
-    public boolean verifyAdministratorPermission(int familyID, int familyAdministratorID) {
+    public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
         Family family = getFamily(familyID);
-        boolean isAdmin = family.isAdmin(familyAdministratorID);
+        boolean isAdmin = family.isAdmin(ccNumber);
         return isAdmin;
     }
 
@@ -214,9 +232,9 @@ public class FamilyService {
      * @param familyID
      * @return DTOList
      */
-    public List<FamilyMemberRelationDTO> getDTOList(int familyID, int familyAdministratorID) {
+    public List<FamilyMemberRelationDTO> getDTOList(int familyID, String adminCCNumber) {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        if (verifyAdministratorPermission(familyID, familyAdministratorID)) {
+        if (verifyAdministratorPermission(familyID, adminCCNumber)) {
             List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
             for (FamilyMember member : members) {
                 String name = member.getName();
@@ -242,13 +260,31 @@ public class FamilyService {
         return success;
     }
 
-    public MemberProfileDTO getFamilyMemberProfile(int familyId, int familyMemberId){
+    public MemberProfileDTO getFamilyMemberProfile(int familyId, String ccNumber) {
 
         Family family = getFamily(familyId);
-        FamilyMember familyMember = family.getFamilyMember(familyMemberId);
+        FamilyMember familyMember = family.getFamilyMember(ccNumber);
         MemberProfileDTO memberProfile = familyMember.createProfile();
 
         return memberProfile;
+    }
+
+    /**
+     * Method to return a List of Families without Administrator
+     *
+     * @return List<FamilyWithoutAdministratorDTO>
+     */
+
+    public List<FamilyWithoutAdministratorDTO> familiesWithoutAdministrator() {
+        List<FamilyWithoutAdministratorDTO> listOfFamiliesWithoutAdministrator = new ArrayList<>();
+
+        for (Family family : families) {
+            if (!family.hasAdministrator()) {
+                FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = family.familyWithoutAdministratorDTO();
+                listOfFamiliesWithoutAdministrator.add(familyWithoutAdministratorDTO);
+            }
+        }
+        return listOfFamiliesWithoutAdministrator;
     }
 }
 

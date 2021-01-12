@@ -17,8 +17,6 @@ public class MemberProfileDTO {
     private boolean administrator;
 
 
-
-
     public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, Relation relation, boolean administrator) {
         this.name = name;
         this.birthDate = birthDate;
