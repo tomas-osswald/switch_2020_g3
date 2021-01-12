@@ -250,10 +250,14 @@ public class FamilyService {
      * @param familyID identifier of the family object
      * @return returns true if an account was created and stored by the family object
      */
-    public boolean createFamilyCashAccount(int familyID, double balance) {
+    public boolean createFamilyCashAccount(int familyID, double balance, int selfID) {
         boolean success;
         Family aFamily = getFamily(familyID);
-        success = aFamily.createFamilyCashAccount(balance);
+        if (aFamily.isAdmin(selfID)) {
+            success = aFamily.createFamilyCashAccount(balance);
+        } else {
+            success = false;
+        }
         return success;
     }
 
