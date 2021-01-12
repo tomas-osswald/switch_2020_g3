@@ -11,7 +11,7 @@ class FamilyMemberTest {
     int id = 1111;
     String name = "Diogo";
     Date date = new Date(1990,8,26);
-    int numero = 919999999;
+    Integer numero = 919999999;
     String email = "josediogoccbr@gmail.com";
     int nif = 212122233;
     String rua = "Rua Nossa";
@@ -109,44 +109,104 @@ class FamilyMemberTest {
         assertTrue(person.validateBirthDate(date));
     }
 
-    /** VatNumber Validation **/
-    /* Null with Admin */
+    /** PhoneNumber **/
+    /* Valid Null with NoAdmin */
+    @Test
+    void CreateMember_PhoneNull_NoAdmin() {
+        Integer phone = null;
+        FamilyMember person = new FamilyMember(id,name,date,phone,email,nif,rua,codPostal,local,city,relation);
+        assertFalse(person.validatePhone(phone));
+    }
+
+    /** Email **/
+    /* Valid Null with NoAdmin */
+    @Test
+    void CreateMember_EmailNull_NoAdmin() {
+        String emailx = null;
+        FamilyMember person = new FamilyMember(id,name,date,numero,emailx,nif,rua,codPostal,local,city,relation);
+        assertFalse(person.validateEmail(emailx));
+    }
+
+    /********* SEM EFEITO
+
+    // VatNumber Validation
+    // Null with Admin
     @Test
     void NotCreateMember_VatNull_Admin() {
         assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,numero,email,0,rua,codPostal,local,city,relation, admin));
     }
 
-    /* Null with NoAdmin */
+    // Null with NoAdmin
     @Test
     void NotCreateMember_VatNull_NoAdmin() {
         assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,numero,email,0,rua,codPostal,local,city,relation));
     }
 
-    /* Incorrect Numbers with Admin */
+    // Incorrect Numbers with Admin
     @Test
     void NotCreateMember_VatIncorrectNumbers_Admin() {
         assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,numero,email,12345678,rua,codPostal,local,city,relation, admin));
     }
 
-    /* Incorrect Numbers with NoAdmin */
+    // Incorrect Numbers with NoAdmin
     @Test
     void NotCreateMember_VatIncorrectNumbers_NoAdmin() {
         assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,numero,email,12345678,rua,codPostal,local,city,relation));
     }
 
-    /* Valid with Admin */
+    // Valid with Admin
     @Test
     void CreateMember_VatNumberValid_Admin() {
         FamilyMember person = new FamilyMember(id,name,date,numero,email,123456789,rua,codPostal,local, city, relation, admin);
         assertTrue(person.validateVat(123456789));
     }
 
-    /* Valid with NoAdmin */
+    // Valid with NoAdmin
     @Test
     void CreateMember_VatNumberValid_NoAdmin() {
         FamilyMember person = new FamilyMember(id,name,date,numero,email,123456789,rua,codPostal,local, city, relation);
         assertTrue(person.validateVat(123456789));
     }
 
+    // PhoneNumber Validation
+    // Null with Admin
+    @Test
+    void NotCreateMember_PhoneNull_Admin() {
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,0,email,nif,rua,codPostal,local,city,relation, admin));
+    }
+
+    // Null with NoAdmin
+    @Test
+    void NotCreateMember_PhoneNull_NoAdmin() {
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,0,email,nif,rua,codPostal,local,city,relation));
+    }
+
+    // Incorrect Numbers with Admin
+    @Test
+    void NotCreateMember_PhoneIncorrectNumbers_Admin() {
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,91765432,email,nif,rua,codPostal,local,city,relation, admin));
+    }
+
+    // Incorrect Numbers with NoAdmin
+    @Test
+    void NotCreateMember_PhoneIncorrectNumbers_NoAdmin() {
+        assertThrows(IllegalArgumentException.class,()-> new FamilyMember(id,name,date,91765432,email,nif,rua,codPostal,local,city,relation));
+    }
+
+    // Valid with Admin
+    @Test
+    void CreateMember_PhoneValid_Admin() {
+        FamilyMember person = new FamilyMember(id,name,date,917654321,email,nif,rua,codPostal,local,city,relation,admin);
+        assertTrue(person.validatePhone(917654321));
+    }
+
+    // Valid with NoAdmin
+    @Test
+    void CreateMember_PhoneValid_NoAdmin() {
+        FamilyMember person = new FamilyMember(id,name,date,917654321,email,nif,rua,codPostal,local,city,relation);
+        assertTrue(person.validatePhone(917654321));
+    }
+
+    *********/
     // Falta ainda testar o throw para o constructor de FamilyMember.
 }
