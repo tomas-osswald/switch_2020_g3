@@ -3,6 +3,8 @@
 
 # 1. Requirements
 
+## 1.1. Client Notes
+
 **Demo1** US120 As a family administrator, I want to create a family cash account.
 
 - Demo1.1. The family already has a cash account
@@ -10,6 +12,34 @@
 - Demo1.2. The family does not yet have a cash account
 
 Our interpretation of this requirement was to create the function for a family administrator to be able to create a cash account for the family he administrates. As the family may only have one cash account, we need to check if one exists already.
+
+Relativamente à US120 em que "As a family administrator, I want to create a family cash account." o administrador numa fase inicial cria apenas uma conta que por defeito guarda um montante de 0 euros ou poderá definir o montante inicial?
+Definir um valor inicial parece-me bem.
+
+## 1.2. System Sequence Diagram
+
+```puml
+autonumber 1
+title System Sequence Diagrama - US120
+actor "FamilyAdministrator" as familyAdmin
+participant "System" as System
+
+
+activate familyAdmin
+familyAdmin -> System: create a Family Cash \n Account (familyID)
+activate System
+
+alt failure
+System --> familyAdmin: Inform Failure
+
+else success
+
+System --> familyAdmin: Inform Success
+deactivate System
+end
+
+deactivate familyAdmin
+```
 
 # 2. Analysis
 
