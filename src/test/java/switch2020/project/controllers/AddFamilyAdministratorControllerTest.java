@@ -8,9 +8,15 @@ class AddFamilyAdministratorControllerTest {
 
     @Test
     void familiesWithoutAdministratorList() {
+
     }
 
     @Test
     void familiesWithoutAdministratorEmptyList() {
+    }
+
+    @Test
+    void addFamilyAdministrator() {
+
     }
 }
