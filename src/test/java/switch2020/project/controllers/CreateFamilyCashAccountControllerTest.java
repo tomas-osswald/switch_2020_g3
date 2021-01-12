@@ -21,39 +21,71 @@ class CreateFamilyCashAccountControllerTest {
 
     @Test
     void createFamilyCashAccountSuccessNoExistingAccount() {
-        int selfID = 1;
-        FamilyMember admin = new FamilyMember(selfID);
+        String ccNumber = "000000000ZZ4";
+        FamilyMember admin = new FamilyMember(ccNumber);
         admin.makeAdmin();
+
         Application app = new Application();
         CreateFamilyCashAccountController controller = new CreateFamilyCashAccountController(app);
+
         int familyID = 1;
         String familyName = "Moura";
-        boolean expected = true;
         Family aFamily = new Family(familyName, familyID);
         app.getFamilyService().addFamily(aFamily);
-        double balance = 0;
+        aFamily.addFamilyMember(admin);
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, selfID);
+        double balance = 0;
+        boolean expected = true;
+
+        boolean result = controller.createFamilyCashAccount(familyID, balance, ccNumber);
 
         assertEquals(expected, result);
     }
 
     @Test
     void createFamilyCashAccountFailureAlreadyExistingAccount() {
-        int selfID = 1;
-        FamilyMember admin = new FamilyMember(selfID);
+        String ccNumber = "000000000ZZ4";
+        FamilyMember admin = new FamilyMember(ccNumber);
         admin.makeAdmin();
+
         Application app = new Application();
         CreateFamilyCashAccountController controller = new CreateFamilyCashAccountController(app);
+
         int familyID = 1;
         String familyName = "Moura";
-        boolean expected = false;
         Family aFamily = new Family(familyName, familyID);
         app.getFamilyService().addFamily(aFamily);
-        double balance = 0;
-        controller.createFamilyCashAccount(familyID, balance, selfID);
+        aFamily.addFamilyMember(admin);
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, selfID);
+        double balance = 0;
+        boolean expected = false;
+
+        controller.createFamilyCashAccount(familyID, balance, ccNumber);
+
+        boolean result = controller.createFamilyCashAccount(familyID, balance, ccNumber);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createFamilyCashAccountFailureTryCatchNegativeBalance() {
+        String ccNumber = "000000000ZZ4";
+        FamilyMember admin = new FamilyMember(ccNumber);
+        admin.makeAdmin();
+
+        Application app = new Application();
+        CreateFamilyCashAccountController controller = new CreateFamilyCashAccountController(app);
+
+        int familyID = 1;
+        String familyName = "Moura";
+        Family aFamily = new Family(familyName, familyID);
+        app.getFamilyService().addFamily(aFamily);
+        aFamily.addFamilyMember(admin);
+
+        double balance = -10;
+        boolean expected = false;
+
+        boolean result = controller.createFamilyCashAccount(familyID, balance, ccNumber);
 
         assertEquals(expected, result);
     }
