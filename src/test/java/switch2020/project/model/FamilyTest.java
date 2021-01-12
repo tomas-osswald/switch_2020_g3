@@ -306,7 +306,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2));
+        assertTrue(familia.addFamilyAdministrator(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2));
     }
 
     @Test
