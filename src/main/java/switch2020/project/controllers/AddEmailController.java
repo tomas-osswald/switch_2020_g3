@@ -1,6 +1,7 @@
 package switch2020.project.controllers;
 
 //import switch2020.project.model.Application;
+
 import switch2020.project.model.Application;
 import switch2020.project.services.FamilyService;
 
@@ -25,6 +26,7 @@ public class AddEmailController {
             FamilyService familyService = this.ffmApp.getFamilyService();
             return familyService.addEmail(emailToAdd, familyID, familyMemberID);
         } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
             return false;
         }
     }

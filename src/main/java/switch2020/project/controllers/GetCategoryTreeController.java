@@ -24,7 +24,8 @@ public class GetCategoryTreeController {
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
             return false;
         }
     }
