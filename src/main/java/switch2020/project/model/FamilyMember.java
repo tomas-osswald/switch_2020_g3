@@ -2,7 +2,10 @@ package switch2020.project.model;
 
 import switch2020.project.utils.MemberProfileDTO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 
 public class FamilyMember {
@@ -22,7 +25,7 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
-    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
 
@@ -52,7 +55,7 @@ public class FamilyMember {
     }
 
     //Constructor that uses a CCNumber as ID
-    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -69,6 +72,39 @@ public class FamilyMember {
 
         EmailAddress mail = new EmailAddress(email);
         this.emails.add(mail);
+
+        VatNumber nif = new VatNumber(vat);
+        this.vatNumber = nif;
+
+        Address morada = new Address(street, codPostal, local, city);
+        this.address = morada;
+
+        this.relation = relation;
+
+        this.administrator = administrator;
+    }
+
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+
+        this.ccNumber = new CCNumber(ccNumber);
+
+        if (!validateName(name))
+            throw new IllegalArgumentException("Invalid Name");
+        this.name = name;
+
+        if (!validateBirthDate(birthDate))
+            throw new IllegalArgumentException("Insert Date");
+        this.birthDate = birthDate;
+
+        if (validatePhone(phone)) {
+            PhoneNumber telef = new PhoneNumber(phone);
+            this.phoneNumbers.add(telef);
+        }
+
+        if (validateEmail(email)) {
+            EmailAddress mail = new EmailAddress(email);
+            this.emails.add(mail);
+        }
 
         VatNumber nif = new VatNumber(vat);
         this.vatNumber = nif;
@@ -116,7 +152,7 @@ public class FamilyMember {
     }
 
     // System Manager - add FamilyMember | ID is generated inside de APP
-    public FamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID; // Generate ID
 
@@ -147,7 +183,7 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member | ID is generated inside de APP
-    public FamilyMember(String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
 
@@ -181,9 +217,9 @@ public class FamilyMember {
     }
 
     //Constructor without relation
-    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
+    public FamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
 
-        this.familyMemberID = familyMemberID;
+        this.ccNumber = new CCNumber(cc);
 
         if (!validateName(name))
             throw new IllegalArgumentException("Insert Name");
@@ -215,13 +251,10 @@ public class FamilyMember {
         this.familyMemberID = iD;
     }
 
-    public FamilyMember(int familyMemberID) {
-        this.familyMemberID = familyMemberID;
+    public FamilyMember(String familyMemberID) {
+        this.ccNumber = new CCNumber(familyMemberID);
     }
 
-    public String getCcNumber() {
-        return ccNumber.getCcNumber();
-    }
 
     /********************** GETTERS AND SETTERS **********************/
 
@@ -276,10 +309,10 @@ public class FamilyMember {
     }
 
     /**
-     * @return Int representing the FamilyMember's ID.
+     * @return String representing the FamilyMember's ID.
      */
-    public int getID() {
-        return this.familyMemberID;
+    public String getID() {
+        return this.ccNumber.getCcNumber();
     }
 
     // Business Methods
@@ -316,8 +349,8 @@ public class FamilyMember {
      */
 
     // Importado do Head
-    protected int getFamilyMemberID() {
-        return this.familyMemberID;
+    protected String getFamilyMemberID() {
+        return this.ccNumber.getCcNumber();
     }
 
     /********************** USER STORIES **********************/

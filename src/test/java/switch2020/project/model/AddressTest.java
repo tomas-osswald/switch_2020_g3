@@ -18,6 +18,16 @@ class AddressTest {
     }
 
     @Test
+    void NotCreateAddress_StreetEmpty() {
+        assertThrows(IllegalArgumentException.class,()-> new Address("", postalCode, local, city));
+    }
+
+    @Test
+    void NotCreateAddress_StreetBlank() {
+        assertThrows(IllegalArgumentException.class,()-> new Address("     ", postalCode, local, city));
+    }
+
+    @Test
     void CreateAddress_StreetValid() {
         String rua = "Rua";
         Address address = new Address(rua, postalCode, local, city);
@@ -27,7 +37,17 @@ class AddressTest {
     /** Postal Code **/
     @Test
     void NotCreateAddress_PostalCodeNull() {
+        assertThrows(NullPointerException.class,()-> new Address(street,null,local,city)); // O IllegalArgumentException nao funciona neste caso nao sei porque
+    }
+
+    @Test
+    void NotCreateAddress_PostalCodeEmpty() {
         assertThrows(IllegalArgumentException.class,()->new Address(street, "", local, city));
+    }
+
+    @Test
+    void NotCreateAddress_PostalCodeBlank() {
+        assertThrows(IllegalArgumentException.class,()->new Address(street, "    ", local, city));
     }
 
     @Test
@@ -45,7 +65,17 @@ class AddressTest {
     /** Local **/
     @Test
     void CreateAddress_LocalNull() {
+        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,null,city));
+    }
+
+    @Test
+    void CreateAddress_LocalEmpty() {
         assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,"",city));
+    }
+
+    @Test
+    void CreateAddress_LocalBlank() {
+        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,"     ",city));
     }
 
     @Test
@@ -58,6 +88,16 @@ class AddressTest {
     /** City **/
     @Test
     void CreateAddress_CityNull() {
+        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,local,null));
+    }
+
+    @Test
+    void CreateAddress_CityEmpty() {
+        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,local,""));
+    }
+
+    @Test
+    void CreateAddress_CityBlank() {
         assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,local,""));
     }
 

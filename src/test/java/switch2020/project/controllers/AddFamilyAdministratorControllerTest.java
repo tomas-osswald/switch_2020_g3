@@ -48,5 +48,12 @@ class AddFamilyAdministratorControllerTest {
         List<FamilyWithoutAdministratorDTO> result = addFamilyAdministratorController.familiesWithoutAdministrator();
 
         assertEquals(result, expected);
+
     }*/
+
+    @Test
+    void addFamilyAdministrator() {
+
+    }
+
 }

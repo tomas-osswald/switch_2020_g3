@@ -22,8 +22,12 @@ public class AddFamilyAdministratorController {
         return familyService.familiesWithoutAdministrator();
     }
 
-    public boolean addFamilyAdministrator(int familyMemberID, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
-        FamilyService familyService = this.application.getFamilyService();
-        return familyService.addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, familyID);
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+        try {
+            FamilyService familyService = this.application.getFamilyService();
+            return familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, familyID);
+        } catch (Exception exception) {
+            return false;
+        }
     }
 }
