@@ -315,7 +315,6 @@ public class FamilyMember {
     public MemberProfileDTO createProfile(){
         return new MemberProfileDTO(emails, name, birthDate, phoneNumbers, vatNumber, address);
     }
-
 }
 
 

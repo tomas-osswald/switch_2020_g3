@@ -261,7 +261,4 @@ class FamilyTest {
     void AddFamilyMember_() {
         assertThrows(IllegalArgumentException.class, ()-> new FamilyMember(id,"",date,numero,email,nif,rua,codPostal,local,city,relation,admin));
     }
-
-
-
 }
