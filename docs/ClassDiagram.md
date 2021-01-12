@@ -2,6 +2,7 @@
 =======================================
 
 ```puml
+
 title Class Diagram
 
 class AddEmailController {
@@ -12,6 +13,12 @@ class AddEmailController {
 class AddFamilyController {
   - Application ffmApp
   + boolean addFamily(String familyName)
+}
+
+class AddFamilyAdministratorController {
+ - Application ffmApp
+ + familiesWithoutAdministrator ()
+ + addFamilyAdministrator(familyMemberID, name, birthDate, phone, email, vat, street, codPostal, local, city, familyID)
 }
 
 class AddFamilyMemberController {
@@ -199,6 +206,7 @@ class VatNumber {
 
 AddEmailController --> Application
 AddFamilyController --> Application
+AddFamilyAdministratorController --> Application
 AddFamilyMemberController --> Application
 AddRelationController --> Application
 AddStandardCategoryController --> Application
@@ -210,7 +218,7 @@ GetStandardCategoriesTreeController --> Application
 Application --> FamilyService
 Application --> CategoryService
 CategoryService --> Category
-FamilyService --> FamilyMemberRelationDTO
+FamilyService -left-> FamilyMemberRelationDTO
 FamilyService --> Family
 Family --> CashAccount
 Family --> FamilyMember

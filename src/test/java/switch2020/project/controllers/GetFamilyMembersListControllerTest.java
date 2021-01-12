@@ -10,7 +10,9 @@ import switch2020.project.utils.FamilyMemberRelationDTO;
 import java.util.Date;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,12 +66,15 @@ class GetFamilyMembersListControllerTest {
     FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
     FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
-    int familyID = 123;
+    int familyOneID = 123;
+    String familyOneName = "Simpson";
     int familyTwoID = 456;
+    String familyTwoName = "Simpson";
     int familyThreeID = 789;
-    Family family = new Family(familyID);
-    Family familyTwo = new Family(familyTwoID);
-    Family familyThree = new Family(familyThreeID);
+    String familyThreeName = "Simpson";
+    Family family = new Family(familyOneName,familyOneID);
+    Family familyTwo = new Family(familyTwoName,familyTwoID);
+    Family familyThree = new Family(familyThreeName,familyThreeID);
     ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), diogo.getRelation());
     FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), jorge.getRelation());
