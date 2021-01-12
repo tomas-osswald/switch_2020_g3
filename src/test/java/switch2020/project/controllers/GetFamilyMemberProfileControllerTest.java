@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GetFamilyMemberProfileControllerTest {
 
-    int id = 1111;
+    String id = "000000000ZZ4";
     String name = "Diogo";
-    Date date = new Date(1990,8,26);
+    Date date = new Date(1990, 8, 26);
     int numero = 919999999;
     String email = "abc@gmail.com";
     int nif = 212122233;
@@ -27,9 +27,8 @@ class GetFamilyMemberProfileControllerTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
-
     //Added 2nd FamilyMember to test
-    int id2 = 2222;
+    String id2 = "137476450ZX0";
     String name2 = "Tony";
     Date date2 = new Date(1954,8,26);
     int numero2 = 919999998;
@@ -43,39 +42,28 @@ class GetFamilyMemberProfileControllerTest {
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
-    //Added 3rd FamilyMember to test
-    int id3 = 3333;
-    String name3 = "TonyZe";
-    Date date3 = new Date(1955,8,26);
-    int numero3 = 919939998;
-    String email3 = "tonyze@gmail.com";
+    //Added 3nd FamilyMember to test (no email)
+    String id3 = "137476450ZX0";
+    String name3 = "Tony";
+    Date date3 = new Date(1954,8,26);
+    int numero3 = 919999998;
+    String email3 = "tony@gmail.com";
     int nif3 = 212122000;
     String rua3 = "Rua";
     String codPostal3 = "4444-556";
     String local3 = "Gaia";
     String city3 = "Porto";
     String relacao3 = "primo";
-    Relation relation3 = new Relation(relacao3);
-    boolean admin3 = true;
+    Relation relation3 = new Relation(relacao2);
+    boolean admin3 = false;
+
 
     //DTO Test Setup
     FamilyMember diogo = new FamilyMember(id, name, date,numero,email,nif,rua,codPostal,local, city, relation, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
-    FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
     int familyOneID = 123;
     String familyOneName = "Simpson";
-    int familyTwoID = 456;
-    String familyTwoName = "Simpson";
-    int familyThreeID = 789;
-    String familyThreeName = "Simpson";
     Family family = new Family(familyOneName,familyOneID);
-    Family familyTwo = new Family(familyTwoName,familyTwoID);
-    Family familyThree = new Family(familyThreeName,familyThreeID);
-    ArrayList<FamilyMember> familyMembers = new ArrayList<>();
-    FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), diogo.getRelation());
-    FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), jorge.getRelation());
-    FamilyMemberRelationDTO manuelAdminDTO = new FamilyMemberRelationDTO(manuelAdmin.getName(), manuelAdmin.getRelation());
-    List<FamilyMemberRelationDTO> expected = new ArrayList<FamilyMemberRelationDTO>();
 
     @Test
     void instantiationOfGetFamilyMemberProfileControllerTest() {
