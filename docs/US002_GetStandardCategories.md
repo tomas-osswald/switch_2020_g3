@@ -53,9 +53,9 @@ controller -> service : getCategories()
 service -> service : createStandardCategoriesList()
 activate category
 loop for each Category in Categories List
-service -> category : checkIfIsStandard()
+service -> category : getStandardCategories()
 alt true
-category -> service : addCategoryToStandardList()
+category -> service : List<StandardCategory>
 service -> app : standardCategories
 deactivate service
 deactivate category
@@ -82,7 +82,7 @@ Category Service has the responsibility of managing the categories list.
 The main Classes involved are:
 
 - CategoriesController
-- FFMApplication
+- Application
 - CategoryService
 
 ```puml
@@ -136,6 +136,8 @@ We return the Standard Categories List in form of a DTO (Data Transfer Object) b
 
 *Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as
 restantes funcionalidades do sistema.*
+
+At this moment, User Stories that depend on the development of this one have not been developed, so the integration of this one with the rest of the system's features cannot be tested / proven yet.
 
 # 6. Observations
 

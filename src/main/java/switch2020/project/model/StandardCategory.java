@@ -19,7 +19,7 @@ public class StandardCategory {
     }
 
 
-    //
+    //git status
 
     //delete later, for tests
     public StandardCategory(String categoryName, int categoryID) {
@@ -35,6 +35,13 @@ public class StandardCategory {
         } catch (NullPointerException e) {
             return 0;
         }
+    }
+
+    public String getParentName() {
+        if(this.parentCategory != null){
+            return this.parentCategory.getName();
+        }
+        return "-1";
     }
 
     public int getCategoryID() {
