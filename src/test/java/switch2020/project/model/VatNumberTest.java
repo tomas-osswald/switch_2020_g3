@@ -8,7 +8,7 @@ class VatNumberTest {
 
     @Test
     void CreateVatNumber_Null(){
-        assertThrows(IllegalArgumentException.class,()-> new VatNumber(0));
+        assertThrows(IllegalArgumentException.class,()-> new VatNumber(null));
     }
 
     @Test

@@ -38,6 +38,11 @@ public class CategoryService {
         }
     }
 
+    /**
+     * This method returns a StandardCategory of a given ID
+     * @param categoryID ID of the StandardCategory to be returned
+     * @return chosen StandardCategory, if the StandardCategory is not found returns null;
+     */
     private StandardCategory getStandardCategoryByID(int categoryID) {
         StandardCategory selectedCategory = null;
         int size = this.categories.size();
@@ -61,7 +66,7 @@ public class CategoryService {
         int size = this.categories.size();
         boolean categoryPresent = false;
         for (int index = 0; index < size; index++) {
-            if (this.categories.get(index).getName().compareToIgnoreCase(categoryName) == 0) {
+            if (this.categories.get(index).isDesignationOfThisCategory(categoryName)) {
                 categoryPresent = true;
                 index = size;
             }
@@ -80,7 +85,7 @@ public class CategoryService {
         boolean idPresent = false;
         int size = this.categories.size();
         for (int index = 0; index < size; index++) {
-            if (this.categories.get(index).getCategoryID() == parentID) {
+            if (this.categories.get(index).isIDOfThisCategory(parentID)) {
                 idPresent = true;
                 index = size;
             }

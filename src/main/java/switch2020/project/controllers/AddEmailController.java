@@ -1,6 +1,7 @@
 package switch2020.project.controllers;
 
 //import switch2020.project.model.Application;
+
 import switch2020.project.model.Application;
 import switch2020.project.services.FamilyService;
 
@@ -20,11 +21,12 @@ public class AddEmailController {
      * @param familyMemberID Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
-    public boolean addEmail(String emailToAdd, int familyID, int familyMemberID) {
+    public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         try {
             FamilyService familyService = this.ffmApp.getFamilyService();
-            return familyService.addEmail(emailToAdd, familyID, familyMemberID);
+            return familyService.addEmail(emailToAdd, familyID, ccNumber);
         } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
             return false;
         }
     }

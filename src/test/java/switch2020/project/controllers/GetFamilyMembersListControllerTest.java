@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GetFamilyMembersListControllerTest {
 
-    int id = 1111;
+    String id = "000000000ZZ4";
     String name = "Diogo";
     Date date = new Date(1990,8,12);
     int numero = 919999999;
@@ -33,7 +33,7 @@ class GetFamilyMembersListControllerTest {
     boolean admin = false;
 
     //Added 2nd FamilyMember to test
-    int id2 = 2222;
+    String id2 = "137843828ZX3";
     String name2 = "Tony";
     Date date2 = new Date(1954,8, 12);
     int numero2 = 919999998;
@@ -48,7 +48,7 @@ class GetFamilyMembersListControllerTest {
     boolean admin2 = false;
 
     //Added 3rd FamilyMember to test
-    int id3 = 3333;
+    String id3 = "137476450ZX0";
     String name3 = "TonyZe";
     Date date3 = new Date(1955,8,1);
     int numero3 = 919939998;
