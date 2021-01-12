@@ -1,16 +1,15 @@
 package switch2020.project.model;
 
-import java.util.InvalidPropertiesFormatException;
-
 public class CCNumber {
 
     private String ccNumber;
 
-    public CCNumber(String ccNumber) throws InvalidPropertiesFormatException {
+    public CCNumber(String ccNumber) {
 
-        if (validateNumber(ccNumber.toUpperCase())) {
-            this.ccNumber = ccNumber.toUpperCase();
+        if (!validateNumber(ccNumber)) {
+            throw new IllegalArgumentException("Invalid CC Number");
         }
+        this.ccNumber = ccNumber.toUpperCase();
 
     }
 
@@ -18,13 +17,17 @@ public class CCNumber {
         return ccNumber;
     }
 
-    private boolean validateNumber(String ccNumber) throws InvalidPropertiesFormatException {
+    private boolean validateNumber(String ccNumber) {
         int sum = 0;
         boolean secondDigit = false;
+        if (ccNumber == null || ccNumber.isBlank() || ccNumber.isEmpty()) {
+            throw new IllegalArgumentException("CC Number is blank or empty");
+        }
         if (ccNumber.length() != 12)
-            throw new InvalidPropertiesFormatException("Invalid CC Number size");
-        for (int i = ccNumber.length() - 1; i >= 0; --i) {
-            int value = GetNumberFromChar(ccNumber.charAt(i));
+            throw new IllegalArgumentException("Invalid CC Number size");
+        String ccNumberUpper = ccNumber.toUpperCase();
+        for (int i = ccNumberUpper.length() - 1; i >= 0; --i) {
+            int value = GetNumberFromChar(ccNumberUpper.charAt(i));
             if (secondDigit) {
                 value *= 2;
                 if (value > 9)
@@ -36,7 +39,7 @@ public class CCNumber {
         return (sum % 10) == 0;
     }
 
-    private int GetNumberFromChar(char letter) throws InvalidPropertiesFormatException {
+    private int GetNumberFromChar(char letter) {
         switch (letter) {
             case '0':
                 return 0;
@@ -111,6 +114,6 @@ public class CCNumber {
             case 'Z':
                 return 35;
         }
-        throw new InvalidPropertiesFormatException("Invalid CC Number");
+        throw new IllegalArgumentException("Invalid CC Number");
     }
 }

@@ -22,16 +22,16 @@ class CCNumberTest {
     @Test
     void CreateInValidCCNumber() throws InvalidPropertiesFormatException {
         String testCCNumber = "111111111111";
-        CCNumber test = new CCNumber(testCCNumber);
-        String expected = null;
-        Assertions.assertEquals(expected,test.getCcNumber());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            CCNumber test = new CCNumber(testCCNumber);
+        });
 
     }
 
     @Test
     void CreateInValidCCNumber_WrongLenght() {
         String testCCNumber = "0000000000ZZ4";
-        Assertions.assertThrows(InvalidPropertiesFormatException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CCNumber test = new CCNumber(testCCNumber);
         });
     }
@@ -39,7 +39,7 @@ class CCNumberTest {
     @Test
     void CreateInValidCCNumber_Null() {
         String testCCNumber = null;
-        Assertions.assertThrows(NullPointerException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CCNumber test = new CCNumber(testCCNumber);
         });
     }
@@ -47,7 +47,7 @@ class CCNumberTest {
     @Test
     void CreateInValidCCNumber_Blank() {
         String testCCNumber = "      ";
-        Assertions.assertThrows(InvalidPropertiesFormatException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CCNumber test = new CCNumber(testCCNumber);
         });
     }
@@ -55,7 +55,7 @@ class CCNumberTest {
     @Test
     void CreateInValidCCNumber_WrongEmpty() {
         String testCCNumber = "";
-        Assertions.assertThrows(InvalidPropertiesFormatException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CCNumber test = new CCNumber(testCCNumber);
         });
     }

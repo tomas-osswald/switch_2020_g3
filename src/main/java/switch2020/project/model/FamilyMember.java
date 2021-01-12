@@ -52,7 +52,7 @@ public class FamilyMember {
     }
 
     //Constructor that uses a CCNumber as ID
-    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) throws InvalidPropertiesFormatException {
+    public FamilyMember(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
