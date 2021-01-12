@@ -54,6 +54,7 @@ public class CategoryService {
 
     /**
      * Method to get StandardCategory object by is CategoryID
+     *
      * @param categoryID int that represents the CategoryID
      * @return selectedCategory object
      */
@@ -127,6 +128,7 @@ public class CategoryService {
 
     /**
      * Method
+     *
      * @param familyID
      * @param familyService
      * @return
@@ -141,7 +143,7 @@ public class CategoryService {
             throw new IllegalArgumentException("There are no standard categories");
         }
         List<StandardCategory> stdCatList = new ArrayList<StandardCategory>();
-        for (StandardCategory cat :stdCatList) {
+        for (StandardCategory cat : stdCatList) {
             stdCatList.add(cat);
         }
         return stdCatList;
@@ -159,6 +161,7 @@ public class CategoryService {
 
     /**
      * Method that returns a Map Object with ParentName and CategoryName of a Category
+     *
      * @return CategoryMap object stdCatMap
      */
     public CategoryMap getStandardCategoriesDTOList() {
