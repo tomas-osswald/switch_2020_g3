@@ -65,7 +65,7 @@ class GetCategoryTreeControllerTest {
     }
 
     @Test
-    public void getCategoryTreeNoFamilyIDTest() {
+    public void getCategoryTreeNoFamilyWithThatIDTest() {
         assertFalse(categoryTreeController.getCategoryTree(11, 12));
 
     }
@@ -77,7 +77,7 @@ class GetCategoryTreeControllerTest {
     }
 
     @Test
-    public void getCategoryTreeNoSuchFamilyID() {
+    public void getCategoryTreeNoSuchFamilyMemberID() {
         assertFalse(categoryTreeController.getCategoryTree(10, 1));
 
     }

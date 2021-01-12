@@ -27,8 +27,6 @@ public class GetCategoryTreeController {
         } catch (Exception e) {
             return false;
         }
-
-
     }
 
 
