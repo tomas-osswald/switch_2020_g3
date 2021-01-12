@@ -13,11 +13,11 @@ public class GetCategoryTreeController {
         this.ffmApp = app;
     }
 
-    public boolean getCategoryTree(int familyID, int familyMemberID) {
+    public boolean getCategoryTree(int familyID, String adminCCNumber) {
         FamilyService familyService = this.ffmApp.getFamilyService();
         CategoryService categoryService = this.ffmApp.getCategoryService();
         try {
-            if (familyService.verifyAdministratorPermission(familyID, familyMemberID)) {
+            if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
                 CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
                 categoryTree.printTree();
                 return true;
