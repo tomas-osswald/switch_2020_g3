@@ -20,7 +20,7 @@ class VatNumberTest {
     void CreateVatNumber_Valid(){
         int vat = 123456789;
         VatNumber vatNumber = new VatNumber(vat);
-        assertTrue(vatNumber.validate(vat));
+        assertTrue(vatNumber.validateVatNumber(vat));
     }
 
 }

@@ -163,13 +163,16 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+    public boolean addFamilyMember(int selfId,String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
         if(checkIfFamilyExists(familyID)){
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if(!checkIfEmailPresent(email)){
-                return this.families.get(posicaoFamilia).addFamilyMember(name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            if(this.families.get(posicaoFamilia).isAdmin(selfId)){
+                if(!checkIfEmailPresent(email)){
+                    return this.families.get(posicaoFamilia).addFamilyMember( name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                }
+                throw new IllegalArgumentException("This email already exists");
             }
-            throw new IllegalArgumentException("This email already exists");
+            throw new IllegalArgumentException("This user is not Administrator");
         }
         throw new IllegalArgumentException("Family does not exist");
     }

@@ -47,7 +47,7 @@ class addFamilyMemberTest {
         Family Ribeiros = new Family(1);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
-        assertTrue(FFMapp.addFamilyMember(name,date,numero,email,nif,rua,codPostal,local,city,relation,1));
+        assertTrue(FFMapp.addFamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,1));
     }
 
     /*

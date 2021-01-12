@@ -11,7 +11,7 @@ class FamilyMemberTest {
     int id = 1111;
     String name = "Diogo";
     Date date = new Date(1990,8,26);
-    int numero = 919999999;
+    Integer numero = 919999999;
     String email = "josediogoccbr@gmail.com";
     int nif = 212122233;
     String rua = "Rua Nossa";
@@ -107,6 +107,24 @@ class FamilyMemberTest {
     void CreateMember_BirthDateValid_NoAdmin() {
         FamilyMember person = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation);
         assertTrue(person.validateBirthDate(date));
+    }
+
+    /** PhoneNumber **/
+    /* Valid Null with NoAdmin */
+    @Test
+    void CreateMember_PhoneNull_NoAdmin() {
+        Integer phone = null;
+        FamilyMember person = new FamilyMember(id,name,date,phone,email,nif,rua,codPostal,local,city,relation);
+        assertFalse(person.validatePhone(phone));
+    }
+
+    /** Email **/
+    /* Valid Null with NoAdmin */
+    @Test
+    void CreateMember_EmailNull_NoAdmin() {
+        String emailx = null;
+        FamilyMember person = new FamilyMember(id,name,date,numero,emailx,nif,rua,codPostal,local,city,relation);
+        assertFalse(person.validateEmail(emailx));
     }
 
     /********* SEM EFEITO

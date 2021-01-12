@@ -2,8 +2,6 @@ package switch2020.project.model;
 
 import switch2020.project.utils.MemberProfileDTO;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -53,7 +51,7 @@ public class FamilyMember {
     }
 
     // Family Admin - add Family Member
-    public FamilyMember(int familyMemberID, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
 
@@ -65,11 +63,15 @@ public class FamilyMember {
             throw new IllegalArgumentException("Insert Date");
         this.birthDate = birthDate;
 
-        PhoneNumber telef = new PhoneNumber(phone);
-        this.phoneNumbers.add(telef);
+        if (validatePhone(phone)){
+            PhoneNumber telef = new PhoneNumber(phone);
+            this.phoneNumbers.add(telef);
+        }
 
-        EmailAddress mail = new EmailAddress(email);
-        this.emails.add(mail);
+        if (validateEmail(email)){
+            EmailAddress mail = new EmailAddress(email);
+            this.emails.add(mail);
+        }
 
         VatNumber nif = new VatNumber(vat);
         this.vatNumber = nif;
@@ -94,6 +96,7 @@ public class FamilyMember {
         if (!validateBirthDate(birthDate))
             throw new IllegalArgumentException("Insert Date");
         this.birthDate = birthDate;
+
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -125,11 +128,15 @@ public class FamilyMember {
             throw new IllegalArgumentException("Insert Date");
         this.birthDate = birthDate;
 
-        PhoneNumber telef = new PhoneNumber(phone);
-        this.phoneNumbers.add(telef);
+        if (validatePhone(phone)){
+            PhoneNumber telef = new PhoneNumber(phone);
+            this.phoneNumbers.add(telef);
+        }
 
-        EmailAddress mail = new EmailAddress(email);
-        this.emails.add(mail);
+        if (validateEmail(email)){
+            EmailAddress mail = new EmailAddress(email);
+            this.emails.add(mail);
+        }
 
         VatNumber nif = new VatNumber(vat);
         this.vatNumber = nif;
@@ -196,6 +203,19 @@ public class FamilyMember {
         return true;
     }
 
+    public boolean validateEmail(String email){
+        if (email == null || email.isEmpty() || email.isBlank()){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validatePhone(Integer phone){
+        if (phone == null){
+            return false;
+        }
+        return true;
+    }
 
     private boolean validateRelation(Relation relation) {
         if (this.relation != null)
@@ -212,7 +232,7 @@ public class FamilyMember {
     }
 
     public boolean validateVat(int vat){
-        return this.vatNumber.validate(vat);
+        return this.vatNumber.validateVatNumber(vat);
     }
 
     public boolean validatePhone(int phone){

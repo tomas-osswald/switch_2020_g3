@@ -200,7 +200,7 @@ class FamilyTest {
     }
 
     @Test
-    void addFamilyMember_VatNotExists() {
+    void AddFamilyMember_VatNotExists() {
         FamilyMember pessoa1 = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local,city,relation,admin);
         Family familia = new Family(1);
         familia.addFamilyMember(pessoa1);
