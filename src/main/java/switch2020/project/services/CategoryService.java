@@ -52,6 +52,11 @@ public class CategoryService {
         }
     }
 
+    /**
+     * Method to get StandardCategory object by is CategoryID
+     * @param categoryID int that represents the CategoryID
+     * @return selectedCategory object
+     */
     private StandardCategory getStandardCategoryByID(int categoryID) {
         StandardCategory selectedCategory = null;
         int size = this.categories.size();
@@ -120,32 +125,49 @@ public class CategoryService {
         return this.categories;
     }
 
+    /**
+     * Method
+     * @param familyID
+     * @param familyService
+     * @return
+     */
     public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
 
-    private List getStandardCategories() {
+    public List getStandardCategories() {
         if (categories.size() == 0) {
             throw new IllegalArgumentException("There are no standard categories");
         }
-        List standardCategories;
-        standardCategories = categories;
-        return standardCategories;
+        List<StandardCategory> stdCatList = new ArrayList<StandardCategory>();
+        for (StandardCategory cat :stdCatList) {
+            stdCatList.add(cat);
+        }
+        return stdCatList;
     }
 
-    /*public List cloneOfStandardCategoriesList(){
+    /**
+     * Method that returns a copy of the Standard Categories List
+     * @return clonedList
+     */
+   /* public List cloneOfStandardCategoriesList() {
         List<StandardCategory> clonedList = new ArrayList<StandardCategory>();
         clonedList.addAll(getStandardCategories());
-        return clonedList;*/
+        return clonedList;
+    }*/
 
+    /**
+     * Method that returns a Map Object with ParentName and CategoryName of a Category
+     * @return CategoryMap object stdCatMap
+     */
     public CategoryMap getStandardCategoriesDTOList() {
-        CategoryMap mapa = new CategoryMap();
+        CategoryMap stdCatMap = new CategoryMap();
         for (StandardCategory cat : categories
         ) {
-            mapa.addToMap(cat.getParentName(), cat.getName());
+            stdCatMap.addToMap(cat.getParentName(), cat.getName());
         }
-        return mapa;
+        return stdCatMap;
     }
 
 }
