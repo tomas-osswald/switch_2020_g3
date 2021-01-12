@@ -1,22 +1,31 @@
 package switch2020.project.model;
 
+import java.util.regex.Pattern;
+
 public class VatNumber {
     private int vatNumber;
 
     /********************** CONSTRUCTORS **********************/
 
     public VatNumber(int vatNumber){
-        if(!validate(vatNumber))
-            throw new IllegalArgumentException("Inserir valor.");
+        if(!validateVatNumber(vatNumber))
+            throw new IllegalArgumentException("Inserir o numero de valores do vatNumber correctamente.");
         this.vatNumber = vatNumber;
     }
 
     /********************** GETTERS AND SETTERS **********************/
 
-    private boolean validate(int vatNumber){
-        if (vatNumber == 0 )
+    public boolean validateVatNumber(int vatNumber){
+        String regex = "\\d{9}";
+        String vat = String.valueOf(vatNumber);
+        boolean test = Pattern.matches(regex,vat);
+        if (vatNumber == 0 ) {
             return false;
-        return true;
+        } else if (!test){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public int getVatNumber(){

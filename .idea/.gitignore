@@ -1,8 +1,14 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+.idea/**/Project_Default.xml
 # Datasource local storage ignored files
 /../../../../../../:\Users\SWITCH\IdeaProjects\switch_2020_g3\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+
+/.idea/inspectionProfiles/Project_Default.xml
+
+#
+.idea/**/Project_Default.xml

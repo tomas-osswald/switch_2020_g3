@@ -7,9 +7,28 @@ public class CashAccount {
     private double balance;
 
     // Constructors
-    public CashAccount() {
+    public CashAccount(double balance) {
         this.cashAccountID = 0;
+        this.balance = balance;
+    }
+
+    public CashAccount(int cashAccountID) {
+        if (!validateID(cashAccountID)) {
+            throw new IllegalArgumentException("Cash Account ID is not valid");
+        }
+        this.cashAccountID = cashAccountID;
         this.balance = 0;
+    }
+
+    public CashAccount(int cashAccountID, double balance) {
+        if (!validateID(cashAccountID)) {
+            throw new IllegalArgumentException("Cash Account ID is not valid");
+        }
+        if (!validateBalance(balance)) {
+            throw new IllegalArgumentException("Balance can't be less than 0");
+        }
+        this.cashAccountID = cashAccountID;
+        this.balance = balance;
     }
 
     // Business Methods
@@ -25,5 +44,46 @@ public class CashAccount {
             validID = true;
         }
         return validID;
+    }
+
+    /**
+     * A method that validates if the given cash account balance is valid.
+     * Balance of a physical cash account can never be less than 0.
+     * @param balance given cash account balance to validate
+     * @return boolean validBalance, true if valid, false if invalid
+     */
+    private boolean validateBalance(double balance) {
+        boolean validBalance = false;
+        if (balance >= 0) {
+            validBalance = true;
+        }
+        return validBalance;
+    }
+
+    /**
+     * Getter for the ID of this cash account object
+     * @return returns the ID of this cash account
+     */
+    public int getCashAccountID() {
+        return cashAccountID;
+    }
+
+    /**
+     * Getter for the balance of this cash account object
+     * @return returns the balance of this cash account
+     */
+    public double getBalance() {
+        return balance;
+    }
+
+    /**
+     * Changes the balance of this cash account object by a given value
+     * @param value given value to add to this cash account's balance
+     */
+    public void changeBalance(double value) {
+        if (!validateBalance(balance + value)) {
+            throw new IllegalStateException("Balance can't be less than 0");
+        }
+        this.balance = this.balance + value;
     }
 }

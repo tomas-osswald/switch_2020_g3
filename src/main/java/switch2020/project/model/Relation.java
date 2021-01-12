@@ -20,7 +20,7 @@ public class Relation {
      */
 
     private void isEmpty(String relationDesignation) {
-        if (relationDesignation == null || relationDesignation.equals("")) {
+        if (relationDesignation == null || relationDesignation.isBlank() || relationDesignation.isEmpty()) {
             // If is null or empty, a exception is throw
             throw new IllegalArgumentException("Empty or Null relation designation");
         }

@@ -36,25 +36,5 @@ class RelationTest {
         Relation expected = new Relation(expectedString);
         assertEquals(uncle, expected);
     }
-
-    @Test
-    public void getDesignationTestNullRelation() {
-        String designation = null;
-        Relation nullType = new Relation(designation);
-        String expected = "Undefined Relation";
-        String result = nullType.getRelationDesignation();
-        expected.equals(result);
-    }
-
-    @Test
-    public void getDesignationTestEmptyRelation() {
-        String designation = "";
-        Relation empty = new Relation(designation);
-        String expected = "Undefined Relation";
-        String result = empty.getRelationDesignation();
-        expected.equals(result);
-    }
-
-
 }
 

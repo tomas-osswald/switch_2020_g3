@@ -16,11 +16,9 @@ As administrator, I want to create a relation between two family members:
 - *"When creating relationships, they are relative to the "main user level", not at all restricted to the main user"*.
 - *"Relationships are created by the Family Administrator. Eventually he can make some mistakes, but it is not expected that this will have a major impact on the operation of the application. If this is relevant in the future then this problem is addressed."*
 
-We did not get an answer from Product Owner for the question: *"The family member who already has an assigned relationship, when trying to add a new relationship what do you want to happen?"*
-
 The interpretation made of this requirement is that the family administrator can create relationships between family members and him, and these relationships are not restricted to normal family relationships.
 
-## 1.2 System Sequence Diagram
+## 1.2. System Sequence Diagram
 
 ```puml
 autonumber
@@ -32,7 +30,7 @@ participant ": System" as system
 activate familyAdministrator
 familyAdministrator -> system : add relation to member
 activate system
-familyAdministrator -> system : imputs required data
+familyAdministrator -> system : inputs required data
 
 alt failure
 system -> familyAdministrator : Inform Failure
@@ -47,9 +45,13 @@ deactivate system
 deactivate familyAdministrator
 ```
 
+## 1.3. Dependencies from other User Stories
 
-## 1.3 Dependencies from other User Stories
+This user story is dependent on the following:
 
+- US010_Add Family: to create a family;
+- US011_Add Family Administrator: to add an Administrator, that he is allowed to add a Relation;
+- US101_Add Family Members: to add a Relation.
 
 # 2. Analysis
 
@@ -66,7 +68,7 @@ As we did not get an answer to the question about the previous existence of a Re
 
 *"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
 
-##2.1 Domain Model Diagram
+##2.1. Domain Model Diagram
 
 *Neste secção a equipa deve relatar o estudo/análise/comparação que fez com o intuito de tomar as melhores opções de design para a funcionalidade bem como aplicar diagramas/artefactos de análise adequados.*
 
@@ -208,6 +210,10 @@ class FFMapp {
 
 }
 
+class FamilyService {
+- Families List
+}
+
 class Family {
 - familyID
 - registrationDate
@@ -216,7 +222,7 @@ class Family {
 
 }
 
-class Person {
+class FamilyMember {
 - personID
 - name
 - birthDate
@@ -228,8 +234,9 @@ class Relation {
 
 }
 
-FFMapp -down-> Family : has list of 
-Family -down-> Person : has list of 
+FFMapp -down-> FamilyService : has list of 
+FamilyService -down-> Family : has list of
+Family -down-> FamilyMember : has list of 
 Person -down-> Relation : has 
 ```
 

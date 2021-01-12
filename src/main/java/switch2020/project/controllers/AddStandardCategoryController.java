@@ -5,15 +5,15 @@ import switch2020.project.services.CategoryService;
 
 public class AddStandardCategoryController {
 
-    private Application FFMapp;
+    private Application ffmApplication;
 
-    public  AddStandardCategoryController(Application app) {
-        this.FFMapp = app;
+    public  AddStandardCategoryController(Application application) {
+        this.ffmApplication = application;
     }
 
-    public boolean addStandardCategory(String categoryName) {
-        CategoryService categoryService = this.FFMapp.getCategoryService();
-        return categoryService.addStandardCategory(categoryName);
+    public boolean addStandardCategory(String categoryName, int parentID) { //int parentID used as parameter, zero if base category
+        CategoryService categoryService = this.ffmApplication.getCategoryService();
+        return categoryService.addStandardCategory(categoryName, parentID);
     }
 
 }
