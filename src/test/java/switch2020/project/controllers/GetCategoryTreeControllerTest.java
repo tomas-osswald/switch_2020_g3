@@ -4,7 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
+import switch2020.project.model.Relation;
 import switch2020.project.utils.CategoryTreeDTO;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +15,20 @@ class GetCategoryTreeControllerTest {
 
     int testFamilyID = 10;
     String testFamilyName = "Silva";
-    Family testFamily = new Family(testFamilyName,testFamilyID);
+    Family testFamily = new Family(testFamilyName, testFamilyID);
     Application app = new Application(testFamily);
+    AddFamilyMemberController familyMemberController = new AddFamilyMemberController(app);
+    AddFamilyAdministratorController familyAdministratorController = new AddFamilyAdministratorController(app);
     GetCategoryTreeController categoryTreeController = new GetCategoryTreeController(app);
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
     String[] expected = {"HOUSE", "ELECTRICITY", "WATER", "TRANSPORT", "CAR", "PUBLIC TRANSPORT", "FUEL", "REPAIRS", "PARKING", "TAXES", "INCOME", "SALES", "GAS", "FOOD", "OTHERS", "GROCERIES", "RESTAURANTS", "BUS", "TAXI"};
-
+    Date birthdate = new Date(1954,8,26);
+    Relation relation = new Relation("Filho");
 
     @BeforeEach
     public void setup() {
+        familyMemberController.addFamilyMember("Not Admin",birthdate,919999999,"abc@gmail.com",212122233,"Rua Nossa","4444-555","Zinde","Porto",relation,13);
+        familyAdministratorController.addFamilyAdministrator(12,"Admin",birthdate,919999999,"lol@gmail.com",212122233,"Rua Nossa","4444-555","Zinde","Porto",relation,10);
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
         addStandardCategoryController.addStandardCategory("Electricity", 1); //id 2
         addStandardCategoryController.addStandardCategory("WatEr", 1);//id 3
@@ -53,12 +61,24 @@ class GetCategoryTreeControllerTest {
 
     @Test
     public void getCategoryTreeTest() {
-        assertTrue(categoryTreeController.getCategoryTree(10));
+        assertTrue(categoryTreeController.getCategoryTree(10, 12));
     }
 
     @Test
     public void getCategoryTreeNoFamilyIDTest() {
-        assertFalse(categoryTreeController.getCategoryTree(11));
+        assertFalse(categoryTreeController.getCategoryTree(11, 12));
+
+    }
+
+    @Test
+    public void getCategoryTreeNotAnAdminTest() {
+        assertFalse(categoryTreeController.getCategoryTree(11, 13));
+
+    }
+
+    @Test
+    public void getCategoryTreeNoSuchFamilyID() {
+        assertFalse(categoryTreeController.getCategoryTree(10, 1));
 
     }
 
