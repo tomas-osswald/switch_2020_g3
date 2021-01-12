@@ -26,6 +26,7 @@ class FamilyMemberTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
+
     //Family Member Tony
     int id2 = 2222;
     String name2 = "Tony";
@@ -206,7 +207,7 @@ class FamilyMemberTest {
 
         EmailAddress emailAddress = new EmailAddress(email);
         List<EmailAddress> emails = new ArrayList<>();
-        emails.add(emailAddress);
+        //emails.add(emailAddress);
 
         PhoneNumber phoneNumber = new PhoneNumber(numero);
         List<PhoneNumber> phoneNumbers = new ArrayList<>();
