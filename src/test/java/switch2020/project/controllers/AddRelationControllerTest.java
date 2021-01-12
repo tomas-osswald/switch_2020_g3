@@ -23,8 +23,9 @@ class AddRelationControllerTest {
 
     @Test
     void AddRelationTrue() {
-        int selfID = 1;
-        int otherID = 2;
+        String selfID = "000000000ZZ4";
+        String otherID = "137843828ZX3";
+
         String relationDesignation = "Father";
         int familyID = 1;
         String familyName = "Moura";
@@ -47,8 +48,9 @@ class AddRelationControllerTest {
 
     @Test
     void AddRelationFalseNoAdmin() {
-        int selfID = 1;
-        int otherID = 2;
+        String selfID = "000000000ZZ4";
+        String otherID = "137843828ZX3";
+
         String relationDesignation = "Father";
         int familyID = 1;
         String familyName = "Moura";
@@ -70,8 +72,9 @@ class AddRelationControllerTest {
 
     @Test
     void AddRelationFalseCatchEmptyRelationDesignationThrow() {
-        int selfID = 1;
-        int otherID = 2;
+        String selfID = "000000000ZZ4";
+        String otherID = "137843828ZX3";
+
         String relationDesignation = "";
         int familyID = 1;
         String familyName = "Moura";
