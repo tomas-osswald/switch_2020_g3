@@ -33,9 +33,6 @@ participant ": FFM Application" as app
 participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
-participant "aVat : VAT" as vat
-participant "aAddress : address" as address
-participant "aPhone : Phone" as phone
 
 activate actor
 actor -> UI: get Family by ID
@@ -69,15 +66,6 @@ activate app
 app -> famService: addFamilyMember(name,dateBirth,vat,phone,address,admin)
 activate famService
 
-alt email exists - TRUE
-  famService -> famService: checkIfVatExists()
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
-end
-
 alt if is Admin - FALSE
   famService -> famService: isAdmin()
   famService -> app: fail
@@ -85,6 +73,15 @@ alt if is Admin - FALSE
   controller -> UI: fail
   UI -> actor: failure
 else email does not exists - TRUE
+end
+
+alt email exists - TRUE
+  famService -> famService: checkIfEmailExists()
+  famService -> app: fail
+  app -> controller: fail
+  controller -> UI: fail
+  UI -> actor: failure
+else email does not exists - FALSE
 end
 
 famService -> family: addFamilyMember(name,dateBirth,vat,phone,address,admin)
@@ -101,11 +98,7 @@ else email does not exists - FALSE
 end
 
 family -> person **: create(name,dateBirth,vat,phone,address)
-activate person
-person -> vat **: create(vat)
-person -> address **: create(address)
-person -> phone **: create(phone)
-deactivate person
+
 family -> family: addMember(aPerson)
 family -> famService
 deactivate family
@@ -118,6 +111,28 @@ deactivate controller
 UI -> actor: informs success
 deactivate UI
 deactivate actor
+@enduml
+````
+
+````puml
+@startuml
+autonumber
+title createFamilyMember
+
+participant "aFamilyMember : FamilyMember" as person
+participant "aVat : VAT" as vat
+participant "aAddress : address" as address
+participant "aPhone : Phone" as phone
+participant "aEmail : Email" as email
+
+-> person **: create(name,dateBirth,vat,phone,address)
+activate person
+person -> vat **: create(vat)
+person -> address **: create(address)
+person -> phone **: create(phone)
+person -> email **: create(email)
+deactivate person
+
 @enduml
 ````
 
@@ -138,8 +153,6 @@ In order to fulfill this requirement, we need two main data pieces:
 
 At a later iteration, the family member's ID would be aquired through the Log In information. For this sprint, the ID will have to be inputed along with the Person's info.
 
-
-
 # 3. Design
 
 ````puml
@@ -151,11 +164,13 @@ actor "FamilyAdmin" as actor
 participant ": UI" as UI
 participant ": addFamilyMemberController" as controller
 participant ": FFM Application" as app
+participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
 participant "aVat : VAT" as vat
 participant "aAddress : address" as address
 participant "aPhone : Phone" as phone
+participant "aEmail : Email" as email
 
 activate actor
 actor -> UI: get Family by ID
@@ -164,6 +179,10 @@ UI -> controller: getFamilyById(familyID)
 activate controller
 controller -> app: getFamilyById(familyID)
 activate app
+app -> famService: getFamilyById(familyID)
+activate famService
+famService -> app: ok
+deactivate famService
 app -> controller: ok
 deactivate app
 controller -> UI: ok
@@ -178,38 +197,57 @@ deactivate UI
 
 actor -> UI: inputs required data
 activate UI
-UI -> controller: addFamilyMember(name,dateBirth,vat,phone,address)
+UI -> controller: addFamilyMember(name,dateBirth,vat,phone,address,admin)
 activate controller
-controller -> app: addFamilyMember(name,dateBirth,vat,phone,address)
+controller -> app: addFamilyMember(name,dateBirth,vat,phone,address,admin)
 activate app
+app -> famService: addFamilyMember(name,dateBirth,vat,phone,address,admin)
+activate famService
+
+alt if is Admin - FALSE
+  famService -> famService: isAdmin()
+  famService -> app: fail
+  app -> controller: fail
+  controller -> UI: fail
+  UI -> actor: failure
+else email does not exists - TRUE
+end
+
 alt email exists - TRUE
-  app -> app: doesEmailExist()
+  famService -> famService: checkIfEmailExists()
+  famService -> app: fail
   app -> controller: fail
   controller -> UI: fail
   UI -> actor: failure
 else email does not exists - FALSE
 end
-app -> family: addFamilyMember(name,dateBirth,vat,phone,address)
 
+famService -> family: addFamilyMember(name,dateBirth,vat,phone,address,admin)
 activate family
+
 alt vat exists - TRUE
-  family -> family: doesVatExist()
-  family -> app: fail
+  family -> family: checkIfVatExist()
+  family -> famService: fail
+  famService -> app: fail
   app -> controller: fail
   controller -> UI: fail
   UI -> actor: failure
 else email does not exists - FALSE
 end
 
-family -> person **: create(name,dateBirth,vat,phone,address)
+family -> person **: create(name,dateBirth,vat,phone,address,admin)
 activate person
 person -> vat **: create(vat)
 person -> address **: create(address)
 person -> phone **: create(phone)
+person -> email **: create(email)
 deactivate person
+
 family -> family: addMember(aPerson)
-family -> app: ok
+family -> famService
 deactivate family
+famService -> app: ok
+deactivate famService
 app -> controller: ok
 deactivate app
 controller -> UI: ok
@@ -219,6 +257,7 @@ deactivate UI
 deactivate actor
 @enduml
 ````
+
 
 ## 3.1. Functionality Use
 The AddFamilyMemberController will invoke the Application object, which stores the Family object.
@@ -231,11 +270,13 @@ To finish this process, the Application return a confirmation message to the con
 The main Classes involved are:
 - AddFamilyMemberController
 - Application
+- FamilyService
 - Family
 - FamilyMember
-- Email
 - Vat
+- Address
 - Phone
+- Email
 
 ![Class Diagram](https://imgur.com/86GIpDB.png)
 
@@ -315,9 +356,11 @@ To assure that the system works correctly with all integrated parts, it's necess
 
 # 4. Implementation
 
-*Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
+During this feature implementation extra code was added to avoid the UI limitation. These scenarios were the following:
 
-*Recomenda-se que organize este conteúdo por subsecções.*
+- Get the familyID from this user
+- Verify if the user is a FamilyAdmin
+- 
 
 # 5. Integration/Demonstration
 
