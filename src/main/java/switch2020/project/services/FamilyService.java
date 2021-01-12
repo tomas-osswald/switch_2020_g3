@@ -182,10 +182,10 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String ccNumber, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+    public boolean addFamilyMember(String selfCC, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
         if (checkIfFamilyExists(familyID)) {
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if (this.families.get(posicaoFamilia).isAdmin(ccNumber)) {
+            if (this.families.get(posicaoFamilia).isAdmin(selfCC)) {
                 if (!checkIfEmailPresent(email)) {
                     return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
                 }
