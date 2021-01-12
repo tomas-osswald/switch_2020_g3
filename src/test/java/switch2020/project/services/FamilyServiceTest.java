@@ -412,5 +412,18 @@ class FamilyServiceTest {
         assertNotSame(expected, result);
     }
 
+    @Test
+    void listOfFamiliesWithoutFamilyAdministratorWithNoFamilies_AllFamiliesHaveAdministrator() {
 
+    }
+
+    @Test
+    void listOfFamiliesWithoutFamilyAdministratorWithFamiliesWithAndWithoutAdministrator() {
+
+    }
+
+    @Test
+    void listOfFamiliesWithoutFamilyAdministratorAllFamiliesHaveAdministrator() {
+
+    }
 }
