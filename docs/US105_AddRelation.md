@@ -12,9 +12,9 @@ As administrator, I want to create a relation between two family members:
 
 **Extracted from communications with the Product Owner**
 
-- *"All relations use the level of the main user of the family as a reference. Be aware that SWS wants its application to be as inclusive as possible, in order to wider its market base"*;
-- *"When creating relationships, they are relative to the "main user level", not at all restricted to the main user"*.
-- *"Relationships are created by the Family Administrator. Eventually he can make some mistakes, but it is not expected that this will have a major impact on the operation of the application. If this is relevant in the future then this problem is addressed."*
+- >*"All relations use the level of the main user of the family as a reference. Be aware that SWS wants its application to be as inclusive as possible, in order to wider its market base"*;
+- >*"When creating relationships, they are relative to the "main user level", not at all restricted to the main user"*.
+- >*"Relationships are created by the Family Administrator. Eventually he can make some mistakes, but it is not expected that this will have a major impact on the operation of the application. If this is relevant in the future then this problem is addressed."*
 
 The interpretation made of this requirement is that the family administrator can create relationships between family members and him, and these relationships are not restricted to normal family relationships.
 
@@ -66,8 +66,6 @@ From analysis done to requirements gathering, if the user is the family administ
 
 As we did not get an answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
 
-*"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
-
 ##2.1. Domain Model Diagram
 
 ```puml
@@ -103,12 +101,13 @@ FamilyMember -- FamilyMember : administrator can add relation to family members
 
 # 3. Design
 
-*Nesta secção a equipa deve descrever o design adotado para satisfazer a funcionalidade. Entre outros, a equipa deve apresentar diagrama(s) de realização da funcionalidade, diagrama(s) de classes, identificação de padrões aplicados e quais foram os principais testes especificados para validar a funcionalidade.*
+The process to fulfill the requirement we need the input of data from a UI to create a Relation object and add it to a specific FamilyMember(familyMemberID), in a given Family(familyID). to assure that que actor is an administrator, we verify if a Family
+Member(selfID) is in a specific Family(familyID) and have the attribute (boolean) administrator in true state.
 
-*Para além das secções sugeridas, podem ser incluídas outras.*
-
-* os principais artefactos são o Diagrama de Sequência (SD) e o Diagrama de classes (CD). Os padrões aplicados servem para suportar/justificar as opções/decisões tomadas e refletidas nos artefactos. Os conceitos de negócio (MD) inspiram a existência de classes de software*
-
+The controller will return:
+- True, if a Relation has been assign;
+- False, if the actor is not an administrator in a given family.
+- False, if catches one of the following throws ("Family dont exist", "Family Member dont exists", "Empty or Null relation designation").
 
 ## 3.1. Functionality Use
 
@@ -271,7 +270,32 @@ FamilyMember -down-> Relation : has
 
 ## 3.3. Applied Patterns
 
-*Nesta secção deve apresentar e explicar quais e como foram os padrões de design aplicados e as melhores práticas*
+We applied the following principles:
+
+- GRASP:
+    - Information expert:
+        - This pattern was used for the Relation class, where the only responsibility is to store an attribute referring to its name. The methods contained in this class are also concerned only with itself;
+    
+    - Creator:
+        - This pattern was used in the Family class. It is the responsibility of the Family class to create a Relation instance to be assigned to one of its Family Members;
+        
+    - Controller:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller;
+        
+    - Pure Fabrication:
+        - In this user story the Application class was used, which does not represent a business domain concept. It was created to be able to store Families; 
+        
+    - Low coupling:
+        - ;
+    
+    - High cohesion:
+        - ;
+        
+    
+- SOLID:
+    - Single-responsibility principle:
+        - ;
+
 
 ## 3.4. Tests
 *Nesta secção deve sistematizar como os testes foram concebidos para permitir uma correta aferição da satisfação dos requisitos.*
