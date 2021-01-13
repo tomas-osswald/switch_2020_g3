@@ -8,15 +8,10 @@
 **Demo1** US120 As a family administrator, I want to create a family cash account.
 
 - Demo1.1. The family already has a cash account
-  
+
 - Demo1.2. The family does not yet have a cash account
 
 Our interpretation of this requirement was to create the function for a family administrator to be able to create a cash account for the family he administrates. As the family may only have one cash account, we need to check if one exists already.
-
-As per the following interaction with the PO, a Cash Account will be initialized with a given balance.
-> Q: Relativamente à US120 em que "As a family administrator, I want to create a family cash account." o administrador numa fase inicial cria apenas uma conta que por defeito guarda um montante de 0 euros ou poderá definir o montante inicial?
->
-> PO: Definir um valor inicial parece-me bem.
 
 ## 1.2. System Sequence Diagram
 
@@ -51,7 +46,10 @@ A Family Administrator is required to create a cash account for the Family.
 
 In the future, it is expected that the Family Members will also have their own cash accounts, at which point the relation between all involved classes has to be analyzed.
 
-A cash account will have a cash balance as well as an unique ID number.
+As per the following interaction with the PO, a Cash Account will be initialized with a given balance.
+> Q: Relativamente à US120 em que "As a family administrator, I want to create a family cash account." o administrador numa fase inicial cria apenas uma conta que por defeito guarda um montante de 0 euros ou poderá definir o montante inicial?
+>
+> PO: Definir um valor inicial parece-me bem.
 
 ## 2.1. Domain Model Diagram
 
@@ -162,7 +160,7 @@ deactivate family
 
 For this function the actor Family Administrator requests the creation of a cash account for the family he administrates to the UI.
 
-The UI will forward this request to the CreateFamilyCashAccountController, who will in turn call the Application class to receive the FamilyService class. 
+The UI will forward this request to the CreateFamilyCashAccountController, who will in turn call the Application class to receive the FamilyService class.
 
 In the FamilyService a Family can be searched for with an ID. After obtaining said family, the request is forwarded to the family object.
 
@@ -216,7 +214,7 @@ FamilyService --> Family
 
 For this user story the main GRASP principles used were the Creator, in this case the Family class that records instances of CashAccount, and the Controller, a class created to deal with all system events related.
 
-## 3.4. Tests 
+## 3.4. Tests
 
 The creation of a cash account faces one main conditions that must be true for its success:
 
@@ -280,6 +278,3 @@ As of this sprint, this function has no integration with other functions.
 # 6. Observations
 
 Later in this project cash accounts will be associated with either families or family members. Right now the class cash account is closely related only to the family class, as the family member does not yet have the ability to create or own a cash account. Can high coupling be avoided between the three classes?
-
-
-
