@@ -387,15 +387,18 @@ public class FamilyMember {
     }
 
     public MemberProfileDTO createProfile() {
+        if (this.relation == null) {
+            return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
+        }
         return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
     }
 
 
-    public FamilyMemberRelationDTO createFamilyMemberRelationDTO () {
+    public FamilyMemberRelationDTO createFamilyMemberRelationDTO() {
         FamilyMemberRelationDTO copyOfFamilyMember;
         name = this.getName();
         String relation;
-        if (this.relation == null){
+        if (this.relation == null) {
             relation = "relação por definir";
         } else {
             relation = this.relation.getRelationDesignation();
