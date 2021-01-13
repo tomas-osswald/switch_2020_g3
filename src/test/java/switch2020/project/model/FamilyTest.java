@@ -264,5 +264,47 @@ class FamilyTest {
         assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, "", date, numero, email, nif, rua, codPostal, local, city, relation, admin));
     }
 
+    /*@Test
+    void familyHasAdministrator() {
+        Family family = new Family();
+        family.addFamilyAdministrator();
+        family.addFamilyMember();
 
+        assertTrue(family.hasAdministrator());
+    }
+
+    @Test
+    void familyHasNoAdministratorWithFamilyMembers() {
+        Family family = new Family();
+        family.addFamilyMember();
+
+        assertFalse(family.hasAdministrator());
+    }
+
+    @Test
+    void familyHasNoAministratorWithNoFamilyMembers() {
+        Family family = new Family();
+
+        assertFalse(family.hasAdministrator());
+    }*/
+
+    @Test
+    void addFamilyAdministratorResultTrue() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertTrue(familia.addFamilyAdministrator(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2));
+    }
+
+    @Test
+    void addFamilyAdministratorResultThrowsVatAlreadyExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation));
+    }
 }

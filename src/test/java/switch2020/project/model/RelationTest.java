@@ -36,8 +36,5 @@ class RelationTest {
         Relation expected = new Relation(expectedString);
         assertEquals(uncle, expected);
     }
-
-
-
 }
 
