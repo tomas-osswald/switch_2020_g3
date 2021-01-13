@@ -64,7 +64,7 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 
 From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app. 
 
-As we did not get an answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
+As we did not get a clear answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
 
 ##2.1. Domain Model Diagram
 
@@ -107,7 +107,7 @@ Member(selfID) is in a specific Family(familyID) and have the attribute (boolean
 The controller will return:
 - True, if a Relation has been assign;
 - False, if the actor is not an administrator in a given family.
-- False, if catches one of the following throws ("Family dont exist", "Family Member dont exists", "Empty or Null relation designation").
+- False, if catches one of the following throws ("Family don't exist", "Family Member don't exist", "Empty or Null relation designation", "This family member already has an assigned relation").
 
 ## 3.1. Functionality Use
 
@@ -199,22 +199,22 @@ alt !hasDesignation()
 fam -> service : !hasDesignation()
 
 
-service -> "relation : Relation"** : createRelation(relationDesignation)
 service -> fam : addToRelationDesignationList(relationDesignation)
 
 else hasDesignation()
 
 fam -> service : hasDesignation
 deactivate fam
-service -> "relation : Relation"** : createRelation(relationDesignation)
 
 end
 
 service -> fam : addRelation(otherID, relation)
 activate fam
 fam -> fam : person = getPerson(otherID)
+
 fam -> person : addRelation(relation)
 activate person
+person -> "relation : Relation"** : createRelation(relationDesignation)
 person -> person : addRelation(relation)
 person -> fam : ok
 deactivate person
@@ -262,7 +262,7 @@ class Relation {
 
 }
 
-FFMapp -down-> FamilyService : has list of 
+FFMapp -down-> FamilyService : has 
 FamilyService -down-> Family : has list of
 Family -down-> FamilyMember : has list of 
 FamilyMember -down-> Relation : has 
@@ -277,7 +277,7 @@ We applied the following principles:
         - This pattern was used for the Relation class, where the only responsibility is to store an attribute referring to its name. The methods contained in this class are also concerned only with itself;
     
     - Creator:
-        - This pattern was used in the Family class. It is the responsibility of the Family class to create a Relation instance to be assigned to one of its Family Members;
+        - This pattern was used in the Family Member class. It is the responsibility of the Family Member class to create a Relation instance to be assigned to it self;
         
     - Controller:
         - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller;
@@ -292,28 +292,30 @@ We applied the following principles:
     - Single-responsibility principle:
         - this pattern was used in the Relation class, in which it only presents a responsibility.
 
-
 ## 3.4. Tests
-*Nesta secção deve sistematizar como os testes foram concebidos para permitir uma correta aferição da satisfação dos requisitos.*
 
-**Teste 1:** Verificar que não é possível criar uma instância da classe Exemplo com valores nulos.
+Several cases where analyzed in order to test the creation of a Relation instance:
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Exemplo instance = new Exemplo(null, null);
-	}
+**Test 1:** Test that it is 
+
+To test the new functionality was use the following tests:
+
+**Test XXXXX:** Test that it is
 
 # 4. Implementation
 
-*Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
+**Verification if actor is a administrator in a given family**
 
-*Recomenda-se que organize este conteúdo por subsecções.*
+**Verification if a relation designation is already present in family list of assigned relations**
+
+**Selecting the specific family member to be attributed a Relation**
+
+**Creating and adding a Relation to a given Family Member**
 
 # 5. Integration/Demonstration
 
-*Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as restantes funcionalidades do sistema.*
+The development of this US will have an impact on the development of the US104 (Get Family Members And Relation), as it was returning a list with the names of family members and their Relation. So, the [US104](US104_GetFamilyMembersAndRelation.md) uses the implementation of this US.
 
 # 6. Observations
 
-*Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por exemplo, outras alternativas e ou trabalhos futuros relacionados.*
-
+Was not asked to fulfill the US, but, for future use, a list has been created that stores the relation designations not repeated in the specific family, and in the future a feature can be developed that allows the family administrator to choose between creating a relationship with a new designation or using one already assigned.

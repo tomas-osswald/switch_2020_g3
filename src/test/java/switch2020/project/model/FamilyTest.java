@@ -147,9 +147,8 @@ class FamilyTest {
         family.addFamilyMember(familyMember);
 
         String relationDesignation = "Mother";
-        Relation relation = new Relation(relationDesignation);
 
-        assertThrows(IllegalArgumentException.class, () -> family.addRelationToFamilyMember(familyMemberIDThatDoesntExist, relation));
+        assertThrows(IllegalArgumentException.class, () -> family.addRelationToFamilyMember(familyMemberIDThatDoesntExist, relationDesignation));
     }
 
     @Test

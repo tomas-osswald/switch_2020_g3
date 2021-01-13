@@ -374,9 +374,12 @@ public class FamilyMember {
      * @param relation Relation to add
      */
 
-    protected void addRelation(Relation relation) {
+    protected void addRelation(String relationDesignation) {
         if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
+
+        Relation relation = new Relation(relationDesignation);
+
         this.relation = relation;
     }
 
