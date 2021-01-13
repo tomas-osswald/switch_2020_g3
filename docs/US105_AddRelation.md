@@ -55,7 +55,7 @@ This user story is dependent on the following:
 
 # 2. Analysis
 
-For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the impute of the family administrator of the following data:
+For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
 
 - Self ID (User that tries to add relation to other Family Member);
 - Other ID (ID from the Family Member to whom will be added a relationship);
@@ -64,7 +64,7 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 
 From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app. 
 
-As we did not get an answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
+As we did not get an answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (caught and returns false), with no changes in the existing Relation.
 
 *"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
 

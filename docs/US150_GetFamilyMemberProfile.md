@@ -1,4 +1,4 @@
-# US151 Get Family Member Profile Information
+# US150 Get Family Member Profile Information
 =======================================
 
 
@@ -16,12 +16,12 @@ We interpreted this requirement as the function of a user to receive their perso
 - A MemberProfile needs to have the following information:
     - Name;
     - Birth Date;
-    - Phone Number(one or more);
-    - Email (one or more);
+    - Phone Number(none or multiple);
+    - Email (none or multiple);
     - VAT Number;
     - Address;
-    - Relation with Administrator;
-    - If Family Member is Admin.
+    - Relation with Administrator(none or one);
+    - If member is administrator.
 
 # 2. Analysis
 
@@ -31,14 +31,13 @@ In order to fulfill this requirement, we need two main data pieces:
 
 At a later iteration, both the family ID and the family member's ID would be acquired through the Log In information. For this sprint, the IDs will have to be inputted.
 
-This User Story is highly reliant on both the Family and FamilyMember classes, particularly the last one. A DTO approach was chosen due to.... 
-#CONTINUAR AQUI ESTA PARTE
+This User Story is highly reliant on both the Family and FamilyMember classes, particularly the last one. A DTO approach was chosen to encapsulate the required information, as well as to provide more control over which member information is transmitted.
 
 
 
 # 3. Design
 
-The main process to fulfill this requirement would require the actor to select they want to add an email in the UI, which would then prompt the input of the email adress. In lieu of not having an UI, the Int *FamilyMemberID* and String *emailAdress* will be directly inputed into the AddEmailController. 
+The main process to fulfill this requirement would require the actor to select they want to add an email in the UI, which would then prompt the retrieval of their familyMemberID and familyID. In lieu of not having an UI, the Int *familyMemberID* and *familyID* will be directly inputed into the GetFamilyMemberProfileController. 
 ````puml
 @startuml
 
@@ -93,9 +92,6 @@ ui -> familyMember: aProfile
 
 @enduml
 ````
-
-
-
 
 ## 3.1. Functionality Use
 The GetFamilyMemberProfileController will invoke the Application object, which stores the FamilyService object. The Application will return the FamilyService to the Controller, and the getMemberProfile method is called to retrieve the Profile as a MemberProfileDTO object, using the familyID and familyMemberID. The Family is retrieve in the FamilyService instantiation and Family Member is then retrieved from the corresponding family.
@@ -194,11 +190,8 @@ We also used the SOLID SRP principle.
     
 The following preparation was made for the execution of the tests:
 
-    FamilyMember familyMember1 = new FamilyMember(666);
-    FamilyMember familyMember2 = new FamilyMember(777);
-    Family testFamily = new Family(familyMember1, familyMember2);
-    Application app = new Application(testFamily);
-    AddEmailController controller = new AddEmailController(app);
+    The tests were conducted on FamilyMemberTest, FamilyServiceTest and GetFamilyMemberProfileControllerTest.
+    For the purpose of these tests, it was assumed that all classes and methods that were created in which this implementation depends, have been properly tested.
     
 
 **Test 1:** Verify that a correct email is accepted
