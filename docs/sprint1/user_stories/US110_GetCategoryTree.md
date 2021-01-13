@@ -123,7 +123,7 @@ The main Classes involved are:
 - CategoryService
 - CategoryTreeDTO
 
-)![Class Diagram](../US110ClassDiagram.png)
+)![Class Diagram](../../US110ClassDiagram.png)
 
 ## 3.3. Applied Patterns
 
