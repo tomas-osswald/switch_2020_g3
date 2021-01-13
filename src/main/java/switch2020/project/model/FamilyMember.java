@@ -1,5 +1,6 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
+    /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
@@ -53,9 +55,10 @@ public class FamilyMember {
 
         this.administrator = administrator;
     }
+    */
 
     //Constructor that uses a CCNumber as ID
-    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -79,12 +82,10 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = relation;
-
         this.administrator = administrator;
     }
 
-    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -111,13 +112,10 @@ public class FamilyMember {
 
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = administrator;
     }
 
     // Family Admin - add Family Member
+    /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
@@ -241,7 +239,9 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = new Relation(null);
+        //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
+
+       // this.relation = null;
 
         this.administrator = false;
     }
@@ -254,6 +254,8 @@ public class FamilyMember {
     public FamilyMember(String familyMemberID) {
         this.ccNumber = new CCNumber(familyMemberID);
     }
+
+     */
 
 
     /********************** GETTERS AND SETTERS **********************/
@@ -316,7 +318,11 @@ public class FamilyMember {
     }
 
     // Business Methods
+    //Inserted lines 321 and 322 to run test and accept null relation
     public String getRelation() {
+        if (this.relation == null) {
+            return null;
+        }
         return relation.getRelationDesignation();
     }
 
@@ -338,7 +344,7 @@ public class FamilyMember {
      * @return boolean
      */
 
-    public boolean isAdmin() {
+    public boolean isAdministrator() {
         return this.administrator;
     }
 
@@ -382,6 +388,20 @@ public class FamilyMember {
 
     public MemberProfileDTO createProfile() {
         return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+    }
+
+
+    public FamilyMemberRelationDTO createFamilyMemberRelationDTO () {
+        FamilyMemberRelationDTO copyOfFamilyMember;
+        name = this.getName();
+        String relation;
+        if (this.relation == null){
+            relation = "relação por definir";
+        } else {
+            relation = this.relation.getRelationDesignation();
+        }
+        copyOfFamilyMember = new FamilyMemberRelationDTO(name, relation);
+        return copyOfFamilyMember;
     }
 }
 

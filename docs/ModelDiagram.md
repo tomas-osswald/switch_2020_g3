@@ -1,15 +1,17 @@
 ```puml
+hide empty members
+hide circles
 title Domain Model Diagram SP01
 
 class Family {
-- Name
-- UniqueID
-- RegistrationDate
+Name
+UniqueID
+RegistrationDate
 }
 
 class FamilyMember {
-- Name
-- BirthDate
+Name
+BirthDate
 
 }
 
@@ -30,10 +32,10 @@ class VatNumber {
 }
 
 class Address {
-- Street
-- Postal Code
-- Local
-- City
+Street
+Postal Code
+Local
+City
 
 }
 

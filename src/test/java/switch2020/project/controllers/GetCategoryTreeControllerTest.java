@@ -28,8 +28,8 @@ class GetCategoryTreeControllerTest {
     String cc2 = "137843828ZX3";
     @BeforeEach
     public void setup() {
-        familyAdministratorController.addFamilyAdministrator(adminCC, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 10);
-        familyMemberController.addFamilyMember(adminCC, cc2, "Not Admin", birthdate, 919999999, "abc@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", relation, 13);
+        familyAdministratorController.addFamilyAdministrator(adminCC, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", 10);
+        familyMemberController.addFamilyMember(adminCC, cc2, "Not Admin", birthdate, 919999999, "abc@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", 13);
 
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
         addStandardCategoryController.addStandardCategory("Electricity", 1); //id 2

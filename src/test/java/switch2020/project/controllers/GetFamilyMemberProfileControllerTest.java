@@ -59,8 +59,8 @@ class GetFamilyMemberProfileControllerTest {
 
 
     //DTO Test Setup
-    FamilyMember diogo = new FamilyMember(id, name, date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
+    FamilyMember diogo = new FamilyMember(id, name, date,numero,email,nif,rua,codPostal,local, city, admin);
+    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
     int familyOneID = 123;
     String familyOneName = "Simpson";
     Family family = new Family(familyOneName,familyOneID);
