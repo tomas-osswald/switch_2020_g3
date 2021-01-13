@@ -94,7 +94,7 @@ class Relation {
 Family -down-> FamilyMember : has administrator
 Family -down-> FamilyMember : \n has members
 FamilyMember -down-> Relation : has relation
-FamilyMember -- FamilyMember : administrator can add relation to family members
+FamilyMember --> FamilyMember : administrator can add relation to family members
 (FamilyMember, FamilyMember) <.. Relation 
 
 ```
