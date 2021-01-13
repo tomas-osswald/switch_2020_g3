@@ -91,7 +91,8 @@ class GetFamilyMembersListControllerTest {
             GetFamilyMembersListController test = new GetFamilyMembersListController(app);
             app.getFamilyService().addFamily(family);
             //Act
-            List<FamilyMemberRelationDTO> result = test.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
+            List<FamilyMemberRelationDTO> result = test.getFamilyMembersAndRelation()
+                    test.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
             //Assert
             assertEquals(expected, result);
             assertNotSame(expected, result);
@@ -110,10 +111,11 @@ class GetFamilyMembersListControllerTest {
             app.getFamilyService().addFamily(family);
             GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
             //Act
-            List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
+            //List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
+            assertTrue(controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID()));
             //Assert
-            assertEquals(expected, result);
-            assertNotSame(expected, result);
+           // assertEquals(expected, result);
+            // assertNotSame(expected, result);
         }
 
 
