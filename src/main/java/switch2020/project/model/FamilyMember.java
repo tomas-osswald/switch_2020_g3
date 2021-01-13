@@ -31,12 +31,14 @@ public class FamilyMember {
 
         this.familyMemberID = familyMemberID;
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
@@ -62,12 +64,14 @@ public class FamilyMember {
 
         this.ccNumber = new CCNumber(ccNumber);
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
@@ -89,12 +93,14 @@ public class FamilyMember {
 
         this.ccNumber = new CCNumber(ccNumber);
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         if (validatePhone(phone)) {
@@ -120,12 +126,14 @@ public class FamilyMember {
 
         this.familyMemberID = familyMemberID;
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException();
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         if (validatePhone(phone)) {
@@ -154,12 +162,14 @@ public class FamilyMember {
 
         this.familyMemberID = familyMemberID; // Generate ID
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
 
@@ -185,12 +195,14 @@ public class FamilyMember {
 
         this.familyMemberID = familyMemberID;
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException();
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         if (validatePhone(phone)) {
@@ -219,12 +231,14 @@ public class FamilyMember {
 
         this.ccNumber = new CCNumber(cc);
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Insert Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
@@ -241,7 +255,7 @@ public class FamilyMember {
 
         //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
 
-       // this.relation = null;
+        // this.relation = null;
 
         this.administrator = false;
     }
@@ -261,15 +275,17 @@ public class FamilyMember {
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateName(String name) {
-        if (name == null || name.isEmpty() || name.isBlank())
+        if (name == null || name.isEmpty() || name.isBlank()) {
             return false;
+        }
         return true;
     }
 
     public boolean validateBirthDate(Date birthDate) {
         String date = birthDate.toString();
-        if (date == null || date.isEmpty())
+        if (date == null || date.isEmpty()) {
             return false;
+        }
         return true;
     }
 
@@ -288,8 +304,9 @@ public class FamilyMember {
     }
 
     private boolean validateRelation(Relation relation) {
-        if (this.relation != null)
+        if (this.relation != null) {
             return true;
+        }
         return false;
     }
 
@@ -381,8 +398,9 @@ public class FamilyMember {
      */
 
     protected void addRelation(Relation relation) {
-        if (this.relation != null)
+        if (this.relation != null) {
             throw new IllegalArgumentException("This family member already has an assigned relation");
+        }
         this.relation = relation;
     }
 
@@ -395,16 +413,20 @@ public class FamilyMember {
 
 
     public FamilyMemberRelationDTO createFamilyMemberRelationDTO() {
-        FamilyMemberRelationDTO copyOfFamilyMember;
+        FamilyMemberRelationDTO copyOfFamilyMemberDTO;
         name = this.getName();
         String relation;
         if (this.relation == null) {
-            relation = "relação por definir";
+            if (this.isAdministrator() == true) {
+                relation = "Self";
+            } else {
+                relation = "Undefined Relation";
+            }
         } else {
             relation = this.relation.getRelationDesignation();
         }
-        copyOfFamilyMember = new FamilyMemberRelationDTO(name, relation);
-        return copyOfFamilyMember;
+        copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
+        return copyOfFamilyMemberDTO;
     }
 }
 

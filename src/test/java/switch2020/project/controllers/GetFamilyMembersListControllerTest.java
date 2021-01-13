@@ -98,10 +98,9 @@ class GetFamilyMembersListControllerTest {
             GetFamilyMembersListController test = new GetFamilyMembersListController(app);
             app.getFamilyService().addFamily(family);
             //Act
-            List<FamilyMemberRelationDTO> result = test.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
+            boolean result = test.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
             //Assert
-            assertEquals(expected, result);
-            assertNotSame(expected, result);
+            assertTrue(result);
         }
 
         @Test
@@ -117,11 +116,10 @@ class GetFamilyMembersListControllerTest {
             app.getFamilyService().addFamily(family);
             GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
             //Act
-            List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(3, diogo.getID());
+            boolean result = controller.getFamilyMembersAndRelation(3, diogo.getID());
             //Assert
             //As nothing has been added to expected both lists are Empty, as predicted
-            assertEquals(expected, result);
-            assertNotSame(expected, result);
+           assertFalse(result);
         }
 
     @Test
@@ -138,11 +136,10 @@ class GetFamilyMembersListControllerTest {
         expected.add(jorgeDTO);
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
-        List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(2, diogo.getID());
+        boolean result = controller.getFamilyMembersAndRelation(2, diogo.getID());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
-        assertNotEquals(expected, result);
-        assertNotSame(expected, result);
+        assertFalse(result);
     }
 
 

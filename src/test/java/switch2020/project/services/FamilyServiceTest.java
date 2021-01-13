@@ -87,9 +87,9 @@ class FamilyServiceTest {
     Family familyTwo = new Family(familyTwoName, familyTwoID);
     Family familyThree = new Family(familyThreeName, familyThreeID);
     ArrayList<FamilyMember> familyMembers = new ArrayList<>();
-    FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), diogo.getRelation());
-    FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), jorge.getRelation());
-    FamilyMemberRelationDTO manuelAdminDTO = new FamilyMemberRelationDTO(manuelAdmin.getName(), manuelAdmin.getRelation());
+    FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), "Undefined Relation");
+    FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), "Undefined Relation");
+    FamilyMemberRelationDTO manuelAdminDTO = new FamilyMemberRelationDTO(manuelAdmin.getName(), "Self");
     List<FamilyMemberRelationDTO> expected = new ArrayList<FamilyMemberRelationDTO>();
 
     int familyOneIDGenerated = 1;
@@ -466,6 +466,9 @@ class FamilyServiceTest {
         assertFalse(result);
     }
 
+    /**
+     * Test returning correct list since member has administrator privileges.
+     */
     @Test
     void getDTOList_ExpectingToHaveEqualListsBecauseMemberIsAdminAndMethodWillReturnFilledList() {
         //Arrange
@@ -486,6 +489,10 @@ class FamilyServiceTest {
         assertNotSame(expected, result);
     }
 
+    /**
+     * Test returning an empty list because the FamilyMember asking for the list
+     * does not have Administrator privileges.
+     */
     @Test
     void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEqualsBecauseTheFamilyMemberIsNotAdministratorAndTheReturnIsEmptyList() {
         //Arrange
@@ -507,7 +514,16 @@ class FamilyServiceTest {
     }
 
     @Test
-    void getDTOList_TestWithFamilyMemberWithNoRelationPreviouslyAttributedExpectingDTOToConvertToRelationNotDefined() {
+    void getDTOList_TestExceptionThrowNoFamilyWithGivenID() {
+        //Arrange
+        FamilyService familyService = new FamilyService(family);
+        //Assert
+        assertThrows(IllegalArgumentException.class, () -> familyService.getFamilyMembersRelationDTOList(8898, manuelAdmin.getID()));
+    }
+
+
+    @Test
+    void getDTOList_TestWithFamilyMemberWithAdminPrivilegesButNoRelation() {
         //Arrange
         familyMembers.add(diogo);
         familyMembers.add(jorge);
@@ -525,6 +541,7 @@ class FamilyServiceTest {
         assertNotEquals(expected, result);
         assertNotSame(expected, result);
     }
+
 
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
