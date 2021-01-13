@@ -3,11 +3,14 @@ package switch2020.project.model;
 public class CashAccount {
 
     // Attributes
-    private int cashAccountID;
+    private final int cashAccountID;
     private double balance;
 
     // Constructors
     public CashAccount(double balance) {
+        if (!validateBalance(balance)) {
+            throw new IllegalArgumentException("Balance can't be less than 0");
+        }
         this.cashAccountID = 0;
         this.balance = balance;
     }
@@ -32,6 +35,7 @@ public class CashAccount {
     }
 
     // Business Methods
+
     /**
      * A method that validates if the given cash account ID is valid
      *
@@ -39,29 +43,31 @@ public class CashAccount {
      * @return a boolean validID, true if valid, false if invalid
      */
     private boolean validateID(int cashAccountID) {
-        boolean validID = false;
-        if (cashAccountID >= 0) {
-            validID = true;
+        boolean validID = true;
+        if (cashAccountID < 0) {
+            validID = false;
         }
         return validID;
     }
 
     /**
-     * A method that validates if the given cash account balance is valid.
-     * Balance of a physical cash account can never be less than 0.
+     * A method that validates if the given cash account balance is valid. Balance of a physical cash account can never
+     * be less than 0.
+     *
      * @param balance given cash account balance to validate
      * @return boolean validBalance, true if valid, false if invalid
      */
     private boolean validateBalance(double balance) {
-        boolean validBalance = false;
-        if (balance >= 0) {
-            validBalance = true;
+        boolean validBalance = true;
+        if (balance < 0) {
+            validBalance = false;
         }
         return validBalance;
     }
 
     /**
      * Getter for the ID of this cash account object
+     *
      * @return returns the ID of this cash account
      */
     public int getCashAccountID() {
@@ -70,6 +76,7 @@ public class CashAccount {
 
     /**
      * Getter for the balance of this cash account object
+     *
      * @return returns the balance of this cash account
      */
     public double getBalance() {
@@ -78,6 +85,7 @@ public class CashAccount {
 
     /**
      * Changes the balance of this cash account object by a given value
+     *
      * @param value given value to add to this cash account's balance
      */
     public void changeBalance(double value) {
@@ -85,5 +93,13 @@ public class CashAccount {
             throw new IllegalStateException("Balance can't be less than 0");
         }
         this.balance = this.balance + value;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof CashAccount)) return false;
+        CashAccount otherAccount = (CashAccount) other;
+        return (this.cashAccountID == otherAccount.cashAccountID && this.balance == otherAccount.balance);
     }
 }

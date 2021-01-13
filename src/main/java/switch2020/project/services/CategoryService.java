@@ -1,5 +1,6 @@
 package switch2020.project.services;
 
+import switch2020.project.model.CategoryMap;
 import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
 import switch2020.project.utils.StandardCategoryDTO;
@@ -106,118 +107,45 @@ public class CategoryService {
         return maxID + 1;
     }
 
-    /*public List<StandardCategory> getCategories() {
+    /**
+     * Method to retrieve the list of StandardCategories
+     * @return List of StandardCategory objects
+     */
+    public List<StandardCategory> getCategories() {
         return this.categories;
-    }*/
+    }
 
     /**
-     * Method to get
-     * @param familyID
-     * @param familyService
-     * @return
+     * Method to create and return a Family's CategoryTree
+     * @param familyID ID of the target family
+     * @param familyService The Application's familyService
+     * @return CategoryTreeDTO Object
      */
     public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
 
-    /**
-     * Method to get all the Standard Categories
-     * @return List
-     */
-    public List<StandardCategory> getStandardCategories() {
+    public List getStandardCategories() {
         if (categories.size() == 0) {
             throw new IllegalArgumentException("There are no standard categories");
         }
         List standardCategories = new ArrayList<StandardCategory>();
         standardCategories = categories;
         return standardCategories;
+
     }
 
-    /**
-     * Method to get the parent name of a passed category name
-     * @param standardCategories
-     * @return list of parents, i.e., a list of categories that have at least one child
-     */
-    public List<StandardCategory> getParents(List <StandardCategory> standardCategories){
-        List<StandardCategory> parents = new ArrayList<>();
-        for (StandardCategory cat: standardCategories
-             ) {
-            if(cat.getParentName() != null){
-                parents.add(cat);
-            }
-          }
-        return parents;
-    }
-
-    public List<String> getParentsName(List<StandardCategory> parents){
-        List<String> parentsName = new ArrayList<>();
-        for (String name: parentsName) {
-            if(name != null){
-                parentsName.add(name);
-            }
+    public List<StandardCategoryDTO> getStandardCategoriesDTOList() {
+        List<StandardCategory> categories = getCategories();
+        List<StandardCategoryDTO> standardCategoriesDTOList = new ArrayList<>();
+        for (StandardCategory cat : categories) {
+            //if (cat.isStandardCategory()){
+            String categoryName = cat.getName();
+            StandardCategoryDTO newcat = new StandardCategoryDTO(categoryName);
+            standardCategoriesDTOList.add(newcat);
+            //}
         }
-        return parentsName;
+        return standardCategoriesDTOList;
     }
-
-    /**
-     * Method to get the childs of a passed parent category name
-     * @param standardCategory
-     * @param standardCategories
-     * @return list of childs
-     */
-    public List<StandardCategory> getChilds (StandardCategory standardCategory, List<StandardCategory> standardCategories){
-        List<StandardCategory> childs = new ArrayList<>();
-        for (StandardCategory cat: standardCategories
-             ) {
-            if(cat.isChildOf(standardCategory)){
-                childs.add(cat);
-            }
-        }
-        return childs;
-    }
-
-    /**
-     * Method to obtain a list of sub-lists that have a parent category and their descendants(childs)
-     * @param standardCategories
-     * @return list of StandardCategoryDTO
-     */
-    public List<StandardCategoryDTO> createStdTree(List<StandardCategory> standardCategories){
-        List<StandardCategoryDTO> totalStdList = new ArrayList<>();
-
-        List<StandardCategory> stdList = this.getParents(standardCategories);
-        for (StandardCategory cat: stdList
-             ) {
-            StandardCategoryDTO dto = new StandardCategoryDTO(cat.getName());
-            this.addChildsToDTO(dto,cat,standardCategories);
-            totalStdList.add(dto);
-        }
-        return totalStdList;
-    }
-
-    /**
-     * Method to add the childs of a specific category
-     * @param dto
-     * @param cat
-     * @param categs
-     */
-    private void addChildsToDTO (StandardCategoryDTO dto, StandardCategory cat, List<StandardCategory> categs) {
-        List<StandardCategory> stdList = this.getChilds(cat, categs);
-        for (StandardCategory c: stdList)
-        {
-            StandardCategoryDTO dtoChild = new StandardCategoryDTO(c.getName());
-            this.addChildsToDTO(dtoChild, c, categs);
-            dto.addChild(dtoChild);
-        }
-    }
-
-        //retirado pois não sabemos manipular as hashmap
-    /*public CategoryMap getStandardCategoriesDTOList() {
-        CategoryMap mapa = new CategoryMap();
-        for (StandardCategory cat : categories
-        ) {
-            mapa.addToMap(cat.getParentName(), cat.getName());
-        }
-        return mapa;
-    }*/
 }

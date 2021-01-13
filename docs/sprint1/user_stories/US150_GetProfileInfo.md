@@ -11,7 +11,17 @@
 
 - Demo1.1. My family member profile information
 
-We interpreted this requirement as the function of a user to receive their personal profile information, including Name, Address, Birth Date, Phone Number and Email.
+We interpreted this requirement as the function of a user to receive their personal profile information.
+
+- A MemberProfile needs to have the following information:
+    - Name;
+    - Birth Date;
+    - Phone Number(one or more);
+    - Email (one or more);
+    - VAT Number;
+    - Address;
+    - Relation with Administrator;
+    - If Family Member is Admin.
 
 # 2. Analysis
 
@@ -19,7 +29,10 @@ In order to fulfill this requirement, we need two main data pieces:
 - Family ID of the actor's family
 - Family Member ID of the actor's profile
 
-At a later iteration, both the family ID and the family member's ID would be acquired through the Log In information. For this sprint, the IDs will have to be inputted along with the e-mail.
+At a later iteration, both the family ID and the family member's ID would be acquired through the Log In information. For this sprint, the IDs will have to be inputted.
+
+This User Story is highly reliant on both the Family and FamilyMember classes, particularly the last one. A DTO approach was chosen due to.... 
+#CONTINUAR AQUI ESTA PARTE
 
 
 
@@ -85,18 +98,19 @@ ui -> familyMember: aProfile
 
 
 ## 3.1. Functionality Use
-The AddEmailController will invoke the Application object, which stores the FamilyService object. The Application will return the FamilyService, so that the addEmail method can be called. The FamilyService will find the correct Family object by the familyID, and the Family object will find the correct FamilyMember object by the familyMemberID.
-Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI). 
+The GetFamilyMemberProfileController will invoke the Application object, which stores the FamilyService object. The Application will return the FamilyService to the Controller, and the getMemberProfile method is called to retrieve the Profile as a MemberProfileDTO object, using the familyID and familyMemberID. The Family is retrieve in the FamilyService instantiation and Family Member is then retrieved from the corresponding family.
+The Family Member the uses the method createProfile to generate a new object of the type MemberProfileDTO, which is then returned to the FamilyService and then to the Controller.
 
 
 
 ## 3.2. Class Diagram
 The main Classes involved are:
-- AddEmailController
+- GetFamilyMemberProfileController
 - Application
+- FamilyService
 - Family
 - FamilyMember
-- Email
+- MemberProfileDTO
 
 ![Class Diagram](https://i.imgur.com/aIvHqZg.png)
 

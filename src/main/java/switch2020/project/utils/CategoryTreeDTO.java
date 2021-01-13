@@ -12,19 +12,39 @@ public class CategoryTreeDTO {
     List<StandardCategory> standardCategories = new ArrayList();
     List<CustomCategory> customCategories = new ArrayList();
 
+    /**
+     * Constructor of the CategoryTreeDTO Object
+     *
+     * @param categoryService categoryService object where the StandardCategories will be retrieved.
+     * @param familyService   familyService object where the CustomCategories will be retrieved.
+     * @param familyID        FamilyID of the target family.
+     */
     public CategoryTreeDTO(CategoryService categoryService, FamilyService familyService, int familyID) {
         this.standardCategories.addAll(categoryService.getStandardCategories());
         this.customCategories.addAll(familyService.getCustomCategories(familyID));
     }
 
+    /**
+     * Method to present the StandardCategory List
+     *
+     * @return StandardCategory List
+     */
     public List<StandardCategory> getStandardCategories() {
         return standardCategories;
     }
 
+    /**
+     * Method to present the CustomCategory List
+     *
+     * @return CustomCategory List
+     */
     public List<CustomCategory> getCustomCategories() {
         return customCategories;
     }
 
+    /**
+     * Temporary method to print the Tree on the console
+     */
     public void printTree() {
         ArrayList<Integer> ids = new ArrayList<>();
         for (StandardCategory standardCategory : standardCategories) {
@@ -56,6 +76,10 @@ public class CategoryTreeDTO {
         }
     }
 
+    /**
+     * Method to return an Array of all the StandardCategories' Names
+     * @return String Array of StandardCategory objects names.
+     */
     public String[] getArrayOfStandardCategoriesNames() {
         String[] categoriesNames = new String[standardCategories.size()];
         int index = 0;
@@ -66,6 +90,10 @@ public class CategoryTreeDTO {
         return categoriesNames;
     }
 
+    /**
+     * Recursive method to print a Categoriy's children
+     * @param category
+     */
     public void printChildren(CustomCategory category) {
         for (CustomCategory childCategory : customCategories) {
             if (category.getCategoryID() == childCategory.getParentID()) {
@@ -74,5 +102,6 @@ public class CategoryTreeDTO {
             }
         }
     }
+
 
 }

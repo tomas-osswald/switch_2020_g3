@@ -62,15 +62,43 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 - Relation Designation (Relationship name);
 - Family ID (User's family ID).
 
-From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app. 
+From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the Family. 
 
-As we did not get an answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
+As we did not get a clear answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
 
 *"o artefacto principal a usar é o Modelo de Domínio (MD). É sempre elaborado numa perspetiva de negócio e não numa perspetiva técnica"*
 
 ##2.1. Domain Model Diagram
 
-*Neste secção a equipa deve relatar o estudo/análise/comparação que fez com o intuito de tomar as melhores opções de design para a funcionalidade bem como aplicar diagramas/artefactos de análise adequados.*
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US105
+
+class Family {
+- Name
+- UniqueID
+- RegistrationDate
+
+}
+
+class FamilyMember {
+- Name
+- BirthDate
+
+}
+
+class Relation {
+- Designation
+
+}
+
+Family -down-> FamilyMember : has administrator
+Family -down-> FamilyMember : \n has members
+FamilyMember -down-> Relation : has relation
+FamilyMember -- FamilyMember : administrator can add relation to family members
+(FamilyMember, FamilyMember) <.. Relation 
+```
 
 # 3. Design
 
@@ -237,7 +265,7 @@ class Relation {
 FFMapp -down-> FamilyService : has list of 
 FamilyService -down-> Family : has list of
 Family -down-> FamilyMember : has list of 
-Person -down-> Relation : has 
+FamilyMember -down-> Relation : has 
 ```
 
 ## 3.3. Applied Patterns

@@ -10,7 +10,7 @@
 
 **Demo1** As a family administrator, I want to get... 
 
-- Demo1.1. The list of family members of the Simpsons' family and their relation towards me.
+- Demo1.1. The list of my family members and their relation towards me.
 
 We interpreted this requirement as the function of obtaining the list of all the family members from the family administrator's family
 and the family members' relation towards him.   
@@ -40,15 +40,13 @@ UI at the moment, the *familyID* will have to be manually inserted.
 ' "as" define alias que queremos dar ao participant ou actor
 
 autonumber
-title "Obtain list of Family Members and their relation"
+title getFamilyMembersAndRelation List.1
 actor "Family Administrator" as actor
 participant " : UI" as UI
 participant " : GetFamilyMembersListController" as controller
 participant " : Application" as application
 participant " aFamilyService : FamilyService" as service
 participant " aFamily : Family" as family
-participant " oneFamilyMemberRelation : FamilyMemberRelation" as DTO
-participant " FMRlist : List <FamilyMemberRelation> " as DTOlist
 
 /' Comentário: activate é a syntax para ativar lifeline "preenchida" (Não tracejada). 
     Activate só deve ser inserido no momento em que se quer ativar a lifeline preenchida
@@ -57,48 +55,92 @@ participant " FMRlist : List <FamilyMemberRelation> " as DTOlist
 activate actor
 actor -> UI : I want to see the list of family members and their relation
 activate UI
-UI -> controller : getFamilyMembersAndRelation(familyID)
+UI -> controller : getFamilyMembersAndRelation(familyID, familyAdministratorID)
 activate controller
 controller -> application : getFamilyService()
 activate application
 application --> controller : aFamilyService
 deactivate application
-controller -> service :  getFamilyMembersAndRelation(familyID)
+controller -> service :  getFamilyMembersAndRelation(familyID, familyAdministratorID)
 activate service
 loop for each Family in List<Family>
 service -> service : getFamily(familyID)
 activate family
 end
-service -> family : getFamilyMembers()
-family --> service : List<familyMember>
-service -> family : convertToFamilyMemberRelation()
-loop for each Family Member in List<FamilyMember>
-    family -> DTOlist ** : create
-    activate DTOlist
-     family -> DTO ** : create(name, Relation)
-    activate DTO
-    DTO -> DTOlist : add()
-deactivate DTO
-deactivate DTOlist
-     end
-note over family : The list is only stored inside the method scope
-family --> service : FMRlist
-deactivate family
-service --> controller : FMRlist
-deactivate service
-controller -> UI : FMRlist
-deactivate controller
-UI -> actor : show list of family members and their relation
+
+
+service -> family : getFamilyMembersAndRelation(familyID, familyAdministratorID)
+
+
+alt failure : Actor is not the Family Administrator. Returned List is empty.
+family --> service : (failure) - Empty List
+service --> controller : (failure) - Empty List
+controller --> UI : (failure) - Empty List
+UI --> actor  : No family members and relationship found. User must be Family Administrator
+ref over family 
+getFamilyMembersAndRelation List.2
+end ref
+
+else sucess
+family --> service : FamilyMemberAndRelationDTO List
+service --> controller : FamilyMemberAndRelationDTO List
+controller --> UI : FamilyMemberAndRelationDTO List
+UI --> actor : Show list of family members and their relation
+
+
+end
 
 @enduml
 ````
 
+
 ````puml
-Class Application {
- }
+
+@startuml
+
+
+ participant " aFamily : Family" as family
+ participant " oneFamilyMemberRelationDTO : FamilyMemberRelationDTO" as DTO
+ participant " aFamilyMembersAndRelationDTOList : List <FamilyMemberRelationDTO> " as DTOlist
+
+autonumber
+title getFamilyMembersAndRelation List.2
+-> family : getFamilyMembersAndRelation(familyID, familyAdministratorID)
+activate family
+family -> family : verifyAdministratorPermission(familyAdministratorID)
+alt failure : User doesn't have Administrator privileges
+ <-- family : return Empty FamilyMembersAndRelation List
+else sucess : User has Administrator privileges
+
+    family -> family : getFamilyMembers()
+    loop for each Family Member in List<FamilyMember> convertToFamilyMemberRelationDTO()
+    family -> DTOlist ** : create
+    activate DTOlist
+    family -> DTO ** : create(name, Relation)
+    activate DTO
+    DTO -> DTOlist : add()
+    deactivate DTO
+
+     end
+
+<-- DTOlist : aFamilyMembersAndRelationList
+deactivate DTOlist
+deactivate family
+end
+
+
+
+@enduml
 ````
 
 
+````puml
+Class Application {
+
+ }
+````
+
+getFamilyMembersAndRelation List.2
 
 
 ## 3.1. Functionality Use
