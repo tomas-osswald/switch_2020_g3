@@ -1,6 +1,5 @@
 package switch2020.project.services;
 
-import switch2020.project.model.CategoryMap;
 import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
 import switch2020.project.utils.StandardCategoryDTO;
