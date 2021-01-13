@@ -2,6 +2,7 @@ package switch2020.project.model;
 
 import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+import switch2020.project.utils.MemberProfileDTO;
 
 
 import java.util.*;
@@ -353,5 +354,19 @@ public class Family {
     public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
         FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
      return  familyWithoutAdministratorDTO;
+    }
+
+    /**
+     * Method iterates through list of family members and finding the correct
+     * one, creates a profile based on the attributes of the family member
+     *
+     * @param ccNumber representing the unique ID from each family member
+     * @return MemberProfileDTO with member's attributes
+     */
+    public MemberProfileDTO getFamilyMemberProfile(String ccNumber) {
+
+        FamilyMember familyMember = getFamilyMember(ccNumber);
+        MemberProfileDTO memberProfile = familyMember.createProfile();
+        return memberProfile;
     }
 }

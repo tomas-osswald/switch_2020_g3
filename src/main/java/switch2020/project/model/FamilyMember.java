@@ -386,8 +386,14 @@ public class FamilyMember {
         this.relation = relation;
     }
 
+    /**
+     * method that uses the attributes from the family member
+     * to create and return a MemberProfileDTO
+     *
+     * @return MemberProfileDTO with member's attributes
+     */
     public MemberProfileDTO createProfile() {
-        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
     }
 
 

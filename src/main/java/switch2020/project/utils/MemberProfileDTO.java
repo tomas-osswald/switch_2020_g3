@@ -14,18 +14,16 @@ public class MemberProfileDTO {
     private List<EmailAddress> emails = new ArrayList<>();
     private VatNumber vatNumber;
     private Address address;
-    private Relation relation;
     private boolean administrator;
 
 
-    public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, Relation relation, boolean administrator) {
+    public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
         this.name = name;
         this.birthDate = birthDate;
         this.phoneNumbers = phoneNumbers;
         this.emails = emails;
         this.vatNumber = vatNumber;
         this.address = address;
-        this.relation = relation;
         this.administrator = administrator;
     }
 
@@ -34,11 +32,11 @@ public class MemberProfileDTO {
         if (this == o) return true;
         if (!(o instanceof MemberProfileDTO)) return false;
         MemberProfileDTO that = (MemberProfileDTO) o;
-        return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address) && relation.equals(that.relation);
+        return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phoneNumbers, that.phoneNumbers) && Objects.equals(emails, that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+        return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
     }
 }

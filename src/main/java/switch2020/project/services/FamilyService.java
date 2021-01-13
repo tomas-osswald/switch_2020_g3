@@ -272,13 +272,20 @@ public class FamilyService {
         return success;
     }
 
+    /**
+     *Using the familyID the method iterates through the list of families
+     * and after finding the correct family iterates through the list of
+     * family members to find the family member which profile has been
+     * requested. The profile is the returned as a MemberProfileDTO
+     *
+     * @param familyId representing the unique ID given to each family
+     * @param ccNumber representing the unique ID from each family member
+     * @return MemberProfileDTO with member's attributes
+     */
     public MemberProfileDTO getFamilyMemberProfile(int familyId, String ccNumber) {
 
         Family family = getFamily(familyId);
-        FamilyMember familyMember = family.getFamilyMember(ccNumber);
-        MemberProfileDTO memberProfile = familyMember.createProfile();
-
-        return memberProfile;
+        return family.getFamilyMemberProfile(ccNumber);
     }
 
     /**

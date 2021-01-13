@@ -2,10 +2,13 @@ package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,6 +28,15 @@ class FamilyTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
+    //ProfileMemberDTO setup
+    Address address = new Address(rua, codPostal, local, city);
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    VatNumber vatNumber = new VatNumber(nif);
+    FamilyService familyService = new FamilyService();
+
     String cc2 = "166699209ZY8";
     String name2 = "Tony";
     Date date2 = new Date(1954, 8, 26);
@@ -38,6 +50,12 @@ class FamilyTest {
     String relacao2 = "primo";
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
+
+    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    FamilyMember jorge = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
+    int familyOneID = 123;
+    String familyOneName = "Simpson";
+    Family family = new Family(familyOneName, familyOneID);
 
     @Test
     void AddFamilyMembers() {
@@ -305,6 +323,32 @@ class FamilyTest {
         String expected = "RelAção por definir";
         String result = test.getRelationDesignation();
         assertTrue(expected.equalsIgnoreCase(result));
+    }
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(diogo.getID());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(jorge.getID());
+
+        assertNotEquals(expected, result);
     }
 
 }

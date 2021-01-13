@@ -28,6 +28,17 @@ class FamilyMemberTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
+    //Setup for MemberProfileDTO testing
+    Address address = new Address(rua, codPostal, local, city);
+
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+
+    VatNumber vatNumber = new VatNumber(nif);
+
 
     //Family Member Tony
     String id2 = "166699209ZY8";
@@ -47,6 +58,7 @@ class FamilyMemberTest {
     //Setup for FamilyMemberDTO
     FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
+    FamilyMember diogoNoAdmin = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
 
     @Test
     public void createFamilyMember() {
@@ -251,23 +263,12 @@ class FamilyMemberTest {
     //get MemberProfileDTO from diogo's information and compares method using diogo to create MemberProfileDTO
     @Test
     void getMemberProfileTest1_objectsAreEqual() {
-        //Arrange
-        Address address = new Address(rua, codPostal, local, city);
-
-        EmailAddress emailAddress = new EmailAddress(email);
-        List<EmailAddress> emails = new ArrayList<>();
         emails.add(emailAddress);
-
-        PhoneNumber phoneNumber = new PhoneNumber(numero);
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        VatNumber vatNumber = new VatNumber(nif);
+        MemberProfileDTO result = diogoNoAdmin.createProfile();
 
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
-        //Act
-        MemberProfileDTO result = diogo.createProfile();
-        //Assert
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
@@ -275,24 +276,81 @@ class FamilyMemberTest {
     //compares diogo, but creates MemberProfileDTO from jorge
     @Test
     void getMemberProfileTest2_objectsAreNotEqual() {
-        //Arrange
-        Address address = new Address(rua, codPostal, local, city);
-
-        EmailAddress emailAddress = new EmailAddress(email);
-        List<EmailAddress> emails = new ArrayList<>();
-        //emails.add(emailAddress);
-
-        PhoneNumber phoneNumber = new PhoneNumber(numero);
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        VatNumber vatNumber = new VatNumber(nif);
-
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
-        //Act
         MemberProfileDTO result = jorge.createProfile();
-        //Assert
+
         assertNotEquals(expected, result);
     }
+
+    //tests MemberProfileDTO using FamilyMember constructor to create admins
+    @Test
+    void getMemberProfileTest3_AdministratorObjectsAreEqual() {
+
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        FamilyMember admin = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city, true);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+
+        MemberProfileDTO result = admin.createProfile();
+        //Assert
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+    //tests MemberProfileDTO using FamilyMember constructor to create admins
+    @Test
+    void getMemberProfileTest4_AdministratorObjectsAreNotEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+
+        MemberProfileDTO result = jorge.createProfile();
+
+        assertNotEquals(expected, result);
+    }
+    @Test
+    void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
+        phoneNumbers.add(phoneNumber);
+        FamilyMember joaquim = new FamilyMember(cc, name, date,numero,null,nif,rua,codPostal,local, city);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = joaquim.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getMemberProfileTest6_objectsAreNotEqualInvalidEmail() {
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = diogo.createProfile();
+
+        assertNotEquals(expected, result);
+    }
+    @Test
+    void getMemberProfileTest7_objectsAreEqualInvalidPhoneNumber() {
+        emails.add(emailAddress);
+        FamilyMember joaquim = new FamilyMember(cc, name, date,null,email,nif,rua,codPostal,local, city);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = joaquim.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getMemberProfileTest8_objectsAreNotEqualInvalidPhoneNumbers() {
+        emails.add(emailAddress);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = diogo.createProfile();
+
+        assertNotEquals(expected, result);
+    }
+
 
 }

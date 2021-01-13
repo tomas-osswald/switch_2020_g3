@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GetFamilyMemberProfileControllerTest {
 
+    //Added 1st FamilyMember to test
     String id = "000000000ZZ4";
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
@@ -26,6 +27,15 @@ class GetFamilyMemberProfileControllerTest {
     String relacao = "filho";
     Relation relation = new Relation(relacao);
     boolean admin = false;
+
+    Application app = new Application();
+    GetFamilyMemberProfileController controller = new GetFamilyMemberProfileController(app);
+    Address address = new Address(rua, codPostal, local, city);
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    VatNumber vatNumber = new VatNumber(nif);
 
     //Added 2nd FamilyMember to test
     String id2 = "137476450ZX0";
@@ -42,21 +52,6 @@ class GetFamilyMemberProfileControllerTest {
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
-    //Added 3nd FamilyMember to test (no email)
-    String id3 = "137476450ZX0";
-    String name3 = "Tony";
-    Date date3 = new Date(1954,8,26);
-    int numero3 = 919999998;
-    String email3 = "tony@gmail.com";
-    int nif3 = 212122000;
-    String rua3 = "Rua";
-    String codPostal3 = "4444-556";
-    String local3 = "Gaia";
-    String city3 = "Porto";
-    String relacao3 = "primo";
-    Relation relation3 = new Relation(relacao2);
-    boolean admin3 = false;
-
 
     //DTO Test Setup
     FamilyMember diogo = new FamilyMember(id, name, date,numero,email,nif,rua,codPostal,local, city, admin);
@@ -68,65 +63,34 @@ class GetFamilyMemberProfileControllerTest {
     @Test
     void instantiationOfGetFamilyMemberProfileControllerTest() {
         Application app = new Application();
-
         GetFamilyMemberProfileController controller = new GetFamilyMemberProfileController(app);
-
         assertNotNull(controller);
     }
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEqual() {
-        //Arrange
-        Application app = new Application();
-        GetFamilyMemberProfileController controller = new GetFamilyMemberProfileController(app);
-
-        Address address = new Address(rua, codPostal, local, city);
-
-        EmailAddress emailAddress = new EmailAddress(email);
-        List<EmailAddress> emails = new ArrayList<>();
         emails.add(emailAddress);
-
-        PhoneNumber phoneNumber = new PhoneNumber(numero);
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(phoneNumber);
-
-        VatNumber vatNumber = new VatNumber(nif);
-
         app.getFamilyService().addFamily(family);
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
-        //Act
         MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getID());
-        //Assert
+
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
     @Test
     void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEqual() {
-        //Arrange
-        Application app = new Application();
-        GetFamilyMemberProfileController controller = new GetFamilyMemberProfileController(app);
-
-        Address address = new Address(rua, codPostal, local, city);
-
-        EmailAddress emailAddress = new EmailAddress(email);
-        List<EmailAddress> emails = new ArrayList<>();
         emails.add(emailAddress);
-
-        PhoneNumber phoneNumber = new PhoneNumber(numero);
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(phoneNumber);
-
-        VatNumber vatNumber = new VatNumber(nif);
-
         app.getFamilyService().addFamily(family);
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(jorge);
 
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
-        //Act
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
         MemberProfileDTO result = controller.getMemberProfile(familyOneID, jorge.getID());
-        //Assert
+
         assertNotEquals(expected, result);
     }
     
