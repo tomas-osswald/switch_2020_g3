@@ -70,7 +70,36 @@ As we did not get an answer to the question about the previous existence of a Re
 
 ##2.1. Domain Model Diagram
 
-*Neste secção a equipa deve relatar o estudo/análise/comparação que fez com o intuito de tomar as melhores opções de design para a funcionalidade bem como aplicar diagramas/artefactos de análise adequados.*
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US105
+
+class Family {
+- Name
+- UniqueID
+- RegistrationDate
+
+}
+
+class FamilyMember {
+- Name
+- BirthDate
+
+}
+
+class Relation {
+- Designation
+
+}
+
+Family -down-> FamilyMember : has administrator
+Family -down-> FamilyMember : \n has members
+FamilyMember -down-> Relation : has relation
+FamilyMember -- FamilyMember : administrator can add relation to family members
+(FamilyMember, FamilyMember) <.. Relation 
+
+```
 
 # 3. Design
 
@@ -237,7 +266,7 @@ class Relation {
 FFMapp -down-> FamilyService : has list of 
 FamilyService -down-> Family : has list of
 Family -down-> FamilyMember : has list of 
-Person -down-> Relation : has 
+FamilyMember -down-> Relation : has 
 ```
 
 ## 3.3. Applied Patterns
