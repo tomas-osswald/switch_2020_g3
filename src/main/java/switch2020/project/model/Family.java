@@ -256,9 +256,9 @@ public class Family {
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -266,10 +266,10 @@ public class Family {
         }
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city){
         boolean administrator = true;
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
+            FamilyMember newFamilyMember = new FamilyMember(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {

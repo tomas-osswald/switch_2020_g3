@@ -23,10 +23,10 @@ public class AddFamilyAdministratorController {
         return familyService.familiesWithoutAdministrator();
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID){
         try {
             FamilyService familyService = this.application.getFamilyService();
-            return familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, familyID);
+            return familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, familyID);
         } catch (Exception exception) {
             return false;
         }

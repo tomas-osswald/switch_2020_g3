@@ -25,6 +25,7 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
+    /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
@@ -53,9 +54,10 @@ public class FamilyMember {
 
         this.administrator = administrator;
     }
+    */
 
     //Constructor that uses a CCNumber as ID
-    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -79,12 +81,10 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = relation;
-
         this.administrator = administrator;
     }
 
-    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
@@ -111,13 +111,10 @@ public class FamilyMember {
 
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = administrator;
     }
 
     // Family Admin - add Family Member
+    /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
@@ -254,6 +251,8 @@ public class FamilyMember {
     public FamilyMember(String familyMemberID) {
         this.ccNumber = new CCNumber(familyMemberID);
     }
+
+     */
 
 
     /********************** GETTERS AND SETTERS **********************/
