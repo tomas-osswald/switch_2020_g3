@@ -12,13 +12,16 @@ public class CreateFamilyCashAccountController {
 
     /**
      * Method to create a family cash account for  family object that will ask the application for the service to conclude this task
-     * @param familyID given family object ID
+     * @param ccNumber given family object ID
      * @return returns true if the task was successful
      */
-    public boolean createFamilyCashAccount(int familyID, double balance) {
-        boolean success;
-        FamilyService familyService = this.ffmApp.getFamilyService();
-        success = familyService.createFamilyCashAccount(familyID, balance);
-        return success;
+    public boolean createFamilyCashAccount(int familyID, double balance, String ccNumber) {
+        try{
+            FamilyService familyService = this.ffmApp.getFamilyService();
+            return familyService.createFamilyCashAccount(familyID, balance, ccNumber);
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
+
     }
 }
