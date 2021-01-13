@@ -22,18 +22,31 @@ public class GetFamilyMembersListController {
      * which is the getDTOList, that iterates through the
      * specific family (familyID) obtains the necessary info from its familyMembers
      * and converts it to a DTO, returning it back here to the Controller
+     *
      * @param familyID representing the unique ID given to each family
      * @return DTOList with members name and the relation they have towards the Family Administrator
      */
-    public List<FamilyMemberRelationDTO> getFamilyMembersAndRelation(int familyID, int familyAdministratorID) {
+    public List<FamilyMemberRelationDTO> getFamilyMembersAndRelation(int familyID, String adminCCNumber) {
         List<FamilyMemberRelationDTO> failureList = new ArrayList<>();
         try {
             FamilyService familyService = this.FFMapp.getFamilyService();
-            return familyService.getFamilyMembersRelationDTOList(familyID, familyAdministratorID);
+            return familyService.getFamilyMembersRelationDTOList(familyID, adminCCNumber);
         } catch (IllegalArgumentException wrongFamilyID) {
             System.out.println(wrongFamilyID.getMessage());
             return failureList;
         }
-    }
 
+
+        //Método final do Controller para aceitar validação CC
+        /* public List<FamilyMemberRelationDTO> getFamilyMembersAndRelation(int familyID, String adminCCNumber) {
+            List<FamilyMemberRelationDTO> failureList = new ArrayList<>();
+            try {
+                FamilyService familyService = this.FFMapp.getFamilyService();
+                return familyService.getFamilyMembersRelationDTOList(familyID, adminCCNumber);
+            } catch (IllegalArgumentException wrongFamilyID) {
+                System.out.println(wrongFamilyID.getMessage());
+                return failureList;
+            } */
+
+    }
 }

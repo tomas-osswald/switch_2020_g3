@@ -14,7 +14,7 @@ class StandardCategoryTest {
         String categoryName = "Habitação";
         int categoryID = 2;
 
-        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory, categoryID);
 
         assertNotNull(newStandardCategory);
     }
@@ -22,7 +22,7 @@ class StandardCategoryTest {
     @Test
     void categoryConstructorTest2_validNameUtilities () {
         String categoryName = "Utilities";
-        int categoryID = 2;
+        int categoryID = 3;
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
 
         assertNotNull(newStandardCategory);
@@ -106,4 +106,74 @@ class StandardCategoryTest {
         assertEquals(expected,result);
     }
 
+    @Test
+    void isIDOfThisCategoryTest1_numberToTestIsCategoryID() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        int numberToTest = 2;
+
+        boolean result = newStandardCategory.isIDOfThisCategory(numberToTest);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void isIDOfThisCategoryTest2_numberToTestIsNotCategoryID() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        int numberToTest = 5;
+
+        boolean result = newStandardCategory.isIDOfThisCategory(numberToTest);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void isDesignationOfThisCategoryTest1_designationIsEqual() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        String nameToTest = "Habitação";
+
+        boolean result = newStandardCategory.isDesignationOfThisCategory(nameToTest);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void isDesignationOfThisCategoryTest2_designationHasDifferentCase() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        String nameToTest = "HABITAÇÃO";
+
+        boolean result = newStandardCategory.isDesignationOfThisCategory(nameToTest);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void isDesignationOfThisCategoryTest3_designationHasSpaceAtEnd() {
+        String categoryName = "Habitação  ";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        String nameToTest = "Habitação";
+
+        boolean result = newStandardCategory.isDesignationOfThisCategory(nameToTest);
+
+        assertTrue(result);
+    }
+    @Test
+    void isDesignationOfThisCategoryTest4_designationIsDifferent() {
+        String categoryName = "Habitação  ";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        String nameToTest = "Serviços";
+
+        boolean result = newStandardCategory.isDesignationOfThisCategory(nameToTest);
+
+        assertFalse(result);
+    }
 }

@@ -23,16 +23,18 @@ class AddRelationControllerTest {
 
     @Test
     void AddRelationTrue() {
-        int selfID = 1;
-        int otherID = 2;
+        String selfID = "000000000ZZ4";
+        String otherID = "137843828ZX3";
+
         String relationDesignation = "Father";
         int familyID = 1;
+        String familyName = "Moura";
 
         FamilyMember familyMember1 = new FamilyMember(selfID);
         FamilyMember familyMember2 = new FamilyMember(otherID);
         familyMember1.makeAdmin();
 
-        Family family = new Family(familyID);
+        Family family = new Family(familyName, familyID);
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
 
@@ -46,15 +48,17 @@ class AddRelationControllerTest {
 
     @Test
     void AddRelationFalseNoAdmin() {
-        int selfID = 1;
-        int otherID = 2;
+        String selfID = "000000000ZZ4";
+        String otherID = "137843828ZX3";
+
         String relationDesignation = "Father";
         int familyID = 1;
+        String familyName = "Moura";
 
         FamilyMember familyMember1 = new FamilyMember(selfID);
         FamilyMember familyMember2 = new FamilyMember(otherID);
 
-        Family family = new Family(familyID);
+        Family family = new Family(familyName, familyID);
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
 
@@ -68,16 +72,18 @@ class AddRelationControllerTest {
 
     @Test
     void AddRelationFalseCatchEmptyRelationDesignationThrow() {
-        int selfID = 1;
-        int otherID = 2;
+        String selfID = "000000000ZZ4";
+        String otherID = "137843828ZX3";
+
         String relationDesignation = "";
         int familyID = 1;
+        String familyName = "Moura";
 
         FamilyMember familyMember1 = new FamilyMember(selfID);
         FamilyMember familyMember2 = new FamilyMember(otherID);
         familyMember1.makeAdmin();
 
-        Family family = new Family(familyID);
+        Family family = new Family(familyName, familyID);
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
 

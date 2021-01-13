@@ -7,15 +7,16 @@ import switch2020.project.model.Relation;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyServiceTest {
 
-    int id = 1111;
+    String cc = "000000000ZZ4";
     String name = "Diogo";
-    String date = "26/08/1990";
+    Date date = new Date(1990, 8, 26);
     int numero = 919999999;
     String email = "abc@gmail.com";
     int nif = 212122233;
@@ -28,9 +29,9 @@ class FamilyServiceTest {
     boolean admin = false;
 
     //Added 2nd FamilyMember to test
-    int id2 = 2222;
+    String cc2 = "000000000ZZ4";
     String name2 = "Tony";
-    String date2 = "26/08/1954";
+    Date date2 = new Date(1954, 8, 26);
     int numero2 = 919999998;
     String email2 = "tony@gmail.com";
     int nif2 = 212122000;
@@ -43,9 +44,9 @@ class FamilyServiceTest {
     boolean admin2 = false;
 
     //Added 3rd FamilyMember to test
-    int id3 = 3333;
+    String id3 = "137476450ZX0";
     String name3 = "TonyZe";
-    String date3 = "26/08/1955";
+    Date date3 = new Date(1900, 8, 26);
     int numero3 = 919939998;
     String email3 = "tonyze@gmail.com";
     int nif3 = 212122000;
@@ -71,13 +72,18 @@ class FamilyServiceTest {
     boolean admin4 = true;
 
     //DTO Test Setup
-    FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
+    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+    FamilyMember jorge = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
     FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
-    FamilyMember noRelationMember = new FamilyMember(id4, name4, date4, numero4, email4, nif4, rua4, codPostal4, local4, city4);
-    Family family = new Family();
-    Family familyTwo = new Family();
-    Family familyThree = new Family();
+    int familyOneID = 123;
+    String familyOneName = "Simpson";
+    int familyTwoID = 456;
+    String familyTwoName = "Simpson";
+    int familyThreeID = 789;
+    String familyThreeName = "Simpson";
+    Family family = new Family(familyOneName, familyOneID);
+    Family familyTwo = new Family(familyTwoName, familyTwoID);
+    Family familyThree = new Family(familyThreeName, familyThreeID);
     ArrayList<FamilyMember> familyMembers = new ArrayList<>();
     FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), diogo.getRelation());
     FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), jorge.getRelation());
@@ -86,10 +92,12 @@ class FamilyServiceTest {
 
     @Test
     void GetFamilyByID() {
-        int familyID1 = 1;
-        int familyID2 = 2;
-        Family family1 = new Family(familyID1);
-        Family family2 = new Family(familyID2);
+        int familyOneID = 1;
+        String familyOneName = "Simpson";
+        int familyTwoID = 2;
+        String familyTwoName = "Moura";
+        Family family1 = new Family(familyOneName, familyOneID);
+        Family family2 = new Family(familyTwoName, familyTwoID);
         FamilyService familyService = new FamilyService();
 
         familyService.addFamily(family1);
@@ -106,12 +114,14 @@ class FamilyServiceTest {
 
     @Test
     void GivenFamilyIDNotFound() {
-        int familyID1 = 1;
-        int familyID2 = 2;
-        int selfID = 1;
-        int otherID = 2;
-        Family family1 = new Family(familyID1);
-        Family family2 = new Family(familyID2);
+        int familyOneID = 1;
+        String familyOneName = "Simpson";
+        int familyTwoID = 2;
+        String familyTwoName = "Moura";
+        String selfID = "000000000ZZ4";
+        String otherID = "000000000ZZ4";
+        Family family1 = new Family(familyOneName, familyOneID);
+        Family family2 = new Family(familyTwoName, familyTwoID);
         FamilyService familyService = new FamilyService();
 
         familyService.addFamily(family1);
@@ -119,7 +129,7 @@ class FamilyServiceTest {
 
         int familyID = 3; //Dont exist any family with that ID number
 
-        assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(selfID,otherID,"prima",familyID));
+        assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(selfID, otherID, "prima", familyID));
     }
 
     @Test
@@ -127,14 +137,15 @@ class FamilyServiceTest {
         String relationDesignation = "Mother";
         FamilyService familyService = new FamilyService();
 
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "000000000ZZ4";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
         familyMember1.makeAdmin();
 
         int familyID = 1;
-        Family family = new Family(familyID);
+        String familyName = "Simpson";
+        Family family = new Family(familyName, familyID);
 
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
@@ -149,13 +160,14 @@ class FamilyServiceTest {
         String relationDesignation = "Mother";
         FamilyService familyService = new FamilyService();
 
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "000000000ZZ4";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
 
         int familyID = 1;
-        Family family = new Family(familyID);
+        String familyName = "Simpson";
+        Family family = new Family(familyName, familyID);
 
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
@@ -170,14 +182,15 @@ class FamilyServiceTest {
         String relationDesignation = "Mother";
         FamilyService familyService = new FamilyService();
 
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "000000000ZZ4";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
         familyMember1.makeAdmin();
 
         int familyID = 1;
-        Family family = new Family(familyID);
+        String familyName = "Simpson";
+        Family family = new Family(familyName, familyID);
 
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
@@ -195,16 +208,17 @@ class FamilyServiceTest {
         String relationDesignation2 = "mother";
         FamilyService familyService = new FamilyService();
 
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
-        int familyMemeberID3 = 3;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "137843828ZX3";
+        String familyMemeberID3 = "137476450ZX0";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
         FamilyMember familyMember3 = new FamilyMember(familyMemeberID3);
         familyMember1.makeAdmin();
 
         int familyID = 1;
-        Family family = new Family(familyID);
+        String familyName = "Simpson";
+        Family family = new Family(familyName, familyID);
 
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
@@ -227,13 +241,14 @@ class FamilyServiceTest {
         String relationDesignation1 = "Mother";
         String relationDesignation2 = "Father";
         FamilyService familyService = new FamilyService();
-        int familyMemberID1 = 1;
-        int familyMemberID2 = 2;
+        String familyMemberID1 = "000000000ZZ4";
+        String familyMemberID2 = "000000000ZZ4";
         FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
         FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
         familyMember1.makeAdmin();
         int familyID = 1;
-        Family family = new Family(familyID);
+        String familyName = "Simpson";
+        Family family = new Family(familyName, familyID);
         family.addFamilyMember(familyMember1);
         family.addFamilyMember(familyMember2);
         familyService.addFamily(family);
@@ -245,11 +260,13 @@ class FamilyServiceTest {
     void createFamilyCashAccountResultFalseAccountAlreadyExists() {
         FamilyService familyService = new FamilyService();
         int familyID = 1;
-        Family aFamily = new Family(familyID);
+        String familyName = "Simpson";
+        Family aFamily = new Family(familyName, familyID);
         familyService.addFamily(aFamily);
         boolean expected = true;
+        double balance = 0;
 
-        boolean result = familyService.createFamilyCashAccount(familyID);
+        boolean result = familyService.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }
@@ -258,47 +275,111 @@ class FamilyServiceTest {
     void createFamilyCashAccountResultTrueAccountCreated() {
         FamilyService familyService = new FamilyService();
         int familyID = 1;
-        Family aFamily = new Family(familyID);
+        String familyName = "Simpson";
+        Family aFamily = new Family(familyName, familyID);
+        double balance = 0;
         familyService.addFamily(aFamily);
-        familyService.createFamilyCashAccount(familyID);
+        familyService.createFamilyCashAccount(familyID, balance);
         boolean expected = false;
 
-        boolean result = familyService.createFamilyCashAccount(familyID);
+        boolean result = familyService.createFamilyCashAccount(familyID, balance);
 
         assertEquals(expected, result);
     }
 
     @Test
     void NotAddFamilyMember_EmailPresent() {
-        FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-        Family ribeiro = new Family(1, diogo);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-        assertThrows(IllegalArgumentException.class, ()-> familias.addFamilyMember(name2,date2,numero2,"abc@gmail.com",nif2,rua2,codPostal2,local2,city2,relation2,1));
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, relation2, 1));
     }
 
     @Test
     void AddFamilyMember_EmailNotPresent() {
-        FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-        Family ribeiro = new Family(1, diogo);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-        assertTrue(familias.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2,1));
-    }
-
-    @Test
-    void AddFamilyMember_FamilyExists() {
-        FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-        Family ribeiro = new Family(1, diogo);
-        FamilyService familias = new FamilyService(ribeiro);
-        assertTrue(familias.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2,1));
+        assertTrue(familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
     }
 
     @Test
     void NotAddFamilyMember_FamilyNotExists() {
-        FamilyMember diogo = new FamilyMember(id,name,date,numero,email,nif,rua,codPostal,local, city, relation, admin);
-        Family ribeiro = new Family(1, diogo);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
         FamilyService familias = new FamilyService(ribeiro);
-        assertThrows(IllegalArgumentException.class, ()-> familias.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2,2));
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 2));
 
+    }
+
+    @Test
+    void AddFamilyMember_FamilyExists() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
+        FamilyService familias = new FamilyService(ribeiro);
+        assertTrue(familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
+    }
+
+    @Test
+    void NotAddFamilyMember_NotAdmin() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, false);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
+        FamilyService familias = new FamilyService(ribeiro);
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
+    }
+
+    @Test
+    void AddFamilyMember_isAdmin() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
+        FamilyService familias = new FamilyService(ribeiro);
+        assertTrue(familias.addFamilyMember(cc, cc, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, 1));
+    }
+
+    //Test related to validation before obtaining FamilyMemberRelationDTOList
+    @Test
+    void verifyAdministratorPermissionBeforeInvokingGetDTOList_TestWithAdministratorExpectingTrue() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
+        FamilyService family = new FamilyService(ribeiro);
+        diogo.makeAdmin();
+        boolean expected = true;
+        boolean result = family.verifyAdministratorPermission(ribeiro.getFamilyID(), diogo.getID());
+        assertTrue(result);
+    }
+
+    //Test related to validation before obtaining FamilyMemberRelationDTOList
+    @Test
+    void verifyAdministratorPermissionBeforeInvokingGetDTOList_TestWithNoAdministratorExpectingFalse() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
+        int familyID = 1;
+        String familyName = "Ribeiro";
+        Family ribeiro = new Family(familyName, familyID);
+        ribeiro.addFamilyMember(diogo);
+        FamilyService family = new FamilyService(ribeiro);
+        boolean expected = false;
+        boolean result = family.verifyAdministratorPermission(ribeiro.getFamilyID(), "000000000ZZ4");
+        assertFalse(result);
     }
 
     @Test
@@ -346,7 +427,7 @@ class FamilyServiceTest {
         //Arrange
         familyMembers.add(diogo);
         familyMembers.add(jorge);
-        familyMembers.add(noRelationMember);
+        //familyMembers.add(noRelationMember);
         family.addFamilyMemberArray(familyMembers);
         familyTwo.addFamilyMember(diogo);
         familyTwo.addFamilyMember(jorge);

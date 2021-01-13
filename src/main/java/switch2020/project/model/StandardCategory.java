@@ -1,22 +1,40 @@
 package switch2020.project.model;
 
+import java.util.Objects;
+
 public class StandardCategory {
 
-    //atributes
-
+    //Attributes
     private int categoryID;
     private String categoryName;
     private StandardCategory parentCategory;
 
-    public StandardCategory(String categoryName, StandardCategory parentCategory, int categoryID){
+    //Constructor
+
+    public StandardCategory(String categoryName, StandardCategory parentCategory, int categoryID) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
         this.categoryID = categoryID;
         this.categoryName = categoryName.trim().toUpperCase();
         this.parentCategory = parentCategory;
     }
 
+
+    //
+
+    //delete later, for tests
+    public StandardCategory(String categoryName, int categoryID) {
+        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
+        this.categoryID = categoryID;
+        this.categoryName = categoryName.trim().toUpperCase();
+
+    }
+
     public int getParentID() {
-        return parentCategory.getCategoryID();
+        try {
+            return parentCategory.getCategoryID();
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     public int getCategoryID() {
@@ -27,18 +45,19 @@ public class StandardCategory {
         return this.categoryName;
     }
 
-/*
+    //Validation Methods
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Category)) return false;
-        Category category = (Category) o;
-        return Objects.equals(categoryName);
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof StandardCategory)) return false;
+        StandardCategory otherCategory = (StandardCategory) other;
+        return categoryName.equals(otherCategory.categoryName);
     }
- */
 
     /**
      * Method to validate if name is valid. Tests if String is null, empty or composed only of blank spaces
+     *
      * @param categoryName String representing the name to be validated
      * @return true if name follows the rules, false otherwise
      */
@@ -47,6 +66,19 @@ public class StandardCategory {
     private boolean isNameValid(String categoryName) {
         if (categoryName == null || categoryName.isEmpty() || categoryName.isBlank()) return false;
         return true;
+    }
+
+    /**
+     * Method that compares a given ID is equal to the ID of this category
+     * @param categoryID int the categoryID you want to compare
+     * @return true if the IDs match, otherwise false
+     */
+    public boolean isIDOfThisCategory(int categoryID){
+        return categoryID == this.categoryID;
+    }
+
+    public boolean isDesignationOfThisCategory(String categoryName){
+        return this.categoryName.compareToIgnoreCase(categoryName) == 0;
     }
 
 }
