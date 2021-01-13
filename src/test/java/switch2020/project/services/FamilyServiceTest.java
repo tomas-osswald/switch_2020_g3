@@ -300,6 +300,7 @@ class FamilyServiceTest {
         assertEquals(expected, result);
     }
 
+    /** US101 addFamilyMember **/
     @Test
     void NotAddFamilyMember_EmailPresent() {
 
@@ -364,6 +365,37 @@ class FamilyServiceTest {
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
         assertTrue(familias.addFamilyMember(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, 1));
+    }
+
+    /** US011 addFamilyAdministrator **/
+    @Test
+    void addFamilyAdministrator_FamilyExists() {
+        Family ribeiros = new Family("Ribeiro",1);
+        FamilyService familyService = new FamilyService(ribeiros);
+        assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,1));
+    }
+
+    @Test
+    void NotAddFamilyAdministrator_FamilyNotExists() {
+        Family ribeiros = new Family("Ribeiro",1);
+        FamilyService familyService = new FamilyService(ribeiros);
+        assertThrows(IllegalArgumentException.class,()-> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,2));
+    }
+
+    @Test
+    void addFamilyAdministrator_EmailNotPresent() { // Not able to create a family member object
+        Family ribeiros = new Family("Ribeiro",1);
+        ribeiros.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        FamilyService familyService = new FamilyService(ribeiros);
+        assertTrue(familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1));
+    }
+
+    @Test
+    void NotAddFamilyAdministrator_EmailPresent() { // Not able to create a family member object
+        Family ribeiros = new Family("Ribeiro",1);
+        ribeiros.addFamilyMember(cc, name, date, numero, "abc@gmail.com", nif, rua, codPostal, local, city);
+        FamilyService familyService = new FamilyService(ribeiros);
+        assertThrows(IllegalArgumentException.class,()-> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2,1));
     }
 
     //Test related to validation before obtaining FamilyMemberRelationDTOList
@@ -454,6 +486,7 @@ class FamilyServiceTest {
         assertNotEquals(expected, result);
         assertNotSame(expected, result);
     }
+
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
         //Arrange
@@ -481,6 +514,7 @@ class FamilyServiceTest {
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+
     @Test
     void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
         //Arrange
@@ -562,42 +596,10 @@ class FamilyServiceTest {
     }
 
     @Test
-    void addFamilyAdministratorTrue() {
-        FamilyService familyService = new FamilyService();
-        familyService.addFamily(familyOneName); //id1
-
-        assertTrue(familyService.addFamilyAdministrator());
-    }
-
-    @Test
-    void addFamilyAdministratorThrowFromFamily() { // Not able to create a family member object
-        FamilyService familyService = new FamilyService();
-        familyService.addFamily(familyOneName); //id1
-
-    }
-
-    @Test
     void listOfFamiliesWithoutFamilyAdministrator_WithNoFamilies_AllFamiliesHaveAdministrator() {
         assertThrows(Exception.class, () -> familyService.addFamilyAdministrator());
     }
-
-    @Test
-    void addFamilyAdministratorThrowEmailAlreadyPresent() {
-        FamilyService familyService = new FamilyService();
-        familyService.addFamily(familyOneName); //id1
-        familyService.addFamily(familyTwoName); //id2
-
-        familyService.addFamilyAdministrator(); // for family One
-
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator()); // insert same email from user from family one
-    }
-
-    @Test
-    void addFamilyAdministratorThrowFamilyDoesNotExists() {
-        FamilyService familyService = new FamilyService();
-        familyService.addFamily(familyOneName); //id1
-
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator()); // insert a FamilyId that doenst exists in system
-    }
     */
+
+
 }

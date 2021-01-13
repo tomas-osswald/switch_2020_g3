@@ -2,14 +2,29 @@ package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
+import switch2020.project.model.Family;
+import switch2020.project.model.Relation;
+import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddFamilyAdministratorControllerTest {
+
+    String ccNumber = "000000000ZZ4";
+    String name = "Diogo";
+    Date date = new Date(1990, 8, 26);
+    int numero = 919999999;
+    String email = "abc@gmail.com";
+    int nif = 212122233;
+    String rua = "Rua Nossa";
+    String codPostal = "4444-555";
+    String local = "Zinde";
+    String city = "Porto";
 
     /*@Test
     void familiesWithoutAdministratorList() {
@@ -51,25 +66,19 @@ class AddFamilyAdministratorControllerTest {
 
     }*/
 
-    /*@Test
-    void addFamilyAdministratorTrue() {
-        Application application = new Application();
-
-        AddFamilyController controller = new AddFamilyController(application);
-        controller.addFamily(); // id1
-
-        AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(application);
-        assertTrue(addFamilyAdministratorController.addFamilyAdministrator());
+    @Test
+    void addFamilyAdministrator() {
+        Family ribeiro = new Family("Ribeiro",1);
+        Application ffmApp = new Application(ribeiro);
+        AddFamilyAdministratorController controller = new AddFamilyAdministratorController(ffmApp);
+        assertTrue(controller.addFamilyAdministrator(ccNumber,name,date,numero,email,nif,rua,codPostal,local,city,1));
     }
 
     @Test
-    void addFamilyAdministratorFalseAnExcepctionWasThrowInInstationOfObject() {
-        Application application = new Application();
-
-        AddFamilyController controller = new AddFamilyController(application);
-        controller.addFamily(); // id1
-
-        AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(application);
-        assertFalse(addFamilyAdministratorController.addFamilyAdministrator());
-    }*/
+    void NotAddFamilyAdministrator() {
+        Family ribeiro = new Family("Ribeiro",1);
+        Application ffmApp = new Application(ribeiro);
+        AddFamilyAdministratorController controller = new AddFamilyAdministratorController(ffmApp);
+        assertFalse(controller.addFamilyAdministrator(ccNumber,name,date,numero,email,nif,rua,codPostal,local,city,2));
+    }
 }
