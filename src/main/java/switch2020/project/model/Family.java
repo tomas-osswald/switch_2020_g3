@@ -333,7 +333,6 @@ public class Family {
         }
 
 
-
      /** Method to verify if a Family has an administrator
      * @return boolean
      */

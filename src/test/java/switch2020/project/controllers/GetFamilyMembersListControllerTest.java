@@ -83,7 +83,7 @@ class GetFamilyMembersListControllerTest {
 
 
     @Test
-    void getFamilyMemberAndRelation() {
+    void getFamilyMemberAndRelationDTO_TestSuccessCase() {
             //Arrange
             familyMembers.add(diogo);
             familyMembers.add(jorge);
@@ -105,7 +105,7 @@ class GetFamilyMembersListControllerTest {
         }
 
         @Test
-        void getDTOList_TestWithNoAdministratorExpectingEmptyListAsReturn() {
+        void getDTOList_TestWithWrongFamilyIDExpectingEmptyListAsReturn() {
             //Arrange
             familyMembers.add(diogo);
             familyMembers.add(jorge);
@@ -117,11 +117,33 @@ class GetFamilyMembersListControllerTest {
             app.getFamilyService().addFamily(family);
             GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
             //Act
-            List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
+            List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(3, diogo.getID());
             //Assert
+            //As nothing has been added to expected both lists are Empty, as predicted
             assertEquals(expected, result);
             assertNotSame(expected, result);
         }
+
+    @Test
+    void getDTOList_TestWithNoAdministratorExpectingEmptyListAsReturn() {
+        //Arrange
+        familyMembers.add(diogo);
+        familyMembers.add(jorge);
+        familyMembers.add(manuelAdmin);
+        family.addFamilyMemberArray(familyMembers);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        Application app = new Application();
+        app.getFamilyService().addFamily(family);
+        expected.add(jorgeDTO);
+        GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
+        //Act
+        List<FamilyMemberRelationDTO> result = controller.getFamilyMembersAndRelation(2, diogo.getID());
+        //Assert
+        //As nothing has been added to expected both lists are Empty, as predicted
+        assertNotEquals(expected, result);
+        assertNotSame(expected, result);
+    }
 
 
 }

@@ -241,7 +241,9 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = new Relation(null);
+        //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
+
+        this.relation = null;
 
         this.administrator = false;
     }
@@ -316,7 +318,11 @@ public class FamilyMember {
     }
 
     // Business Methods
+    //Inserted lines 321 and 322 to run test and accept null relation
     public String getRelation() {
+        if (this.relation == null) {
+            return null;
+        }
         return relation.getRelationDesignation();
     }
 
