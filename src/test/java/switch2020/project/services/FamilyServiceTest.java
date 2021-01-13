@@ -92,6 +92,10 @@ class FamilyServiceTest {
     FamilyMemberRelationDTO manuelAdminDTO = new FamilyMemberRelationDTO(manuelAdmin.getName(), manuelAdmin.getRelation());
     List<FamilyMemberRelationDTO> expected = new ArrayList<FamilyMemberRelationDTO>();
 
+    int familyOneIDGenerated = 1;
+    int familyTwoIDGenerated = 2;
+    int familyThreeIDGenerated = 3;
+
     @Test
     void GetFamilyByID() {
         int familyOneID = 1;
@@ -508,7 +512,7 @@ class FamilyServiceTest {
         assertNotEquals(expected, result);
     }
 
-    /*
+
     @Test
     void listOfFamiliesWithoutFamilyAdministratorWithNoFamilies_NoFamilyHaveBeenAdded() {
         FamilyService familyService = new FamilyService();
@@ -529,9 +533,9 @@ class FamilyServiceTest {
         familyService.addFamily(familyThreeName); //id3
 
         List<FamilyWithoutAdministratorDTO> expected = new ArrayList<>();
-        FamilyWithoutAdministratorDTO dto1 = familyService.getFamily(1).familyWithoutAdministratorDTO();
-        FamilyWithoutAdministratorDTO dto2 = familyService.getFamily(2).familyWithoutAdministratorDTO();
-        FamilyWithoutAdministratorDTO dto3 = familyService.getFamily(3).familyWithoutAdministratorDTO();
+        FamilyWithoutAdministratorDTO dto1 = familyService.getFamily(familyOneIDGenerated).familyWithoutAdministratorDTO();
+        FamilyWithoutAdministratorDTO dto2 = familyService.getFamily(familyTwoIDGenerated).familyWithoutAdministratorDTO();
+        FamilyWithoutAdministratorDTO dto3 = familyService.getFamily(familyThreeIDGenerated).familyWithoutAdministratorDTO();
         expected.add(dto1);
         expected.add(dto2);
         expected.add(dto3);
@@ -546,13 +550,13 @@ class FamilyServiceTest {
 
         FamilyService familyService = new FamilyService();
 
-        familyService.addFamily(); //id1
-        familyService.addFamily(); //id2
-        familyService.addFamily(); //id3
+        familyService.addFamily(familyOneName); //id1
+        familyService.addFamily(familyTwoName); //id2
+        familyService.addFamily(familyThreeName); //id3
 
-        familyService.addFamilyAdministrator();
-        familyService.addFamilyAdministrator();
-        familyService.addFamilyAdministrator();
+        familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(cc2,name2,date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated);
+        familyService.addFamilyAdministrator(id3,name3,date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyThreeIDGenerated);
 
         List<FamilyWithoutAdministratorDTO> expected = new ArrayList<>(); //empty list
 
@@ -566,7 +570,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertTrue(familyService.addFamilyAdministrator());
+        assertTrue(familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated));
     }
 
     @Test
@@ -574,11 +578,17 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyTwoIDGenerated));
     }
 
     @Test
     void listOfFamiliesWithoutFamilyAdministrator_WithNoFamilies_AllFamiliesHaveAdministrator() {
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator());
+        FamilyService familyService = new FamilyService();
+
+        familyService.addFamily(familyOneName);
+        familyService.addFamily(familyTwoName);
+
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated));
     }
 
     @Test
@@ -587,9 +597,9 @@ class FamilyServiceTest {
         familyService.addFamily(familyOneName); //id1
         familyService.addFamily(familyTwoName); //id2
 
-        familyService.addFamilyAdministrator(); // for family One
+        familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated); // for family One
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator()); // insert same email from user from family one
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2,name2,date2, numero2, email, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated)); // insert same email from user from family one
     }
 
     @Test
@@ -597,7 +607,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator()); // insert a FamilyId that doenst exists in system
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2,name2,date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoID)); // insert a FamilyId that doenst exists in system
     }
-    */
+
 }
