@@ -5,10 +5,23 @@ import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CreateFamilyCashAccountControllerTest {
+
+    String cc = "135149126ZW9";
+    String name = "Diogo";
+    Date date = new Date(1990, 8, 26);
+    int numero = 919999999;
+    String email = "diogo@gmail.com";
+    int nif = 212122230;
+    String rua = "Rua Nossa";
+    String codPostal = "4444-555";
+    String local = "Zinde";
+    String city = "Porto";
 
     @Test
     void instantiationOfCreateFamilyCashAccountController() {
@@ -22,7 +35,7 @@ class CreateFamilyCashAccountControllerTest {
     @Test
     void createFamilyCashAccountSuccessNoExistingAccount() {
         String ccNumber = "000000000ZZ4";
-        FamilyMember admin = new FamilyMember(ccNumber);
+        FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
         Application app = new Application();
@@ -45,7 +58,7 @@ class CreateFamilyCashAccountControllerTest {
     @Test
     void createFamilyCashAccountFailureAlreadyExistingAccount() {
         String ccNumber = "000000000ZZ4";
-        FamilyMember admin = new FamilyMember(ccNumber);
+        FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
         Application app = new Application();
@@ -70,7 +83,7 @@ class CreateFamilyCashAccountControllerTest {
     @Test
     void createFamilyCashAccountFailureTryCatchNegativeBalance() {
         String ccNumber = "000000000ZZ4";
-        FamilyMember admin = new FamilyMember(ccNumber);
+        FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
         Application app = new Application();

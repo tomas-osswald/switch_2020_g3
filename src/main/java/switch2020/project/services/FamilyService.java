@@ -140,6 +140,7 @@ public class FamilyService {
         Relation relation;
         Family fam = getFamily(familyID);
 
+
         if (fam.isAdmin(selfCCNumber)) { // If is Administrator
             if (fam.hasDesignation(relationDesignation)) { // Verify if a given relation designation is already present in list of relations assigned
                 relation = new Relation(relationDesignation);
@@ -182,12 +183,12 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String selfCC, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+    public boolean addFamilyMember(String selfCC, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID) {
         if (checkIfFamilyExists(familyID)) {
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
             if (this.families.get(posicaoFamilia).isAdmin(selfCC)) {
                 if (!checkIfEmailPresent(email)) {
-                    return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                    return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
                 }
                 throw new IllegalArgumentException("This email already exists");
             }
@@ -196,11 +197,11 @@ public class FamilyService {
         throw new IllegalArgumentException("Family does not exist");
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID) {
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID) {
         if (checkIfFamilyExists(familyID)) {
             if (!checkIfEmailPresent(email)) {
                 int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-                return this.families.get(posicaoFamilia).addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
+                return this.families.get(posicaoFamilia).addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city);
             }
             throw new IllegalArgumentException("This email already exists");
         }
@@ -216,35 +217,42 @@ public class FamilyService {
         return null;
     } */
 
+
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
         Family family = getFamily(familyID);
         boolean isAdmin = family.isAdmin(ccNumber);
         return isAdmin;
     }
 
-
     /**
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
-     * With the familyID the method get the familyMembers (getMembers()) and iterates through all the members
-     * obtaining the name and the relationDesignation, using them to create a new instance of the FamilyMemberRelationDTO
-     * object which is stored in the FMRList. Returns said List back to the GetFamilyMembersAndRelation Controller.
-     *
-     * @param familyID
-     * @return DTOList
+     * With the familyID the method delegates to the Family Class the responsibility of returning a List of DTOs from
+     * the Family's Family Members. If the User isn't the Family Administrator the return is an Empty List.
+     * @param familyID representing the Id of the family to find.
+     * @param adminCCNumber  representing the userID. Has to be verified in order to provide access to the information
+     * @return DTOList containing Family Members' name and the relationDesignation.
      */
-    public List<FamilyMemberRelationDTO> getDTOList(int familyID, String adminCCNumber) {
+
+   /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        if (verifyAdministratorPermission(familyID, adminCCNumber)) {
-            List<FamilyMember> members = getFamily(familyID).getFamilyMembers();
-            for (FamilyMember member : members) {
-                String name = member.getName();
-                String relation = member.getRelation();
-                FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-                DTOList.add(newMember);
-            }
+        Family family = getFamily(familyID);
+        if (family.verifyAdministratorPermission(familyAdministratorID)) {
+            DTOList = family.getFamilyMembersRelationDTOList();
         }
         return DTOList;
-    }
+    } */
+
+            // Method que vai mudar o GetFMRDTO para validações de CC.
+
+         public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
+                List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+                Family family = getFamily(familyID);
+                if (family.isAdmin(adminCCNumber)) {
+                    DTOList = family.getFamilyMembersRelationDTOList();
+                }
+                return DTOList;
+            }
+
 
 
     /**

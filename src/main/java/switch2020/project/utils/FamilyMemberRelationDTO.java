@@ -17,6 +17,10 @@ public class FamilyMemberRelationDTO {
         return name;
     }
 
+    public void setRelationDesignation(String relationDesignation) {
+        this.relationDesignation = relationDesignation;
+    }
+
     public String getRelationDesignation() {
         return relationDesignation;
     }

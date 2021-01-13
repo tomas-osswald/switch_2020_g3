@@ -31,10 +31,11 @@ class RelationTest {
 
     @Test
     public void getDesignation() {
-        Relation uncle = new Relation("uncle");
+        Relation expected = new Relation("uncle");
         String expectedString = "uncle";
-        Relation expected = new Relation(expectedString);
-        assertEquals(uncle, expected);
+        Relation test = new Relation(expectedString);
+        String result = test.getRelationDesignation();
+        assertEquals(expected.getRelationDesignation(), result);
     }
 }
 
