@@ -27,6 +27,17 @@ public class Relation {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Relation)) return false;
+
+        Relation otherRelation = (Relation) o;
+
+        return this.relationDesignation.equals(otherRelation.getRelationDesignation());
+    }
+
+    @Override
     public int hashCode() {
         return relationDesignation != null ? relationDesignation.hashCode() : 0;
     }
