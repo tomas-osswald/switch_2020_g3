@@ -2,10 +2,12 @@ package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,6 +40,20 @@ class FamilyTest {
     String relacao2 = "primo";
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
+
+    //Setup for getFamilyMemberRelationDTO List
+    FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
+    FamilyMember jorge = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
+    FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
+    FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), "Undefined Relation");
+    FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), "Undefined Relation");
+    FamilyMemberRelationDTO newMemberUndefinedRelation = new FamilyMemberRelationDTO(newMember.getName(), "Undefined Relation");
+    List<FamilyMemberRelationDTO> expectedDTOList = new ArrayList<>();
+    ArrayList<FamilyMember> expectedFamilyMembers = new ArrayList<>();
+    int familyOneID = 123;
+    String familyOneName = "Simpson";
+    Family family = new Family(familyOneName, familyOneID);
+
 
     @Test
     void AddFamilyMembers() {
@@ -299,12 +315,37 @@ class FamilyTest {
         assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city));
     }
 
+
+    /**
+     * Test expecting a correct conversion of the List of FamilyMembers of a Family, to FamilyMembersRelationDTO,
+     * and said List.
+     *
+     */
     @Test
-    void getFamilyMembersRelationDTOList_VerifyIfNoRelationReturnsExpectedString() {
-        FamilyMemberRelationDTO test = new FamilyMemberRelationDTO("José", "relação por definir");
-        String expected = "RelAção por definir";
-        String result = test.getRelationDesignation();
-        assertTrue(expected.equalsIgnoreCase(result));
+    void getFamilyMembersRelationDTOList() {
+        expectedDTOList.add(diogoDTO);
+        expectedDTOList.add(jorgeDTO);
+        expectedDTOList.add(newMemberUndefinedRelation);
+        expectedFamilyMembers.add(diogo);
+        expectedFamilyMembers.add(jorge);
+        expectedFamilyMembers.add(newMember);
+        family.addFamilyMemberArray(expectedFamilyMembers);
+        List<FamilyMemberRelationDTO> result = family.getFamilyMembersRelationDTOList();
+        assertEquals(expectedDTOList, result);
+        assertNotSame(expectedDTOList, result);
     }
+
+    /**
+     * Test to verify if an empty Family (i.e. with no Family Members) returns an empty List
+     * of FamilyMemberRelationDTO
+     */
+    @Test
+    void getFamilyMembersRelationDTOList_FamilyWithNoMembersReturningEmptyList() {
+        List<FamilyMemberRelationDTO> expected = expectedDTOList;
+        List<FamilyMemberRelationDTO> result = family.getFamilyMembersRelationDTOList();
+        assertEquals(expectedDTOList, result);
+        assertNotSame(expectedDTOList, result);
+    }
+
 
 }

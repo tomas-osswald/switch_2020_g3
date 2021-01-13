@@ -109,10 +109,11 @@ The main Classes involved are:
 - MemberProfileDTO
 - CCNumber
 
+**GetProfileInfo()**
 ```puml
 @startuml
 
-title Class Diagram
+title GetProfileInfo()
 
 class GetFamilyMemberProfileController {
   - Application app

@@ -35,7 +35,7 @@ class CreateFamilyCashAccountControllerTest {
     @Test
     void createFamilyCashAccountSuccessNoExistingAccount() {
         String ccNumber = "000000000ZZ4";
-        FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember admin = new FamilyMember(ccNumber,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
         Application app = new Application();

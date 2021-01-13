@@ -29,11 +29,25 @@ public class MemberProfileDTO {
         this.administrator = administrator;
     }
 
+    //Method for people without relations
+    public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.phoneNumbers = phoneNumbers;
+        this.emails = emails;
+        this.vatNumber = vatNumber;
+        this.address = address;
+        this.administrator = administrator;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MemberProfileDTO)) return false;
         MemberProfileDTO that = (MemberProfileDTO) o;
+        if(this.relation==null){
+            return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address);
+        }
         return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address) && relation.equals(that.relation);
     }
 

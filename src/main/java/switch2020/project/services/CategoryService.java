@@ -107,11 +107,20 @@ public class CategoryService {
         return maxID + 1;
     }
 
-
+    /**
+     * Method to retrieve the list of StandardCategories
+     * @return List of StandardCategory objects
+     */
     public List<StandardCategory> getCategories() {
         return this.categories;
     }
 
+    /**
+     * Method to create and return a Family's CategoryTree
+     * @param familyID ID of the target family
+     * @param familyService The Application's familyService
+     * @return CategoryTreeDTO Object
+     */
     public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
