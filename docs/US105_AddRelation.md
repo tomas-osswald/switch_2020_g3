@@ -296,11 +296,53 @@ We applied the following principles:
 
 Several cases where analyzed in order to test the creation of a Relation instance:
 
-**Test 1:** Test that it is 
+**Test 1:** Verification of an object with a valid state
+
+    @Test
+    void creatingRelation() {
+        String relationDesignation = "Mother";
+
+        Relation relation = new Relation(relationDesignation);
+
+        assertNotNull(relation);
+    }
+    
+**Test 2:** Verification attribute passed for instantiation of a Relation
+
+    @Test
+    void getRelationDesisgnation() {
+         String relationDesignation = "Father";
+         Relation relation = new Relation(relationDesignation);
+    
+         String expected = "Father";
+    
+         String result = relation.getRelationDesignation();
+    
+         assertEquals(result, expected);
+        }
+   
+    
+**Test 3:** Verification of an instantiation of an Relation objetct with invalid arguments (Null argument)
+
+    @Test
+    void instationOfARelationObjectWithInvalidArgumentsNull() {
+         String relationDesignation = null;
+    
+         assertThrows(Exception.class, () -> new Relation(relationDesignation));
+    }
+
+**Test 4:** Verification of an instantiation of an Relation objetct with invalid arguments (Empty argument)
+
+    @Test
+    void instationOfARelationObjectWithInvalidArgumentsEmpty() {
+         String relationDesignation = "";
+    
+         assertThrows(Exception.class, () -> new Relation(relationDesignation));
+    }
 
 To test the new functionality was use the following tests:
 
-**Test XXXXX:** Test that it is
+**Test 5:** Test that it is
 
 # 4. Implementation
 
@@ -311,6 +353,8 @@ To test the new functionality was use the following tests:
 **Selecting the specific family member to be attributed a Relation**
 
 **Creating and adding a Relation to a given Family Member**
+
+**Validating the arguments to create a Relation**
 
 # 5. Integration/Demonstration
 

@@ -9,7 +9,7 @@ class RelationTest {
 
 
     @Test
-    void CreatingRelation() {
+    void creatingRelation() {
         String relationDesignation = "Mother";
 
         Relation relation = new Relation(relationDesignation);
@@ -19,14 +19,15 @@ class RelationTest {
     }
 
     @Test
-    void GetRelationDesisgnation() {
+    void getRelationDesisgnation() {
         String relationDesignation = "Father";
-
         Relation relation = new Relation(relationDesignation);
 
         String expected = "Father";
 
-        assertEquals(expected, relation.getRelationDesignation());
+        String result = relation.getRelationDesignation();
+
+        assertEquals(result, expected);
     }
 
     @Test
@@ -35,6 +36,20 @@ class RelationTest {
         String expectedString = "uncle";
         Relation expected = new Relation(expectedString);
         assertEquals(uncle, expected);
+    }
+
+    @Test
+    void instationOfARelationObjectWithInvalidArgumentsNull() {
+        String relationDesignation = null;
+
+        assertThrows(Exception.class, () -> new Relation(relationDesignation));
+    }
+
+    @Test
+    void instationOfARelationObjectWithInvalidArgumentsEmpty() {
+        String relationDesignation = "";
+
+        assertThrows(Exception.class, () -> new Relation(relationDesignation));
     }
 }
 
