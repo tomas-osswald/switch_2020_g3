@@ -1,5 +1,6 @@
 package switch2020.project.model;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class EmailAddress {
@@ -36,5 +37,18 @@ public class EmailAddress {
 
         Pattern pat = Pattern.compile(emailRegex);
         return pat.matcher(email).matches();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EmailAddress)) return false;
+        EmailAddress that = (EmailAddress) o;
+        return Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }

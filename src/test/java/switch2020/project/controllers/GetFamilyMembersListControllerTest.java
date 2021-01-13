@@ -63,9 +63,9 @@ class GetFamilyMembersListControllerTest {
     boolean admin3 = true;
 
     //DTO Test Setup
-    FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
-    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
-    FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
+    FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
+    FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, admin3);
     int familyOneID = 123;
     String familyOneName = "Simpson";
     int familyTwoID = 456;
@@ -83,7 +83,7 @@ class GetFamilyMembersListControllerTest {
 
 
     @Test
-    void getFamilyMemberAndRelation() {
+    void getFamilyMemberAndRelationDTO_TestSuccessCase() {
             //Arrange
             familyMembers.add(diogo);
             familyMembers.add(jorge);
@@ -98,14 +98,13 @@ class GetFamilyMembersListControllerTest {
             GetFamilyMembersListController test = new GetFamilyMembersListController(app);
             app.getFamilyService().addFamily(family);
             //Act
-            List<FamilyMemberRelationDTO> result = test.getFamilyMemberAndRelation(family.getFamilyID(), manuelAdmin.getID());
+            boolean result = test.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
             //Assert
-            assertEquals(expected, result);
-            assertNotSame(expected, result);
+            assertTrue(result);
         }
 
         @Test
-        void getDTOList_TestWithNoAdministratorExpectingEmptyListAsReturn() {
+        void getDTOList_TestWithWrongFamilyIDExpectingEmptyListAsReturn() {
             //Arrange
             familyMembers.add(diogo);
             familyMembers.add(jorge);
@@ -117,11 +116,31 @@ class GetFamilyMembersListControllerTest {
             app.getFamilyService().addFamily(family);
             GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
             //Act
-            List<FamilyMemberRelationDTO> result = controller.getFamilyMemberAndRelation(family.getFamilyID(), diogo.getID());
+            boolean result = controller.getFamilyMembersAndRelation(3, diogo.getID());
             //Assert
-            assertEquals(expected, result);
-            assertNotSame(expected, result);
+            //As nothing has been added to expected both lists are Empty, as predicted
+           assertFalse(result);
         }
+
+    @Test
+    void getDTOList_TestWithNoAdministratorExpectingEmptyListAsReturn() {
+        //Arrange
+        familyMembers.add(diogo);
+        familyMembers.add(jorge);
+        familyMembers.add(manuelAdmin);
+        family.addFamilyMemberArray(familyMembers);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        Application app = new Application();
+        app.getFamilyService().addFamily(family);
+        expected.add(jorgeDTO);
+        GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
+        //Act
+        boolean result = controller.getFamilyMembersAndRelation(2, diogo.getID());
+        //Assert
+        //As nothing has been added to expected both lists are Empty, as predicted
+        assertFalse(result);
+    }
 
 
 }
