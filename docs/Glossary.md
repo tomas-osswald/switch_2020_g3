@@ -23,8 +23,11 @@
 |familyCashAccount | Attribute of Family class| CashAccount|
 | cashAccountID| Attribute of CashAccount class | Integer|
 |balance |Attribute of CashAccount class | Double|
-| | |
-| | |
+|Address | Address object|Class|
+| street|Attribute of Street class |String|
+| postalCode|Attribute of Street class |String|
+| local|Attribute of Street class |String|
+| city|Attribute of Street class |String|
 | | |
 | | |
 | | |
