@@ -478,7 +478,7 @@ class FamilyServiceTest {
         familyService.addFamily(family);
         family.addFamilyMember(diogo);
 
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
         //Act
         MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
         //Assert
