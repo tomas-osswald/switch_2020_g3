@@ -16,6 +16,7 @@ public class AddFamilyAdministratorController {
         this.application = application;
     }
 
+    /** Isto e para a UI | Penso que nao seja necessario para ja **/
     public List<FamilyWithoutAdministratorDTO> familiesWithoutAdministrator() {
         FamilyService familyService = application.getFamilyService();
 

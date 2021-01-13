@@ -60,13 +60,9 @@ class FamilyServiceTest {
     boolean admin3 = true;
 
     //DTO Test Setup
-<<<<<<< HEAD
-    FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
-    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
-=======
+
     FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
-    FamilyMember jorge = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
->>>>>>> master
+    FamilyMember jorge = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
     FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
     int familyOneID = 123;
     String familyOneName = "Simpson";
@@ -282,126 +278,76 @@ class FamilyServiceTest {
 
     @Test
     void NotAddFamilyMember_EmailPresent() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
-=======
+
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-<<<<<<< HEAD
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(id, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, relation2, 1));
-=======
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, relation2, 1));
->>>>>>> master
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, relation2, 1));
+
     }
 
     @Test
     void AddFamilyMember_EmailNotPresent() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
-=======
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-<<<<<<< HEAD
-        assertTrue(familias.addFamilyMember(id, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
-=======
-        assertTrue(familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
->>>>>>> master
+        assertTrue(familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
     }
 
     @Test
     void NotAddFamilyMember_FamilyNotExists() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
-=======
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         FamilyService familias = new FamilyService(ribeiro);
-<<<<<<< HEAD
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(id, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 2));
-=======
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 2));
->>>>>>> master
-
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 2));
     }
 
     @Test
     void AddFamilyMember_FamilyExists() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
-=======
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-<<<<<<< HEAD
-        assertTrue(familias.addFamilyMember(id, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
-=======
-        assertTrue(familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
->>>>>>> master
+        assertTrue(familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
     }
 
     @Test
     void NotAddFamilyMember_NotAdmin() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, false);
-=======
+
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, false);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-<<<<<<< HEAD
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(id, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
-=======
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
->>>>>>> master
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
     }
 
     @Test
     void AddFamilyMember_isAdmin() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
-=======
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, true);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-<<<<<<< HEAD
-        assertTrue(familias.addFamilyMember(id, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, 1));
-=======
-        assertTrue(familias.addFamilyMember(cc, cc, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, 1));
->>>>>>> master
+        assertTrue(familias.addFamilyMember(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, 1));
     }
 
     //Test related to validation before obtaining FamilyMemberRelationDTOList
     @Test
     void verifyAdministratorPermissionBeforeInvokingGetDTOList_TestWithAdministratorExpectingTrue() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
-=======
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
@@ -416,11 +362,7 @@ class FamilyServiceTest {
     //Test related to validation before obtaining FamilyMemberRelationDTOList
     @Test
     void verifyAdministratorPermissionBeforeInvokingGetDTOList_TestWithNoAdministratorExpectingFalse() {
-<<<<<<< HEAD
-        FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
-=======
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
->>>>>>> master
         int familyID = 1;
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
@@ -471,8 +413,10 @@ class FamilyServiceTest {
         assertNotSame(expected, result);
     }
 
-<<<<<<< HEAD
-    /*@Test
+
+    /*
+    @Test
+
     void listOfFamiliesWithoutFamilyAdministratorWithNoFamilies_NoFamilyHaveBeenAdded() {
         FamilyService familyService = new FamilyService();
 
@@ -481,10 +425,12 @@ class FamilyServiceTest {
         List<FamilyWithoutAdministratorDTO> result = familyService.familiesWithoutAdministrator();
 
         assertEquals(result, expected);
-    }*/
+    }
+    */
+
 
     @Test
-    void listOfFamiliesWithoutFamilyAdministratorWithFamiliesWithAndWithoutAdministrator() {
+    void listOfFamiliesWithoutFamilyAdministrator_WithFamiliesWithAndWithoutAdministrator() {
         FamilyService familyService = new FamilyService();
 
         familyService.addFamily(familyOneName); //id1
@@ -504,9 +450,9 @@ class FamilyServiceTest {
         assertEquals(result, expected);
     }
 
-    /*
     @Test
-    void listOfFamiliesWithoutFamilyAdministratorAllFamiliesHaveAdministrator() {
+    void listOfFamiliesWithoutFamilyAdministrator_AllFamiliesHaveAdministrator() {
+        /*
         FamilyService familyService = new FamilyService();
 
         familyService.addFamily(); //id1
@@ -522,21 +468,12 @@ class FamilyServiceTest {
         List<FamilyWithoutAdministratorDTO> result = familyService.familiesWithoutAdministrator();
 
         assertEquals(result, expected);
-    }*/
-=======
-    @Test
-    void listOfFamiliesWithoutFamilyAdministratorWithNoFamilies_AllFamiliesHaveAdministrator() {
-
+         */
     }
 
     @Test
-    void listOfFamiliesWithoutFamilyAdministratorWithFamiliesWithAndWithoutAdministrator() {
+    void listOfFamiliesWithoutFamilyAdministrator_WithNoFamilies_AllFamiliesHaveAdministrator() {
 
     }
 
-    @Test
-    void listOfFamiliesWithoutFamilyAdministratorAllFamiliesHaveAdministrator() {
-
-    }
->>>>>>> master
 }
