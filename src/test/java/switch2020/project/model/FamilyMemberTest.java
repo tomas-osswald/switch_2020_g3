@@ -1,6 +1,7 @@
 package switch2020.project.model;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.Date;
 
@@ -125,6 +126,17 @@ class FamilyMemberTest {
         String emailx = null;
         FamilyMember person = new FamilyMember(cc,name,date,numero,emailx,nif,rua,codPostal,local,city,relation);
         assertFalse(person.validateEmail(emailx));
+    }
+
+    /**
+     * Validate creation of FamilyMemberRelationDTO inside FamilyMemberClass
+     */
+    @Test
+    void createFamilyMemberRelationDTO_VerifyCorrectConversionOfAttributes() {
+        FamilyMember José = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Diogo", "relação por definir");
+        FamilyMemberRelationDTO result = José.createFamilyMemberRelationDTO();
+        assertEquals(expected, result);
     }
 
     /********* SEM EFEITO

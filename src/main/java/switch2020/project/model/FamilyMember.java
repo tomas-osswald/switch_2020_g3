@@ -1,5 +1,6 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -243,7 +244,7 @@ public class FamilyMember {
 
         //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
 
-        this.relation = null;
+       // this.relation = null;
 
         this.administrator = false;
     }
@@ -388,6 +389,19 @@ public class FamilyMember {
 
     public MemberProfileDTO createProfile() {
         return new MemberProfileDTO(emails, name, birthDate, phoneNumbers, vatNumber, address);
+    }
+
+    public FamilyMemberRelationDTO createFamilyMemberRelationDTO () {
+        FamilyMemberRelationDTO copyOfFamilyMember;
+        name = this.getName();
+        String relation;
+        if (this.relation == null){
+            relation = "relação por definir";
+        } else {
+            relation = this.relation.getRelationDesignation();
+        }
+        copyOfFamilyMember = new FamilyMemberRelationDTO(name, relation);
+        return copyOfFamilyMember;
     }
 
 }
