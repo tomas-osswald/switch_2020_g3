@@ -75,7 +75,7 @@ service -> family : getFamilyMembersAndRelation(familyID, familyAdministratorID)
 alt failure : Actor is not the Family Administrator. Returned List is empty.
 family --> service : (failure) - Empty List
 service --> controller : (failure) - Empty List
-controller --> UI : (failure) - Empty List
+controller --> UI : Failure (false)
 UI --> actor  : No family members and relationship found. User must be Family Administrator
 ref over family 
 getFamilyMembersAndRelation List.2
@@ -84,7 +84,7 @@ end ref
 else sucess
 family --> service : FamilyMemberAndRelationDTO List
 service --> controller : FamilyMemberAndRelationDTO List
-controller --> UI : FamilyMemberAndRelationDTO List
+controller --> UI : Success (True)
 UI --> actor : Show list of family members and their relation
 
 
