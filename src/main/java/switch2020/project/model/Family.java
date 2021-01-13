@@ -308,15 +308,7 @@ public class Family {
         return hasCashAccount;
     }
 
-    /**
-<<<<<<< HEAD
-     * This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
-     * it iterates through the familyMembers (getMembers()) obtaining the name and the relationDesignation,
-     * using them to create a new instance of the FamilyMemberRelationDTO object which is stored in the FMRList.
-     * Returns said List back to the Family Service.
-     * @return List of FamilyMembersRelationDTO
-     */
-    public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
+    /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember familyMembers : familyMembers) {
             String name = familyMembers.getName();
@@ -330,7 +322,23 @@ public class Family {
             DTOList.add(newMember);
             }
         return DTOList;
+        } */
+
+    /** This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
+     * it iterates through the familyMembers and each one of them will create a copy of himself, with
+     * (FamilyMemberRelationDTO) the name and the relationDesignation. Every object is stored in the FMRList.
+     * Returns said List back to the Family Service.
+     * @return List of FamilyMembersRelationDTO
+     */
+    // Changes to method IOT get a DTO directly from the Familymember
+        public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember familyMembers : familyMembers) {
+            FamilyMemberRelationDTO newMember = familyMembers.createFamilyMemberRelationDTO();
+            DTOList.add(newMember);
         }
+        return DTOList;
+    }
 
 
      /** Method to verify if a Family has an administrator

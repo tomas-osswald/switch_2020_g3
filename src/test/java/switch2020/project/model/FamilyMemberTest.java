@@ -47,6 +47,7 @@ class FamilyMemberTest {
     //Setup for FamilyMemberDTO
     FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city, relation, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
+    FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
 
     @Test
     public void createFamilyMember() {
@@ -151,17 +152,6 @@ class FamilyMemberTest {
         String emailx = null;
         FamilyMember person = new FamilyMember(cc,name,date,numero,emailx,nif,rua,codPostal,local,city,relation);
         assertFalse(person.validateEmail(emailx));
-    }
-
-    /**
-     * Validate creation of FamilyMemberRelationDTO inside FamilyMemberClass
-     */
-    @Test
-    void createFamilyMemberRelationDTO_VerifyCorrectConversionOfAttributes() {
-        FamilyMember José = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Diogo", "relação por definir");
-        FamilyMemberRelationDTO result = José.createFamilyMemberRelationDTO();
-        assertEquals(expected, result);
     }
 
     /********* SEM EFEITO
@@ -294,5 +284,44 @@ class FamilyMemberTest {
         //Assert
         assertNotEquals(expected, result);
     }
+
+
+    /**
+     * Validate creation of FamilyMemberRelationDTO inside FamilyMemberClass
+     */
+    @Test
+    void createFamilyMemberRelationDTO_VerifyCorrectConversionOfAttributes() {
+        FamilyMember José = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Diogo", "Undefined Relation");
+        FamilyMemberRelationDTO result = José.createFamilyMemberRelationDTO();
+        assertEquals(expected, result);
+    }
+
+    ////Teste para conversão de FamilyMember que não tem atributo relation. Esperado relação "Undefined relation".
+    @Test
+    void createFamilyMemberRelationDTO_VerifyIfNoRelationReturnsUndefinedRelationString() {
+        FamilyMemberRelationDTO test = new FamilyMemberRelationDTO("José", "Undefined relation");
+        String expected = "UndEfIned relatiOn";
+        String result = test.getRelationDesignation();
+        assertTrue(expected.equalsIgnoreCase(result));
+    }
+
+    //Teste para conversão de FamilyMember que é Admin. Esperado relação "Self".
+    @Test
+    void TestConversionToFamilyMemberDTO_VerifyIfAdministratorDesignationReturns_Self() {
+        newMember.makeAdmin();
+        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Tony", "Self");
+        FamilyMemberRelationDTO result = newMember.createFamilyMemberRelationDTO();
+        assertEquals(expected.getRelationDesignation(), result.getRelationDesignation());
+    }
+
+    //Teste para conversão de FamilyMember com relation definida em DTO.
+    @Test
+    void TestConversionToFamilyMemberDTO_ExpectingSuccess() {
+        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Tony", "primo");
+        FamilyMemberRelationDTO result = jorge.createFamilyMemberRelationDTO();
+        assertEquals(expected.getRelationDesignation(), result.getRelationDesignation());
+    }
+
 
 }
