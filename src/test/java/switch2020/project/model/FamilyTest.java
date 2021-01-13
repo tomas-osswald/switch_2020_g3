@@ -2,6 +2,7 @@ package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.utils.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -307,4 +308,13 @@ class FamilyTest {
         familia.addFamilyMember(pessoa1);
         assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation));
     }
+
+    @Test
+    void getFamilyMembersRelationDTOList_VerifyIfNoRelationReturnsExpectedString() {
+        FamilyMemberRelationDTO test = new FamilyMemberRelationDTO("José", "relação por definir");
+        String expected = "RelAção por definir";
+        String result = test.getRelationDesignation();
+        assertTrue(expected.equalsIgnoreCase(result));
+    }
+
 }

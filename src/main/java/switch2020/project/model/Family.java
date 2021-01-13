@@ -1,6 +1,8 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+
 
 import java.util.*;
 
@@ -112,10 +114,11 @@ public class Family {
      * @return boolean
      */
 
+
     public boolean isAdmin(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.getFamilyMemberID().equals(ccNumber))
-                return familyMember.isAdmin();
+                return familyMember.isAdministrator();
         }
         return false;
     }
@@ -306,13 +309,37 @@ public class Family {
     }
 
     /**
-     * Method to verify if a Family has an administrator
+<<<<<<< HEAD
+     * This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
+     * it iterates through the familyMembers (getMembers()) obtaining the name and the relationDesignation,
+     * using them to create a new instance of the FamilyMemberRelationDTO object which is stored in the FMRList.
+     * Returns said List back to the Family Service.
+     * @return List of FamilyMembersRelationDTO
+     */
+    public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember familyMembers : familyMembers) {
+            String name = familyMembers.getName();
+            String relation;
+            if (familyMembers.getRelation().equals(null)){ // Testar se apontador == funciona.
+               relation = "relação por definir";
+            } else {
+               relation = familyMembers.getRelation();
+            }
+            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
+            DTOList.add(newMember);
+            }
+        return DTOList;
+        }
+
+
+     /** Method to verify if a Family has an administrator
      * @return boolean
      */
 
     public boolean hasAdministrator () {
         for (FamilyMember familyMember : familyMembers) {
-            if(familyMember.isAdmin())
+            if(familyMember.isAdministrator())
                 return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -241,7 +242,9 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = new Relation(null);
+        //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
+
+       // this.relation = null;
 
         this.administrator = false;
     }
@@ -316,7 +319,11 @@ public class FamilyMember {
     }
 
     // Business Methods
+    //Inserted lines 321 and 322 to run test and accept null relation
     public String getRelation() {
+        if (this.relation == null) {
+            return null;
+        }
         return relation.getRelationDesignation();
     }
 
@@ -338,7 +345,7 @@ public class FamilyMember {
      * @return boolean
      */
 
-    public boolean isAdmin() {
+    public boolean isAdministrator() {
         return this.administrator;
     }
 
@@ -382,6 +389,20 @@ public class FamilyMember {
 
     public MemberProfileDTO createProfile() {
         return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+    }
+
+
+    public FamilyMemberRelationDTO createFamilyMemberRelationDTO () {
+        FamilyMemberRelationDTO copyOfFamilyMember;
+        name = this.getName();
+        String relation;
+        if (this.relation == null){
+            relation = "relação por definir";
+        } else {
+            relation = this.relation.getRelationDesignation();
+        }
+        copyOfFamilyMember = new FamilyMemberRelationDTO(name, relation);
+        return copyOfFamilyMember;
     }
 }
 

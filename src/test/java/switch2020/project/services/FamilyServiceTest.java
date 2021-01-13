@@ -62,11 +62,24 @@ class FamilyServiceTest {
     Relation relation3 = new Relation(relacao3);
     boolean admin3 = true;
 
+    //Added 4th FamilyMember to test no relation attribution
+    String id4 = "000000000ZZ4";
+    String name4 = "TonyZe";
+    Date date4 = new Date(1920, 8, 26);
+    int numero4 = 919939998;
+    String email4 = "tonyze@gmail.com";
+    int nif4 = 212122000;
+    String rua4 = "Rua";
+    String codPostal4 = "4444-556";
+    String local4 = "Gaia";
+    String city4 = "Porto";
+
     //DTO Test Setup
 
     FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, relation, admin);
     FamilyMember jorge = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, admin2);
     FamilyMember manuelAdmin = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, relation3, admin3);
+    FamilyMember noRelationMember = new FamilyMember(id4, name4, date4, numero4, email4, nif4, rua4, codPostal4, local4, city4);
     int familyOneID = 123;
     String familyOneName = "Simpson";
     int familyTwoID = 456;
@@ -408,7 +421,7 @@ class FamilyServiceTest {
         expected.add(manuelAdminDTO);
         FamilyService familyService = new FamilyService(family);
         //Act
-        List<FamilyMemberRelationDTO> result = familyService.getDTOList(family.getFamilyID(), manuelAdmin.getID());
+        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), manuelAdmin.getID());
         //Assert
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -428,7 +441,27 @@ class FamilyServiceTest {
         expected.add(manuelAdminDTO);
         FamilyService familyService = new FamilyService(family);
         //Act
-        List<FamilyMemberRelationDTO> result = familyService.getDTOList(family.getFamilyID(), jorge.getID());
+        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), jorge.getID());
+        //Assert
+        assertNotEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+    @Test
+    void getDTOList_TestWithFamilyMemberWithNoRelationPreviouslyAttributedExpectingDTOToConvertToRelationNotDefined() {
+        //Arrange
+        familyMembers.add(diogo);
+        familyMembers.add(jorge);
+        familyMembers.add(noRelationMember);
+        family.addFamilyMemberArray(familyMembers);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        expected.add(diogoDTO);
+        expected.add(jorgeDTO);
+        expected.add(manuelAdminDTO);
+        FamilyService familyService = new FamilyService(family);
+        //Act
+        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), noRelationMember.getID());
         //Assert
         assertNotEquals(expected, result);
         assertNotSame(expected, result);
