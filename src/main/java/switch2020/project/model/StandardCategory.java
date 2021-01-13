@@ -68,4 +68,17 @@ public class StandardCategory {
         return true;
     }
 
+    /**
+     * Method that compares a given ID is equal to the ID of this category
+     * @param categoryID int the categoryID you want to compare
+     * @return true if the IDs match, otherwise false
+     */
+    public boolean isIDOfThisCategory(int categoryID){
+        return categoryID == this.categoryID;
+    }
+
+    public boolean isDesignationOfThisCategory(String categoryName){
+        return this.categoryName.compareToIgnoreCase(categoryName) == 0;
+    }
+
 }
