@@ -2,7 +2,7 @@
 =======================================
 
 ```puml
-
+@startuml
 title Class Diagram
 
 class AddEmailController {
@@ -228,4 +228,5 @@ FamilyMember --> Relation
 FamilyMember --> MemberProfile
 FamilyMember --> EmailAddress
 FamilyMember --> VatNumber
+@enduml
 ```
