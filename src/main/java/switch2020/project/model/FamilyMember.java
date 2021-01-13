@@ -381,7 +381,7 @@ public class FamilyMember {
     }
 
     public MemberProfileDTO createProfile() {
-        return new MemberProfileDTO(emails, name, birthDate, phoneNumbers, vatNumber, address);
+        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
     }
 }
 

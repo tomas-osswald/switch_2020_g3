@@ -9,7 +9,8 @@ import switch2020.project.services.FamilyService;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class addFamilyMemberTest {

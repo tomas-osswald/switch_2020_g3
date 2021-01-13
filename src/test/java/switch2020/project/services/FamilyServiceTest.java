@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
+import switch2020.project.model.*;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.MemberProfileDTO;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ class FamilyServiceTest {
     String relacao = "filho";
     Relation relation = new Relation(relacao);
     boolean admin = false;
+
 
     //Added 2nd FamilyMember to test
     String cc2 = "000000000ZZ4";
@@ -425,6 +428,59 @@ class FamilyServiceTest {
         //Assert
         assertNotEquals(expected, result);
         assertNotSame(expected, result);
+    }
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        //Arrange
+        Address address = new Address(rua, codPostal, local, city);
+
+        EmailAddress emailAddress = new EmailAddress(email);
+        List<EmailAddress> emails = new ArrayList<>();
+        emails.add(emailAddress);
+
+        PhoneNumber phoneNumber = new PhoneNumber(numero);
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(phoneNumber);
+
+        VatNumber vatNumber = new VatNumber(nif);
+
+        FamilyService familyService = new FamilyService();
+
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+        //Act
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
+        //Assert
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
+        //Arrange
+        Address address = new Address(rua, codPostal, local, city);
+
+        EmailAddress emailAddress = new EmailAddress(email);
+        List<EmailAddress> emails = new ArrayList<>();
+        emails.add(emailAddress);
+
+        PhoneNumber phoneNumber = new PhoneNumber(numero);
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(phoneNumber);
+
+        VatNumber vatNumber = new VatNumber(nif);
+
+        FamilyService familyService = new FamilyService();
+
+        familyService.addFamily(family);
+        family.addFamilyMember(jorge);
+
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+        //Act
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, jorge.getID());
+        //Assert
+        assertNotEquals(expected, result);
     }
 
     /*@Test
