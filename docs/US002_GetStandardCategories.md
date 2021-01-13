@@ -5,28 +5,47 @@
 
 *As a system manager, I want to get the standard categories tree.*
 
-**Demo1** As a system manager, I want to ...
+**Demo1** As a system manager, I want to get
 
-- Demo1.1. show standard categories tree from new application
+- Demo1.1. The standard categories tree from new application
 
-- Demo1.2. show standard categories tree from categories list that has new added categories
+- Demo1.2. The standard categories tree from categories list that has new added categories
 
-We interpreted this requirement as the function of the system manager to get the standard categories. The standard
+We interpreted this requirement as the function of the system manager to get the standard categories tree. The standard
 categories tree must show the "built-in" categories of the application.
+The standard categories tree must present the standard categories in a tree view, i. e., present standard categories in a branch-leave representation.
+
+### System Sequence Diagram
+
+```` puml
+    
+    autonumber
+    title getStandardCategoriesTree SSD
+    actor "System Manager" as systemManager
+    participant "System" as system
+    
+    activate systemManager
+    systemManager -> system: get the Standard Categories Tree
+    activate system
+    system --> systemManager: present Tree
+    deactivate system
+    deactivate systemManager
+    
+ @endpuml
+````
 
 # 2. Analysis
 
-In order to fulfill this requirement, we need two data pieces:
+In order to fulfill this requirement, we need one data piece:
 
-- categoryName
+- StandardCategory
 
-For this sprint, the system manager only gets the standard categories from the categories list.
+For this sprint, the system manager only gets the standard categories tree from the application.
 
 # 3. Design
-
-The main process to fulfill this requirement is to request(infer) in the UI for the standard categories.
-This is achieved through the UI, asking the controller to the application for the standard categories.
-The application then returns a list object containing the categories identified as standard
+In order to fullfill this requirement, the actor requests the system for a Tree view of the standard categories.
+The application has in its construction several standard categories, that can have also branches and leaves. That is the "factory" state of the application will have categories that cannot be deleted or edited.
+Outside the UI layer our actor requests a tree view of the standard categories and  
 
 ### Sequence diagram
 ````puml
@@ -40,23 +59,23 @@ participant ": CategoryService" as service
 participant ": Categories" as list
 note left of systemManager:  get the list of \nstandard categories
 activate systemManager
-systemManager -> ui : request standard categories
+systemManager -> ui : request standard categories tree
 activate ui
-ui -> controller : getStandardCategories()
+ui -> controller : getStandardCategoriesTree()
 activate controller
 controller -> app : getCategoryService()
 activate app
 activate service
 app -> controller : CategoryService
 deactivate app
-controller -> service : getCategories()
+controller -> service : getStandardCategories()
 service -> service : createStandardCategoriesList()
 activate category
 loop for each Category in Categories List
 service -> category : getStandardCategories()
 alt true
 category -> service : List<StandardCategory>
-service -> app : standardCategories
+service -> app : standardCategoriesTree
 deactivate service
 deactivate category
 end
@@ -64,9 +83,9 @@ end
 
 app --> controller : standardCategoriesList
 deactivate app
-controller --> ui :StandardCategoriesList
+controller --> ui :StandardCategoriesTree
 deactivate controller
-ui --> systemManager : present standard categories list
+ui --> systemManager : present standard categories tree
 deactivate ui
 deactivate systemManager
 @enduml
@@ -74,8 +93,9 @@ deactivate systemManager
 
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the FFMApplication object, which handles the Category Service Object.
-Category Service has the responsibility of managing the categories list.
+The GetStandardCatergoriesTreeController invokes the Application object, that has a Category Service object.
+The Application returns the CategoryService that has all the Standard Categories.
+The CategoryService creates a CategoryMap object. (....)
 
 ## 3.2. Class Diagram
 
@@ -126,23 +146,20 @@ We also applied the SOLID SRP (Single Responsabity Principle) in each of the cla
 
 # 4. Implementation
 
-To get the Standard Categories List we design and implement a method that iterates over the elements of the general list of categories.
-We return the Standard Categories List in form of a DTO (Data Transfer Object) because we get the categories that pass the verification if they are Standard, i.e. if the attribute standardCategory is true we add that Category to the DTO Object (that is a List).
-
-# 4.1. As shown in the sequence diagram above, first we 
-*Recomenda-se que organize este conteúdo por subsecções.*
+From a request the Category Service class creates a new CategoryMap object that holds each Category object parent category name (if exists) and its own category name.
+With the above object it is possible to obtain a tree view representation of the categories in branch-leave style.
 
 # 5. Integration/Demonstration
 
-*Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as
-restantes funcionalidades do sistema.*
-
-At this moment, User Stories that depend on the development of this one have not been developed, so the integration of this one with the rest of the system's features cannot be tested / proven yet.
+The design and development of this user story is important for the application transactions because client requirements want to have the possibility to analyse
+monthly and annual spending per category and/or class of categories.
+[US110](US110_GetCategoryTree.md) use an implementation of this user story.
 
 # 6. Observations
 
-*Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por
-exemplo, outras alternativas e ou trabalhos futuros relacionados.*
+In future User Stories we need to change something in order to group transactions per category and/or class(group) of categories.
+Also the client requirements state "class of categories" as a group or a specific class and that may be only clarified by the product owner in future sprint reviews.
+
 
 
 

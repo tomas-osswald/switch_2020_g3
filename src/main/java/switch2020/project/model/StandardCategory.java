@@ -38,7 +38,7 @@ public class StandardCategory {
         if(this.parentCategory != null){
             return this.parentCategory.getName();
         }
-        return "-1";
+        return "root";
     }
 
     public int getCategoryID() {
@@ -47,6 +47,13 @@ public class StandardCategory {
 
     public String getName() {
         return this.categoryName;
+    }
+
+    public boolean isChildOf(StandardCategory standardCategory){
+        if (this.getParentName() != null){
+            return standardCategory.equals(this.parentCategory);
+        }
+        else return false;
     }
 
     //Validation Methods

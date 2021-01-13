@@ -66,7 +66,6 @@ public class CategoryTreeDTO {
         return categoriesNames;
     }
 
-
     public void printChildren(CustomCategory category) {
         for (CustomCategory childCategory : customCategories) {
             if (category.getCategoryID() == childCategory.getParentID()) {
@@ -75,6 +74,5 @@ public class CategoryTreeDTO {
             }
         }
     }
-
 
 }
