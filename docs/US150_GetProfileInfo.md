@@ -111,8 +111,80 @@ The main Classes involved are:
 - Family
 - FamilyMember
 - MemberProfileDTO
+- CCNumber
 
-![Class Diagram](https://i.imgur.com/aIvHqZg.png)
+```puml
+@startuml
+
+title Class Diagram
+
+class GetFamilyMemberProfileController {
+  - Application app
+  + getMemberProfile()
+}
+
+class Application {
+  - FamilyService familyService
+  + getFamilyService()
+}
+
+class FamilyService {
+  - List<Family> families
+  + getFamily()
+  + getFamilyMemberProfile()
+}
+
+class Family {
+  - int familyID
+  - List<FamilyMember> familyMembers
+  + getFamilyMember()
+  
+}
+
+class FamilyMember {
+  - CCNumber ccNumber;
+  - String name;
+  - Date birthDate;
+  - List<PhoneNumber> phoneNumbers = new ArrayList();
+  - List<EmailAddress> emails = new ArrayList<>();
+  - VatNumber vatNumber;
+  - Address address;
+  - Relation relation;
+  - boolean administrator;
+  # getFamilyMemberID()
+  + createProfile()
+  
+}
+
+class CCNumber {
+  - String ccNumber
+  + getCcNumber()
+  
+}
+
+class MemberProfileDTO {
+  - String name
+  - Date birthDate
+  - List<PhoneNumber> phoneNumbers
+  - List<EmailAddress> emails
+  - VatNumber vatNumber
+  - Address address
+  - Relation relation
+  - boolean administrator
+  + MemberProfileDTO()
+  
+}
+
+GetFamilyMemberProfileController --> Application
+Application --> FamilyService
+FamilyService --> Family
+Family --> FamilyMember
+FamilyMember --> CCNumber
+FamilyMember --> MemberProfileDTO
+
+
+@enduml
+```
 
 ## 3.3. Applied Patterns
 We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern.
