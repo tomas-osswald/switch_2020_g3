@@ -268,7 +268,7 @@ public class Family {
             throw new IllegalArgumentException("Vat already exists in the Family");
         }
     }
-
+    
     public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
         boolean administrator = true;
         if(!checkIfVatExists(vat)){
