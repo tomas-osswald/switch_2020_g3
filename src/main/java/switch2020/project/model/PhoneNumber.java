@@ -1,6 +1,7 @@
 package switch2020.project.model;
 
 import java.util.regex.Pattern;
+import java.util.Objects;
 
 public class PhoneNumber {
 
@@ -29,4 +30,16 @@ public class PhoneNumber {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PhoneNumber)) return false;
+        PhoneNumber that = (PhoneNumber) o;
+        return phoneNumber == that.phoneNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phoneNumber);
+    }
 }

@@ -14,10 +14,10 @@ public class AddFamilyMemberController {
         this.FFMapp = app;
     }
 
-    public boolean addFamilyMember(String selfCCNumber,String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, Relation relationship, int familyID){
+    public boolean addFamilyMember(String selfCCNumber,String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID){
         try {
             FamilyService familyService = this.FFMapp.getFamilyService();
-            familyService.addFamilyMember(selfCCNumber,cc,name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, familyID);
+            familyService.addFamilyMember(selfCCNumber,cc,name, birthDate, phone, email, vat, street, codPostal, local, city, familyID);
             return true;
         } catch(IllegalArgumentException e) {
             return false;

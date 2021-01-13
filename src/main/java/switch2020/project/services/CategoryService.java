@@ -1,7 +1,7 @@
 package switch2020.project.services;
 
-import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
+import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ public class CategoryService {
 
     /**
      * This method returns a StandardCategory of a given ID
+     *
      * @param categoryID ID of the StandardCategory to be returned
      * @return chosen StandardCategory, if the StandardCategory is not found returns null;
      */
@@ -106,11 +107,20 @@ public class CategoryService {
         return maxID + 1;
     }
 
-
+    /**
+     * Method to retrieve the list of StandardCategories
+     * @return List of StandardCategory objects
+     */
     public List<StandardCategory> getCategories() {
         return this.categories;
     }
 
+    /**
+     * Method to create and return a Family's CategoryTree
+     * @param familyID ID of the target family
+     * @param familyService The Application's familyService
+     * @return CategoryTreeDTO Object
+     */
     public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;

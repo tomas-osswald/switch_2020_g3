@@ -62,7 +62,7 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 - Relation Designation (Relationship name);
 - Family ID (User's family ID).
 
-From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the app. 
+From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the Family. 
 
 As we did not get a clear answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
 
@@ -96,7 +96,6 @@ Family -down-> FamilyMember : \n has members
 FamilyMember -down-> Relation : has relation
 FamilyMember --> FamilyMember : administrator can add relation to family members
 (FamilyMember, FamilyMember) <.. Relation 
-
 ```
 
 # 3. Design
