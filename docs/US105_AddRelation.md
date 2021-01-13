@@ -284,17 +284,13 @@ We applied the following principles:
         
     - Pure Fabrication:
         - In this user story the Application class was used, which does not represent a business domain concept. It was created to be able to store Families; 
-        
-    - Low coupling:
-        - ;
     
     - High cohesion:
-        - ;
+        - The creation of the Relation class to store the information of a relationship designation, allows this class to be changed, maintained and reused without compromising the other classes.
         
-    
 - SOLID:
     - Single-responsibility principle:
-        - ;
+        - this pattern was used in the Relation class, in which it only presents a responsibility.
 
 
 ## 3.4. Tests
