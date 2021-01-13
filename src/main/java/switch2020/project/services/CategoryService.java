@@ -1,7 +1,7 @@
 package switch2020.project.services;
 
-import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.model.StandardCategory;
+import switch2020.project.utils.CategoryTreeDTO;
 import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ public class CategoryService {
 
     /**
      * This method returns a StandardCategory of a given ID
+     *
      * @param categoryID ID of the StandardCategory to be returned
      * @return chosen StandardCategory, if the StandardCategory is not found returns null;
      */

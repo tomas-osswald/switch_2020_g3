@@ -17,6 +17,7 @@ public class CCNumber {
         return ccNumber;
     }
 
+    //Adaptado de https://www.autenticacao.gov.pt/documents/
     private boolean validateNumber(String ccNumber) {
         int sum = 0;
         boolean secondDigit = false;
