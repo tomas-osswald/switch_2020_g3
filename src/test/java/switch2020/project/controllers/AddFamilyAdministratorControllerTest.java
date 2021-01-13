@@ -51,9 +51,25 @@ class AddFamilyAdministratorControllerTest {
 
     }*/
 
-    @Test
-    void addFamilyAdministrator() {
+    /*@Test
+    void addFamilyAdministratorTrue() {
+        Application application = new Application();
 
+        AddFamilyController controller = new AddFamilyController(application);
+        controller.addFamily(); // id1
+
+        AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(application);
+        assertTrue(addFamilyAdministratorController.addFamilyAdministrator());
     }
 
+    @Test
+    void addFamilyAdministratorFalseAnExcepctionWasThrowInInstationOfObject() {
+        Application application = new Application();
+
+        AddFamilyController controller = new AddFamilyController(application);
+        controller.addFamily(); // id1
+
+        AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(application);
+        assertFalse(addFamilyAdministratorController.addFamilyAdministrator());
+    }*/
 }
