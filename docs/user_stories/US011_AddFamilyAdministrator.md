@@ -301,18 +301,70 @@ Family -down-> FamilyMember : has list of
 
 ## 3.3. Applied Patterns
 
-*Nesta secção deve apresentar e explicar quais e como foram os padrões de design aplicados e as melhores práticas*
+We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
+We also used the SOLID SRP principle.
 
-## 3.4. Tests
-*Nesta secção deve sistematizar como os testes foram concebidos para permitir uma correta aferição da satisfação dos requisitos.*
+#####Test 1: Verify that a vatNumber is accepted -> Class VatNumber
+- **1.1.** VatNumber is not created, and an error is thrown because **vatNumber** is null
+- **1.2.** VatNumber is not created, and an error is thrown because **vatNumber** is incorrect
+- **1.3.** VatNumber is created because **vatNumber** is correct
 
-**Teste 1:** Verificar que não é possível criar uma instância da classe Exemplo com valores nulos.
+#####Test 2: Verify that an address is accepted -> Class Address
+- **2.1.** Address is not created, and an error is thrown because **street** is null
+- **2.2.** Address is not created, and an error is thrown because **street** is empty
+- **2.3.** Address is not created, and an error is thrown because **street** is blank
+- **2.4.** Address is created because **street** is correct
+- **2.5.** Address is not created, and an error is thrown because **postalCode** is null
+- **2.6.** Address is not created, and an error is thrown because **postalCode** is empty
+- **2.7.** Address is not created, and an error is thrown because **postalCode** is blank
+- **2.8.** Address is not created, and an error is thrown because **postalCode** is incorrect
+- **2.9.** Address is created because **postalCode** is correct
+- **2.10.** Address is not created, and an error is thrown because **local** is null
+- **2.11.** Address is not created, and an error is thrown because **local** is empty
+- **2.12.** Address is not created, and an error is thrown because **local** is blank
+- **2.13.** Address is created because **local** is correct
+- **2.14.** Address is not created, and an error is thrown because **city** is null
+- **2.15.** Address is not created, and an error is thrown because **city** is empty
+- **2.16.** Address is not created, and an error is thrown because **city** is blank
+- **2.17.** Address is created because **city** is correct
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Exemplo instance = new Exemplo(null, null);
-	}
+#####Test 3: Verify that a phone is accepted -> Class PhoneNumber and FamilyMember
+- **3.1.** Phone is not created, and an error is thrown because **phoneNumber** is null
+- **3.2.** Phone is not created, and an error is thrown because **phoneNumber** is incorrect
+- **3.3.** Phone is created because **vatNumber** is correct
+- **3.4.** With FamilyMember constructor from **FamilyAdministrator**, the constructor is executed without phone being created when **phone** is null
 
+#####Test 4: Verify that an email is accepted -> Class Email and FamilyMember
+- **4.1.** All email tests are in **US151**
+- **4.2.** With FamilyMember constructor from **FamilyAdministrator**, the constructor is executed without email being created when **email** is null
+
+#####Test 5: Verify that a birthDate is accepted -> Class FamilyMember
+- **5.1.** With FamilyMember constructor from **SystemManager**, BirthDate is not created, and an error is thrown because **birthDate** is null
+- **5.2.** With FamilyMember constructor from **FamilyAdministrator**, BirthDate is not created, and an error is thrown because **birthDate** is null
+- **5.3.** With FamilyMember constructor from **SystemManager**, BirthDate is created because **birthDate** is correct
+- **5.4.** With FamilyMember constructor from **FamilyAdministrator**, BirthDate is created because **birthDate** is correct
+
+#####Test 6: Verify that a Name is accepted -> Class FamilyMember
+- **6.1.** With FamilyMember constructor from **SystemManager**, name is not created, and an error is thrown because **name** is null
+- **6.2.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is null
+- **6.3.** With FamilyMember constructor from **SystemManager**, name is not created, and an error is thrown because **name** is empty
+- **6.4.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is empty
+- **6.5.** With FamilyMember constructor from **SystemManager**, name is not created, and an error is thrown because **name** is blank
+- **6.6.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is blank
+- **6.7.** With FamilyMember constructor from **SystemManager**, name is created because **name** is correct
+- **6.8.** With FamilyMember constructor from **FamilyAdministrator**, name is created because **name** is correct
+
+#####Test 7: Verify if the VatNumber already belongs to a familyMember from his family -> Class Family
+- **7.1** FamilyMember is not created and not added to the family, and an error is thrown because the **vatNumber** already exists in this family
+- **7.2** FamilyMember is created and added to the family because the **vatNumber** does not exists in this family
+
+#####Test 8: Verify if the email already exists in the system -> Class FamilyService
+- **8.1** FamilyMember is not created and not added to the family, and an error is thrown because the **email** already exists in the Application
+- **8.2** FamilyMember is created and added to the family because the **email** does not exists in the Application
+- **8.3** FamilyMember is not created and not added to the family, and an error is thrown because the **Family** does not exists in the Application
+- **8.4** FamilyMember is created and added to the family because the **Family** exists in the Application
+- **8.5** FamilyMember is not created and not added to the family, and an error is thrown because the user is not **admin**
+- **8.6** FamilyMember is created and added to the family because the user is **admin**
 # 4. Implementation
 
 *Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
