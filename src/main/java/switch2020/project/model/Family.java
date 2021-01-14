@@ -115,9 +115,9 @@ public class Family {
      */
 
 
-    public boolean isAdmin(String ccNumber) {
+    public boolean verifyAdministrator(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID().equals(ccNumber))
+            if (familyMember.compareID(ccNumber))
                 return familyMember.isAdministrator();
         }
         return false;
@@ -171,7 +171,7 @@ public class Family {
      */
 
     public boolean addRelationToFamilyMember(String ccNumber, String relationDeignation) {
-        FamilyMember familyMember = getFamilyMember(ccNumber);
+        FamilyMember familyMember = getFamilyMemberByID(ccNumber);
 
         familyMember.addRelation(relationDeignation);
 
@@ -185,9 +185,9 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    public FamilyMember getFamilyMember(String ccNumber) {
+    public FamilyMember getFamilyMemberByID(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID().equals(ccNumber))
+            if (familyMember.compareID(ccNumber))
                 return familyMember;
         }
         // If given ID is not present, a exception is thrown
@@ -224,16 +224,18 @@ public class Family {
         return this.familyMembers.size();
     }
 
+
     /**
      * Method return the number of Family Members in List -> relationsDesignations
      *
      * @return number of relation designations
      */
-
+     /*
     public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
 
     }
+    */
 
     @Override
     public boolean equals(Object other) {

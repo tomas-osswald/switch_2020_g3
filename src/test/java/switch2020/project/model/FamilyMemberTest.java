@@ -314,12 +314,21 @@ class FamilyMemberTest {
      */
     @Test
     void TestConversionToFamilyMemberDTO_ExpectingSuccess() {
-        Relation relation = new Relation("primo");
-        jorge.addRelation(relation);
+        String relationDesignation = "primo";
+        jorge.addRelation(relationDesignation);
         FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Tony", "primo");
         FamilyMemberRelationDTO result = jorge.createFamilyMemberRelationDTO();
         assertEquals(expected.getRelationDesignation(), result.getRelationDesignation());
     }
 
+    @Test
+    void familyMemberAlreadyHasADesignation() {
+        String relationDesignation1 = "Mother";
+        String relationDesignation2 = "Father";
 
+        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        familyMember1.addRelation(relationDesignation1);
+
+        assertThrows(Exception.class, () -> familyMember1.addRelation(relationDesignation2));
+    }
 }

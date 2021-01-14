@@ -430,6 +430,10 @@ public class FamilyMember {
         copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
         return copyOfFamilyMemberDTO;
     }
+
+    protected boolean compareID(String ccNumber) {
+        return ccNumber.equals(this.ccNumber.getCcNumber());
+    }
 }
 
 

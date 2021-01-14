@@ -341,19 +341,114 @@ Several cases where analyzed in order to test the creation of a Relation instanc
 
 To test the new functionality was use the following tests:
 
-**Test 5:** Test that it is
+**Test 5:** Test at controller to assert a success Case
+
+    @Test
+    void AddRelationTrue() {
+        String relationDesignation = "Father";
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+
+        assertTrue(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+    }
+    
+**Test 6:** Test at controller to assert an insuccess case (Is not Administrator)
+
+    @Test
+    void AddRelationFalseNoAdministrator() {
+        String relationDesignation = "Father";
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+
+        assertFalse(addRelationController.createRelation(cc2, cc3, relationDesignation, familyOneIDGenerated));
+    }
+    
+**Test 7:** Test at controller to assert an insuccess case (Empty Relation Designation)
+    
+    @Test
+    void AddRelationFalseCatchEmptyRelationDesignationThrow() {
+        String relationDesignation = "";
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+
+        assertFalse(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+    }
 
 # 4. Implementation
 
 **Verification if actor is a administrator in a given family**
 
+    public boolean verifyAdministrator(String ccNumber) {
+        for (FamilyMember familyMember : familyMembers) {
+            if (familyMember.compareID(ccNumber))
+                return familyMember.isAdministrator();
+        }
+        return false;
+    }
+
 **Verification if a relation designation is already present in family list of assigned relations**
+
+    public boolean hasDesignation(String relationDesignation) {
+        for (String relationDesigantion : relationDesignations) {
+            if (relationDesigantion.toLowerCase().equals(relationDesignation.toLowerCase()))
+                return true;
+        }
+        return false;
+    }
 
 **Selecting the specific family member to be attributed a Relation**
 
+    public FamilyMember getFamilyMemberByID(String ccNumber) {
+        for (FamilyMember familyMember : familyMembers) {
+            if (familyMember.compareID(ccNumber))
+                return familyMember;
+        }
+        // If given ID is not present, a exception is thrown
+        throw new IllegalArgumentException("No family member with such ID");
+    }
+
 **Creating and adding a Relation to a given Family Member**
 
+    protected void addRelation(String relationDesignation) {
+        if (this.relation != null)
+            throw new IllegalArgumentException("This family member already has an assigned relation");
+
+        Relation relation = new Relation(relationDesignation);
+
+        this.relation = relation;
+    }
+
 **Validating the arguments to create a Relation**
+
+    private void isValid(String relationDesignation) {
+        if (relationDesignation == null || relationDesignation.isBlank() || relationDesignation.isEmpty()) {
+            // If is null or empty, a exception is throw
+            throw new IllegalArgumentException("Empty or Null relation designation");
+        }
+    }
 
 # 5. Integration/Demonstration
 
