@@ -146,9 +146,6 @@ public class CategoryService {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
-
-
-
     /**
      * Method to get all the Standard Categories
      *
