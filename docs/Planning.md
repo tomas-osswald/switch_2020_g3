@@ -2,11 +2,11 @@
 
 # 1. Workgroup Composition
 
-The Workgroup is comprised of the following students:
+The Workgroup is composed of the following students:
 
 | Student No.	   | Student Name|
 |--------------|------------------------------|
-| **[1181945]()**  | Miguel Loureiro |
+| **[1181945](../docs/students/1181945.md)**  | Miguel Loureiro |
 | **[1201762](../docs/students/1201762.md)**  | Bruno Tamames | 
 | **[1201765](../docs/students/1201765.md)**  | João Pinto | 
 | **[1201768](../docs/students/1201768.md)**  | José Diogo Ribeiro | 
@@ -20,7 +20,7 @@ The distribution of requirements/functionalities throughout the project's develo
 
 | Student No.	| Sprint 1 |
 |------------|----------|
-| [**1181945**]()| [US002](../docs/sprint1/user_stories/US002_GetStandardCategories.md)| 
+| [**1181945**](../docs/students/1181945.md)| [US002](../docs/sprint1/user_stories/US002_GetStandardCategories.md)| 
 | [**1201762**](../docs/students/1201762.md)| [US001](../docs/sprint1/user_stories/US001_CreateStandardCategory.md) / [US010](../docs/sprint1/user_stories/US010_AddFamily.md)|
 | [**1201765**](../docs/students/1201765.md)| [US105](../docs/sprint1/user_stories/US105_AddRelation.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)|
 | [**1201768**](../docs/students/1201768.md)| [US101](../docs/sprint1/user_stories/US101_AddFamilyMembers.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)| 

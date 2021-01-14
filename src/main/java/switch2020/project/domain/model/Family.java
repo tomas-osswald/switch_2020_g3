@@ -189,14 +189,14 @@ public class Family {
      * Method to add a Relation to A family Member
      *
      * @param ccNumber           FamilyMemberID of the member to be added a Relation
-     * @param relationDeignation Relation Designation to be added
+     * @param relationDesignation Relation Designation to be added
      * @return boolean
      */
 
-    public boolean addRelationToFamilyMember(String ccNumber, String relationDeignation) {
+    public boolean addRelationToFamilyMember(String ccNumber, String relationDesignation) {
         FamilyMember familyMember = getFamilyMemberByID(ccNumber);
 
-        familyMember.addRelation(relationDeignation);
+        familyMember.addRelation(relationDesignation);
 
         return true;
     }
