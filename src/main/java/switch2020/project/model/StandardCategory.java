@@ -70,13 +70,18 @@ public class StandardCategory {
 
     /**
      * Method that compares a given ID is equal to the ID of this category
-     * @param categoryID int the categoryID you want to compare
+     * @param categoryID int the categoryID you wish to compare
      * @return true if the IDs match, otherwise false
      */
     public boolean isIDOfThisCategory(int categoryID){
         return categoryID == this.categoryID;
     }
 
+    /**
+     * Method that compares a given category designation with the designation of this category
+     * @param categoryName String - the name of the designation you wish to compare
+     * @return true if the names match (case insensitive), otherwise false
+     */
     public boolean isDesignationOfThisCategory(String categoryName){
         return this.categoryName.compareToIgnoreCase(categoryName) == 0;
     }

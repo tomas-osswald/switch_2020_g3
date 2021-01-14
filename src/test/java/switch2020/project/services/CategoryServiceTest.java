@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryServiceTest {
 
-    Application app = new Application();
     CategoryService categoryService = new CategoryService();
 
     @Test

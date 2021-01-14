@@ -1,6 +1,8 @@
 package switch2020.project.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
@@ -520,7 +522,7 @@ class FamilyServiceTest {
      * does not have Administrator privileges.
      */
     @Test
-    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEqualsBecauseTheFamilyMemberIsNotAdministratorAndTheReturnIsEmptyList() {
+    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEquals_ReturnIsEmptyList() {
         //Arrange
         familyMembers.add(diogo);
         familyMembers.add(jorge);
@@ -660,4 +662,33 @@ class FamilyServiceTest {
         assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated));
     }
 
+    @Test
+    void addFamily_Test1NameMoreiraSuccess() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "Moreira";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void addFamily_Test2NameSimpsonSuccess() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "Simpson";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void addFamily_Test3Failure() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertFalse(result);
+    }
 }

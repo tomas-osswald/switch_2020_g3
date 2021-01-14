@@ -70,7 +70,7 @@ public class FamilyService {
     private int findFamilyIndexByID(int familyID) {
         int index = 0;
         for (Family family : this.families) {
-            if (family.getFamilyID() == familyID) {
+            if (family.isIDOfThisFamily(familyID)) {
                 return index;
             }
             index++;
@@ -229,17 +229,6 @@ public class FamilyService {
      * @param adminCCNumber  representing the userID. Has to be verified in order to provide access to the information
      * @return DTOList containing Family Members' name and the relationDesignation.
      */
-
-   /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        Family family = getFamily(familyID);
-        if (family.verifyAdministratorPermission(familyAdministratorID)) {
-            DTOList = family.getFamilyMembersRelationDTOList();
-        }
-        return DTOList;
-    } */
-
-            // Method que vai mudar o GetFMRDTO para validações de CC.
 
          public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
                 List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();

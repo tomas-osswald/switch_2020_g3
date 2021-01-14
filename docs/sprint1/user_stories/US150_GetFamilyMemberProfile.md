@@ -506,7 +506,7 @@ As of this sprint, this function has no integration with other functions.
 # 6. Observations
 
 In the future, the ccNumber would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputted. The same applies to the FamilyID.
-A possibility to have the controller as a boolean while accounting for the possible exceptions, e.g. not finding the Family or Family Member.
+An approach to have the controller as a boolean while accounting for the possible exceptions, e.g. not finding the Family or Family Member.
 
 
 

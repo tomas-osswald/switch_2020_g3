@@ -104,7 +104,7 @@ class GetFamilyMembersListControllerTest {
         }
 
         @Test
-        void getDTOList_TestWithWrongFamilyIDExpectingEmptyListAsReturn() {
+        void getDTOList_TestWithWrongFamilyIDExpectingFalse() {
             //Arrange
             familyMembers.add(diogo);
             familyMembers.add(jorge);
@@ -123,7 +123,7 @@ class GetFamilyMembersListControllerTest {
         }
 
     @Test
-    void getDTOList_TestWithNoAdministratorExpectingEmptyListAsReturn() {
+    void getDTOList_TestWithNoAdministratorExpectingFalse() {
         //Arrange
         familyMembers.add(diogo);
         familyMembers.add(jorge);

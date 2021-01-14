@@ -6,10 +6,10 @@ import switch2020.project.utils.MemberProfileDTO;
 
 public class GetFamilyMemberProfileController {
 
-    private Application FFMapp;
+    private Application ffmApplication;
 
-    public GetFamilyMemberProfileController(Application app) {
-        this.FFMapp = app;
+    public GetFamilyMemberProfileController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     /**
@@ -25,7 +25,7 @@ public class GetFamilyMemberProfileController {
      */
     public MemberProfileDTO getMemberProfile(int familyID, String ccNumber) {
 
-            FamilyService familyService = this.FFMapp.getFamilyService();
+            FamilyService familyService = this.ffmApplication.getFamilyService();
             return familyService.getFamilyMemberProfile(familyID, ccNumber);
     }
 }
