@@ -59,4 +59,15 @@ class CCNumberTest {
             CCNumber test = new CCNumber(testCCNumber);
         });
     }
+
+    @Test
+    void CreateValidCCNumberBC() {
+        String testCCNumber = "000000000BC4";
+        try {
+            CCNumber test = new CCNumber(testCCNumber);
+        } catch (Exception e) {
+            fail("Invalid CC Number");
+        }
+    }
+
 }
