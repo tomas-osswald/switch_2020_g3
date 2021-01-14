@@ -233,17 +233,6 @@ public class FamilyService {
      * @return DTOList containing Family Members' name and the relationDesignation.
      */
 
-   /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        Family family = getFamily(familyID);
-        if (family.verifyAdministratorPermission(familyAdministratorID)) {
-            DTOList = family.getFamilyMembersRelationDTOList();
-        }
-        return DTOList;
-    } */
-
-            // Method que vai mudar o GetFMRDTO para validações de CC.
-
          public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
                 List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
                 Family family = getFamily(familyID);

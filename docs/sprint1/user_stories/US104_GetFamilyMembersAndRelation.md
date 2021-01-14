@@ -100,6 +100,7 @@ end
 
 
  participant " aFamily : Family" as family
+ participant " aFamilyMember : FamilyMember" as familyMember
  participant " oneFamilyMemberRelationDTO : FamilyMemberRelationDTO" as DTO
  participant " aFamilyMembersAndRelationDTOList : List <FamilyMemberRelationDTO> " as DTOlist
 
@@ -112,18 +113,22 @@ alt failure : User doesn't have Administrator privileges
  <-- family : return Empty FamilyMembersAndRelation List
 else sucess : User has Administrator privileges
 
-    family -> family : getFamilyMembers()
-    loop for each Family Member in List<FamilyMember> convertToFamilyMemberRelationDTO()
+    
+    loop for each Family Member in List<FamilyMember> convertToFamilyMemberRelationDTO() 
+    family -> familyMember  : createFamilyMemberRelationDTO()  
+    activate familyMember     
     family -> DTOlist ** : create
     activate DTOlist
-    family -> DTO ** : create(name, Relation)
+    familyMember -> DTO ** : create(name, Relation)
+    deactivate familyMember
     activate DTO
     DTO -> DTOlist : add()
     deactivate DTO
 
      end
 
-<-- DTOlist : aFamilyMembersAndRelationList
+family <-- DTOlist : aFamilyMembersAndRelationList
+<-- family : aFamilyMembersAndRelationList
 deactivate DTOlist
 deactivate family
 end
@@ -135,17 +140,54 @@ end
 
 
 ````puml
-Class Application {
 
- }
+title Class Diagram - US104
+
+class GetFamilyMembersAndRelationController{
+- Application ffmApp
++ getFamilyMembersAndRelation(int familyID, String adminCCNumber)
+}
+
+class Application {
+ - FamilyService familyService
+  + getFamilyService()
+}
+
+class FamilyService {
+- List<Family> families
++ getFamily(familyID)
++ getFamilyMembersRelationDTOList(int familyID, String adminCCNumber)
+}
+
+class Family {
+- int familyID
+- List<FamilyMember> familyMembers
++ isAdmin()
++ getFamilyMembersRelationDTOList()
+}
+
+class FamilyMember {
+- private String name
+- Relation relation
++ getName()
++ getRelation()
++ createFamilyMemberRelationDTO()
+}
+
+GetFamilyMembersAndRelationController --> Application
+Application --> FamilyService
+FamilyService --> Family
+Family --> FamilyMember
+
 ````
-
-getFamilyMembersAndRelation List.2
 
 
 ## 3.1. Functionality Use
-EDIT EDIT EDIT EDIT
 
+The GetFamilyMembersAndRelationController will invoke the Application object, that contains a Family Service.
+This FamilyService contains a List of Families (Family type objects). The Application will return the FamilyService.
+The FamilyService will find the family within the list of families, using the FamilyID previously
+inputed. 
 
 The AddEmailController will invoke the Application object, which stores the Family object, which in turns stores the FamilyMember objects.
 Upon finding the corresponding FamilyMember object to the *FamilyMemberID*, it will call its addEmail method. This will involve running the checkIfEmailPresent method. If false, it will then create an Email object after passing a validation of the String *emailAdress* in the Email constructor. This Email object will be stored on the FamilyMember object, and a confirmation will return to the Controller (and at a later stage, the UI). 
