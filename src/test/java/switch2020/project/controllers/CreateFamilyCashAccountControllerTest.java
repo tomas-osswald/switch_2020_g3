@@ -34,8 +34,7 @@ class CreateFamilyCashAccountControllerTest {
 
     @Test
     void createFamilyCashAccountSuccessNoExistingAccount() {
-        String ccNumber = "000000000ZZ4";
-        FamilyMember admin = new FamilyMember(ccNumber,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
         Application app = new Application();
@@ -50,14 +49,13 @@ class CreateFamilyCashAccountControllerTest {
         double balance = 0;
         boolean expected = true;
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, ccNumber);
+        boolean result = controller.createFamilyCashAccount(familyID, balance, cc);
 
         assertEquals(expected, result);
     }
 
     @Test
     void createFamilyCashAccountFailureAlreadyExistingAccount() {
-        String ccNumber = "000000000ZZ4";
         FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
@@ -73,16 +71,15 @@ class CreateFamilyCashAccountControllerTest {
         double balance = 0;
         boolean expected = false;
 
-        controller.createFamilyCashAccount(familyID, balance, ccNumber);
+        controller.createFamilyCashAccount(familyID, balance, cc);
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, ccNumber);
+        boolean result = controller.createFamilyCashAccount(familyID, balance, cc);
 
         assertEquals(expected, result);
     }
 
     @Test
     void createFamilyCashAccountFailureTryCatchNegativeBalance() {
-        String ccNumber = "000000000ZZ4";
         FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
         admin.makeAdmin();
 
@@ -98,7 +95,7 @@ class CreateFamilyCashAccountControllerTest {
         double balance = -10;
         boolean expected = false;
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, ccNumber);
+        boolean result = controller.createFamilyCashAccount(familyID, balance, cc);
 
         assertEquals(expected, result);
     }
