@@ -232,7 +232,7 @@ class FamilyTest {
 
     @Test
     void AddFamilyMember_VatNotExists() {
-        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
@@ -242,7 +242,7 @@ class FamilyTest {
 
     @Test
     void NotAddFamilyMember_VatExists() {
-        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
@@ -252,7 +252,7 @@ class FamilyTest {
 
     @Test
     void AddFamilyMember_CCNotExists() {
-        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
@@ -262,7 +262,7 @@ class FamilyTest {
 
     @Test
     void NotAddFamilyMember_CCExists() {
-        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
@@ -310,13 +310,33 @@ class FamilyTest {
     }
 
     @Test
-    void addFamilyAdministrator_VatExists() {
+    void NotAddFamilyAdministrator_VatExists() {
         FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+    }
+
+    @Test
+    void addFamilyAdministrator_CCNotExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+    }
+
+    @Test
+    void NotAddFamilyAdministrator_CCExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
     }
 
     @Test

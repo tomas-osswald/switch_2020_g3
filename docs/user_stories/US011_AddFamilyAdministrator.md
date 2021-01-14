@@ -306,65 +306,161 @@ We also used the SOLID SRP principle.
 
 #####Test 1: Verify that a vatNumber is accepted -> Class VatNumber
 - **1.1.** VatNumber is not created, and an error is thrown because **vatNumber** is null
+  
 - **1.2.** VatNumber is not created, and an error is thrown because **vatNumber** is incorrect
+  
 - **1.3.** VatNumber is created because **vatNumber** is correct
 
 #####Test 2: Verify that an address is accepted -> Class Address
 - **2.1.** Address is not created, and an error is thrown because **street** is null
+  
 - **2.2.** Address is not created, and an error is thrown because **street** is empty
+  
 - **2.3.** Address is not created, and an error is thrown because **street** is blank
+  
 - **2.4.** Address is created because **street** is correct
+
 - **2.5.** Address is not created, and an error is thrown because **postalCode** is null
+
 - **2.6.** Address is not created, and an error is thrown because **postalCode** is empty
+
 - **2.7.** Address is not created, and an error is thrown because **postalCode** is blank
+
 - **2.8.** Address is not created, and an error is thrown because **postalCode** is incorrect
+
 - **2.9.** Address is created because **postalCode** is correct
+
 - **2.10.** Address is not created, and an error is thrown because **local** is null
+
 - **2.11.** Address is not created, and an error is thrown because **local** is empty
+
 - **2.12.** Address is not created, and an error is thrown because **local** is blank
+
 - **2.13.** Address is created because **local** is correct
+
 - **2.14.** Address is not created, and an error is thrown because **city** is null
+
 - **2.15.** Address is not created, and an error is thrown because **city** is empty
+
 - **2.16.** Address is not created, and an error is thrown because **city** is blank
+
 - **2.17.** Address is created because **city** is correct
 
 #####Test 3: Verify that a phone is accepted -> Class PhoneNumber and FamilyMember
 - **3.1.** Phone is not created, and an error is thrown because **phoneNumber** is null
+
 - **3.2.** Phone is not created, and an error is thrown because **phoneNumber** is incorrect
+
 - **3.3.** Phone is created because **vatNumber** is correct
-- **3.4.** With FamilyMember constructor from **FamilyAdministrator**, the constructor is executed without phone being created when **phone** is null
 
 #####Test 4: Verify that an email is accepted -> Class Email and FamilyMember
 - **4.1.** All email tests are in **US151**
-- **4.2.** With FamilyMember constructor from **FamilyAdministrator**, the constructor is executed without email being created when **email** is null
 
 #####Test 5: Verify that a birthDate is accepted -> Class FamilyMember
-- **5.1.** With FamilyMember constructor from **SystemManager**, BirthDate is not created, and an error is thrown because **birthDate** is null
-- **5.2.** With FamilyMember constructor from **FamilyAdministrator**, BirthDate is not created, and an error is thrown because **birthDate** is null
-- **5.3.** With FamilyMember constructor from **SystemManager**, BirthDate is created because **birthDate** is correct
-- **5.4.** With FamilyMember constructor from **FamilyAdministrator**, BirthDate is created because **birthDate** is correct
+- **5.1.** With FamilyAdministrator constructor from **SystemManager**, BirthDate is not created, and an error is thrown because **birthDate** is null
+  
+- **5.2.** With FamilyAdministrator constructor from **SystemManager**, BirthDate is created because **birthDate** is correct
 
 #####Test 6: Verify that a Name is accepted -> Class FamilyMember
-- **6.1.** With FamilyMember constructor from **SystemManager**, name is not created, and an error is thrown because **name** is null
-- **6.2.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is null
-- **6.3.** With FamilyMember constructor from **SystemManager**, name is not created, and an error is thrown because **name** is empty
-- **6.4.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is empty
-- **6.5.** With FamilyMember constructor from **SystemManager**, name is not created, and an error is thrown because **name** is blank
-- **6.6.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is blank
-- **6.7.** With FamilyMember constructor from **SystemManager**, name is created because **name** is correct
-- **6.8.** With FamilyMember constructor from **FamilyAdministrator**, name is created because **name** is correct
+- **6.1.** With FamilyAdministrator constructor from **SystemManager**, name is not created, and an error is thrown because **name** is null
+- **6.3.** With FamilyAdministrator constructor from **SystemManager**, name is not created, and an error is thrown because **name** is empty
+- **6.5.** With FamilyAdministrator constructor from **SystemManager**, name is not created, and an error is thrown because **name** is blank
+- **6.7.** With FamilyAdministrator constructor from **SystemManager**, name is created because **name** is correct
 
-#####Test 7: Verify if the VatNumber already belongs to a familyMember from his family -> Class Family
-- **7.1** FamilyMember is not created and not added to the family, and an error is thrown because the **vatNumber** already exists in this family
-- **7.2** FamilyMember is created and added to the family because the **vatNumber** does not exists in this family
+#####Test 7: Verify if the VatNumber already belongs to a FamilyAdministrator from his family -> Class Family
+- **7.1** FamilyAdministrator is not created and not added to the family, and an error is thrown because the **vatNumber** already exists in this family
+````
+@Test
+void NotAddFamilyAdministrator_VatExists() {
+    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    String familyName = "Moreira";
+    int familyID = 1;
+    Family familia = new Family(familyName, familyID);
+    familia.addFamilyMember(pessoa1);
+    assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+}
+````
+- **7.2** FamilyAdministrator is created and added to the family because the **vatNumber** does not exists in this family
+````
+@Test
+void addFamilyAdministrator_VatNotExists() {
+    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    String familyName = "Moreira";
+    int familyID = 1;
+    Family familia = new Family(familyName, familyID);
+    familia.addFamilyMember(pessoa1);
+    assertTrue(familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+}
+````
+###Test 8: Verify if the ccNumber already belongs to a FamilyAdministrator from user's family -> Class Family
+- **8.1** FamilyAdministrator is not created and not added to the family, and an error is thrown because the **ccNumber** already exists in this family
+````
+@Test
+void NotAddFamilyAdministrator_CCExists() {
+    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    String familyName = "Moreira";
+    int familyID = 1;
+    Family familia = new Family(familyName, familyID);
+    familia.addFamilyMember(pessoa1);
+    assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+}
+````
 
-#####Test 8: Verify if the email already exists in the system -> Class FamilyService
-- **8.1** FamilyMember is not created and not added to the family, and an error is thrown because the **email** already exists in the Application
-- **8.2** FamilyMember is created and added to the family because the **email** does not exists in the Application
-- **8.3** FamilyMember is not created and not added to the family, and an error is thrown because the **Family** does not exists in the Application
-- **8.4** FamilyMember is created and added to the family because the **Family** exists in the Application
-- **8.5** FamilyMember is not created and not added to the family, and an error is thrown because the user is not **admin**
-- **8.6** FamilyMember is created and added to the family because the user is **admin**
+- **8.2** FamilyAdministrator is created and added to the family because the **ccNumber** does not exists in this family
+````
+@Test
+void addFamilyAdministrator_CCNotExists() {
+    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    String familyName = "Moreira";
+    int familyID = 1;
+    Family familia = new Family(familyName, familyID);
+    familia.addFamilyMember(pessoa1);
+    assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+}
+````
+
+#####Test 9: Verify if the email already exists in the system -> Class FamilyService
+- **9.1** FamilyAdministrator is not created and not added to the family, and an error is thrown because the **email** already exists in the Application
+````
+@Test
+void NotAddFamilyAdministrator_EmailPresent() { // Not able to create a family member object
+    Family ribeiros = new Family("Ribeiro",1);
+    ribeiros.addFamilyMember(cc, name, date, numero, "abc@gmail.com", nif, rua, codPostal, local, city);
+    FamilyService familyService = new FamilyService(ribeiros);
+    assertThrows(IllegalArgumentException.class,()-> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2,1));
+}
+````
+- **9.2** FamilyAdministrator is created and added to the family because the **email** does not exists in the Application
+````
+@Test
+void addFamilyAdministrator_EmailNotPresent() { // Not able to create a family member object
+    Family ribeiros = new Family("Ribeiro",1);
+    ribeiros.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+    FamilyService familyService = new FamilyService(ribeiros);
+    assertTrue(familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1));
+}
+````
+
+###Test 10: Verify if the Family exists in the system -> Class FamilyService
+- **10.1** FamilyAdministrator is not created and not added to the family, and an error is thrown because the **Family** does not exist in the Application
+````
+@Test
+void NotAddFamilyAdministrator_FamilyNotExists() {
+    Family ribeiros = new Family("Ribeiro",1);
+    FamilyService familyService = new FamilyService(ribeiros);
+    assertThrows(IllegalArgumentException.class,()-> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,2));
+}
+````
+- **10.2** FamilyAdministrator is created and added to the family because the **Family** exists in the Application
+````
+@Test
+void addFamilyAdministrator_FamilyExists() {
+    Family ribeiros = new Family("Ribeiro",1);
+    FamilyService familyService = new FamilyService(ribeiros);
+    assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,1));
+}
+````
+
 # 4. Implementation
 
 *Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
