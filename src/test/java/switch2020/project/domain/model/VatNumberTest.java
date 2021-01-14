@@ -41,5 +41,28 @@ class VatNumberTest {
 
         assertNotEquals(vatNumber, familyService);
     }
+    @Test
+    void compareTwoInstanceOfVATNumber() {
+        int vat = 123456789;
+        VatNumber vatNumber = new VatNumber(vat);
+
+        int vat2 = 123456789;
+        VatNumber vatNumber2 = new VatNumber(vat2);
+
+        assertNotSame(vatNumber, vatNumber2);
+        assertEquals(vatNumber, vatNumber2);
+    }
+
+    @Test
+    void compareTwoInstanceOfDifferentVATNumber() {
+        int vat = 123456789;
+        VatNumber vatNumber = new VatNumber(vat);
+
+        int vat2 = 123456780;
+        VatNumber vatNumber2 = new VatNumber(vat2);
+
+        assertNotSame(vatNumber, vatNumber2);
+        assertNotEquals(vatNumber, vatNumber2);
+    }
 
 }
