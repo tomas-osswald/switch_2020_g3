@@ -148,7 +148,7 @@ public class CategoryService {
      * @return List
      */
     public List<StandardCategory> getStandardCategories() {
-        if (this.categories.size() == 0 && this.categories == null) {
+        if (this.categories.size() == 0 || this.categories == null) {
             throw new IllegalArgumentException("There are no standard categories");
         }
         List standardCategories = new ArrayList<StandardCategory>();
@@ -162,7 +162,22 @@ public class CategoryService {
      * @param standardCategories
      * @return list of parents, i.e., a list of categories that have at least one child
      */
-    public List<StandardCategory> getParents(List<StandardCategory> standardCategories) {
+    private List<StandardCategory> getParents(List<StandardCategory> standardCategories) {
+        List<StandardCategory> parents = new ArrayList<>();
+        for (StandardCategory cat : standardCategories
+        ) {
+            if (cat.getParentName() != null) {
+                parents.add(cat);
+            }
+        }
+        return parents;
+    }
+
+    /*private boolean hasParent(){
+
+    }*/
+
+    private List<StandardCategory> getParentss(List<StandardCategory> standardCategories) {
         List<StandardCategory> parents = new ArrayList<>();
         for (StandardCategory cat : standardCategories
         ) {
@@ -180,7 +195,7 @@ public class CategoryService {
      * @param standardCategories
      * @return list of childs
      */
-    public List<StandardCategory> getChilds(StandardCategory standardCategory, List<StandardCategory> standardCategories) {
+    private List<StandardCategory> getChilds(StandardCategory standardCategory, List<StandardCategory> standardCategories) {
         List<StandardCategory> childs = new ArrayList<>();
         for (StandardCategory cat : standardCategories
         ) {
@@ -213,7 +228,7 @@ public class CategoryService {
      * @param standardCategories
      * @return list of StandardCategoryDTO
      */
-    public List<StandardCategoryDTO> createStdTree(List<StandardCategory> standardCategories) {
+    private List<StandardCategoryDTO> createStdTree(List<StandardCategory> standardCategories) {
         List<StandardCategoryDTO> totalStdList = new ArrayList<>();
 
         List<StandardCategory> stdList = this.getParents(standardCategories);
