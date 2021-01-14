@@ -74,8 +74,9 @@ deactivate systemManager
 
 ## 3.1. Functionality Use
 
-The CategoriesController will invoke the FFMApplication object, which handles the Category Service Object.
-Category Service has the responsibility of managing the categories list.
+The GetStandardCatergoriesTreeController invokes the Application object, that has a Category Service object.
+The Application returns the CategoryService that has all the Standard Categories.
+The CategoryService creates a List object that all the standard categories and all their childs.
 
 ## 3.2. Class Diagram
 
@@ -91,15 +92,18 @@ title Class Diagram
 class Application {
   - CategoryService categoryService
   + getCategoryService()
-  + getStandardCategories()
+  + getStandardCategoriesTree()
   }
 
 class CategoryService {
-  - List<Category> categories
+  + getStandardCategories()
+  + getParents()
+  + getChilds()
+  + createStdTree()
 }
 
 class Categories {
- +createStandardCategoriesList()
+  - List<StandardCategory> categories
  }
  
 class Category {
@@ -126,23 +130,20 @@ We also applied the SOLID SRP (Single Responsabity Principle) in each of the cla
 
 # 4. Implementation
 
-To get the Standard Categories List we design and implement a method that iterates over the elements of the general list of categories.
-We return the Standard Categories List in form of a DTO (Data Transfer Object) because we get the categories that pass the verification if they are Standard, i.e. if the attribute standardCategory is true we add that Category to the DTO Object (that is a List).
-
-# 4.1. As shown in the sequence diagram above, first we 
-*Recomenda-se que organize este conteúdo por subsecções.*
+From a request the Category Service class creates a new List<StandardCategoryDTO> object that holds each StandardCategoryDTO object that has its own List<StandardCategory> of childs object.
+Then after is created a Tree representation that is a List object of the above.
 
 # 5. Integration/Demonstration
 
-*Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as
-restantes funcionalidades do sistema.*
-
-At this moment, User Stories that depend on the development of this one have not been developed, so the integration of this one with the rest of the system's features cannot be tested / proven yet.
+The design and development of this user story is important for the application transactions because client requirements want to have the possibility to analyse
+monthly and annual spending per category and/or class of categories.
+[US110](US110_GetCategoryTree.md) use an implementation of this user story.
 
 # 6. Observations
 
-*Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por
-exemplo, outras alternativas e ou trabalhos futuros relacionados.*
+In future User Stories we need to change something in order to group transactions per category and/or class(group) of categories.
+Also the client requirements state "class of categories" as a group or a specific class and that may be only clarified by the product owner in future sprint reviews.
+
 
 
 
