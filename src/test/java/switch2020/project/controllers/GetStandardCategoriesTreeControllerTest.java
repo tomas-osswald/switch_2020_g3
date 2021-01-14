@@ -1,24 +1,26 @@
 package switch2020.project.controllers;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.StandardCategory;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetStandardCategoriesTreeControllerTest {
 
-    List<StandardCategory> categoriesOne = new ArrayList<>();
-    StandardCategory cat1 = new StandardCategory("Alimentação", null,1);
-    StandardCategory cat2 = new StandardCategory("Saúde", null,2);
-    StandardCategory cat3 = new StandardCategory("Educação", null,3);
-    StandardCategory cat4 = new StandardCategory("Diversos", null,4);
     Application App = new Application();
-    GetStandardCategoriesTreeController getStandard = new GetStandardCategoriesTreeController(App);
+    GetStandardCategoriesTreeController standardCategoriesTreeController = new GetStandardCategoriesTreeController(App);
+    AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(App);
 
-   /* @Test
-    void testGetStandardCategories(){
+    @BeforeEach
+    public void setup(){
 
+    }
 
-    } */
+    @Test
+    void getStandardCategoriesList() {
+
+    }
+
 }

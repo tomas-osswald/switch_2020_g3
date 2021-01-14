@@ -18,17 +18,6 @@ public class StandardCategory {
         this.parentCategory = parentCategory;
     }
 
-
-    //git status
-
-    //delete later, for tests
-    public StandardCategory(String categoryName, int categoryID) {
-        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
-        this.categoryID = categoryID;
-        this.categoryName = categoryName.trim().toUpperCase();
-
-    }
-
     public int getParentID() {
         try {
             return parentCategory.getCategoryID();
@@ -38,10 +27,10 @@ public class StandardCategory {
     }
 
     public String getParentName() {
-        if(this.parentCategory != null){
+        if (this.parentCategory != null) {
             return this.parentCategory.getName();
         }
-        return "-1";
+        return "root";
     }
 
     public int getCategoryID() {
@@ -50,6 +39,12 @@ public class StandardCategory {
 
     public String getName() {
         return this.categoryName;
+    }
+
+    public boolean isChildOf(StandardCategory standardCategory) {
+        if (this.getParentName() != null) {
+            return standardCategory.equals(this.parentCategory);
+        } else return false;
     }
 
     //Validation Methods
@@ -69,7 +64,6 @@ public class StandardCategory {
      * @return true if name follows the rules, false otherwise
      */
 
-
     private boolean isNameValid(String categoryName) {
         if (categoryName == null || categoryName.isEmpty() || categoryName.isBlank()) return false;
         return true;
@@ -77,19 +71,15 @@ public class StandardCategory {
 
     /**
      * Method that compares a given ID is equal to the ID of this category
-     * @param categoryID int the categoryID you wish to compare
+     *
+     * @param categoryID int the categoryID you want to compare
      * @return true if the IDs match, otherwise false
      */
-    public boolean isIDOfThisCategory(int categoryID){
+    public boolean isIDOfThisCategory(int categoryID) {
         return categoryID == this.categoryID;
     }
 
-    /**
-     * Method that compares a given category designation with the designation of this category
-     * @param categoryName String - the name of the designation you wish to compare
-     * @return true if the names match (case insensitive), otherwise false
-     */
-    public boolean isDesignationOfThisCategory(String categoryName){
+    public boolean isDesignationOfThisCategory(String categoryName) {
         return this.categoryName.compareToIgnoreCase(categoryName) == 0;
     }
 
