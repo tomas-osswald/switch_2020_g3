@@ -14,24 +14,24 @@
 | StandardCategory| Built-in financial transaction category, cannot be deleted and may have children | Class|
 | CustomCategory| Custom financial transaction category, may have children | Class|
 | birthdate|Attribute of FamilyMember class  |Date|
-|Relation  | Relation between family members object|Class|
-|administrator | Attribute of FamilyMember Class |Boolean|
-|StandardCategories | Attribute of the categoryService class |List|
-|CustomCategories | Attribute of the Family class |List|
-|categoryService | categoryService object | Class|
-|families | Attribute of the FamilyService class |ArrayList|
-|familyCashAccount | Attribute of Family class| CashAccount|
+| Relation  | Relation between family members object|Class|
+| administrator | Attribute of FamilyMember Class |Boolean|
+| StandardCategories | Attribute of the categoryService class |List|
+| CustomCategories | Attribute of the Family class |List|
+| categoryService | categoryService object | Class|
+| families | Attribute of the FamilyService class |ArrayList|
+| familyCashAccount | Attribute of Family class| CashAccount|
 | cashAccountID| Attribute of CashAccount class | Integer|
-|balance |Attribute of CashAccount class | Double|
-|Address | Address object|Class|
-| street|Attribute of Street class |String|
-| postalCode|Attribute of Street class |String|
-| local|Attribute of Street class |String|
-| city|Attribute of Street class |String|
-| | |
-| | |
-| | |
-| | |
+| balance |Attribute of CashAccount class | Double|
+| Address | Address object and Attribute of FamilyMember|Class|
+| street|Attribute of Address class |String|
+| postalCode|Attribute of Address class |String|
+| local|Attribute of Address class |String|
+| city|Attribute of Address class |String|
+| name | Attribute of FamilyMember class |String|
+| vatNumber | VatNumber object and Attribute of FamilyMember class |Class|
+| PhoneNumber |PhoneNumber Object and Attribute of FamilyMember |Class|
+| Administrator | Attribute of FamilyMember |Boolean|
 
 
 
