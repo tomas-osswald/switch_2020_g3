@@ -2,8 +2,9 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.services.FamilyService;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class EmailAddressTest {
@@ -86,6 +87,37 @@ class EmailAddressTest {
                 assertThrows(IllegalArgumentException.class, () -> {
                     EmailAddress badEmail = new EmailAddress(nullEmail);
                 });
+    }
+
+    @Test
+    public void EqualsSameEmailAddressObject() {
+        EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
+
+        assertEquals(email, email);
+    }
+
+    @Test
+    public void EqualsDifferentClassObject() {
+        EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
+        FamilyService familyService = new FamilyService();
+
+        assertNotEquals(email, familyService);
+    }
+
+    @Test
+    public void EqualsSameEmailAddresses() {
+        EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
+        EmailAddress emailTwo = new EmailAddress("1120717@isep.ipp.pt");
+
+        assertEquals(emailOne, emailTwo);
+    }
+
+    @Test
+    public void EqualsDifferentEmailAddresses() {
+        EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
+        EmailAddress emailTwo = new EmailAddress("1120718@isep.ipp.pt");
+
+        assertNotEquals(emailOne, emailTwo);
     }
 }
 
