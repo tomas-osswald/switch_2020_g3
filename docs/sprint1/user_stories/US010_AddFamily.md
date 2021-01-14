@@ -57,7 +57,7 @@ application --> controller: familyService
 deactivate application
 controller -> famServ: createFamily(name)
 activate famServ
-famServ -> famServ: doesFamilyAlreadyExist(name)
+famServ -> famServ: doesFamilyAlreadyExist(familyID)
 
 alt family already present
 famServ --> controller: failed
