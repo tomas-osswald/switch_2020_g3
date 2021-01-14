@@ -397,10 +397,12 @@ public class FamilyMember {
      * @param relation Relation to add
      */
 
-    protected void addRelation(Relation relation) {
-        if (this.relation != null) {
+    protected void addRelation(String relationDesignation) {
+        if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
-        }
+
+        Relation relation = new Relation(relationDesignation);
+
         this.relation = relation;
     }
 
@@ -427,6 +429,10 @@ public class FamilyMember {
         }
         copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
         return copyOfFamilyMemberDTO;
+    }
+
+    protected boolean compareID(String ccNumber) {
+        return ccNumber.equals(this.ccNumber.getCcNumber());
     }
 }
 
