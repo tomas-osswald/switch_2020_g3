@@ -39,6 +39,7 @@ public class CategoryService {
 
     /**
      * This method returns a StandardCategory of a given ID
+     *
      * @param categoryID ID of the StandardCategory to be returned
      * @return chosen StandardCategory, if the StandardCategory is not found returns null;
      */
@@ -56,7 +57,6 @@ public class CategoryService {
 
     /**
      * Method to determine if a new category is present in the list of categories
-     *
      * @param categoryName String with the name of the category
      * @return true if a category with the same name already exists in the list, false otherwise
      */
@@ -75,7 +75,6 @@ public class CategoryService {
 
     /**
      * Method to determine if a standard category with a given name already exists
-     *
      * @param parentID int representing the categoryID of the parent category
      * @return true if the ID exists in the list of Standard Categories, false otherwise
      */
@@ -94,7 +93,6 @@ public class CategoryService {
 
     /**
      * Method that generates an ID for a Standard Category
-     *
      * @return generated ID
      */
 
@@ -116,7 +114,7 @@ public class CategoryService {
 
     /**
      * Method to create and return a Family's CategoryTree
-     * @param familyID ID of the target family
+     * @param familyID      ID of the target family
      * @param familyService The Application's familyService
      * @return CategoryTreeDTO Object
      */
@@ -125,6 +123,10 @@ public class CategoryService {
         return categoryTree;
     }
 
+    /**
+     * Method to return the standard categories list
+     * @return standardCategories List object
+     */
     public List getStandardCategories() {
         if (categories.size() == 0) {
             throw new IllegalArgumentException("There are no standard categories");
@@ -135,6 +137,10 @@ public class CategoryService {
 
     }
 
+    /**
+     * Method togit
+     * @return
+     */
     public List<StandardCategoryDTO> getStandardCategoriesDTOList() {
         List<StandardCategory> categories = getCategories();
         List<StandardCategoryDTO> standardCategoriesDTOList = new ArrayList<>();
