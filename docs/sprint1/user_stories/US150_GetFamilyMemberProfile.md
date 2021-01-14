@@ -109,10 +109,11 @@ The main Classes involved are:
 - MemberProfileDTO
 - CCNumber
 
+**GetProfileInfo()**
 ```puml
 @startuml
 
-title Class Diagram
+title GetProfileInfo()
 
 class GetFamilyMemberProfileController {
   - Application app
@@ -325,7 +326,23 @@ The following preparation was made for the execution of the tests:
         assertNotSame(expected, result);
     }
 
-**Test 7:** Verify that controller can create MemberProfileDTO, testing the whole flow
+**Test 7:** Verify that MemberProfileDTO can be created with relation
+
+    @Test
+    void getMemberProfileTest9_WithRelationObjectsAreEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        diogoNoAdmin.addRelation(relation);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+
+        MemberProfileDTO result = diogoNoAdmin.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+
+**Test 8:** Verify that controller can create MemberProfileDTO, testing the whole flow
 
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEqual() {
@@ -340,6 +357,7 @@ The following preparation was made for the execution of the tests:
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+
 
 # 4. Implementation
 

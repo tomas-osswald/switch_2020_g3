@@ -1,8 +1,10 @@
 package switch2020.project.utils;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.FamilyMember;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 class FamilyMemberRelationDTOTest {
 
