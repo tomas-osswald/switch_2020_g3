@@ -23,4 +23,45 @@ class PhoneNumberTest {
         assertTrue(phone.validate(number));
     }
 
+    @Test
+    void compareSamePhone() {
+        Integer number = 957247231;
+        PhoneNumber phoneNumber = new PhoneNumber(number);
+
+        assertSame(phoneNumber, phoneNumber);
+        assertEquals(phoneNumber, phoneNumber);
+    }
+
+    @Test
+    void compareWithAnotherClass() {
+        Integer number = 957247231;
+        PhoneNumber phoneNumber = new PhoneNumber(number);
+
+        assertNotEquals(phoneNumber, number);
+        assertNotSame(phoneNumber, number);
+    }
+
+    @Test
+    void compareTwoInstanceOfPhoneNumber() {
+        Integer number = 957247231;
+        PhoneNumber phoneNumber = new PhoneNumber(number);
+
+        Integer number2 = 957247231;
+        PhoneNumber phoneNumber2 = new PhoneNumber(number2);
+
+        assertNotSame(phoneNumber, phoneNumber2);
+        assertEquals(phoneNumber, phoneNumber2);
+    }
+
+    @Test
+    void compareTwoInstanceOfPhoneNumberDiferentNumber() {
+        Integer number = 957247231;
+        PhoneNumber phoneNumber = new PhoneNumber(number);
+
+        Integer number2 = 957245231;
+        PhoneNumber phoneNumber2 = new PhoneNumber(number2);
+
+        assertNotSame(phoneNumber, phoneNumber2);
+        assertNotEquals(phoneNumber, phoneNumber2);
+    }
 }
