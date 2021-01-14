@@ -173,16 +173,6 @@ public class CategoryService {
         return parents;
     }
 
-    public List<String> getParentsName(List<StandardCategory> parents) {
-        List<String> parentsName = new ArrayList<>();
-        for (String name : parentsName) {
-            if (name != null) {
-                parentsName.add(name);
-            }
-        }
-        return parentsName;
-    }
-
     /**
      * Method to get the childs of a passed parent category name
      *

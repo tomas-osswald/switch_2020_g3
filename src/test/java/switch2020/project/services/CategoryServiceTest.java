@@ -73,6 +73,9 @@ class CategoryServiceTest {
         assertFalse(result);
     }
 
+    /**
+     * Verify if the returned List has the same size of the expected
+     */
     @Test
     void getStandardCategories_Test6_FromValidList() {
         //arrange
@@ -99,14 +102,35 @@ class CategoryServiceTest {
         assertEquals(expected, result);
     }
 
-    @Test
+   /* @Test
+    void getStandardCategories_Test61_FromValidList() {
+        //arrange
+        CategoryService ser = new CategoryService();
+        List<StandardCategory> parents = new ArrayList<>();
+        StandardCategory cat1 = new StandardCategory("Home",null , 1);
+        StandardCategory cat2 = new StandardCategory("Education",null , 2);
+        StandardCategory cat3 = new StandardCategory("Food",cat1, 3);
+        StandardCategory cat4 = new StandardCategory("Decoration",cat1 , 4);
+        StandardCategory cat5 = new StandardCategory("Health",null , 5);
+        StandardCategory cat6 = new StandardCategory("Hollidays",null , 6);
+        StandardCategory cat7 = new StandardCategory("Teeth correction",cat5 , 7);
+        //act
+        parents.add(cat1);
+        parents.add(cat2);
+        parents.add(cat3);
+        //assert
+        int expected = 7;
+        int result = parents.size();
+    }*/
+
+    /*@Test
     void getStandardCategories_test7_Null() {
         List<StandardCategory> empty = new ArrayList<>();
         assertThrows(IllegalArgumentException.class, () -> categoryService.getStandardCategories());
-        }
+        }*/
 
 
-    @Test
+    /*@Test
     void getParents_Test8_FromCategoriesWithNoParents() {
         //arrange
         List<String> expected = new ArrayList<>();
@@ -133,11 +157,11 @@ class CategoryServiceTest {
         //List<String> result = results;
         //assert
         assertEquals(expected, result);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void getParents_Test9_FromCategoriesWithParents() {
-        /*//arrange
+        //arrange
         List<String> expected = new ArrayList<>();
         List<StandardCategory> lst = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home",null , 1);
@@ -161,13 +185,13 @@ class CategoryServiceTest {
 
         //List<String> result = results;
         //assert
-        //assertEquals(expected,result);*/
-    }
+        //assertEquals(expected,result);
+    }*/
 
-    @Test
+   /* @Test
     void getChilds_Test10_FromNoChilds() {
         //arrange
-        /*List<StandardCategory> childs = new ArrayList<>();
+        *//*List<StandardCategory> childs = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home",null , 1);
         StandardCategory cat2 = new StandardCategory("Education",null , 2);
         StandardCategory cat3 = new StandardCategory("Food",cat1, 3);
@@ -181,11 +205,11 @@ class CategoryServiceTest {
         childs.add(cat4);
         childs.add(cat5);
         childs.add(cat6);
-        childs.add(cat7);*/
-    }
+        childs.add(cat7);*//*
+    }*/
 
     @Test
-    void getChilds_Test11_FromChilds() {
+    void getChildsName_Test11_FromSameParent() {
         //arrange
         /*List<StandardCategory> childs = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home",null , 1);
@@ -203,6 +227,8 @@ class CategoryServiceTest {
         childs.add(cat6);
         childs.add(cat7);*/
     }
+
+
 
     @Test
     void createStdTree_Test12_ParentsOnlyNoChilds() {
@@ -214,4 +240,21 @@ class CategoryServiceTest {
 
     }
 
+    @Test
+    void getParentsNameFromCategoriesWithParents() {
+        List<String> result = new ArrayList();
+        StandardCategory cat1 = new StandardCategory("Home",null , 1);
+        StandardCategory cat2 = new StandardCategory("Education",null , 2);
+        StandardCategory cat3 = new StandardCategory("Food",cat1, 3);
+        StandardCategory cat4 = new StandardCategory("Decoration",cat1 , 4);
+        StandardCategory cat5 = new StandardCategory("Health",null , 5);
+        StandardCategory cat6 = new StandardCategory("Hollidays",null , 6);
+        StandardCategory cat7 = new StandardCategory("Teeth correction",cat5 , 7);
+        result.add(cat3.getParentName());
+        result.add(cat7.getParentName());
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("HOME");
+        expected.add("HEALTH");
+        assertEquals(expected, result);
+    }
 }
