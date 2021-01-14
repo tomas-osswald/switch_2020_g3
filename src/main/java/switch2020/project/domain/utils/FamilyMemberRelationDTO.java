@@ -29,7 +29,7 @@ public class FamilyMemberRelationDTO {
 
         FamilyMemberRelationDTO that = (FamilyMemberRelationDTO) o;
 
-        return relationDesignation != null ? relationDesignation.equals(that.relationDesignation) : that.relationDesignation == null;
+        return this.name.equals(that.name) && this.relationDesignation.equals(that.relationDesignation);
     }
 
     /*@Override
