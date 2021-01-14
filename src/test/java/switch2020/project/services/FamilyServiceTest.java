@@ -63,7 +63,7 @@ class FamilyServiceTest {
     Date date3 = new Date(1900, 8, 26);
     int numero3 = 919939998;
     String email3 = "tonyze@gmail.com";
-    int nif3 = 212122000;
+    int nif3 = 212122100;
     String rua3 = "Rua";
     String codPostal3 = "4444-556";
     String local3 = "Gaia";
@@ -150,133 +150,95 @@ class FamilyServiceTest {
 
     @Test
     void CreateRelation() {
-        /*
         String relationDesignation = "Mother";
         FamilyService familyService = new FamilyService();
 
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city,true);
-        FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero,email2,nif2,rua2,codPostal2,local2,city2);
+        familyService.addFamily(familyOneName);
 
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family family = new Family(familyName, familyID);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        family.addFamilyMember(familyMember1);
-        family.addFamilyMember(familyMember2);
+        assertTrue(familyService.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+    }
 
-        familyService.addFamily(family);
+    @Test
+    void CreateRelationAssertNumberOfDesignationInList() {
+        String relationDesignation = "Mother";
+        FamilyService familyService = new FamilyService();
 
-        assertTrue(familyService.createRelation(cc, cc2, relationDesignation, familyID));
+        familyService.addFamily(familyOneName);
 
-         */
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        familyService.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated);
+
+        int expected = 1;
+
+        int result = familyService.getFamily(familyOneIDGenerated).numberOfRelationDesignations();
+
+        assertEquals(expected, result);
     }
 
     @Test
     void NotAdminTryingToCreateRelationReturningFalse() {
-        /*
         String relationDesignation = "Mother";
         FamilyService familyService = new FamilyService();
 
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero,email2,nif2,rua2,codPostal2,local2,city2);
+        familyService.addFamily(familyOneName);
 
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family family = new Family(familyName, familyID);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
 
-        family.addFamilyMember(familyMember1);
-        family.addFamilyMember(familyMember2);
-
-        familyService.addFamily(family);
-
-        assertFalse(familyService.createRelation(cc, cc2, relationDesignation, familyID));
-
-         */
+        assertFalse(familyService.createRelation(cc2, id3, relationDesignation, familyOneIDGenerated));
     }
 
     @Test
     void FamilyDontExist() {
-        /*
         String relationDesignation = "Mother";
         FamilyService familyService = new FamilyService();
 
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city,true);
-        FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero,email2,nif2,rua2,codPostal2,local2,city2,true);
+        familyService.addFamily(familyOneName);
 
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family family = new Family(familyName, familyID);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        family.addFamilyMember(familyMember1);
-        family.addFamilyMember(familyMember2);
-
-        familyService.addFamily(family);
-
-        int familyID2 = 2;
-
-        assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(cc, cc2, relationDesignation, familyID2));
-
-         */
+        assertThrows(Exception.class, () -> familyService.createRelation(cc, cc2, relationDesignation, familyTwoIDGenerated));
     }
 
     @Test
     void CreateAnExistingRelationDesignation() {
-        /*
         String relationDesignation1 = "Mother";
         String relationDesignation2 = "mother";
         FamilyService familyService = new FamilyService();
 
-        String familyMemberID1 = "000000000ZZ4";
-        String familyMemberID2 = "137843828ZX3";
-        String familyMemeberID3 = "137476450ZX0";
-        FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
-        FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
-        FamilyMember familyMember3 = new FamilyMember(familyMemeberID3);
-        familyMember1.makeAdmin();
+        familyService.addFamily(familyOneName);
 
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family family = new Family(familyName, familyID);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
 
-        family.addFamilyMember(familyMember1);
-        family.addFamilyMember(familyMember2);
-        family.addFamilyMember(familyMember3);
+        familyService.createRelation(cc, cc2, relationDesignation1, familyOneIDGenerated);
 
-        int expected = 1;
-
-        familyService.addFamily(family);
-
-        familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation1, familyID);
-
-        int result = family.numberOfRelationDesignations();
-
-        assertTrue(familyService.createRelation(familyMemberID1, familyMemeberID3, relationDesignation2, familyID));
-        assertEquals(expected, result);
-
-         */
+        assertTrue(familyService.createRelation(cc, id3, relationDesignation2, familyOneIDGenerated));
     }
 
     @Test
     void FamilyMemberWithARelationAssigned() {
-        /*
         String relationDesignation1 = "Mother";
         String relationDesignation2 = "Father";
         FamilyService familyService = new FamilyService();
-        String familyMemberID1 = "000000000ZZ4";
-        String familyMemberID2 = "000000000ZZ4";
-        FamilyMember familyMember1 = new FamilyMember(familyMemberID1);
-        FamilyMember familyMember2 = new FamilyMember(familyMemberID2);
-        familyMember1.makeAdmin();
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family family = new Family(familyName, familyID);
-        family.addFamilyMember(familyMember1);
-        family.addFamilyMember(familyMember2);
-        familyService.addFamily(family);
-        familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation1, familyID);
-        assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(familyMemberID1, familyMemberID2, relationDesignation2, familyID));
 
-         */
+        familyService.addFamily(familyOneName);
+
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        familyService.createRelation(cc, cc2, relationDesignation1, familyOneIDGenerated);
+
+        assertThrows(Exception.class, () -> familyService.createRelation(cc, cc2, relationDesignation2, familyOneIDGenerated));
+
     }
 
     @Test
@@ -332,7 +294,9 @@ class FamilyServiceTest {
         assertEquals(expected, result);
     }
 
-    /** US101 addFamilyMember **/
+    /**
+     * US101 addFamilyMember
+     **/
     @Test
     void NotAddFamilyMember_EmailPresent() {
 
@@ -399,35 +363,37 @@ class FamilyServiceTest {
         assertTrue(familias.addFamilyMember(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, 1));
     }
 
-    /** US011 addFamilyAdministrator **/
+    /**
+     * US011 addFamilyAdministrator
+     **/
     @Test
     void addFamilyAdministrator_FamilyExists() {
-        Family ribeiros = new Family("Ribeiro",1);
+        Family ribeiros = new Family("Ribeiro", 1);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,1));
+        assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1));
     }
 
     @Test
     void NotAddFamilyAdministrator_FamilyNotExists() {
-        Family ribeiros = new Family("Ribeiro",1);
+        Family ribeiros = new Family("Ribeiro", 1);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertThrows(IllegalArgumentException.class,()-> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,2));
+        assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 2));
     }
 
     @Test
     void addFamilyAdministrator_EmailNotPresent() { // Not able to create a family member object
-        Family ribeiros = new Family("Ribeiro",1);
+        Family ribeiros = new Family("Ribeiro", 1);
         ribeiros.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertTrue(familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1));
+        assertTrue(familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
     }
 
     @Test
     void NotAddFamilyAdministrator_EmailPresent() { // Not able to create a family member object
-        Family ribeiros = new Family("Ribeiro",1);
+        Family ribeiros = new Family("Ribeiro", 1);
         ribeiros.addFamilyMember(cc, name, date, numero, "abc@gmail.com", nif, rua, codPostal, local, city);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertThrows(IllegalArgumentException.class,()-> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2,1));
+        assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, 1));
     }
 
     @Test
@@ -435,7 +401,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertTrue(familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated));
+        assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated));
     }
 
     @Test
@@ -443,7 +409,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyTwoIDGenerated));
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyTwoIDGenerated));
     }
 
     @Test
@@ -452,9 +418,9 @@ class FamilyServiceTest {
         familyService.addFamily(familyOneName); //id1
         familyService.addFamily(familyTwoName); //id2
 
-        familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated); // for family One
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated); // for family One
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2,name2,date2, numero2, email, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated)); // insert same email from user from family one
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated)); // insert same email from user from family one
     }
 
     @Test
@@ -462,7 +428,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2,name2,date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoID)); // insert a FamilyId that doenst exists in system
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoID)); // insert a FamilyId that doenst exists in system
     }
 
     //Test related to validation before obtaining FamilyMemberRelationDTOList
@@ -641,9 +607,9 @@ class FamilyServiceTest {
         familyService.addFamily(familyTwoName); //id2
         familyService.addFamily(familyThreeName); //id3
 
-        familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyAdministrator(cc2,name2,date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated);
-        familyService.addFamilyAdministrator(id3,name3,date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyThreeIDGenerated);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated);
+        familyService.addFamilyAdministrator(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyThreeIDGenerated);
 
         List<FamilyWithoutAdministratorDTO> expected = new ArrayList<>(); //empty list
 
@@ -659,7 +625,7 @@ class FamilyServiceTest {
         familyService.addFamily(familyOneName);
         familyService.addFamily(familyTwoName);
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated));
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated));
     }
 
     @Test

@@ -26,7 +26,8 @@ public class AddFamilyAdministratorController {
     public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID){
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
-            return familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, familyID);
+            familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, familyID);
+            return true;
         } catch (Exception exception) {
             return false;
         }

@@ -76,5 +76,27 @@ class RelationTest {
         assertNotSame(relation1, relation2);
         assertNotEquals(relation1, relation2);
     }
+
+    @Test
+    void compareSameRelation() {
+        String relationDesignation = "Mother";
+
+        Relation relation = new Relation(relationDesignation);
+
+        assertEquals(relation, relation);
+        assertSame(relation, relation);
+    }
+
+    @Test
+    void compareRelationWithOtherClass() {
+        String relationDesignation = "Mother";
+
+        Relation relation = new Relation(relationDesignation);
+
+        Object objectToCompare = new Object();
+
+        assertNotEquals(relation, objectToCompare);
+        assertNotSame(relation, objectToCompare);
+    }
 }
 
