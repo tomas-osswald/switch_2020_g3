@@ -520,7 +520,7 @@ class FamilyServiceTest {
      * does not have Administrator privileges.
      */
     @Test
-    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEqualsBecauseTheFamilyMemberIsNotAdministratorAndTheReturnIsEmptyList() {
+    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEquals_ReturnIsEmptyList() {
         //Arrange
         familyMembers.add(diogo);
         familyMembers.add(jorge);

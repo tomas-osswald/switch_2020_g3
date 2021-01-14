@@ -328,21 +328,6 @@ public class Family {
         return hasCashAccount;
     }
 
-    /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        for (FamilyMember familyMembers : familyMembers) {
-            String name = familyMembers.getName();
-            String relation;
-            if (familyMembers.getRelation().equals(null)){ // Testar se apontador == funciona.
-               relation = "relação por definir";
-            } else {
-               relation = familyMembers.getRelation();
-            }
-            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-            DTOList.add(newMember);
-            }
-        return DTOList;
-        } */
 
     /** This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
      * it iterates through the familyMembers and each one of them will create a copy of himself, with
@@ -350,7 +335,7 @@ public class Family {
      * Returns said List back to the Family Service.
      * @return List of FamilyMembersRelationDTO
      */
-    // Changes to method IOT get a DTO directly from the Familymember
+    // Changes to method IOT get a DTO directly from the FamilyMember
         public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember familyMembers : familyMembers) {
