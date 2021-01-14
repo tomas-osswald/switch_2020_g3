@@ -624,7 +624,7 @@ We also used the SOLID SRP principle.
             assertTrue(result);
         }
         
- **Test 16 & 17:** Verify expected failure cases (expecting false) for both possible motives
+ **Tests 16 & 17:** Verify expected failure cases (expecting false) for both possible motives
               Passing a wrong familyID (test 16) and user not being a Family Administrator
  
     @Test
@@ -669,9 +669,78 @@ We also used the SOLID SRP principle.
 
 # 4. Implementation
 
-*Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
+**Finding the correct Family in the Families List**
 
-*Recomenda-se que organize este conteúdo por subsecções.*
+Two methods were created to find the correct family. One checks the existence of the specific family, through
+the familyID and the other one uses this validation to iterate through the list of families and return the correct one.
+
+    private boolean checkIfFamilyExists(int familyID) {
+        for (Family family : families) {
+            if (familyID == family.getFamilyID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public Family getFamily(int familyID) {
+            if (checkIfFamilyExists(familyID)) {
+                for (Family family : families) {
+                    if (family.getFamilyID() == familyID)
+                        return family;
+                }
+            } else {
+                throw new IllegalArgumentException("No family with such ID");
+            }
+            return null;
+        }
+        
+**Verify if the user is the Family Administrator**
+
+This method is used to verify the User as a Family Administrator in order to obtain the List
+
+    public boolean verifyAdministrator(String ccNumber) {
+        for (FamilyMember familyMember : familyMembers) {
+            if (familyMember.compareID(ccNumber))
+                return familyMember.isAdministrator();
+        }
+        return false;
+    }
+    
+**Obtain the List of Family Members and their Relation**
+
+Once obtained the correct family and verified the Administrator permission, a method was used to iterate through all the Family Members
+of the Family delegating on them the responsibility of creating a DTO copy of themselves.
+
+    public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember familyMembers : familyMembers) {
+            FamilyMemberRelationDTO newMember = familyMembers.createFamilyMemberRelationDTO();
+            DTOList.add(newMember);
+        }
+        return DTOList;
+    }    
+  
+Then, in the FamilyMember Class, every Family Member creates the DTO copy of themselves with the required information
+returning it to the Family.
+
+    public FamilyMemberRelationDTO createFamilyMemberRelationDTO() {
+            FamilyMemberRelationDTO copyOfFamilyMemberDTO;
+            name = this.getName();
+            String relation;
+            if (this.relation == null) {
+                if (this.isAdministrator() == true) {
+                    relation = "Self";
+                } else {
+                    relation = "Undefined Relation";
+                }
+            } else {
+                relation = this.relation.getRelationDesignation();
+            }
+            copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
+            return copyOfFamilyMemberDTO;
+        }  
+
 
 # 5. Integration/Demonstration
 

@@ -119,7 +119,7 @@ title createRelation( ).1
 actor "Family Administrator" as familyAdministrator
 participant ": UI" as ui
 participant ": ControllerAddRelation" as controler
-participant ": App" as app
+participant ": Application" as app
 participant "familyService : FamilyService" as service
 
 
