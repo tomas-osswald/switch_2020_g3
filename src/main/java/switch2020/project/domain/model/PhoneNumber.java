@@ -35,11 +35,11 @@ public class PhoneNumber {
         if (this == o) return true;
         if (!(o instanceof PhoneNumber)) return false;
         PhoneNumber that = (PhoneNumber) o;
-        return phoneNumber == that.phoneNumber;
+        return this.phoneNumber == that.phoneNumber;
     }
 
-    @Override
+    /*@Override
     public int hashCode() {
         return Objects.hash(phoneNumber);
-    }
+    }*/
 }

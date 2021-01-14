@@ -12,7 +12,7 @@ public class CategoryService {
 
     private List<StandardCategory> categories;
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -23,7 +23,7 @@ public class CategoryService {
     @Override
     public int hashCode() {
         return Objects.hash(categories);
-    }
+    }*/
 
     public CategoryService() {
         this.categories = new ArrayList<>();
