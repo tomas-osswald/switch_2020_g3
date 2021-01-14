@@ -70,7 +70,7 @@ public class FamilyService {
     private int findFamilyIndexByID(int familyID) {
         int index = 0;
         for (Family family : this.families) {
-            if (family.getFamilyID() == familyID) {
+            if (family.isIDOfThisFamily(familyID)) {
                 return index;
             }
             index++;
@@ -230,17 +230,6 @@ public class FamilyService {
      * @return DTOList containing Family Members' name and the relationDesignation.
      */
 
-   /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        Family family = getFamily(familyID);
-        if (family.verifyAdministratorPermission(familyAdministratorID)) {
-            DTOList = family.getFamilyMembersRelationDTOList();
-        }
-        return DTOList;
-    } */
-
-            // Method que vai mudar o GetFMRDTO para validações de CC.
-
          public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
                 List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
                 Family family = getFamily(familyID);
@@ -269,13 +258,20 @@ public class FamilyService {
         return success;
     }
 
+    /**
+     *Using the familyID the method iterates through the list of families
+     * and after finding the correct family iterates through the list of
+     * family members to find the family member which profile has been
+     * requested. The profile is the returned as a MemberProfileDTO
+     *
+     * @param familyId representing the unique ID given to each family
+     * @param ccNumber representing the unique ID from each family member
+     * @return MemberProfileDTO with member's attributes
+     */
     public MemberProfileDTO getFamilyMemberProfile(int familyId, String ccNumber) {
 
         Family family = getFamily(familyId);
-        FamilyMember familyMember = family.getFamilyMemberByID(ccNumber);
-        MemberProfileDTO memberProfile = familyMember.createProfile();
-
-        return memberProfile;
+        return family.getFamilyMemberProfile(ccNumber);
     }
 
     /**

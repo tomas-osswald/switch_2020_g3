@@ -7,8 +7,8 @@ public class AddStandardCategoryController {
 
     private Application ffmApplication;
 
-    public  AddStandardCategoryController(Application application) {
-        this.ffmApplication = application;
+    public  AddStandardCategoryController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     public boolean addStandardCategory(String categoryName, int parentID) { //int parentID used as parameter, zero if base category

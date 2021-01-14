@@ -53,6 +53,6 @@ public class MemberProfileDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+        return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
     }
 }

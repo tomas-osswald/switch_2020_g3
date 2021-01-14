@@ -7,15 +7,15 @@ import switch2020.project.utils.StandardCategoryDTO;
 import java.util.List;
 
 public class GetStandardCategoriesTreeController {
-    private Application app;
+    private Application ffmApplication;
 
 
-    public GetStandardCategoriesTreeController(Application app) {
-        this.app = app;
+    public GetStandardCategoriesTreeController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     public List<StandardCategoryDTO> getStandardCategories(){
-        CategoryService categoryService = this.app.getCategoryService();
+        CategoryService categoryService = this.ffmApplication.getCategoryService();
         return categoryService.getStandardCategoriesDTOList();
     }
 }

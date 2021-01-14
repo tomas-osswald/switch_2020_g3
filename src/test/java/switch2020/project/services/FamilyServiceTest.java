@@ -1,6 +1,8 @@
 package switch2020.project.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
@@ -31,6 +33,14 @@ class FamilyServiceTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
+    //ProfileMemberDTO setup
+    Address address = new Address(rua, codPostal, local, city);
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    VatNumber vatNumber = new VatNumber(nif);
+    FamilyService familyService = new FamilyService();
 
     //Added 2nd FamilyMember to test
     String cc2 = "166699209ZY8";
@@ -304,6 +314,24 @@ class FamilyServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void createFamilyCashAccountResultFalseNotAdmin() {
+        FamilyService familyService = new FamilyService();
+        int familyID = 1;
+        String familyName = "Simpson";
+        Family aFamily = new Family(familyName, familyID);
+        double balance = 0;
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, false);
+        aFamily.addFamilyMember(diogo);
+        familyService.addFamily(aFamily);
+        familyService.createFamilyCashAccount(familyID, balance, cc);
+        boolean expected = false;
+
+        boolean result = familyService.createFamilyCashAccount(familyID, balance, cc);
+
+        assertEquals(expected, result);
+    }
+
     /** US101 addFamilyMember **/
     @Test
     void NotAddFamilyMember_EmailPresent() {
@@ -494,7 +522,7 @@ class FamilyServiceTest {
      * does not have Administrator privileges.
      */
     @Test
-    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEqualsBecauseTheFamilyMemberIsNotAdministratorAndTheReturnIsEmptyList() {
+    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEquals_ReturnIsEmptyList() {
         //Arrange
         familyMembers.add(diogo);
         familyMembers.add(jorge);
@@ -545,56 +573,29 @@ class FamilyServiceTest {
 
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
-        //Arrange
-        Address address = new Address(rua, codPostal, local, city);
-
-        EmailAddress emailAddress = new EmailAddress(email);
-        List<EmailAddress> emails = new ArrayList<>();
         emails.add(emailAddress);
-
-        PhoneNumber phoneNumber = new PhoneNumber(numero);
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(phoneNumber);
-
-        VatNumber vatNumber = new VatNumber(nif);
-
-        FamilyService familyService = new FamilyService();
-
         familyService.addFamily(family);
         family.addFamilyMember(diogo);
-
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
-        //Act
+
         MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
-        //Assert
+
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
 
     @Test
     void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
-        //Arrange
-        Address address = new Address(rua, codPostal, local, city);
-
-        EmailAddress emailAddress = new EmailAddress(email);
-        List<EmailAddress> emails = new ArrayList<>();
         emails.add(emailAddress);
-
-        PhoneNumber phoneNumber = new PhoneNumber(numero);
-        List<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(phoneNumber);
-
-        VatNumber vatNumber = new VatNumber(nif);
-
-        FamilyService familyService = new FamilyService();
-
         familyService.addFamily(family);
+        family.addFamilyMember(diogo);
         family.addFamilyMember(jorge);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
-        //Act
         MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, jorge.getID());
-        //Assert
+
         assertNotEquals(expected, result);
     }
 
@@ -661,4 +662,33 @@ class FamilyServiceTest {
         assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated));
     }
 
+    @Test
+    void addFamily_Test1NameMoreiraSuccess() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "Moreira";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void addFamily_Test2NameSimpsonSuccess() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "Simpson";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void addFamily_Test3Failure() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertFalse(result);
+    }
 }
