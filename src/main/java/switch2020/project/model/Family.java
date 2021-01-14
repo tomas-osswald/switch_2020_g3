@@ -151,6 +151,19 @@ public class Family {
         return false;
     }
 
+    private boolean checkIfCCNumberExists(String cc){
+        ArrayList<String> ccList = new ArrayList();
+        for (FamilyMember member : familyMembers) {
+            ccList.add(member.getFamilyMemberID());
+        }
+        for ( String ccNumber : ccList) {
+            if(ccNumber == cc){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Method to add a relation designation to list of relation designations
      *
@@ -263,9 +276,13 @@ public class Family {
 
     public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
-            familyMembers.add(newFamilyMember);
-            return true;
+            if(!checkIfCCNumberExists(cc)){
+                FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                familyMembers.add(newFamilyMember);
+                return true;
+            } else {
+                throw new IllegalArgumentException("ccNumber already exists in the Family");
+            }
         } else {
             throw new IllegalArgumentException("Vat already exists in the Family");
         }
