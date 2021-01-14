@@ -1,6 +1,8 @@
 package switch2020.project.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
@@ -410,4 +412,33 @@ class FamilyServiceTest {
     }
 
 
+    @Test
+    void addFamily_Test1NameMoreiraSuccess() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "Moreira";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void addFamily_Test2NameSimpsonSuccess() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "Simpson";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void addFamily_Test3Failure() {
+        FamilyService familyService = new FamilyService();
+        String familyName = "";
+
+        boolean result = familyService.addFamily(familyName);
+
+        Assertions.assertFalse(result);
+    }
 }

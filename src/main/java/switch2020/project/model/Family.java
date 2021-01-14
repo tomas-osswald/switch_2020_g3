@@ -29,24 +29,24 @@ public class Family {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         this.familyMembers = new ArrayList<>();
         this.registrationDate = new Date();
-        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+        this.familyName = familyName;
         this.familyID = familyID;
     }
-
+/*
     /**
      * Constructor for an empty family for registrations requiring a different registration date
      * @param familyName String with the name of the family to be created
      * @param registrationDate Date of the registration of the given family
-     */
+
     public Family(String familyName, Date registrationDate, int familyID) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
         this.familyMembers = new ArrayList<>();
         this.registrationDate = registrationDate;
-        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+        this.familyName = familyName;
         this.familyID = familyID;
     }
-
+*/
     // Validations
 
     private boolean isNameValid(String familyName) {

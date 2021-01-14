@@ -29,6 +29,7 @@ class RelationTest {
         assertEquals(expected, relation.getRelationDesignation());
     }
 
+    /*
     @Test
     public void getDesignation() {
         Relation uncle = new Relation("uncle");
@@ -36,6 +37,8 @@ class RelationTest {
         Relation expected = new Relation(expectedString);
         assertEquals(uncle, expected);
     }
+
+     */
 
 
 

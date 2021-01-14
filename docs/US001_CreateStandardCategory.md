@@ -7,13 +7,13 @@
 *As a system manager, I want to create a new Standard Category*
 
 
-**Demo1** As a system manager, I want to create...
+**1** As a system manager, I want to create...
 
-- Demo1.1. The new standard category "Habitação", at the root level;
+- 1.1. The new standard category "Habitação", at the root level;
 
-- Demo1.2. The already existing category "Habitação";
+- 1.2. The already existing category "Habitação";
 
-- Demo1.3. The new standard category "Renda", as a sub-category of Habitação; 
+- 1.3. The new standard category "Renda", as a sub-category of Habitação; 
 
 We interpreted this requirement as the function of a system manager to create a new standard category that can be accessed by all users. 
 The name of the category must not be empty, and it can't exist in the current list of standard categories.
@@ -45,12 +45,10 @@ In order to fulfill this requirement we need two pieces of data
 - 1. Category Name - the designation of the standard category to add
 - 2. Parent Category ID - if it is a subcategory the parent category must be indicated
 
-The registration date of the family is also kept and is equal to the system's date at the time of registration
-
 # 3. Design
 
 The process to fulfill this requirement requires the actor to select they want to create a new standard category, 
-which would prompt the input of the designation or name for that category.
+which would prompt the input of the designation or name for that category and the id of its parent category.
 Given the current absence of an UI layer the Int *parentCategoryID* and String *standardCategoryName* will be passed directly into the AddStandardCategoryController. 
  
 ```` puml
@@ -67,17 +65,17 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    activate systemManager
    systemManager -> UI: create a Standard Category
    activate UI
-   UI --> systemManager: ask new category name
+   UI --> systemManager: ask new category name and parent category
    deactivate UI
-   systemManager -> UI: input category name
+   systemManager -> UI: input category name and parent category ID
    activate UI
-   UI -> controller: createStandardCategory(name)
+   UI -> controller: createStandardCategory(name,parentID)
    activate controller
    controller -> application: getCategoryService()
    activate application
    application --> controller: categoryService
    deactivate application
-   controller -> catServ: createStandardCategory(name)
+   controller -> catServ: createStandardCategory(name,parentID)
    activate catServ
    catServ -> catServ: doesCategoryAlreadyExist(name)
    
@@ -87,7 +85,10 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    UI --> systemManager: inform failure
    
    else category not present
-   catServ -> category **: create(name)
+
+   catServ -> catServ: getStandardCategoryByID(parentID)
+
+   catServ -> category **: create(name,parentCategory)
    catServ -> application: addCategory(newStandardCategory)
    catServ --> controller: ok
    deactivate catServ
@@ -104,7 +105,7 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
 ## 3.1. Functionality Use
 The AddStandardCategoryController will invoke the Application object, which stores a CategoryService object.
 The Application will return the CategoryService, which contains a list of all StandardCategories.
-It then creates a new StandardCategory Object and adds it to the existing list.
+The CategoryService then creates a new StandardCategory Object and adds it to the existing list.
 
 
 ## 3.2. Class Diagram
@@ -188,7 +189,7 @@ After providing a category name and, optionally, selecting a parent category (cu
 # 5. Integration
  
 The development of this user story was the basis for the financial categories of the application and was thus crucial for the development of other User Stories
-Both [US002](US002_GetStandardCategories.md) and [US110](US110_GetCategoryTree.md) used the implemantion of this US
+Both [US002](US002_GetStandardCategories.md) and [US110](US110_GetCategoryTree.md) used the implementation of this US
 
 #6. Observations
 
