@@ -19,130 +19,42 @@ We interpreted this requirement as the function of a familyAdmin to add a new Pe
     - Phone (none or multiple);
     - Email (none or multiple).
 
-### 1.2 US101 Sequence Diagram
+### 1.2 System Sequence Diagram
 
-````puml
-@startuml
-autonumber
-title addFamilyMember
+```` puml
 
-actor "FamilyAdmin" as actor
-participant ": UI" as UI
-participant ": addFamilyMemberController" as controller
-participant ": FFM Application" as app
-participant "famServ : FamilyService" as famService
-participant "aFamily : Family" as family
-participant "aFamilyMember : FamilyMember" as person
+    autonumber
+    title US101 - Add Family Member SSD
+    actor "Family Administrator" as familyAdmin
+    participant "System" as system
 
-activate actor
-actor -> UI: get Family by ID
-activate UI
-UI -> controller: getFamilyById(familyID)
-activate controller
-controller -> app: getFamilyById(familyID)
-activate app
-app -> famService: getFamilyById(familyID)
-activate famService
-famService -> app: ok
-deactivate famService
-app -> controller: ok
-deactivate app
-controller -> UI: ok
-deactivate controller
-UI -> actor: informs success
-deactivate UI
+    activate familyAdmin
+    familyAdmin -> system: get Family ID
+    activate system
+    system -> familyAdmin: inform sucess
+    deactivate system
+    familyAdmin -> system: add Family Member
+    activate system
+    familyAdmin -> system: input required data
+    alt failure
+    system -> familyAdmin : Inform Failure
+    
+    else sucess
+    system -> familyAdmin : Inform Success
+    end
+    deactivate system
 
-actor -> UI: add Family Member data
-activate UI
-UI -> actor: ask data
-deactivate UI
-
-actor -> UI: inputs required data
-activate UI
-UI -> controller: addFamilyMember(name,dateBirth,vat,phone,address,admin)
-activate controller
-controller -> app: addFamilyMember(name,dateBirth,vat,phone,address,admin)
-activate app
-app -> famService: addFamilyMember(name,dateBirth,vat,phone,address,admin)
-activate famService
-
-alt if is Admin - FALSE
-  famService -> famService: isAdmin()
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - TRUE
-end
-
-alt email exists - TRUE
-  famService -> famService: checkIfEmailExists()
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
-end
-
-famService -> family: addFamilyMember(name,dateBirth,vat,phone,address,admin)
-activate family
-
-alt vat exists - TRUE
-  family -> family: checkIfVatExist()
-  family -> famService: fail
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
-end
-
-family -> person **: create(name,dateBirth,vat,phone,address)
-
-family -> family: addMember(aPerson)
-family -> famService
-deactivate family
-famService -> app: ok
-deactivate famService
-app -> controller: ok
-deactivate app
-controller -> UI: ok
-deactivate controller
-UI -> actor: informs success
-deactivate UI
-deactivate actor
-@enduml
+@endpuml
 ````
 
-````puml
-@startuml
-autonumber
-title createFamilyMember
-
-participant "aFamilyMember : FamilyMember" as person
-participant "aVat : VAT" as vat
-participant "aAddress : address" as address
-participant "aPhone : Phone" as phone
-participant "aEmail : Email" as email
-
--> person **: create(name,dateBirth,vat,phone,address)
-activate person
-person -> vat **: create(vat)
-person -> address **: create(address)
-person -> phone **: create(phone)
-person -> email **: create(email)
-deactivate person
-
-@enduml
-````
 
 ### 1.3 Dependencies
 
 This user story has a dependency with these **2** user stories:
-- **US010** *(As a system manager, I want to create a family)*
+- **[US010](US010_AddFamily.md)** *(As a system manager, I want to create a family)*
     - In order to be added a family member, the system needs to have a family;
     
-- **US011** *(As a system manager, I want to add a family administrator)*
+- **[US011](US010_AddFamilyAdministrator.md)** *(As a system manager, I want to add a family administrator)*
    - In order to be added a family member, the family needs to have a family administrator;
    
 # 2. Analysis
@@ -511,21 +423,23 @@ void AddFamilyMember_isAdmin() {
 
 During this feature implementation extra code was added to avoid the UI limitation. These scenarios were the following:
 
-- ####Get the selfCCNumber, that works as a familyID, from the user
-
-With the UI and login layer implemented, this info is already defined and the controller doesn't need to ask the FamilyService his selfCCNumber.
-
 - ####Verify if the user is a FamilyAdmin
 
-With the UI and login layer implemented, it is not necessary to confirm if the User is Admin because this userStory will only be available if the User is Admin.
+With the UI and login layer implemented, this info is already defined and the controller doesn't need to ask the Family his selfCCNumber to assure the user is Admin.
+
+- ####Get the FamilyID 
+
+With the UI and login layer implemented, it is not necessary to ask which family this user belongs to.
 
 # 5. Integration/Demonstration
 
-*Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as restantes funcionalidades do sistema.*
+As it was said before, this UserStory dependes on both **[US010 - Add Family]** and **[US011 - Add Family Administrator]**.
 
 # 6. Observations
 
-*Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por exemplo, outras alternativas e ou trabalhos futuros relacionados.*
+In the future, both issues presented in implementation section will be solved when the UI, and login layer are set up.
+With the login layer, the user ID will be already available before the UserStory gets executed, avoiding the method *getFamily(familyID)* execution. 
+A similar scenario will happen with *selfCCNumber*, because the UI will already know which user is executing this UserStory and therefore don't need confirm if he has permissions to do it.
 
 
 
