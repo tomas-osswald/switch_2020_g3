@@ -2,7 +2,9 @@ package switch2020.project.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,15 @@ class FamilyTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
+    //ProfileMemberDTO setup
+    Address address = new Address(rua, codPostal, local, city);
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    VatNumber vatNumber = new VatNumber(nif);
+    FamilyService familyService = new FamilyService();
+
     String cc2 = "166699209ZY8";
     String name2 = "Tony";
     Date date2 = new Date(1954, 8, 26);
@@ -40,15 +51,17 @@ class FamilyTest {
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
+
     //Setup for getFamilyMemberRelationDTO List
-    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-    FamilyMember jorge = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
+    FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
+    FamilyMember jorge = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
     FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
     FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), "Undefined Relation");
     FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), "Undefined Relation");
     FamilyMemberRelationDTO newMemberUndefinedRelation = new FamilyMemberRelationDTO(newMember.getName(), "Undefined Relation");
     List<FamilyMemberRelationDTO> expectedDTOList = new ArrayList<>();
     ArrayList<FamilyMember> expectedFamilyMembers = new ArrayList<>();
+
     int familyOneID = 123;
     String familyOneName = "Simpson";
     Family family = new Family(familyOneName, familyOneID);
@@ -370,6 +383,33 @@ class FamilyTest {
         List<FamilyMemberRelationDTO> result = family.getFamilyMembersRelationDTOList();
         assertEquals(expectedDTOList, result);
         assertNotSame(expectedDTOList, result);
+    }
+
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(diogo.getID());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(jorge.getID());
+
+        assertNotEquals(expected, result);
     }
 
     /**

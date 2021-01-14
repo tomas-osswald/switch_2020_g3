@@ -188,84 +188,180 @@ We applied the principles of Controller, Information Expert, Creator and PureFab
 We also used the SOLID SRP principle.
 
 ## 3.4. Tests 
-    
+
+The tests were conducted on FamilyMemberTest, FamilyServiceTest and GetFamilyMemberProfileControllerTest. 
 The following preparation was made for the execution of the tests:
 
-    The tests were conducted on FamilyMemberTest, FamilyServiceTest and GetFamilyMemberProfileControllerTest.
-    For the purpose of these tests, it was assumed that all classes and methods that were created in which this implementation depends, have been properly tested.
-    
+    //Family Member Diogo
+    String cc = "000000000ZZ4";
+    String name = "Diogo";
+    Date date = new Date(1990,8,26);
+    Integer numero = 919999999;
+    String email = "josediogoccbr@gmail.com";
+    int nif = 212122233;
+    String rua = "Rua Nossa";
+    String codPostal = "4444-555";
+    String local = "Zinde";
+    String city = "Porto";
+    String relacao = "filho";
+    Relation relation = new Relation(relacao);
+    boolean admin = false;
 
-**Test 1:** Verify that a correct email is accepted
+    Address address = new Address(rua, codPostal, local, city);
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    VatNumber vatNumber = new VatNumber(nif);
 
-    @Test
-    public void checkifEmailAdded() {
-    assertTrue(controller.addEmail("test@isep.ipp.pt", 666));
-    }
+    //Family Member Tony
+    String id2 = "166699209ZY8";
+    String name2 = "Tony";
+    Date date2 = new Date(1954,8,26);
+    int numero2 = 919999998;
+    String email2 = "tony@gmail.com";
+    int nif2 = 212122000;
+    String rua2 = "Rua";
+    String codPostal2 = "4444-556";
+    String local2 = "Gaia";
+    String city2 = "Porto";
+    String relacao2 = "primo";
+    Relation relation2 = new Relation(relacao2);
+    boolean admin2 = false;
 
-**Test 2:** Verify that a correct email is not accepted if already entered before
+    FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city, admin);
+    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
+    FamilyMember diogoNoAdmin = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
+    Family family = new Family(familyOneName, familyOneID);
+    Family familyTwo = new Family(familyTwoName, familyTwoID);
 
-    @Test
-    public void checkEmailAlreadyPresent() {
-        controller.addEmail("test2@isep.ipp.pt", 666);
-        assertFalse(controller.addEmail("test2@isep.ipp.pt", 666));
-
-    }
-**Test 3:** Verify that an exception is thrown when there is no family member with the inserted ID
-
-    @Test
-    public void checkIfThrowsWhenNoSuchID() {
-        assertThrows(IllegalArgumentException.class, () -> controller.addEmail("test3@isep.ipp.pt", 888));
-    }
-**Test 4:** Verify that an exception is thrown when there is a space in the inserted email string
-
-    @Test
-    public void CreatingEmailAddressWithSpace() {
-        Throwable exception =
-                assertThrows(IllegalArgumentException.class, () -> {
-                    EmailAddress badEmail = new EmailAddress("11207 17@isep.ipp.pt");
-                });
-    }
-**Test 5:** Verify that an exception is thrown when there is an illegal character in the inserted email string
-
-    @Test
-    public void CreatingEmailAddressWithIllegalCharacters() {
-        Throwable exception =
-                assertThrows(IllegalArgumentException.class, () -> {
-                    EmailAddress badEmail = new EmailAddress("!1120717@isep.ipp.pt");
-                });
-    }
-**Test 6:** Verify that an exception is thrown when there are two Ats in the inserted email string
-
-    @Test
-    public void CreatingEmailAddressWithTwoAts() {
-        Throwable exception =
-                assertThrows(IllegalArgumentException.class, () -> {
-                    EmailAddress badEmail = new EmailAddress("1120717@@isep.ipp.pt");
-                });
-    }
-**Test 7:** Verify that an exception is thrown when the inserted email is Blank
+**Test 1:** Verify that createProfile() creates the MemberProfileDTO correctly
 
     @Test
-    public void CreatingEmotyEmailAddress() {
-    Throwable exception =
-    assertThrows(IllegalArgumentException.class, () -> {
-    EmailAddress badEmail = new EmailAddress("");
-    });
+    void getMemberProfileTest1_objectsAreEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = diogoNoAdmin.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
-**Test 8:** Verify that an exception is thrown when the inserted email is null
+
+**Test 2:** Verify that MemberProfileDTO is created if admin attribute is true
+
+      @Test
+      void getMemberProfileTest3_AdministratorObjectsAreEqual() {
+  
+          emails.add(emailAddress);
+          phoneNumbers.add(phoneNumber);
+          FamilyMember admin = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city, true);
+          MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+  
+          MemberProfileDTO result = admin.createProfile();
+          //Assert
+          assertEquals(expected, result);
+          assertNotSame(expected, result);
+      }
+
+**Test 3:** Verify that MemberProfileDTO is created if an invalid email is provided
 
     @Test
-    public void CreatingNullEmailAddress() {
-        String nullEmail = null;
-        Throwable exception =
-                assertThrows(IllegalArgumentException.class, () -> {
-                    EmailAddress badEmail = new EmailAddress(nullEmail);
-                });
+    void getMemberProfileTest5_objectsAreEqualNullEmail() {
+        phoneNumbers.add(phoneNumber);
+        FamilyMember joaquim = new FamilyMember(cc, name, date,numero,null,nif,rua,codPostal,local, city);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = joaquim.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
+
+**Test 4:** Verify that MemberProfileDTO is created if an invalid phoneNumber is provided
+
+    @Test
+    void getMemberProfileTest7_objectsAreEqualInvalidPhoneNumber() {
+        emails.add(emailAddress);
+        FamilyMember joaquim = new FamilyMember(cc, name, date,null,email,nif,rua,codPostal,local, city);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = joaquim.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+**Test 5:** Verify that getMemberProfile(familyID, ccNumber) creates MemberProfileDTO
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+**Test 6:** Verify that getMemberProfile(ccNumber) in Family creates MemberProfileDTO
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(diogo.getID());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+**Test 7:** Verify that MemberProfileDTO can be created with relation
+
+    @Test
+    void getMemberProfileTest9_WithRelationObjectsAreEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        diogoNoAdmin.addRelation(relation);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+
+        MemberProfileDTO result = diogoNoAdmin.createProfile();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+
+**Test 8:** Verify that controller can create MemberProfileDTO, testing the whole flow
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        app.getFamilyService().addFamily(family);
+        app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getID());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
 
 # 4. Implementation
 
-**Finding the correct FamilyMember**
+**Finding the correct FamilyService**
 
 In order to find the relevant FamilyMember by its ID, a method was constructed to retrieve their index in the FamilyMember array in the Family Class:
 
