@@ -69,7 +69,7 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    deactivate UI
    systemManager -> UI: input category name and parent category ID
    activate UI
-   UI -> controller: createStandardCategory(name,parentID)
+   UI -> controller: addStandardCategory(name,parentID)
    activate controller
    controller -> application: getCategoryService()
    activate application
@@ -140,7 +140,7 @@ class StandardCategory {
 }
 
 AddStandardCategoryController --> Application
-Application --> CategoryService
+AddStandardCategoryController --> CategoryService
 CategoryService --> StandardCategory
 
 @enduml

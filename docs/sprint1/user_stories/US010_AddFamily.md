@@ -49,7 +49,7 @@ UI --> systemManager: ask new family name
 deactivate UI
 systemManager -> UI: input family name
 activate UI
-UI -> controller: createFamily(name)
+UI -> controller: addFamily(name)
 activate controller
 controller -> application: getFamilyService()
 activate application
@@ -57,8 +57,6 @@ application --> controller: familyService
 deactivate application
 controller -> famServ: createFamily(name)
 activate famServ
-famServ -> famServ: doesFamilyAlreadyExist(familyID)
-
 
 famServ -> family**: create(name)
 famServ -> famServ: addFamily(newFamily)
@@ -110,7 +108,7 @@ class Family {
 }
 
 AddFamilyController --> Application
-Application --> FamilyService
+AddFamilyController --> FamilyService
 FamilyService --> Family
 
 @enduml
