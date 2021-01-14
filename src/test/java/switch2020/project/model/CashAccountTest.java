@@ -57,9 +57,9 @@ class CashAccountTest {
     }
 
     @Test
-    void constructorValidIDTen() {
+    void constructorValidIDZero() {
         assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(10);
+            CashAccount cashAccountOne = new CashAccount(0);
         });
     }
 
