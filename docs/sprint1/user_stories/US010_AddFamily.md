@@ -59,12 +59,7 @@ controller -> famServ: createFamily(name)
 activate famServ
 famServ -> famServ: doesFamilyAlreadyExist(familyID)
 
-alt family already present
-famServ --> controller: failed
-controller --> UI: failed
-UI --> systemManager: inform failure
 
-else family not present
 famServ -> family**: create(name)
 famServ -> famServ: addFamily(newFamily)
 famServ --> controller: ok
@@ -74,7 +69,7 @@ deactivate controller
 UI --> systemManager: inform success
 deactivate UI
 
-end
+
 @enduml
 ````
 
