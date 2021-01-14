@@ -2,6 +2,7 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.services.FamilyService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,6 +48,7 @@ class StandardCategoryTest {
             StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         });
     }
+
     @Test
     void categoryConstructorTest5_invalidBlankName () {
         String categoryName = "    ";
@@ -56,7 +58,6 @@ class StandardCategoryTest {
             StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         });
     }
-
 
     @Test
     void getNameTest1_categoryNameHabitacao() {
@@ -165,6 +166,7 @@ class StandardCategoryTest {
 
         assertTrue(result);
     }
+
     @Test
     void isDesignationOfThisCategoryTest4_designationIsDifferent() {
         String categoryName = "Habitação  ";
@@ -176,4 +178,72 @@ class StandardCategoryTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void getParentNameTest1_parentCategoryNull() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, null,categoryID);
+        String expected = "root";
+
+        String result = newStandardCategory.getParentName();
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void getParentNameTest2_parentCategoryHome() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        String expected = "ROOT";
+
+        String result = newStandardCategory.getParentName();
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void equalsTest1_sameObject() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+
+        assertEquals(newStandardCategory, newStandardCategory);
+    }
+
+    @Test
+    void equalsTest2_notInstanceOf() {
+        String categoryName = "Habitação";
+        int categoryID = 2;
+        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
+        FamilyService familyService = new FamilyService();
+
+        assertNotEquals(newStandardCategory, familyService);
+    }
+
+    @Test
+    void equalsTest3_sameName() {
+        String categoryNameOne = "Habitação";
+        int categoryIDOne = 2;
+        StandardCategory newStandardCategoryOne = new StandardCategory(categoryNameOne, parentCategory,categoryIDOne);
+        String categoryNameTwo = "Habitação";
+        int categoryIDTwo = 3;
+        StandardCategory newStandardCategoryTwo = new StandardCategory(categoryNameTwo, parentCategory,categoryIDTwo);
+
+        assertEquals(newStandardCategoryOne, newStandardCategoryTwo);
+    }
+
+    @Test
+    void equalsTest4_differentName() {
+        String categoryNameOne = "Habitação";
+        int categoryIDOne = 2;
+        StandardCategory newStandardCategoryOne = new StandardCategory(categoryNameOne, parentCategory,categoryIDOne);
+        String categoryNameTwo = "Casa";
+        int categoryIDTwo = 3;
+        StandardCategory newStandardCategoryTwo = new StandardCategory(categoryNameTwo, parentCategory,categoryIDTwo);
+
+        assertNotEquals(newStandardCategoryOne, newStandardCategoryTwo);
+    }
+
 }
