@@ -188,7 +188,7 @@ After providing a category name and, optionally, selecting a parent category (cu
 # 5. Integration
  
 The development of this user story was the basis for the financial categories of the application and was thus crucial for the development of other User Stories
-Both [US002](US002_GetStandardCategories.md) and [US110](US110_GetCategoryTree.md) used the implemantion of this US
+Both [US002](US002_GetStandardCategoriesTree.md) and [US110](US110_GetCategoryTree.md) used the implemantion of this US
 
 #6. Observations
 
