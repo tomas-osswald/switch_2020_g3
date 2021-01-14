@@ -4,12 +4,13 @@
 
 # 1. Requirements
 
-*As a family member, I want to get my profile’s information*
+## 1.1. Client Notes
 
+*As a family member, I want to get my profile’s information*
 
 **Demo1** As a family member, I want to get...
 
-- Demo1.1. My family member profile information
+- 1.1. My family member profile information
 
 We interpreted this requirement as the function of a user to receive their personal profile information.
 
@@ -22,6 +23,33 @@ We interpreted this requirement as the function of a user to receive their perso
     - Address;
     - Relation with Administrator(none or one);
     - If member is administrator.
+
+## 1.2 System Sequence Diagram
+
+```` puml
+
+    autonumber
+    title getFamilyMemberProfile SSD
+    actor "Family Member" as fm
+    participant "System" as system
+
+    activate fm
+    fm -> system: Get Profile Information
+    activate system
+    fm -> system: input required data
+    system --> fm: return Profile
+    deactivate fm
+    deactivate system
+
+@endpuml
+````
+
+## 1.3. Dependencies from other User Stories
+
+This user story is dependent on the following:
+
+- US010_Add Family: to create a family;
+- US101_Add Family Member: to create and add family member to created family.
 
 # 2. Analysis
 
