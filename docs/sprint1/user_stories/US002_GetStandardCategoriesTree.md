@@ -101,7 +101,7 @@ deactivate systemManager
 
 The GetStandardCatergoriesTreeController invokes the Application object, that has a Category Service object.
 The Application returns the CategoryService that has all the Standard Categories.
-The CategoryService creates a CategoryMap object. (....)
+The CategoryService creates a List object that all the standard categories and all their childs.
 
 ## 3.2. Class Diagram
 
