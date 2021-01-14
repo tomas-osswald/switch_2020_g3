@@ -1,9 +1,8 @@
 package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.model.*;
-import switch2020.project.utils.FamilyMemberRelationDTO;
-import switch2020.project.utils.MemberProfileDTO;
+import switch2020.project.domain.model.*;
+import switch2020.project.domain.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
