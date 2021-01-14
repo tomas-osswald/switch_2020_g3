@@ -435,4 +435,16 @@ class FamilyTest {
 
         assertTrue(family.hasDesignation(relationDesignation2));
     }
+
+    @Test
+    void hasDesignationInRelationDesignationListNotInList() {
+        Family family = new Family(familyOneName, familyOneID);
+
+        String relationDesignation1 = "Mother";
+        family.addToRelationDesignationList(relationDesignation1);
+
+        String relationDesignation2 = "COUSIN";
+
+        assertFalse(family.hasDesignation(relationDesignation2));
+    }
 }
