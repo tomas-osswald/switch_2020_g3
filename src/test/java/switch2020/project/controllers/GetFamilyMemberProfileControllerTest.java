@@ -74,13 +74,6 @@ class GetFamilyMemberProfileControllerTest {
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-/*<<<<<<< HEAD
-=======
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
-        //Act
->>>>>>> master
-
- */
         MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getID());
 
         assertEquals(expected, result);

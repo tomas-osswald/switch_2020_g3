@@ -13,7 +13,7 @@
 
 - Demo1.2. The already existing email familymember@gmail.com
 
-We interpreted this requirment as the function of a user to add an email account to his profile information. The email account must not previously exist on his profile, and it must be a valid email format.
+We interpreted this requirement as the function of a user to add an email account to his profile information. The email account must not previously exist on his profile, and it must be a valid email format.
 
 # 2. Analysis
 

@@ -46,7 +46,7 @@ title Get Profile Info
 actor "Family Member" as familyMember
 participant ": UI" as ui
 participant ": GetFamilyMemberInfoController" as controller
-participant ": FFM Application" as app
+participant ": Application" as app
 participant "famServ : FamilyService" as familyservice
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as fm
@@ -55,28 +55,28 @@ participant "aProfile : MemberProfile" as profile
 activate familyMember
 familyMember -> ui: Request Profile Information
 activate ui
-ui -> familyMember: Request familyID and familyMemberId
+ui -> familyMember: Request familyID and ccNumber
 deactivate ui
-familyMember -> ui: input familyID and familyMemberId
+familyMember -> ui: input familyID and ccNumber
 activate ui
-ui -> controller: getMemberProfile(familyId, familyMemberId)
+ui -> controller: getMemberProfile(familyId, ccNumber)
 activate controller
 controller -> app: getFamilyService()
 activate app
 app -> controller: famServ
 deactivate app
-controller -> familyservice: getMemberProfile(familyId, familyMemberId)
+controller -> familyservice: getMemberProfile(familyId, ccNumber)
 activate familyservice
 loop find family
-    familyservice -> familyservice: findFamily(familyID)
+    familyservice -> familyservice: getFamily(familyID)
     end
-familyservice -> family: getMemberProfile(familyMemberId)
+familyservice -> family: getFamilyMemberProfile(ccNumber)
 
 activate family
 loop find family member
-    family -> family: findFamilyMember(familyMemberID)
+    family -> family: findFamilyMember(ccNumber)
     end
-family -> fm: getMemberProfile()
+family -> fm: getFamilyMemberProfile()
 activate fm
 fm -> profile**: createProfile()
 
@@ -94,7 +94,7 @@ ui -> familyMember: aProfile
 ````
 
 ## 3.1. Functionality Use
-The GetFamilyMemberProfileController will invoke the Application object, which stores the FamilyService object. The Application will return the FamilyService to the Controller, and the getMemberProfile method is called to retrieve the Profile as a MemberProfileDTO object, using the familyID and familyMemberID. The Family is retrieve in the FamilyService instantiation and Family Member is then retrieved from the corresponding family.
+This User Story's purpose is to allow the retrieval of a member's profile, by the member. The GetFamilyMemberProfileController will invoke the Application object, which stores the FamilyService object. The Application will return the FamilyService to the Controller, and the getMemberProfile method is called to retrieve the Profile as a MemberProfileDTO object, using the familyID and familyMemberID. The Family is retrieve in the FamilyService instantiation and Family Member is then retrieved from the corresponding family.
 The Family Member the uses the method createProfile to generate a new object of the type MemberProfileDTO, which is then returned to the FamilyService and then to the Controller.
 
 
@@ -134,7 +134,8 @@ class FamilyService {
 class Family {
   - int familyID
   - List<FamilyMember> familyMembers
-  + getFamilyMember()
+  - getFamilyMemberByID()
+  + getFamilyMemberProfile()
   
 }
 
@@ -142,13 +143,13 @@ class FamilyMember {
   - CCNumber ccNumber;
   - String name;
   - Date birthDate;
-  - List<PhoneNumber> phoneNumbers = new ArrayList();
-  - List<EmailAddress> emails = new ArrayList<>();
+  - List<PhoneNumber> phoneNumbers
+  - List<EmailAddress> emails
   - VatNumber vatNumber;
   - Address address;
   - Relation relation;
   - boolean administrator;
-  # getFamilyMemberID()
+  # compareID()
   + createProfile()
   
 }
@@ -248,6 +249,16 @@ The following preparation was made for the execution of the tests:
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+    @Test
+    void getMemberProfileTest2_objectsAreNotEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = jorge.createProfile();
+
+        assertNotEquals(expected, result);
+    }
 
 **Test 2:** Verify that MemberProfileDTO is created if admin attribute is true
 
@@ -264,6 +275,16 @@ The following preparation was made for the execution of the tests:
           assertEquals(expected, result);
           assertNotSame(expected, result);
       }
+    @Test
+    void getMemberProfileTest4_AdministratorTrueObjectsAreNotEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+
+        MemberProfileDTO result = jorge.createProfile();
+
+        assertNotEquals(expected, result);
+    }
 
 **Test 3:** Verify that MemberProfileDTO is created if an invalid email is provided
 
@@ -277,6 +298,15 @@ The following preparation was made for the execution of the tests:
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
+    }
+    @Test
+    void getMemberProfileTest6_objectsAreNotEqualInvalidEmail() {
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = diogo.createProfile();
+
+        assertNotEquals(expected, result);
     }
 
 **Test 4:** Verify that MemberProfileDTO is created if an invalid phoneNumber is provided
@@ -292,24 +322,41 @@ The following preparation was made for the execution of the tests:
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
-
-**Test 5:** Verify that getMemberProfile(familyID, ccNumber) creates MemberProfileDTO
-
     @Test
-    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+    void getMemberProfileTest8_objectsAreNotEqualInvalidPhoneNumbers() {
         emails.add(emailAddress);
-        phoneNumbers.add(phoneNumber);
-        familyService.addFamily(family);
-        family.addFamilyMember(diogo);
-
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
+        MemberProfileDTO result = diogo.createProfile();
+
+        assertNotEquals(expected, result);
+    }
+**Test 5:** Verify that MemberProfileDTO can be created with relation
+
+    @Test
+    void getMemberProfileTest9_WithRelationObjectsAreEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        diogoNoAdmin.addRelation(relation);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+
+        MemberProfileDTO result = diogoNoAdmin.createProfile();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+    @Test
+    void getMemberProfileTest10_WithRelationObjectsAreNotEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        diogoNoAdmin.addRelation(relacao);
+        jorge.addRelation(relacao2);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
 
+        MemberProfileDTO result = jorge.createProfile();
+
+        assertNotEquals(expected, result);
+    }
 **Test 6:** Verify that getMemberProfile(ccNumber) in Family creates MemberProfileDTO
 
     @Test
@@ -325,25 +372,58 @@ The following preparation was made for the execution of the tests:
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
-
-**Test 7:** Verify that MemberProfileDTO can be created with relation
-
     @Test
-    void getMemberProfileTest9_WithRelationObjectsAreEqual() {
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        diogoNoAdmin.addRelation(relation);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO result = diogoNoAdmin.createProfile();
+        MemberProfileDTO result = family.getFamilyMemberProfile(jorge.getID());
+
+        assertNotEquals(expected, result);
+    }
+
+**Test 7:** Verify that getMemberProfile(familyID, ccNumber) in FamilyService creates MemberProfileDTO
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
 
+    @Test
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, jorge.getID());
+
+        assertNotEquals(expected, result);
+    }
+
 
 **Test 8:** Verify that controller can create MemberProfileDTO, testing the whole flow
 
+    @Test
+    void instantiationOfGetFamilyMemberProfileControllerTest() {
+        Application app = new Application();
+        GetFamilyMemberProfileController controller = new GetFamilyMemberProfileController(app);
+        assertNotNull(controller);
+    }
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEqual() {
         emails.add(emailAddress);
@@ -351,60 +431,73 @@ The following preparation was made for the execution of the tests:
         app.getFamilyService().addFamily(family);
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
-
+        
         MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getID());
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+    @Test
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        app.getFamilyService().addFamily(family);
+        app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
+        app.getFamilyService().getFamily(familyOneID).addFamilyMember(jorge);
+
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = controller.getMemberProfile(familyOneID, jorge.getID());
+
+        assertNotEquals(expected, result);
+    }
 
 
 # 4. Implementation
 
-**Finding the correct FamilyService**
+**Finding the correct FamilyMember**
 
-In order to find the relevant FamilyMember by its ID, a method was constructed to retrieve their index in the FamilyMember array in the Family Class:
+In order to find the relevant Family by its ID, a method was constructed to retrieve the family object
 
-    private int findFamilyMemberIndexByID(int familyMemberID){
-        int index = 0;
-        for (FamilyMember member : this.family) {
-            if (member.getID() == familyMemberID) {
-            return index;
+    public Family getFamily(int familyID) {
+        if (checkIfFamilyExists(familyID)) {
+            for (Family family : families) {
+                if (family.getFamilyID() == familyID)
+                    return family;
             }
-            index++;
+        } else {
+            throw new IllegalArgumentException("No family with such ID");
         }
-        throw new IllegalArgumentException("No family member with that ID was found");
+        return null;
     }
 
 Following that, we can use it to retrieve the correct FamilyMember object:
 
-    public boolean addEmail(String emailToAdd, int familyMemberID) {
-        return family.get(findFamilyMemberIndexByID(familyMemberID)).addEmail(emailToAdd);
+    private FamilyMember getFamilyMemberByID(String ccNumber) {
+        for (FamilyMember familyMember : familyMembers) {
+            if (familyMember.compareID(ccNumber))
+                return familyMember;
+        }
+        // If given ID is not present, a exception is thrown
+        throw new IllegalArgumentException("No family member with such ID");
     }
 
-**Creating and Adding the EmailAddress Object**
-
-In the FamilyMember Class, we must first check if the email to add is already present in the EmailAddress array list. For that, the following method is used:
-
-    private boolean isEmailAlreadyPresent(String emailToCheck){
-        for (EmailAddress email : emails) {
-            if (email.getEmail().equalsIgnoreCase(emailToCheck)) {
-                return true;
-            }
-        }
-        return false;
-        }
-
-So we can now create and add the EmailAddress object to the array list (emails):
-
-    public boolean addEmail(String emailToAdd) {
-        if (!isEmailAlreadyPresent(emailToAdd)) {
-            EmailAddress newEmail = new EmailAddress(emailToAdd);
-            emails.add(newEmail);
-            return true;
-        }
-        return false;
+    protected boolean compareID(String ccNumber) {
+        return ccNumber.equals(this.ccNumber.getCcNumber());
     }
+
+
+**Creating the Family Member Profile**
+
+The Family Member Class triggers the creation of the Family Member Profile with two possible variations based on if the family member has a relation attribute or not:
+
+    public MemberProfileDTO createProfile() {
+        if (this.relation == null) {
+            return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
+        }
+        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+    }
+
 
 # 5. Integration/Demonstration
 
@@ -412,7 +505,8 @@ As of this sprint, this function has no integration with other functions.
 
 # 6. Observations
 
-In the future, the Family Member ID would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputted.  
+In the future, the ccNumber would ideally have to be retrieved by a method that checks the log in info of the current user, instead of the ID being manually inputted. The same applies to the FamilyID.
+A possibility to have the controller as a boolean while accounting for the possible exceptions, e.g. not finding the Family or Family Member.
 
 
 
