@@ -1,10 +1,9 @@
-# Domain Model Diagram
+@startuml
 
-```puml
 hide empty members
 hide circles
 left to right direction
-title Domain Model Diagram SP01
+title Domain Model Diagram - SP01
 
 class Family {
 UniqueID
@@ -61,4 +60,5 @@ FamilyMember "1" -- "0..*" PhoneNumber : has >
 FamilyMember "1" -- "0..*" EmailAddress : has >
 FamilyMember "1" -- "1" VatNumber : has >
 FamilyMember "1" -- "1" Address : has >
-```
+
+@enduml
