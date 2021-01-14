@@ -24,12 +24,12 @@ public class StandardCategory {
         }
     }
 
-    public String getParentName() {
+    /*public String getParentName() {
         if (this.parentCategory != null) {
             return this.parentCategory.getName();
         }
         return "root";
-    }
+    }*/
 
     public int getCategoryID() {
         return categoryID;
@@ -39,11 +39,11 @@ public class StandardCategory {
         return this.categoryName;
     }
 
-    public boolean isChildOf(StandardCategory standardCategory) {
+    /*public boolean isChildOf(StandardCategory standardCategory) {
         if (this.getParentName() != null) {
             return standardCategory.equals(this.parentCategory);
         } else return false;
-    }
+    }*/
 
     //Validation Methods
 
