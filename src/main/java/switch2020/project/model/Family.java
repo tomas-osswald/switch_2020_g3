@@ -297,7 +297,7 @@ public class Family {
     /**
      * Method that returns if a cash account has already been created for a this family
      *
-     * @return returns true if a cash account alreay exists
+     * @return returns true if a cash account already exists
      */
 
     private boolean hasCashAccount() {
