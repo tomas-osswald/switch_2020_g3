@@ -13,7 +13,7 @@
 
 - Demo1.2. The already existing email familymember@gmail.com
 
-We interpreted this requirment as the function of a user to add an email account to his profile information. The email account must not previously exist on his profile, and it must be a valid email format.
+We interpreted this requirement as the function of a user to add an email account to his profile information. The email accounts must not previously exist on his profile, and it must be a valid email format.
 
 # 2. Analysis
 
@@ -21,13 +21,13 @@ In order to fulfill this requirement, we need two main data pieces:
 - e-mail address to add
 - Family Member ID of the actor's profile
 
-At a later iteration, the family member's ID would be aquired through the Log In information. For this sprint, the ID will have to be inputed along with the e-mail.
+At a later iteration, the family member's ID would be acquired through the Log In information. For this sprint, the ID will have to be inputted along with the e-mail.
 
 
 
 # 3. Design
 
-The main process to fulfill this requirement would require the actor to select they want to add an email in the UI, which would then prompt the input of the email adress. In lieu of not having an UI, the Int *FamilyMemberID* and String *emailAdress* will be directly inputed into the AddEmailController. 
+The main process to fulfill this requirement would require the actor to select they want to add an email in the UI, which would then prompt the input of the email address. In lieu of not having an UI, the Int *FamilyMemberID* and String *emailAddress* will be directly inputted into the AddEmailController. 
 ````puml
 @startuml
 autonumber

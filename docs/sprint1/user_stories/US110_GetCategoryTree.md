@@ -19,7 +19,7 @@ list of categories that their family has.
 
 In order to fulfill this requirement, we need two main data pieces:
 
-- familyID, in order to know which family to retireve the CategoryTree from
+- familyID, in order to know which family to retrieve the CategoryTree from
 - familyMemberID, in order to verify it's the family Administrator that's
   requesting the tree.
 
@@ -123,7 +123,8 @@ The main Classes involved are:
 - CategoryService
 - CategoryTreeDTO
 
-)![Class Diagram](../../US110ClassDiagram.png)
+![Class Diagram](https://imgur.com/LoE1lOF.png)
+
 
 ## 3.3. Applied Patterns
 
