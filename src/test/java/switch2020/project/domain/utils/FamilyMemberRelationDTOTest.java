@@ -1,9 +1,9 @@
 package switch2020.project.domain.utils;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.Relation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyMemberRelationDTOTest {
 
@@ -23,4 +23,12 @@ class FamilyMemberRelationDTOTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void compareSameRelation() {
+        String relationDesignatio = "Mother";
+        Relation relation1 = new Relation(relationDesignatio);
+
+        assertSame(relation1, relation1);
+        assertEquals(relation1, relation1);
+    }
 }
