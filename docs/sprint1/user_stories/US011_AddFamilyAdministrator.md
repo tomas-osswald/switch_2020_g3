@@ -463,14 +463,17 @@ void addFamilyAdministrator_FamilyExists() {
 
 # 4. Implementation
 
-*Nesta secção a equipa deve providenciar, se necessário, algumas evidências de que a implementação está em conformidade com o design efetuado. Para além disso, deve mencionar/descrever a existência de outros ficheiros (e.g. de configuração) relevantes e destacar commits relevantes;*
+To get around the non-existent UI, we need extra methods to execute the User Story correctly.
 
-*Recomenda-se que organize este conteúdo por subsecções.*
+- ####Get the FamilyID
+
+With the UI and login layer implemented, it is not necessary to ask which family this user belongs to.
 
 # 5. Integration/Demonstration
 
-*Nesta secção a equipa deve descrever os esforços realizados no sentido de integrar a funcionalidade desenvolvida com as restantes funcionalidades do sistema.*
+As it was said before, this UserStory dependes on **[US010 - Add Family]** to be executed, because there can only be added a Family Administrator to a existing Family
 
 # 6. Observations
 
-*Nesta secção sugere-se que a equipa apresente uma perspetiva critica sobre o trabalho desenvolvido apontando, por exemplo, outras alternativas e ou trabalhos futuros relacionados.*
+In the future, both issues presented in implementation section will be solved when the UI, and login layer are set up.
+With the login layer, the user ID will be already available before the UserStory gets executed, avoiding the method *getFamily(familyID)* execution.
