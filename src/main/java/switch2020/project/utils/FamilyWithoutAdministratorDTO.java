@@ -14,4 +14,15 @@ public class FamilyWithoutAdministratorDTO {
         this.familyName = familyName;
         this.familyID = familyID;
     }
+
+    @Override
+    public boolean equals (Object o){
+        if (this == o) return true;
+
+        if (!(o instanceof FamilyWithoutAdministratorDTO)) return false;
+
+        FamilyWithoutAdministratorDTO otherDTO = (FamilyWithoutAdministratorDTO) o;
+
+        return this.familyName.equals(otherDTO.familyName) && this.familyID == otherDTO.familyID;
+    }
 }

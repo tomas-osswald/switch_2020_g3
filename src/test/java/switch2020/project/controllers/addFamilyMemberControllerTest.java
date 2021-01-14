@@ -1,15 +1,17 @@
 package switch2020.project.controllers;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.model.Family;
 import switch2020.project.model.FamilyMember;
 import switch2020.project.model.Relation;
+import switch2020.project.services.FamilyService;
 
 import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class addFamilyMemberTest {
+class addFamilyMemberControllerTest {
 
 
     String ccNumber = "000000000ZZ4";
@@ -43,14 +45,14 @@ class addFamilyMemberTest {
     @Test
     /** Test if Family Member is added to Family **/
     void AddFamilyMember_FamilyExists() {
-        FamilyMember Diogo = new FamilyMember(ccNumber, name, date, numero, email, nif, rua, codPostal, local, city, relation,admin);
+        FamilyMember Diogo = new FamilyMember(ccNumber, name, date, numero, email, nif, rua, codPostal, local, city,admin);
         String familyName = "Ribeiro";
         int familyID = 1;
         Family Ribeiros = new Family(familyName, familyID);
         Ribeiros.addFamilyMember(Diogo);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
-        Assertions.assertTrue(FFMapp.addFamilyMember(ccNumber, ccNumber2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, relation2, 1));
+        assertTrue(FFMapp.addFamilyMember(ccNumber, ccNumber2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
     }
 
 
@@ -61,7 +63,7 @@ class addFamilyMemberTest {
         Family Ribeiros = new Family(familyName, familyID);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
-        Assertions.assertFalse(FFMapp.addFamilyMember(ccNumber2, ccNumber,name,date,numero,email,nif,rua,codPostal,local, city, relation,2));
+        assertFalse(FFMapp.addFamilyMember(ccNumber2, ccNumber,name,date,numero,email,nif,rua,codPostal,local, city,2));
     }
 
     @Test

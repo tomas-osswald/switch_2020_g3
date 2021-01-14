@@ -1,6 +1,9 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+import switch2020.project.utils.MemberProfileDTO;
+
 
 import java.util.*;
 
@@ -112,10 +115,11 @@ public class Family {
      * @return boolean
      */
 
-    public boolean isAdmin(String ccNumber) {
+
+    public boolean verifyAdministrator(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID().equals(ccNumber))
-                return familyMember.isAdmin();
+            if (familyMember.compareID(ccNumber))
+                return familyMember.isAdministrator();
         }
         return false;
     }
@@ -148,6 +152,19 @@ public class Family {
         return false;
     }
 
+    private boolean checkIfCCNumberExists(String cc){
+        ArrayList<String> ccList = new ArrayList();
+        for (FamilyMember member : familyMembers) {
+            ccList.add(member.getFamilyMemberID());
+        }
+        for ( String ccNumber : ccList) {
+            if(ccNumber == cc){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Method to add a relation designation to list of relation designations
      *
@@ -163,14 +180,14 @@ public class Family {
      * Method to add a Relation to A family Member
      *
      * @param ccNumber FamilyMemberID of the member to be added a Relation
-     * @param relation       Relation to be added
+     * @param relationDeignation Relation Designation to be added
      * @return boolean
      */
 
-    public boolean addRelationToFamilyMember(String ccNumber, Relation relation) {
-        FamilyMember familyMember = getFamilyMember(ccNumber);
+    public boolean addRelationToFamilyMember(String ccNumber, String relationDeignation) {
+        FamilyMember familyMember = getFamilyMemberByID(ccNumber);
 
-        familyMember.addRelation(relation);
+        familyMember.addRelation(relationDeignation);
 
         return true;
     }
@@ -182,12 +199,12 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    public FamilyMember getFamilyMember(String ccNumber) {
+    public FamilyMember getFamilyMemberByID(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID().equals(ccNumber))
+            if (familyMember.compareID(ccNumber))
                 return familyMember;
         }
-        // If given ID is not present, a expection is throw
+        // If given ID is not present, a exception is thrown
         throw new IllegalArgumentException("No family member with such ID");
     }
 
@@ -221,16 +238,18 @@ public class Family {
         return this.familyMembers.size();
     }
 
+
     /**
      * Method return the number of Family Members in List -> relationsDesignations
      *
      * @return number of relation designations
      */
-
+     /*
     public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
 
     }
+    */
 
     @Override
     public boolean equals(Object other) {
@@ -256,20 +275,24 @@ public class Family {
         return targetMember.addEmail(emailToAdd);
     }
 
-    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship);
-            familyMembers.add(newFamilyMember);
-            return true;
+            if(!checkIfCCNumberExists(cc)){
+                FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                familyMembers.add(newFamilyMember);
+                return true;
+            } else {
+                throw new IllegalArgumentException("ccNumber already exists in the Family");
+            }
         } else {
             throw new IllegalArgumentException("Vat already exists in the Family");
         }
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city, Relation relationship){
+    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city){
         boolean administrator = true;
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, relationship, administrator);
+            FamilyMember newFamilyMember = new FamilyMember(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -305,14 +328,31 @@ public class Family {
         return hasCashAccount;
     }
 
-    /**
-     * Method to verify if a Family has an administrator
+
+    /** This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
+     * it iterates through the familyMembers and each one of them will create a copy of himself, with
+     * (FamilyMemberRelationDTO) the name and the relationDesignation. Every object is stored in the FMRList.
+     * Returns said List back to the Family Service.
+     * @return List of FamilyMembersRelationDTO
+     */
+    // Changes to method IOT get a DTO directly from the FamilyMember
+        public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        for (FamilyMember familyMembers : familyMembers) {
+            FamilyMemberRelationDTO newMember = familyMembers.createFamilyMemberRelationDTO();
+            DTOList.add(newMember);
+        }
+        return DTOList;
+    }
+
+
+     /** Method to verify if a Family has an administrator
      * @return boolean
      */
 
     public boolean hasAdministrator () {
         for (FamilyMember familyMember : familyMembers) {
-            if(familyMember.isAdmin())
+            if(familyMember.isAdministrator())
                 return true;
         }
         return false;
@@ -326,5 +366,19 @@ public class Family {
     public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
         FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
      return  familyWithoutAdministratorDTO;
+    }
+
+    /**
+     * Method iterates through list of family members and finding the correct
+     * one, creates a profile based on the attributes of the family member
+     *
+     * @param ccNumber representing the unique ID from each family member
+     * @return MemberProfileDTO with member's attributes
+     */
+    public MemberProfileDTO getFamilyMemberProfile(String ccNumber) {
+
+        FamilyMember familyMember = getFamilyMemberByID(ccNumber);
+        MemberProfileDTO memberProfile = familyMember.createProfile();
+        return memberProfile;
     }
 }

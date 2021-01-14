@@ -13,7 +13,7 @@
 
 - 1.2. The already existing family "Moreira"
 
-We interpreted this requirment as the function of a user to add a new Family.
+We interpreted this requirement as the function of a user to add a new Family.
 The name of the Family must not be empty.
 
 # 2. Analysis

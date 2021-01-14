@@ -1,5 +1,6 @@
 package switch2020.project.model;
 
+import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -25,16 +26,19 @@ public class FamilyMember {
     /********************** CONSTRUCTORS **********************/
 
     // System Manager - add FamilyMember
+    /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
 
         this.familyMemberID = familyMemberID;
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
@@ -53,18 +57,21 @@ public class FamilyMember {
 
         this.administrator = administrator;
     }
+    */
 
     //Constructor that uses a CCNumber as ID
-    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
@@ -79,21 +86,21 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = relation;
-
         this.administrator = administrator;
     }
 
-    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
+    public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city) {
 
         this.ccNumber = new CCNumber(ccNumber);
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         if (validatePhone(phone)) {
@@ -111,23 +118,22 @@ public class FamilyMember {
 
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = administrator;
     }
 
     // Family Admin - add Family Member
+    /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
 
         this.familyMemberID = familyMemberID;
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException();
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         if (validatePhone(phone)) {
@@ -156,12 +162,14 @@ public class FamilyMember {
 
         this.familyMemberID = familyMemberID; // Generate ID
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Invalid Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
 
@@ -187,12 +195,14 @@ public class FamilyMember {
 
         this.familyMemberID = familyMemberID;
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException();
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         if (validatePhone(phone)) {
@@ -221,12 +231,14 @@ public class FamilyMember {
 
         this.ccNumber = new CCNumber(cc);
 
-        if (!validateName(name))
+        if (!validateName(name)) {
             throw new IllegalArgumentException("Insert Name");
+        }
         this.name = name;
 
-        if (!validateBirthDate(birthDate))
+        if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
+        }
         this.birthDate = birthDate;
 
         PhoneNumber telef = new PhoneNumber(phone);
@@ -241,7 +253,9 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
 
-        this.relation = new Relation(null);
+        //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
+
+        // this.relation = null;
 
         this.administrator = false;
     }
@@ -255,19 +269,23 @@ public class FamilyMember {
         this.ccNumber = new CCNumber(familyMemberID);
     }
 
+     */
+
 
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateName(String name) {
-        if (name == null || name.isEmpty() || name.isBlank())
+        if (name == null || name.isEmpty() || name.isBlank()) {
             return false;
+        }
         return true;
     }
 
     public boolean validateBirthDate(Date birthDate) {
         String date = birthDate.toString();
-        if (date == null || date.isEmpty())
+        if (date == null || date.isEmpty()) {
             return false;
+        }
         return true;
     }
 
@@ -286,8 +304,9 @@ public class FamilyMember {
     }
 
     private boolean validateRelation(Relation relation) {
-        if (this.relation != null)
+        if (this.relation != null) {
             return true;
+        }
         return false;
     }
 
@@ -316,7 +335,11 @@ public class FamilyMember {
     }
 
     // Business Methods
+    //Inserted lines 321 and 322 to run test and accept null relation
     public String getRelation() {
+        if (this.relation == null) {
+            return null;
+        }
         return relation.getRelationDesignation();
     }
 
@@ -338,7 +361,7 @@ public class FamilyMember {
      * @return boolean
      */
 
-    public boolean isAdmin() {
+    public boolean isAdministrator() {
         return this.administrator;
     }
 
@@ -374,16 +397,49 @@ public class FamilyMember {
      * @param relation Relation to add
      */
 
-    protected void addRelation(Relation relation) {
+    protected void addRelation(String relationDesignation) {
         if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
+
+        Relation relation = new Relation(relationDesignation);
+
         this.relation = relation;
     }
 
+    /**
+     * method that uses the attributes from the family member
+     * to create and return a MemberProfileDTO
+     *
+     * @return MemberProfileDTO with member's attributes
+     */
     public MemberProfileDTO createProfile() {
-        return new MemberProfileDTO(emails, name, birthDate, phoneNumbers, vatNumber, address);
+        if (this.relation == null) {
+            return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
+        }
+        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
     }
 
+
+    public FamilyMemberRelationDTO createFamilyMemberRelationDTO() {
+        FamilyMemberRelationDTO copyOfFamilyMemberDTO;
+        name = this.getName();
+        String relation;
+        if (this.relation == null) {
+            if (this.isAdministrator() == true) {
+                relation = "Self";
+            } else {
+                relation = "Undefined Relation";
+            }
+        } else {
+            relation = this.relation.getRelationDesignation();
+        }
+        copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
+        return copyOfFamilyMemberDTO;
+    }
+
+    protected boolean compareID(String ccNumber) {
+        return ccNumber.equals(this.ccNumber.getCcNumber());
+    }
 }
 
 

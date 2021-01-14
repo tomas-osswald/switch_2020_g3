@@ -93,12 +93,12 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>LATEST</version>
+                <version>1.6.2</version>
                 <dependencies>
                     <dependency> <!-- Only required because PITest does not work with JUnit5 without it -->
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>0.10</version>
+                        <version>0.12</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -108,12 +108,16 @@
                         <param>lapr.project.utils.*</param>
                     </inScopeClasses>-->
                     <targetClasses>
-                        <param>switch2029.project.model.*</param>
+                        <param>switch2020.project.model.*</param>
                         <param>switch2020.project.controllers.*</param>
+                        <param>switch2020.project.services.*</param>
+                        <param>switch2020.project.utils.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>switch2020.project.model</param>
-                        <param>switch2020.project.controllers</param>
+                        <param>switch2020.project.model.*</param>
+                        <param>switch2020.project.controllers.*</param>
+                        <param>switch2020.project.services.*</param>
+                        <param>switch2020.project.utils.*</param>
                     </targetTests>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>

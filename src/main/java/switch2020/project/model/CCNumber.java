@@ -1,5 +1,7 @@
 package switch2020.project.model;
 
+import java.util.HashMap;
+
 public class CCNumber {
 
     private String ccNumber;
@@ -16,6 +18,13 @@ public class CCNumber {
     public String getCcNumber() {
         return ccNumber;
     }
+
+    /**
+     * Method to validate a ID Number of the Portuguese Cartão do Cidadão
+     * @param ccNumber
+     * @return true if ID valid
+     * Adaptado de https://www.autenticacao.gov.pt/documents/
+     */
 
     private boolean validateNumber(String ccNumber) {
         int sum = 0;
@@ -38,7 +47,12 @@ public class CCNumber {
         }
         return (sum % 10) == 0;
     }
-
+    /**
+     * Method to translate characters to its value
+     * @param letter
+     * @return int representing the value of the character
+     * Adaptado de https://www.autenticacao.gov.pt/documents/
+     */
     private int GetNumberFromChar(char letter) {
         switch (letter) {
             case '0':
