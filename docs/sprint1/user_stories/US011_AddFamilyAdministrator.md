@@ -178,7 +178,7 @@ autonumber 2
 title addFamilyAdministrator( ).2
 
 participant ": AddFamilyAdministratorController" as controller
-participant ": App" as app
+participant ": Appplication" as app
 participant "familyService : FamilyService" as familyService
 
 -> controller : getFamiliesWithoutAdministrator
@@ -201,7 +201,7 @@ autonumber 12
 title addFamilyAdministrator( ).3
 
 participant ": AddFamilyAdministratorController" as controller
-participant ": App" as app
+participant ": Application" as app
 participant "familyService : FamilyService" as familyService
 participant "aFamily : Family" as family
 
