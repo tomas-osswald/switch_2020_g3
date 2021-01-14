@@ -185,7 +185,8 @@ public class FamilyService {
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
             if (this.families.get(posicaoFamilia).verifyAdministrator(selfCC)) {
                 if (!checkIfEmailPresent(email)) {
-                    return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                    this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                    return true;
                 }
                 throw new IllegalArgumentException("This email already exists");
             }
@@ -198,7 +199,8 @@ public class FamilyService {
         if (checkIfFamilyExists(familyID)) {
             if (!checkIfEmailPresent(email)) {
                 int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-                return this.families.get(posicaoFamilia).addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                this.families.get(posicaoFamilia).addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                return true;
             }
             throw new IllegalArgumentException("This email already exists");
         }
