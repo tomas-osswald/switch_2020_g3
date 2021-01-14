@@ -71,7 +71,6 @@ public class Family {
         return Collections.unmodifiableList(familyMembers);
     }
 
-    // Get and Setter methods
     /**
      * Method to return family ID
      *
@@ -87,6 +86,15 @@ public class Family {
     }
 
     // Business methods
+
+    /**
+     * Method that compares a given ID is equal to the ID of this family
+     * @param familyID int the familyID you wish to compare
+     * @return true if the IDs match, otherwise false
+     */
+    public boolean isIDOfThisFamily(int familyID){
+        return familyID == this.familyID;
+    }
 
 
     /**
@@ -193,7 +201,7 @@ public class Family {
     }
 
     /**
-     * Method to get a Famaly Member by ID
+     * Method to get a Family Member by ID
      *
      * @param ccNumber FamilyMemberID to search
      * @return FamilyMember with given ID

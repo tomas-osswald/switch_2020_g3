@@ -6,10 +6,10 @@ import switch2020.project.model.Application;
 import switch2020.project.services.FamilyService;
 
 public class AddEmailController {
-    private Application ffmApp;
+    private Application ffmApplication;
 
-    public AddEmailController(Application app) {
-        this.ffmApp = app;
+    public AddEmailController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     /*
@@ -23,7 +23,7 @@ public class AddEmailController {
      */
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         try {
-            FamilyService familyService = this.ffmApp.getFamilyService();
+            FamilyService familyService = this.ffmApplication.getFamilyService();
             return familyService.addEmail(emailToAdd, familyID, ccNumber);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());

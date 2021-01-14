@@ -5,14 +5,14 @@ import switch2020.project.services.FamilyService;
 
 public class AddFamilyController {
 
-    private Application FFMapp;
+    private Application ffmApplication;
 
-    public AddFamilyController(Application app) {
-        this.FFMapp = app;
+    public AddFamilyController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     public boolean addFamily(String familyName) {
-        FamilyService familyService = FFMapp.getFamilyService();
+        FamilyService familyService = ffmApplication.getFamilyService();
         return familyService.addFamily(familyName);
     }
 

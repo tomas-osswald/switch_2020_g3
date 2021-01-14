@@ -9,10 +9,10 @@ import java.util.List;
 
 
 public class GetFamilyMembersListController {
-    private Application FFMapp;
+    private Application ffmApplication;
 
-    public GetFamilyMembersListController(Application app) {
-        this.FFMapp = app;
+    public GetFamilyMembersListController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
 
@@ -29,7 +29,7 @@ public class GetFamilyMembersListController {
     public boolean getFamilyMembersAndRelation(int familyID, String adminCCNumber) {
         boolean controllerSuccess;
         try {
-            FamilyService familyService = this.FFMapp.getFamilyService();
+            FamilyService familyService = this.ffmApplication.getFamilyService();
             familyService.getFamilyMembersRelationDTOList(familyID, adminCCNumber);
             controllerSuccess = true;
         } catch (IllegalArgumentException wrongFamilyID) {

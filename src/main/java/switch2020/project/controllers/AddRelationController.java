@@ -4,10 +4,10 @@ import switch2020.project.model.Application;
 import switch2020.project.services.FamilyService;
 
 public class AddRelationController {
-    private Application app;
+    private Application ffmApplication;
 
-    public AddRelationController(Application app) {
-        this.app = app;
+    public AddRelationController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     /**
@@ -21,7 +21,7 @@ public class AddRelationController {
 
     public boolean createRelation(String selfCCNumber, String otherCCNumber, String relationDesignation, int familyID) {
         try {
-            FamilyService familyService = this.app.getFamilyService();
+            FamilyService familyService = this.ffmApplication.getFamilyService();
             return familyService.createRelation(selfCCNumber, otherCCNumber, relationDesignation, familyID);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());

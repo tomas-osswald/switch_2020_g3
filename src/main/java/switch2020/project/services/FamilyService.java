@@ -70,7 +70,7 @@ public class FamilyService {
     private int findFamilyIndexByID(int familyID) {
         int index = 0;
         for (Family family : this.families) {
-            if (family.getFamilyID() == familyID) {
+            if (family.isIDOfThisFamily(familyID)) {
                 return index;
             }
             index++;
