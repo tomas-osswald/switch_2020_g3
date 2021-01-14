@@ -24,12 +24,12 @@ public class StandardCategory {
         }
     }
 
-    /*public String getParentName() {
+    public String getParentName() {
         if (this.parentCategory != null) {
             return this.parentCategory.getName();
         }
         return "root";
-    }*/
+    }
 
     public int getCategoryID() {
         return categoryID;
