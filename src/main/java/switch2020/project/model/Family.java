@@ -208,7 +208,7 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    public FamilyMember getFamilyMemberByID(String ccNumber) {
+    private FamilyMember getFamilyMemberByID(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.compareID(ccNumber))
                 return familyMember;
