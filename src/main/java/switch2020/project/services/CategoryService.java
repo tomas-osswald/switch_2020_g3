@@ -6,10 +6,24 @@ import switch2020.project.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryService {
 
     private List<StandardCategory> categories;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryService that = (CategoryService) o;
+        return categories.equals(that.categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categories);
+    }
 
     public CategoryService() {
         this.categories = new ArrayList<>();
@@ -134,7 +148,7 @@ public class CategoryService {
      * @return List
      */
     public List<StandardCategory> getStandardCategories() {
-        if (categories.size() == 0) {
+        if (this.categories.size() == 0 && this.categories == null) {
             throw new IllegalArgumentException("There are no standard categories");
         }
         List standardCategories = new ArrayList<StandardCategory>();

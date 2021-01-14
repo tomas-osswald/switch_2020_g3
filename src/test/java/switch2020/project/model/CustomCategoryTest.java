@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class CustomCategoryTest {
-    StandardCategory parentCategory = new StandardCategory("Others", 10);
+    StandardCategory parentCategory = new StandardCategory("Others", null, 10);
     CustomCategory testCategory1 = new CustomCategory("OnlyFans subscriptions", parentCategory, 12);
     CustomCategory testCategory2 = new CustomCategory("Hitomi Tanaka", testCategory1, 13);
 

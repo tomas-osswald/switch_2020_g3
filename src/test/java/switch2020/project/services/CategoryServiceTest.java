@@ -1,6 +1,7 @@
 package switch2020.project.services;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.model.Address;
 import switch2020.project.model.Application;
 import switch2020.project.model.StandardCategory;
 
@@ -73,7 +74,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void getStandardCategories_test6() {
+    void getStandardCategories_Test6_FromValidList() {
         //arrange
         CategoryService serv = new CategoryService();
         List<StandardCategory> totalList = new ArrayList<>();
@@ -99,10 +100,17 @@ class CategoryServiceTest {
     }
 
     @Test
-    void getStandardCategories_test7() {
+    void getStandardCategories_test7_Null() {
+        List<StandardCategory> empty = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> categoryService.getStandardCategories());
+        }
+
+
+    @Test
+    void getParents_Test8_FromCategoriesWithNoParents() {
         //arrange
-        //CategoryService serv = new CategoryService();
-        List<StandardCategory> expected = new ArrayList<>();
+        List<String> expected = new ArrayList<>();
+        List<StandardCategory> lst = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home",null , 1);
         StandardCategory cat2 = new StandardCategory("Education",null , 2);
         StandardCategory cat3 = new StandardCategory("Food",cat1, 3);
@@ -110,22 +118,26 @@ class CategoryServiceTest {
         StandardCategory cat5 = new StandardCategory("Health",null , 5);
         StandardCategory cat6 = new StandardCategory("Hollidays",null , 6);
         StandardCategory cat7 = new StandardCategory("Teeth correction",cat5 , 7);
+        expected.add(cat3.getParentName());
+        //expected.add(cat7.getParentName());
+        //lst.add(cat1);
+        //lst.add(cat2);
+        lst.add(cat3);
+        //lst.add(cat4);
+        //lst.add(cat5);
+        //lst.add(cat6);
+        //lst.add(cat7);
         //act
-        expected.add(cat1);
-        expected.add(cat2);
-        expected.add(cat3);
-        expected.add(cat4);
-        expected.add(cat5);
-        expected.add(cat6);
-        expected.add(cat7);
+        List<String> result = categoryService.getParentsName(lst);
+
+        //List<String> result = results;
         //assert
-        List<String> result = categoryService.getParentsName(expected);
         assertEquals(expected, result);
     }
 
     @Test
-    void getParents() {
-        //arrange
+    void getParents_Test9_FromCategoriesWithParents() {
+        /*//arrange
         List<String> expected = new ArrayList<>();
         List<StandardCategory> lst = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home",null , 1);
@@ -146,15 +158,14 @@ class CategoryServiceTest {
         lst.add(cat7);
         //act
         //List<String> result = categoryService.getParentsName(parents);
-        List<StandardCategory> results = categoryService.getParents(lst);
+
         //List<String> result = results;
         //assert
-        //assertEquals(expected,result);
-
+        //assertEquals(expected,result);*/
     }
 
     @Test
-    void getChilds() {
+    void getChilds_Test10_FromNoChilds() {
         //arrange
         /*List<StandardCategory> childs = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home",null , 1);
@@ -174,11 +185,33 @@ class CategoryServiceTest {
     }
 
     @Test
-    void createStdTree() {
+    void getChilds_Test11_FromChilds() {
+        //arrange
+        /*List<StandardCategory> childs = new ArrayList<>();
+        StandardCategory cat1 = new StandardCategory("Home",null , 1);
+        StandardCategory cat2 = new StandardCategory("Education",null , 2);
+        StandardCategory cat3 = new StandardCategory("Food",cat1, 3);
+        StandardCategory cat4 = new StandardCategory("Decoration",cat1 , 4);
+        StandardCategory cat5 = new StandardCategory("Health",null , 5);
+        StandardCategory cat6 = new StandardCategory("Hollidays",null , 6);
+        StandardCategory cat7 = new StandardCategory("Teeth correction",cat5 , 7);
+        childs.add(cat1);
+        childs.add(cat2);
+        childs.add(cat3);
+        childs.add(cat4);
+        childs.add(cat5);
+        childs.add(cat6);
+        childs.add(cat7);*/
+    }
+
+    @Test
+    void createStdTree_Test12_ParentsOnlyNoChilds() {
 
     }
 
     @Test
-    void testCreateStdTree() {
+    void createStdTree_Test13_ParentsWithChilds() {
+
     }
+
 }
