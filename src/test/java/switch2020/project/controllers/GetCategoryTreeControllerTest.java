@@ -51,7 +51,6 @@ class GetCategoryTreeControllerTest {
         addStandardCategoryController.addStandardCategory("Bus", 6);//id 18
         addStandardCategoryController.addStandardCategory("Taxi", 6);//id 19
 
-
     }
 
     @Test

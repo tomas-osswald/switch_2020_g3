@@ -3,11 +3,9 @@ package switch2020.project.controllers;
 import org.junit.jupiter.api.Test;
 import switch2020.project.model.Application;
 import switch2020.project.services.CategoryService;
-import switch2020.project.utils.StandardCategoryDTO;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetStandardCategoriesTreeControllerTest {
 

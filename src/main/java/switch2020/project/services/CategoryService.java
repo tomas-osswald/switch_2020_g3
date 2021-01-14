@@ -130,6 +130,11 @@ public class CategoryService {
         return this.categories;
     }
 
+    public CategoryTreeDTO getStandardCategoryTree() {
+        CategoryTreeDTO standardCategoryTree = new CategoryTreeDTO(this);
+        return standardCategoryTree;
+    }
+
     /**
      * Method to create and return a Family's CategoryTree
      *
@@ -141,6 +146,8 @@ public class CategoryService {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
+
+
 
     /**
      * Method to get all the Standard Categories
@@ -162,7 +169,7 @@ public class CategoryService {
      * @param standardCategories
      * @return list of parents, i.e., a list of categories that have at least one child
      */
-    private List<StandardCategory> getParents(List<StandardCategory> standardCategories) {
+    /*private List<StandardCategory> getParents(List<StandardCategory> standardCategories) {
         List<StandardCategory> parents = new ArrayList<>();
         for (StandardCategory cat : standardCategories
         ) {
@@ -171,13 +178,13 @@ public class CategoryService {
             }
         }
         return parents;
-    }
+    }*/
 
     /*private boolean hasParent(){
 
     }*/
 
-    private List<StandardCategory> getParentss(List<StandardCategory> standardCategories) {
+    /*private List<StandardCategory> getParentss(List<StandardCategory> standardCategories) {
         List<StandardCategory> parents = new ArrayList<>();
         for (StandardCategory cat : standardCategories
         ) {
@@ -186,7 +193,7 @@ public class CategoryService {
             }
         }
         return parents;
-    }
+    }*/
 
     /**
      * Method to get the childs of a passed parent category name
@@ -195,7 +202,7 @@ public class CategoryService {
      * @param standardCategories
      * @return list of childs
      */
-    private List<StandardCategory> getChilds(StandardCategory standardCategory, List<StandardCategory> standardCategories) {
+   /* private List<StandardCategory> getChilds(StandardCategory standardCategory, List<StandardCategory> standardCategories) {
         List<StandardCategory> childs = new ArrayList<>();
         for (StandardCategory cat : standardCategories
         ) {
@@ -204,7 +211,7 @@ public class CategoryService {
             }
         }
         return childs;
-    }
+    }*/
 
     /**
      * Method to add the childs of a specific category
@@ -213,14 +220,14 @@ public class CategoryService {
      * @param cat
      * @param categs
      */
-    private void addChildsToDTO(StandardCategoryDTO dto, StandardCategory cat, List<StandardCategory> categs) {
+    /*private void addChildsToDTO(StandardCategoryDTO dto, StandardCategory cat, List<StandardCategory> categs) {
         List<StandardCategory> stdList = this.getChilds(cat, categs);
         for (StandardCategory c : stdList) {
             StandardCategoryDTO dtoChild = new StandardCategoryDTO(c.getName());
             this.addChildsToDTO(dtoChild, c, categs);
             dto.addChild(dtoChild);
         }
-    }
+    }*/
 
     /**
      * Method to obtain a list of sub-lists that have a parent category and their descendants(childs)
@@ -228,7 +235,7 @@ public class CategoryService {
      * @param standardCategories
      * @return list of StandardCategoryDTO
      */
-    private List<StandardCategoryDTO> createStdTree(List<StandardCategory> standardCategories) {
+    /*private List<StandardCategoryDTO> createStdTree(List<StandardCategory> standardCategories) {
         List<StandardCategoryDTO> totalStdList = new ArrayList<>();
 
         List<StandardCategory> stdList = this.getParents(standardCategories);
@@ -239,10 +246,10 @@ public class CategoryService {
             totalStdList.add(dto);
         }
         return totalStdList;
-    }
+    }*/
 
-    public List<StandardCategoryDTO> getStandardCategoriesTree() {
+    /*public List<StandardCategoryDTO> getStandardCategoriesTree() {
         List<StandardCategory> standardCategories = this.getStandardCategories();
         return createStdTree(standardCategories);
-    }
+    }*/
 }
