@@ -2,11 +2,9 @@ package switch2020.project.domain.services;
 
 import switch2020.project.domain.utils.CategoryTreeDTO;
 import switch2020.project.domain.model.StandardCategory;
-import switch2020.project.domain.utils.StandardCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CategoryService {
 

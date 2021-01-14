@@ -73,8 +73,6 @@ class CategoryService {
   - boolean isParentIDInList()
   - int generateCategoryID()
   + List<StandardCategory> getCategories()
-  + List getStandardCategories()
-  + List<StandardCategoryDTO> getStandardCaterogriesDTOList()
 }
 
 class StandardCategory {
@@ -86,10 +84,6 @@ class StandardCategory {
   + String getName()
   - boolean isNameValid()
   + boolean isIDOfThisCategory()
-}
-
-class StandardCategoryDTO {
-  - String categoryName
 }
 
 class CustomCategory {
@@ -279,7 +273,6 @@ AddFamilyAdministratorController --> Application
 AddFamilyMemberController --> Application
 AddRelationController --> Application
 AddStandardCategoryController --> Application
-
 CreateFamilyCashAccountController --> Application
 GetCategoryTreeController --> Application
 GetFamilyMemberProfileController --> Application
@@ -289,7 +282,6 @@ Application --> FamilyService
 Application --> CategoryService
 CategoryService --> CustomCategory
 CategoryService --> StandardCategory
-CategoryService -> StandardCategoryDTO
 CategoryService -left-> CategoryTreeDTO
 FamilyService -right-> FamilyWithoutAdministratorDTO
 FamilyService --> Family
