@@ -7,10 +7,10 @@ import switch2020.project.utils.CategoryTreeDTO;
 
 public class GetCategoryTreeController {
 
-    private Application ffmApp;
+    private Application ffmApplication;
 
-    public GetCategoryTreeController(Application app) {
-        this.ffmApp = app;
+    public GetCategoryTreeController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     /**
@@ -20,8 +20,8 @@ public class GetCategoryTreeController {
      * @return True if successfully retrieved the CategoryTreeDTO object
      */
     public boolean getCategoryTree(int familyID, String adminCCNumber) {
-        FamilyService familyService = this.ffmApp.getFamilyService();
-        CategoryService categoryService = this.ffmApp.getCategoryService();
+        FamilyService familyService = this.ffmApplication.getFamilyService();
+        CategoryService categoryService = this.ffmApplication.getCategoryService();
         try {
             if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
                 CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);

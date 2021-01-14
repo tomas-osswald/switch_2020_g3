@@ -2,6 +2,7 @@ package switch2020.project.model;
 
 import switch2020.project.utils.FamilyMemberRelationDTO;
 import switch2020.project.utils.FamilyWithoutAdministratorDTO;
+import switch2020.project.utils.MemberProfileDTO;
 
 
 import java.util.*;
@@ -31,24 +32,24 @@ public class Family {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         this.familyMembers = new ArrayList<>();
         this.registrationDate = new Date();
-        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+        this.familyName = familyName;
         this.familyID = familyID;
     }
-
+/*
     /**
      * Constructor for an empty family for registrations requiring a different registration date
      * @param familyName String with the name of the family to be created
      * @param registrationDate Date of the registration of the given family
-     */
+
     public Family(String familyName, Date registrationDate, int familyID) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
         this.familyMembers = new ArrayList<>();
         this.registrationDate = registrationDate;
-        this.familyName = familyName; //.trim().toUpperCase() o nome da familia não deve necessitar do uppercase uma vez que a familia começa sempre por maiuscula
+        this.familyName = familyName;
         this.familyID = familyID;
     }
-
+*/
     // Validations
 
     private boolean isNameValid(String familyName) {
@@ -70,7 +71,6 @@ public class Family {
         return Collections.unmodifiableList(familyMembers);
     }
 
-    // Get and Setter methods
     /**
      * Method to return family ID
      *
@@ -86,6 +86,15 @@ public class Family {
     }
 
     // Business methods
+
+    /**
+     * Method that compares a given ID is equal to the ID of this family
+     * @param familyID int the familyID you wish to compare
+     * @return true if the IDs match, otherwise false
+     */
+    public boolean isIDOfThisFamily(int familyID){
+        return familyID == this.familyID;
+    }
 
 
     /**
@@ -115,9 +124,9 @@ public class Family {
      */
 
 
-    public boolean isAdmin(String ccNumber) {
+    public boolean verifyAdministrator(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID().equals(ccNumber))
+            if (familyMember.compareID(ccNumber))
                 return familyMember.isAdministrator();
         }
         return false;
@@ -151,6 +160,19 @@ public class Family {
         return false;
     }
 
+    private boolean checkIfCCNumberExists(String cc){
+        ArrayList<String> ccList = new ArrayList();
+        for (FamilyMember member : familyMembers) {
+            ccList.add(member.getFamilyMemberID());
+        }
+        for ( String ccNumber : ccList) {
+            if(ccNumber == cc){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Method to add a relation designation to list of relation designations
      *
@@ -166,28 +188,28 @@ public class Family {
      * Method to add a Relation to A family Member
      *
      * @param ccNumber FamilyMemberID of the member to be added a Relation
-     * @param relation       Relation to be added
+     * @param relationDeignation Relation Designation to be added
      * @return boolean
      */
 
-    public boolean addRelationToFamilyMember(String ccNumber, Relation relation) {
-        FamilyMember familyMember = getFamilyMember(ccNumber);
+    public boolean addRelationToFamilyMember(String ccNumber, String relationDeignation) {
+        FamilyMember familyMember = getFamilyMemberByID(ccNumber);
 
-        familyMember.addRelation(relation);
+        familyMember.addRelation(relationDeignation);
 
         return true;
     }
 
     /**
-     * Method to get a Famaly Member by ID
+     * Method to get a Family Member by ID
      *
      * @param ccNumber FamilyMemberID to search
      * @return FamilyMember with given ID
      */
 
-    public FamilyMember getFamilyMember(String ccNumber) {
+    public FamilyMember getFamilyMemberByID(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.getFamilyMemberID().equals(ccNumber))
+            if (familyMember.compareID(ccNumber))
                 return familyMember;
         }
         // If given ID is not present, a exception is thrown
@@ -224,16 +246,18 @@ public class Family {
         return this.familyMembers.size();
     }
 
+
     /**
      * Method return the number of Family Members in List -> relationsDesignations
      *
      * @return number of relation designations
      */
-
+     /*
     public int numberOfRelationDesignations() {
         return this.relationDesignations.size();
 
     }
+    */
 
     @Override
     public boolean equals(Object other) {
@@ -261,9 +285,13 @@ public class Family {
 
     public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city){
         if(!checkIfVatExists(vat)){
-            FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
-            familyMembers.add(newFamilyMember);
-            return true;
+            if(!checkIfCCNumberExists(cc)){
+                FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+                familyMembers.add(newFamilyMember);
+                return true;
+            } else {
+                throw new IllegalArgumentException("ccNumber already exists in the Family");
+            }
         } else {
             throw new IllegalArgumentException("Vat already exists in the Family");
         }
@@ -308,21 +336,6 @@ public class Family {
         return hasCashAccount;
     }
 
-    /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        for (FamilyMember familyMembers : familyMembers) {
-            String name = familyMembers.getName();
-            String relation;
-            if (familyMembers.getRelation().equals(null)){ // Testar se apontador == funciona.
-               relation = "relação por definir";
-            } else {
-               relation = familyMembers.getRelation();
-            }
-            FamilyMemberRelationDTO newMember = new FamilyMemberRelationDTO(name, relation);
-            DTOList.add(newMember);
-            }
-        return DTOList;
-        } */
 
     /** This method is called by the Family Service, which confirms the Administrator Permission and if the user has permission
      * it iterates through the familyMembers and each one of them will create a copy of himself, with
@@ -330,7 +343,7 @@ public class Family {
      * Returns said List back to the Family Service.
      * @return List of FamilyMembersRelationDTO
      */
-    // Changes to method IOT get a DTO directly from the Familymember
+    // Changes to method IOT get a DTO directly from the FamilyMember
         public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
         for (FamilyMember familyMembers : familyMembers) {
@@ -361,5 +374,19 @@ public class Family {
     public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
         FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
      return  familyWithoutAdministratorDTO;
+    }
+
+    /**
+     * Method iterates through list of family members and finding the correct
+     * one, creates a profile based on the attributes of the family member
+     *
+     * @param ccNumber representing the unique ID from each family member
+     * @return MemberProfileDTO with member's attributes
+     */
+    public MemberProfileDTO getFamilyMemberProfile(String ccNumber) {
+
+        FamilyMember familyMember = getFamilyMemberByID(ccNumber);
+        MemberProfileDTO memberProfile = familyMember.createProfile();
+        return memberProfile;
     }
 }

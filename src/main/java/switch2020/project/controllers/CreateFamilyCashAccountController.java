@@ -4,10 +4,10 @@ import switch2020.project.model.Application;
 import switch2020.project.services.FamilyService;
 
 public class CreateFamilyCashAccountController {
-    private Application ffmApp;
+    private Application ffmApplication;
 
-    public CreateFamilyCashAccountController(Application app) {
-        this.ffmApp = app;
+    public CreateFamilyCashAccountController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     /**
@@ -17,7 +17,7 @@ public class CreateFamilyCashAccountController {
      */
     public boolean createFamilyCashAccount(int familyID, double balance, String ccNumber) {
         try{
-            FamilyService familyService = this.ffmApp.getFamilyService();
+            FamilyService familyService = this.ffmApplication.getFamilyService();
             return familyService.createFamilyCashAccount(familyID, balance, ccNumber);
         } catch (IllegalArgumentException exception) {
             return false;

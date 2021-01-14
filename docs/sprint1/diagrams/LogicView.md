@@ -1,53 +1,58 @@
 #Logic View
 
-**System - Logic View**
+**General Logic View**
 
 ```puml
-component "Family Finance Management System" {
-   component "FFM_UI" {
+left to right direction
+component "Family Finance Management System" as FFMS <<component>> {
+   component "FFM_UI" <<component>> {
    }
-   component "FFM_BusinessLogic" {
+   component "FFM_BusinessLogic" <<component>>  {
    }
 }
 () "UI" as UI
 
-rectangle a [
-Not yet being developed
-]
-rectangle b [
-Being developed in SP01
-]
+note "Not yet being developed" as a
+note "Being developed in SP01" as b
+note "Assuming the simplest \nhypothesis (H.II) in System Overview" as c
 
-note left of UI : Assuming the simplest \nhypothesis (H.II) in System Overview
-UI - "FFM_UI"
+c .right. UI
+UI --# FFMS
+FFMS -- "FFM_UI"
 "FFM_UI" -(0- "FFM_BusinessLogic" : BL_API
-"FFM_UI" -[dashed] a
-"FFM_BusinessLogic" -[dashed] b
+"FFM_UI" .left. a
+"FFM_BusinessLogic" .left. b
 ```
 
 **Business Logic - Logic View**
 
-# ===== !!! ===== 
-
 ```puml
-component "FFM_BusinessLogic" {
-   component "Controllers" {
+
+circle "BL_API" as BL_API
+
+component FFM_BusinessLogic as FFM_BL <<component>> {
+   component Controllers <<component>> {
    }
-   component "Model" {
+   circle Model_API
+   circle Service_API
+   circle Utils_API
+   component Model <<component>> {
    }
-   component "Services" {
+   component Services <<component>> {
    }
-   component "Utils" {
+   component Utils <<component>> {
    }
 }
-() "BL_API" as BL_API
 
+BL_API -# FFM_BL
 
-BL_API - Controllers
-Controllers -(0- Model : Model_API
-
-Controllers -(0- Services : SRV_API
-
-Controllers -(0- Utils : Utils_API
-
+FFM_BL - Controllers
+Controllers -( Model_API
+Controllers -up-( Service_API
+Controllers -down-( Utils_API
+Service_API )-right- Services
+Model_API -right- Model
+Utils_API )-right- Utils
+Services -( Model_API
+Utils -up-( Model_API
 ```

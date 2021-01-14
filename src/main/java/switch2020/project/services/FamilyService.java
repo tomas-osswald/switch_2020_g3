@@ -70,7 +70,7 @@ public class FamilyService {
     private int findFamilyIndexByID(int familyID) {
         int index = 0;
         for (Family family : this.families) {
-            if (family.getFamilyID() == familyID) {
+            if (family.isIDOfThisFamily(familyID)) {
                 return index;
             }
             index++;
@@ -137,19 +137,16 @@ public class FamilyService {
      */
 
     public boolean createRelation(String selfCCNumber, String otherccNumber, String relationDesignation, int familyID) {
-        Relation relation;
         Family fam = getFamily(familyID);
 
 
-        if (fam.isAdmin(selfCCNumber)) { // If is Administrator
+        if (fam.verifyAdministrator(selfCCNumber)) { // If is Administrator
             if (fam.hasDesignation(relationDesignation)) { // Verify if a given relation designation is already present in list of relations assigned
-                relation = new Relation(relationDesignation);
-                fam.addRelationToFamilyMember(otherccNumber, relation); // Create a Relation instance and assign to a Family Member
+                fam.addRelationToFamilyMember(otherccNumber, relationDesignation); // Calls a Family Method to add Relation to a specific member
 
-            } else { // If not, add to list of relations assigned
-                relation = new Relation(relationDesignation);
+            } else { // If not, add to list of relations assigned in specific family
                 fam.addToRelationDesignationList(relationDesignation);
-                fam.addRelationToFamilyMember(otherccNumber, relation); // Create a Relation instance and assign to a Family Member
+                fam.addRelationToFamilyMember(otherccNumber, relationDesignation); // Calls a Family Method to add Relation to a specific member
             }
             return true; // Return true if is administrator and a Relation has been created and assigned to given Family Member
         }
@@ -186,7 +183,7 @@ public class FamilyService {
     public boolean addFamilyMember(String selfCC, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID) {
         if (checkIfFamilyExists(familyID)) {
             int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if (this.families.get(posicaoFamilia).isAdmin(selfCC)) {
+            if (this.families.get(posicaoFamilia).verifyAdministrator(selfCC)) {
                 if (!checkIfEmailPresent(email)) {
                     return this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
                 }
@@ -220,7 +217,7 @@ public class FamilyService {
 
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
         Family family = getFamily(familyID);
-        boolean isAdmin = family.isAdmin(ccNumber);
+        boolean isAdmin = family.verifyAdministrator(ccNumber);
         return isAdmin;
     }
 
@@ -233,21 +230,10 @@ public class FamilyService {
      * @return DTOList containing Family Members' name and the relationDesignation.
      */
 
-   /* public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, int familyAdministratorID) {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        Family family = getFamily(familyID);
-        if (family.verifyAdministratorPermission(familyAdministratorID)) {
-            DTOList = family.getFamilyMembersRelationDTOList();
-        }
-        return DTOList;
-    } */
-
-            // Method que vai mudar o GetFMRDTO para validações de CC.
-
          public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
                 List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
                 Family family = getFamily(familyID);
-                if (family.isAdmin(adminCCNumber)) {
+                if (family.verifyAdministrator(adminCCNumber)) {
                     DTOList = family.getFamilyMembersRelationDTOList();
                 }
                 return DTOList;
@@ -264,7 +250,7 @@ public class FamilyService {
     public boolean createFamilyCashAccount(int familyID, double balance, String ccNumber) {
         boolean success;
         Family aFamily = getFamily(familyID);
-        if (aFamily.isAdmin(ccNumber)) {
+        if (aFamily.verifyAdministrator(ccNumber)) {
             success = aFamily.createFamilyCashAccount(balance);
         } else {
             success = false;
@@ -272,13 +258,20 @@ public class FamilyService {
         return success;
     }
 
+    /**
+     *Using the familyID the method iterates through the list of families
+     * and after finding the correct family iterates through the list of
+     * family members to find the family member which profile has been
+     * requested. The profile is the returned as a MemberProfileDTO
+     *
+     * @param familyId representing the unique ID given to each family
+     * @param ccNumber representing the unique ID from each family member
+     * @return MemberProfileDTO with member's attributes
+     */
     public MemberProfileDTO getFamilyMemberProfile(int familyId, String ccNumber) {
 
         Family family = getFamily(familyId);
-        FamilyMember familyMember = family.getFamilyMember(ccNumber);
-        MemberProfileDTO memberProfile = familyMember.createProfile();
-
-        return memberProfile;
+        return family.getFamilyMemberProfile(ccNumber);
     }
 
     /**

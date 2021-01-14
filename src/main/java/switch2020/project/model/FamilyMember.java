@@ -397,13 +397,21 @@ public class FamilyMember {
      * @param relation Relation to add
      */
 
-    protected void addRelation(Relation relation) {
-        if (this.relation != null) {
+    protected void addRelation(String relationDesignation) {
+        if (this.relation != null)
             throw new IllegalArgumentException("This family member already has an assigned relation");
-        }
+
+        Relation relation = new Relation(relationDesignation);
+
         this.relation = relation;
     }
 
+    /**
+     * method that uses the attributes from the family member
+     * to create and return a MemberProfileDTO
+     *
+     * @return MemberProfileDTO with member's attributes
+     */
     public MemberProfileDTO createProfile() {
         if (this.relation == null) {
             return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
@@ -427,6 +435,10 @@ public class FamilyMember {
         }
         copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
         return copyOfFamilyMemberDTO;
+    }
+
+    protected boolean compareID(String ccNumber) {
+        return ccNumber.equals(this.ccNumber.getCcNumber());
     }
 }
 

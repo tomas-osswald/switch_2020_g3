@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switch2020.project.services.FamilyService;
 import switch2020.project.utils.FamilyMemberRelationDTO;
+import switch2020.project.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,15 @@ class FamilyTest {
     Relation relation = new Relation(relacao);
     boolean admin = false;
 
+    //ProfileMemberDTO setup
+    Address address = new Address(rua, codPostal, local, city);
+    EmailAddress emailAddress = new EmailAddress(email);
+    List<EmailAddress> emails = new ArrayList<>();
+    PhoneNumber phoneNumber = new PhoneNumber(numero);
+    List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    VatNumber vatNumber = new VatNumber(nif);
+    FamilyService familyService = new FamilyService();
+
     String cc2 = "166699209ZY8";
     String name2 = "Tony";
     Date date2 = new Date(1954, 8, 26);
@@ -41,15 +51,17 @@ class FamilyTest {
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
+
     //Setup for getFamilyMemberRelationDTO List
     FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
-    FamilyMember jorge = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
+    FamilyMember jorge = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
     FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
     FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), "Undefined Relation");
     FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), "Undefined Relation");
     FamilyMemberRelationDTO newMemberUndefinedRelation = new FamilyMemberRelationDTO(newMember.getName(), "Undefined Relation");
     List<FamilyMemberRelationDTO> expectedDTOList = new ArrayList<>();
     ArrayList<FamilyMember> expectedFamilyMembers = new ArrayList<>();
+
     int familyOneID = 123;
     String familyOneName = "Simpson";
     Family family = new Family(familyOneName, familyOneID);
@@ -57,8 +69,8 @@ class FamilyTest {
 
     @Test
     void AddFamilyMembers() {
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero,email2,nif2,rua2,codPostal2,local2,city2);
+        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        FamilyMember familyMember2 = new FamilyMember(cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2);
 
         int familyID = 1;
         String familyName = "Moreira";
@@ -76,8 +88,8 @@ class FamilyTest {
 
     @Test
     void AddFamilyMembersArray() {
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero,email2,nif2,rua2,codPostal2,local2,city2);
+        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        FamilyMember familyMember2 = new FamilyMember(cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2);
 
         ArrayList<FamilyMember> familyMembersList = new ArrayList<>();
 
@@ -100,7 +112,7 @@ class FamilyTest {
     @Test
     void IsAdminTrue() {
 
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         familyMember1.makeAdmin();
 
         int familyID = 1;
@@ -109,12 +121,12 @@ class FamilyTest {
 
         family.addFamilyMember(familyMember1);
 
-        assertTrue(family.isAdmin(cc));
+        assertTrue(family.verifyAdministrator(cc));
     }
 
     @Test
     void IsAdminFalse() {
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
         int familyID = 1;
         String familyName = "Moreira";
@@ -122,15 +134,15 @@ class FamilyTest {
 
         family.addFamilyMember(familyMember1);
 
-        assertFalse(family.isAdmin(cc));
+        assertFalse(family.verifyAdministrator(cc));
     }
 
     @Test
     void AdminWithGivenIDNotFoundNoFamilyMemberWithThatID() {
         String familyMemberID1 = "000000000ZZ4";
         String familyMemberID2 = "137476450ZX0";
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero,email2,nif2,rua2,codPostal2,local2,city2);
+        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        FamilyMember familyMember2 = new FamilyMember(cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2);
         familyMember1.makeAdmin();
 
         int familyID = 1;
@@ -142,13 +154,13 @@ class FamilyTest {
 
         String notAtribuitedID = "137843828ZX3";
 
-        assertFalse(family.isAdmin(notAtribuitedID));
+        assertFalse(family.verifyAdministrator(notAtribuitedID));
     }
 
     @Test
     void FamilyMemberWithGivenIDDoesntExist() {
         String familyMemberIDThatDoesntExist = "000000020ZZ4";
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
         int familyID = 1;
         String familyName = "Moreira";
@@ -156,9 +168,8 @@ class FamilyTest {
         family.addFamilyMember(familyMember1);
 
         String relationDesignation = "Mother";
-        Relation relation = new Relation(relationDesignation);
 
-        assertThrows(IllegalArgumentException.class, () -> family.addRelationToFamilyMember(familyMemberIDThatDoesntExist, relation));
+        assertThrows(IllegalArgumentException.class, () -> family.addRelationToFamilyMember(familyMemberIDThatDoesntExist, relationDesignation));
     }
 
     @Test
@@ -248,22 +259,42 @@ class FamilyTest {
 
     @Test
     void AddFamilyMember_VatNotExists() {
-        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
     }
 
     @Test
     void NotAddFamilyMember_VatExists() {
-        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+    }
+
+    @Test
+    void AddFamilyMember_CCNotExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+    }
+
+    @Test
+    void NotAddFamilyMember_CCExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
     }
 
     @Test
@@ -271,29 +302,29 @@ class FamilyTest {
         assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, "", date, numero, email, nif, rua, codPostal, local, city, admin));
     }
 
-    /*@Test
+    @Test
     void familyHasAdministrator() {
-        Family family = new Family();
-        family.addFamilyAdministrator();
-        family.addFamilyMember();
+        Family family = new Family(familyOneName, familyOneID);
+        family.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        family.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
 
         assertTrue(family.hasAdministrator());
     }
 
     @Test
     void familyHasNoAdministratorWithFamilyMembers() {
-        Family family = new Family();
-        family.addFamilyMember();
+        Family family = new Family(familyOneName, familyOneID);
+        family.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
         assertFalse(family.hasAdministrator());
     }
 
     @Test
     void familyHasNoAministratorWithNoFamilyMembers() {
-        Family family = new Family();
+        Family family = new Family(familyOneName, familyOneID);
 
         assertFalse(family.hasAdministrator());
-    }*/
+    }
 
     @Test
     void addFamilyAdministrator_VatNotExists() {
@@ -306,20 +337,39 @@ class FamilyTest {
     }
 
     @Test
-    void addFamilyAdministrator_VatExists() {
+    void NotAddFamilyAdministrator_VatExists() {
         FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
         String familyName = "Moreira";
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+    }
+
+    @Test
+    void addFamilyAdministrator_CCNotExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+    }
+
+    @Test
+    void NotAddFamilyAdministrator_CCExists() {
+        FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        String familyName = "Moreira";
+        int familyID = 1;
+        Family familia = new Family(familyName, familyID);
+        familia.addFamilyMember(pessoa1);
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
     }
 
 
     /**
      * Test expecting a correct conversion of the List of FamilyMembers of a Family, to FamilyMembersRelationDTO,
      * and said List.
-     *
      */
     @Test
     void getFamilyMembersRelationDTOList() {
@@ -335,6 +385,33 @@ class FamilyTest {
         assertNotSame(expectedDTOList, result);
     }
 
+
+    @Test
+    void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        familyService.addFamily(family);
+        family.addFamilyMember(diogo);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(diogo.getID());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO result = family.getFamilyMemberProfile(jorge.getID());
+
+        assertNotEquals(expected, result);
+    }
+
     /**
      * Test to verify if an empty Family (i.e. with no Family Members) returns an empty List
      * of FamilyMemberRelationDTO
@@ -347,5 +424,15 @@ class FamilyTest {
         assertNotSame(expectedDTOList, result);
     }
 
+    @Test
+    void hasDesignationInRelationDesignationList() {
+        Family family = new Family(familyOneName, familyOneID);
 
+        String relationDesignation1 = "Mother";
+        family.addToRelationDesignationList(relationDesignation1);
+
+        String relationDesignation2 = "Mother";
+
+        assertTrue(family.hasDesignation(relationDesignation2));
+    }
 }
