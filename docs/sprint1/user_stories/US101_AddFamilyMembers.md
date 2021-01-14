@@ -433,7 +433,7 @@ With the UI and login layer implemented, it is not necessary to ask which family
 
 # 5. Integration/Demonstration
 
-This userStory 
+As it was said before, this UserStory dependes on both **[US010 - Add Family]** and **[US011 - Add Family Administrator]**.
 
 # 6. Observations
 
