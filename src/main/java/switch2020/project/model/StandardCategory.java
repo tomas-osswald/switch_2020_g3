@@ -18,14 +18,6 @@ public class StandardCategory {
         this.parentCategory = parentCategory;
     }
 
-    //delete later, for tests
-    public StandardCategory(String categoryName, int categoryID) {
-        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
-        this.categoryID = categoryID;
-        this.categoryName = categoryName.trim().toUpperCase();
-
-    }
-
     public int getParentID() {
         try {
             return parentCategory.getCategoryID();
@@ -35,7 +27,7 @@ public class StandardCategory {
     }
 
     public String getParentName() {
-        if(this.parentCategory != null){
+        if (this.parentCategory != null) {
             return this.parentCategory.getName();
         }
         return "root";
@@ -49,11 +41,10 @@ public class StandardCategory {
         return this.categoryName;
     }
 
-    public boolean isChildOf(StandardCategory standardCategory){
-        if (this.getParentName() != null){
+    public boolean isChildOf(StandardCategory standardCategory) {
+        if (this.getParentName() != null) {
             return standardCategory.equals(this.parentCategory);
-        }
-        else return false;
+        } else return false;
     }
 
     //Validation Methods
@@ -80,14 +71,15 @@ public class StandardCategory {
 
     /**
      * Method that compares a given ID is equal to the ID of this category
+     *
      * @param categoryID int the categoryID you want to compare
      * @return true if the IDs match, otherwise false
      */
-    public boolean isIDOfThisCategory(int categoryID){
+    public boolean isIDOfThisCategory(int categoryID) {
         return categoryID == this.categoryID;
     }
 
-    public boolean isDesignationOfThisCategory(String categoryName){
+    public boolean isDesignationOfThisCategory(String categoryName) {
         return this.categoryName.compareToIgnoreCase(categoryName) == 0;
     }
 

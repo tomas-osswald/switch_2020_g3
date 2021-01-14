@@ -56,8 +56,8 @@ participant ": UI" as ui
 participant ": GetStandardCategoriesController" as controller
 participant ":Application" as app
 participant ": CategoryService" as service
-participant ": Categories" as list
-note left of systemManager:  get the list of \nstandard categories
+participant ": Categories<Standard Category>" as list
+
 activate systemManager
 systemManager -> ui : request standard categories tree
 activate ui
@@ -69,21 +69,27 @@ activate service
 app -> controller : CategoryService
 deactivate app
 controller -> service : getStandardCategories()
-service -> service : createStandardCategoriesList()
-activate category
-loop for each Category in Categories List
-service -> category : getStandardCategories()
-alt true
-category -> service : List<StandardCategory>
-service -> app : standardCategoriesTree
-deactivate service
-deactivate category
-end
-end
+activate list
+service -> list : getStandardCategories()
 
-app --> controller : standardCategoriesList
+list-> service : List<StandardCategory>
+loop for each standardCategory in Categories List
+service-> list : getParents()
+list -> service : ParentsList
+end
+loop for each standardCategory in Categories List
+service -> list : getChilds()
+list -> service : ChildsList
+deactivate list
+end
+service -> service : createStdTree()
+controller -> service : getStandardCategoriesTree()
+service -> app : standardCategoriesTree
+activate app
+deactivate service
+app --> controller : standardCategoriesTree
 deactivate app
-controller --> ui :StandardCategoriesTree
+controller --> ui :standardCategoriesTree
 deactivate controller
 ui --> systemManager : present standard categories tree
 deactivate ui
@@ -111,15 +117,18 @@ title Class Diagram
 class Application {
   - CategoryService categoryService
   + getCategoryService()
-  + getStandardCategories()
+  + getStandardCategoriesTree()
   }
 
 class CategoryService {
-  - List<Category> categories
+  + getStandardCategories()
+  + getParents()
+  + getChilds()
+  + createStdTree()
 }
 
 class Categories {
- +createStandardCategoriesList()
+  - List<StandardCategory> categories
  }
  
 class Category {
@@ -146,8 +155,8 @@ We also applied the SOLID SRP (Single Responsabity Principle) in each of the cla
 
 # 4. Implementation
 
-From a request the Category Service class creates a new CategoryMap object that holds each Category object parent category name (if exists) and its own category name.
-With the above object it is possible to obtain a tree view representation of the categories in branch-leave style.
+From a request the Category Service class creates a new List<StandardCategoryDTO> object that holds each StandardCategoryDTO object that has its own List<StandardCategory> of childs object.
+Then after is created a Tree representation that is a List object of the above.
 
 # 5. Integration/Demonstration
 

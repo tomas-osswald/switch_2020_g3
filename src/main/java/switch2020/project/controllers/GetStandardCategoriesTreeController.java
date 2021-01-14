@@ -14,8 +14,8 @@ public class GetStandardCategoriesTreeController {
         this.app = app;
     }
 
-    /*public List<StandardCategoryDTO> getStandardCategories(){
-        //CategoryService categoryService = this.app.getCategoryService();
-        //return categoryService.getStandardCategoriesDTOList();
-    }*/
+    public List<StandardCategoryDTO> getStandardCategoriesTree(){
+        CategoryService categoryService = this.app.getCategoryService();
+        return categoryService.getStandardCategoriesTree();
+    }
 }

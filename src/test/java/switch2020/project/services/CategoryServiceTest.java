@@ -177,4 +177,8 @@ class CategoryServiceTest {
     void createStdTree() {
 
     }
+
+    @Test
+    void testCreateStdTree() {
+    }
 }
