@@ -37,7 +37,7 @@ getCategoryTreeController.
 @startuml
 autonumber
 title GetCategoryTree
-actor "Family Admin" as actor
+actor "Actor" as actor
 participant ": UI" as UI
 participant ": getCategoryTreeController" as controller
 participant ": FFMApplication" as application
@@ -73,7 +73,7 @@ else is the Admin
     deactivate famservice
     controller -> catservice: getCategoryTree( familyID, familyService)
     activate catservice
-    catservice -> tree: newTree(this.CategoryServise, familyService, familyID)
+    catservice -> tree: newTree(this.CategoryService, familyService, familyID)
     activate tree
     tree -> catservice: getStandardCategories
     catservice->tree: return StandarCategories
@@ -85,7 +85,7 @@ else is the Admin
     deactivate family
     famservice ->tree: return CustomCategories
     deactivate famservice
-    tree->atree: build tree (standardCategories, customCategories)
+    tree->atree**: build tree (standardCategories, customCategories)
     activate atree
     atree->tree: Ok
     deactivate atree
