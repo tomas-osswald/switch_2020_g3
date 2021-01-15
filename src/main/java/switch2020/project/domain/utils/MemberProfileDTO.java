@@ -51,8 +51,8 @@ public class MemberProfileDTO {
         return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address) && relation.equals(that.relation);
     }
 
-    @Override
+    /*@Override
     public int hashCode() {
         return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
-    }
+    }*/
 }

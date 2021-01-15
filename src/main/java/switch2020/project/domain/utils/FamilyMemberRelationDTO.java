@@ -3,8 +3,8 @@ package switch2020.project.domain.utils;
 public class FamilyMemberRelationDTO {
 
     // Attributes
-    private String name;
-    private String relationDesignation;
+    private final String name;
+    private final String relationDesignation;
 
     // Constructors
     public FamilyMemberRelationDTO(String name, String relationDesignation) {
@@ -23,26 +23,20 @@ public class FamilyMemberRelationDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof FamilyMemberRelationDTO)) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (!(o instanceof FamilyMemberRelationDTO)) return false;
 
         FamilyMemberRelationDTO that = (FamilyMemberRelationDTO) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null) {
-            return false;
-        }
-        return relationDesignation != null ? relationDesignation.equals(that.relationDesignation) : that.relationDesignation == null;
+        return this.name.equals(that.name) && this.relationDesignation.equals(that.relationDesignation);
     }
 
-    @Override
+    /*@Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (relationDesignation != null ? relationDesignation.hashCode() : 0);
         return result;
-    }
+    }*/
 }
 

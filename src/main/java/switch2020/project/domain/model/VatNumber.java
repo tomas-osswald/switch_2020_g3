@@ -42,8 +42,9 @@ public class VatNumber {
         return vatNumber == vatNumber1.vatNumber;
     }
 
+    /*
     @Override
     public int hashCode() {
         return Objects.hash(vatNumber);
-    }
+    }*/
 }

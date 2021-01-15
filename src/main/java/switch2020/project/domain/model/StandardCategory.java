@@ -39,11 +39,11 @@ public class StandardCategory {
         return this.categoryName;
     }
 
-    public boolean isChildOf(StandardCategory standardCategory) {
+    /*public boolean isChildOf(StandardCategory standardCategory) {
         if (this.getParentName() != null) {
             return standardCategory.equals(this.parentCategory);
         } else return false;
-    }
+    }*/
 
     //Validation Methods
 

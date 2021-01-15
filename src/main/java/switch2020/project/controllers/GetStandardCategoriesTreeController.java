@@ -2,9 +2,7 @@ package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.CategoryService;
-import switch2020.project.domain.utils.StandardCategoryDTO;
-
-import java.util.List;
+import switch2020.project.domain.utils.CategoryTreeDTO;
 
 public class GetStandardCategoriesTreeController {
     private Application app;
@@ -14,8 +12,16 @@ public class GetStandardCategoriesTreeController {
         this.app = app;
     }
 
-    public List<StandardCategoryDTO> getStandardCategoriesTree(){
+    public boolean getStandardCategoriesTree() {
         CategoryService categoryService = this.app.getCategoryService();
-        return categoryService.getStandardCategoriesTree();
+        try {
+            CategoryTreeDTO standardCategoryTree = categoryService.getStandardCategoryTree();
+            return true;
+
+
+        } catch (Exception exception) {
+
+            return false;
+        }
     }
 }

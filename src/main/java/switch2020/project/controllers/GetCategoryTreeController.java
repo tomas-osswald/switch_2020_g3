@@ -36,6 +36,23 @@ public class GetCategoryTreeController {
         }
     }
 
+   /* public boolean getCategoryTree(int familyID, String adminCCNumber) {
+        FamilyService familyService = this.ffmApp.getFamilyService();
+        CategoryService categoryService = this.ffmApp.getCategoryService();
+        try {
+            if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
+                CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
+                categoryTree.printTree();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return false;
+        }
+    }*/
+
 
 }
 
