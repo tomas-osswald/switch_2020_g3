@@ -30,93 +30,93 @@ The application then returns a list object containing the categories identified 
 
 ### Sequence diagram
 ````puml
+@startuml
 autonumber
-title get standard categories list - sequence diagram
-actor "System Manager" as systemManager
-participant ": UI" as ui
-participant ": GetStandardCategoriesController" as controller
-participant ":Application" as app
-participant ": CategoryService" as service
-participant ": Categories" as list
-note left of systemManager:  get the list of \nstandard categories
-activate systemManager
-systemManager -> ui : request standard categories
-activate ui
-ui -> controller : getStandardCategories()
-activate controller
-controller -> app : getCategoryService()
-activate app
-activate service
-app -> controller : CategoryService
-deactivate app
-controller -> service : getCategories()
-service -> service : createStandardCategoriesList()
-activate category
-loop for each Category in Categories List
-service -> category : getStandardCategories()
-alt true
-category -> service : List<StandardCategory>
-service -> app : standardCategories
-deactivate service
-deactivate category
-end
-end
+title GetStandardCategoryTree
+actor "System Manager" as actor
+participant ": UI" as UI
+participant ": getStandardCategoryTreeController" as controller
+participant ": FFMApplication" as application
+participant ": categoryService" as catservice
+participant "CategoryTreeDTO" as tree
+participant "aTree: CategoryTree" as atree
 
-app --> controller : standardCategoriesList
-deactivate app
-controller --> ui :StandardCategoriesList
+activate actor
+actor -> UI: Get Standard Category Tree(family ID, familyMemberID)
+activate UI
+UI -> controller: getStandardCategoryTree()
+activate controller
+activate application
+controller -> application: getCategoryService
+application -> controller: return CategoryService
+deactivate application
+controller -> catservice: getCategoryTree( familyID, familyService)
+activate catservice
+catservice -> tree: newTree(this.CategoryServise)
+activate tree
+tree -> catservice: getStandardCategories
+catservice->tree: return StandarCategories
+tree->atree: build tree (standardCategories, customCategories)
+activate atree
+atree->tree: Ok
+deactivate atree
+tree->catservice:Ok
+deactivate tree
+catservice->controller:Ok
+deactivate catservice
+controller->UI: Ok
 deactivate controller
-ui --> systemManager : present standard categories list
-deactivate ui
-deactivate systemManager
+UI->actor: Success
+deactivate UI
+deactivate actor
+
 @enduml
 ````
 
 ## 3.1. Functionality Use
 
-The GetStandardCatergoriesTreeController invokes the Application object, that has a Category Service object.
-The Application returns the CategoryService that has all the Standard Categories.
-The CategoryService creates a List object that all the standard categories and all their childs.
+The getStandardCategoryTreeController will invoke the Application object, which stores
+the CategoryService object. The Application will return that
+service, and the getStandardCategoryTree method will be called from the CategoryService. 
+The CategoryTree DTO will be instantiated, and will fetch the StandardCategory
+objects stored in the CategoryService. It will store and present that List back to the UI.
 
 ## 3.2. Class Diagram
 
 The main Classes involved are:
 
-- CategoriesController
+- getCategoryTreeController
 - Application
 - CategoryService
+- CategoryTreeDTO
 
 ```puml
 title Class Diagram
 
+class Controller {
++getStandardCatergoriesTree()
+}
+
 class Application {
   - CategoryService categoryService
   + getCategoryService()
-  + getStandardCategoriesTree()
-  }
+ }
 
 class CategoryService {
+- StandardCategory List
   + getStandardCategories()
-  + getParents()
-  + getChilds()
-  + createStdTree()
 }
 
-class Categories {
-  - List<StandardCategory> categories
- }
- 
-class Category {
-  - String categoryName
-  - boolean standard
-  - int categoryLevel
-  + checkIfIsStandard()
-  + addCategoryToStandardList()
+class CategoryTreeDTO {
+- StandardCategory List
 }
 
+
+Controller --> Application
+Controller --> CategoryService : use
 Application --> CategoryService
-CategoryService --> Categories
-Categories "1"  --> "*" Category  : has >
+CategoryService --> CategoryTreeDTO : use
+
 ```
 
 ## 3.3. Applied Patterns
