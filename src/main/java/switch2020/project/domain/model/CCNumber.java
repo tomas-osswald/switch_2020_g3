@@ -73,13 +73,13 @@ public class CCNumber {
                 return 8;
             case '9':
                 return 9;
-            case 'A':
-                return 10;
+            /*case 'A':
+                return 10;*/
             case 'B':
                 return 11;
             case 'C':
                 return 12;
-            case 'D':
+            /*case 'D':
                 return 13;
             case 'E':
                 return 14;
@@ -114,7 +114,7 @@ public class CCNumber {
             case 'T':
                 return 29;
             case 'U':
-                return 30;
+                return 30;*/
             case 'V':
                 return 31;
             case 'W':

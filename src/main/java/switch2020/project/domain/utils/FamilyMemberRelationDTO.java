@@ -3,8 +3,8 @@ package switch2020.project.domain.utils;
 public class FamilyMemberRelationDTO {
 
     // Attributes
-    private String name;
-    private String relationDesignation;
+    private final String name;
+    private final String relationDesignation;
 
     // Constructors
     public FamilyMemberRelationDTO(String name, String relationDesignation) {
