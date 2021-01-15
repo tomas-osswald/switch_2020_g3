@@ -1,6 +1,6 @@
 package switch2020.project.domain.model;
 
-public clCCNumber {
+public class CCNumber {
 
     private String ccNumber;
 
