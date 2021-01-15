@@ -55,7 +55,7 @@ controller -> application: getFamilyService()
 activate application
 application --> controller: familyService
 deactivate application
-controller -> famServ: createFamily(name)
+controller -> famServ: addFamily(name)
 activate famServ
 
 famServ -> family**: create(name)

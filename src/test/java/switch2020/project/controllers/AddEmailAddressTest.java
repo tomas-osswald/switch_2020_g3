@@ -74,6 +74,7 @@ class AddEmailAddressTest {
         testFamily.addFamilyMember(familyMember2);
         controller.addEmail("kaladin@depression.com", 10, "137843828ZX3");
         assertFalse(controller.addEmail("kaladin@depression.com", 10, "137843828ZX3"));
+
     }
 
     @Test
