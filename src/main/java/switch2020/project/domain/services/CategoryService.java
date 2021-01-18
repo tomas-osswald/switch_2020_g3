@@ -1,7 +1,8 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.utils.CategoryTreeDTO;
+import switch2020.project.domain.model.CustomCategory;
 import switch2020.project.domain.model.StandardCategory;
+import switch2020.project.domain.utils.CategoryTreeDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +145,7 @@ public class CategoryService {
         CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
         return categoryTree;
     }
+
     /**
      * Method to get all the Standard Categories
      *
@@ -156,6 +158,24 @@ public class CategoryService {
         List standardCategories = new ArrayList<StandardCategory>();
         standardCategories = categories;
         return standardCategories;
+    }
+
+    //Parent is Standard
+    public boolean addCategoryToFamilyTree(int familyID, String designation, StandardCategory parentCategory, FamilyService familyService) {
+        int categoryID = generateCategoryID();
+        return familyService.addCategory(familyID, designation, parentCategory, categoryID);
+    }
+
+    //Parent is Custom
+    public boolean addCategoryToFamilyTree(int familyID, String designation, CustomCategory parentCategory, FamilyService familyService) {
+        int categoryID = generateCategoryID();
+        return familyService.addCategory(familyID, designation, parentCategory, categoryID);
+    }
+
+    //No Parent
+    public boolean addCategoryToFamilyTree(int familyID, String designation, FamilyService familyService) {
+        int categoryID = generateCategoryID();
+        return familyService.addCategory(familyID, designation, categoryID);
     }
 
     /**

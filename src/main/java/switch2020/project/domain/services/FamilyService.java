@@ -47,9 +47,9 @@ public class FamilyService {
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
-     * @param emailToAdd     String of the email address to add
-     * @param familyID       Integer representing the family's ID
-     * @param ccNumber Integer representing the family member's ID
+     * @param emailToAdd String of the email address to add
+     * @param familyID   Integer representing the family's ID
+     * @param ccNumber   Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
      */
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
@@ -227,20 +227,20 @@ public class FamilyService {
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
      * With the familyID the method delegates to the Family Class the responsibility of returning a List of DTOs from
      * the Family's Family Members. If the User isn't the Family Administrator the return is an Empty List.
-     * @param familyID representing the Id of the family to find.
-     * @param adminCCNumber  representing the userID. Has to be verified in order to provide access to the information
+     *
+     * @param familyID      representing the Id of the family to find.
+     * @param adminCCNumber representing the userID. Has to be verified in order to provide access to the information
      * @return DTOList containing Family Members' name and the relationDesignation.
      */
 
-         public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
-                List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-                Family family = getFamily(familyID);
-                if (family.verifyAdministrator(adminCCNumber)) {
-                    DTOList = family.getFamilyMembersRelationDTOList();
-                }
-                return DTOList;
-            }
-
+    public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
+        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        Family family = getFamily(familyID);
+        if (family.verifyAdministrator(adminCCNumber)) {
+            DTOList = family.getFamilyMembersRelationDTOList();
+        }
+        return DTOList;
+    }
 
 
     /**
@@ -261,7 +261,7 @@ public class FamilyService {
     }
 
     /**
-     *Using the familyID the method iterates through the list of families
+     * Using the familyID the method iterates through the list of families
      * and after finding the correct family iterates through the list of
      * family members to find the family member which profile has been
      * requested. The profile is the returned as a MemberProfileDTO
@@ -292,6 +292,21 @@ public class FamilyService {
             }
         }
         return listOfFamiliesWithoutAdministrator;
+    }
+
+    //Parent is Standard
+    public boolean addCategory(int familyID, String designation, StandardCategory parentCategory, int categoryID) {
+        return getFamily(familyID).addCustomCategory(designation, parentCategory, categoryID);
+    }
+
+    //Parent is Custom
+    public boolean addCategory(int familyID, String designation, CustomCategory parentCategory, int categoryID) {
+        return getFamily(familyID).addCustomCategory(designation, parentCategory, categoryID);
+    }
+
+    //No Parent
+    public boolean addCategory(int familyID, String designation, int categoryID) {
+        return getFamily(familyID).addCustomCategory(designation, categoryID);
     }
 }
 

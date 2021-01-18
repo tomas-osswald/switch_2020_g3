@@ -4,8 +4,10 @@ import switch2020.project.domain.utils.FamilyMemberRelationDTO;
 import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
 import switch2020.project.domain.utils.MemberProfileDTO;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class Family {
 
@@ -188,7 +190,7 @@ public class Family {
     /**
      * Method to add a Relation to A family Member
      *
-     * @param ccNumber           FamilyMemberID of the member to be added a Relation
+     * @param ccNumber            FamilyMemberID of the member to be added a Relation
      * @param relationDesignation Relation Designation to be added
      * @return boolean
      */
@@ -395,4 +397,24 @@ public class Family {
         MemberProfileDTO memberProfile = familyMember.createProfile();
         return memberProfile;
     }
+
+    //Parent is Standard
+    public boolean addCustomCategory(String designation, StandardCategory parentCategory, int categoryID) {
+        CustomCategory newCategory = new CustomCategory(designation, parentCategory, categoryID);
+        return true;
+    }
+
+
+    //Parent is Custom
+    public boolean addCustomCategory(String designation, CustomCategory parentCategory, int categoryID) {
+        CustomCategory newCategory = new CustomCategory(designation, parentCategory, categoryID);
+        return true;
+    }
+
+    //No Parent
+    public boolean addCustomCategory(String designation, int categoryID) {
+        CustomCategory newCategory = new CustomCategory(designation, categoryID);
+        return true;
+    }
+
 }
