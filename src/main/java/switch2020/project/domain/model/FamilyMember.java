@@ -394,7 +394,7 @@ public class FamilyMember {
     /**
      * Method to add a Relation to Family Member
      *
-     * @param relation Relation to add
+     * @param relationDesignation Relation to add
      */
 
     protected void addRelation(String relationDesignation) {
@@ -438,7 +438,7 @@ public class FamilyMember {
     }
 
     protected boolean compareID(String ccNumber) {
-        return ccNumber.equals(this.ccNumber.getCcNumber());
+        return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
     }
 }
 

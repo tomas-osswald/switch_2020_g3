@@ -1,6 +1,5 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.CustomCategory;
 import switch2020.project.domain.model.StandardCategory;
 import switch2020.project.domain.utils.CategoryTreeDTO;
 
@@ -160,22 +159,18 @@ public class CategoryService {
         return standardCategories;
     }
 
-    //Parent is Standard
-    public boolean addCategoryToFamilyTree(int familyID, String designation, StandardCategory parentCategory, FamilyService familyService) {
-        int categoryID = generateCategoryID();
-        return familyService.addCategory(familyID, designation, parentCategory, categoryID);
-    }
-
-    //Parent is Custom
-    public boolean addCategoryToFamilyTree(int familyID, String designation, CustomCategory parentCategory, FamilyService familyService) {
-        int categoryID = generateCategoryID();
-        return familyService.addCategory(familyID, designation, parentCategory, categoryID);
-    }
 
     //No Parent
-    public boolean addCategoryToFamilyTree(int familyID, String designation, FamilyService familyService) {
-        int categoryID = generateCategoryID();
-        return familyService.addCategory(familyID, designation, categoryID);
+    public boolean addCategoryToFamilyTree(int familyID, String designation, FamilyService familyService, int parentID) {
+        if (parentID > 0) {
+            StandardCategory parent = getStandardCategoryByID(parentID);
+            return familyService.addCategory(familyID, designation, parent);
+        }else if(parentID<0){
+            return familyService.addCategory(familyID, designation, parentID);
+        }else{
+            return familyService.addCategory(familyID,designation);
+        }
+
     }
 
     /**

@@ -20,11 +20,6 @@ public class CustomCategory {
         this.categoryID = categoryID;
     }
 
-    public CustomCategory(String categoryName, int categoryID) {
-        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
-        this.categoryName = categoryName.trim().toUpperCase();
-        this.categoryID = categoryID;
-    }
 
     public String getCategoryName() {
         return categoryName;

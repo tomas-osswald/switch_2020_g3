@@ -294,19 +294,22 @@ public class FamilyService {
         return listOfFamiliesWithoutAdministrator;
     }
 
-    //Parent is Standard
-    public boolean addCategory(int familyID, String designation, StandardCategory parentCategory, int categoryID) {
-        return getFamily(familyID).addCustomCategory(designation, parentCategory, categoryID);
+
+    //Custom Parent
+    public boolean addCategory(int familyID, String designation, int parentID) {
+        return getFamily(familyID).addCustomCategory(designation, parentID);
     }
 
-    //Parent is Custom
-    public boolean addCategory(int familyID, String designation, CustomCategory parentCategory, int categoryID) {
-        return getFamily(familyID).addCustomCategory(designation, parentCategory, categoryID);
+    //Standard Parent
+    public boolean addCategory(int familyID, String designation, StandardCategory parent) {
+        if(parent==null){
+            throw new IllegalArgumentException("Expected StandardCategory parent but is null");
+        }
+        return getFamily(familyID).addCustomCategory(designation, parent);
     }
-
     //No Parent
-    public boolean addCategory(int familyID, String designation, int categoryID) {
-        return getFamily(familyID).addCustomCategory(designation, categoryID);
+    public boolean addCategory(int familyID, String designation) {
+        return getFamily(familyID).addCustomCategory(designation);
     }
 }
 

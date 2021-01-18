@@ -398,23 +398,59 @@ public class Family {
         return memberProfile;
     }
 
-    //Parent is Standard
-    public boolean addCustomCategory(String designation, StandardCategory parentCategory, int categoryID) {
-        CustomCategory newCategory = new CustomCategory(designation, parentCategory, categoryID);
+    //Custom
+    public boolean addCustomCategory(String designation, int parentID) {
+        int categoryID = generateCustomCategoryID();
+        CustomCategory parent = getCustomCategoryByID(parentID);
+        if (parent == null) {
+            throw new IllegalArgumentException("Expected CustomCategoryParent but was null");
+        }
+        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
+        familyCustomCategories.add(newCategory);
         return true;
     }
 
-
-    //Parent is Custom
-    public boolean addCustomCategory(String designation, CustomCategory parentCategory, int categoryID) {
-        CustomCategory newCategory = new CustomCategory(designation, parentCategory, categoryID);
+    //Standard parent
+    public boolean addCustomCategory(String designation, StandardCategory parent) {
+        int categoryID = generateCustomCategoryID();
+        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
+        familyCustomCategories.add(newCategory);
         return true;
     }
 
-    //No Parent
-    public boolean addCustomCategory(String designation, int categoryID) {
-        CustomCategory newCategory = new CustomCategory(designation, categoryID);
+    //No parent
+    public boolean addCustomCategory(String designation) {
+        int categoryID = generateCustomCategoryID();
+        StandardCategory parent = null;
+        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
+        familyCustomCategories.add(newCategory);
         return true;
+    }
+
+    /**
+     * This method returns a CustomCategory of a given ID
+     *
+     * @param categoryID ID of the CustomCategory to be returned
+     * @return chosen CustomCategory, if the CustomCategory is not found returns null;
+     */
+    private CustomCategory getCustomCategoryByID(int categoryID) {
+        CustomCategory selectedCategory = null;
+        int size = this.familyCustomCategories.size();
+        for (int index = 0; index < size; index++) {
+            if (this.familyCustomCategories.get(index).getCategoryID() == categoryID) {
+                selectedCategory = this.familyCustomCategories.get(index);
+                index = size;
+            }
+        }
+        return selectedCategory;
+    }
+
+    private int generateCustomCategoryID() {
+        int minID = 0;
+        for (CustomCategory category : this.familyCustomCategories) {
+            if (minID > category.getCategoryID()) minID = category.getCategoryID();
+        }
+        return minID - 1;
     }
 
 }
