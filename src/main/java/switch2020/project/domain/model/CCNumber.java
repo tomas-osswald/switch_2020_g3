@@ -19,9 +19,10 @@ public class CCNumber {
 
     /**
      * Method to validate a ID Number of the Portuguese Cartão do Cidadão
+     * Adaptado de https://www.autenticacao.gov.pt/documents/
      * @param ccNumber
      * @return true if ID valid
-     * Adaptado de https://www.autenticacao.gov.pt/documents/
+     *
      */
 
     private boolean validateNumber(String ccNumber) {
@@ -47,6 +48,7 @@ public class CCNumber {
     }
     /**
      * Method to translate characters to its value
+     * Adaptado de https://www.autenticacao.gov.pt/documents/
      * @param letter
      * @return int representing the value of the character
      * Adaptado de https://www.autenticacao.gov.pt/documents/
