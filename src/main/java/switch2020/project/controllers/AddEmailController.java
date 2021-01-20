@@ -29,7 +29,7 @@ public class AddEmailController {
             if (!familyService.checkIfEmailPresent(emailToAdd)) {
                 return targetMember.addEmail(emailToAdd);
             }
-        } catch (IllegalArgumentException exception) {
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
             return false;
         }
