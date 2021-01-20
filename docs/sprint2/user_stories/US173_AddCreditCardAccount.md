@@ -1,12 +1,14 @@
-# US105 Create a relation between two family members
+# US173 Add a credit card account
 
 # 1. Requirements
 
+As a family member, I want to add a credit card account I have
+
 ## 1.1. Client Notes
 
+We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio. It must have a cash account associated to it.
 
 ## 1.2. System Sequence Diagram
-
 
 
 ## 1.3. Dependencies from other User Stories
