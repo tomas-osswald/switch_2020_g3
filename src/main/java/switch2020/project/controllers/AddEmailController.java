@@ -3,6 +3,7 @@ package switch2020.project.controllers;
 //import switch2020.project.domain.model.Application;
 
 import switch2020.project.domain.model.Application;
+import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.services.FamilyService;
 
 public class AddEmailController {
@@ -24,11 +25,15 @@ public class AddEmailController {
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
-            return familyService.addEmail(emailToAdd, familyID, ccNumber);
+            FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(ccNumber);
+            if (!familyService.checkIfEmailPresent(emailToAdd)) {
+                return targetMember.addEmail(emailToAdd);
+            }
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             return false;
         }
+        return false;
     }
 
 
