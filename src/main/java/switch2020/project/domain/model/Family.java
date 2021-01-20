@@ -398,7 +398,7 @@ public class Family {
         return memberProfile;
     }
 
-    //Custom
+    //Custom parent
     public boolean addCustomCategory(String designation, int parentID) {
         int categoryID = generateCustomCategoryID();
         CustomCategory parent = getCustomCategoryByID(parentID);
