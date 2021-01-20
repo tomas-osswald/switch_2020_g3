@@ -1,5 +1,6 @@
 package switch2020.project.domain.model;
 
+import switch2020.project.domain.services.AccountService;
 import switch2020.project.domain.services.CategoryService;
 import switch2020.project.domain.services.EmailService;
 import switch2020.project.domain.services.FamilyService;
@@ -13,6 +14,7 @@ public class Application {
     private EmailService emailService = new EmailService();
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
+    private AccountService accountService = new AccountService();
 
 
     // Constructors

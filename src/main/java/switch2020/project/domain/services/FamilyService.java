@@ -85,7 +85,7 @@ public class FamilyService {
      * @param emailToCheck String representing the email address to check if present
      * @return True if the passed email address is already present
      */
-    public boolean checkIfEmailPresent(String emailToCheck) {
+    private boolean checkIfEmailPresent(String emailToCheck) {
         List<FamilyMember> allFamilyMembers = new ArrayList();
         List<EmailAddress> allEmails = new ArrayList();
         for (Family family : this.families) {
