@@ -95,6 +95,14 @@ public class CashAccount {
         this.balance = this.balance + value;
     }
 
+    public void addAmmount(double valueToAdd) {
+        this.balance += valueToAdd;
+    }
+
+    public void subtractAmmount(double valueToSubtract) {
+        this.balance -= valueToSubtract;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
