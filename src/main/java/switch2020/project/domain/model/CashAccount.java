@@ -128,6 +128,6 @@ public class CashAccount implements Account {
         if (this == other) return true;
         if (!(other instanceof CashAccount)) return false;
         CashAccount otherAccount = (CashAccount) other;
-        return (this.cashAccountID == otherAccount.cashAccountID && this.balance == otherAccount.balance && this.description.equals(otherAccount.description));
+        return (this.cashAccountID == otherAccount.cashAccountID && this.balance == otherAccount.balance);
     }
 }
