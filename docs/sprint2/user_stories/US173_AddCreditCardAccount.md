@@ -9,7 +9,30 @@ As a family member, I want to add a credit card account I have
 We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio. It must have a cash account associated to it.
 
 ## 1.2. System Sequence Diagram
+```puml
+autonumber
+title System Sequence Diagram - US173
 
+actor "Family Member" as familyMember
+participant ": System" as system
+
+activate familyMember
+familyMember-> system : add Credit Card Account
+activate system
+familyMember -> system : inputs required data
+
+alt failure
+system -> familyMember : Inform Failure
+
+else sucess
+system -> familyMember : Inform Sucess
+
+end
+
+deactivate system
+
+deactivate familyMember
+```
 
 ## 1.3. Dependencies from other User Stories
 
@@ -82,7 +105,7 @@ controller -> aserv
 aserv -> fserv : getFamilyMemberByIDAndFamilyID()
 fserv -> aserv : aFamilyMember
 aserv -> familyMember : addCreditCardAccount()
-familyMember -> familyMember : getBankAccountByID()
+
 familyMember -> credit** : 
 credit -> IBAN**
 familyMember -> familyMember : addAccountToList(aCreditCardAccount)
@@ -132,6 +155,7 @@ Account  <-- CreditCardAccount : Is a
 
 ## 3.4. Tests
 
+## 4.
 
 # 5. Integration/Demonstration
 
