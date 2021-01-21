@@ -12,7 +12,7 @@ public class IBAN {
 
     public IBAN(String iban) {
         if (validate(iban)) {
-            this.ibanNumber = iban;
+            this.ibanNumber = iban.replace(" ", "");
         } else {
             throw new IllegalArgumentException("Invalid IBAN number");
         }

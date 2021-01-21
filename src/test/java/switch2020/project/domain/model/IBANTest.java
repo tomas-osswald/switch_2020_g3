@@ -59,4 +59,12 @@ class IBANTest {
             IBAN iban = new IBAN(emptyIBAN);
         });
     }
+
+    @Test
+    void testWhiteSpaceTrimming() {
+        IBAN iban = new IBAN(spacedValidIBAN);
+        String expected = validIBAN;
+        String result = iban.getIbanNumber();
+        Assertions.assertEquals(expected, result);
+    }
 }
