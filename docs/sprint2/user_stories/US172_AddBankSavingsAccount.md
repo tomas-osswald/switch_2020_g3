@@ -74,12 +74,28 @@ activate FamilyMember
 FamilyMember -> UI: I want to add a Bank Savings Account
 activate UI
 UI -> Controller : addBankSavingsAccount(FamilyID, FamilyMemberID, \nIBAN, Balance, Name, InterestRate)
+activate Controller
 Controller -> App : getFamilyService()
+activate App
 App --> Controller : familyService
+deactivate App
 Controller -> FamilyService : getFamily(FamilyID)
+activate FamilyService
 FamilyService -> Family : getFamily(FamilyID)
+activate Family
 Family --> FamilyService : Family
 FamilyService --> Controller : Family
+Controller -> FamilyService : getFamilyMember(FamilyMemberID)
+FamilyService -> Family : getFamilyMember(FamilyMemberID)
+Family -> Family : getFamilyMember(FamilyMemberID)
+Family --> FamilyService : aFamilyMember
+FamilyService --> Controller : aFamilyMember
+Controller -> App : getAccountService()
+activate App
+App --> Controller : accountService
+deactivate App
+Controller -> AccountService : addBankSavingsAccount(IBAN, Balance, \nName, InterestRate)
+activate AccountService
  
 alt failure
 UI --> FamilyMember: inform failure
