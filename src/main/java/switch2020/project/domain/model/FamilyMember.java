@@ -446,16 +446,10 @@ public class FamilyMember {
         return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
     }
 
-    public boolean createPersonalCashAccount(String accountName, double balance, int accountID) {
-        try {
-            CashAccount newCashAccount = new CashAccount(accountName, balance, accountID);
-            accounts.add(newCashAccount);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
 
+    public boolean addAccount(Account cashAccount) {
+        this.accounts.add(cashAccount);
+        return true;
     }
 }
 
