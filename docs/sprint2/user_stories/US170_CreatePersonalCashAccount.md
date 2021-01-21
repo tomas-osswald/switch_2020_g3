@@ -83,16 +83,16 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    controller -> application: getFamilyService()
    application --> controller: FamilyService
    deactivate application
-   controller -> accServ: createPersonalCashAccount(name, familyID, familyMemberID, initialBalance, familyService)
-   activate accServ
-   accServ -> famServ: getFamilyMember(familyID, familyMemberID)
+   controller -> famServ:getFamilyMember(familyID, familyMemberID)
    activate famServ
    famServ-> fam: getFamilyMember(familyMemberID)
    activate fam
    fam --> famServ: FamilyMember
    deactivate fam
-   famServ --> accServ: FamilyMember
-   deactivate famServ
+   famServ --> controller: FamilyMember
+   deactivate famServ 
+   controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
+   activate accServ
    accServ -> accServ: generateAccountID()
    accServ -> fammemb**: createPersonalCashAccount(name, initialBalance, accountID)
    activate fammemb
