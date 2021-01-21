@@ -18,6 +18,7 @@ As a family member, I want to add to a credit card account I have:
 We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio.
 
 ## 1.2. System Sequence Diagram
+
 ```puml
 autonumber
 title System Sequence Diagram - US173
@@ -101,8 +102,6 @@ CreditCardAccount -> Account : Is a
 
 ## 3.1. Functionality Use
 
-### Sequence diagram
-
 ``` puml
 autonumber 1
 title addCreditCardAccount
@@ -136,24 +135,26 @@ UI -> actor : OK
 ```
 
 ## 3.2. Class Diagram
+
 ```puml
 
 title Class Diagram - US173
 
+class AddCreditCardAcccountController {
+}
+
 class Application {
-  - AccountService accountService
-  + getAccountService()
 }
 
 class AccountService {
-   + addCreditCardAccount()
++ addCreditCardAccount()
 }
 
 class FamilyService {
    }
    
 class FamilyMember {
-    + AddCreditCardAccount()
+    + addAccount()
 }
 
 class Account {
@@ -162,20 +163,23 @@ class Account {
 class CreditCardAccount {
 }
 
-Application --> AccountService : has
-AccountService --> FamilyService : has
+AddCreditCardAcccountController  -> Application
+AddCreditCardAcccountController  -down-> AccountService
+(AccountService, FamilyMember) -> CreditCardAccount : add credit card account to member
+Application --> FamilyService : has
 FamilyService --> FamilyMember : has
 FamilyMember --> Account : has List<Account>
 Account  <-- CreditCardAccount : Is a
 ```
-
 
 ## 3.3. Applied Patterns
 
 
 ## 3.4. Tests
 
-## 4.
+
+## 4. Implementation
+
 
 # 5. Integration/Demonstration
 
