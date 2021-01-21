@@ -1,6 +1,6 @@
 package switch2020.project.domain.model;
 
-public class CashAccount {
+public class CashAccount implements Account {
 
     // Attributes
     private final int cashAccountID;
