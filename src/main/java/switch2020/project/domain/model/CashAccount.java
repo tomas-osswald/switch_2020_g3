@@ -20,6 +20,7 @@ public class CashAccount implements Account {
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
+        validateDescription(description);
         this.cashAccountID = cashAccountID;
         this.description = description;
         this.balance = balance;
@@ -73,6 +74,15 @@ public class CashAccount implements Account {
             validBalance = false;
         }
         return validBalance;
+    }
+
+    private void validateDescription(String description) {
+        if (description == null || description.isEmpty() || description.isBlank()) {
+            throw new IllegalArgumentException("Account name can't be empty or blank");
+        } else if (description.length() > 10) {
+            throw new IllegalArgumentException("Account name can't have more than 10 characters");
+        }
+
     }
 
     /**
