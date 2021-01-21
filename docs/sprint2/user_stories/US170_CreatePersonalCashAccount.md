@@ -25,17 +25,18 @@ The name of a standard category must be case-insensitive.
 ```` puml
 
     autonumber
-    title createStandardCategory SSD
+    title Create Personal Cash Account SSD
     actor "Family Member" as systemManager
     participant "System" as system
 
     activate systemManager
-    systemManager -> system: create a Standard Category
+    systemManager -> system: create Personal Cash Account
     activate system
-    systemManager -> system: input required data
+   system --> systemManager: ask for Name and Balance
+   systemManager->system: input Name and Balance
     system --> systemManager: inform success
     deactivate system
-
+    deactivate systemManager
 @endpuml
 ````
 # 2. Analysis
@@ -54,50 +55,66 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
 ```` puml
 
    autonumber
-   title createStandardCategory
-   actor "System Manager" as systemManager
+   title Create Personal Cash Account
+   actor "Family Member" as member
    participant ": UI" as UI
-   participant ": CreateStandardCategoryController" as controller
+   participant ": CreatePersonalCashAccountController" as controller
    participant ": FFMApplication" as application
-   participant "categoryService : CategoryService" as catServ
-   participant "newStandardCategory : Category" as category
+   participant ": AccountService" as accServ
+   participant ": FamilyService" as famServ
+   participant ": Family" as fam
+   participant "aFamilyMember : FamilyMember" as fammemb
+    participant ": Account" as account
+    participant "newCashAccount : Account" as cashacc
+    
    
-   activate systemManager
-   systemManager -> UI: create a Standard Category
+   activate member
+   member -> UI: create a Personal Cash Account
    activate UI
-   UI --> systemManager: ask new category name and parent category
+   UI --> member: ask for Account name
    deactivate UI
-   systemManager -> UI: input category name and parent category ID
+   member -> UI: input Account name
    activate UI
-   UI -> controller: addStandardCategory(name,parentID)
+   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberID,initialBalance)
    activate controller
-   controller -> application: getCategoryService()
+   controller -> application: getAccountService()
    activate application
-   application --> controller: categoryService
+   application --> controller: AccountService
+   controller -> application: getFamilyService()
+   application --> controller: FamilyService
    deactivate application
-   controller -> catServ: createStandardCategory(name,parentID)
-   activate catServ
-   catServ -> catServ: doesCategoryAlreadyExist(name)
-   
-   alt category already present
-   catServ --> controller: failed
-   controller --> UI: failed
-   UI --> systemManager: inform failure
-   
-   else category not present
-
-   catServ -> catServ: getStandardCategoryByID(parentID)
-
-   catServ -> category **: create(name,parentCategory)
-   catServ -> application: addCategory(newStandardCategory)
-   catServ --> controller: ok
-   deactivate catServ
-   controller --> UI: ok
+   controller -> accServ: createPersonalCashAccount(name, familyID, familyMemberID, initialBalance, familyService)
+   activate accServ
+   accServ -> famServ: getFamilyMember(familyID, familyMemberID)
+   activate famServ
+   famServ-> fam: getFamilyMember(familyMemberID)
+   activate fam
+   fam --> famServ: FamilyMember
+   deactivate fam
+   famServ --> accServ: FamilyMember
+   deactivate famServ
+   accServ -> fammemb**: createPersonalCashAccount(name, initialBalance)
+   activate fammemb
+   fammemb-> account: newCashAccount(name, initialBalance)
+   activate account
+   account -> account: validateName();
+   account -> account: generateAccountID()
+   account-> cashacc**: newCashAccount(accountID,name, initialBalance)
+   activate cashacc
+   deactivate account
+   cashacc->cashacc: validateBalance()
+   cashacc--> fammemb: success
+   deactivate cashacc
+   fammemb -> fammemb: addCashAccount()
+   fammemb --> accServ: success
+   deactivate fammemb
+   accServ --> controller: success
+   deactivate accServ
+   controller --> UI: success
    deactivate controller
-   UI --> systemManager: inform success
+   UI --> member: Inform Success
    deactivate UI
-   
-   end
+   deactivate member
 
 @endpuml
 ````
