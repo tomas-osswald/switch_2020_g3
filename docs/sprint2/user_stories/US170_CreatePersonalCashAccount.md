@@ -93,13 +93,13 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    deactivate fam
    famServ --> accServ: FamilyMember
    deactivate famServ
-   accServ -> fammemb**: createPersonalCashAccount(name, initialBalance)
+   accServ -> accServ: generateAccountID()
+   accServ -> fammemb**: createPersonalCashAccount(name, initialBalance, accountID)
    activate fammemb
-   fammemb-> account: newCashAccount(name, initialBalance)
+   fammemb-> account: newCashAccount(name, initialBalance, accountID)
    activate account
    account -> account: validateName();
-   account -> account: generateAccountID()
-   account-> cashacc**: newCashAccount(accountID,name, initialBalance)
+   account-> cashacc**: newCashAccount(name, initialBalance,accountID)
    activate cashacc
    deactivate account
    cashacc->cashacc: validateBalance()
