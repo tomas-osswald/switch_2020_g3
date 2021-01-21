@@ -11,7 +11,7 @@ public class CreditCardAccount implements Account {
     private double balance;
     private double withrawalLimit;
 
-    public CreditCardAccount(int accountID, double withrawalLimit){
+    public CreditCardAccount(int accountID, double withrawalLimit){ //adicionar bakAccount como parametro
         this.accountID = accountID;
         this.balance = 0;
         this.withrawalLimit = withrawalLimit;
