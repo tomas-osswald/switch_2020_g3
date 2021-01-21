@@ -2,7 +2,6 @@ package switch2020.project.domain.model;
 
 public class CreditCardAccount implements Account {
 
-    //Temporary Class
 
 
     // Attributes
@@ -18,6 +17,11 @@ public class CreditCardAccount implements Account {
 
     public int getAccountID(){
         return this.accountID;
+    }
+
+    @Override
+    public int getCashAccountID() {
+        return 0;
     }
 
     public double getBalance(){
