@@ -46,6 +46,13 @@ class CreatePersonalCashAccountControllerTest {
     }
 
     @Test
+    void createTwoPersonalCashAccounts() {
+        createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, balance);
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, balance));
+
+    }
+
+    @Test
     void createPersonalCashAccountNegativeBalance() {
         Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, negativeBalance));
 
@@ -56,11 +63,13 @@ class CreatePersonalCashAccountControllerTest {
         Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(" ", 1, cc, negativeBalance));
 
     }
+
     @Test
     void createPersonalCashAccountEmptyName() {
         Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount("", 1, cc, negativeBalance));
 
     }
+
     @Test
     void createPersonalCashAccountNullName() {
         Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(null, 1, cc, negativeBalance));

@@ -4,7 +4,7 @@ public class CashAccount implements Account {
 
     // Attributes
     private final int cashAccountID;
-    private double balance;
+    private double balance = 0;
     private String description;
 
     // Constructors
@@ -22,7 +22,7 @@ public class CashAccount implements Account {
         }
         validateDescription(description);
         this.cashAccountID = cashAccountID;
-        this.description = description;
+        this.description = description.toUpperCase();
         this.balance = balance;
     }
 
@@ -128,6 +128,6 @@ public class CashAccount implements Account {
         if (this == other) return true;
         if (!(other instanceof CashAccount)) return false;
         CashAccount otherAccount = (CashAccount) other;
-        return (this.cashAccountID == otherAccount.cashAccountID && this.balance == otherAccount.balance);
+        return (this.cashAccountID == otherAccount.cashAccountID && this.balance == otherAccount.balance && this.description.equals(otherAccount.description));
     }
 }

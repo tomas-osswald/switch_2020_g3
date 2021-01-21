@@ -448,7 +448,7 @@ public class FamilyMember {
 
     public boolean createPersonalCashAccount(String accountName, double balance, int accountID) {
         try {
-            CashAccount newCashAccount = new CashAccount(accountName, balance, accountID);
+            Account newCashAccount = new CashAccount(accountName, balance, accountID);
             accounts.add(newCashAccount);
             return true;
         } catch (Exception e) {
