@@ -33,7 +33,6 @@ public class IBAN {
     private boolean checkIBAN(String iban) {
         String trimmedIban = iban.replace(" ", "");
         BigInteger ibanToCheck = moveFirst4Characters(trimmedIban);
-        System.out.println(ibanToCheck.mod(BigInteger.valueOf(97)));
         return ibanToCheck.mod(BigInteger.valueOf(97)).equals(BigInteger.ONE);
 
 

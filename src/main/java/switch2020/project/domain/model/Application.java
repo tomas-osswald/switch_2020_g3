@@ -16,13 +16,16 @@ public class Application {
     private FamilyService familyService = new FamilyService();
     private AccountService accountService = new AccountService();
 
-
     // Constructors
     public Application() {
     }
 
     public Application(Family family) {
         this.familyService.addFamily(family);
+    }
+
+    public AccountService getAccountService() {
+        return this.accountService;
     }
 
     /********************** GETTERS AND SETTERS **********************/
