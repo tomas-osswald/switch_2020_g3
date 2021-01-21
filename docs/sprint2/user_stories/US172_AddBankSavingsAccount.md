@@ -44,8 +44,6 @@ deactivate FamilyMember
 
 # 3. Design
 
-````puml
-autonumber
 
 skinparam sequence {
 ArrowColor black
@@ -58,6 +56,11 @@ ActorBorderColor black
 ActorBackgroundColor white
 }
 
+````puml
+autonumber
+
+
+
 title AddBankSavingsAccount
 actor "Family Member" as FamilyMember
 participant "UI" as UI
@@ -65,13 +68,19 @@ participant ": AddSavings\nAccountController" as Controller
 participant ": Application" as App
 participant ": FamilyService" as FamilyService
 participant ": AccountService" as AccountService
-participant "aFamily : Family" as Family
+participant ": Family" as Family
 
 activate FamilyMember
-FamilyMember -> UI: addBankSavingsAccount
+FamilyMember -> UI: I want to add a Bank Savings Account
 activate UI
-UI --> FamilyMember: request data
-FamilyMember -> UI: input data
+UI -> Controller : addBankSavingsAccount(FamilyID, FamilyMemberID, \nIBAN, Balance, Name, InterestRate)
+Controller -> App : getFamilyService()
+App --> Controller : familyService
+Controller -> FamilyService : getFamily(FamilyID)
+FamilyService -> Family : getFamily(FamilyID)
+Family --> FamilyService : Family
+FamilyService --> Controller : Family
+ 
 alt failure
 UI --> FamilyMember: inform failure
 else success
