@@ -5,19 +5,18 @@ public class CreditCardAccount implements Account {
     //Temporary Class
 
 
-
     // Attributes
     private int accountID;
     private double balance;
     private double withrawalLimit;
 
-    public CreditCardAccount(int accountID, double withrawalLimit){ //adicionar bakAccount como parametro
+    public CreditCardAccount(int accountID, double withrawalLimit){
         this.accountID = accountID;
         this.balance = 0;
         this.withrawalLimit = withrawalLimit;
     }
 
-    public int getCashAccountID(){ //Name can be changed
+    public int getAccountID(){
         return this.accountID;
     }
 
