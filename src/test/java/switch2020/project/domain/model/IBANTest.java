@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 class IBANTest {
     String validIBAN = "PT50019300001050479170723";
+    String validIBAN2 = "AL47 2121 1009 0000 0002 3569 8741";
     String spacedValidIBAN = "PT500 1930 0001 0504 7917 0723";
     String invalidIBAN = "PT50019300001050479270723";
     String nullIBAN = null;
@@ -66,5 +67,32 @@ class IBANTest {
         String expected = validIBAN;
         String result = iban.getIbanNumber();
         Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void testEqualsTrue() {
+        IBAN iban = new IBAN(validIBAN);
+        IBAN iban2 = new IBAN(spacedValidIBAN);
+        Assertions.assertEquals(iban, iban2);
+    }
+
+    @Test
+    void testEqualsTrueSame() {
+        IBAN iban = new IBAN(validIBAN);
+        Assertions.assertEquals(iban, iban);
+    }
+
+    @Test
+    void testEqualsFalseDiffObjects() {
+        EmailAddress email = new EmailAddress("test@gmail.com");
+        IBAN iban = new IBAN(validIBAN);
+        Assertions.assertNotEquals(iban, email);
+    }
+
+    @Test
+    void testEqualsFalseDiferentNumbers() {
+        IBAN iban = new IBAN(validIBAN);
+        IBAN iban2 = new IBAN(validIBAN2);
+        Assertions.assertNotEquals(iban, iban2);
     }
 }
