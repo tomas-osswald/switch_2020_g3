@@ -271,20 +271,21 @@ public class Family {
     }
 
 
-    /********************** USER STORIES **********************/
+
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
      *
-     * @param emailToAdd String of the email address to add
-     * @param ccNumber   Integer representing the family member's ID
+     * emailToAdd String of the email address to add
+     *  ccNumber   Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
-     */
+
 
     public boolean addEmail(String emailToAdd, String ccNumber) {
         FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(ccNumber));
         return targetMember.addEmail(emailToAdd);
     }
+     */
 
     public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
         if (!checkIfVatExists(vat)) {
@@ -453,4 +454,12 @@ public class Family {
         return minID - 1;
     }
 
+    public FamilyMember getFamilyMember(String ccNumber) {
+        for (FamilyMember member : this.familyMembers) {
+            if (member.compareID(ccNumber)) {
+                return member;
+            }
+        }
+        return null;
+    }
 }

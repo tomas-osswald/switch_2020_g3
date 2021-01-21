@@ -1,6 +1,6 @@
 package switch2020.project.domain.model;
 
-public class CashAccount {
+public class CashAccount implements Account {
 
     // Attributes
     private final int cashAccountID;
@@ -93,6 +93,14 @@ public class CashAccount {
             throw new IllegalStateException("Balance can't be less than 0");
         }
         this.balance = this.balance + value;
+    }
+
+    public void addAmmount(double valueToAdd) {
+        this.balance += valueToAdd;
+    }
+
+    public void subtractAmmount(double valueToSubtract) {
+        this.balance -= valueToSubtract;
     }
 
     @Override
