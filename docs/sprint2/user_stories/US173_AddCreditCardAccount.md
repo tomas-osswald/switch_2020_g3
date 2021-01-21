@@ -19,7 +19,39 @@ We interpreted this requirement as the function of a family member to add a new 
 
 ##2.1. Domain Model Diagram
 
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US173
 
+class Family {
+- Name
+- UniqueID
+- RegistrationDate
+
+}
+
+class FamilyMember {
+- Name
+- BirthDate
+}
+
+class Account {
+
+}
+
+class CreditCardAccount{
+- ID
+- IBAN
+- Limit
+- Balance
+- AssociatedBankAccount
+}
+
+Family -down-> FamilyMember : has Family members
+FamilyMember -down-> Account  : has List of Accounts
+CreditCardAccount -> Account : Is a
+```
 
 # 3. Design
 
@@ -59,7 +91,6 @@ aserv -> controller : OK
 controller -> UI : OK
 UI -> actor : OK
 ```
-
 
 ## 3.2. Class Diagram
 ```puml
