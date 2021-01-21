@@ -1,5 +1,7 @@
 package switch2020.project.domain.model;
 
+import java.util.Objects;
+
 public class CCNumber {
 
     private String ccNumber;
@@ -20,9 +22,9 @@ public class CCNumber {
     /**
      * Method to validate a ID Number of the Portuguese Cartão do Cidadão
      * Adaptado de https://www.autenticacao.gov.pt/documents/
+     *
      * @param ccNumber
      * @return true if ID valid
-     *
      */
 
     private boolean validateNumber(String ccNumber) {
@@ -46,9 +48,11 @@ public class CCNumber {
         }
         return (sum % 10) == 0;
     }
+
     /**
      * Method to translate characters to its value
      * Adaptado de https://www.autenticacao.gov.pt/documents/
+     *
      * @param letter
      * @return int representing the value of the character
      * Adaptado de https://www.autenticacao.gov.pt/documents/
@@ -129,5 +133,13 @@ public class CCNumber {
                 return 35;
         }
         throw new IllegalArgumentException("Invalid CC Number");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CCNumber)) return false;
+        CCNumber that = (CCNumber) o;
+        return Objects.equals(ccNumber, that.ccNumber);
     }
 }

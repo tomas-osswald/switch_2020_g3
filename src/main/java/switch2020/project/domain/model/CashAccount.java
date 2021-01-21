@@ -5,6 +5,7 @@ public class CashAccount implements Account {
     // Attributes
     private final int cashAccountID;
     private double balance;
+    private String description;
 
     // Constructors
     public CashAccount(double balance) {
@@ -12,6 +13,15 @@ public class CashAccount implements Account {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         this.cashAccountID = 0;
+        this.balance = balance;
+    }
+
+    public CashAccount(String description, double balance, int cashAccountID) {
+        if (!validateBalance(balance)) {
+            throw new IllegalArgumentException("Balance can't be less than 0");
+        }
+        this.cashAccountID = cashAccountID;
+        this.description = description;
         this.balance = balance;
     }
 

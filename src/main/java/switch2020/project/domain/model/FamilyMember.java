@@ -22,6 +22,7 @@ public class FamilyMember {
     private Address address;
     private Relation relation;
     private boolean administrator;
+    private List<Account> accounts = new ArrayList<>();
 
     /********************** CONSTRUCTORS **********************/
 
@@ -437,8 +438,24 @@ public class FamilyMember {
         return copyOfFamilyMemberDTO;
     }
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
     protected boolean compareID(String ccNumber) {
         return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
+    }
+
+    public boolean createPersonalCashAccount(String accountName, double balance, int accountID) {
+        try {
+            CashAccount newCashAccount = new CashAccount(accountName, balance, accountID);
+            accounts.add(newCashAccount);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
     }
 }
 
