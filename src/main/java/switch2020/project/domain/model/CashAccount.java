@@ -1,10 +1,11 @@
 package switch2020.project.domain.model;
 
-public class CashAccount {
+public class CashAccount implements Account {
 
     // Attributes
     private final int cashAccountID;
     private double balance;
+    private String description;
 
     // Constructors
     public CashAccount(double balance) {
@@ -12,6 +13,16 @@ public class CashAccount {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         this.cashAccountID = 0;
+        this.balance = balance;
+    }
+
+    public CashAccount(String description, double balance, int cashAccountID) {
+        if (!validateBalance(balance)) {
+            throw new IllegalArgumentException("Balance can't be less than 0");
+        }
+        validateDescription(description);
+        this.cashAccountID = cashAccountID;
+        this.description = description;
         this.balance = balance;
     }
 
@@ -63,6 +74,15 @@ public class CashAccount {
             validBalance = false;
         }
         return validBalance;
+    }
+
+    private void validateDescription(String description) {
+        if (description == null || description.isEmpty() || description.isBlank()) {
+            throw new IllegalArgumentException("Account name can't be empty or blank");
+        } else if (description.length() > 10) {
+            throw new IllegalArgumentException("Account name can't have more than 10 characters");
+        }
+
     }
 
     /**

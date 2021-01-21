@@ -1,7 +1,9 @@
 package switch2020.project.domain.model;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class IBAN {
 
@@ -10,10 +12,14 @@ public class IBAN {
 
     public IBAN(String iban) {
         if (validate(iban)) {
-            this.ibanNumber = iban;
+            this.ibanNumber = iban.replace(" ", "");
         } else {
             throw new IllegalArgumentException("Invalid IBAN number");
         }
+    }
+
+    public String getIbanNumber() {
+        return ibanNumber;
     }
 
     private boolean validate(String iban) {
@@ -21,14 +27,38 @@ public class IBAN {
             return false;
         if (iban.isEmpty() || iban.isBlank())
             return false;
-        return checkFormat(iban);
+        return checkIBAN(iban);
     }
 
-    private boolean checkFormat(String iban) {
-        String ibanRegex = "/^(?:(?:IT|SM)\\d{2}[A-Z]\\d{22}|CY\\d{2}[A-Z]\\d{23}|NL\\d{2}[A-Z]{4}\\d{10}|LV\\d{2}[A-Z]{4}\\d{13}|(?:BG|BH|GB|IE)\\d{2}[A-Z]{4}\\d{14}|GI\\d{2}[A-Z]{4}\\d{15}|RO\\d{2}[A-Z]{4}\\d{16}|KW\\d{2}[A-Z]{4}\\d{22}|MT\\d{2}[A-Z]{4}\\d{23}|NO\\d{13}|(?:DK|FI|GL|FO)\\d{16}|MK\\d{17}|(?:AT|EE|KZ|LU|XK)\\d{18}|(?:BA|HR|LI|CH|CR)\\d{19}|(?:GE|DE|LT|ME|RS)\\d{20}|IL\\d{21}|(?:AD|CZ|ES|MD|SA)\\d{22}|PT\\d{23}|(?:BE|IS)\\d{24}|(?:FR|MR|MC)\\d{25}|(?:AL|DO|LB|PL)\\d{26}|(?:AZ|HU)\\d{27}|(?:GR|MU)\\d{28})$/i";
-        Pattern pat = Pattern.compile(ibanRegex);
-        return pat.matcher(iban).matches();
+    private boolean checkIBAN(String iban) {
+        String trimmedIban = iban.replace(" ", "");
+        BigInteger ibanToCheck = moveFirst4Characters(trimmedIban);
+        return ibanToCheck.mod(BigInteger.valueOf(97)).equals(BigInteger.ONE);
 
+
+    }
+
+    private BigInteger moveFirst4Characters(String iban) {
+        BigInteger rearrangedIBAN = BigInteger.valueOf(0);
+        char[] temp = iban.toCharArray();
+        List<Character> ibanList = new ArrayList<>();
+        for (int i = 4; i < iban.length(); i++) {
+            rearrangedIBAN = rearrangedIBAN.multiply(BigInteger.TEN);
+            if (getNumberFromChar(temp[i]).compareTo(BigInteger.valueOf(0)) != 0) {
+                rearrangedIBAN = rearrangedIBAN.add(getNumberFromChar(temp[i]));
+            }
+
+        }
+        for (int i = 0; i <= 3; i++) {
+            rearrangedIBAN = rearrangedIBAN.multiply(BigInteger.TEN);
+            if (getNumberFromChar(temp[i]).compareTo(BigInteger.valueOf(0)) != 0) {
+                if (getNumberFromChar(temp[i]).toString().length() == 2) {
+                    rearrangedIBAN = rearrangedIBAN.multiply(BigInteger.TEN);
+                }
+                rearrangedIBAN = rearrangedIBAN.add(getNumberFromChar(temp[i]));
+            }
+        }
+        return rearrangedIBAN;
     }
 
     @Override
@@ -37,5 +67,91 @@ public class IBAN {
         if (!(o instanceof IBAN)) return false;
         IBAN that = (IBAN) o;
         return Objects.equals(ibanNumber, that.ibanNumber);
+    }
+
+    /**
+     * Method to translate characters to its value
+     * Adaptado de https://www.autenticacao.gov.pt/documents/
+     *
+     * @param letter
+     * @return int representing the value of the character
+     * Adaptado de https://www.autenticacao.gov.pt/documents/
+     */
+    private BigInteger getNumberFromChar(char letter) {
+        switch (letter) {
+            case '0':
+                return BigInteger.valueOf(0);
+            case '1':
+                return BigInteger.valueOf(1);
+            case '2':
+                return BigInteger.valueOf(2);
+            case '3':
+                return BigInteger.valueOf(3);
+            case '4':
+                return BigInteger.valueOf(4);
+            case '5':
+                return BigInteger.valueOf(5);
+            case '6':
+                return BigInteger.valueOf(6);
+            case '7':
+                return BigInteger.valueOf(7);
+            case '8':
+                return BigInteger.valueOf(8);
+            case '9':
+                return BigInteger.valueOf(9);
+            case 'A':
+                return BigInteger.valueOf(10);
+            case 'B':
+                return BigInteger.valueOf(11);
+            case 'C':
+                return BigInteger.valueOf(12);
+            case 'D':
+                return BigInteger.valueOf(13);
+            case 'E':
+                return BigInteger.valueOf(14);
+            case 'F':
+                return BigInteger.valueOf(15);
+            case 'G':
+                return BigInteger.valueOf(16);
+            case 'H':
+                return BigInteger.valueOf(17);
+            case 'I':
+                return BigInteger.valueOf(18);
+            case 'J':
+                return BigInteger.valueOf(19);
+            case 'K':
+                return BigInteger.valueOf(20);
+            case 'L':
+                return BigInteger.valueOf(21);
+            case 'M':
+                return BigInteger.valueOf(22);
+            case 'N':
+                return BigInteger.valueOf(23);
+            case 'O':
+                return BigInteger.valueOf(24);
+            case 'P':
+                return BigInteger.valueOf(25);
+            case 'Q':
+                return BigInteger.valueOf(26);
+            case 'R':
+                return BigInteger.valueOf(27);
+            case 'S':
+                return BigInteger.valueOf(28);
+            case 'T':
+                return BigInteger.valueOf(29);
+            case 'U':
+                return BigInteger.valueOf(30);
+            case 'V':
+                return BigInteger.valueOf(31);
+            case 'W':
+                return BigInteger.valueOf(32);
+            case 'X':
+                return BigInteger.valueOf(33);
+            case 'Y':
+                return BigInteger.valueOf(34);
+            case 'Z':
+                return BigInteger.valueOf(35);
+        }
+        throw new IllegalArgumentException("Invalid CC Number");
     }
 }
