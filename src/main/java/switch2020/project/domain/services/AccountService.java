@@ -6,8 +6,8 @@ import switch2020.project.domain.model.FamilyMember;
 import java.util.List;
 
 public class AccountService {
-    public boolean createPersonalCashAccount(FamilyService familyService, String accountName, int familyID, String memberCC, double balance) {
-        FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(memberCC);
+    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance) {
+
         int accountID = generateID(targetMember);
         return targetMember.createPersonalCashAccount(accountName, balance, accountID);
     }
