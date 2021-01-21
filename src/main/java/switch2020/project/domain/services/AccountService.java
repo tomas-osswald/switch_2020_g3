@@ -25,8 +25,8 @@ public class AccountService {
         int max = 0;
         List<Account> tempList = targetMember.getAccounts();
         for (Account account : tempList) {
-            if (max < account.getCashAccountID()) {
-                max = account.getCashAccountID();
+            if (max < account.getAccountID()) {
+                max = account.getAccountID();
             }
         }
         return max + 1;

@@ -90,7 +90,7 @@ public class CashAccount implements Account {
      *
      * @return returns the ID of this cash account
      */
-    public int getCashAccountID() {
+    public int getAccountID() {
         return cashAccountID;
     }
 
@@ -113,14 +113,6 @@ public class CashAccount implements Account {
             throw new IllegalStateException("Balance can't be less than 0");
         }
         this.balance = this.balance + value;
-    }
-
-    public void addAmmount(double valueToAdd) {
-        this.balance += valueToAdd;
-    }
-
-    public void subtractAmmount(double valueToSubtract) {
-        this.balance -= valueToSubtract;
     }
 
     @Override

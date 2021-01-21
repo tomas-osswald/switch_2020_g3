@@ -125,7 +125,7 @@ class CashAccountTest {
         CashAccount cashAccountZero = new CashAccount(balance);
         int expected = 0;
 
-        int result = cashAccountZero.getCashAccountID();
+        int result = cashAccountZero.getAccountID();
 
         assertEquals(expected, result);
     }
@@ -135,7 +135,7 @@ class CashAccountTest {
         CashAccount cashAccountOne = new CashAccount(1);
         int expected = 1;
 
-        int result = cashAccountOne.getCashAccountID();
+        int result = cashAccountOne.getAccountID();
 
         assertEquals(expected, result);
     }
@@ -145,7 +145,7 @@ class CashAccountTest {
         CashAccount cashAccountTwo = new CashAccount(2);
         int expected = 2;
 
-        int result = cashAccountTwo.getCashAccountID();
+        int result = cashAccountTwo.getAccountID();
 
         assertEquals(expected, result);
     }
