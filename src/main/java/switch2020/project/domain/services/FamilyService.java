@@ -1,6 +1,9 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.*;
+import switch2020.project.domain.model.CustomCategory;
+import switch2020.project.domain.model.EmailAddress;
+import switch2020.project.domain.model.Family;
+import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.utils.FamilyMemberRelationDTO;
 import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
 import switch2020.project.domain.utils.MemberProfileDTO;
@@ -53,11 +56,11 @@ public class FamilyService {
      * @return True if email successfully added to the Family Member with the passed ID
 
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
-        if (!checkIfEmailPresent(emailToAdd)) {
-            Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
-            return targetFamily.addEmail(emailToAdd, ccNumber);
-        }
-        throw new IllegalArgumentException("This email is already present");
+    if (!checkIfEmailPresent(emailToAdd)) {
+    Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
+    return targetFamily.addEmail(emailToAdd, ccNumber);
+    }
+    throw new IllegalArgumentException("This email is already present");
     }
      */
 
@@ -295,7 +298,7 @@ public class FamilyService {
         return listOfFamiliesWithoutAdministrator;
     }
 
-
+/*
     //Custom Parent
     public boolean addCategory(int familyID, String designation, int parentID) {
         return getFamily(familyID).addCustomCategory(designation, parentID);
@@ -312,5 +315,7 @@ public class FamilyService {
     public boolean addCategory(int familyID, String designation) {
         return getFamily(familyID).addCustomCategory(designation);
     }
+
+ */
 }
 

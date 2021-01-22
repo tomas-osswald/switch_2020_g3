@@ -2,18 +2,17 @@ package switch2020.project.domain.model;
 
 public class CashAccount implements Account {
 
+
     // Attributes
-    private final int cashAccountID;
-    private double balance = 0;
-    private String description;
+    private AccountData accountData;
+
 
     // Constructors
     public CashAccount(double balance) {
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
-        this.cashAccountID = 0;
-        this.balance = balance;
+        this.accountData = new AccountData(balance, "Cash Account", 0);
     }
 
     public CashAccount(String description, double balance, int cashAccountID) {
@@ -21,17 +20,14 @@ public class CashAccount implements Account {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         validateDescription(description);
-        this.cashAccountID = cashAccountID;
-        this.description = description.toUpperCase();
-        this.balance = balance;
+        this.accountData = new AccountData(balance, description.toUpperCase(), cashAccountID);
     }
 
     public CashAccount(int cashAccountID) {
         if (!validateID(cashAccountID)) {
             throw new IllegalArgumentException("Cash Account ID is not valid");
         }
-        this.cashAccountID = cashAccountID;
-        this.balance = 0;
+        this.accountData = new AccountData(0, "Cash Account", cashAccountID);
     }
 
     public CashAccount(int cashAccountID, double balance) {
@@ -41,8 +37,7 @@ public class CashAccount implements Account {
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
-        this.cashAccountID = cashAccountID;
-        this.balance = balance;
+        this.accountData = new AccountData(balance, "Cash Account", cashAccountID);
     }
 
     // Business Methods
@@ -79,8 +74,8 @@ public class CashAccount implements Account {
     private void validateDescription(String description) {
         if (description == null || description.isEmpty() || description.isBlank()) {
             throw new IllegalArgumentException("Account name can't be empty or blank");
-        } else if (description.length() > 10) {
-            throw new IllegalArgumentException("Account name can't have more than 10 characters");
+        } else if (description.length() >= 12) {
+            throw new IllegalArgumentException("Account name can't have more than 12 characters");
         }
 
     }
@@ -96,7 +91,8 @@ public class CashAccount implements Account {
      * @return returns the ID of this cash account
      */
     public int getAccountID() {
-        return cashAccountID;
+        return
+                this.accountData.getAccountID();
     }
 
     /**
@@ -105,7 +101,7 @@ public class CashAccount implements Account {
      * @return returns the balance of this cash account
      */
     public double getBalance() {
-        return balance;
+        return this.accountData.getBalance();
     }
 
     /**
@@ -114,10 +110,10 @@ public class CashAccount implements Account {
      * @param value given value to add to this cash account's balance
      */
     public void changeBalance(double value) {
-        if (!validateBalance(balance + value)) {
+        if (!validateBalance(this.accountData.getBalance() + value)) {
             throw new IllegalStateException("Balance can't be less than 0");
         }
-        this.balance = this.balance + value;
+        this.accountData.setBalance(this.accountData.getBalance() + value);
     }
 
     @Override
@@ -125,6 +121,6 @@ public class CashAccount implements Account {
         if (this == other) return true;
         if (!(other instanceof CashAccount)) return false;
         CashAccount otherAccount = (CashAccount) other;
-        return (this.cashAccountID == otherAccount.cashAccountID && this.balance == otherAccount.balance);
+        return (this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance());
     }
 }

@@ -393,7 +393,7 @@ public class Family {
         MemberProfileDTO memberProfile = familyMember.createProfile();
         return memberProfile;
     }
-
+    /*
     //Custom parent
     public boolean addCustomCategory(String designation, int parentID) {
         int categoryID = generateCustomCategoryID();
@@ -428,7 +428,7 @@ public class Family {
      *
      * @param categoryID ID of the CustomCategory to be returned
      * @return chosen CustomCategory, if the CustomCategory is not found returns null;
-     */
+
     private CustomCategory getCustomCategoryByID(int categoryID) {
         CustomCategory selectedCategory = null;
         int size = this.familyCustomCategories.size();
@@ -440,7 +440,7 @@ public class Family {
         }
         return selectedCategory;
     }
-
+*/
     private int generateCustomCategoryID() {
         int minID = 0;
         for (CustomCategory category : this.familyCustomCategories) {
@@ -460,5 +460,9 @@ public class Family {
 
     public void addCashAccount(Account newCashAccount) {
         this.familyCashAccount = newCashAccount;
+    }
+
+    public boolean addCategory(CustomCategory newCustomCategory) {
+        return this.familyCustomCategories.add(newCustomCategory);
     }
 }

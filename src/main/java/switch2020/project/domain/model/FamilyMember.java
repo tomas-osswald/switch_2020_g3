@@ -13,7 +13,7 @@ public class FamilyMember {
 
     // Attributes
     private CCNumber ccNumber;
-    private int familyMemberID;
+    //private int familyMemberID;
     private String name;
     private Date birthDate;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
@@ -23,6 +23,7 @@ public class FamilyMember {
     private Relation relation;
     private boolean administrator;
     private List<Account> accounts = new ArrayList<>();
+
 
     /********************** CONSTRUCTORS **********************/
 
@@ -120,6 +121,7 @@ public class FamilyMember {
         Address morada = new Address(street, codPostal, local, city);
         this.address = morada;
     }
+
 
     // Family Admin - add Family Member
     /*
@@ -271,7 +273,6 @@ public class FamilyMember {
     }
 
      */
-
 
     /********************** GETTERS AND SETTERS **********************/
 
