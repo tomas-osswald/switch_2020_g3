@@ -1,6 +1,7 @@
 package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
+import switch2020.project.domain.model.Family;
 import switch2020.project.domain.services.CategoryService;
 import switch2020.project.domain.services.FamilyService;
 
@@ -17,7 +18,8 @@ public class AddCategoryToFamilyTreeController {
         FamilyService familyService = this.ffmApplication.getFamilyService();
         try {
             if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
-                return categoryService.addCategoryToFamilyTree(familyID, designation, familyService, parentID);
+                Family targetFamily = familyService.getFamily(familyID);
+                return categoryService.addCategoryToFamilyTree(targetFamily, designation, parentID);
             }
 
         } catch (Exception e) {

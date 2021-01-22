@@ -17,7 +17,7 @@ public class CreditCardAccount implements Account {
         this.withrawalLimit = withrawalLimit;
     }
 
-    public int getCashAccountID(){ //Name can be changed
+    public int getAccountID(){
         return this.accountID;
     }
 

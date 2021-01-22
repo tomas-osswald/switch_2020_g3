@@ -1,24 +1,22 @@
 # US170 Create a Personal Cash Account
 =======================================
 
-
 # 1. Requirements
 
 *As a family member, I want to create a personal cash account.*
 
+**1** As a family member, I want to create a Personal Cash Account...
 
-**1** As a system manager, I want to create...
+- 1.1. ...with 0 balance.
 
-- 1.1. The new standard category "Habitação", at the root level;
+- 1.2. ...with a positive balance.
 
-- 1.2. The already existing category "Habitação";
+- 1.3. ...and then another Personal Cash Account;
 
-- 1.3. The new standard category "Renda", as a sub-category of Habitação; 
-
-We interpreted this requirement as the function of a system manager to create a new standard category that can be accessed by all users. 
-The name of the category must not be empty, and it can't exist in the current list of standard categories.
-A standard category can be a sub-category of an existing standard category.
-The name of a standard category must be case-insensitive.
+We interpreted this requirement as the function of a Family Member to create a
+cash account associated with their profile, with an initial balance and
+description/name for the account. This description must not be empty, and the
+balance cannot be negative. The name of the account is case-insensitive.
 
 ### System Sequence Diagram
 
@@ -39,19 +37,28 @@ The name of a standard category must be case-insensitive.
     deactivate systemManager
 @endpuml
 ````
+
 # 2. Analysis
 
 In order to fulfill this requirement we need two pieces of data
 
-- 1. Category Name - the designation of the standard category to add
-- 2. Parent Category ID - if it is a subcategory the parent category must be indicated
+-
+    1. Cash Account Name - the designation of the cash account to add
+-
+    2. Family ID - The ID of the family of which the family member is a part of.
+-
+    3. FamilyMemberID - The ID of the actor.
+-
+    4. Initial Balance - The starting balance of the cash account.
 
 # 3. Design
 
-The process to fulfill this requirement requires the actor to select they want to create a new standard category, 
-which would prompt the input of the designation or name for that category and the id of its parent category.
-Given the current absence of an UI layer the Int *parentCategoryID* and String *standardCategoryName* will be passed directly into the AddStandardCategoryController. 
- 
+The process to fulfill this requirement requires the actor to select they want
+to create a new personal cash account, which would prompt the input of the
+designation or name for that account and the initial balance. Given the current
+absence of an UI layer the Int *familyID* and Int *familyMemberCC* will be
+passed directly into the CreatePersonalCashAccountController.
+
 ```` puml
 
    autonumber
@@ -63,9 +70,9 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    participant ": AccountService" as accServ
    participant ": FamilyService" as famServ
    participant ": Family" as fam
-   participant "aFamilyMember : FamilyMember" as fammemb
-    participant ": Account" as account
-    participant "newCashAccount : Account" as cashacc
+   participant ": FamilyMember" as fammemb
+   participant "newCashAccount : Account" as cashacc
+   participant "newAccountData : AccountData" as data
     
    
    activate member
@@ -75,7 +82,7 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    deactivate UI
    member -> UI: input Account name
    activate UI
-   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberID,initialBalance)
+   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberCC,initialBalance)
    activate controller
    controller -> application: getAccountService()
    activate application
@@ -83,9 +90,9 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    controller -> application: getFamilyService()
    application --> controller: FamilyService
    deactivate application
-   controller -> famServ:getFamilyMember(familyID, familyMemberID)
+   controller -> famServ:getFamilyMember(familyID, familyMemberCC)
    activate famServ
-   famServ-> fam: getFamilyMember(familyMemberID)
+   famServ-> fam: getFamilyMember(familyMemberCC)
    activate fam
    fam --> famServ: FamilyMember
    deactivate fam
@@ -94,23 +101,23 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
    controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
    activate accServ
    accServ -> accServ: generateAccountID()
-   accServ -> fammemb**: createPersonalCashAccount(name, initialBalance, accountID)
-   activate fammemb
-   fammemb-> account: newCashAccount(name, initialBalance, accountID)
-   activate account
-   account -> account: validateName();
-   account-> cashacc**: newCashAccount(name, initialBalance,accountID)
+   accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
    activate cashacc
-   deactivate account
-   cashacc->cashacc: validateBalance()
-   cashacc--> fammemb: success
+   cashacc -> cashacc: validateName(name)
+   cashacc->cashacc: validateBalance(balance)
+   cashacc->data**: createAccountData(name, initialBalance, accountID)
+   activate data
+   data-->cashacc: becomes CashAccount.AccountData
+   deactivate data
+   cashacc-->accServ: Success
    deactivate cashacc
-   fammemb -> fammemb: addCashAccount()
-   fammemb --> accServ: success
+   accServ->fammemb: addAccount(newCashAccount)
+   activate fammemb
+   fammemb-->accServ: Success
    deactivate fammemb
-   accServ --> controller: success
+   accServ-->controller: Success
    deactivate accServ
-   controller --> UI: success
+   controller --> UI: Success
    deactivate controller
    UI --> member: Inform Success
    deactivate UI
@@ -120,12 +127,19 @@ Given the current absence of an UI layer the Int *parentCategoryID* and String *
 ````
 
 ## 3.1. Functionality Use
-The AddStandardCategoryController will invoke the Application object, which stores a CategoryService object.
-The Application will return the CategoryService, which contains a list of all StandardCategories.
-The CategoryService then creates a new StandardCategory Object and adds it to the existing list.
 
+The CreatePersonalCashAccountController will invoke the Application object,
+which stores AccountService and FamilyService objects. The Application will
+return both Services. The FamilyService will be used to retrieve the
+FamilyMember object of the actor, using the FamilyID and FamilyMemberCC. The
+FamilyMember object will then be passed, along with the AccountName and
+InitialBalance to the AccountService, which will prompt the FamilyMember to
+create the CashAccount after having generated the accountID. The CashAccount
+will validate its name and balance upon creation. Finally, the CashAccount
+object will be added to the FamilyMember's Account List.
 
 ## 3.2. Class Diagram
+
 ```puml
 @startuml
 
@@ -164,50 +178,52 @@ CategoryService --> StandardCategory
 ```
 
 ## 3.3. Applied Patterns
-We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern.
-We also used the SOLID SRP principle.
 
-## 3.4. Tests 
-    
-Several cases where analyzed in order to test the creation of a new class    
+We applied the principles of Controller, Information Expert, Creator and
+PureFabrication from the GRASP pattern. We also used the SOLID SRP principle.
 
-**Test 1:** Test that it is possible to create a new instance of StandardCategory receiving a name, a categoryID and a parent category 
+## 3.4. Tests
 
-**Test 2:** Test that it is not possible to create a new instance of StandardCategory receiving a **categoryName** that is null
+Several cases where analyzed in order to test the creation of a new personal
+cash account associated with a Family Member.
 
-**Test 3:** Test that it is not possible to create a new instance of StandardCategory receiving a **categoryName** that is empty
+**Test 1:** Testing if the Controller successfully creates and adds a
+CashAccount to a Family Member
 
-**Test 4:** Test that it is not possible to create a new instance of StandardCategory receiving a **categoryName** that is blank
+**Test 2:** Test that it is possible to create a second cash account and
+associate it with the same Family Member.
 
-We also tested several scenarios regarding the way the information is stored for example
+**Test 3:** Test that it is not possible to create a new CashAccount with
+negative balance.
 
-**Test 5:** Test to verify that the category designation is case insensitive
- 
-````
-    @Test
-    void isDesignationOfThisCategoryTest2_designationHasDifferentCase() {
-        String categoryName = "Habitação";
-        int categoryID = 2;
-        StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
-        String nameToTest = "HABITAÇÃO";
+**Test 4:** Test that it is not possible to create a new CashAccount with a
+Blank description.
 
-        boolean result = newStandardCategory.isDesignationOfThisCategory(nameToTest);
+**Test 5:** Test that it is not possible to create a new CashAccount with an
+Empty description.
 
-        assertTrue(result);
-    }
-````
+**Test 6:** Test that it is not possible to create a new CashAccount with a Null
+description.
+
+**Test 7:** Test that it is not possible to create a new CashAccount with a
+long (>10 characters) description.
 
 The whole user story was tested for the case of success and for failure
 
 # 4. Implementation
 
-After providing a category name and, optionally, selecting a parent category (currently this is done by its ID), the CategoryService class creates a new Category object if the information given follows the rules previously discussed in the Requirements section
+After providing an account name and initial balance the AccountService class
+prompts the FamilyMember to create a new CashAccount object if the information
+given follows the rules previously discussed in the Requirements section
 
 # 5. Integration
- 
-The development of this user story was the basis for the financial categories of the application and was thus crucial for the development of other User Stories
-Both [US002](US002_GetStandardCategoriesTree.md) and [US110](US110_GetCategoryTree.md) used the implementation of this US
 
-#6. Observations
+The development of this user story was the basis for the Cash Account related
+User stories.
+[US130][US135][US180][US181][US185] used the implementation of this US
 
-The way to generate an ID for a Standard Category will probably need to be reworked in a future sprint to allow for more complex ID information if needed
+# 6. Observations
+
+There is a need to review responsibility of the creation of CashAccounts. Should
+the AccountService create the account, or should it be the responsability of the
+FamilyMember, which stores the Account?

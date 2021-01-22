@@ -1,5 +1,7 @@
 package switch2020.project.domain.services;
 
+import switch2020.project.domain.model.CustomCategory;
+import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.StandardCategory;
 import switch2020.project.domain.utils.CategoryTreeDTO;
 
@@ -161,17 +163,63 @@ public class CategoryService {
 
 
     //No Parent
-    public boolean addCategoryToFamilyTree(int familyID, String designation, FamilyService familyService, int parentID) {
+    public boolean addCategoryToFamilyTree(Family targetFamily, String designation, int parentID) {
         if (parentID > 0) {
             StandardCategory parent = getStandardCategoryByID(parentID);
-            return familyService.addCategory(familyID, designation, parent);
-        }else if(parentID<0){
-            return familyService.addCategory(familyID, designation, parentID);
-        }else{
-            return familyService.addCategory(familyID,designation);
+            checkIfParentNull(parent);
+            CustomCategory newCustomCategory = new CustomCategory(designation, parent, generateCustomCategoryID(targetFamily));
+            return targetFamily.addCategory(newCustomCategory);
+        } else if (parentID < 0) {
+            CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
+            checkIfParentNull(parent);
+            CustomCategory newCustomCategory = new CustomCategory(designation,parent,generateCustomCategoryID(targetFamily));
+            return targetFamily.addCategory(newCustomCategory);
+        } else {
+            CustomCategory newCustomCategory = new CustomCategory(designation,generateCustomCategoryID(targetFamily));
+            return targetFamily.addCategory(newCustomCategory);
+
         }
 
     }
+
+    /**
+     * This method returns a CustomCategory of a given ID
+     *
+     * @param categoryID ID of the CustomCategory to be returned
+     * @return chosen CustomCategory, if the CustomCategory is not found returns null;
+     */
+    private CustomCategory getCustomCategoryByID(int categoryID, Family tagetFamily) {
+        CustomCategory selectedCategory = null;
+        int size = tagetFamily.getFamilyCustomCategories().size();
+        for (int index = 0; index < size; index++) {
+            if (tagetFamily.getFamilyCustomCategories().get(index).getCategoryID() == categoryID) {
+                selectedCategory = tagetFamily.getFamilyCustomCategories().get(index);
+                index = size;
+            }
+        }
+        return selectedCategory;
+    }
+
+    private void checkIfParentNull(CustomCategory parent) {
+        if (parent == null) {
+            throw new IllegalArgumentException("Expected CustomCategoryParent but was null");
+        }
+    }
+
+    private void checkIfParentNull(StandardCategory parent) {
+        if (parent == null) {
+            throw new IllegalArgumentException("Expected StandardCategoryParent but was null");
+        }
+    }
+
+    private int generateCustomCategoryID(Family targetFamily) {
+        int minID = 0;
+        for (CustomCategory category : targetFamily.getFamilyCustomCategories()) {
+            if (minID > category.getCategoryID()) minID = category.getCategoryID();
+        }
+        return minID - 1;
+    }
+
 
     /**
      * Method to get the parent name of a passed category name
