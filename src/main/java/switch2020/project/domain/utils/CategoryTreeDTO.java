@@ -1,7 +1,6 @@
 package switch2020.project.domain.utils;
 
 import switch2020.project.domain.model.CustomCategory;
-import switch2020.project.domain.model.CustomCategory;
 import switch2020.project.domain.model.StandardCategory;
 import switch2020.project.domain.services.CategoryService;
 import switch2020.project.domain.services.FamilyService;

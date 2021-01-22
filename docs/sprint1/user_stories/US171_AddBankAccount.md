@@ -24,25 +24,22 @@ We interpreted this requirement as the function of a familyAdmin to add a new Pe
 ```` puml
 
     autonumber
-    title US101 - Add Family Member SSD
-    actor "Family Administrator" as familyAdmin
+    title US171 - Add Bank Account SSD
+    actor "Family Member" as familyMember
     participant "System" as system
 
-    activate familyAdmin
-    familyAdmin -> system: get Family ID
+    activate familyMember
+    familyMember -> system: addBankAccount()
     activate system
-    system -> familyAdmin: inform sucess
-    deactivate system
-    familyAdmin -> system: add Family Member
-    activate system
-    familyAdmin -> system: input required data
+    familyMember -> system: input required data
     alt failure
-    system -> familyAdmin : Inform Failure
+    system -> familyMember : Inform Failure
     
     else sucess
-    system -> familyAdmin : Inform Success
+    system -> familyMember : Inform Success
     end
     deactivate system
+    deactivate familyMember
 
 @endpuml
 ````
@@ -70,94 +67,54 @@ At a later iteration, the family member's ID would be aquired through the Log In
 ````puml
 @startuml
 autonumber
-title addFamilyMember
+title addBankAccout
 
-actor "FamilyAdmin" as actor
+actor "FamilyMember" as actor
 participant ": UI" as UI
-participant ": addFamilyMemberController" as controller
+participant ": addBankAccountController" as controller
 participant ": FFM Application" as app
+participant "accServ : AccountService" as accServ
 participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
-participant "aVat : VAT" as vat
-participant "aAddress : address" as address
-participant "aPhone : Phone" as phone
-participant "aEmail : Email" as email
+participant "aBankAccount : BankAccount" as bankAcc
+participant "aIban : Iban" as iban
 
 activate actor
-actor -> UI: get Family by ID
-activate UI
-UI -> controller: getFamilyById(familyID)
-activate controller
-controller -> app: getFamilyById(familyID)
-activate app
-app -> famService: getFamilyById(familyID)
-activate famService
-famService -> app: ok
-deactivate famService
-app -> controller: ok
-deactivate app
-controller -> UI: ok
-deactivate controller
-UI -> actor: informs success
-deactivate UI
-
-actor -> UI: add Family Member data
+actor -> UI: addBankAccount(iban,balance)
 activate UI
 UI -> actor: ask data
 deactivate UI
-
 actor -> UI: inputs required data
 activate UI
-UI -> controller: addFamilyMember(name,dateBirth,vat,phone,address,admin)
+UI -> controller: addBankAccount(familyID,familyMemberID,iban,balance)
 activate controller
-controller -> app: addFamilyMember(name,dateBirth,vat,phone,address,admin)
+controller -> app: getFamilyMemberId(familyID,familyMemberID)
 activate app
-app -> famService: addFamilyMember(name,dateBirth,vat,phone,address,admin)
+app -> famService: getFamilyMemberId(familyID,familyMemberID)
 activate famService
-
-alt if is Admin - FALSE
-  famService -> famService: isAdmin()
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - TRUE
-end
-
-alt email exists - TRUE
-  famService -> famService: checkIfEmailExists()
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
-end
-
-famService -> family: addFamilyMember(name,dateBirth,vat,phone,address,admin)
+famService -> family: getFamilyMemberId(familyID,familyMemberID)
 activate family
-
-alt vat exists - TRUE
-  family -> family: checkIfVatExist()
-  family -> famService: fail
-  famService -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
-end
-
-family -> person **: create(name,dateBirth,vat,phone,address,admin)
-activate person
-person -> vat **: create(vat)
-person -> address **: create(address)
-person -> phone **: create(phone)
-person -> email **: create(email)
-deactivate person
-
-family -> family: addMember(aPerson)
-family -> famService
+family -> famService: getFamilyMemberId(familyID,familyMemberID)
 deactivate family
+famService -> app: getFamilyMemberId(familyID,familyMemberID)
+deactivate famService
+app -> controller: getFamilyMemberId(familyID,familyMemberID)
+deactivate app
+
+controller -> app: addBankAccount(familyID,familyMemberID,iban,balance)
+activate app
+app -> accServ: addBankAccount(familyID,familyMemberID,iban,balance)
+activate accServ
+
+accServ -> bankAcc **: create(id,iban,balance)
+activate bankAcc
+bankAcc -> iban **: create(iban)
+deactivate bankAcc
+
+activate person
+accServ -> accServ: addBankAccount(familyID,familyMemberID,iban,balance)
+accServ -> person: addAccount(aBankAccount)
 famService -> app: ok
 deactivate famService
 app -> controller: ok
@@ -166,7 +123,7 @@ controller -> UI: ok
 deactivate controller
 UI -> actor: informs success
 deactivate UI
-deactivate actor
+
 @enduml
 ````
 
