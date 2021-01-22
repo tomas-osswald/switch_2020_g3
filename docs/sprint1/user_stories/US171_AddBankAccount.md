@@ -185,17 +185,97 @@ To finish this process, the Application return a confirmation message to the con
 
 ## 3.2. Class Diagram
 The main Classes involved are:
-- AddFamilyMemberController
+- AddBankAccountController
 - Application
 - FamilyService
+- Bank Account
 - Family
 - FamilyMember
-- Vat
-- Address
-- Phone
-- Email
+- BankAccount
+- IBAN
 
-![Class Diagram](https://imgur.com/86GIpDB.png)
+**AddBankAccount()**
+```puml
+@startuml
+
+title AddBankAccount()
+
+class AddBankAccountController {
+  - Application app
+  + addBankAccount()
+}
+
+class Application {
+  - FamilyService familyService
+  + getFamilyService()
+  + getAccountService()
+}
+
+class FamilyService {
+  - List<Family> families
+  + getFamily()
+}
+
+class Family {
+  - int familyID
+  - List<FamilyMember> familyMembers
+  - getFamilyMemberByID()  
+}
+
+class FamilyMember {
+  - CCNumber ccNumber;
+  - String name;
+  - Date birthDate;
+  - List<PhoneNumber> phoneNumbers
+  - List<EmailAddress> emails
+  - VatNumber vatNumber;
+  - Address address;
+  - Relation relation;
+  - boolean administrator;
+  - List<Account> accounts
+  # compareID()
+  + addBankAccount()
+  
+}
+
+class CCNumber {
+  - String ccNumber
+  + getCcNumber()
+}
+
+class BankAccount {
+  - ID
+  - IBAN
+  - Designation
+  - Balance
+  + create()
+  
+}
+
+class IBAN {
+  - IBAN
+  + getIbanNumber()
+}
+
+class AccountService {
+  + addBankAccount()
+  + createBankAccount()
+}
+
+AddBankAccountController --> Application
+AddBankAccountController --> FamilyService
+FamilyService --> Family
+Family --> FamilyMember
+FamilyMember --> CCNumber
+AddBankAccountController --> AccountService
+AccountService --> FamilyMember
+FamilyMember --> BankAccount
+BankAccount --> IBAN
+
+
+
+@enduml
+```
 
 ## 3.3. Applied Patterns
 We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
