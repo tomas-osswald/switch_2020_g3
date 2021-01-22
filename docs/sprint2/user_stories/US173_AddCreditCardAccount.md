@@ -109,29 +109,56 @@ actor "Actor" as actor
 participant ": UI" as UI
 participant ": AddCreditCardAccount\n Controller" as controller
 participant ": Application" as app
-participant ": AccountService : AccountService" as aserv
-participant ": FamilyService : FamilyService" as fserv
+participant "aAccountService : AccountService" as aserv
+participant "aFamilyService : FamilyService" as fserv
 participant "aFamily : Family" as family
-participant "aFamilyMember : FamilyMember" as familyMember
 participant "aCreditCardAccount : CreditCard Account" as credit
-actor -> UI
-UI -> controller
-controller -> app : getAccountService()
-app -> controller : AccountService
-controller -> app
-app -> controller
-controller -> aserv
-aserv -> fserv : getFamilyMemberByIDAndFamilyID()
-fserv -> aserv : aFamilyMember
-aserv -> familyMember : addCreditCardAccount()
+participant "aFamilyMember : FamilyMember" as familyMember
 
-familyMember -> credit** : 
-credit -> IBAN**
-familyMember -> familyMember : addAccountToList(aCreditCardAccount)
-familyMember -> aserv : Ok
-aserv -> controller : OK
-controller -> UI : OK
-UI -> actor : OK
+activate actor
+actor -> UI
+activate UI
+UI -> controller
+
+activate controller
+controller -> app : getFamilyService()
+activate app
+app -> controller : aFamilyService
+deactivate app
+
+controller -> fserv : getFamily(familyID)
+activate fserv
+fserv -> controller : aFamily
+deactivate fserv
+
+controller -> family : getFamilyMember(familyMemberID)
+activate family
+family -> controller : aFamilyMember
+deactivate family
+
+app -> controller : getAccountService()
+activate app
+controller -> app : aAccountService
+deactivate app
+
+controller -> aserv : addCreditCardAccount(aFamilyMember)
+activate aserv
+
+aserv -> credit** : createCreditCardAccount( )
+
+aserv -> familyMember : addAccountToList(aCreditCardAccount)
+activate familyMember 
+familyMember -> aserv : inform sucess
+deactivate familyMember
+aserv -> controller : inform sucess
+deactivate aserv
+
+controller -> UI : inform sucess
+deactivate controller
+
+UI -> actor : inform sucess
+deactivate UI
+deactivate actor
 ```
 
 ## 3.2. Class Diagram
