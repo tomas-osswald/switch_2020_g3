@@ -2,13 +2,23 @@
 
 # 1. Requirements
 
-As a family member, I want to add a credit card account I have
-
 ## 1.1. Client Notes
 
-We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio. It must have a cash account associated to it.
+As a family member, I want to add to a credit card account I have:
+
+**Demonstration 1** As administrator, I want to...
+
+- 1.1. Add a credit card account I have.
+
+**Extracted from communications with the Product Owner**
+
+- >*"A card does not have to be associated with a bank account."*;
+- >*" "*;
+
+We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio.
 
 ## 1.2. System Sequence Diagram
+
 ```puml
 autonumber
 title System Sequence Diagram - US173
@@ -36,9 +46,20 @@ deactivate familyMember
 
 ## 1.3. Dependencies from other User Stories
 
+This user story is dependent on the following:
+
+- US010_Add Family: to create a family;
+- US011_Add Family Administrator: to add an Administrator, that he is allowed to add a Family Member;
+- US101_Add Family Members: to add a Credit Card Account.
 
 # 2. Analysis
 
+For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
+
+- Self ID (User who wants to add a credit card account);
+- Family ID (User's Family);
+- Card description (Card Description);
+- Withdrawal limit (Card usage limit).
 
 ##2.1. Domain Model Diagram
 
@@ -81,8 +102,6 @@ CreditCardAccount -> Account : Is a
 
 ## 3.1. Functionality Use
 
-### Sequence diagram
-
 ``` puml
 autonumber 1
 title addCreditCardAccount
@@ -116,24 +135,26 @@ UI -> actor : OK
 ```
 
 ## 3.2. Class Diagram
+
 ```puml
 
 title Class Diagram - US173
 
+class AddCreditCardAcccountController {
+}
+
 class Application {
-  - AccountService accountService
-  + getAccountService()
 }
 
 class AccountService {
-   + addCreditCardAccount()
++ addCreditCardAccount()
 }
 
 class FamilyService {
    }
    
 class FamilyMember {
-    + AddCreditCardAccount()
+    + addAccount()
 }
 
 class Account {
@@ -142,20 +163,23 @@ class Account {
 class CreditCardAccount {
 }
 
-Application --> AccountService : has
-AccountService --> FamilyService : has
+AddCreditCardAcccountController  -> Application
+AddCreditCardAcccountController  -down-> AccountService
+(AccountService, FamilyMember) -> CreditCardAccount : add credit card account to member
+Application --> FamilyService : has
 FamilyService --> FamilyMember : has
 FamilyMember --> Account : has List<Account>
 Account  <-- CreditCardAccount : Is a
 ```
-
 
 ## 3.3. Applied Patterns
 
 
 ## 3.4. Tests
 
-## 4.
+
+## 4. Implementation
+
 
 # 5. Integration/Demonstration
 

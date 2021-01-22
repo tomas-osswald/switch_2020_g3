@@ -1,8 +1,6 @@
 package switch2020.project.domain.model;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class IBAN {
@@ -41,7 +39,6 @@ public class IBAN {
     private BigInteger moveFirst4Characters(String iban) {
         BigInteger rearrangedIBAN = BigInteger.valueOf(0);
         char[] temp = iban.toCharArray();
-        List<Character> ibanList = new ArrayList<>();
         for (int i = 4; i < iban.length(); i++) {
             rearrangedIBAN = rearrangedIBAN.multiply(BigInteger.TEN);
             if (getNumberFromChar(temp[i]).compareTo(BigInteger.valueOf(0)) != 0) {
