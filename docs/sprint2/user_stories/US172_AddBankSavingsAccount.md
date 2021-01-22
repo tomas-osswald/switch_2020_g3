@@ -119,8 +119,15 @@ title Class Diagram
 hide empty members
 
 class BankSavingsAccount {
-
+- AccountData accountData
+- Double interestRate
 }
+
+class AccountData {
+- Double balance
+- 
+}
+
 
 class AddBankSavingsAccountController {
 }
@@ -166,3 +173,9 @@ Account <|-- BankSavingsAccount : implements
 # 5. Integration
 
 #6. Observations
+Interest Rate will have to be manually inserted as a percentage in order to perform
+the correct calculations. UI will have to deal with this.
+
+Will Interest Rate be a Class in the future? (As it will have behaviour of its own)
+
+In the future we're thinking about implementing a forecast feature to calculate expected earnings on a given date.
