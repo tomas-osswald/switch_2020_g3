@@ -1,6 +1,7 @@
 package switch2020.project.domain.model;
 
 import switch2020.project.domain.sandbox.Transaction;
+import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,10 @@ public class AccountData {
     private List<Transaction> transactions;
 
 
-    public AccountData(double balance, String description, int accountID) {
+    public AccountData(double balance, String designation, int accountID) {
+        validateDesignation(designation);
         this.balance = balance;
-        this.description = description;
+        this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
 
@@ -44,5 +46,13 @@ public class AccountData {
 
     public void setAccountID(int accountID) {
         this.accountID = accountID;
+    }
+
+    private void validateDesignation(String designation) {
+        if (designation == null || designation.isEmpty() || designation.isBlank()) {
+            throw new InvalidAccountDesignationException("Invalid account designation");
+        } else if (designation.length() >= 20) {
+            throw new IllegalArgumentException("Account name can't have more than 20 characters");
+        }
     }
 }

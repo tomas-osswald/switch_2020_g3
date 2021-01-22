@@ -1,5 +1,7 @@
 package switch2020.project.domain.model;
 
+import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
+
 public class CashAccount implements Account {
 
 
@@ -15,19 +17,25 @@ public class CashAccount implements Account {
         this.accountData = new AccountData(balance, "Cash Account", 0);
     }
 
-    public CashAccount(String description, double balance, int cashAccountID) {
+    public CashAccount(String designation, double balance, int cashAccountID) {
+
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
-        validateDescription(description);
-        this.accountData = new AccountData(balance, description.toUpperCase(), cashAccountID);
+        try {
+            this.accountData = new AccountData(balance, designation.toUpperCase(), cashAccountID);
+        } catch (InvalidAccountDesignationException exception) {
+            String defaultDesignation = "Cash Account nº" + " " + cashAccountID;
+            this.accountData = new AccountData(balance, defaultDesignation.toUpperCase(), cashAccountID);
+        }
+
     }
 
     public CashAccount(int cashAccountID) {
         if (!validateID(cashAccountID)) {
             throw new IllegalArgumentException("Cash Account ID is not valid");
         }
-        this.accountData = new AccountData(0, "Cash Account", cashAccountID);
+        this.accountData = new AccountData(0, "Cash Account" + " " + cashAccountID, cashAccountID);
     }
 
     public CashAccount(int cashAccountID, double balance) {
@@ -37,7 +45,7 @@ public class CashAccount implements Account {
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
-        this.accountData = new AccountData(balance, "Cash Account", cashAccountID);
+        this.accountData = new AccountData(balance, "Cash Account" + " " + cashAccountID, cashAccountID);
     }
 
     // Business Methods
@@ -71,14 +79,6 @@ public class CashAccount implements Account {
         return validBalance;
     }
 
-    private void validateDescription(String description) {
-        if (description == null || description.isEmpty() || description.isBlank()) {
-            throw new IllegalArgumentException("Account name can't be empty or blank");
-        } else if (description.length() >= 12) {
-            throw new IllegalArgumentException("Account name can't have more than 12 characters");
-        }
-
-    }
 
     /**
      * Getter for the ID of this cash account object
