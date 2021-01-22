@@ -108,6 +108,7 @@ deactivate UI
 deactivate FamilyMember
 ````
 
+
 ## 3.1. Functionality Use
 
 ## 3.2. Class Diagram
@@ -115,9 +116,37 @@ deactivate FamilyMember
 @startuml
 
 title Class Diagram
+hide empty members
 
-class SavingsAccount {
+class BankSavingsAccount {
+
 }
+
+class AddBankSavingsAccountController {
+}
+
+class Application {}
+
+class FamilyService {}
+
+class Family {}
+
+class FamilyMember {
++ addAccount()
+}
+
+class AccountService {
+}
+
+interface Account {}
+
+AddBankSavingsAccountController --> Application : has
+Application --> FamilyService : has
+AddBankSavingsAccountController --> AccountService : creates
+FamilyService --> Family : has
+Family --> FamilyMember : has
+AccountService --> BankSavingsAccount : creates
+Account <|-- BankSavingsAccount : implements
 
 @enduml
 ```
