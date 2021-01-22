@@ -96,11 +96,11 @@ app -> famService: getFamilyMemberId(familyID,familyMemberID)
 activate famService
 famService -> family: getFamilyMemberId(familyID,familyMemberID)
 activate family
-family -> famService: getFamilyMemberId(familyID,familyMemberID)
+family -> famService: ok
 deactivate family
-famService -> app: getFamilyMemberId(familyID,familyMemberID)
+famService -> app: ok
 deactivate famService
-app -> controller: getFamilyMemberId(familyID,familyMemberID)
+app -> controller: ok
 deactivate app
 
 controller -> app: addBankAccount(familyID,familyMemberID,iban,balance)
@@ -115,17 +115,29 @@ deactivate bankAcc
 
 accServ -> person: addAccount(aBankAccount)
 activate person
+
+alt vat exists - TRUE
+  person -> person: checkIfAccountAlreadyPresent()
+  person -> accServ: fail
+  accServ -> app: fail
+  app -> controller: fail
+  controller -> UI: fail
+  UI -> actor: failure
+else email does not exists - FALSE
 person -> person: addAccount(aBankAccount)
+end
+
 person -> accServ: ok
 deactivate person
 accServ -> app: ok
-deactivate famService
+deactivate accServ
 app -> controller: ok
 deactivate app
 controller -> UI: ok
 deactivate controller
 UI -> actor: informs success
 deactivate UI
+deactivate actor
 
 @enduml
 ````
