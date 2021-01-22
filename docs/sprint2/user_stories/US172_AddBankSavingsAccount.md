@@ -51,11 +51,11 @@ To create a Bank Savings Account we need to have:
  
 1. An account name
     > *Question:*  
-    >*Pegando numa resposta anterior em relação à criação de contas (sejam cash, bank, savings ou credit card), 
+    *Pegando numa resposta anterior em relação à criação de contas (sejam cash, bank, savings ou credit card), 
     >devemos incluir uma designação (exemplo: "Conta do Banco") para que o utilizador possa personalizar as contas.* 
     >
     > PO:  
-    >Claro que tem de ter uma designação compreensível.
+    *Claro que tem de ter uma designação compreensível.*
 
 2. An account ID
 An unique account ID is going to be necessary in order to differentiate accounts.
@@ -73,6 +73,10 @@ the user to forecast future earnings, review earnings to-date, etc..
 The user to whom the account will be added. At the moment there is no business rule, limiting the number of Family Members
 linked to the same account. 
 
+
+It is expected of a Savings Account to have a balance. At the moment, the Product Owner
+referred that defining the balance it would be a future feature regarding bank data importation.
+Having this in mind we decided to initialize all accounts with 0 as the initial balance. 
 
 
 
@@ -187,14 +191,6 @@ class AccountData {
 }
 
 
-
-
-
-
-
-
-
-
 interface Account {}
 
 AddBankSavingsAccountController --> Application : has
@@ -204,7 +200,8 @@ FamilyService --> Family : has list
 Family --> FamilyMember : has list
 AccountService --> BankSavingsAccount : creates
 BankSavingsAccount --|> Account : implements
-BankSavingsAccount --* AccountData : contains
+BankSavingsAccount -* AccountData : contains
+BankSavingsAccount <-- FamilyMember : has
 
 @enduml
 ```
