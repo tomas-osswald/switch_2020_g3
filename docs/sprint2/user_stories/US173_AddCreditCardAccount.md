@@ -97,8 +97,8 @@ participant "aFamilyMember : FamilyMember" as familyMember
 participant "aCreditCardAccount : CreditCard Account" as credit
 actor -> UI
 UI -> controller
-controller -> app
-app -> controller
+controller -> app : getAccountService()
+app -> controller : AccountService
 controller -> app
 app -> controller
 controller -> aserv
