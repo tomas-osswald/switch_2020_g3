@@ -67,13 +67,15 @@ participant "UI" as UI
 participant ": AddSavings\nAccountController" as Controller
 participant ": Application" as App
 participant ": FamilyService" as FamilyService
+participant "aFamily : Family" as Family
+participant "aFamilyMember : FamilyMember" as aFamilyMember
 participant ": AccountService" as AccountService
-participant ": Family" as Family
+participant "aBankSavingsAccount : \nBankSavingsAccount" as BankAccount
 
 activate FamilyMember
 FamilyMember -> UI: I want to add a Bank Savings Account
 activate UI
-UI -> Controller : addBankSavingsAccount(FamilyID, FamilyMemberID, \nIBAN, Balance, Name, InterestRate)
+UI -> Controller : addBankSavingsAccount(FamilyID, FamilyMemberID, \nBalance, Name, InterestRate)
 activate Controller
 Controller -> App : getFamilyService()
 activate App
@@ -81,30 +83,29 @@ App --> Controller : familyService
 deactivate App
 Controller -> FamilyService : getFamily(FamilyID)
 activate FamilyService
-FamilyService -> Family : getFamily(FamilyID)
-activate Family
-Family --> FamilyService : Family
+FamilyService -> FamilyService : getFamily(FamilyID)
 FamilyService --> Controller : Family
-Controller -> FamilyService : getFamilyMember(FamilyMemberID)
-FamilyService -> Family : getFamilyMember(FamilyMemberID)
+deactivate FamilyService
+Controller -> Family : getFamilyMember(FamilyMemberID)
+Activate Family
 Family -> Family : getFamilyMember(FamilyMemberID)
-Family --> FamilyService : aFamilyMember
-FamilyService --> Controller : aFamilyMember
-Controller -> App : getAccountService()
-activate App
-App --> Controller : accountService
-deactivate App
-Controller -> AccountService : addBankSavingsAccount(IBAN, Balance, \nName, InterestRate)
+Family --> Controller : aFamilyMember
+Deactivate Family
+Controller -> AccountService ** : createAccountService()
+Controller -> AccountService : addBankSavingsAccount(Balance, \nName, InterestRate, aFamilyMember)
 activate AccountService
- 
-alt failure
-UI --> FamilyMember: inform failure
-else success
-UI --> FamilyMember: inform success
+AccountService -> BankAccount ** : createBankSavingsAccount(Balance, \nName, InterestRate)
+AccountService -> aFamilyMember : addAccount(aBankSavingsAccount) 
+activate aFamilyMember
+aFamilyMember --> AccountService : Success
+deactivate aFamilyMember
+AccountService --> Controller : Success
+deactivate AccountService
+Controller --> UI : Success
+deactivate Controller
+UI --> FamilyMember : Success
 deactivate UI
-end alt
 deactivate FamilyMember
-
 ````
 
 ## 3.1. Functionality Use
