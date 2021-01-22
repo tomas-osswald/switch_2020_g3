@@ -51,7 +51,7 @@ public class FamilyService {
      * @param familyID   Integer representing the family's ID
      * @param ccNumber   Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
-     */
+
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         if (!checkIfEmailPresent(emailToAdd)) {
             Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
@@ -59,6 +59,7 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("This email is already present");
     }
+     */
 
     /**
      * Method to find the index of a family with a specific ID in the Families ArrayList

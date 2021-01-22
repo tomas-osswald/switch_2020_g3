@@ -19,7 +19,7 @@ public class Family {
     //private FamilyMember familyAdministrator;
     private List<FamilyMember> familyMembers;
     private List<String> relationDesignations = new ArrayList<>();
-    private CashAccount familyCashAccount = null;
+    private Account familyCashAccount = null;
     private List<CustomCategory> familyCustomCategories = new ArrayList<>();
 
     /********************** CONSTRUCTORS ***************/
@@ -271,20 +271,20 @@ public class Family {
     }
 
 
-    /********************** USER STORIES **********************/
-
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
+     * <p>
+     * emailToAdd String of the email address to add
+     * ccNumber   Integer representing the family member's ID
      *
-     * @param emailToAdd String of the email address to add
-     * @param ccNumber   Integer representing the family member's ID
      * @return True if email successfully added to the Family Member with the passed ID
+     * <p>
+     * <p>
+     * public boolean addEmail(String emailToAdd, String ccNumber) {
+     * FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(ccNumber));
+     * return targetMember.addEmail(emailToAdd);
+     * }
      */
-
-    public boolean addEmail(String emailToAdd, String ccNumber) {
-        FamilyMember targetMember = familyMembers.get(findFamilyMemberIndexByID(ccNumber));
-        return targetMember.addEmail(emailToAdd);
-    }
 
     public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
         if (!checkIfVatExists(vat)) {
@@ -311,11 +311,7 @@ public class Family {
         }
     }
 
-    /**
-     * Method that creates a cash account for this family and stores it in this family's attributes
-     *
-     * @return returns true if an account was successfully created and stored
-     */
+
     public boolean createFamilyCashAccount(double balance) {
         boolean success = false;
         if (!hasCashAccount()) {
@@ -331,7 +327,7 @@ public class Family {
      * @return returns true if a cash account already exists
      */
 
-    private boolean hasCashAccount() {
+    public boolean hasCashAccount() {
         boolean hasCashAccount = false;
         if (this.familyCashAccount != null) {
             hasCashAccount = true;
@@ -398,7 +394,7 @@ public class Family {
         return memberProfile;
     }
 
-    //Custom
+    //Custom parent
     public boolean addCustomCategory(String designation, int parentID) {
         int categoryID = generateCustomCategoryID();
         CustomCategory parent = getCustomCategoryByID(parentID);
@@ -453,4 +449,16 @@ public class Family {
         return minID - 1;
     }
 
+    public FamilyMember getFamilyMember(String ccNumber) {
+        for (FamilyMember member : this.familyMembers) {
+            if (member.compareID(ccNumber)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    public void addCashAccount(Account newCashAccount) {
+        this.familyCashAccount = newCashAccount;
+    }
 }

@@ -1,6 +1,8 @@
 package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
+import switch2020.project.domain.model.Family;
+import switch2020.project.domain.services.AccountService;
 import switch2020.project.domain.services.FamilyService;
 
 public class CreateFamilyCashAccountController {
@@ -18,7 +20,15 @@ public class CreateFamilyCashAccountController {
     public boolean createFamilyCashAccount(int familyID, double balance, String ccNumber) {
         try{
             FamilyService familyService = this.ffmApplication.getFamilyService();
-            return familyService.createFamilyCashAccount(familyID, balance, ccNumber);
+            AccountService accountService = this.ffmApplication.getAccountService();
+            Family targetFamily= familyService.getFamily(familyID);
+            if(targetFamily.verifyAdministrator(ccNumber)){
+                return accountService.createFamilyCashAccount(targetFamily,balance);
+            }else{
+                throw new IllegalArgumentException("This user does not have admin permissions");
+            }
+
+
         } catch (IllegalArgumentException exception) {
             return false;
         }
