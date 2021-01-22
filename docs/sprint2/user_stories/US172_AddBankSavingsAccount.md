@@ -1,11 +1,16 @@
-# US010 Add a Family
+# US172 Add a Bank Savings Account
 =======================================
 
 
 # 1. Requirements
 
-US172 As a family member, I want to add a bank savings account I have.
+### 1.1 Client Notes 
+**Demo1** - As a family member, I want to add a bank savings account I have.
 
+We interpreted this requirement as the function of adding an already existing Bank Savings Account
+Data and linking it to a Family Member.
+
+### 1.2 System Sequence Diagram
 ````puml
 autonumber
 
@@ -40,6 +45,35 @@ deactivate FamilyMember
 ````
 
 # 2. Analysis
+Our analysis of this US is as follows:
+
+To create a Bank Savings Account we need to have:
+ 
+1. An account name
+    > *Question:*  
+    >*Pegando numa resposta anterior em relação à criação de contas (sejam cash, bank, savings ou credit card), 
+    >devemos incluir uma designação (exemplo: "Conta do Banco") para que o utilizador possa personalizar as contas.* 
+    >
+    > PO:  
+    >Claro que tem de ter uma designação compreensível.
+
+2. An account ID
+An unique account ID is going to be necessary in order to differentiate accounts.
+Product Owner said specifically to not use the IBAN as an unique identifier:
+    > PO:   
+    >Para começar, não peçam aos utilizadores para conhecerem/identificarem as contas pelo IBAN ou pelo número do cartão.  
+    > Está completamente fora de questão.  
+    >A forma como identificam as contas no código é um problema de implementação. Pensem numa solução.
+    
+3. An Interest rate
+We've decided to add this attribute in order to distinguish bewteen account types. In the future it will allow
+the user to forecast future earnings, review earnings to-date, etc..
+
+4. A Family Member
+The user to whom the account will be added. At the moment there is no business rule, limiting the number of Family Members
+linked to the same account. 
+
+
 
 
 # 3. Design
@@ -58,7 +92,6 @@ ActorBackgroundColor white
 
 ````puml
 autonumber
-
 
 
 title AddBankSavingsAccount
@@ -118,42 +151,60 @@ deactivate FamilyMember
 title Class Diagram
 hide empty members
 
+class AddBankSavingsAccountController {
++ addBankSavingsAccount()
+}
+
 class BankSavingsAccount {
-- AccountData accountData
 - Double interestRate
 }
 
-class AccountData {
-- Double balance
-- 
+class Application {
++ getFamilyService()
 }
 
-
-class AddBankSavingsAccountController {
+class FamilyService {
++ getFamily()
 }
 
-class Application {}
-
-class FamilyService {}
-
-class Family {}
+class Family {
++ getFamilyMember()
+}
 
 class FamilyMember {
 + addAccount()
 }
 
 class AccountService {
++ addBankSavingsAccount()
 }
+
+class AccountData {
+- double balance
+- String description
+- int accountID
+- List<Transaction> transactions
+}
+
+
+
+
+
+
+
+
+
 
 interface Account {}
 
 AddBankSavingsAccountController --> Application : has
 Application --> FamilyService : has
 AddBankSavingsAccountController --> AccountService : creates
-FamilyService --> Family : has
-Family --> FamilyMember : has
+FamilyService --> Family : has list
+Family --> FamilyMember : has list
 AccountService --> BankSavingsAccount : creates
-Account <|-- BankSavingsAccount : implements
+BankSavingsAccount --|> Account : implements
+BankSavingsAccount --* AccountData : contains
 
 @enduml
 ```
