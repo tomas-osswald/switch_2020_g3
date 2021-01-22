@@ -70,8 +70,9 @@ passed directly into the CreatePersonalCashAccountController.
    participant ": AccountService" as accServ
    participant ": FamilyService" as famServ
    participant ": Family" as fam
-   participant "aFamilyMember : FamilyMember" as fammemb
+   participant ": FamilyMember" as fammemb
    participant "newCashAccount : Account" as cashacc
+   participant "newAccountData : AccountData" as data
     
    
    activate member
@@ -100,20 +101,23 @@ passed directly into the CreatePersonalCashAccountController.
    controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
    activate accServ
    accServ -> accServ: generateAccountID()
-   accServ -> fammemb**: createPersonalCashAccount(name, initialBalance, accountID)
-   activate fammemb
-   fammemb-> cashacc**: newCashAccount(name, initialBalance, accountID)
+   accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
    activate cashacc
-   cashacc -> cashacc: validateName();
-   cashacc->cashacc: validateBalance()
-   cashacc--> fammemb: success
+   cashacc -> cashacc: validateName(name)
+   cashacc->cashacc: validateBalance(balance)
+   cashacc->data**: createAccountData(name, initialBalance, accountID)
+   activate data
+   data-->cashacc: becomes CashAccount.AccountData
+   deactivate data
+   cashacc-->accServ: Success
    deactivate cashacc
-   fammemb -> fammemb: addCashAccount()
-   fammemb --> accServ: success
+   accServ->fammemb: addAccount(newCashAccount)
+   activate fammemb
+   fammemb-->accServ: Success
    deactivate fammemb
-   accServ --> controller: success
+   accServ-->controller: Success
    deactivate accServ
-   controller --> UI: success
+   controller --> UI: Success
    deactivate controller
    UI --> member: Inform Success
    deactivate UI
