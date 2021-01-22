@@ -50,12 +50,12 @@ Our analysis of this US is as follows:
 To create a Bank Savings Account we need to have:
  
 1. An account name
-    > *Question:*  
-    *Pegando numa resposta anterior em relação à criação de contas (sejam cash, bank, savings ou credit card), 
-    >devemos incluir uma designação (exemplo: "Conta do Banco") para que o utilizador possa personalizar as contas.* 
-    >
-    > PO:  
-    *Claro que tem de ter uma designação compreensível.*
+   > *Question:*  
+   > *Pegando numa resposta anterior em relação à criação de contas (sejam cash, bank, savings ou credit card), 
+   > devemos incluir uma designação (exemplo: "Conta do Banco") para que o utilizador possa personalizar as contas.* 
+   >
+   > PO:  
+   > Claro que tem de ter uma designação compreensível.
 
 2. An account ID
 An unique account ID is going to be necessary in order to differentiate accounts.
@@ -68,6 +68,7 @@ Product Owner said specifically to not use the IBAN as an unique identifier:
 3. An Interest rate
 We've decided to add this attribute in order to distinguish bewteen account types. In the future it will allow
 the user to forecast future earnings, review earnings to-date, etc..
+
 
 4. A Family Member
 The user to whom the account will be added. At the moment there is no business rule, limiting the number of Family Members
