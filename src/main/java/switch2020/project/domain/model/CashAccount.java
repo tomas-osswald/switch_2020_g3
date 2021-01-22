@@ -80,10 +80,6 @@ public class CashAccount implements Account {
 
     }
 
-    @Override
-    public Account createAccount() {
-        return null;
-    }
 
     /**
      * Getter for the ID of this cash account object
