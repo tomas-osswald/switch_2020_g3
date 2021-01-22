@@ -31,7 +31,8 @@ We interpreted this requirement as the function of a familyAdmin to add a new Pe
     activate familyMember
     familyMember -> system: addBankAccount()
     activate system
-    familyMember -> system: input required data
+    system -> familyMember: require data
+    familyMember -> system: input data
     alt failure
     system -> familyMember : Inform Failure
     
@@ -67,7 +68,7 @@ At a later iteration, the family member's ID would be aquired through the Log In
 ````puml
 @startuml
 autonumber
-title addBankAccout
+title US171 - AddBankAccout Sequece Diagram
 
 actor "FamilyMember" as actor
 participant ": UI" as UI
@@ -112,10 +113,12 @@ activate bankAcc
 bankAcc -> iban **: create(iban)
 deactivate bankAcc
 
-activate person
-accServ -> accServ: addBankAccount(familyID,familyMemberID,iban,balance)
 accServ -> person: addAccount(aBankAccount)
-famService -> app: ok
+activate person
+person -> person: addAccount(aBankAccount)
+person -> accServ: ok
+deactivate person
+accServ -> app: ok
 deactivate famService
 app -> controller: ok
 deactivate app
