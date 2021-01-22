@@ -8,8 +8,8 @@ import switch2020.project.domain.model.FamilyMember;
 import java.util.List;
 
 public class AccountService {
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance) {
 
+    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance) {
         int accountID = generateID(targetMember);
         try {
             Account cashAccount = new CashAccount(accountName, balance, accountID);
@@ -18,7 +18,6 @@ public class AccountService {
             System.out.println(e.getMessage());
             return false;
         }
-
     }
 
     private int generateID(FamilyMember targetMember) {
