@@ -144,7 +144,7 @@ deactivate app
 controller -> aserv : addCreditCardAccount(aFamilyMember)
 activate aserv
 
-aserv -> credit** : createCreditCardAccount( )
+aserv -> credit** : createCreditCardAccount(withdrawalLimit)
 
 aserv -> familyMember : addAccountToList(aCreditCardAccount)
 activate familyMember 
