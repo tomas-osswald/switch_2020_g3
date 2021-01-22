@@ -6,32 +6,30 @@ import java.util.Date;
 
 public class CashTransaction implements Transaction {
 
-    private Date date;
-    private double ammount;
+    private TransactionData transactionData;
     private FamilyMember payer;
     private FamilyMember recipient;
-    private Category category;
+
 
     public CashTransaction(double ammount, Category category, FamilyMember payer, FamilyMember recipent) {
-        this.date = new Date();
-        this.ammount = ammount;
+        this.transactionData = new TransactionData(ammount, category);
         this.payer = payer;
         this.recipient = recipent;
-        this.category = category;
+
     }
 
     @Override
     public Date getDate() {
-        return this.date;
+        return this.transactionData.getDate();
     }
 
     @Override
     public double getAmmount() {
-        return this.ammount;
+        return this.transactionData.getAmmount();
     }
 
     @Override
     public Category getCategory() {
-        return this.category;
+        return this.transactionData.getCategory();
     }
 }
