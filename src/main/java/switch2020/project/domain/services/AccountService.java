@@ -1,9 +1,6 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.Account;
-import switch2020.project.domain.model.CashAccount;
-import switch2020.project.domain.model.Family;
-import switch2020.project.domain.model.FamilyMember;
+import switch2020.project.domain.model.*;
 
 import java.util.List;
 
@@ -40,4 +37,16 @@ public class AccountService {
             throw new IllegalArgumentException("This Family already has a Cash Account");
         }
     }
+
+    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
+        int accountID = generateID(targetMember);
+        try {
+            Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountID);
+            return targetMember.addAccount(creditCardAccount);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
 }
