@@ -7,7 +7,7 @@
 ### 1.1 Client Notes 
 **Demo1** - As a family member, I want to add a bank savings account I have.
 
-We interpreted this requirement as the function of adding an already existing Bank Savings Account
+We interpreted this requirement as the function of adding a Bank Savings Account
 Data and linking it to a Family Member.
 
 ### 1.2 System Sequence Diagram
@@ -57,7 +57,7 @@ To create a Bank Savings Account we need to have:
    > PO:  
    > Claro que tem de ter uma designação compreensível.
 
-2. An account ID
+2. An account ID  
 An unique account ID is going to be necessary in order to differentiate accounts.
 Product Owner said specifically to not use the IBAN as an unique identifier:
     > PO:   
@@ -65,12 +65,12 @@ Product Owner said specifically to not use the IBAN as an unique identifier:
     > Está completamente fora de questão.  
     >A forma como identificam as contas no código é um problema de implementação. Pensem numa solução.
     
-3. An Interest rate
+3. An Interest rate  
 We've decided to add this attribute in order to distinguish bewteen account types. In the future it will allow
 the user to forecast future earnings, review earnings to-date, etc..
 
 
-4. A Family Member
+4. A Family Member  
 The user to whom the account will be added. At the moment there is no business rule, limiting the number of Family Members
 linked to the same account. 
 
@@ -105,15 +105,15 @@ participant "UI" as UI
 participant ": AddSavings\nAccountController" as Controller
 participant ": Application" as App
 participant ": FamilyService" as FamilyService
-participant "aFamily : Family" as Family
-participant "aFamilyMember : FamilyMember" as aFamilyMember
+participant "aFamily : \nFamily" as Family
+participant "aFamilyMember : \nFamilyMember" as aFamilyMember
 participant ": AccountService" as AccountService
 participant "aBankSavingsAccount : \nBankSavingsAccount" as BankAccount
 
 activate FamilyMember
-FamilyMember -> UI: I want to add a Bank Savings Account
+FamilyMember -> UI: I want to add a \nBank Savings Account
 activate UI
-UI -> Controller : addBankSavingsAccount(FamilyID, FamilyMemberID, \nBalance, Name, InterestRate)
+UI -> Controller : addBankSavingsAccount(FamilyID, \nFamilyMemberID, Balance, \nName, InterestRate)
 activate Controller
 Controller -> App : getFamilyService()
 activate App
@@ -124,16 +124,20 @@ activate FamilyService
 FamilyService -> FamilyService : getFamily(FamilyID)
 FamilyService --> Controller : Family
 deactivate FamilyService
-Controller -> Family : getFamilyMember(FamilyMemberID)
+Controller -> Family : getFamilyMember\n(FamilyMemberID)
 Activate Family
-Family -> Family : getFamilyMember(FamilyMemberID)
+Family -> Family : getFamilyMember\n(FamilyMemberID)
 Family --> Controller : aFamilyMember
 Deactivate Family
 Controller -> AccountService ** : createAccountService()
 Controller -> AccountService : addBankSavingsAccount(Balance, \nName, InterestRate, aFamilyMember)
 activate AccountService
-AccountService -> BankAccount ** : createBankSavingsAccount(Balance, \nName, InterestRate)
-AccountService -> aFamilyMember : addAccount(aBankSavingsAccount) 
+AccountService -> AccountService : generateID()
+AccountService -> BankAccount ** : createBankSavingsAccount\n(Balance, Name, InterestRate)
+ref over AccountService
+AddBankSavingsAccount 2
+end ref
+AccountService -> aFamilyMember : addAccount\n(aBankSavingsAccount) 
 activate aFamilyMember
 aFamilyMember --> AccountService : Success
 deactivate aFamilyMember
@@ -144,6 +148,50 @@ deactivate Controller
 UI --> FamilyMember : Success
 deactivate UI
 deactivate FamilyMember
+````
+
+````puml
+autonumber
+
+title AddBankSavingsAccount 2
+
+participant ": AccountService" as accountservice
+participant "aBankSavingsAccount: \nBankSavingsAccount" as account
+participant "anAccountData : \nAccountData" as data
+participant "aFamilyMember : \nFamilyMember" as FamilyMember
+
+
+-> accountservice : addBankSavingsAccount(Balance, Name, \nInterestRate, aFamilyMember)
+activate accountservice
+accountservice -> accountservice : generateID()
+accountservice -> account ** : BankSavingsAccount(Balance, Name, \nInterestRate, aFamilyMember, accountID)
+activate account
+account -> account : validateName(Name)
+alt failure : Name is null, empty or blank
+account -> account : name = "Bank Savings Account"
+else success : Name = Name
+end
+account -> account: validate Balance
+alt failure : Balance is null, empty or blank
+account -> account : Balance = 0
+else success : Balance = Balance
+end
+account -> data ** : AccountData(Name, \nBalance, accountID)
+activate data
+data --> account : anAccountData
+note left : anAccountData is aBankSavingsAccount attribute
+deactivate data
+account -> account : validateInterestRate
+alt failure : InterestRate is null, empty or blank
+account -> account : InterestRate = 0
+else success : InterestRate = InterestRate
+end
+accountservice -> FamilyMember : addAccount (aBankSavingsAccount)
+activate FamilyMember
+FamilyMember --> accountservice : Success
+deactivate account
+deactivate FamilyMember
+<-- accountservice : Success
 ````
 
 
