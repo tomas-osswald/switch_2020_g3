@@ -41,44 +41,44 @@ class CreatePersonalCashAccountControllerTest {
 
     @Test
     void createPersonalCashAccount() {
-        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, balance));
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, balance));
 
     }
 
     @Test
     void createTwoPersonalCashAccounts() {
-        createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, balance);
-        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, balance));
+        createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, balance);
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, balance));
 
     }
 
     @Test
     void createPersonalCashAccountNegativeBalance() {
-        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(accountName, 1, cc, negativeBalance));
+        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, negativeBalance));
 
     }
 
     @Test
     void createPersonalCashAccountBlankName() {
-        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(" ", 1, cc, negativeBalance));
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, "  ", balance));
 
     }
 
     @Test
     void createPersonalCashAccountEmptyName() {
-        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount("", 1, cc, negativeBalance));
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, "", balance));
 
     }
 
     @Test
     void createPersonalCashAccountNullName() {
-        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(null, 1, cc, negativeBalance));
+        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(1, cc, null, balance));
 
     }
 
     @Test
     void createPersonalCashAccountLongName() {
-        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount("iamaverylongaccountname", 1, cc, negativeBalance));
+        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(1, cc, "iamaverylongaccountname", balance));
 
     }
 }
