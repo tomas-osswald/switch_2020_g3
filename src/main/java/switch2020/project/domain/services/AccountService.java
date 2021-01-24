@@ -6,10 +6,10 @@ import java.util.List;
 
 public class AccountService {
 
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance) {
+    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
         int accountID = generateID(targetMember);
         try {
-            Account cashAccount = new CashAccount(accountName, balance, accountID);
+            Account cashAccount = new CashAccount(accountDesignation, initialBalance, accountID);
             return targetMember.addAccount(cashAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -28,8 +28,9 @@ public class AccountService {
         return max + 1;
     }
 
-    public boolean createFamilyCashAccount(Family targetFamily, double balance) {
-        Account newCashAccount = new CashAccount(0, balance);
+    public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialbalance) {
+        //if (accountDesignation==null||accountDesignation.isBlank()||accountDesignation.isEmpty()) accountDesignation = ("Conta da familia " + targetFamily.getFamilyName());
+        Account newCashAccount = new CashAccount(accountDesignation, initialbalance, 0);
         if (!targetFamily.hasCashAccount()) {
             targetFamily.addCashAccount(newCashAccount);
             return true;
@@ -38,7 +39,7 @@ public class AccountService {
         }
     }
 
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
+   /* public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
         int accountID = generateID(targetMember);
         try {
             Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountID);
@@ -47,6 +48,6 @@ public class AccountService {
             System.out.println(e.getMessage());
             return false;
         }
-    }
+    }*/
 
 }

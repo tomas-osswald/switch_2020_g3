@@ -1,5 +1,6 @@
 package switch2020.project.controllers;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.Family;
@@ -47,11 +48,11 @@ class CreateFamilyCashAccountControllerTest {
         aFamily.addFamilyMember(admin);
 
         double balance = 0;
-        boolean expected = true;
+        String accountDesignation = "Conta familia Moura";
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, cc);
+        boolean result = controller.createFamilyCashAccount(familyID,accountDesignation, balance, cc);
 
-        assertEquals(expected, result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -69,13 +70,13 @@ class CreateFamilyCashAccountControllerTest {
         aFamily.addFamilyMember(admin);
 
         double balance = 0;
-        boolean expected = false;
+        String accountDesignation = "Conta familia Moura";
 
-        controller.createFamilyCashAccount(familyID, balance, cc);
+        controller.createFamilyCashAccount(familyID,accountDesignation, balance, cc);
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, cc);
+        boolean result = controller.createFamilyCashAccount(familyID,accountDesignation, balance, cc);
 
-        assertEquals(expected, result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -93,10 +94,10 @@ class CreateFamilyCashAccountControllerTest {
         aFamily.addFamilyMember(admin);
 
         double balance = -10;
-        boolean expected = false;
+        String accountDesignation = "Conta familia Moura";
 
-        boolean result = controller.createFamilyCashAccount(familyID, balance, cc);
+        boolean result = controller.createFamilyCashAccount(familyID,accountDesignation, balance, cc);
 
-        assertEquals(expected, result);
+        Assertions.assertFalse(result);
     }
 }

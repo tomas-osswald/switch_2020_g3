@@ -465,4 +465,9 @@ public class Family {
     public boolean addCategory(CustomCategory newCustomCategory) {
         return this.familyCustomCategories.add(newCustomCategory);
     }
+
+//    public String getFamilyName() {
+//        return familyName;
+//    }
+
 }
