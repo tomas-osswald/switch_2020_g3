@@ -80,7 +80,6 @@ public class CashAccount implements Account {
     }
 
 
-
     /**
      * Getter for the ID of this cash account object
      *
@@ -99,6 +98,8 @@ public class CashAccount implements Account {
     public double getBalance() {
         return this.accountData.getBalance();
     }
+
+
 
     /**
      * Changes the balance of this cash account object by a given value

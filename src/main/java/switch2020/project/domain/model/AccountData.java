@@ -8,6 +8,7 @@ import java.util.List;
 
 public class AccountData {
 
+    private double withdrawalLimit = 0;
     private double balance = 0;
     private String description;
     private int accountID;
@@ -20,9 +21,16 @@ public class AccountData {
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
-
     }
 
+    public AccountData(double withdrawalLimit, double balance, String designation, int accountID) {
+        validateDesignation(designation);
+        this.withdrawalLimit = withdrawalLimit;
+        this.balance = balance;
+        this.description = designation;
+        this.accountID = accountID;
+        this.transactions = new ArrayList<>();
+    }
 
     public double getBalance() {
         return balance;

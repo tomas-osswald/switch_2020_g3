@@ -48,8 +48,6 @@ public class CreditCardAccount implements Account {
         return this.accountData.getBalance();
     }
 
-
-
     public double getWithdrawalLimit() {
         return withdrawalLimit;
     }

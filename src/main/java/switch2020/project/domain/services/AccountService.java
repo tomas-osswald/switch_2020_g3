@@ -6,6 +6,11 @@ import java.util.List;
 
 public class AccountService {
 
+    private FamilyMember targetMember;
+    private String accountName;
+    private double balance;
+    private double withdrawalLimit;
+
     public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
         int accountID = generateID(targetMember);
         try {
@@ -39,8 +44,12 @@ public class AccountService {
         }
     }
 
-   /* public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
-        int accountID = generateID(targetMember);
+   public boolean createPersonalCreditCardAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
+       this.targetMember = targetMember;
+       this.accountName = accountName;
+       this.balance = balance;
+       this.withdrawalLimit = withdrawalLimit;
+       int accountID = generateID(targetMember);
         try {
             Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountID);
             return targetMember.addAccount(creditCardAccount);
@@ -48,6 +57,6 @@ public class AccountService {
             System.out.println(e.getMessage());
             return false;
         }
-    }*/
+    }
 
 }
