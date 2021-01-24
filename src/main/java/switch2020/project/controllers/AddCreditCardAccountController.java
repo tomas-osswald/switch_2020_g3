@@ -1,9 +1,5 @@
 package switch2020.project.controllers;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.Account;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.services.AccountService;
