@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountServiceTest {
 
     @Test
-    void addBankSavingsAccount() {
-        assertTrue(true);
+    void addBankSavingsAccountAddedSuccessfully() {
+
     }
 }

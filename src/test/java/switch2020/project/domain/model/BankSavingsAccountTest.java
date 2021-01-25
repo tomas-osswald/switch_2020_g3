@@ -8,12 +8,13 @@ class BankSavingsAccountTest {
 
     @Test
     void ConstructorSuccessPositiveInterestRate() {
-        String name = "Bank Savings Account";
+        int accountID = 1;
+        String name = "Savings Account";
         double balance = 1.23;
         double interestRate = 3;
 
-        BankSavingsAccount accountOne = new BankSavingsAccount(name , balance, interestRate);
-        BankSavingsAccount accountTwo = new BankSavingsAccount(name , balance, interestRate);
+        BankSavingsAccount accountOne = new BankSavingsAccount(accountID, name , balance, interestRate);
+        BankSavingsAccount accountTwo = new BankSavingsAccount(accountID, name , balance, interestRate);
 
         assertNotNull(accountOne);
         assertEquals(accountOne, accountTwo);
@@ -42,10 +43,11 @@ class BankSavingsAccountTest {
 
     @Test
     void getInterestRatePositiveInterestRate() {
-        String name = "Bank Savings Account";
+        int accountID = 1;
+        String name = "Savings Account";
         double balance = 1.23;
         double interestRate = 3;
-        BankSavingsAccount account = new BankSavingsAccount(name , balance, interestRate);
+        BankSavingsAccount account = new BankSavingsAccount(accountID, name , balance, interestRate);
         double expected = 3;
 
         double result = account.getInterestRate();
