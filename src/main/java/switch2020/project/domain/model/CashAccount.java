@@ -1,5 +1,9 @@
 package switch2020.project.domain.model;
 
+import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
+
+import java.util.List;
+
 public class CashAccount implements Account {
 
 
@@ -7,37 +11,20 @@ public class CashAccount implements Account {
     private AccountData accountData;
 
 
+
     // Constructors
-    public CashAccount(double balance) {
+    public CashAccount(String designation, double balance, int cashAccountID) {
+
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
-        this.accountData = new AccountData(balance, "Cash Account", 0);
-    }
+        try {
+            this.accountData = new AccountData(balance, designation, cashAccountID);
+        } catch (InvalidAccountDesignationException exception) {
+            String defaultDesignation = "Cash Account with ID" + " " + cashAccountID;
+            this.accountData = new AccountData(balance, defaultDesignation.toUpperCase(), cashAccountID);
+        }
 
-    public CashAccount(String description, double balance, int cashAccountID) {
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Balance can't be less than 0");
-        }
-        validateDescription(description);
-        this.accountData = new AccountData(balance, description.toUpperCase(), cashAccountID);
-    }
-
-    public CashAccount(int cashAccountID) {
-        if (!validateID(cashAccountID)) {
-            throw new IllegalArgumentException("Cash Account ID is not valid");
-        }
-        this.accountData = new AccountData(0, "Cash Account", cashAccountID);
-    }
-
-    public CashAccount(int cashAccountID, double balance) {
-        if (!validateID(cashAccountID)) {
-            throw new IllegalArgumentException("Cash Account ID is not valid");
-        }
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Balance can't be less than 0");
-        }
-        this.accountData = new AccountData(balance, "Cash Account", cashAccountID);
     }
 
     // Business Methods
@@ -71,14 +58,6 @@ public class CashAccount implements Account {
         return validBalance;
     }
 
-    private void validateDescription(String description) {
-        if (description == null || description.isEmpty() || description.isBlank()) {
-            throw new IllegalArgumentException("Account name can't be empty or blank");
-        } else if (description.length() >= 12) {
-            throw new IllegalArgumentException("Account name can't have more than 12 characters");
-        }
-
-    }
 
     /**
      * Getter for the ID of this cash account object
@@ -98,6 +77,8 @@ public class CashAccount implements Account {
     public double getBalance() {
         return this.accountData.getBalance();
     }
+
+
 
     /**
      * Changes the balance of this cash account object by a given value

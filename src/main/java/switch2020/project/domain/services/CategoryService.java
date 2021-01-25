@@ -163,23 +163,21 @@ public class CategoryService {
 
 
     //No Parent
-    public boolean addCategoryToFamilyTree(Family targetFamily, String designation, int parentID) {
+    public boolean addCategoryToFamilyTree(Family targetFamily, String categoryDesignation, int parentID) {
         if (parentID > 0) {
             StandardCategory parent = getStandardCategoryByID(parentID);
             checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(designation, parent, generateCustomCategoryID(targetFamily));
+            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
         } else if (parentID < 0) {
             CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
             checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(designation,parent,generateCustomCategoryID(targetFamily));
+            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation,parent,generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
         } else {
-            CustomCategory newCustomCategory = new CustomCategory(designation,generateCustomCategoryID(targetFamily));
+            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation,generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
-
         }
-
     }
 
     /**

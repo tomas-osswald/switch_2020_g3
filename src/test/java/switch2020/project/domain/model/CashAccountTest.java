@@ -1,5 +1,6 @@
 package switch2020.project.domain.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.services.FamilyService;
 
@@ -9,131 +10,98 @@ class CashAccountTest {
 
     @Test
     void constructorValidBalanceOne() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(1.00);
-        });
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+
+        Assertions.assertNotNull(cashAccountOne);
     }
 
     @Test
     void constructorValidBalanceSevenPointTwoFive() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(7.25);
-        });
+        double balance = 7.25;
+        String designation = "Second Cash Account";
+        int cashAccountID = 1011;
+
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+
+        Assertions.assertNotNull(cashAccountOne);
     }
 
     @Test
     void constructorValidBalanceOneMillionPointSevenOne() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(1000000.71);
-        });
+        double balance = 1000000.71;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+
+        Assertions.assertNotNull(cashAccountOne);
     }
 
     @Test
     void constructorInvalidBalanceMinusOne() {
+        double balance = -1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+
         assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-1.00);
+            CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
         });
     }
 
     @Test
     void constructorInvalidBalanceMinusTwoHundredPointThree() {
+        double balance = -200.03;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+
         assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-200.3);
+            CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
         });
     }
 
     @Test
-    void constructorInvalidBalanceMinusSevenThousandThirtyFourPointFiveThree() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-7034.53);
-        });
+    void constructorDesignationNull() {
+        double balance = 12.5;
+        String designation = null;
+        int cashAccountID = 1001;
+
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+
+        Assertions.assertNotNull(cashAccountOne);
     }
 
     @Test
-    void constructorValidIDOne() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(1);
-        });
+    void constructorDesignationEmpty() {
+        double balance = 12.5;
+        String designation = "";
+        int cashAccountID = 1001;
+
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+
+        Assertions.assertNotNull(cashAccountOne);
     }
 
     @Test
-    void constructorValidIDZero() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(0);
-        });
+    void constructorDesignationBlank() {
+        double balance = 12.5;
+        String designation = "  ";
+        int cashAccountID = 1001;
+
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+
+        Assertions.assertNotNull(cashAccountOne);
     }
 
     @Test
-    void constructorValidIDThousand() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(1000);
-        });
-    }
-
-    @Test
-    void constructorInvalidIDNegativeOne() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-1);
-        });
-    }
-
-    @Test
-    void constructorInvalidIDNegativeTen() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-10);
-        });
-    }
-
-    @Test
-    void constructorInvalidIDNegativeThousand() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-1000);
-        });
-    }
-
-    @Test
-    void constructorValidBalanceValidID() {
-        assertDoesNotThrow(() -> {
-            CashAccount cashAccountOne = new CashAccount(10, 1);
-        });
-    }
-
-    @Test
-    void constructorInvalidBalanceValidID() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(1, -1);
-        });
-    }
-
-    @Test
-    void constructorValidBalanceInvalidID() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-1, 1);
-        });
-    }
-
-    @Test
-    void constructorInvalidBalanceInvalidID() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(-111, -1);
-        });
-    }
-
-    @Test
-    void getCashAccountIDNoGivenID() {
+    void getCashAccountIDGivenIDOneThousandAndOne() {
         double balance = 0;
-        CashAccount cashAccountZero = new CashAccount(balance);
-        int expected = 0;
-
-        int result = cashAccountZero.getAccountID();
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void getCashAccountIDGivenIDOne() {
-        CashAccount cashAccountOne = new CashAccount(1);
-        int expected = 1;
+        String designation = "Account";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+        int expected = 1001;
 
         int result = cashAccountOne.getAccountID();
 
@@ -141,9 +109,12 @@ class CashAccountTest {
     }
 
     @Test
-    void getCashAccountIDGivenIDTwo() {
-        CashAccount cashAccountTwo = new CashAccount(2);
-        int expected = 2;
+    void getCashAccountIDGivenIDOneThousandAndTwo() {
+        double balance = 0;
+        String designation = "Account";
+        int cashAccountID = 1002;
+        CashAccount cashAccountTwo = new CashAccount(designation, balance, cashAccountID);
+        int expected = 1002;
 
         int result = cashAccountTwo.getAccountID();
 
@@ -152,8 +123,11 @@ class CashAccountTest {
 
     @Test
     void getBalance() {
-        CashAccount cashAccountOne = new CashAccount(1);
-        double expected = 0;
+        double balance = 10;
+        String designation = "Account";
+        int cashAccountID = 1002;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+        double expected = 10;
 
         double result = cashAccountOne.getBalance();
 
@@ -162,8 +136,11 @@ class CashAccountTest {
 
     @Test
     void changeBalanceByFive() {
-        CashAccount cashAccountOne = new CashAccount(1);
-        double expected = 5;
+        double balance = 10;
+        String designation = "Account";
+        int cashAccountID = 1002;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+        double expected = 15;
 
         cashAccountOne.changeBalance(5.00);
         double result = cashAccountOne.getBalance();
@@ -173,8 +150,11 @@ class CashAccountTest {
 
     @Test
     void changeBalanceByMinusFive() {
-        CashAccount cashAccountOne = new CashAccount(1, 5);
-        double expected = 0;
+        double balance = 10;
+        String designation = "Account";
+        int cashAccountID = 1002;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
+        double expected = 5;
 
         cashAccountOne.changeBalance(-5.00);
         double result = cashAccountOne.getBalance();
@@ -184,22 +164,25 @@ class CashAccountTest {
 
     @Test
     void changeBalanceInvalidNegativeBalance() {
-        CashAccount cashAccountOne = new CashAccount(1);
+        double balance = 10;
+        String designation = "Account";
+        int cashAccountID = 1002;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
         assertThrows(IllegalStateException.class, () -> {
-            cashAccountOne.changeBalance(-5.00);
+            cashAccountOne.changeBalance(-15.00);
         });
     }
 
     @Test
     void equalsTrueItself() {
-        CashAccount one = new CashAccount(1, 1);
+        CashAccount one = new CashAccount("Account",1, 1);
 
         assertTrue(one.equals(one));
     }
 
     @Test
     void equalsFalseNotCashAccountObject() {
-        CashAccount one = new CashAccount(1, 1);
+        CashAccount one = new CashAccount("Account",1, 1);
         FamilyService familyService = new FamilyService();
 
         assertFalse(one.equals(familyService));
@@ -207,24 +190,24 @@ class CashAccountTest {
 
     @Test
     void equalsTrueSameBalanceAndID() {
-        CashAccount one = new CashAccount(1, 1);
-        CashAccount two = new CashAccount(1, 1);
+        CashAccount one = new CashAccount("Account",1, 1);
+        CashAccount two = new CashAccount("Account",1, 1);
 
         assertTrue(one.equals(two));
     }
 
     @Test
     void equalsFalseSameBalanceDifferentID() {
-        CashAccount one = new CashAccount(1, 1);
-        CashAccount two = new CashAccount(5, 1);
+        CashAccount one = new CashAccount("Account",1, 1);
+        CashAccount two = new CashAccount("Account",5, 1);
 
         assertFalse(one.equals(two));
     }
 
     @Test
     void equalsFalseDifferentBalanceSameID() {
-        CashAccount one = new CashAccount(1, 1);
-        CashAccount two = new CashAccount(1, 1.01);
+        CashAccount one = new CashAccount("Account",1, 1);
+        CashAccount two = new CashAccount("Account",1.01, 1);
 
         assertFalse(one.equals(two));
     }

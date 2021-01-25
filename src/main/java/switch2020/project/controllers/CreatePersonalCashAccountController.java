@@ -13,10 +13,14 @@ public class CreatePersonalCashAccountController {
         this.ffmApplication = ffmApplication;
     }
 
-    public boolean createPersonalCashAccount(String accountName, int familyID, String memberCC, double balance) {
-        FamilyService familyService = this.ffmApplication.getFamilyService();
-        FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(memberCC);
-        AccountService accountService = this.ffmApplication.getAccountService();
-        return accountService.createPersonalCashAccount(targetMember, accountName, balance);
+    public boolean createPersonalCashAccount(int familyID, String ccNumber, String accountDesignation, double initialBalance) {
+        try {
+            FamilyService familyService = this.ffmApplication.getFamilyService();
+            FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(ccNumber);
+            AccountService accountService = this.ffmApplication.getAccountService();
+            return accountService.createPersonalCashAccount(targetMember, accountDesignation, initialBalance);
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
     }
 }

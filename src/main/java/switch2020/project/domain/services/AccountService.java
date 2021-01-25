@@ -5,11 +5,10 @@ import switch2020.project.domain.model.*;
 import java.util.List;
 
 public class AccountService {
-
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance) {
+    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
         int accountID = generateID(targetMember);
         try {
-            Account cashAccount = new CashAccount(accountName, balance, accountID);
+            Account cashAccount = new CashAccount(accountDesignation, initialBalance, accountID);
             return targetMember.addAccount(cashAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -28,8 +27,18 @@ public class AccountService {
         return max + 1;
     }
 
-    public boolean createFamilyCashAccount(Family targetFamily, double balance) {
-        Account newCashAccount = new CashAccount(0, balance);
+    /**
+     * Method to create a family cash account for a family object
+     *
+     * @param targetFamily       identifier of the family object
+     * @param accountDesignation designation for the family cash account
+     * @param initialBalance     initial balance for the account
+     * @return returns true if an account was created and stored by the family object
+     */
+
+    public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialBalance) {
+        //if (accountDesignation==null||accountDesignation.isBlank()||accountDesignation.isEmpty()) accountDesignation = ("Conta da familia " + targetFamily.getFamilyName());
+        Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0);
         if (!targetFamily.hasCashAccount()) {
             targetFamily.addCashAccount(newCashAccount);
             return true;
@@ -50,4 +59,13 @@ public class AccountService {
             return false;
         }
     }
+
+    public boolean createPersonalCreditCardAccount(FamilyMember targetMember, String accountName,
+                                                   double withdrawalLimit) {
+        int accountID = generateID(targetMember);
+
+        Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
+        return targetMember.addAccount(creditCardAccount);
+    }
+
 }
