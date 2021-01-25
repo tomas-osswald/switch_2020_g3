@@ -209,7 +209,8 @@ deactivate FamilyMember
 
 ## 3.2. Class Diagram
 ```puml
-@startuml
+
+
 
 title Class Diagram
 hide empty members
@@ -262,7 +263,7 @@ BankSavingsAccount --|> Account : implements
 BankSavingsAccount -* AccountData : contains
 BankSavingsAccount <-- FamilyMember : has
 
-@enduml
+
 ```
 
 ## 3.3. Applied Patterns
