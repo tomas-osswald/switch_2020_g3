@@ -40,7 +40,7 @@ balance cannot be negative. The name of the account is case-insensitive.
 
 # 2. Analysis
 
-In order to fulfill this requirement we need two pieces of data
+In order to fulfill this requirement we need four pieces of data
 
 -
     1. Cash Account Name - the designation of the cash account to add
