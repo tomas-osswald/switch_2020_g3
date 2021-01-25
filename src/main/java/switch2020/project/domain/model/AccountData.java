@@ -55,4 +55,14 @@ public class AccountData {
             throw new IllegalArgumentException("Account name can't have more than 20 characters");
         }
     }
+
+    @Override
+    public boolean equals(Object otherAccountData) {
+        if (this == otherAccountData) return true;
+        if (otherAccountData == null || !(otherAccountData instanceof AccountData)) return false;
+        AccountData other = (AccountData) otherAccountData;
+        return Double.compare(other.balance, balance) == 0 &&
+                accountID == other.accountID &&
+                description.equals(other.description);
+    }
 }
