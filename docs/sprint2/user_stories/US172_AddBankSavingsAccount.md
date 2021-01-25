@@ -269,11 +269,47 @@ BankSavingsAccount <-- FamilyMember : has
 
 ## 3.4. Tests
 
-**Test 1:** 
+**Test 1:** Controller: Account creation does not fail with null balance and interest rate or blank account name.
 
-**Test 2:** 
+    @Test
+    public void checkIfBankSavingsAccountAddedNullInput() {
+        String accountName = " ";
+        Double balance = null;
+        Double interestRate = null;
 
-**Test 3:** 
+        testFamily.addFamilyMember(familyMember1);
+        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+    }
+
+**Test 2:** Controller: Account creation will only fail if member or family do not exist
+
+    @Test
+    public void checkIfThrowsWhenNoSuchFamilyID() {
+        testFamily.addFamilyMember(familyMember3);
+        assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1.00,5.21));
+    }
+
+    @Test
+    public void checkIfThrowsWhenNoSuchMemberID() {
+    assertFalse(controller.addBankSavingsAccount(10, "110142608ZZ1", "Savings 3", 1.00,5.21));
+    }
+
+**Test 3:** BankSavingsAccount: Account creation will always be successful, null or empty parameters will be handled by the constructor
+
+    @Test
+    void ConstructorSuccessBlankNameNullBalanceAndInterestRate() {
+        int accountID = 1;
+        String name = " ";
+        Double balance = null;
+        Double interestRate = null;
+
+        BankSavingsAccount accountOne = new BankSavingsAccount(accountID, name , balance, interestRate);
+        BankSavingsAccount accountTwo = new BankSavingsAccount(accountID, name , balance, interestRate);
+
+        assertNotNull(accountOne);
+        assertEquals(accountOne, accountTwo);
+        assertNotSame(accountOne, accountTwo);
+    }
 
 # 4. Implementation
 
