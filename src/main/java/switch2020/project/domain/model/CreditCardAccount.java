@@ -1,5 +1,7 @@
 package switch2020.project.domain.model;
 
+import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
+
 public class CreditCardAccount implements Account {
 
     // Attributes
@@ -7,17 +9,30 @@ public class CreditCardAccount implements Account {
     private double withdrawalLimit;
 
     // Constructors
-       public CreditCardAccount(double withdrawalLimit, int accountID) {
-        if (!validateWithrawalLimit(withdrawalLimit)) {
-            throw new IllegalArgumentException("withdrawal limit can't be less than 0");
+    public CreditCardAccount(double withdrawalLimit, String cardDescription, int accountID) {
+        validadeWithrawLimit(withdrawalLimit);
+        try {
+            this.accountData = new AccountData(withdrawalLimit, cardDescription, accountID);
+        } catch (InvalidAccountDesignationException exception) {
+            String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
+            this.accountData = new AccountData(withdrawalLimit, cardDescriptionDefault, accountID);
         }
-        this.accountData = new AccountData(withdrawalLimit, "Credit Card Account", accountID);
+        this.withdrawalLimit = withdrawalLimit;
     }
 
     // Methods
 
     /**
      *
+     * @param withdrawalLimit
+     */
+
+    private void validadeWithrawLimit(double withdrawalLimit) {
+        if (!validateWithrawalLimit(withdrawalLimit)) {
+            throw new IllegalArgumentException("withdrawal limit can't be less than 0");
+        }
+    }
+    /**
      * @param withrawalLimit
      * @return
      */
@@ -52,7 +67,7 @@ public class CreditCardAccount implements Account {
         return withdrawalLimit;
     }
 
-        public void changeBalance(double value) { //expense
+    public void changeBalance(double value) { //expense
         if ((this.accountData.getBalance() - Math.abs(value)) > 0)
             throw new IllegalArgumentException("ultrapassa credito");
         this.accountData.setBalance(this.accountData.getBalance() - Math.abs(value));

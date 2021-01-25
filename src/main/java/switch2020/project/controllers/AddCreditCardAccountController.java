@@ -12,11 +12,15 @@ public class AddCreditCardAccountController {
         this.app = app;
     }
 
-    public boolean addCreditCardAccountToFamilyMember(int familyID, String familyMemberID){
-
-        FamilyService familyService = this.app.getFamilyService();
-        FamilyMember member = familyService.getFamily(familyID).getFamilyMember(familyMemberID);
-        AccountService accountService = this.app.getAccountService();
-        return accountService.createPersonalCreditCardAccount(member,"0",0,0);
+    public boolean addCreditCardAccountToFamilyMember(String familyMemberID, int familyID, String cardDescription, int withdrwaLimit) {
+        try {
+            FamilyService familyService = this.app.getFamilyService();
+            FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(familyMemberID);
+            AccountService accountService = this.app.getAccountService();
+            return accountService.createPersonalCreditCardAccount(targetMember, cardDescription, withdrwaLimit);
+        } catch (Exception exception) {
+            return false;
         }
+
+    }
 }
