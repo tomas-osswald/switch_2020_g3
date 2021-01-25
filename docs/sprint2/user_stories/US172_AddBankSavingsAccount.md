@@ -244,7 +244,7 @@ class AccountService {
 }
 
 class AccountData {
-- double balance
+- Double balance
 - String description
 - int accountID
 - List<Transaction> transactions

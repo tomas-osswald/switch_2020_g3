@@ -55,12 +55,17 @@ public class BankSavingsAccount implements Account {
         return this.accountData.getBalance();
     }
 
+
     public void changeBalance(double value) {
         this.accountData.changeBalance(value);
     }
 
     public double getInterestRate() {
         return this.interestRate;
+    }
+
+    public AccountData getAccountData() {
+        return accountData;
     }
 
     @Override
