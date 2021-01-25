@@ -70,7 +70,6 @@ class AddBankSavingsAccountControllerTest {
     @Test
     public void checkIfBankSavingsAccountAddedTestTwo() {
 
-
     }
 
     @Test

@@ -12,12 +12,6 @@ public class BankSavingsAccount implements Account {
 
     // Constructors
     public BankSavingsAccount(int accountID, String name, Double balance, Double interestRate) {
-
-        if (!validateInterestRate(interestRate)) {
-            interestRate = 0.00;
-        }
-        this.interestRate = interestRate;
-
         try {
             if (!validateBalance(balance)) {
                 balance = 0.00;
@@ -28,14 +22,14 @@ public class BankSavingsAccount implements Account {
             this.accountData = new AccountData(balance, defaultDesignation, accountID);
         }
 
+        if (!validateInterestRate(interestRate)) {
+            interestRate = 0.00;
+        }
+        this.interestRate = interestRate;
     }
 
 
     // Business Methods
-
-    public double getInterestRate() {
-        return this.interestRate;
-    }
 
     private boolean validateBalance(Double balance) {
         boolean valid = true;
@@ -63,6 +57,10 @@ public class BankSavingsAccount implements Account {
 
     public void changeBalance(double value) {
         this.accountData.changeBalance(value);
+    }
+
+    public double getInterestRate() {
+        return this.interestRate;
     }
 
     @Override
