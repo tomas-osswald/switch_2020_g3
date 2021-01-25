@@ -1,20 +1,40 @@
 package switch2020.project.domain.services;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.model.Relation;
-
+import java.util.Date;
+import switch2020.project.controllers.AddFamilyAdministratorController;
+import switch2020.project.controllers.AddFamilyController;
+import switch2020.project.domain.model.Application;
+import switch2020.project.domain.model.FamilyMember;
+import switch2020.project.domain.model.Relation;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AccountServiceTest {
+
 
     String id = "000000000ZZ4";
     String name = "Diogo";
     Date date = new Date(1990,8,12);
     int numero = 919999999;
-    String email = "abc@gmail.com";
+    String emailTwo = "abc@gmail.com";
+
+    Application ffmApp = new Application();
+    AddFamilyController addFamilyController = new AddFamilyController(ffmApp);
+    AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(ffmApp);
+    AccountService accountService = new AccountService();
+
+    String cc = "000000000ZZ4";
+    String nameTwo = "Diogo";
+    Date dateTwo = new Date(1990, 8, 26);
+    Integer numeroTwo = 919999999;
+    String email = "josediogoccbr@gmail.com";
+
     int nif = 212122233;
     String rua = "Rua Nossa";
     String codPostal = "4444-555";
@@ -22,6 +42,7 @@ class AccountServiceTest {
     String city = "Porto";
     String relacao = "filho";
     Relation relation = new Relation(relacao);
+
     boolean admin = false;
 
     //Added 2nd FamilyMember to test
@@ -59,7 +80,16 @@ class AccountServiceTest {
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
     FamilyMember manuelAdminMasterInTheHousesOfTheNightOfTheBicepsWithMyFamily = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, admin3);
 
-    AccountService accountService = new AccountService();
+    double balance = 0.6;
+    double negativeBalance = -2;
+    String accountName = "Current Account";
+    String accountName2 = "Other Current Account";
+
+    @BeforeEach
+    void setup() {
+
+        addFamilyController.addFamily("Ribeiro");
+    }
 
     @Test
     void addBankSavingsAccountAddedSuccessfullyWithNullInput() {
@@ -77,6 +107,24 @@ class AccountServiceTest {
         Double interestRate = -4.21;
 
         assertTrue(accountService.addBankSavingsAccount(diogo, accountName, balance, interestRate));
+    }
+
+
+    @Test
+    void addBankAccountTest1_Success() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        assertTrue(accountService.addBankAccount(diogo, accountName, balance));
+    }
+    @Test
+    void addBankAccountTest2_Failure() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        Assertions.assertFalse(accountService.addBankAccount(diogo, accountName, null));
+    }
+    @Test
+    void addBankAccountTest3_AddTwoBankAccountsSuccess() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        accountService.addBankAccount(diogo, accountName, balance);
+        assertTrue(accountService.addBankAccount(diogo, accountName, negativeBalance));
     }
 
     @Test

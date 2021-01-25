@@ -30,9 +30,9 @@ public class AccountService {
     /**
      * Method to create a family cash account for a family object
      *
-     * @param targetFamily identifier of the family object
+     * @param targetFamily       identifier of the family object
      * @param accountDesignation designation for the family cash account
-     * @param initialBalance initial balance for the account
+     * @param initialBalance     initial balance for the account
      * @return returns true if an account was created and stored by the family object
      */
 
@@ -47,12 +47,27 @@ public class AccountService {
         }
     }
 
-    public boolean createPersonalCreditCardAccount(FamilyMember targetMember, String accountName, double withdrawalLimit) {
+    public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
+        int accountID = generateID(targetMember);
+        try {
+            Account bankAccount = new BankAccount(accountName, balance, accountID);
+            targetMember.addAccount(bankAccount);
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean createPersonalCreditCardAccount(FamilyMember targetMember, String accountName,
+                                                   double withdrawalLimit) {
         int accountID = generateID(targetMember);
 
         Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
         return targetMember.addAccount(creditCardAccount);
     }
+
 
     public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
         int accountID = generateID(targetMember);
@@ -60,4 +75,5 @@ public class AccountService {
         targetMember.addAccount(bankSavingsAccount);
         return true;
     }
+
 }
