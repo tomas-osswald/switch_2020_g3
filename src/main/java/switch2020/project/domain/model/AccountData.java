@@ -13,16 +13,13 @@ public class AccountData {
     private int accountID;
     private List<Transaction> transactions;
 
-
     public AccountData(double balance, String designation, int accountID) {
         validateDesignation(designation);
         this.balance = balance;
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
-
     }
-
 
     public double getBalance() {
         return balance;
@@ -48,15 +45,9 @@ public class AccountData {
         return accountID;
     }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
-    }
-
     private void validateDesignation(String designation) {
         if (designation == null || designation.isEmpty() || designation.isBlank()) {
             throw new InvalidAccountDesignationException("Invalid account designation");
-        } else if (designation.length() >= 20) {
-            throw new IllegalArgumentException("Account name can't have more than 20 characters");
         }
     }
 

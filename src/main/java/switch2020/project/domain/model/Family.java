@@ -311,16 +311,6 @@ public class Family {
         }
     }
 
-
-    public boolean createFamilyCashAccount(double balance) {
-        boolean success = false;
-        if (!hasCashAccount()) {
-            this.familyCashAccount = new CashAccount(balance);
-            success = true;
-        }
-        return success;
-    }
-
     /**
      * Method that returns if a cash account has already been created for a this family
      *

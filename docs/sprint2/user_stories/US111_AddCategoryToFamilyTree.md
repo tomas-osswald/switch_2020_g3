@@ -1,38 +1,39 @@
-# US170 Create a Personal Cash Account
+# US111 Add Category to Family Tree
 =======================================
 
 # 1. Requirements
 
-*As a family member, I want to create a personal cash account.*
+*As a family administrator, I want to add a category to the family’s category
+tree*
 
-**1** As a family member, I want to create a Personal Cash Account...
+**1** As a family administrator, I want to add a category to the family’s
+category tree...
 
-- 1.1. ...with 0 balance.
+- 1.1. ...with no parent (root Category).
 
-- 1.2. ...with a positive balance.
+- 1.2. ...with a Custom Category parent.
 
-- 1.3. ...and then another Personal Cash Account;
+- 1.3. ...with a Standard Category parent.
 
-We interpreted this requirement as the function of a Family Member to create a
-cash account associated with their profile, with an initial balance and
-description/name for the account. This description must not be empty, and the
-balance cannot be negative. The name of the account is case-insensitive.
+We interpreted this requirement as the function of a Family Administrator to
+create a new Custom Category for their family, with the option to have it be a
+child of an existing one.
 
 ### System Sequence Diagram
 
 ```` puml
 
     autonumber
-    title Create Personal Cash Account SSD
-    actor "Family Member" as systemManager
+    title Add Category to Family Tree SSD
+    actor "Family Administrator" as systemManager
     participant "System" as system
 
     activate systemManager
-    systemManager -> system: create Personal Cash Account
+    systemManager -> system: Add Category To Family Tree
     activate system
-   system --> systemManager: ask for Name and Balance
-   systemManager->system: input Name and Balance
-    system --> systemManager: inform success
+   system --> systemManager: Ask for Category name and Parent
+   systemManager->system: Input Category name and Parent
+    system --> systemManager: Inform success
     deactivate system
     deactivate systemManager
 @endpuml
@@ -40,29 +41,30 @@ balance cannot be negative. The name of the account is case-insensitive.
 
 # 2. Analysis
 
-In order to fulfill this requirement we need two pieces of data
+In order to fulfill this requirement we need four pieces of data
 
 -
-    1. Cash Account Name - the designation of the cash account to add
+    1. Category Name - the designation of the custom category to create.
 -
-    2. Family ID - The ID of the family of which the family member is a part of.
+    2. Family ID - The ID of the family of which the family admin is a part of.
 -
-    3. FamilyMemberID - The ID of the actor.
+    3. AdminCC - The CC number of the actor.
 -
-    4. Initial Balance - The starting balance of the cash account.
+    4. parentID (can be null) - The ID of the Category to which the new one will
+       be a child of.
 
 # 3. Design
 
 The process to fulfill this requirement requires the actor to select they want
-to create a new personal cash account, which would prompt the input of the
-designation or name for that account and the initial balance. Given the current
-absence of an UI layer the Int *familyID* and Int *familyMemberCC* will be
-passed directly into the CreatePersonalCashAccountController.
+to create a new custom category, which would prompt the input of the designation
+or name for that category, as well as optionally selecting the parent category.
+Given the current absence of an UI layer the Int *familyID* and String *adminCC*
+will be passed directly into the AddCategoryToFamilyTreeController.
 
 ```` puml
 
 autonumber
-title Create Personal Cash Account
+title Add Category To Family Tree
 actor "Family Administrator" as actor
 participant ": UI" as UI
 participant ": AddCategoryToFamilyTreeController" as controller
@@ -128,52 +130,69 @@ deactivate actor
 
 ## 3.1. Functionality Use
 
-The CreatePersonalCashAccountController will invoke the Application object,
-which stores AccountService and FamilyService objects. The Application will
-return both Services. The FamilyService will be used to retrieve the
-FamilyMember object of the actor, using the FamilyID and FamilyMemberCC. The
-FamilyMember object will then be passed, along with the AccountName and
-InitialBalance to the AccountService, which will prompt the FamilyMember to
-create the CashAccount after having generated the accountID. The CashAccount
-will validate its name and balance upon creation. Finally, the CashAccount
-object will be added to the FamilyMember's Account List.
+The AddCategoryToFamilyTreeController will invoke the Application object, which
+stores CategoryService and FamilyService objects. The Application will return
+both Services. The FamilyService will be used to retrieve the Family object,
+using the FamilyID, and to verify if the actor is the Admin, using the provided
+CC number. The CategoryService will be used to generate the new Category's ID
+number, retrieve the Standard or Custom Category to which the parentID
+corresponds to, and to use that data to create the new Custom Category object.
+Finally, the Custom Category object will be added to the Family's Category List.
 
 ## 3.2. Class Diagram
 
 ```puml
 @startuml
-
 title Class Diagram
 
-class AddStandardCategoryController {
+class AddCategoryToFamilyTreeController {
   - Application app
-  + createStandardCategory()
+  + addCategoryToFamilyTree()
 }
 
 class Application {
   - CategoryService categoryService
   + getCategoryService()
+  + getFamilyService()
+
+
 }
+class FamilyService{
+-List<Family> families
++getFamily()
+}
+
+class Family {
+- List<CustomCategory> familyCustomCategories
++ verifyAdminPermission()
++ addCategory()
+}
+
 
 class CategoryService {
   - List<StandardCategory> categories
+- List<CustomCategory> customCategories
   - getCategoryByID()
   - generateCategoryID()
-  - isCategoryWithSameNameAlreadyPresent()
-  - isParentIDInList()
-  + addStandardCategory()
+  + addCustomCategory()
 }
 
-class StandardCategory {
+class CustomCategory {
   - int categoryID
   - String categoryName
-  - StandardCategory parentCategory
+  - StandardCategory parentStandardCategory
+  - CustomCategory parentCustomCategory
 }
 
-AddStandardCategoryController --> Application
-AddStandardCategoryController --> CategoryService
-CategoryService --> StandardCategory
-
+ AddCategoryToFamilyTreeController --> Application
+Application -> AddCategoryToFamilyTreeController
+AddCategoryToFamilyTreeController --> FamilyService
+FamilyService --> AddCategoryToFamilyTreeController 
+AddCategoryToFamilyTreeController --> Family
+ AddCategoryToFamilyTreeController --> CategoryService
+CategoryService --> Family
+CategoryService --> CustomCategory
+CustomCategory --> CategoryService
 @enduml
 ```
 
@@ -184,29 +203,32 @@ PureFabrication from the GRASP pattern. We also used the SOLID SRP principle.
 
 ## 3.4. Tests
 
-Several cases where analyzed in order to test the creation of a new personal
-cash account associated with a Family Member.
+Several cases where analyzed in order to test the creation of a new Category and adding it to the Family's Category List.
 
 **Test 1:** Testing if the Controller successfully creates and adds a
-CashAccount to a Family Member
+Custom Category with a Standard Category for a parent.
 
-**Test 2:** Test that it is possible to create a second cash account and
-associate it with the same Family Member.
+**Test 2:** Testing if the Controller successfully creates and adds a
+Custom Category with a Custom Category for a parent.
 
-**Test 3:** Test that it is not possible to create a new CashAccount with
-negative balance.
+**Test 3:** Testing if the Controller successfully creates and adds a
+Custom Category with no parent.
 
-**Test 4:** Test that it is not possible to create a new CashAccount with a
-Blank description.
+**Test 4:** Test that it is not possible to create a new Category with a
+Blank name.
 
-**Test 5:** Test that it is not possible to create a new CashAccount with an
-Empty description.
+**Test 5:** Test that it is not possible to create a new Category with a
+Empty name
 
-**Test 6:** Test that it is not possible to create a new CashAccount with a Null
-description.
+**Test 6:** Test that it is not possible to create a new Category with a
+Null name
 
-**Test 7:** Test that it is not possible to create a new CashAccount with a
-long (>10 characters) description.
+**Test 7:** Test that it is not possible to create a new Category when the provided FamilyID doesn't match any family.
+
+**Test 8:** Test that it is not possible to create a new Category when the provided CC Number doesn't belong to a member with admin permissions.
+
+**Test 9:** Test that it is not possible to create a new Category when the provided parentID doesn't match any existing Category.
+
 
 The whole user story was tested for the case of success and for failure
 
@@ -218,12 +240,8 @@ given follows the rules previously discussed in the Requirements section
 
 # 5. Integration
 
-The development of this user story was the basis for the Cash Account related
-User stories.
-[US130][US135][US180][US181][US185] used the implementation of this US
+The development of this user story was dependant on the US001. 
 
 # 6. Observations
 
-There is a need to review responsibility of the creation of CashAccounts. Should
-the AccountService create the account, or should it be the responsability of the
-FamilyMember, which stores the Account?
+As of the implementation of this US, the StandardCategory and CustomCategory classes are seperate. Ideally, they will both implement the same Interface, to avoid duplicate code.

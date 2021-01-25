@@ -448,10 +448,11 @@ public class FamilyMember {
     }
 
 
-    public boolean addAccount(Account cashAccount) {
-        this.accounts.add(cashAccount);
+    public boolean addAccount(Account account) {
+        this.accounts.add(account);
         return true;
     }
+
 }
 
 
