@@ -1,8 +1,6 @@
 package switch2020.project.domain.model;
 
-import java.util.Objects;
-
-public class BankAccount {
+public class BankAccount implements Account {
 
     private AccountData data;
     private IBAN iban;
@@ -85,7 +83,7 @@ public class BankAccount {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount account = (BankAccount) o;
-        return this.getBalance() == account.getBalance() && this.getDescription() == account.getDescription() && this.getBankID() == account.getBankID();
+        return this.getBalance() == account.getBalance() && this.getDescription() == account.getDescription() && this.getAccountID() == account.getAccountID();
     }
 
     /*
@@ -104,10 +102,15 @@ public class BankAccount {
         return data.getDescription();
     }
 
-    public int getBankID(){
+    public int getAccountID(){
         return data.getAccountID();
     }
 
+    public void changeBalance(double value){
+        double newBalance = this.data.getBalance() + value;
+        this.data.setBalance(newBalance);
+    }
+    /*
     public void changeBalance(Double value){
         if(value == null){
             throw new IllegalArgumentException("Inserir valor válido");
@@ -115,5 +118,7 @@ public class BankAccount {
         double newBalance = this.data.getBalance() + value;
         this.data.setBalance(newBalance);
     }
+
+     */
 
 }

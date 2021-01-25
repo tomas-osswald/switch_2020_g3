@@ -447,11 +447,11 @@ public class FamilyMember {
         return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
     }
 
-
     public boolean addAccount(Account cashAccount) {
         this.accounts.add(cashAccount);
         return true;
     }
+
 }
 
 
