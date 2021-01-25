@@ -1,16 +1,19 @@
-package switch2020.project.controllers;
+package switch2020.project.domain.services;
 
-import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.*;
-import switch2020.project.domain.services.AccountService;
-import switch2020.project.domain.services.FamilyService;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.Family;
+import switch2020.project.domain.model.FamilyMember;
+import switch2020.project.domain.model.Relation;
 
 import java.util.Date;
 
-class AddCreditCardAccountControllerTest {
+class AccountServiceTest {
 
-   // family1 data
+    AccountService accountService = new AccountService();
+    FamilyService familyService = new FamilyService();
+
+    // family1 data
     int family1ID = 5;
     String family1Name = "Silva";
     Family silva = new Family(family1Name, family1ID);
@@ -46,32 +49,19 @@ class AddCreditCardAccountControllerTest {
     boolean admin2 = false;
 
     // add member1 and member2 to family
-
+    FamilyMember ze = new FamilyMember(cc1, name1, date1, numero1, email1, nif1, rua1, codPostal1, local1, city2, admin1);
     FamilyMember maria = new FamilyMember(cc1, name1, date1, numero1, email1, nif1, rua1, codPostal1, local1, city2, admin1);
 
     @Test
-    void addCreditCardAccountToFamilyMemberTrue() {
-
-        Application app = new Application();
-        FamilyMember ze = new FamilyMember(cc1, name1, date1, numero1, email1, nif1, rua1, codPostal1, local1, city2, admin1);
-        AddCreditCardAccountController addCreditCardAccountController = new AddCreditCardAccountController(app);
-        /*CreditCardAccount visaZe = new CreditCardAccount(5000,"Visa do Ze",12 );
-        addCreditCardAccountController.addCreditCardAccountToFamilyMember(ze.getID(), family1ID,"Cartao VISA Ze", 1000);
-*/
-
+    void createPersonalCreditCardAccountTrue() {
+        //arrange
+       silva.addFamilyMember(ze);
+       assertTrue(accountService.createPersonalCreditCardAccount(ze,"Conta do Ze", 5000));
     }
 
     @Test
-    void addCreditCardAccountToFamilyMemberTrueWithCardDescriptionNull() {
-
-    }
-
-    @Test
-    void addCreditCardAccountToFamilyMemberFalseFamilyDoesNotExist() {
-
-    }
-
-    @Test
-    void addCreditCardAccountToFamilyMemberFalseFamilyMemberDoesNotExist() {
+    void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
+        silva.addFamilyMember(maria);
+        assertThrows(Exception.class, () -> accountService.createPersonalCreditCardAccount(maria,"Conta da Maria", -100));
     }
 }

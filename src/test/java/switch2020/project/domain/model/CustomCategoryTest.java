@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 class CustomCategoryTest {
     StandardCategory parentCategory = new StandardCategory("Others", null, 10);
-    CustomCategory testCategory1 = new CustomCategory("OnlyFans subscriptions", parentCategory, -12);
-    CustomCategory testCategory2 = new CustomCategory("Hitomi Tanaka", testCategory1, -13);
+    CustomCategory testCategory1 = new CustomCategory("Video Games", parentCategory, -12);
+    CustomCategory testCategory2 = new CustomCategory("WOW Subscription", testCategory1, -13);
 
     @Test
     void getCategoryName() {
-        String expected = "ONLYFANS SUBSCRIPTIONS";
+        String expected = "VIDEO GAMES";
         String result = testCategory1.getCategoryName();
         Assertions.assertEquals(expected, result);
     }
