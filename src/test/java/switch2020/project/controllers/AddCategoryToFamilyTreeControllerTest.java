@@ -7,7 +7,7 @@ import switch2020.project.domain.model.Application;
 
 import java.util.Date;
 
-class addCategoryToFamilyTreeControllerTest {
+class AddCategoryToFamilyTreeControllerTest {
 
     Application ffmApp = new Application();
     AddCategoryToFamilyTreeController addCategoryToFamilyTreeController = new AddCategoryToFamilyTreeController(ffmApp);
@@ -61,5 +61,20 @@ class addCategoryToFamilyTreeControllerTest {
     @Test
     void testAddCategoryToFamilyTree_FailNoSuchCustomParent(){
         Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC,1,"Candles",-3));
+    }
+
+    @Test
+    void testAddCategoryToFamilyTree_FailEmptyName(){
+        Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC,1,"",0));
+    }
+
+    @Test
+    void testAddCategoryToFamilyTree_FailBlankName(){
+        Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC,1,"    ",0));
+    }
+
+    @Test
+    void testAddCategoryToFamilyTree_FailNullName(){
+        Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC,1,null,0));
     }
 }

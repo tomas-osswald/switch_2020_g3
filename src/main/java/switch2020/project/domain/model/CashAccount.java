@@ -2,6 +2,8 @@ package switch2020.project.domain.model;
 
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
+import java.util.List;
+
 public class CashAccount implements Account {
 
 
@@ -9,15 +11,17 @@ public class CashAccount implements Account {
     private AccountData accountData;
 
 
+
     // Constructors
     public CashAccount(String designation, double balance, int cashAccountID) {
+
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         try {
             this.accountData = new AccountData(balance, designation, cashAccountID);
         } catch (InvalidAccountDesignationException exception) {
-            String defaultDesignation = "Cash Account nº" + " " + cashAccountID;
+            String defaultDesignation = "Cash Account with ID" + " " + cashAccountID;
             this.accountData = new AccountData(balance, defaultDesignation.toUpperCase(), cashAccountID);
         }
 
