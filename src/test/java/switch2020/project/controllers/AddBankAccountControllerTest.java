@@ -47,20 +47,24 @@ class AddBankAccountControllerTest {
         Assertions.assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, balance));
     }
     @Test
-    void addBankAccountTest2_NullNameFailure() {
-        Assertions.assertFalse(addBankAccountController.addBankAccount(null, 1, cc, balance));
+    void addBankAccountTest2_NullNameSuccess() {
+        Assertions.assertTrue(addBankAccountController.addBankAccount(null, 1, cc, balance));
     }
     @Test
-    void addBankAccountTest3_BlankNameFailure() {
-        Assertions.assertFalse(addBankAccountController.addBankAccount("", 1, cc, balance));
+    void addBankAccountTest3_BlankNameSuccess() {
+        Assertions.assertTrue(addBankAccountController.addBankAccount("", 1, cc, balance));
     }
     @Test
     void addBankAccountTest4_NegativeBalanceSuccess() {
         Assertions.assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, negativeBalance));
     }
     @Test
-    void addBankAccountTest3_AddTwoBankAccountsSuccess() {
+    void addBankAccountTest5_AddTwoBankAccountsSuccess() {
         addBankAccountController.addBankAccount(accountName, 1, cc, balance);
         Assertions.assertTrue(addBankAccountController.addBankAccount(accountName2, 1, cc, balance));
+    }
+    @Test
+    void addBankAccountTest6_NullBalanceFailure() {
+        Assertions.assertFalse(addBankAccountController.addBankAccount(accountName, 1, cc, null));
     }
 }

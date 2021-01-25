@@ -47,7 +47,7 @@ public class AccountService {
         }
     }
 
-    public boolean addBankAccount(FamilyMember targetMember, String accountName, double balance) {
+    public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
         int accountID = generateID(targetMember);
         try {
             Account bankAccount = new BankAccount(accountName, balance, accountID);
