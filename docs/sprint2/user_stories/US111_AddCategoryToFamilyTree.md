@@ -61,67 +61,67 @@ passed directly into the CreatePersonalCashAccountController.
 
 ```` puml
 
-   autonumber
-   title Create Personal Cash Account
-   actor "Family Member" as member
-   participant ": UI" as UI
-   participant ": CreatePersonalCashAccountController" as controller
-   participant ": FFMApplication" as application
-   participant ": AccountService" as accServ
-   participant ": FamilyService" as famServ
-   participant ": Family" as fam
-   participant ": FamilyMember" as fammemb
-   participant "newCashAccount : Account" as cashacc
-   participant "newAccountData : AccountData" as data
+autonumber
+title Create Personal Cash Account
+actor "Family Administrator" as actor
+participant ": UI" as UI
+participant ": AddCategoryToFamilyTreeController" as controller
+participant ": FFMApplication" as application
+participant ": CatgoryService" as catServ
+participant ": FamilyService" as famServ
+participant ": Family" as fam
+participant "newCategory : CustomCategory" as cat
+   
     
    
-   activate member
-   member -> UI: create a Personal Cash Account
-   activate UI
-   UI --> member: ask for Account name
-   deactivate UI
-   member -> UI: input Account name
-   activate UI
-   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberCC,initialBalance)
-   activate controller
-   controller -> application: getAccountService()
-   activate application
-   application --> controller: AccountService
-   controller -> application: getFamilyService()
-   application --> controller: FamilyService
-   deactivate application
-   controller -> famServ:getFamilyMember(familyID, familyMemberCC)
-   activate famServ
-   famServ-> fam: getFamilyMember(familyMemberCC)
-   activate fam
-   fam --> famServ: FamilyMember
-   deactivate fam
-   famServ --> controller: FamilyMember
-   deactivate famServ 
-   controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
-   activate accServ
-   accServ -> accServ: generateAccountID()
-   accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
-   activate cashacc
-   cashacc -> cashacc: validateName(name)
-   cashacc->cashacc: validateBalance(balance)
-   cashacc->data**: createAccountData(name, initialBalance, accountID)
-   activate data
-   data-->cashacc: becomes CashAccount.AccountData
-   deactivate data
-   cashacc-->accServ: Success
-   deactivate cashacc
-   accServ->fammemb: addAccount(newCashAccount)
-   activate fammemb
-   fammemb-->accServ: Success
-   deactivate fammemb
-   accServ-->controller: Success
-   deactivate accServ
-   controller --> UI: Success
-   deactivate controller
-   UI --> member: Inform Success
-   deactivate UI
-   deactivate member
+activate actor
+actor -> UI: Add Category to Family Tree
+activate UI
+UI --> actor: ask for Category name and parent.
+deactivate UI
+actor -> UI: input Category name and parent.
+activate UI
+UI -> controller: AddCategoryToFamilyTree(adminCC, familyID, categoryName, parentID)
+activate controller
+controller -> application: getCategoryService()
+activate application
+application --> controller: CategoryService
+controller -> application: getFamilyService()
+application --> controller: FamilyService
+deactivate application
+controller -> famServ: getFamily(adminCC,familyID)
+activate famServ
+famServ-> famServ: getFamily(familyID)
+famServ->famServ: checkAdminPermission(adminCC)
+famServ-->controller: return Family
+deactivate famServ
+controller->catServ: addCategoryToFamilyTree(family, categoryName, parentID)
+activate catServ
+   
+alt parentID is for a StandardCategory
+  catServ->catServ: getStandardCategoryByID(parentID)
+else parentID is for a CustomCategory
+  catServ->catServ: getCustomCategoryByID(parentID)
+else parentID is null
+  catServ->catServ: null Parent
+  end
+catServ->catServ: generateCustomCategoryID
+catServ->cat**: newCustomCategory(categoryName, parentCategory, categoryID)
+activate cat
+cat->cat: isNameValid
+cat-->catServ
+deactivate cat
+catServ->fam: addCategory(newCustomCategory)
+activate fam
+fam-->catServ: Success
+deactivate fam
+catServ-->controller: Success
+deactivate catServ
+controller-->UI: Success
+deactivate controller
+UI --> actor: Inform Success
+deactivate UI
+deactivate actor
 
 @endpuml
 ````

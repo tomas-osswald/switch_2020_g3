@@ -28,7 +28,7 @@ public class CashAccount implements Account {
         try {
             this.accountData = new AccountData(balance, designation.toUpperCase(), cashAccountID);
         } catch (InvalidAccountDesignationException exception) {
-            String defaultDesignation = "Cash Account nº" + " " + cashAccountID;
+            String defaultDesignation = "Cash Account with ID" + " " + cashAccountID;
             this.accountData = new AccountData(balance, defaultDesignation.toUpperCase(), cashAccountID);
         }
 
@@ -48,7 +48,7 @@ public class CashAccount implements Account {
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
-        this.accountData = new AccountData(balance, "Cash Account" + " " + cashAccountID, cashAccountID);
+        this.accountData = new AccountData(balance, "Cash Account with ID" + " " + cashAccountID, cashAccountID);
     }
 
     // Business Methods
