@@ -62,14 +62,24 @@ class AddBankSavingsAccountControllerTest {
     AddBankSavingsAccountController controller = new AddBankSavingsAccountController(app);
 
     @Test
-    public void checkIfBankSavingsAccountAddedTestOne() {
+    public void checkIfBankSavingsAccountAddedRegularInput() {
+        String accountName = "Savings Account";
+        Double balance = 1.23;
+        Double interestRate = 3.00;
 
+        testFamily.addFamilyMember(familyMember1);
+        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
     }
 
 
     @Test
-    public void checkIfBankSavingsAccountAddedTestTwo() {
+    public void checkIfBankSavingsAccountAddedNullInput() {
+        String accountName = " ";
+        Double balance = null;
+        Double interestRate = null;
 
+        testFamily.addFamilyMember(familyMember1);
+        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
     }
 
     @Test
