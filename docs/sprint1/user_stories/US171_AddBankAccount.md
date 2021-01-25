@@ -171,6 +171,7 @@ The main Classes involved are:
 @startuml
 
 title AddBankAccount()
+hide empty members
 
 class AddBankAccountController {
   - Application app
@@ -180,7 +181,6 @@ class AddBankAccountController {
 class Application {
   - FamilyService familyService
   + getFamilyService()
-  + getAccountService()
 }
 
 class FamilyService {
@@ -215,23 +215,24 @@ class CCNumber {
   + getCcNumber()
 }
 
+class AccountService {
+  + addBankAccount()
+  + createBankAccount()
+}
 class BankAccount {
   - ID
   - IBAN
   - Designation
   - Balance
   + create()
-  
 }
 
-class IBAN {
-  - IBAN
-  + getIbanNumber()
+interface Account{
 }
-
-class AccountService {
-  + addBankAccount()
-  + createBankAccount()
+class AccountData {
+  - balance
+  - designation
+  - accountID
 }
 
 AddBankAccountController --> Application
@@ -240,10 +241,10 @@ FamilyService --> Family
 Family --> FamilyMember
 FamilyMember --> CCNumber
 AddBankAccountController --> AccountService
-AccountService --> FamilyMember
-FamilyMember --> BankAccount
-BankAccount --> IBAN
-
+AccountService --> BankAccount
+BankAccount -|> Account
+BankAccount --> FamilyMember
+BankAccount --* AccountData
 
 
 @enduml
