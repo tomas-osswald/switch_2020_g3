@@ -39,6 +39,10 @@ public class AccountService {
         }
     }
 
+    public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, double balance, Double interestRate) {
+        return false;
+    }
+
    /* public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
         int accountID = generateID(targetMember);
         try {
