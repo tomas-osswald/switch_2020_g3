@@ -229,34 +229,6 @@ class FamilyTest {
         });
     }
 
-
-    @Test
-    void createFamilyCashAccountResultFalseAccountAlreadyExists() {
-        String familyName = "Simpson";
-        int familyID = 1;
-        double balance = 0;
-        Family familyOne = new Family(familyName, familyID);
-        familyOne.createFamilyCashAccount(balance);
-        boolean expected = false;
-
-        boolean result = familyOne.createFamilyCashAccount(balance);
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void createFamilyCashAccountResultTrueAccountCreated() {
-        String familyName = "Simpson";
-        int familyID = 1;
-        double balance = 0;
-        Family familyOne = new Family(familyName, familyID);
-        boolean expected = true;
-
-        boolean result = familyOne.createFamilyCashAccount(balance);
-
-        assertEquals(expected, result);
-    }
-
     @Test
     void AddFamilyMember_VatNotExists() {
         FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);

@@ -99,6 +99,13 @@ CreditCardAccount -> Account : Is a
 
 # 3. Design
 
+The process to fulfill the requirement we need the input of data from a UI to create a CreditCardAccount object and add it to a specific FamilyMember(familyMemberID) in a given Family(familyID).
+To create a valid CreditCardAccount object the constructor must acept an id, that is generated in AccountService.
+A default Card Description is generated if has been inputed a invalid Card Description (null, empty or blank).
+
+The controller will return:
+- True, if a CreditCardAccount as been successfull created and assign.
+- False, if catches on of the following throws ("Family don't exist", "Family Member don't exist") 
 
 ## 3.1. Functionality Use
 
@@ -116,9 +123,13 @@ participant "aCreditCardAccount : CreditCard Account" as credit
 participant "aFamilyMember : FamilyMember" as familyMember
 
 activate actor
-actor -> UI
+actor -> UI : add a Credit Card Account
 activate UI
-UI -> controller
+UI -> actor : ask: familyMemberID, familyID, cardDescription, withdrawLimit
+deactivate UI
+actor -> UI : inputs required data
+activate UI
+UI -> controller : addCreditCardAccountToFamilyMember(familyMemberID, familyID, cardDescription, withdrawLimit)
 
 activate controller
 controller -> app : getFamilyService()
@@ -141,10 +152,13 @@ activate app
 controller -> app : aAccountService
 deactivate app
 
-controller -> aserv : addCreditCardAccount(aFamilyMember)
+
+controller -> aserv : addCreditCardAccount(aFamilyMember, cardDescription, withdrawLimit)
 activate aserv
 
-aserv -> credit** : createCreditCardAccount( )
+aserv -> aserv : id = generateID()
+
+aserv -> credit** : createCreditCardAccount(id, cardDescription, withdrawLimit)
 
 aserv -> familyMember : addAccountToList(aCreditCardAccount)
 activate familyMember 

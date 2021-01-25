@@ -240,59 +240,6 @@ class FamilyServiceTest {
 
     }
 
-    @Test
-    void createFamilyCashAccountResultTrueAccountCreated() {
-        FamilyService familyService = new FamilyService();
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family aFamily = new Family(familyName, familyID);
-        familyService.addFamily(aFamily);
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-        aFamily.addFamilyMember(diogo);
-        boolean expected = true;
-        double balance = 0;
-
-        boolean result = familyService.createFamilyCashAccount(familyID, balance, cc);
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void createFamilyCashAccountResultFalseAccountAlreadyExists() {
-        FamilyService familyService = new FamilyService();
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family aFamily = new Family(familyName, familyID);
-        double balance = 0;
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-        aFamily.addFamilyMember(diogo);
-        familyService.addFamily(aFamily);
-        familyService.createFamilyCashAccount(familyID, balance, cc);
-        boolean expected = false;
-
-        boolean result = familyService.createFamilyCashAccount(familyID, balance, cc);
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void createFamilyCashAccountResultFalseNotAdmin() {
-        FamilyService familyService = new FamilyService();
-        int familyID = 1;
-        String familyName = "Simpson";
-        Family aFamily = new Family(familyName, familyID);
-        double balance = 0;
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, false);
-        aFamily.addFamilyMember(diogo);
-        familyService.addFamily(aFamily);
-        familyService.createFamilyCashAccount(familyID, balance, cc);
-        boolean expected = false;
-
-        boolean result = familyService.createFamilyCashAccount(familyID, balance, cc);
-
-        assertEquals(expected, result);
-    }
-
     /**
      * US101 addFamilyMember
      **/

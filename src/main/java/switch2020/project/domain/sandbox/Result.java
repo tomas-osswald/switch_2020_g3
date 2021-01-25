@@ -11,7 +11,7 @@ public class Result<T> {
         this.content = content;
     }
 
-    public static <T> Result<T> sucess() {
+    public static <T> Result<T> success() {
         return new Result<>(true, null);
     }
 

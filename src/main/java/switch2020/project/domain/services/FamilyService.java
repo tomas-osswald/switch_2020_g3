@@ -248,23 +248,6 @@ public class FamilyService {
 
 
     /**
-     * Method to create a family cash account for a family object
-     *
-     * @param familyID identifier of the family object
-     * @return returns true if an account was created and stored by the family object
-     */
-    public boolean createFamilyCashAccount(int familyID, double balance, String ccNumber) {
-        boolean success;
-        Family aFamily = getFamily(familyID);
-        if (aFamily.verifyAdministrator(ccNumber)) {
-            success = aFamily.createFamilyCashAccount(balance);
-        } else {
-            success = false;
-        }
-        return success;
-    }
-
-    /**
      * Using the familyID the method iterates through the list of families
      * and after finding the correct family iterates through the list of
      * family members to find the family member which profile has been
