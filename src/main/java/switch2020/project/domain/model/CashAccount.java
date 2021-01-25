@@ -2,11 +2,14 @@ package switch2020.project.domain.model;
 
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
+import java.util.List;
+
 public class CashAccount implements Account {
 
 
     // Attributes
     private AccountData accountData;
+
 
 
     // Constructors
