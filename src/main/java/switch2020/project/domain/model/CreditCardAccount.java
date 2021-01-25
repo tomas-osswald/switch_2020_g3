@@ -77,6 +77,10 @@ public class CreditCardAccount implements Account {
         if (this == other) return true;
         if (!(other instanceof CreditCardAccount)) return false;
         CreditCardAccount otherAccount = (CreditCardAccount) other;
-        return this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance() && this.withdrawalLimit == otherAccount.withdrawalLimit;
+        return this.accountData.equals(otherAccount.accountData);
+    }
+
+    public String getDescription() {
+        return this.accountData.getDescription();
     }
 }
