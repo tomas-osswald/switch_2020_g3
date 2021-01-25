@@ -45,7 +45,7 @@ public class BankAccount {
     /***** METHODS ******/
     // VALIDATORS
     public boolean validateDescription(String description){
-        if(description == null){
+        if(description == null || description.isEmpty() || description.isBlank()){
             return false;
         }
         return true;
