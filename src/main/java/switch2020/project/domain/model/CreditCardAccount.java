@@ -20,7 +20,7 @@ public class CreditCardAccount implements Account {
         this.withdrawalLimit = withdrawalLimit;
     }
 
-    // Methods
+    // Bussiness Methods
 
     /**
      *
@@ -36,12 +36,11 @@ public class CreditCardAccount implements Account {
      * @param withrawalLimit
      * @return
      */
-    private boolean validateWithrawalLimit(double withrawalLimit) {
-        boolean validWithdrawalLimit = true;
-        if (withrawalLimit < 0) {
-            validWithdrawalLimit = false;
-        }
-        return validWithdrawalLimit;
+
+    private boolean validateWithrawalLimit(Double withrawalLimit) {
+        if (withrawalLimit == null)
+            return false;
+        return withrawalLimit > 0.0;
     }
 
     /**
@@ -63,9 +62,9 @@ public class CreditCardAccount implements Account {
         return this.accountData.getBalance();
     }
 
-    public double getWithdrawalLimit() {
+    /*public double getWithdrawalLimit() {
         return withdrawalLimit;
-    }
+    }*/
 
     public void changeBalance(double value) { //expense
         if ((this.accountData.getBalance() - Math.abs(value)) > 0)
@@ -76,9 +75,8 @@ public class CreditCardAccount implements Account {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        if (!(other instanceof CashAccount)) return false;
-        CashAccount otherAccount = (CashAccount) other;
-        return (this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance());
+        if (!(other instanceof CreditCardAccount)) return false;
+        CreditCardAccount otherAccount = (CreditCardAccount) other;
+        return this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance() && this.withdrawalLimit == otherAccount.withdrawalLimit;
     }
-
 }
