@@ -11,7 +11,7 @@ public class BankSavingsAccount implements Account {
 
 
     // Constructors
-    public BankSavingsAccount(String name, double balance, Double interestRate) {
+    public BankSavingsAccount(String name, Double balance, Double interestRate) {
 
     }
 

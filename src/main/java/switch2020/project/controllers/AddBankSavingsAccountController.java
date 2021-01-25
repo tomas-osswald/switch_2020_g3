@@ -13,7 +13,7 @@ public class AddBankSavingsAccountController {
         this.ffmApplication = ffmApplication;
     }
 
-    public boolean addBankSavingsAccount(int familyID, String ccNumber, String accountName, double balance, Double interestRate) {
+    public boolean addBankSavingsAccount(int familyID, String ccNumber, String accountName, Double balance, Double interestRate) {
         AccountService accountService = new AccountService();
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
