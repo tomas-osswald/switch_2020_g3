@@ -144,35 +144,54 @@ object will be added to the FamilyMember's Account List.
 @startuml
 
 title Class Diagram
+hide empty members
 
-class AddStandardCategoryController {
-  - Application app
-  + createStandardCategory()
+class AddPersonalCashAccountController {
++ addPersonalCashAccount()
+}
+
+class CashAccount {
 }
 
 class Application {
-  - CategoryService categoryService
-  + getCategoryService()
++ getFamilyService()
 }
 
-class CategoryService {
-  - List<StandardCategory> categories
-  - getCategoryByID()
-  - generateCategoryID()
-  - isCategoryWithSameNameAlreadyPresent()
-  - isParentIDInList()
-  + addStandardCategory()
+class FamilyService {
++ getFamily()
 }
 
-class StandardCategory {
-  - int categoryID
-  - String categoryName
-  - StandardCategory parentCategory
+class Family {
++ getFamilyMember()
 }
 
-AddStandardCategoryController --> Application
-AddStandardCategoryController --> CategoryService
-CategoryService --> StandardCategory
+class FamilyMember {
++ addAccount()
+}
+
+class AccountService {
++ addPersonalCashAccount()
+}
+
+class AccountData {
+- double balance
+- String description
+- int accountID
+- List<Transaction> transactions
+}
+
+
+interface Account {}
+
+AddPersonalCashAccountController --> Application : has
+Application --> FamilyService : has
+FamilyService --> Family : has list
+Family --> FamilyMember : has list
+AddPersonalCashAccountController --> AccountService : creates
+AccountService --> CashAccount : creates
+CashAccount --|> Account : implements
+CashAccount -* AccountData : contains
+CashAccount <-- FamilyMember : has
 
 @enduml
 ```

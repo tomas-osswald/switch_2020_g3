@@ -10,42 +10,17 @@ public class CashAccount implements Account {
 
 
     // Constructors
-    public CashAccount(double balance) {
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Balance can't be less than 0");
-        }
-        this.accountData = new AccountData(balance, "Cash Account", 0);
-    }
-
     public CashAccount(String designation, double balance, int cashAccountID) {
-
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         try {
-            this.accountData = new AccountData(balance, designation.toUpperCase(), cashAccountID);
+            this.accountData = new AccountData(balance, designation, cashAccountID);
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Cash Account nº" + " " + cashAccountID;
             this.accountData = new AccountData(balance, defaultDesignation.toUpperCase(), cashAccountID);
         }
 
-    }
-
-    public CashAccount(int cashAccountID) {
-        if (!validateID(cashAccountID)) {
-            throw new IllegalArgumentException("Cash Account ID is not valid");
-        }
-        this.accountData = new AccountData(0, "Cash Account" + " " + cashAccountID, cashAccountID);
-    }
-
-    public CashAccount(int cashAccountID, double balance) {
-        if (!validateID(cashAccountID)) {
-            throw new IllegalArgumentException("Cash Account ID is not valid");
-        }
-        if (!validateBalance(balance)) {
-            throw new IllegalArgumentException("Balance can't be less than 0");
-        }
-        this.accountData = new AccountData(balance, "Cash Account" + " " + cashAccountID, cashAccountID);
     }
 
     // Business Methods

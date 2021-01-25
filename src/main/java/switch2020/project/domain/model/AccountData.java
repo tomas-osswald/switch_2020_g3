@@ -44,15 +44,9 @@ public class AccountData {
         return accountID;
     }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
-    }
-
     private void validateDesignation(String designation) {
         if (designation == null || designation.isEmpty() || designation.isBlank()) {
             throw new InvalidAccountDesignationException("Invalid account designation");
-        } else if (designation.length() >= 20) {
-            throw new IllegalArgumentException("Account name can't have more than 20 characters");
         }
     }
 }

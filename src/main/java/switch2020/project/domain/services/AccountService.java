@@ -28,9 +28,18 @@ public class AccountService {
         return max + 1;
     }
 
-    public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialbalance) {
+    /**
+     * Method to create a family cash account for a family object
+     *
+     * @param targetFamily identifier of the family object
+     * @param accountDesignation designation for the family cash account
+     * @param initialBalance initial balance for the account
+     * @return returns true if an account was created and stored by the family object
+     */
+
+    public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialBalance) {
         //if (accountDesignation==null||accountDesignation.isBlank()||accountDesignation.isEmpty()) accountDesignation = ("Conta da familia " + targetFamily.getFamilyName());
-        Account newCashAccount = new CashAccount(accountDesignation, initialbalance, 0);
+        Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0);
         if (!targetFamily.hasCashAccount()) {
             targetFamily.addCashAccount(newCashAccount);
             return true;
