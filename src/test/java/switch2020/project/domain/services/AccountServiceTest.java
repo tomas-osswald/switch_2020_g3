@@ -8,5 +8,6 @@ class AccountServiceTest {
 
     @Test
     void addBankSavingsAccount() {
+        assertTrue(true);
     }
 }
