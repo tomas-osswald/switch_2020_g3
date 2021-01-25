@@ -5,7 +5,6 @@ import switch2020.project.domain.model.*;
 import java.util.List;
 
 public class AccountService {
-
     public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
         int accountID = generateID(targetMember);
         try {
@@ -48,15 +47,10 @@ public class AccountService {
         }
     }
 
-   /* public boolean createPersonalCashAccount(FamilyMember targetMember, String accountName, double balance, double withdrawalLimit) {
+    public boolean createPersonalCreditCardAccount(FamilyMember targetMember, String accountName, double withdrawalLimit) {
         int accountID = generateID(targetMember);
-        try {
-            Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountID);
-            return targetMember.addAccount(creditCardAccount);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }*/
 
+        Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
+        return targetMember.addAccount(creditCardAccount);
+    }
 }

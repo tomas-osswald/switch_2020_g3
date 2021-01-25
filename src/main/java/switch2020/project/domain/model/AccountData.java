@@ -13,16 +13,13 @@ public class AccountData {
     private int accountID;
     private List<Transaction> transactions;
 
-
     public AccountData(double balance, String designation, int accountID) {
         validateDesignation(designation);
         this.balance = balance;
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
-
     }
-
 
     public double getBalance() {
         return balance;
