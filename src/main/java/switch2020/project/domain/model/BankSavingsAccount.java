@@ -1,5 +1,7 @@
 package switch2020.project.domain.model;
 
+import java.util.Objects;
+
 public class BankSavingsAccount implements Account {
 
 
@@ -42,5 +44,13 @@ public class BankSavingsAccount implements Account {
     @Override
     public void changeBalance(double value) {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankSavingsAccount that = (BankSavingsAccount) o;
+        return Double.compare(that.interestRate, interestRate) == 0 && accountData.equals(that.accountData);
     }
 }
