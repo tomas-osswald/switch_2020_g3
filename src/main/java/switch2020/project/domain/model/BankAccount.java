@@ -72,18 +72,28 @@ public class BankAccount {
         return true;
     }
 
+    /**  **/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount account = (BankAccount) o;
-        return Objects.equals(data, account.data);
+        return data.equals(account.data);
     }
 
+    public boolean equals2(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BankAccount)) return false;
+        BankAccount account = (BankAccount) o;
+        return this.getBalance() == account.getBalance() && this.getDescription() == account.getDescription() && this.getBankID() == account.getBankID();
+    }
+
+    /*
     @Override
     public int hashCode() {
         return Objects.hash(data);
     }
+     */
 
     // BUSINESS METHODS
     public double getBalance(){
