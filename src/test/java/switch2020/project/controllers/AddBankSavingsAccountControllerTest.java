@@ -75,13 +75,13 @@ class AddBankSavingsAccountControllerTest {
 
     @Test
     public void checkIfThrowsWhenNoSuchMemberID() {
-        assertFalse(controller.addBankSavingsAccount(10, "110142608ZZ1", "Savings 3", 1,5.21));
+        assertFalse(controller.addBankSavingsAccount(10, "110142608ZZ1", "Savings 3", 1.00,5.21));
     }
 
     @Test
     public void checkIfThrowsWhenNoSuchFamilyID() {
         testFamily.addFamilyMember(familyMember3);
-        assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1,5.21));
+        assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1.00,5.21));
     }
 
 }

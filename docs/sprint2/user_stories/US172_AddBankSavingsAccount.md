@@ -287,4 +287,6 @@ Will Interest Rate be a Class in the future? (As it will have behaviour of its o
 
 In the future we're thinking about implementing a forecast feature to calculate expected earnings on a given date.
 
+Currently we allow users to select the same name for different accounts they own. With the implementation of the UI this could be changed.
+
 At the moment adding a Bank Savings Account will always be successful if the Family and the FamilyMember exist. However, account service methods will still return a boolean as in the future there can be situations were account creation will not be possible.

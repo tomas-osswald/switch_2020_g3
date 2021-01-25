@@ -41,7 +41,7 @@ public class AccountService {
 
     public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
         int accountID = generateID(targetMember);
-        Account bankSavingsAccount = new BankSavingsAccount(accountName, balance, interestRate);
+        Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
         targetMember.addAccount(bankSavingsAccount);
         return true;
     }

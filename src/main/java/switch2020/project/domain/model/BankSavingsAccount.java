@@ -1,6 +1,6 @@
 package switch2020.project.domain.model;
 
-import java.util.Objects;
+import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 public class BankSavingsAccount implements Account {
 
@@ -11,7 +11,22 @@ public class BankSavingsAccount implements Account {
 
 
     // Constructors
-    public BankSavingsAccount(String name, Double balance, Double interestRate) {
+    public BankSavingsAccount(int accountID, String name, Double balance, Double interestRate) {
+
+        if (!validateInterestRate(interestRate)) {
+            interestRate = 0.00;
+        }
+        this.interestRate = interestRate;
+
+        try {
+            if (!validateBalance(balance)) {
+                balance = 0.00;
+            }
+            this.accountData = new AccountData(balance, name, accountID);
+        } catch (InvalidAccountDesignationException exception) {
+            String defaultDesignation = "Bank Savings Account with ID" + " " + accountID;
+            this.accountData = new AccountData(balance, defaultDesignation, accountID);
+        }
 
     }
 
@@ -19,31 +34,35 @@ public class BankSavingsAccount implements Account {
     // Business Methods
 
     public double getInterestRate() {
-        return 0;
+        return this.interestRate;
     }
 
-    private boolean validateBalance() {
-        return false;
+    private boolean validateBalance(Double balance) {
+        boolean valid = true;
+        if (balance == null) {
+            valid = false;
+        }
+        return valid;
     }
 
-    private boolean validateInterestRate() {
-        return false;
+    private boolean validateInterestRate(Double interestRate) {
+        boolean valid = true;
+        if (interestRate == null) {
+            valid = false;
+        }
+        return valid;
     }
 
-
-    @Override
     public int getAccountID() {
-        return 0;
+        return this.accountData.getAccountID();
     }
 
-    @Override
     public double getBalance() {
-        return 0;
+        return this.accountData.getBalance();
     }
 
-    @Override
     public void changeBalance(double value) {
-
+        this.accountData.changeBalance(value);
     }
 
     @Override
