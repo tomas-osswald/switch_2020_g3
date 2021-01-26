@@ -402,10 +402,22 @@ public class FamilyMember {
         return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
     }
 
+    // Adicionar este metodo ao addAccount() -> verificar se sao o mesmo tipo de Conta e se o IBAN é igual
+    /*
+    public boolean checkIfAccountAlreadyPresent(Account account){
+        for (Account accountTest : this.accounts) {
+            if( account.getIban() == accountTest.getIban() && account.getClass() == accountTest.getClass());
+                return true;
+        }
+        return false;
+    }
+     */
+
     public boolean addAccount(Account account) {
         this.accounts.add(account);
         return true;
     }
+
 
     @Override
     public boolean equals(Object o) {
