@@ -1,67 +1,137 @@
 package switch2020.project.domain.services;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.model.Relation;
-
 import java.util.Date;
+import switch2020.project.controllers.AddFamilyAdministratorController;
+import switch2020.project.controllers.AddFamilyController;
+import switch2020.project.domain.model.Application;
+import switch2020.project.domain.model.FamilyMember;
+import switch2020.project.domain.model.Relation;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AccountServiceTest {
 
+
+    String id = "000000000ZZ4";
+    String name = "Diogo";
+    Date date = new Date(1990,8,12);
+    int numero = 919999999;
+    String emailTwo = "abc@gmail.com";
+
+    Application ffmApp = new Application();
+    AddFamilyController addFamilyController = new AddFamilyController(ffmApp);
+    AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(ffmApp);
     AccountService accountService = new AccountService();
-    FamilyService familyService = new FamilyService();
 
-    // family1 data
-    int family1ID = 5;
-    String family1Name = "Silva";
-    Family silva = new Family(family1Name, family1ID);
+    String cc = "000000000ZZ4";
+    String nameTwo = "Diogo";
+    Date dateTwo = new Date(1990, 8, 26);
+    Integer numeroTwo = 919999999;
+    String email = "josediogoccbr@gmail.com";
 
-    // family1 member1 data
-    String cc1 = "166699209ZY8";
-    String name1 = "Ze";
-    Date date1 = new Date(1970, 1, 2);
-    int numero1 = 931456789;
-    String email1 = "ze90@gmail.com";
-    int nif1 = 231874316;
-    String rua1 = "Rua dos Abracos";
-    String codPostal1 = "4000-011";
-    String local1 = "Porto";
-    String city1 = "Porto";
-    String relacao1 = "pai";
-    Relation relation1 = new Relation(relacao1);
-    boolean admin1 = true;
+    int nif = 212122233;
+    String rua = "Rua Nossa";
+    String codPostal = "4444-555";
+    String local = "Zinde";
+    String city = "Porto";
+    String relacao = "filho";
+    Relation relation = new Relation(relacao);
 
-    // family1 member2 data
-    String cc2 = "137476450ZX0";
-    String name2 = "Maria";
-    Date date2 = new Date(2001, 6, 12);
-    int numero2 = 938036428;
-    String email2 = "maria303@gmail.com";
-    int nif2 = 299525295;
-    String rua2 = "Rua dos Carqueijais";
-    String codPostal2 = "4000-181";
-    String local2 = "Porto";
+    boolean admin = false;
+
+    //Added 2nd FamilyMember to test
+    String id2 = "137843828ZX3";
+    String name2 = "Tony";
+    Date date2 = new Date(1954,8, 12);
+    int numero2 = 919999998;
+    String email2 = "tony@gmail.com";
+    int nif2 = 212122000;
+    String rua2 = "Rua";
+    String codPostal2 = "4444-556";
+    String local2 = "Gaia";
     String city2 = "Porto";
-    String relacao2 = "filha";
+    String relacao2 = "primo";
     Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
-    // add member1 and member2 to family
-    FamilyMember ze = new FamilyMember(cc1, name1, date1, numero1, email1, nif1, rua1, codPostal1, local1, city2, admin1);
-    FamilyMember maria = new FamilyMember(cc1, name1, date1, numero1, email1, nif1, rua1, codPostal1, local1, city2, admin1);
+    //Added 3rd FamilyMember to test
+    String id3 = "137476450ZX0";
+    String name3 = "TonyZe";
+    Date date3 = new Date(1955,8,1);
+    int numero3 = 919939998;
+    String email3 = "tonyze@gmail.com";
+    int nif3 = 212122000;
+    String rua3 = "Rua";
+    String codPostal3 = "4444-556";
+    String local3 = "Gaia";
+    String city3 = "Porto";
+    String relacao3 = "primo";
+    Relation relation3 = new Relation(relacao3);
+    boolean admin3 = true;
+
+    //DTO Test Setup
+    FamilyMember diogo = new FamilyMember(id, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
+    FamilyMember manuelAdminMasterInTheHousesOfTheNightOfTheBicepsWithMyFamily = new FamilyMember(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, admin3);
+
+    double balance = 0.6;
+    double negativeBalance = -2;
+    String accountName = "Current Account";
+    String accountName2 = "Other Current Account";
+
+    @BeforeEach
+    void setup() {
+
+        addFamilyController.addFamily("Ribeiro");
+    }
+
+    @Test
+    void addBankSavingsAccountAddedSuccessfullyWithNullInput() {
+        String accountName = "Savings Account";
+        Double balance = null;
+        Double interestRate = null;
+
+        assertTrue(accountService.addBankSavingsAccount(diogo, accountName, balance, interestRate));
+    }
+
+    @Test
+    void addBankSavingsAccountAddedSuccessfullyWithRegularInput() {
+        String accountName = "Savings Account";
+        Double balance = 1.01;
+        Double interestRate = -4.21;
+
+        assertTrue(accountService.addBankSavingsAccount(diogo, accountName, balance, interestRate));
+    }
+
+
+    @Test
+    void addBankAccountTest1_Success() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        assertTrue(accountService.addBankAccount(diogo, accountName, balance));
+    }
+    @Test
+    void addBankAccountTest2_Failure() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        Assertions.assertFalse(accountService.addBankAccount(diogo, accountName, null));
+    }
+    @Test
+    void addBankAccountTest3_AddTwoBankAccountsSuccess() {
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        accountService.addBankAccount(diogo, accountName, balance);
+        assertTrue(accountService.addBankAccount(diogo, accountName, negativeBalance));
+    }
 
     @Test
     void createPersonalCreditCardAccountTrue() {
-        //arrange
-       silva.addFamilyMember(ze);
-       assertTrue(accountService.createPersonalCreditCardAccount(ze,"Conta do Ze", 5000));
     }
 
     @Test
     void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
-        silva.addFamilyMember(maria);
-        assertThrows(Exception.class, () -> accountService.createPersonalCreditCardAccount(maria,"Conta da Maria", -100));
     }
 }

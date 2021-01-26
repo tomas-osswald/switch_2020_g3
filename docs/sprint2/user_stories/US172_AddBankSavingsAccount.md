@@ -113,27 +113,27 @@ participant "aBankSavingsAccount : \nBankSavingsAccount" as BankAccount
 activate FamilyMember
 FamilyMember -> UI: I want to add a \nBank Savings Account
 activate UI
-UI -> Controller : addBankSavingsAccount(FamilyID, \nFamilyMemberID, Balance, \nName, InterestRate)
+UI -> Controller : addBankSavingsAccount(familyID, \nfamilyMemberID, balance, \nname, interestRate)
 activate Controller
 Controller -> App : getFamilyService()
 activate App
 App --> Controller : familyService
 deactivate App
-Controller -> FamilyService : getFamily(FamilyID)
+Controller -> FamilyService : getFamily(familyID)
 activate FamilyService
-FamilyService -> FamilyService : getFamily(FamilyID)
+FamilyService -> FamilyService : getFamily(familyID)
 FamilyService --> Controller : Family
 deactivate FamilyService
-Controller -> Family : getFamilyMember\n(FamilyMemberID)
+Controller -> Family : getFamilyMember\n(familyMemberID)
 Activate Family
-Family -> Family : getFamilyMember\n(FamilyMemberID)
+Family -> Family : getFamilyMember\n(familyMemberID)
 Family --> Controller : aFamilyMember
 Deactivate Family
 Controller -> AccountService ** : createAccountService()
-Controller -> AccountService : addBankSavingsAccount(Balance, \nName, InterestRate, aFamilyMember)
+Controller -> AccountService : addBankSavingsAccount(balance, \nname, InterestRate, aFamilyMember)
 activate AccountService
-AccountService -> AccountService : generateID()
-AccountService -> BankAccount ** : createBankSavingsAccount\n(Balance, Name, InterestRate)
+AccountService -> AccountService : generateID(aFamilyMember)
+AccountService -> BankAccount ** : createBankSavingsAccount\n(balance, name, InterestRate)
 ref over AccountService
 AddBankSavingsAccount 2
 end ref
@@ -150,6 +150,11 @@ deactivate UI
 deactivate FamilyMember
 ````
 
+
+
+
+
+
 ````puml
 autonumber
 
@@ -161,30 +166,35 @@ participant "anAccountData : \nAccountData" as data
 participant "aFamilyMember : \nFamilyMember" as FamilyMember
 
 
--> accountservice : addBankSavingsAccount(Balance, Name, \nInterestRate, aFamilyMember)
+-> accountservice : addBankSavingsAccount(balance, name, \ninterestRate, aFamilyMember)
 activate accountservice
-accountservice -> accountservice : generateID()
-accountservice -> account ** : BankSavingsAccount(Balance, Name, \nInterestRate, aFamilyMember, accountID)
+accountservice -> accountservice : generateID(aFamilyMember)
+accountservice -> account ** : BankSavingsAccount(balance, name, \ninterestRate, aFamilyMember, accountID)
 activate account
-account -> account : validateName(Name)
+
+account -> account: validateBalance(balance)
+alt failure : balance is null, empty or blank
+account -> account : balance = 0
+else success : balance = balance
+end
+
+account -> data ** : AccountData(name, balance, \naccountID)
+activate data
+data -> data : validateName(name)
 alt failure : Name is null, empty or blank
-account -> account : name = "Bank Savings Account"
+data -> data : name = "Bank Savings Account"
 else success : Name = Name
 end
-account -> account: validate Balance
-alt failure : Balance is null, empty or blank
-account -> account : Balance = 0
-else success : Balance = Balance
-end
-account -> data ** : AccountData(Name, \nBalance, accountID)
-activate data
-data --> account : anAccountData
+
+data -> account : anAccountData
+
+
 note left : anAccountData is aBankSavingsAccount attribute
 deactivate data
 account -> account : validateInterestRate
-alt failure : InterestRate is null, empty or blank
-account -> account : InterestRate = 0
-else success : InterestRate = InterestRate
+alt failure : interestRate is null, empty or blank
+account -> account : interestRate = 0
+else success : interestRate = interestRate
 end
 accountservice -> FamilyMember : addAccount (aBankSavingsAccount)
 activate FamilyMember
@@ -199,7 +209,8 @@ deactivate FamilyMember
 
 ## 3.2. Class Diagram
 ```puml
-@startuml
+
+
 
 title Class Diagram
 hide empty members
@@ -233,7 +244,7 @@ class AccountService {
 }
 
 class AccountData {
-- double balance
+- Double balance
 - String description
 - int accountID
 - List<Transaction> transactions
@@ -252,18 +263,54 @@ BankSavingsAccount --|> Account : implements
 BankSavingsAccount -* AccountData : contains
 BankSavingsAccount <-- FamilyMember : has
 
-@enduml
+
 ```
 
 ## 3.3. Applied Patterns
 
 ## 3.4. Tests
 
-**Test 1:** 
+**Test 1:** Controller: Account creation does not fail with null balance and interest rate or blank account name.
 
-**Test 2:** 
+    @Test
+    public void checkIfBankSavingsAccountAddedNullInput() {
+        String accountName = " ";
+        Double balance = null;
+        Double interestRate = null;
 
-**Test 3:** 
+        testFamily.addFamilyMember(familyMember1);
+        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+    }
+
+**Test 2:** Controller: Account creation will only fail if member or family do not exist
+
+    @Test
+    public void checkIfThrowsWhenNoSuchFamilyID() {
+        testFamily.addFamilyMember(familyMember3);
+        assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1.00,5.21));
+    }
+
+    @Test
+    public void checkIfThrowsWhenNoSuchMemberID() {
+    assertFalse(controller.addBankSavingsAccount(10, "110142608ZZ1", "Savings 3", 1.00,5.21));
+    }
+
+**Test 3:** BankSavingsAccount: Account creation will always be successful, null or empty parameters will be handled by the constructor
+
+    @Test
+    void ConstructorSuccessBlankNameNullBalanceAndInterestRate() {
+        int accountID = 1;
+        String name = " ";
+        Double balance = null;
+        Double interestRate = null;
+
+        BankSavingsAccount accountOne = new BankSavingsAccount(accountID, name , balance, interestRate);
+        BankSavingsAccount accountTwo = new BankSavingsAccount(accountID, name , balance, interestRate);
+
+        assertNotNull(accountOne);
+        assertEquals(accountOne, accountTwo);
+        assertNotSame(accountOne, accountTwo);
+    }
 
 # 4. Implementation
 
@@ -276,3 +323,7 @@ the correct calculations. UI will have to deal with this.
 Will Interest Rate be a Class in the future? (As it will have behaviour of its own)
 
 In the future we're thinking about implementing a forecast feature to calculate expected earnings on a given date.
+
+Currently we allow users to select the same name for different accounts they own. With the implementation of the UI this could be changed.
+
+At the moment adding a Bank Savings Account will always be successful if the Family and the FamilyMember exist. However, account service methods will still return a boolean as in the future there can be situations were account creation will not be possible.

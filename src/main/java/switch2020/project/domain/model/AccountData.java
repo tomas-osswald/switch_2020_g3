@@ -29,6 +29,10 @@ public class AccountData {
         this.balance = balance;
     }
 
+    public void changeBalance(double value) {
+        this.balance += value;
+    }
+
     public String getDescription() {
         return description;
     }
