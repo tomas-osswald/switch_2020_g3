@@ -412,4 +412,12 @@ class FamilyMemberTest {
 
         assertThrows(Exception.class, () -> familyMember1.addRelation(relationDesignation2));
     }
+
+    @Test
+    void addAccount_BankAccount(){
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
+        FamilyMember ZeManel = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        ZeManel.addAccount(bankAccount);
+        assertTrue(ZeManel.getAccounts().get(0) == bankAccount);
+    }
 }
