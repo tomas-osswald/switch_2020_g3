@@ -118,9 +118,9 @@ class AccountServiceTest {
         assertTrue(accountService.addBankAccount(diogo, accountName, balance));
     }
     @Test
-    void addBankAccountTest2_Failure() {
+    void addBankAccountTest2_NullBalanceSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        Assertions.assertFalse(accountService.addBankAccount(diogo, accountName, null));
+        Assertions.assertTrue(accountService.addBankAccount(diogo, accountName, null));
     }
     @Test
     void addBankAccountTest3_AddTwoBankAccountsSuccess() {
