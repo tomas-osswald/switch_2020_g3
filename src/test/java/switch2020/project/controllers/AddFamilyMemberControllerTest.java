@@ -10,7 +10,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class addFamilyMemberControllerTest {
+class AddFamilyMemberControllerTest {
 
 
     String ccNumber = "000000000ZZ4";

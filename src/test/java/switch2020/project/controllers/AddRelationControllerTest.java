@@ -3,6 +3,7 @@ package switch2020.project.controllers;
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.FamilyService;
+import switch2020.project.domain.utils.FamilyMemberRelationDTO;
 
 import java.util.Date;
 
@@ -103,5 +104,95 @@ class AddRelationControllerTest {
         AddRelationController addRelationController = new AddRelationController(application);
 
         assertFalse(addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
+    }
+
+    @Test
+    void ChangeRelationTrueNewDesignation() {
+        String relationDesignation = "Girlfriend";
+        String newRelationDesignation = "Wife";
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        assertTrue(addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false));
+    }
+
+    @Test
+    void ChangeRelationTrueCheckRelationChangedDesignation() {
+        String relationDesignation = "Girlfriend";
+        String newRelationDesignation = "Wife";
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        FamilyMemberRelationDTO oldDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
+
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false);
+        FamilyMemberRelationDTO newDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
+
+        assertNotEquals(oldDTO, newDTO);
+        assertNotSame(oldDTO, newDTO);
+    }
+
+    @Test
+    void ChangeRelationTrueCheckRelationChangedPermissions() {
+        String relationDesignation = "Girlfriend";
+
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        FamilyMemberRelationDTO oldDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
+
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, true);
+        FamilyMemberRelationDTO newDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
+
+        assertNotEquals(oldDTO, newDTO);
+        assertNotSame(oldDTO, newDTO);
+    }
+
+    @Test
+    void ChangeRelationFalseCheckRelationDoesntChangeifInvalidName() {
+        String relationDesignation = "Girlfriend";
+        String newRelationDesignation = "";
+
+
+        Application application = new Application();
+
+        FamilyService familyService = application.getFamilyService();
+        familyService.addFamily(familyOneName);
+        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
+
+        AddRelationController addRelationController = new AddRelationController(application);
+
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        FamilyMemberRelationDTO oldDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
+
+        addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false);
+        FamilyMemberRelationDTO newDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
+
+        assertEquals(oldDTO, newDTO);
+        assertNotSame(oldDTO, newDTO);
     }
 }
