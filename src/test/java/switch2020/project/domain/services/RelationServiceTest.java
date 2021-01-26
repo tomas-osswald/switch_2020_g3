@@ -76,4 +76,35 @@ class RelationServiceTest {
         Assertions.assertEquals(expected, result);
         Assertions.assertNotSame(expected, result);
     }
+
+    @Test
+    void checkIfMemberAisParentOfBTrue() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        Relation relation = new Relation("Filho", diogo, jorge, true);
+        family.addRelation(relation);
+        RelationService relationService = new RelationService();
+        boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void checkIfMemberAisParentOfBFalse() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        Relation relation = new Relation("Filho", diogo, jorge, false);
+        family.addRelation(relation);
+        RelationService relationService = new RelationService();
+        boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void checkIfMemberAisParentOfBNoRelation() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        RelationService relationService = new RelationService();
+        boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
+        Assertions.assertFalse(result);
+    }
 }
