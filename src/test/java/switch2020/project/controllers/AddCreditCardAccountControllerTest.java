@@ -31,9 +31,6 @@ class AddCreditCardAccountControllerTest {
     String codPostal = "4444-555";
     String local = "Zinde";
     String city = "Porto";
-    String relacao = "filho";
-    Relation relation = new Relation(relacao);
-    boolean admin = true;
 
     String id2 = "166699209ZY8";
     String name2 = "Tony";
@@ -45,9 +42,7 @@ class AddCreditCardAccountControllerTest {
     String codPostal2 = "4444-556";
     String local2 = "Gaia";
     String city2 = "Porto";
-    String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
-    boolean admin2 = false;
+
 
     int family1ID = 1;
 
