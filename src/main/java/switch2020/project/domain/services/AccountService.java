@@ -68,4 +68,12 @@ public class AccountService {
         return targetMember.addAccount(creditCardAccount);
     }
 
+
+    public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
+        int accountID = generateID(targetMember);
+        Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
+        targetMember.addAccount(bankSavingsAccount);
+        return true;
+    }
+
 }
