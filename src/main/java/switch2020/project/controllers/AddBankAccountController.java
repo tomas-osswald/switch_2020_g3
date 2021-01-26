@@ -23,6 +23,5 @@ public class AddBankAccountController {
                 return true;
             }
             return false;
-
     }
 }
