@@ -1,7 +1,6 @@
 package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
 import switch2020.project.domain.utils.MemberProfileDTO;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ class FamilyMemberTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
     boolean admin = false;
 
     //Setup for MemberProfileDTO testing
@@ -52,16 +51,17 @@ class FamilyMemberTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
+
     boolean admin2 = false;
 
     //Setup for FamilyMemberDTO
 
     FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
-    FamilyMember diogoNoAdmin = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
+    FamilyMember diogoNoAdmin = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
     FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
-
+    Relation relation2 = new Relation(relacao2, diogo, jorge, false);
+    Relation relation = new Relation(relacao, jorge, diogo, false);
 
     /**
      * Name Validation
@@ -268,7 +268,7 @@ class FamilyMemberTest {
 
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        FamilyMember admin = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city, true);
+        FamilyMember admin = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
 
         MemberProfileDTO result = admin.createProfile();
@@ -288,10 +288,11 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
+
     @Test
     void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
-        FamilyMember joaquim = new FamilyMember(cc, name, date,numero,null,nif,rua,codPostal,local, city);
+        FamilyMember joaquim = new FamilyMember(cc, name, date, numero, null, nif, rua, codPostal, local, city);
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = joaquim.createProfile();
@@ -299,6 +300,7 @@ class FamilyMemberTest {
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+
     @Test
     void getMemberProfileTest6_objectsAreNotEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
@@ -308,10 +310,11 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
+
     @Test
     void getMemberProfileTest7_objectsAreEqualInvalidPhoneNumber() {
         emails.add(emailAddress);
-        FamilyMember joaquim = new FamilyMember(cc, name, date,null,email,nif,rua,codPostal,local, city);
+        FamilyMember joaquim = new FamilyMember(cc, name, date, null, email, nif, rua, codPostal, local, city);
         MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = joaquim.createProfile();
@@ -319,6 +322,7 @@ class FamilyMemberTest {
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+
     @Test
     void getMemberProfileTest8_objectsAreNotEqualInvalidPhoneNumbers() {
         emails.add(emailAddress);
@@ -328,95 +332,12 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
-    @Test
-    void getMemberProfileTest9_WithRelationObjectsAreEqual() {
-        emails.add(emailAddress);
-        phoneNumbers.add(phoneNumber);
-        diogoNoAdmin.addRelation(relacao);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
 
-        MemberProfileDTO result = diogoNoAdmin.createProfile();
-
-        assertEquals(expected, result);
-        assertNotSame(expected, result);
-    }
 
     @Test
-    void getMemberProfileTest10_WithRelationObjectsAreNotEqual() {
-        emails.add(emailAddress);
-        phoneNumbers.add(phoneNumber);
-        diogoNoAdmin.addRelation(relacao);
-        jorge.addRelation(relacao2);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
-
-        MemberProfileDTO result = jorge.createProfile();
-
-        assertNotEquals(expected, result);
-    }
-
-
-    /**
-     * Validate creation of FamilyMemberRelationDTO inside FamilyMemberClass
-     */
-    @Test
-    void createFamilyMemberRelationDTO_VerifyCorrectConversionOfAttributes() {
-        FamilyMember José = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Diogo", "Undefined Relation");
-        FamilyMemberRelationDTO result = José.createFamilyMemberRelationDTO();
-        assertEquals(expected, result);
-    }
-
-    /**
-     * Conversion of FamilyMember with no relation attribute, expecting "Undefined relation" on
-     * FMRDTO relationDesignation attribute.
-     */
-    @Test
-    void createFamilyMemberRelationDTO_VerifyIfNoRelationReturnsUndefinedRelationString() {
-        FamilyMemberRelationDTO test = new FamilyMemberRelationDTO("José", "Undefined relation");
-        String expected = "UndEfIned relatiOn";
-        String result = test.getRelationDesignation();
-        assertTrue(expected.equalsIgnoreCase(result));
-    }
-
-    /**
-     * Conversion of a FamilyMember that is Administrator into DTO.
-     * Verify correct change of relationDesignation to "Self"
-     */
-    @Test
-    void TestConversionToFamilyMemberDTO_VerifyIfAdministratorDesignationReturns_Self() {
-        newMember.makeAdmin();
-        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Tony", "Self");
-        FamilyMemberRelationDTO result = newMember.createFamilyMemberRelationDTO();
-        assertEquals(expected.getRelationDesignation(), result.getRelationDesignation());
-    }
-
-    /**
-     * Conversion of a FamilyMember relationDesignation
-     */
-    @Test
-    void TestConversionToFamilyMemberDTO_ExpectingSuccess() {
-        String relationDesignation = "primo";
-        jorge.addRelation(relationDesignation);
-        FamilyMemberRelationDTO expected = new FamilyMemberRelationDTO("Tony", "primo");
-        FamilyMemberRelationDTO result = jorge.createFamilyMemberRelationDTO();
-        assertEquals(expected.getRelationDesignation(), result.getRelationDesignation());
-    }
-
-    @Test
-    void familyMemberAlreadyHasADesignation() {
-        String relationDesignation1 = "Mother";
-        String relationDesignation2 = "Father";
-
-        FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
-        familyMember1.addRelation(relationDesignation1);
-
-        assertThrows(Exception.class, () -> familyMember1.addRelation(relationDesignation2));
-    }
-
-    @Test
-    void addAccount_BankAccount(){
+    void addAccount_BankAccount() {
         BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember ZeManel = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember ZeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         ZeManel.addAccount(bankAccount);
         assertTrue(ZeManel.getAccounts().get(0) == bankAccount);
     }

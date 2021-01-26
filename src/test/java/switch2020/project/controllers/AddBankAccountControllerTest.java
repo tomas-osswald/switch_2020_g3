@@ -28,7 +28,7 @@ class AddBankAccountControllerTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
 
     double balance = 0.6;
     double negativeBalance = -2;

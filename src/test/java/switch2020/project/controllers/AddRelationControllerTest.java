@@ -1,7 +1,6 @@
 package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
-
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.FamilyService;
 
@@ -69,7 +68,7 @@ class AddRelationControllerTest {
 
         AddRelationController addRelationController = new AddRelationController(application);
 
-        assertTrue(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+        assertTrue(addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
     }
 
     @Test
@@ -87,7 +86,7 @@ class AddRelationControllerTest {
 
         AddRelationController addRelationController = new AddRelationController(application);
 
-        assertFalse(addRelationController.createRelation(cc2, cc3, relationDesignation, familyOneIDGenerated));
+        assertFalse(addRelationController.createRelation(cc2, cc2, cc3, familyOneIDGenerated, relationDesignation, false));
     }
 
     @Test
@@ -103,6 +102,6 @@ class AddRelationControllerTest {
 
         AddRelationController addRelationController = new AddRelationController(application);
 
-        assertFalse(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+        assertFalse(addRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
     }
 }

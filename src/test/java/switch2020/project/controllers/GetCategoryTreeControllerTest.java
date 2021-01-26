@@ -23,7 +23,6 @@ class GetCategoryTreeControllerTest {
     AddStandardCategoryController addStandardCategoryController = new AddStandardCategoryController(app);
     String[] expected = {"HOUSE", "ELECTRICITY", "WATER", "TRANSPORT", "CAR", "PUBLIC TRANSPORT", "FUEL", "REPAIRS", "PARKING", "TAXES", "INCOME", "SALES", "GAS", "FOOD", "OTHERS", "GROCERIES", "RESTAURANTS", "BUS", "TAXI"};
     Date birthdate = new Date(1954, 8, 26);
-    Relation relation = new Relation("Filho");
     String adminCC = "000000000ZZ4";
     String cc2 = "137843828ZX3";
     @BeforeEach

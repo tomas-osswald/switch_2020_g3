@@ -130,32 +130,7 @@ public class FamilyService {
         }
     }
 
-    /**
-     * Method to create a Relation and assign it to a Family Member
-     *
-     * @param selfCCNumber        ID of the Family Member how wants to create a Relation
-     * @param otherccNumber       ID of the Family Member to be added a Relation
-     * @param relationDesignation Relation Designation
-     * @param familyID            FamilyID of Family Member how wants to create a Relation
-     * @return boolean
-     */
 
-    public boolean createRelation(String selfCCNumber, String otherccNumber, String relationDesignation, int familyID) {
-        Family fam = getFamily(familyID);
-
-
-        if (fam.verifyAdministrator(selfCCNumber)) { // If is Administrator
-            if (fam.hasDesignation(relationDesignation)) { // Verify if a given relation designation is already present in list of relations assigned
-                fam.addRelationToFamilyMember(otherccNumber, relationDesignation); // Calls a Family Method to add Relation to a specific member
-
-            } else { // If not, add to list of relations assigned in specific family
-                fam.addToRelationDesignationList(relationDesignation);
-                fam.addRelationToFamilyMember(otherccNumber, relationDesignation); // Calls a Family Method to add Relation to a specific member
-            }
-            return true; // Return true if is administrator and a Relation has been created and assigned to given Family Member
-        }
-        return false; // Return false if isn't administrator
-    }
 
     /**
      * Method to get a family by ID in families

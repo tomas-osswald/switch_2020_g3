@@ -1,21 +1,23 @@
 package switch2020.project.domain.utils;
 
+import switch2020.project.domain.model.Relation;
+
 public class FamilyMemberRelationDTO {
 
     // Attributes
-    private final String name;
+
     private final String relationDesignation;
 
     // Constructors
-    public FamilyMemberRelationDTO(String name, String relationDesignation) {
-        this.name = name;
-        this.relationDesignation = relationDesignation;
+    public FamilyMemberRelationDTO(Relation relation) {
+        String memberAName = relation.getMemberA().getName();
+        String memberBName = relation.getMemberB().getName();
+        String relationDescription = relation.getRelationDesignation();
+        this.relationDesignation = memberAName + " is " + memberBName + "'s " + relationDescription;
     }
 
     // Business Methods
-    public String getName() {
-        return name;
-    }
+
 
     public String getRelationDesignation() {
         return relationDesignation;
@@ -29,7 +31,7 @@ public class FamilyMemberRelationDTO {
 
         FamilyMemberRelationDTO that = (FamilyMemberRelationDTO) o;
 
-        return this.name.equals(that.name) && this.relationDesignation.equals(that.relationDesignation);
+        return this.relationDesignation.equals(that.relationDesignation);
     }
 
     /*@Override
