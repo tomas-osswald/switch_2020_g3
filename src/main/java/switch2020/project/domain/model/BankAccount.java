@@ -32,10 +32,7 @@ public class BankAccount implements Account {
             description = "BankAccount"+" "+bankAccountID;
         }
         if(!validateBalance(balance)){
-            throw new IllegalArgumentException("Inserir aproximação do balanço");
-        }
-        if(!validateID(bankAccountID)){
-            throw new IllegalArgumentException("Inserir valor");
+            balance = 0.00;
         }
         this.data = new AccountData(balance,description,bankAccountID);
     }
@@ -51,13 +48,6 @@ public class BankAccount implements Account {
 
     public boolean validateBalance(Double balance){
         if( balance == null){
-            return false;
-        }
-        return true;
-    }
-
-    public boolean validateID(Integer bankAccountID){
-        if( bankAccountID == null){
             return false;
         }
         return true;
