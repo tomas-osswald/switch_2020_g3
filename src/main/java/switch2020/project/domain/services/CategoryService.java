@@ -27,6 +27,8 @@ public class CategoryService {
 
     public CategoryService() {
         this.categories = new ArrayList<>();
+        StandardCategory other = new StandardCategory("Other", null, 0);
+        categories.add(other);
     }
 
     /**
@@ -172,10 +174,10 @@ public class CategoryService {
         } else if (parentID < 0) {
             CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
             checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation,parent,generateCustomCategoryID(targetFamily));
+            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
         } else {
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation,generateCustomCategoryID(targetFamily));
+            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
         }
     }
