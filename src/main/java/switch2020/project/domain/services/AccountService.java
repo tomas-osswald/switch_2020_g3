@@ -52,4 +52,8 @@ public class AccountService {
         Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
         return targetMember.addAccount(creditCardAccount);
     }
+
+    public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
+        return true;
+    }
 }
