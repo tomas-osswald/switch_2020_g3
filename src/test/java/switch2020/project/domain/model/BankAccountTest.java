@@ -60,18 +60,10 @@ class BankAccountTest {
 
     /** Balance **/
     @Test
-    void NotCreateBankAccount_NullBalance(){
-        assertThrows(IllegalArgumentException.class,()-> {
-            BankAccount account = new BankAccount("Conta do Bito", null, 2);
-        });
-    }
-
-    /** ID **/
-    @Test
-    void NotCreateBankAccount_NullBankAccountID(){
-        assertThrows(IllegalArgumentException.class,()-> {
-            BankAccount account = new BankAccount("Conta do Bito", 100.0, null);
-        });
+    void CreateBankAccount_NullBalance(){
+        BankAccount account = new BankAccount("Conta do Bito", null, 2);
+        Double expected = 0.00;
+        assertEquals(expected, account.getBalance());
     }
 
     /** BUSINESS METHODS **/
