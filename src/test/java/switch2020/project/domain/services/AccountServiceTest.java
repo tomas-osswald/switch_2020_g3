@@ -57,7 +57,6 @@ class AccountServiceTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
     //Added 3rd FamilyMember to test
@@ -72,7 +71,6 @@ class AccountServiceTest {
     String local3 = "Gaia";
     String city3 = "Porto";
     String relacao3 = "primo";
-    Relation relation3 = new Relation(relacao3);
     boolean admin3 = true;
 
     //DTO Test Setup
