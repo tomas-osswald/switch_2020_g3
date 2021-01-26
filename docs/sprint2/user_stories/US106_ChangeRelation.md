@@ -52,16 +52,17 @@ This user story is dependent on the following:
 
 # 2. Analysis
 
-For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
+For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input by the family administrator of the following data:
 
-- Self ID (User that tries to add relation to other Family Member);
-- Other ID (ID from the Family Member to whom will be added a relationship);
+- AdminCC (User that tries to add relation to other Family Member);
+- FamilyMemberACC (ID from the first Family Member to whom will be added a relationship);
+- FamilyMemberBCC (ID from the second Family Member to whom will be added a relationship);
 - Relation Designation (Relationship name);
 - Family ID (User's family ID).
+- ParentBoolean (true if A has permission to see B's balance)
 
-From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to add a relationship to the family member in question, regardless of whether the relationship designation exists or does not exist in the list of designations present in the Family. 
+From analysis done to requirements gathering, if the user is the family administrator, he/she will be able to change a relationship to the family members in question. 
 
-As we did not get a clear answer to the question about the previous existence of a Relation attributed to a Family Member, it was assumed that an error is thrown (catched and returns false), with no changes in the existing Relation.
 
 ##2.1. Domain Model Diagram
 
@@ -351,9 +352,9 @@ To test the new functionality was use the following tests:
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddRelationController addRelationController = new AddRelationController(application);
+        AddRelationController addOrChangeRelationController = new AddRelationController(application);
 
-        assertTrue(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+        assertTrue(addOrChangeRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
     }
     
 **Test 6:** Test at controller to assert an insuccess case (Is not Administrator)
@@ -371,9 +372,9 @@ To test the new functionality was use the following tests:
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
 
-        AddRelationController addRelationController = new AddRelationController(application);
+        AddRelationController addOrChangeRelationController = new AddRelationController(application);
 
-        assertFalse(addRelationController.createRelation(cc2, cc3, relationDesignation, familyOneIDGenerated));
+        assertFalse(addOrChangeRelationController.createRelation(cc2, cc3, relationDesignation, familyOneIDGenerated));
     }
     
 **Test 7:** Test at controller to assert an insuccess case (Empty Relation Designation)
@@ -389,9 +390,9 @@ To test the new functionality was use the following tests:
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddRelationController addRelationController = new AddRelationController(application);
+        AddRelationController addOrChangeRelationController = new AddRelationController(application);
 
-        assertFalse(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+        assertFalse(addOrChangeRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
     }
 
 # 4. Implementation
