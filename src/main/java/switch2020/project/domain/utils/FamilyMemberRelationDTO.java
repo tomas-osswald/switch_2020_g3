@@ -15,7 +15,7 @@ public class FamilyMemberRelationDTO {
         String memberBName = relation.getMemberB().getName();
         String relationDescription = relation.getRelationDesignation();
         this.relationDesignation = memberAName + " is " + memberBName + "'s " + relationDescription;
-        this.parentalPermission = relation.isAparentOfB();
+        this.parentalPermission = relation.isAParentOfB();
     }
 
     // Business Methods
