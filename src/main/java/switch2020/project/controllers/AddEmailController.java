@@ -28,6 +28,9 @@ public class AddEmailController {
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(ccNumber);
+            if (familyService.checkIfEmailAlreadyRegisteredInApp(emailToAdd)) {
+                throw new IllegalArgumentException("Email Already Present");
+            }
             return emailService.addEmail(emailToAdd, targetMember);
 
         } catch (Exception exception) {

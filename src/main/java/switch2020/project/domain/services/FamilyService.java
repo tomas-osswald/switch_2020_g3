@@ -26,6 +26,10 @@ public class FamilyService {
         this.families.add(family);
     }
 
+    public int getFamilyListLenght() {
+        return families.size();
+    }
+
     // Business Methods
 
     /**
@@ -130,7 +134,6 @@ public class FamilyService {
             return false;
         }
     }
-
 
 
     /**
@@ -255,6 +258,22 @@ public class FamilyService {
             }
         }
         return listOfFamiliesWithoutAdministrator;
+    }
+
+    public boolean checkIfEmailAlreadyRegisteredInApp(String emailToAdd) {
+        List<EmailAddress> allEmails = new ArrayList<>();
+        for (Family family : families) {
+            List<FamilyMember> members = family.getFamilyMembers();
+            for (FamilyMember member : members) {
+                allEmails.addAll(member.getEmails());
+            }
+        }
+        for (EmailAddress email : allEmails) {
+            if (emailToAdd.equalsIgnoreCase(email.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 /*
