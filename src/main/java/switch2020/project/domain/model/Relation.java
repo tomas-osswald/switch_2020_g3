@@ -4,6 +4,9 @@ public class Relation {
 
     // Attributes
     private String relationDesignation;
+    private FamilyMember memberA;
+    private FamilyMember memberB;
+    private boolean isAparentOfB = false;
 
     // Constructors
     public Relation(String relationDesignation) {
