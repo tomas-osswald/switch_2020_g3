@@ -18,7 +18,7 @@ public class Relation {
 
     }
 
-    public boolean isAparentOfB() {
+    public boolean isAParentOfB() {
         return isAparentOfB;
     }
 

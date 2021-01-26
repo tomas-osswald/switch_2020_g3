@@ -7,6 +7,7 @@ public class FamilyMemberRelationDTO {
     // Attributes
 
     private final String relationDesignation;
+    private boolean parentalPermission;
 
     // Constructors
     public FamilyMemberRelationDTO(Relation relation) {
@@ -14,6 +15,7 @@ public class FamilyMemberRelationDTO {
         String memberBName = relation.getMemberB().getName();
         String relationDescription = relation.getRelationDesignation();
         this.relationDesignation = memberAName + " is " + memberBName + "'s " + relationDescription;
+        this.parentalPermission = relation.isAParentOfB();
     }
 
     // Business Methods
@@ -31,7 +33,7 @@ public class FamilyMemberRelationDTO {
 
         FamilyMemberRelationDTO that = (FamilyMemberRelationDTO) o;
 
-        return this.relationDesignation.equals(that.relationDesignation);
+        return (this.relationDesignation.equals(that.relationDesignation) && this.parentalPermission == that.parentalPermission);
     }
 
     /*@Override

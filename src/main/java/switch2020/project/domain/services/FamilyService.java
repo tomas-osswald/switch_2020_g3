@@ -26,6 +26,10 @@ public class FamilyService {
         this.families.add(family);
     }
 
+    public int getFamilyListLenght() {
+        return families.size();
+    }
+
     // Business Methods
 
     /**
@@ -64,13 +68,13 @@ public class FamilyService {
     }
      */
 
-    /**
+    /*
      * Method to find the index of a family with a specific ID in the Families ArrayList
      *
      * @param familyID Integer representing the ID to find
      * @return Int corresponding to the index of the family  that has the passed ID
      * @throws IllegalArgumentException if there is no family with the passed ID
-     */
+
     private int findFamilyIndexByID(int familyID) {
         int index = 0;
         for (Family family : this.families) {
@@ -81,6 +85,7 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("No family with that ID was found");
     }
+     */
 
     /**
      * Method to check if a given email address is already present in the ArrayList of EmailAddress objects
@@ -129,7 +134,6 @@ public class FamilyService {
             return false;
         }
     }
-
 
 
     /**
@@ -254,6 +258,22 @@ public class FamilyService {
             }
         }
         return listOfFamiliesWithoutAdministrator;
+    }
+
+    public boolean checkIfEmailAlreadyRegisteredInApp(String emailToAdd) {
+        List<EmailAddress> allEmails = new ArrayList<>();
+        for (Family family : families) {
+            List<FamilyMember> members = family.getFamilyMembers();
+            for (FamilyMember member : members) {
+                allEmails.addAll(member.getEmails());
+            }
+        }
+        for (EmailAddress email : allEmails) {
+            if (emailToAdd.equalsIgnoreCase(email.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 /*

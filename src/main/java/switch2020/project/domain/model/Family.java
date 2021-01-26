@@ -470,6 +470,16 @@ public class Family {
         return null;
     }
 
+    public boolean isAParentOfB(FamilyMember memberA, FamilyMember memberB) {
+        for (Relation relation : familyRelations) {
+            if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
+                return relation.isAParentOfB();
+            }
+        }
+        return false;
+    }
+
+
 //    public String getFamilyName() {
 //        return familyName;
 //    }

@@ -6,10 +6,10 @@ import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.services.FamilyService;
 import switch2020.project.domain.services.RelationService;
 
-public class AddRelationController {
+public class AddOrChangeRelationController {
     private Application ffmApplication;
 
-    public AddRelationController(Application ffmApplication) {
+    public AddOrChangeRelationController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
     }
 

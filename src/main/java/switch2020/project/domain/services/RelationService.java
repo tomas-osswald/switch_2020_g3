@@ -18,4 +18,8 @@ public class RelationService {
     public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(Family targetFamily) {
         return targetFamily.getFamilyMembersRelationDTOList();
     }
+
+    public boolean checkIfMemberAisParentOfB(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
+        return targetFamily.isAParentOfB(memberA, memberB);
+    }
 }
