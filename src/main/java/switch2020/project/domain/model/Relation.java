@@ -18,6 +18,10 @@ public class Relation {
 
     }
 
+    public boolean isAparentOfB() {
+        return isAparentOfB;
+    }
+
     public FamilyMember getMemberA() {
         return memberA;
     }
