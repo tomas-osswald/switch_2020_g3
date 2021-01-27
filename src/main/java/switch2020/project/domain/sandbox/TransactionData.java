@@ -1,27 +1,24 @@
 package switch2020.project.domain.sandbox;
 
+import switch2020.project.domain.model.StandardCategory;
+
 import java.util.Date;
 
 public class TransactionData {
-    private Date date;
-    private double ammount;
-    private Category category;
+    private Date transactionDate;
+    private Date registrationDate;
+   // private Account destinationAccount;
+    private double ammount; //Currency?
+    private StandardCategory category;
+    private String designation;
 
-    public TransactionData(double ammount, Category category) {
-        this.date = new Date();
+    public TransactionData(String designation, double ammount, Date transactionDate, StandardCategory category) {
+        this.transactionDate = transactionDate;
+        this.registrationDate = new Date();
         this.ammount = ammount;
         this.category = category;
+        this.designation = designation;
     }
 
-    public Date getDate() {
-        return date;
-    }
 
-    public double getAmmount() {
-        return ammount;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
 }

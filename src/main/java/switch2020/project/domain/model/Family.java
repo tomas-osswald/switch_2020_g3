@@ -456,6 +456,10 @@ public class Family {
         return this.familyCustomCategories.add(newCustomCategory);
     }
 
+    public Account getFamilyCashAccount(){
+        return this.familyCashAccount;
+    }
+
 //    public String getFamilyName() {
 //        return familyName;
 //    }

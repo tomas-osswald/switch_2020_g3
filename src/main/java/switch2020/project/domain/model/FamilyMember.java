@@ -452,6 +452,13 @@ public class FamilyMember {
         return true;
     }
 
+    public Account getAccount(int accountID) {
+        for (Account account: accounts) {
+            if(account.isIDOfThisAccount(accountID)) return account;
+        }
+        return null;
+    }
+
 }
 
 

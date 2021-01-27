@@ -1,5 +1,7 @@
 package switch2020.project.domain.model;
 
+import switch2020.project.domain.sandbox.Category;
+import switch2020.project.domain.utils.TransferenceDTO;
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -14,7 +16,6 @@ public class CashAccount implements Account {
 
     // Constructors
     public CashAccount(String designation, double balance, int cashAccountID) {
-
         if (!validateBalance(balance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
@@ -99,4 +100,17 @@ public class CashAccount implements Account {
         CashAccount otherAccount = (CashAccount) other;
         return (this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance());
     }
+
+    public boolean isIDOfThisAccount(int accountID){
+        return this.accountData.isIDOfThisAccount(accountID);
+    }
+
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    }
+
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    }
+
 }

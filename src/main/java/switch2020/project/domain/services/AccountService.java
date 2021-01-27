@@ -1,6 +1,8 @@
 package switch2020.project.domain.services;
 
 import switch2020.project.domain.model.*;
+import switch2020.project.domain.sandbox.Category;
+import switch2020.project.domain.utils.TransferenceDTO;
 
 import java.util.List;
 
@@ -67,5 +69,21 @@ public class AccountService {
         Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
         return targetMember.addAccount(creditCardAccount);
     }
+
+    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO){
+        double transferedValue = transferCashDTO.getTransferedValue();
+        if(familyAccount==null) throw new IllegalArgumentException("Family has no account");
+        if(!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
+
+        //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
+        familyAccount.changeBalance(transferedValue*-1);
+        familyAccount.registerTransaction(targetAccount, category, transferCashDTO);
+        targetAccount.changeBalance(transferedValue);
+        targetAccount.registerTransaction(familyAccount, category, transferCashDTO);
+
+        return true;
+    }
+
+
 
 }
