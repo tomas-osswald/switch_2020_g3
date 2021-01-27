@@ -1,6 +1,8 @@
 package switch2020.project.domain.model;
 
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
+import switch2020.project.domain.model.accounts.Account;
+import switch2020.project.domain.model.user_data.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -3,7 +3,7 @@ package switch2020.project.domain.services;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.model.Relation;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
 
 import java.util.List;
 

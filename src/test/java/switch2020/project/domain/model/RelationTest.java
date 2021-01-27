@@ -2,6 +2,10 @@ package switch2020.project.domain.model;
 
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.user_data.Address;
+import switch2020.project.domain.model.user_data.EmailAddress;
+import switch2020.project.domain.model.user_data.PhoneNumber;
+import switch2020.project.domain.model.user_data.VatNumber;
 
 import java.util.ArrayList;
 import java.util.Date;

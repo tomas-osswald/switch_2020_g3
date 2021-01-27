@@ -1,4 +1,6 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.accounts;
+
+import switch2020.project.domain.sandbox.IBAN;
 
 public class BankAccount implements Account {
 

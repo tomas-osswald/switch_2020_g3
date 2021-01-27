@@ -1,6 +1,7 @@
 package switch2020.project.domain.utils;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 

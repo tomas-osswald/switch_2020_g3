@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
