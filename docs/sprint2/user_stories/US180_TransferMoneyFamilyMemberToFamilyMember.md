@@ -133,7 +133,7 @@ autonumber 1
 title transferMoneyCashAccountCardAccount
 actor "Actor" as actor
 participant ": UI" as UI
-participant ": AddCreditCardAccount\n Controller" as controller
+participant ": TransferMoneyFromCashAccount\n Controller" as controller
 participant ": Application" as app
 participant "aAccountService : AccountService" as aserv
 participant "aFamilyService : FamilyService" as fserv
@@ -142,20 +142,15 @@ participant "aCreditCardAccount : CreditCard Account" as credit
 participant "aFamilyMember : FamilyMember" as familyMember
 
 activate actor
-actor -> UI : add a Credit Card Account
 activate UI
-UI -> actor : ask: familyMemberID, familyID, cardDescription, withdrawLimit
 deactivate UI
 actor -> UI : inputs required data
-activate UI
-UI -> controller : addCreditCardAccountToFamilyMember(familyMemberID, familyID, cardDescription, withdrawLimit)
-
+UI -> controller : transferMoneyFromFamilyMemberCashAccount \n ToAnotherFamilyCashAccount \n (originFamilyMemberID,  destinationFamilyMemberID, ammount)
 activate controller
 controller -> app : getFamilyService()
 activate app
 app -> controller : aFamilyService
 deactivate app
-
 controller -> fserv : getFamily(familyID)
 activate fserv
 fserv -> controller : aFamily
