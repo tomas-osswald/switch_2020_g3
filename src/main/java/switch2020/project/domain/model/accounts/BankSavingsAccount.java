@@ -10,6 +10,7 @@ public class BankSavingsAccount implements Account {
     // Attributes
     private AccountData accountData;
     private double interestRate;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKSAVINGSACCOUNT);
 
 
     // Constructors
@@ -88,5 +89,9 @@ public class BankSavingsAccount implements Account {
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    }
+
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+        return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 }
