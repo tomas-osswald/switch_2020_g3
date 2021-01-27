@@ -23,7 +23,7 @@ public class IBAN {
     private boolean validate(String iban) {
         if (iban == null)
             return false;
-        if (iban.isEmpty() || iban.trim().length()==0)
+        if (iban.isEmpty() || iban.trim().length() == 0)
             return false;
         return checkIBAN(iban);
     }
@@ -148,7 +148,8 @@ public class IBAN {
                 return BigInteger.valueOf(34);
             case 'Z':
                 return BigInteger.valueOf(35);
+            default:
+                throw new IllegalArgumentException("Invalid CC Number");
         }
-        throw new IllegalArgumentException("Invalid CC Number");
     }
 }
