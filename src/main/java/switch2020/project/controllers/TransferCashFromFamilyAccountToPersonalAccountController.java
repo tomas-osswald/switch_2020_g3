@@ -1,7 +1,7 @@
 package switch2020.project.controllers;
 
 import switch2020.project.domain.model.*;
-import switch2020.project.domain.model.accounts.Account;
+
 import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.services.AccountService;
 import switch2020.project.domain.services.CategoryService;
