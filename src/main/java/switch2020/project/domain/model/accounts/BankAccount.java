@@ -1,4 +1,7 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.accounts;
+
+import switch2020.project.domain.model.categories.StandardCategory;
+import switch2020.project.domain.sandbox.IBAN;
 
 import switch2020.project.domain.sandbox.Category;
 import switch2020.project.domain.utils.TransferenceDTO;
@@ -35,10 +38,7 @@ public class BankAccount implements Account {
             description = "BankAccount"+" "+bankAccountID;
         }
         if(!validateBalance(balance)){
-            throw new IllegalArgumentException("Inserir aproximação do balanço");
-        }
-        if(!validateID(bankAccountID)){
-            throw new IllegalArgumentException("Inserir valor");
+            balance = 0.00;
         }
         this.accountData = new AccountData(balance,description,bankAccountID);
     }
@@ -54,13 +54,6 @@ public class BankAccount implements Account {
 
     public boolean validateBalance(Double balance){
         if( balance == null){
-            return false;
-        }
-        return true;
-    }
-
-    public boolean validateID(Integer bankAccountID){
-        if( bankAccountID == null){
             return false;
         }
         return true;

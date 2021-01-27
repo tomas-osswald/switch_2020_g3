@@ -2,13 +2,14 @@ package switch2020.project.domain.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.Family;
-import switch2020.project.domain.model.FamilyMember;
-import switch2020.project.domain.model.Relation;
 import switch2020.project.domain.model.*;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
-import switch2020.project.domain.utils.MemberProfileDTO;
-import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
+import switch2020.project.domain.model.user_data.Address;
+import switch2020.project.domain.model.user_data.EmailAddress;
+import switch2020.project.domain.model.user_data.PhoneNumber;
+import switch2020.project.domain.model.user_data.VatNumber;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +30,7 @@ class FamilyServiceTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
     boolean admin = false;
 
     //ProfileMemberDTO setup
@@ -53,7 +54,6 @@ class FamilyServiceTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "pai";
-    Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
     //Added 3rd FamilyMember to test
@@ -96,9 +96,6 @@ class FamilyServiceTest {
     Family familyTwo = new Family(familyTwoName, familyTwoID);
     Family familyThree = new Family(familyThreeName, familyThreeID);
     ArrayList<FamilyMember> familyMembers = new ArrayList<>();
-    FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), "Undefined Relation");
-    FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), "Undefined Relation");
-    FamilyMemberRelationDTO manuelAdminDTO = new FamilyMemberRelationDTO(manuelAdmin.getName(), "Self");
     List<FamilyMemberRelationDTO> expected = new ArrayList<FamilyMemberRelationDTO>();
 
     int familyOneIDGenerated = 1;
@@ -127,118 +124,6 @@ class FamilyServiceTest {
         assertEquals(expected, result);
     }
 
-    @Test
-    void GivenFamilyIDNotFound() {
-        int familyOneID = 1;
-        String familyOneName = "Simpson";
-        int familyTwoID = 2;
-        String familyTwoName = "Moura";
-        String selfID = "000000000ZZ4";
-        String otherID = "000000000ZZ4";
-        Family family1 = new Family(familyOneName, familyOneID);
-        Family family2 = new Family(familyTwoName, familyTwoID);
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(family1);
-        familyService.addFamily(family2);
-
-        int familyID = 3; //Dont exist any family with that ID number
-
-        assertThrows(IllegalArgumentException.class, () -> familyService.createRelation(selfID, otherID, "prima", familyID));
-    }
-
-    @Test
-    void CreateRelation() {
-        String relationDesignation = "Mother";
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(familyOneName);
-
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
-
-        assertTrue(familyService.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
-    }
-
-    @Test
-    void CreateRelationAssertNumberOfDesignationInList() {
-        String relationDesignation = "Mother";
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(familyOneName);
-
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
-
-        familyService.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated);
-
-        int expected = 1;
-
-        int result = familyService.getFamily(familyOneIDGenerated).numberOfRelationDesignations();
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void NotAdminTryingToCreateRelationReturningFalse() {
-        String relationDesignation = "Mother";
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(familyOneName);
-
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
-
-        assertFalse(familyService.createRelation(cc2, id3, relationDesignation, familyOneIDGenerated));
-    }
-
-    @Test
-    void FamilyDontExist() {
-        String relationDesignation = "Mother";
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(familyOneName);
-
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
-
-        assertThrows(Exception.class, () -> familyService.createRelation(cc, cc2, relationDesignation, familyTwoIDGenerated));
-    }
-
-    @Test
-    void CreateAnExistingRelationDesignation() {
-        String relationDesignation1 = "Mother";
-        String relationDesignation2 = "mother";
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(familyOneName);
-
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
-
-        familyService.createRelation(cc, cc2, relationDesignation1, familyOneIDGenerated);
-
-        assertTrue(familyService.createRelation(cc, id3, relationDesignation2, familyOneIDGenerated));
-    }
-
-    @Test
-    void FamilyMemberWithARelationAssigned() {
-        String relationDesignation1 = "Mother";
-        String relationDesignation2 = "Father";
-        FamilyService familyService = new FamilyService();
-
-        familyService.addFamily(familyOneName);
-
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyMember(cc, cc2, name2, date2, numero, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
-
-        familyService.createRelation(cc, cc2, relationDesignation1, familyOneIDGenerated);
-
-        assertThrows(Exception.class, () -> familyService.createRelation(cc, cc2, relationDesignation2, familyOneIDGenerated));
-
-    }
 
     /**
      * US101 addFamilyMember
@@ -406,52 +291,6 @@ class FamilyServiceTest {
         assertFalse(result);
     }
 
-    /**
-     * Test returning correct list since member has administrator privileges.
-     */
-    @Test
-    void getDTOList_ExpectingToHaveEqualListsBecauseMemberIsAdminAndMethodWillReturnFilledList() {
-        //Arrange
-        familyMembers.add(diogo);
-        familyMembers.add(jorge);
-        familyMembers.add(manuelAdmin);
-        family.addFamilyMemberArray(familyMembers);
-        familyTwo.addFamilyMember(diogo);
-        familyTwo.addFamilyMember(jorge);
-        expected.add(diogoDTO);
-        expected.add(jorgeDTO);
-        expected.add(manuelAdminDTO);
-        FamilyService familyService = new FamilyService(family);
-        //Act
-        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), manuelAdmin.getID());
-        //Assert
-        assertEquals(expected, result);
-        assertNotSame(expected, result);
-    }
-
-    /**
-     * Test returning an empty list because the FamilyMember asking for the list
-     * does not have Administrator privileges.
-     */
-    @Test
-    void getDTOList_TestWithNoAdministratorIDExpectingToBeNotEquals_ReturnIsEmptyList() {
-        //Arrange
-        familyMembers.add(diogo);
-        familyMembers.add(jorge);
-        familyMembers.add(manuelAdmin);
-        family.addFamilyMemberArray(familyMembers);
-        familyTwo.addFamilyMember(diogo);
-        familyTwo.addFamilyMember(jorge);
-        expected.add(diogoDTO);
-        expected.add(jorgeDTO);
-        expected.add(manuelAdminDTO);
-        FamilyService familyService = new FamilyService(family);
-        //Act
-        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), jorge.getID());
-        //Assert
-        assertNotEquals(expected, result);
-        assertNotSame(expected, result);
-    }
 
     @Test
     void getDTOList_TestExceptionThrowNoFamilyWithGivenID() {
@@ -459,27 +298,6 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService(family);
         //Assert
         assertThrows(IllegalArgumentException.class, () -> familyService.getFamilyMembersRelationDTOList(8898, manuelAdmin.getID()));
-    }
-
-
-    @Test
-    void getDTOList_TestWithFamilyMemberWithAdminPrivilegesButNoRelation() {
-        //Arrange
-        familyMembers.add(diogo);
-        familyMembers.add(jorge);
-        familyMembers.add(noRelationMember);
-        family.addFamilyMemberArray(familyMembers);
-        familyTwo.addFamilyMember(diogo);
-        familyTwo.addFamilyMember(jorge);
-        expected.add(diogoDTO);
-        expected.add(jorgeDTO);
-        expected.add(manuelAdminDTO);
-        FamilyService familyService = new FamilyService(family);
-        //Act
-        List<FamilyMemberRelationDTO> result = familyService.getFamilyMembersRelationDTOList(family.getFamilyID(), noRelationMember.getID());
-        //Assert
-        assertNotEquals(expected, result);
-        assertNotSame(expected, result);
     }
 
 

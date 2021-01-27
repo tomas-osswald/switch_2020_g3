@@ -1,6 +1,6 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.accounts;
 
-import switch2020.project.domain.sandbox.Category;
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.utils.TransferenceDTO;
 
 public interface Account {

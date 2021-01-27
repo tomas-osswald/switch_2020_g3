@@ -1,7 +1,7 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.accounts;
 
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.sandbox.CashTransaction;
-import switch2020.project.domain.sandbox.Category;
 import switch2020.project.domain.sandbox.Transaction;
 import switch2020.project.domain.utils.TransferenceDTO;
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -30,6 +30,10 @@ public class AccountData {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public void changeBalance(double value) {
+        this.balance += value;
     }
 
     public String getDescription() {

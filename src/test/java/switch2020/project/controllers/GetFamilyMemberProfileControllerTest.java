@@ -2,7 +2,11 @@ package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.*;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
+import switch2020.project.domain.model.user_data.Address;
+import switch2020.project.domain.model.user_data.EmailAddress;
+import switch2020.project.domain.model.user_data.PhoneNumber;
+import switch2020.project.domain.model.user_data.VatNumber;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +28,7 @@ class GetFamilyMemberProfileControllerTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
     boolean admin = false;
 
     Application app = new Application();
@@ -48,7 +52,6 @@ class GetFamilyMemberProfileControllerTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
 

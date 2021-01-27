@@ -1,7 +1,7 @@
 package switch2020.project.domain.sandbox;
 
-import switch2020.project.domain.model.Account;
-import switch2020.project.domain.model.StandardCategory;
+import switch2020.project.domain.model.accounts.Account;
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.utils.TransferenceDTO;
 
 import java.util.Date;

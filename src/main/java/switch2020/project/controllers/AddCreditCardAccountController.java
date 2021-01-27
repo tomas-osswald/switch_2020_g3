@@ -6,17 +6,17 @@ import switch2020.project.domain.services.AccountService;
 import switch2020.project.domain.services.FamilyService;
 
 public class AddCreditCardAccountController {
-    private Application app;
+    private Application ffmApplication;
 
     public AddCreditCardAccountController(Application app) {
-        this.app = app;
+        this.ffmApplication = ffmApplication;
     }
 
     public boolean addCreditCardAccountToFamilyMember(String familyMemberID, int familyID, String cardDescription, int withdrwaLimit) {
         try {
-            FamilyService familyService = this.app.getFamilyService();
+            FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(familyMemberID);
-            AccountService accountService = this.app.getAccountService();
+            AccountService accountService = this.ffmApplication.getAccountService();
             return accountService.createPersonalCreditCardAccount(targetMember, cardDescription, withdrwaLimit);
         } catch (Exception exception) {
             return false;

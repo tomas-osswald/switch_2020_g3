@@ -33,8 +33,5 @@ class GetStandardCategoriesTreeControllerTest {
         assertTrue(result);
     }
 
-    @Test
-    void getStandardCategoriesTreeReturnEmptyListNoStandardCategoriesException() {
-        assertFalse(standardCategoriesTreeController.getStandardCategoriesTree());
-    }
+
 }

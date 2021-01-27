@@ -1,7 +1,8 @@
 package switch2020.project.domain.model;
 
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
+import switch2020.project.domain.model.accounts.Account;
+import switch2020.project.domain.model.user_data.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,6 @@ public class FamilyMember {
     private List<EmailAddress> emails = new ArrayList<>();
     private VatNumber vatNumber;
     private Address address;
-    private Relation relation;
     private boolean administrator;
     private List<Account> accounts = new ArrayList<>();
 
@@ -274,6 +274,7 @@ public class FamilyMember {
 
      */
 
+
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateName(String name) {
@@ -298,13 +299,6 @@ public class FamilyMember {
         return true;
     }
 
-    public boolean validatePhone(Integer phone) {
-        if (phone == null) {
-            return false;
-        }
-        return true;
-    }
-
     /*private boolean validateRelation(Relation relation) {
         if (this.relation != null) {
             return true;
@@ -312,12 +306,15 @@ public class FamilyMember {
         return false;
     }*/
 
-    public List<EmailAddress> getEmails() {
-        return Collections.unmodifiableList(emails);
+    public boolean validatePhone(Integer phone) {
+        if (phone == null) {
+            return false;
+        }
+        return true;
     }
 
-    public int getVatNumber() {
-        return this.vatNumber.getVatNumber();
+    public List<EmailAddress> getEmails() {
+        return Collections.unmodifiableList(emails);
     }
 
     /*public boolean validateVat(int vat) {
@@ -329,20 +326,15 @@ public class FamilyMember {
         return mobile.validate(phone);
     }*/
 
+    public int getVatNumber() {
+        return this.vatNumber.getVatNumber();
+    }
+
     /**
      * @return String representing the FamilyMember's ID.
      */
     public String getID() {
         return this.ccNumber.getCcNumber();
-    }
-
-    // Business Methods
-    //Inserted lines 321 and 322 to run test and accept null relation
-    public String getRelation() {
-        if (this.relation == null) {
-            return null;
-        }
-        return relation.getRelationDesignation();
     }
 
     public String getName() {
@@ -367,6 +359,8 @@ public class FamilyMember {
         return this.administrator;
     }
 
+    /********************** USER STORIES **********************/
+
     /**
      * Method to get a FamilyMember his ID
      *
@@ -377,9 +371,6 @@ public class FamilyMember {
     protected String getFamilyMemberID() {
         return this.ccNumber.getCcNumber();
     }
-
-    /********************** USER STORIES **********************/
-
 
     /**
      * Method to create an EmailAddress object and add it to the ArrayList of EmailAddress objects
@@ -393,20 +384,6 @@ public class FamilyMember {
         return true;
     }
 
-    /**
-     * Method to add a Relation to Family Member
-     *
-     * @param relationDesignation Relation to add
-     */
-
-    protected void addRelation(String relationDesignation) {
-        if (this.relation != null)
-            throw new IllegalArgumentException("This family member already has an assigned relation");
-
-        Relation relation = new Relation(relationDesignation);
-
-        this.relation = relation;
-    }
 
     /**
      * method that uses the attributes from the family member
@@ -415,29 +392,9 @@ public class FamilyMember {
      * @return MemberProfileDTO with member's attributes
      */
     public MemberProfileDTO createProfile() {
-        if (this.relation == null) {
-            return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
-        }
-        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, relation, administrator);
+        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
     }
 
-
-    public FamilyMemberRelationDTO createFamilyMemberRelationDTO() {
-        FamilyMemberRelationDTO copyOfFamilyMemberDTO;
-        name = this.getName();
-        String relation;
-        if (this.relation == null) {
-            if (this.isAdministrator() == true) {
-                relation = "Self";
-            } else {
-                relation = "Undefined Relation";
-            }
-        } else {
-            relation = this.relation.getRelationDesignation();
-        }
-        copyOfFamilyMemberDTO = new FamilyMemberRelationDTO(name, relation);
-        return copyOfFamilyMemberDTO;
-    }
 
     public List<Account> getAccounts() {
         return accounts;
@@ -447,9 +404,32 @@ public class FamilyMember {
         return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
     }
 
+    // Adicionar este metodo ao addAccount() -> verificar se sao o mesmo tipo de Conta e se o IBAN é igual
+    /*
+    public boolean checkIfAccountAlreadyPresent(Account account){
+        for (Account accountTest : this.accounts) {
+            if( account.getIban() == accountTest.getIban() && account.getClass() == accountTest.getClass());
+                return true;
+        }
+        return false;
+    }
+     */
+
     public boolean addAccount(Account account) {
         this.accounts.add(account);
         return true;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof FamilyMember)) return false;
+
+        FamilyMember otherMember = (FamilyMember) o;
+
+        return (this.ccNumber.equals(otherMember.ccNumber) && this.administrator == otherMember.administrator && this.accounts.equals(otherMember.accounts) && this.name.equals(otherMember.name) && this.birthDate.equals(otherMember.birthDate) && this.phoneNumbers.equals(otherMember.phoneNumbers) && this.emails.equals(otherMember.emails) && this.vatNumber.equals(otherMember.vatNumber) && this.address.equals(otherMember.address));
     }
 
     public Account getAccount(int accountID) {

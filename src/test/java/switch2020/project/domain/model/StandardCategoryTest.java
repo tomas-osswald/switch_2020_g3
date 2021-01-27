@@ -2,6 +2,7 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.services.FamilyService;
 
 import static org.junit.jupiter.api.Assertions.*;

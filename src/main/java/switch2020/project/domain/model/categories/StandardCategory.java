@@ -1,4 +1,4 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.categories;
 
 public class StandardCategory {
 

@@ -1,12 +1,12 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.CustomCategory;
-import switch2020.project.domain.model.EmailAddress;
+import switch2020.project.domain.model.categories.CustomCategory;
+import switch2020.project.domain.model.user_data.EmailAddress;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
-import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +24,10 @@ public class FamilyService {
 
     public FamilyService(Family family) {
         this.families.add(family);
+    }
+
+    public int getFamilyListLenght() {
+        return families.size();
     }
 
     // Business Methods
@@ -64,13 +68,13 @@ public class FamilyService {
     }
      */
 
-    /**
+    /*
      * Method to find the index of a family with a specific ID in the Families ArrayList
      *
      * @param familyID Integer representing the ID to find
      * @return Int corresponding to the index of the family  that has the passed ID
      * @throws IllegalArgumentException if there is no family with the passed ID
-     */
+
     private int findFamilyIndexByID(int familyID) {
         int index = 0;
         for (Family family : this.families) {
@@ -81,6 +85,7 @@ public class FamilyService {
         }
         throw new IllegalArgumentException("No family with that ID was found");
     }
+     */
 
     /**
      * Method to check if a given email address is already present in the ArrayList of EmailAddress objects
@@ -130,32 +135,6 @@ public class FamilyService {
         }
     }
 
-    /**
-     * Method to create a Relation and assign it to a Family Member
-     *
-     * @param selfCCNumber        ID of the Family Member how wants to create a Relation
-     * @param otherccNumber       ID of the Family Member to be added a Relation
-     * @param relationDesignation Relation Designation
-     * @param familyID            FamilyID of Family Member how wants to create a Relation
-     * @return boolean
-     */
-
-    public boolean createRelation(String selfCCNumber, String otherccNumber, String relationDesignation, int familyID) {
-        Family fam = getFamily(familyID);
-
-
-        if (fam.verifyAdministrator(selfCCNumber)) { // If is Administrator
-            if (fam.hasDesignation(relationDesignation)) { // Verify if a given relation designation is already present in list of relations assigned
-                fam.addRelationToFamilyMember(otherccNumber, relationDesignation); // Calls a Family Method to add Relation to a specific member
-
-            } else { // If not, add to list of relations assigned in specific family
-                fam.addToRelationDesignationList(relationDesignation);
-                fam.addRelationToFamilyMember(otherccNumber, relationDesignation); // Calls a Family Method to add Relation to a specific member
-            }
-            return true; // Return true if is administrator and a Relation has been created and assigned to given Family Member
-        }
-        return false; // Return false if isn't administrator
-    }
 
     /**
      * Method to get a family by ID in families
@@ -279,6 +258,22 @@ public class FamilyService {
             }
         }
         return listOfFamiliesWithoutAdministrator;
+    }
+
+    public boolean checkIfEmailAlreadyRegisteredInApp(String emailToAdd) {
+        List<EmailAddress> allEmails = new ArrayList<>();
+        for (Family family : families) {
+            List<FamilyMember> members = family.getFamilyMembers();
+            for (FamilyMember member : members) {
+                allEmails.addAll(member.getEmails());
+            }
+        }
+        for (EmailAddress email : allEmails) {
+            if (emailToAdd.equalsIgnoreCase(email.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 /*

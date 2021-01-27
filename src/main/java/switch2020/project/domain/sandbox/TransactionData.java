@@ -1,6 +1,6 @@
 package switch2020.project.domain.sandbox;
 
-import switch2020.project.domain.model.StandardCategory;
+import switch2020.project.domain.model.categories.StandardCategory;
 
 import java.util.Date;
 

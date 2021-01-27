@@ -1,7 +1,8 @@
 package switch2020.project.domain.services;
 
 import switch2020.project.domain.model.*;
-import switch2020.project.domain.sandbox.Category;
+import switch2020.project.domain.model.accounts.*;
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.utils.TransferenceDTO;
 
 import java.util.List;
@@ -54,7 +55,6 @@ public class AccountService {
         try {
             Account bankAccount = new BankAccount(accountName, balance, accountID);
             targetMember.addAccount(bankAccount);
-
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -68,6 +68,14 @@ public class AccountService {
 
         Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
         return targetMember.addAccount(creditCardAccount);
+    }
+
+
+    public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
+        int accountID = generateID(targetMember);
+        Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
+        targetMember.addAccount(bankSavingsAccount);
+        return true;
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO){

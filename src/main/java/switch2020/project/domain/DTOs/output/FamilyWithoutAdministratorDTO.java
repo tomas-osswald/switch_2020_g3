@@ -1,4 +1,4 @@
-package switch2020.project.domain.utils;
+package switch2020.project.domain.DTOs.output;
 
 public class FamilyWithoutAdministratorDTO {
     private String familyName;

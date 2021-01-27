@@ -2,7 +2,7 @@ package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
 
 public class GetFamilyMemberProfileController {
 
