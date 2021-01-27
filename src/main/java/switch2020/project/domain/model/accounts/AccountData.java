@@ -8,12 +8,12 @@ import java.util.List;
 
 public class AccountData {
 
-    private double balance = 0;
+    private Double balance = 0.00;
     private String description;
     private int accountID;
     private List<Transaction> transactions;
 
-    public AccountData(double balance, String designation, int accountID) {
+    public AccountData(Double balance, String designation, int accountID) {
         validateDesignation(designation);
         this.balance = balance;
         this.description = designation;

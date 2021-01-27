@@ -7,7 +7,7 @@ public class CreditCardAccount implements Account {
 
     // Attributes
     private AccountData accountData;
-    private double withdrawalLimit;
+    private Double withdrawalLimit;
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
@@ -16,9 +16,9 @@ public class CreditCardAccount implements Account {
             this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCardDescription(), accountID);
         } catch (InvalidAccountDesignationException exception) {
             String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
-            this.accountData = new AccountData(withdrawalLimit, cardDescriptionDefault, accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), cardDescriptionDefault, accountID);
         }
-        this.withdrawalLimit = withdrawalLimit;
+        this.withdrawalLimit = addCreditCardAccountDTO.getWithdrwaLimit();
     }
 
     // Bussiness Methods

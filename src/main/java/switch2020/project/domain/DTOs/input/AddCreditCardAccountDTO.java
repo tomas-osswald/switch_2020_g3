@@ -26,7 +26,7 @@ public class AddCreditCardAccountDTO {
         return cardDescription;
     }
 
-    public double getWithdrwaLimit() {
+    public Double getWithdrwaLimit() {
         return withdrwaLimit;
     }
 }
