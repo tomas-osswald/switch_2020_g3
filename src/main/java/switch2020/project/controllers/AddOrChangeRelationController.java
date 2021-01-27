@@ -9,9 +9,6 @@ import switch2020.project.domain.services.RelationService;
 public class AddOrChangeRelationController {
     private Application ffmApplication;
 
-    public AddOrChangeRelationController() {
-
-    }
 
     /**
      * Method to add a Relation to a Family Member
