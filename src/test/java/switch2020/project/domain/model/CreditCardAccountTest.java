@@ -1,11 +1,16 @@
 package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.model.accounts.CreditCardAccount;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CreditCardAccountTest {
+
+    //
+    String familyMemberID = "000000000ZZ4";
+    int familyID = 1;
 
     //Credit Card Account Data One
     double withdrawlLimitOne = 1000.00;
@@ -24,7 +29,8 @@ class CreditCardAccountTest {
 
     @Test
     void aValidInstanceOfCreditCardAccount() {
-        CreditCardAccount creditCardAccount = new CreditCardAccount(withdrawlLimitOne, cardDescriptionOne, idOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
 
         assertNotNull(creditCardAccount);
     }
@@ -32,7 +38,8 @@ class CreditCardAccountTest {
     @Test
     void aValidInstanceOfCreditCardAccountWithNullDescription() {
         String cardDescriptionNull = null;
-        CreditCardAccount creditCardAccount = new CreditCardAccount(withdrawlLimitOne, cardDescriptionNull, idOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionNull, withdrawlLimitOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         String expected = "Credit Card Account - Account #1";
 
         assertNotNull(creditCardAccount);
@@ -41,8 +48,9 @@ class CreditCardAccountTest {
 
     @Test
     void aValidInstanceOfCreditCardAccountWithEmptyDescription() {
-        String cardDescriptionNull = "";
-        CreditCardAccount creditCardAccount = new CreditCardAccount(withdrawlLimitOne, cardDescriptionNull, idOne);
+        String cardDescriptionEmpty = "";
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionEmpty, withdrawlLimitOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         String expected = "Credit Card Account - Account #1";
 
         assertNotNull(creditCardAccount);
@@ -52,25 +60,29 @@ class CreditCardAccountTest {
     @Test
     void assertThrowWithdrawLimitInvalidLessThanZero() {
         double invalidWithdrawLimit = -1;
-        assertThrows(Exception.class, () -> new CreditCardAccount(invalidWithdrawLimit, cardDescriptionOne, idOne));
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, invalidWithdrawLimit);
+        assertThrows(Exception.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
     }
 
     @Test
     void assertThrowWithdrawLimitInvalidNull() {
         Double invalidWithdrawLimit = null;
-        assertThrows(Exception.class, () -> new CreditCardAccount(invalidWithdrawLimit, cardDescriptionOne, idOne));
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, invalidWithdrawLimit);
+        assertThrows(Exception.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
     }
 
     @Test
     void compareSameInstance() {
-        CreditCardAccount creditCardAccount = new CreditCardAccount(withdrawlLimitOne, cardDescriptionOne, idOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         assertEquals(creditCardAccount, creditCardAccount);
         assertSame(creditCardAccount, creditCardAccount);
     }
 
     @Test
     void compareWithInstanceOfAnotherClass() {
-        CreditCardAccount creditCardAccount = new CreditCardAccount(withdrawlLimitOne, cardDescriptionOne, idOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         String anotherInstance = "creditCardAccount";
 
         assertNotSame(creditCardAccount, anotherInstance);
@@ -79,8 +91,10 @@ class CreditCardAccountTest {
 
     @Test
     void compareDiferentInstanceWithSameIDBalanceAndWithdrawalLimit() {
-        CreditCardAccount creditCardAccountOne = new CreditCardAccount(withdrawlLimitThree, cardDescriptionThree, idThree);
-        CreditCardAccount creditCardAccountTwo = new CreditCardAccount(withdrawlLimitOne, cardDescriptionOne, idOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTOOne = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTOTwo = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionThree, withdrawlLimitThree);
+        CreditCardAccount creditCardAccountOne = new CreditCardAccount(addCreditCardAccountDTOOne, idThree);
+        CreditCardAccount creditCardAccountTwo = new CreditCardAccount(addCreditCardAccountDTOTwo, idOne);
 
         assertEquals(creditCardAccountOne, creditCardAccountTwo);
         assertNotSame(creditCardAccountOne, creditCardAccountTwo);
@@ -88,8 +102,10 @@ class CreditCardAccountTest {
 
     @Test
     void compareDiferentInstanceWithSameBalanceAndWithdrawalLimit() {
-        CreditCardAccount creditCardAccountOne = new CreditCardAccount(withdrawlLimitOne, cardDescriptionOne, idOne);
-        CreditCardAccount creditCardAccountTwo = new CreditCardAccount(withdrawlLimitOne, cardDescriptionOne, idTwo);
+        AddCreditCardAccountDTO addCreditCardAccountDTOOne = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne);
+        AddCreditCardAccountDTO addCreditCardAccountDTOTwo = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionThree, withdrawlLimitOne);
+        CreditCardAccount creditCardAccountOne = new CreditCardAccount(addCreditCardAccountDTOOne, idOne);
+        CreditCardAccount creditCardAccountTwo = new CreditCardAccount(addCreditCardAccountDTOTwo, idTwo);
 
         assertNotEquals(creditCardAccountOne, creditCardAccountTwo);
         assertNotSame(creditCardAccountOne, creditCardAccountTwo);

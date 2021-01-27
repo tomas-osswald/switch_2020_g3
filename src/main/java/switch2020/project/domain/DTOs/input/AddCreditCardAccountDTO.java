@@ -5,9 +5,9 @@ public class AddCreditCardAccountDTO {
     private String familyMemberID;
     private int familyID;
     private String cardDescription;
-    private int withdrwaLimit;
+    private Double withdrwaLimit;
 
-    public AddCreditCardAccountDTO(String familyMemberID, int familyID, String cardDescription, int withdrwaLimit) {
+    public AddCreditCardAccountDTO(String familyMemberID, int familyID, String cardDescription, Double withdrwaLimit) {
         this.familyMemberID = familyMemberID;
         this.familyID = familyID;
         this.cardDescription = cardDescription;
@@ -26,7 +26,7 @@ public class AddCreditCardAccountDTO {
         return cardDescription;
     }
 
-    public int getWithdrwaLimit() {
+    public double getWithdrwaLimit() {
         return withdrwaLimit;
     }
 }
