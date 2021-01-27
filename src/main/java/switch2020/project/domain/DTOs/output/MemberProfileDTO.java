@@ -21,22 +21,6 @@ public class MemberProfileDTO {
     private boolean administrator;
 
 
-    public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, Relation relation, boolean administrator) {
-        this.name = name;
-        this.birthDate = (Date) birthDate.clone();
-        List<PhoneNumber> phoneNumbersClone = new ArrayList<>();
-        phoneNumbersClone.addAll(phoneNumbers);
-        this.phoneNumbers = phoneNumbersClone;
-        List<EmailAddress> emailsCopy = new ArrayList<>();
-        emailsCopy.addAll(emails);
-        this.emails = emailsCopy;
-        this.vatNumber = vatNumber;
-        this.address = address;
-        this.relation = relation;
-        this.administrator = administrator;
-    }
-
-    //Method for people without relations
     public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
         this.name = name;
         this.birthDate = (Date) birthDate.clone();
