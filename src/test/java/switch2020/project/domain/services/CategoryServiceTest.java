@@ -1,7 +1,7 @@
 package switch2020.project.domain.services;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.StandardCategory;
+import switch2020.project.domain.model.categories.StandardCategory;
 
 import java.util.ArrayList;
 import java.util.List;

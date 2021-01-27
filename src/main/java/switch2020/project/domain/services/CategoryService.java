@@ -1,9 +1,9 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.CustomCategory;
+import switch2020.project.domain.model.categories.CustomCategory;
 import switch2020.project.domain.model.Family;
-import switch2020.project.domain.model.StandardCategory;
-import switch2020.project.domain.utils.CategoryTreeDTO;
+import switch2020.project.domain.model.categories.StandardCategory;
+import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
 
 import java.util.ArrayList;
 import java.util.List;

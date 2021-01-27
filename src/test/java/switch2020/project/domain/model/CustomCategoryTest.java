@@ -2,6 +2,8 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.categories.CustomCategory;
+import switch2020.project.domain.model.categories.StandardCategory;
 
 class CustomCategoryTest {
     StandardCategory parentCategory = new StandardCategory("Others", null, 10);

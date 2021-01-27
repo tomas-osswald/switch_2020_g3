@@ -3,7 +3,7 @@ package switch2020.project.controllers;
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
 
 import java.util.Date;
 

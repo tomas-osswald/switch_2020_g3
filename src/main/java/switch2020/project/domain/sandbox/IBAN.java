@@ -1,4 +1,4 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.sandbox;
 
 import java.math.BigInteger;
 import java.util.Objects;
