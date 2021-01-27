@@ -130,7 +130,8 @@ public class CategoryService {
      * @return List of StandardCategory objects
      */
     public List<StandardCategory> getCategories() {
-        List<StandardCategory> categoriesClone = this.categories;
+        List<StandardCategory> categoriesClone = new ArrayList<>();
+        categoriesClone.addAll(this.categories);
         return categoriesClone;
     }
 
