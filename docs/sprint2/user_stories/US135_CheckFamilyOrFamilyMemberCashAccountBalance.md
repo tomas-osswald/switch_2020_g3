@@ -9,7 +9,7 @@ As a family administrator, I want to add to a credit card account I have:
 **Demonstration 1** As administrator, I want to...
 
 - 1.1. Check Family Cash Account;
-- 1.2. Check Family Member Cash Account.
+- 1.2. Check a Family Member Cash Account.
 
 **Extracted from communications with the Product Owner**
 
@@ -64,9 +64,10 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
         - Family ID (User's Family).
         
     * For check Family Member Cash Account:
-            - Self ID (Administrator ID);
-            - Other ID (Other Family Memeber ID);
-            - Family ID (User's Family).
+        - Self ID (Administrator ID);
+        - Other ID (Other Family Memeber ID);
+        - Account ID (Cash Account ID);
+        - Family ID (User's Family).
 
 ##2.1. Domain Model Diagram
 
@@ -201,14 +202,16 @@ participant "aFamilyMember : FamilyMember" as familyMember
 participant "aCashAccount : CashAccount" as cash
 
 activate actor
-actor -> UI : check Family
+actor -> UI : check Family Member
 activate UI
 UI -> actor : ask: selfID, otherID, familyId
 deactivate UI
 
+ref over actor : List of Cash Account of a Family Member\n - checkCashAccountBalance( ).4
+
 actor -> UI : inputs required data
 activate UI
-UI -> controller : checkFamilyCashAccountBalance(selfID, otherID, familyID)
+UI -> controller : checkFamilyMemberCashAccountBalance(selfID, otherID, accountID, familyID)
 
 activate controller
 controller -> app : getFamilyService()
@@ -236,9 +239,9 @@ activate app
 controller <- app : aAccountService
 deactivate app
 
-controller -> aserv : getFamilyMemberCashAccountBalance(aFamilyMember)
+controller -> aserv : getFamilyMemberCashAccountBalance(aFamilyMember, accountID)
 activate aserv
-aserv -> familyMember : getFamilyMemberCashAccountBalance( )
+aserv -> familyMember : getAccountBalance(accountID)
 
 activate familyMember
 familyMember -> cash : getBalance( )
@@ -246,7 +249,7 @@ activate cash
 cash -> familyMember : balance
 deactivate cash
 
-familyMember -> aserv : inform sucess
+familyMember -> aserv : balance
 deactivate familyMember
 deactivate familyMember
 aserv -> controller : balance
@@ -260,43 +263,73 @@ deactivate UI
 deactivate actor
 ```
 
+**checkCashAccountBalance( ).4**
+```puml
+autonumber 1
+title getListOfCashAccountsOfAFamilyMember( )
+actor "Actor" as actor
+participant ": UI" as UI
+participant ": CheckCashAccountBalance\n Controller" as controller
+participant ": Application" as app
+participant "aAccountService : AccountService" as aserv
+participant "aFamilyService : FamilyService" as fserv
+participant "aFamily : Family" as family
+participant "aFamilyMember : FamilyMember" as familyMember
+
+activate actor
+actor -> UI : inputs required data
+activate UI
+UI -> controller : getListOfCashAccountsOfAFamilyMember(selfID, otherID, familyID)
+
+activate controller
+controller -> app : getFamilyService()
+activate app
+app -> controller : aFamilyService
+deactivate app
+
+controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+activate fserv
+fserv -> controller : inform success
+deactivate fserv
+
+controller -> fserv : getFamily(familyID)
+activate fserv
+fserv -> controller : aFamily
+deactivate fserv
+
+controller -> family : getFamilyMember(otherID)
+activate family
+family -> controller : aFamilyMember
+deactivate family
+
+controller -> app : getAccountService()
+activate app
+controller <- app : aAccountService
+deactivate app
+
+controller -> aserv : getListOfCashAccountsOfAFamilyMember(aFamilyMember)
+activate aserv
+aserv -> familyMember : getListOfCashAccountsOfAFamilyMember( )
+
+activate familyMember
+
+
+familyMember -> aserv : listOfCashAccounts
+deactivate familyMember
+deactivate familyMember
+aserv -> controller : listOfCashAccounts
+deactivate aserv
+
+controller -> UI : listOfCashAccounts
+deactivate controller
+
+UI -> actor : listOfCashAccounts
+deactivate UI
+deactivate actor
+```
+
 ## 3.2. Class Diagram
 
-```puml
-
-title Class Diagram - US173
-
-class AddCreditCardAcccountController {
-}
-
-class Application {
-}
-
-class AccountService {
-+ addCreditCardAccount()
-}
-
-class FamilyService {
-   }
-   
-class FamilyMember {
-    + addAccount()
-}
-
-class Account {
-}
-
-class CreditCardAccount {
-}
-
-AddCreditCardAcccountController  -> Application
-AddCreditCardAcccountController  -down-> AccountService
-(AccountService, FamilyMember) -> CreditCardAccount : add credit card account to member
-Application --> FamilyService : has
-FamilyService --> FamilyMember : has
-FamilyMember --> Account : has List<Account>
-Account  <-- CreditCardAccount : Is a
-```
 
 ## 3.3. Applied Patterns
 
