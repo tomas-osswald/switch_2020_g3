@@ -6,8 +6,8 @@ import switch2020.project.domain.services.CategoryService;
 import switch2020.project.domain.services.FamilyService;
 
 public class AddCategoryToFamilyTreeController {
-    private Application ffmApplication;
-    
+    private final Application ffmApplication;
+
 
     public AddCategoryToFamilyTreeController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
@@ -23,7 +23,6 @@ public class AddCategoryToFamilyTreeController {
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
         return false;

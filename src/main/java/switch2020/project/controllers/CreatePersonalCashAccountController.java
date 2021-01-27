@@ -6,7 +6,7 @@ import switch2020.project.domain.services.AccountService;
 import switch2020.project.domain.services.FamilyService;
 
 public class CreatePersonalCashAccountController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
 
     public CreatePersonalCashAccountController(Application ffmApplication) {
