@@ -3,20 +3,19 @@ package switch2020.project.domain.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.FamilyMember;
-import switch2020.project.domain.model.Relation;
+import switch2020.project.domain.model.*;
+
 import java.util.Date;
 import switch2020.project.controllers.AddFamilyAdministratorController;
 import switch2020.project.controllers.AddFamilyController;
-import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.model.Relation;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AccountServiceTest {
-
 
     String id = "000000000ZZ4";
     String name = "Diogo";
@@ -28,6 +27,7 @@ class AccountServiceTest {
     AddFamilyController addFamilyController = new AddFamilyController(ffmApp);
     AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(ffmApp);
     AccountService accountService = new AccountService();
+    FamilyService familyService = new FamilyService();
 
     String cc = "000000000ZZ4";
     String nameTwo = "Diogo";
@@ -41,7 +41,7 @@ class AccountServiceTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
 
     boolean admin = false;
 
@@ -57,7 +57,6 @@ class AccountServiceTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
     //Added 3rd FamilyMember to test
@@ -72,7 +71,6 @@ class AccountServiceTest {
     String local3 = "Gaia";
     String city3 = "Porto";
     String relacao3 = "primo";
-    Relation relation3 = new Relation(relacao3);
     boolean admin3 = true;
 
     //DTO Test Setup
@@ -84,6 +82,10 @@ class AccountServiceTest {
     double negativeBalance = -2;
     String accountName = "Current Account";
     String accountName2 = "Other Current Account";
+
+    int family1ID = 5;
+    String family1Name = "Silva";
+    Family silva = new Family(family1Name, family1ID);
 
     @BeforeEach
     void setup() {
@@ -116,9 +118,9 @@ class AccountServiceTest {
         assertTrue(accountService.addBankAccount(diogo, accountName, balance));
     }
     @Test
-    void addBankAccountTest2_Failure() {
+    void addBankAccountTest2_NullBalanceSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        Assertions.assertFalse(accountService.addBankAccount(diogo, accountName, null));
+        Assertions.assertTrue(accountService.addBankAccount(diogo, accountName, null));
     }
     @Test
     void addBankAccountTest3_AddTwoBankAccountsSuccess() {
@@ -129,9 +131,11 @@ class AccountServiceTest {
 
     @Test
     void createPersonalCreditCardAccountTrue() {
-    }
+        assertTrue(accountService.createPersonalCreditCardAccount(diogo,"Conta do Ze", 5000));
+        }
 
     @Test
     void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
+        assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(diogo,"Conta da Maria", -100));
     }
 }

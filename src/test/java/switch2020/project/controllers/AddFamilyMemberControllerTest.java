@@ -10,7 +10,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class addFamilyMemberControllerTest {
+class AddFamilyMemberControllerTest {
 
 
     String ccNumber = "000000000ZZ4";
@@ -24,7 +24,6 @@ class addFamilyMemberControllerTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
     boolean admin = true;
 
     String ccNumber2 = "137843828ZX3";
@@ -38,7 +37,7 @@ class addFamilyMemberControllerTest {
     String local2 = "ccccc";
     String city2 = "Porto";
     String relacao2 = "filho";
-    Relation relation2 = new Relation(relacao);
+
     boolean admin2 = false;
 
     @Test

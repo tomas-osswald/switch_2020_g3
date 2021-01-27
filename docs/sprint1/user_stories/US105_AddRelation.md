@@ -354,9 +354,9 @@ To test the new functionality was use the following tests:
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddRelationController addRelationController = new AddRelationController(application);
+        AddRelationController addOrChangeRelationController = new AddRelationController(application);
 
-        assertTrue(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+        assertTrue(addOrChangeRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
     }
     
 **Test 6:** Test at controller to assert an insuccess case (Is not Administrator)
@@ -374,9 +374,9 @@ To test the new functionality was use the following tests:
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
 
-        AddRelationController addRelationController = new AddRelationController(application);
+        AddRelationController addOrChangeRelationController = new AddRelationController(application);
 
-        assertFalse(addRelationController.createRelation(cc2, cc3, relationDesignation, familyOneIDGenerated));
+        assertFalse(addOrChangeRelationController.createRelation(cc2, cc3, relationDesignation, familyOneIDGenerated));
     }
     
 **Test 7:** Test at controller to assert an insuccess case (Empty Relation Designation)
@@ -392,9 +392,9 @@ To test the new functionality was use the following tests:
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddRelationController addRelationController = new AddRelationController(application);
+        AddRelationController addOrChangeRelationController = new AddRelationController(application);
 
-        assertFalse(addRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
+        assertFalse(addOrChangeRelationController.createRelation(cc, cc2, relationDesignation, familyOneIDGenerated));
     }
 
 # 4. Implementation

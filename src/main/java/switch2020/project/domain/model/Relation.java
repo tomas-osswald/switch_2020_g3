@@ -4,14 +4,32 @@ public class Relation {
 
     // Attributes
     private String relationDesignation;
+    private FamilyMember memberA;
+    private FamilyMember memberB;
+    private boolean isAparentOfB = false;
 
     // Constructors
-    public Relation(String relationDesignation) {
+    public Relation(String relationDesignation, FamilyMember memberA, FamilyMember memberB, boolean aParentOfB) {
         isValid(relationDesignation);
         this.relationDesignation = relationDesignation;
+        this.memberA = memberA;
+        this.memberB = memberB;
+        this.isAparentOfB = aParentOfB;
+
     }
 
-    // Business Methods
+    public boolean isAParentOfB() {
+        return isAparentOfB;
+    }
+
+    public FamilyMember getMemberA() {
+        return memberA;
+    }
+
+    public FamilyMember getMemberB() {
+        return memberB;
+    }
+// Business Methods
 
     /**
      * Method to verify if a given relation designation to instantiate is null or empty
@@ -34,7 +52,7 @@ public class Relation {
 
         Relation otherRelation = (Relation) o;
 
-        return this.relationDesignation.equals(otherRelation.relationDesignation);
+        return (this.relationDesignation.equals(otherRelation.relationDesignation) && this.memberA.equals(otherRelation.memberA) && this.memberB.equals(otherRelation.memberB) && this.isAparentOfB == otherRelation.isAparentOfB);
     }
 
     @Override

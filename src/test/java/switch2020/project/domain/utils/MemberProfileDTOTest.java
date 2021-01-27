@@ -1,7 +1,10 @@
 package switch2020.project.domain.utils;
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.*;
+import switch2020.project.domain.model.Address;
+import switch2020.project.domain.model.EmailAddress;
+import switch2020.project.domain.model.PhoneNumber;
+import switch2020.project.domain.model.VatNumber;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +26,6 @@ class MemberProfileDTOTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
     boolean admin = false;
 
     Address address = new Address(rua, codPostal, local, city);
@@ -36,7 +38,7 @@ class MemberProfileDTOTest {
     @Test
     void compareSameProfileMemberDTO() {
 
-        MemberProfileDTO diogoProfile = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+        MemberProfileDTO diogoProfile = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         assertSame(diogoProfile, diogoProfile);
         assertEquals(diogoProfile, diogoProfile);
@@ -44,7 +46,7 @@ class MemberProfileDTOTest {
 
     @Test
     void compareProfileDTOWithAnotherClass() {
-        MemberProfileDTO diogoProfile = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, relation, admin);
+        MemberProfileDTO diogoProfile = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         assertNotEquals(diogoProfile, address);
     }

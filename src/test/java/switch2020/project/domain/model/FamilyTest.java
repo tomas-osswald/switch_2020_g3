@@ -25,7 +25,6 @@ class FamilyTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
     boolean admin = false;
 
     //ProfileMemberDTO setup
@@ -48,19 +47,18 @@ class FamilyTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
+
     boolean admin2 = false;
 
 
     //Setup for getFamilyMemberRelationDTO List
-    FamilyMember diogo = new FamilyMember(cc, name, date,numero,email,nif,rua,codPostal,local, city);
+    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
     FamilyMember jorge = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
     FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
-    FamilyMemberRelationDTO diogoDTO = new FamilyMemberRelationDTO(diogo.getName(), "Undefined Relation");
-    FamilyMemberRelationDTO jorgeDTO = new FamilyMemberRelationDTO(jorge.getName(), "Undefined Relation");
-    FamilyMemberRelationDTO newMemberUndefinedRelation = new FamilyMemberRelationDTO(newMember.getName(), "Undefined Relation");
     List<FamilyMemberRelationDTO> expectedDTOList = new ArrayList<>();
     ArrayList<FamilyMember> expectedFamilyMembers = new ArrayList<>();
+    Relation relation2 = new Relation(relacao2, diogo, jorge, false);
+    Relation relation = new Relation(relacao, jorge, diogo, false);
 
     int familyOneID = 123;
     String familyOneName = "Simpson";
@@ -157,20 +155,6 @@ class FamilyTest {
         assertFalse(family.verifyAdministrator(notAtribuitedID));
     }
 
-    @Test
-    void FamilyMemberWithGivenIDDoesntExist() {
-        String familyMemberIDThatDoesntExist = "000000020ZZ4";
-        FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-
-        int familyID = 1;
-        String familyName = "Moreira";
-        Family family = new Family(familyName, familyID);
-        family.addFamilyMember(familyMember1);
-
-        String relationDesignation = "Mother";
-
-        assertThrows(IllegalArgumentException.class, () -> family.addRelationToFamilyMember(familyMemberIDThatDoesntExist, relationDesignation));
-    }
 
     @Test
     void familyConstructorTest1_validNameSimpson() {
@@ -339,25 +323,6 @@ class FamilyTest {
     }
 
 
-    /**
-     * Test expecting a correct conversion of the List of FamilyMembers of a Family, to FamilyMembersRelationDTO,
-     * and said List.
-     */
-    @Test
-    void getFamilyMembersRelationDTOList() {
-        expectedDTOList.add(diogoDTO);
-        expectedDTOList.add(jorgeDTO);
-        expectedDTOList.add(newMemberUndefinedRelation);
-        expectedFamilyMembers.add(diogo);
-        expectedFamilyMembers.add(jorge);
-        expectedFamilyMembers.add(newMember);
-        family.addFamilyMemberArray(expectedFamilyMembers);
-        List<FamilyMemberRelationDTO> result = family.getFamilyMembersRelationDTOList();
-        assertEquals(expectedDTOList, result);
-        assertNotSame(expectedDTOList, result);
-    }
-
-
     @Test
     void getFamilyMemberProfileUsingIDsTest1_MemberProfileDTOIsEquals() {
         emails.add(emailAddress);
@@ -371,6 +336,7 @@ class FamilyTest {
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+
     @Test
     void getFamilyMemberProfileUsingIDsTest2_MemberProfileDTOIsNotEquals() {
         emails.add(emailAddress);

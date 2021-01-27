@@ -24,7 +24,7 @@ class GetFamilyMemberProfileControllerTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
     boolean admin = false;
 
     Application app = new Application();
@@ -48,7 +48,6 @@ class GetFamilyMemberProfileControllerTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
-    Relation relation2 = new Relation(relacao2);
     boolean admin2 = false;
 
 

@@ -7,7 +7,7 @@ import switch2020.project.domain.services.FamilyService;
 
 public class AddCategoryToFamilyTreeController {
     private Application ffmApplication;
-
+    
 
     public AddCategoryToFamilyTreeController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;

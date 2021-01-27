@@ -52,7 +52,6 @@ public class AccountService {
         try {
             Account bankAccount = new BankAccount(accountName, balance, accountID);
             targetMember.addAccount(bankAccount);
-
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());

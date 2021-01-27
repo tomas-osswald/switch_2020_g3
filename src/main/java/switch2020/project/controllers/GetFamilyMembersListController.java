@@ -1,7 +1,9 @@
 package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
+import switch2020.project.domain.model.Family;
 import switch2020.project.domain.services.FamilyService;
+import switch2020.project.domain.services.RelationService;
 
 
 public class GetFamilyMembersListController {
@@ -26,7 +28,12 @@ public class GetFamilyMembersListController {
         boolean controllerSuccess;
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
-            familyService.getFamilyMembersRelationDTOList(familyID, adminCCNumber);
+            RelationService relationService = this.ffmApplication.getRelationService();
+            Family targetFamily = familyService.getFamily(familyID);
+            if(!targetFamily.verifyAdministrator(adminCCNumber)){
+                return false;
+            }
+            relationService.getFamilyMembersRelationDTOList(targetFamily);
             controllerSuccess = true;
         } catch (IllegalArgumentException wrongFamilyID) {
             System.out.println(wrongFamilyID.getMessage());
