@@ -5,31 +5,33 @@ US188 Check Children's Cash Account Balance
 
 ### 1.1 Client Notes
 
-**Demo1** - As a family member, I want to add a bank savings account I have.
+**Demo1** - As a parent, I want to check the balance of one of my children's Cash Account.
 
-We interpreted this requirement as the function of adding a Bank Savings Account Data and linking it to a Family Member.
+We interpreted this requirement as the function of obtaining the current balance (at a given moment) of one
+of the user's children's cash accounts.
+
 
 ### 1.2 System Sequence Diagram
 
 ````puml
 autonumber
 
-title AddBankSavingsAccount
-actor "Family Member" as FamilyMember
+title CheckChildrenCashAccountBalance
+actor "Parent" as Parent
 participant "System" as System
 
-activate FamilyMember
-FamilyMember -> System: addBankSavingsAccount
+activate Parent
+Parent -> System: checkChildrenCashAccountBalance
 activate System
-System --> FamilyMember: request data
-FamilyMember -> System: input data
+System --> Parent: request data
+Parent -> System: input data
 alt failure
-System --> FamilyMember: inform failure
+System --> Parent: inform failure
 else success
-System --> FamilyMember: inform success
+System --> Parent: inform success
 deactivate System
 end alt
-deactivate FamilyMember
+deactivate Parent
 
 ````
 
@@ -80,21 +82,22 @@ The actor will need to insert the following data: familyID, familyMemberID, bala
 autonumber
 
 
-title AddBankSavingsAccount
+title CheckChildrenCashAccountBalance
 actor "Family Member" as FamilyMember
 participant "UI" as UI
-participant ": AddSavings\nAccountController" as Controller
+participant ": CheckCashAccount\nBalanceController" as Controller
 participant ": Application" as App
 participant ": FamilyService" as FamilyService
 participant "aFamily : \nFamily" as Family
-participant "aFamilyMember : \nFamilyMember" as aFamilyMember
 participant ": AccountService" as AccountService
-participant "aBankSavingsAccount : \nBankSavingsAccount" as BankAccount
+participant "aCashAccount : CashAccount" as account
+participant "child : \nFamilyMember" as aFamilyMember
+
 
 activate FamilyMember
-FamilyMember -> UI: I want to add a \nBank Savings Account
+FamilyMember -> UI: I want to check one of my \nchildren's cash account balance
 activate UI
-UI -> Controller : addBankSavingsAccount(familyID, \nfamilyMemberID, balance, \nname, interestRate)
+UI -> Controller : checkCashBalanceAccount(familyID, \nparentID, childID, accountID)
 activate Controller
 Controller -> App : getFamilyService()
 activate App
@@ -105,31 +108,279 @@ activate FamilyService
 FamilyService -> FamilyService : getFamily(familyID)
 FamilyService --> Controller : Family
 deactivate FamilyService
-Controller -> Family : getFamilyMember\n(familyMemberID)
+Controller -> Family : getFamilyMember(parentID)
 Activate Family
-Family -> Family : getFamilyMember\n(familyMemberID)
-Family --> Controller : aFamilyMember
+Family -> Family : getFamilyMember(ParentID)
+Family --> Controller : FamilyMemberA
+Controller -> Family : getFamilyMember(childID)
+Family -> Family : getFamilyMember(childID)
+Family --> Controller : FamilyMemberB
+Family -> Family : isAparentOfB(FamilyMemberA,\n FamilyMemberB)
+alt false : A is not parent of B
+Family --> Controller : Failure
+Controller --> UI : Failure
+UI --> FamilyMember : You don't have permission \nto do this operation
+else success : A is parent of B
+Family --> Controller : True
+end
 Deactivate Family
+
+
 Controller -> AccountService ** : createAccountService()
-Controller -> AccountService : addBankSavingsAccount(balance, \nname, InterestRate, aFamilyMember)
+Controller -> AccountService : checkCashAccountBalance(AccountID, childID)
 activate AccountService
-AccountService -> AccountService : generateID(aFamilyMember)
-AccountService -> BankAccount ** : createBankSavingsAccount\n(balance, name, InterestRate)
+AccountService -> AccountService : verifyAccountType(AccountID)
+alt false : Account is not CashAccount
+AccountService --> Controller : failure
+Controller --> UI : failure
+UI --> FamilyMember : Not a cash account
+else success
+AccountService -> aFamilyMember : getBalance()
+activate aFamilyMember
+aFamilyMember --> AccountService : cashAccountBalance
+deactivate aFamilyMember
+AccountService --> Controller : cashAccountBalance
+deactivate AccountService
+Controller --> UI : cashAccountBalance
+Deactivate Controller
+UI --> FamilyMember : Child's Cash Account Balance
+Deactivate UI
+Deactivate FamilyMember
+end
+````
+
+
+
+
+
 ref over AccountService
 AddBankSavingsAccount 2
 end ref
-AccountService -> aFamilyMember : addAccount\n(aBankSavingsAccount) 
-activate aFamilyMember
-aFamilyMember --> AccountService : Success
-deactivate aFamilyMember
-AccountService --> Controller : Success
-deactivate AccountService
-Controller --> UI : Success
-deactivate Controller
-UI --> FamilyMember : Success
+
+
+
+```puml
+autonumber 1
+title checkFamilyCashAccountBalance( )
+actor "Actor" as actor
+participant ": UI" as UI
+participant ": CheckCashAccountBalance\n Controller" as controller
+participant ": Application" as app
+participant "aAccountService : AccountService" as aserv
+participant "aFamilyService : FamilyService" as fserv
+participant "aFamily : Family" as family
+participant "aCashAccount : CashAccount" as cash
+
+activate actor
+actor -> UI : check Family
+activate UI
+UI -> actor : ask: selfID, familyId
 deactivate UI
-deactivate FamilyMember
+
+actor -> UI : inputs required data
+activate UI
+UI -> controller : checkFamilyCashAccountBalance(selfID, familyID)
+
+activate controller
+controller -> app : getFamilyService()
+activate app
+app -> controller : aFamilyService
+deactivate app
+
+controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+activate fserv
+fserv -> controller : inform success
+deactivate fserv
+
+controller -> fserv : getFamily(familyID)
+activate fserv
+fserv -> controller : aFamily
+deactivate fserv
+
+controller -> app : getAccountService()
+activate app
+controller <- app : aAccountService
+deactivate app
+
+controller -> aserv : getFamilyCashAccountBalance(aFamily)
+activate aserv
+
+aserv -> family : getFamilyCashAccountBalance( )
+activate family
+
+family -> cash : getBalance( )
+activate cash
+cash -> family : balance
+deactivate cash
+
+family -> aserv : balance
+deactivate family
+aserv -> controller : balance
+deactivate aserv
+
+controller -> UI : balance
+deactivate controller
+
+UI -> actor : balance
+deactivate UI
+deactivate actor
+```
+
+
+```puml
+
+autonumber 1
+title checkFamilyMemberCashAccountBalance( )
+actor "Actor" as actor
+participant ": UI" as UI
+participant ": CheckCashAccountBalance\n Controller" as controller
+participant ": Application" as app
+participant "aAccountService : AccountService" as aserv
+participant "aFamilyService : FamilyService" as fserv
+participant "aFamily : Family" as family
+participant "aFamilyMember : FamilyMember" as familyMember
+participant "aCashAccount : CashAccount" as cash
+
+activate actor
+actor -> UI : check Family Member
+activate UI
+UI -> actor : ask: selfID, otherID, familyId
+deactivate UI
+
+ref over actor : List of Cash Account of a Family Member\n - checkCashAccountBalance( ).4
+
+actor -> UI : inputs required data
+activate UI
+UI -> controller : checkFamilyMemberCashAccountBalance(selfID, otherID, accountID, familyID)
+
+activate controller
+controller -> app : getFamilyService()
+activate app
+app -> controller : aFamilyService
+deactivate app
+
+controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+activate fserv
+fserv -> controller : inform success
+deactivate fserv
+
+controller -> fserv : getFamily(familyID)
+activate fserv
+fserv -> controller : aFamily
+deactivate fserv
+
+controller -> family : getFamilyMember(otherID)
+activate family
+family -> controller : aFamilyMember
+deactivate family
+
+controller -> app : getAccountService()
+activate app
+controller <- app : aAccountService
+deactivate app
+
+controller -> aserv : getFamilyMemberCashAccountBalance(aFamilyMember, accountID)
+activate aserv
+aserv -> familyMember : getAccountBalance(accountID)
+
+activate familyMember
+familyMember -> cash : getBalance( )
+activate cash
+cash -> familyMember : balance
+deactivate cash
+
+familyMember -> aserv : balance
+deactivate familyMember
+deactivate familyMember
+aserv -> controller : balance
+deactivate aserv
+
+controller -> UI : balance
+deactivate controller
+
+UI -> actor : balance
+deactivate UI
+deactivate actor
+
+```
+
+````puml
+autonumber 1
+title getListOfCashAccountsOfAFamilyMember( )
+actor "Actor" as actor
+participant ": UI" as UI
+participant ": CheckCashAccountBalance\n Controller" as controller
+participant ": Application" as app
+participant "aAccountService : AccountService" as aserv
+participant "aFamilyService : FamilyService" as fserv
+participant "aFamily : Family" as family
+participant "aFamilyMember : FamilyMember" as familyMember
+
+activate actor
+actor -> UI : inputs required data
+activate UI
+UI -> controller : getListOfCashAccountsOfAFamilyMember(selfID, otherID, familyID)
+
+activate controller
+controller -> app : getFamilyService()
+activate app
+app -> controller : aFamilyService
+deactivate app
+
+controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+activate fserv
+fserv -> controller : inform success
+deactivate fserv
+
+controller -> fserv : getFamily(familyID)
+activate fserv
+fserv -> controller : aFamily
+deactivate fserv
+
+controller -> family : getFamilyMember(otherID)
+activate family
+family -> controller : aFamilyMember
+deactivate family
+
+controller -> app : getAccountService()
+activate app
+controller <- app : aAccountService
+deactivate app
+
+controller -> aserv : getListOfCashAccountsOfAFamilyMember(aFamilyMember)
+activate aserv
+aserv -> familyMember : getListOfCashAccountsOfAFamilyMember( )
+
+activate familyMember
+
+
+familyMember -> aserv : listOfCashAccounts
+deactivate familyMember
+deactivate familyMember
+aserv -> controller : listOfCashAccounts
+deactivate aserv
+
+controller -> UI : listOfCashAccounts
+deactivate controller
+
+UI -> actor : listOfCashAccounts
+deactivate UI
+deactivate actor
 ````
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ````puml
 autonumber
