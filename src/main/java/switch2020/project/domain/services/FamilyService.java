@@ -154,6 +154,7 @@ public class FamilyService {
         return null;
     }
 
+
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {
             if (familyID == family.getFamilyID()) {
