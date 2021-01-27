@@ -1,12 +1,12 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.CustomCategory;
-import switch2020.project.domain.model.EmailAddress;
+import switch2020.project.domain.model.categories.CustomCategory;
+import switch2020.project.domain.model.user_data.EmailAddress;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
-import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;

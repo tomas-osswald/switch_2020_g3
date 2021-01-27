@@ -2,6 +2,8 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.user_data.EmailAddress;
+import switch2020.project.domain.sandbox.IBAN;
 
 class IBANTest {
     String validIBAN = "PT50019300001050479170723";

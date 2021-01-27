@@ -1,6 +1,7 @@
 package switch2020.project.domain.services;
 
 import switch2020.project.domain.model.*;
+import switch2020.project.domain.model.accounts.*;
 
 import java.util.List;
 

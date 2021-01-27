@@ -1,9 +1,9 @@
 package switch2020.project.domain.services;
 
-import switch2020.project.domain.model.CustomCategory;
+import switch2020.project.domain.model.categories.CustomCategory;
 import switch2020.project.domain.model.Family;
-import switch2020.project.domain.model.StandardCategory;
-import switch2020.project.domain.utils.CategoryTreeDTO;
+import switch2020.project.domain.model.categories.StandardCategory;
+import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CategoryService {
 
     public CategoryService() {
         this.categories = new ArrayList<>();
-        StandardCategory other = new StandardCategory("Other", null, 0);
+        StandardCategory other = new StandardCategory("OTHER", null, 0);
         categories.add(other);
     }
 

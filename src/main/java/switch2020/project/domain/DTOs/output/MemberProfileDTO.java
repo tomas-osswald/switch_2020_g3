@@ -1,11 +1,14 @@
-package switch2020.project.domain.utils;
+package switch2020.project.domain.DTOs.output;
 
 import switch2020.project.domain.model.*;
+import switch2020.project.domain.model.user_data.Address;
+import switch2020.project.domain.model.user_data.EmailAddress;
+import switch2020.project.domain.model.user_data.PhoneNumber;
+import switch2020.project.domain.model.user_data.VatNumber;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class MemberProfileDTO {
     private String name;

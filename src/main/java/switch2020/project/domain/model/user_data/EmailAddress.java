@@ -1,4 +1,4 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.user_data;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

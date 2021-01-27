@@ -2,9 +2,13 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.user_data.Address;
+import switch2020.project.domain.model.user_data.EmailAddress;
+import switch2020.project.domain.model.user_data.PhoneNumber;
+import switch2020.project.domain.model.user_data.VatNumber;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
