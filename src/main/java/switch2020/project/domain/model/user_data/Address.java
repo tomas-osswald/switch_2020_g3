@@ -32,7 +32,7 @@ public class Address {
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateStreet(String street){
-        if (street == null || street.isBlank() || street.isEmpty())
+        if (street == null || street.trim().length()==0 || street.isEmpty())
             return false;
         return true;
     }
@@ -40,7 +40,7 @@ public class Address {
     public boolean validatePostalCode(String postalCode){
         String regex = "\\d{4}(-\\d{3})?";
         boolean test = Pattern.matches(regex, postalCode);
-        if (postalCode == null || postalCode.isBlank() || postalCode.isEmpty()) {
+        if (postalCode == null || postalCode.trim().length()==0 || postalCode.isEmpty()) {
             return false;
         }else if(!test) {
             return false;
@@ -50,13 +50,13 @@ public class Address {
     }
 
     public boolean validateLocal(String local){
-        if (local == null || local.isBlank() || local.isEmpty())
+        if (local == null || local.trim().length()==0 || local.isEmpty())
             return false;
         return true;
     }
 
     public boolean validateCity(String city) {
-        if (city == null || city.isBlank() || city.isEmpty())
+        if (city == null || city.trim().length()==0 || city.isEmpty())
             return false;
         return true;
     }

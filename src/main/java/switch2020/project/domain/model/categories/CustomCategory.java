@@ -33,7 +33,7 @@ public class CustomCategory implements Category {
     }
 
     private boolean isNameValid(String categoryName) {
-        if (categoryName == null || categoryName.isEmpty() || categoryName.isBlank()) return false;
+        if (categoryName == null || categoryName.isEmpty() || categoryName.trim().length()==0) return false;
         return true;
     }
 }

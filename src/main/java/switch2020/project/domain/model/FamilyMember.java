@@ -278,7 +278,7 @@ public class FamilyMember {
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateName(String name) {
-        if (name == null || name.isEmpty() || name.isBlank()) {
+        if (name == null || name.isEmpty() || name.trim().length()==0) {
             return false;
         }
         return true;
@@ -293,7 +293,7 @@ public class FamilyMember {
     }
 
     public boolean validateEmail(String email) {
-        if (email == null || email.isEmpty() || email.isBlank()) {
+        if (email == null || email.isEmpty() || email.trim().length()==0) {
             return false;
         }
         return true;

@@ -444,7 +444,7 @@ To test the new functionality was use the following tests:
 **Validating the arguments to create a Relation**
 
     private void isValid(String relationDesignation) {
-        if (relationDesignation == null || relationDesignation.isBlank() || relationDesignation.isEmpty()) {
+        if (relationDesignation == null || relationDesignation.trim().length()==0 || relationDesignation.isEmpty()) {
             // If is null or empty, a exception is throw
             throw new IllegalArgumentException("Empty or Null relation designation");
         }

@@ -2,6 +2,7 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.accounts.BankSavingsAccount;
+import switch2020.project.domain.services.AccountService;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -83,10 +84,10 @@ class BankSavingsAccountTest {
     @Test
     void ConstructorInvalidBalanceChangedToDefault() {
         BankSavingsAccount expected = new BankSavingsAccount(1,
-                "Bank Savings Account with ID 1", 1.23, 0.00);
+                "Bank Savings Account with ID 1", 0.00, 3.00);
         Double NullInterestRate = null;
 
-        BankSavingsAccount result = new BankSavingsAccount(accountID, generic, balance, invalidInterestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, generic, invalidBalance, interestRate);
 
         assertEquals(expected.getInterestRate(), result.getInterestRate());
         assertNotSame(expected, result);
@@ -239,9 +240,17 @@ class BankSavingsAccountTest {
 
     @Test
     void equalsFalseNotSameInstance() {
-        BankSavingsAccount expected = accountPositive;
+        AccountService expected = new AccountService();
         BankSavingsAccount result = accountPositiveTwo;
         assertNotSame(expected, result);
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void equalsFalseNullObject() {
+        BankSavingsAccount expected = null;
+        BankSavingsAccount result = accountPositiveTwo;
+        assertNotEquals(expected, result);
     }
 
     @Test
