@@ -10,7 +10,7 @@
 
 We interpreted this requirement as the function of a FamilyMember to retrieve the balance from one of his accounts.
 
-The balance is an attribute of all account types (e.g. Savings, Bank, Credit Card accounts).
+The balance is an attribute of all account types, with the exception of the Cash Account, since this is contemplated on US135 (e.g. Savings, Bank, Credit Card accounts).
   
 
 ### 1.2 System Sequence Diagram
