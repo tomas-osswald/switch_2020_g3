@@ -14,17 +14,6 @@ We interpreted this requirement as the function of adding a Bank Savings Account
 ````puml
 autonumber
 
-skinparam sequence {
-ArrowColor black
-LifeLineBorderColor black
-LifeLineBackgroundColor white
-ParticipantBorderColor black
-ParticipantBackgroundColor white
-ParticipantFontColor black
-ActorBorderColor black
-ActorBackgroundColor white
-}
-
 title AddBankSavingsAccount
 actor "Family Member" as FamilyMember
 participant "System" as System
