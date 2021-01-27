@@ -1,6 +1,7 @@
 package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.accounts.BankSavingsAccount;
 
 
 import static org.junit.jupiter.api.Assertions.*;

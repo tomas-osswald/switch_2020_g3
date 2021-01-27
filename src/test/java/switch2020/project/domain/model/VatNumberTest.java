@@ -1,8 +1,8 @@
 package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.user_data.VatNumber;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.utils.MemberProfileDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 

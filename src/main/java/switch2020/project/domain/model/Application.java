@@ -1,20 +1,18 @@
 package switch2020.project.domain.model;
 
-import switch2020.project.domain.services.AccountService;
-import switch2020.project.domain.services.CategoryService;
-import switch2020.project.domain.services.EmailService;
-import switch2020.project.domain.services.FamilyService;
+import switch2020.project.domain.services.*;
 
 import java.util.ArrayList;
 
 public class Application {
 
     // Attributes
-    private ArrayList<StandardCategory> categories = new ArrayList<>();
+
     private EmailService emailService = new EmailService();
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
     private AccountService accountService = new AccountService();
+    private RelationService relationService = new RelationService();
 
     // Constructors
     public Application() {
@@ -40,5 +38,9 @@ public class Application {
 
     public EmailService getEmailService() {
         return this.emailService;
+    }
+
+    public RelationService getRelationService() {
+        return this.relationService;
     }
 }

@@ -28,7 +28,7 @@ class AddBankAccountControllerTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
-    Relation relation = new Relation(relacao);
+
 
     double balance = 0.6;
     double negativeBalance = -2;
@@ -64,7 +64,7 @@ class AddBankAccountControllerTest {
         Assertions.assertTrue(addBankAccountController.addBankAccount(accountName2, 1, cc, balance));
     }
     @Test
-    void addBankAccountTest6_NullBalanceFailure() {
-        Assertions.assertFalse(addBankAccountController.addBankAccount(accountName, 1, cc, null));
+    void addBankAccountTest6_NullBalanceSuccess() {
+        Assertions.assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, null));
     }
 }

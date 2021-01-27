@@ -2,18 +2,18 @@ package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.CategoryService;
-import switch2020.project.domain.utils.CategoryTreeDTO;
+import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
 
 public class GetStandardCategoriesTreeController {
-    private Application app;
+    private Application ffmApplication;
 
 
-    public GetStandardCategoriesTreeController(Application app) {
-        this.app = app;
+    public GetStandardCategoriesTreeController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
     public boolean getStandardCategoriesTree() {
-        CategoryService categoryService = this.app.getCategoryService();
+        CategoryService categoryService = this.ffmApplication.getCategoryService();
         try {
             CategoryTreeDTO standardCategoryTree = categoryService.getStandardCategoryTree();
             return true;

@@ -2,6 +2,7 @@ package switch2020.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.services.FamilyService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +67,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "HABITAÇÃO";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }
@@ -78,7 +79,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "SERVIÇOS";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }
@@ -90,7 +91,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "SERVIÇOS";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }
@@ -102,7 +103,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "SERVIÇOS";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }

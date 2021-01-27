@@ -1,8 +1,10 @@
 package switch2020.project.domain.model;
 
-import switch2020.project.domain.utils.FamilyMemberRelationDTO;
-import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
-import switch2020.project.domain.utils.MemberProfileDTO;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
+import switch2020.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switch2020.project.domain.DTOs.output.MemberProfileDTO;
+import switch2020.project.domain.model.accounts.Account;
+import switch2020.project.domain.model.categories.CustomCategory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,7 @@ public class Family {
     private List<String> relationDesignations = new ArrayList<>();
     private Account familyCashAccount = null;
     private List<CustomCategory> familyCustomCategories = new ArrayList<>();
+    private List<Relation> familyRelations = new ArrayList<>();
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
@@ -195,13 +198,6 @@ public class Family {
      * @return boolean
      */
 
-    public boolean addRelationToFamilyMember(String ccNumber, String relationDesignation) {
-        FamilyMember familyMember = getFamilyMemberByID(ccNumber);
-
-        familyMember.addRelation(relationDesignation);
-
-        return true;
-    }
 
     /**
      * Method to get a Family Member by ID
@@ -337,9 +333,9 @@ public class Family {
     // Changes to method IOT get a DTO directly from the FamilyMember
     public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
         List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
-        for (FamilyMember familyMembers : familyMembers) {
-            FamilyMemberRelationDTO newMember = familyMembers.createFamilyMemberRelationDTO();
-            DTOList.add(newMember);
+        for (Relation relation : familyRelations) {
+            FamilyMemberRelationDTO relationDTO = new FamilyMemberRelationDTO(relation);
+            DTOList.add(relationDTO);
         }
         return DTOList;
     }
@@ -383,6 +379,7 @@ public class Family {
         MemberProfileDTO memberProfile = familyMember.createProfile();
         return memberProfile;
     }
+
     /*
     //Custom parent
     public boolean addCustomCategory(String designation, int parentID) {
@@ -454,6 +451,39 @@ public class Family {
 
     public boolean addCategory(CustomCategory newCustomCategory) {
         return this.familyCustomCategories.add(newCustomCategory);
+    }
+
+
+    public boolean addRelation(Relation newRelation) {
+        Relation oldRelation = checkIfMembersHaveRelationAndGetIt(newRelation);
+        if (oldRelation != null) {
+            familyRelations.remove(oldRelation);
+        }
+        familyRelations.add(newRelation);
+        return true;
+    }
+
+    private Relation checkIfMembersHaveRelationAndGetIt(Relation newRelation) {
+        for (Relation relation : familyRelations) {
+            if (relation.getMemberA().equals(newRelation.getMemberA()) && relation.getMemberB().equals(newRelation.getMemberB())) {
+                return relation;
+            }
+        }
+        return null;
+    }
+
+    public boolean isAParentOfB(FamilyMember memberA, FamilyMember memberB) {
+        for (Relation relation : familyRelations) {
+            if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
+                return relation.isAParentOfB();
+            }
+        }
+        return false;
+    }
+
+
+    public Account getFamilyCashAccount(){
+        return this.familyCashAccount;
     }
 
 //    public String getFamilyName() {

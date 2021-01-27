@@ -2,7 +2,7 @@ package switch2020.project.controllers;
 
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.utils.FamilyWithoutAdministratorDTO;
+import switch2020.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
 
 import java.util.Date;
 import java.util.List;
