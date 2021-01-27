@@ -1,4 +1,4 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.accounts.BankAccount;
