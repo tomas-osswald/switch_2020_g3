@@ -66,32 +66,32 @@ hide circle
 title Domain Model Diagram US173
 
 class Family {
-- Name
-- UniqueID
-- RegistrationDate
-
+- FamilyID
 }
 
 class FamilyMember {
-- Name
-- BirthDate
+- selfCC
 }
 
 class Account {
 
 }
 
-class CashTransaction {
-- ID
-- IBAN
-- Limit
-- Balance
-- AssociatedBankAccount
+class Transaction {
+- date
+- ammount
+- category
 }
 
-Family -down-> FamilyMember : has Family members
-FamilyMember -down-> Account  : has List of Accounts
-CreditCardAccount -> Account : Is a
+class CashTransaction {
+- payer
+- recipient
+}
+
+Family -down-> FamilyMember : has Family Members
+FamilyMember -down-> Account  : has List of 
+Account -> Transaction : has a List of
+CashTransaction -down-> Transaction : is a
 ```
 
 # 3. Design
@@ -167,36 +167,40 @@ deactivate actor
 
 title Class Diagram - US181
 
-class AddCreditCardAcccountController {
+class RegisterPaymentInCashAccount {
 }
 
 class Application {
 }
 
-class AccountService {
-+ addCreditCardAccount()
+class TransactionService {
+checkIfBalanceIsEnough()
 }
 
 class FamilyService {
-   }
+}
    
 class FamilyMember {
-    + addAccount()
 }
 
-class Account {
+class Account{
+setBalance()
 }
 
-class CreditCardAccount {
+class Transaction {
 }
 
-AddCreditCardAcccountController  -> Application
-AddCreditCardAcccountController  -down-> AccountService
-(AccountService, FamilyMember) -> CreditCardAccount : add credit card account to member
-Application --> FamilyService : has
-FamilyService --> FamilyMember : has
+class CashTransaction {
+}
+
+RegisterPaymentInCashAccount  -> Application
+RegisterPaymentInCashAccount  -down-> FamilyService
+RegisterPaymentInCashAccount  -down-> TransactionService
+TransactionService -down-> CashTransaction : create a
+FamilyService --> FamilyMember : has List<FamilyMember>
 FamilyMember --> Account : has List<Account>
-Account  <-- CreditCardAccount : Is a
+Account -left-> Transaction : has List<Transaction>
+CashTransaction -down-> Transaction : is a
 ```
 
 ## 3.3. Applied Patterns
