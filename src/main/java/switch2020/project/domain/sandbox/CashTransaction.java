@@ -15,9 +15,6 @@ public class CashTransaction implements Transaction {
         this.transactionData = new TransactionData(ammount, category);
         this.payer = payer;
         this.recipient = recipent;
-
-
-
     }
 
     @Override

@@ -23,7 +23,7 @@ public class EmailAddress {
     private boolean validate(String email) {
         if (email == null)
             return false;
-        if (email.isEmpty() || email.isBlank())
+        if (email.isEmpty() || email.trim().length() == 0)
             return false;
         // Check for other invalid criteria here
 

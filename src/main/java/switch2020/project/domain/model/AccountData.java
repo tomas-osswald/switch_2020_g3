@@ -46,7 +46,7 @@ public class AccountData {
     }
 
     private void validateDesignation(String designation) {
-        if (designation == null || designation.isEmpty() || designation.isBlank()) {
+        if (designation == null || designation.isEmpty() || designation.trim().length() == 0) {
             throw new InvalidAccountDesignationException("Invalid account designation");
         }
     }

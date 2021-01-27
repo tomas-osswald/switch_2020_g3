@@ -24,4 +24,5 @@ public class TransactionData {
     public Category getCategory() {
         return category;
     }
+
 }
