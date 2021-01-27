@@ -8,7 +8,7 @@ import switch2020.project.domain.services.EmailService;
 import switch2020.project.domain.services.FamilyService;
 
 public class AddEmailController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public AddEmailController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
@@ -34,7 +34,6 @@ public class AddEmailController {
             return emailService.addEmail(emailToAdd, targetMember);
 
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
             return false;
         }
     }

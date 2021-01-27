@@ -9,8 +9,8 @@ import switch2020.project.domain.services.RelationService;
 public class AddOrChangeRelationController {
     private Application ffmApplication;
 
-    public AddOrChangeRelationController(Application ffmApplication) {
-        this.ffmApplication = ffmApplication;
+    public AddOrChangeRelationController() {
+
     }
 
     /**
@@ -25,8 +25,9 @@ public class AddOrChangeRelationController {
      * @return boolean If a Relation has been assign or not
      */
 
-    public boolean createRelation(String adminCC, String memberACCNumber, String memberBCCNumber, int familyID, String relationDesignation, boolean aIsParentOfB) {
+    public boolean addOrChangeRelation(Application ffmApplication, String adminCC, String memberACCNumber, String memberBCCNumber, int familyID, String relationDesignation, boolean aIsParentOfB) {
         try {
+            this.ffmApplication = ffmApplication;
             FamilyService familyService = this.ffmApplication.getFamilyService();
             RelationService relationService = this.ffmApplication.getRelationService();
             Family targetFamily = familyService.getFamily(familyID);
@@ -37,7 +38,6 @@ public class AddOrChangeRelationController {
             FamilyMember memberB = targetFamily.getFamilyMember(memberBCCNumber);
             return relationService.addRelation(targetFamily, memberA, memberB, relationDesignation, aIsParentOfB);
         } catch (IllegalArgumentException exception) {
-            //System.out.println(exception.getMessage());
             return false;
         }
     }
