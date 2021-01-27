@@ -6,4 +6,8 @@ public class AccountType {
     public AccountType(AccountTypeEnum accountTypeEnum){
         this.accountType = accountTypeEnum;
     }
+
+    public AccountTypeEnum getAccountType() {
+        return this.accountType;
+    }
 }

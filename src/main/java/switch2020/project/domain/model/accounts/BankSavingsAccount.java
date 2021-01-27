@@ -90,4 +90,8 @@ public class BankSavingsAccount implements Account {
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
+
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+        return this.accountType.getAccountType().equals(accountTypeEnum);
+    }
 }

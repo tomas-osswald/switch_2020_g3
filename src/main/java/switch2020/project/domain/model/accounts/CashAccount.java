@@ -112,4 +112,7 @@ public class CashAccount implements Account {
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+        return this.accountType.getAccountType().equals(accountTypeEnum);
+    }
 }
