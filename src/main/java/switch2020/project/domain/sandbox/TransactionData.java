@@ -19,6 +19,5 @@ public class TransactionData {
         this.category = category;
         this.designation = designation;
     }
-
-
+    
 }
