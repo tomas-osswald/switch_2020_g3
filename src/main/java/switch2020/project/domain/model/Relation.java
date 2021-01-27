@@ -38,7 +38,7 @@ public class Relation {
      */
 
     private void isValid(String relationDesignation) {
-        if (relationDesignation == null || relationDesignation.isBlank() || relationDesignation.isEmpty()) {
+        if (relationDesignation == null || relationDesignation.trim().length()==0 || relationDesignation.isEmpty()) {
             // If is null or empty, a exception is throw
             throw new IllegalArgumentException("Empty or Null relation designation");
         }
