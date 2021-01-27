@@ -27,7 +27,7 @@ public class CategoryService {
 
     public CategoryService() {
         this.categories = new ArrayList<>();
-        StandardCategory other = new StandardCategory("Other", null, 0);
+        StandardCategory other = new StandardCategory("OTHER", null, 0);
         categories.add(other);
     }
 

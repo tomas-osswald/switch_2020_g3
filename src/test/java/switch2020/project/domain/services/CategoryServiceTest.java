@@ -18,7 +18,7 @@ class CategoryServiceTest {
         String categoryName = "Habitação";
         int parentID = 0;
         //Act
-        boolean result = categoryService.addStandardCategory(categoryName,  parentID);
+        boolean result = categoryService.addStandardCategory(categoryName, parentID);
         //Assert
         assertTrue(result);
     }
@@ -29,7 +29,7 @@ class CategoryServiceTest {
         String categoryName = "Services";
         int parentID = 0;
         //Act
-        boolean result = categoryService.addStandardCategory(categoryName,  parentID);
+        boolean result = categoryService.addStandardCategory(categoryName, parentID);
         //Assert
         assertTrue(result);
     }
@@ -39,11 +39,11 @@ class CategoryServiceTest {
         //Arrange
         String parentName = "Habitação";
         int parentCategoryID = 0;
-        categoryService.addStandardCategory(parentName,  parentCategoryID);
+        categoryService.addStandardCategory(parentName, parentCategoryID);
         String categoryName = "Renda";
         int parentID = 1;
         //Act
-        boolean result = categoryService.addStandardCategory(categoryName,  parentID);
+        boolean result = categoryService.addStandardCategory(categoryName, parentID);
         //Assert
         assertTrue(result);
     }
@@ -54,7 +54,7 @@ class CategoryServiceTest {
         String categoryName = "";
         int parentID = 0;
         //Act
-        boolean result = categoryService.addStandardCategory(categoryName,  parentID);
+        boolean result = categoryService.addStandardCategory(categoryName, parentID);
         //Assert
         assertFalse(result);
     }
@@ -65,7 +65,7 @@ class CategoryServiceTest {
         String categoryName = "Luz";
         int parentID = 3;
         //Act
-        boolean result = categoryService.addStandardCategory(categoryName,  parentID);
+        boolean result = categoryService.addStandardCategory(categoryName, parentID);
         //Assert
         assertFalse(result);
     }
@@ -78,13 +78,13 @@ class CategoryServiceTest {
         //arrange
         CategoryService serv = new CategoryService();
         List<StandardCategory> totalList = new ArrayList<>();
-        StandardCategory cat1 = new StandardCategory("Home",null , 1);
-        StandardCategory cat2 = new StandardCategory("Education",null , 2);
-        StandardCategory cat3 = new StandardCategory("Food",cat1, 3);
-        StandardCategory cat4 = new StandardCategory("Decoration",cat1 , 4);
-        StandardCategory cat5 = new StandardCategory("Health",null , 5);
-        StandardCategory cat6 = new StandardCategory("Hollidays",null , 6);
-        StandardCategory cat7 = new StandardCategory("Teeth correction",cat5 , 7);
+        StandardCategory cat1 = new StandardCategory("Home", null, 1);
+        StandardCategory cat2 = new StandardCategory("Education", null, 2);
+        StandardCategory cat3 = new StandardCategory("Food", cat1, 3);
+        StandardCategory cat4 = new StandardCategory("Decoration", cat1, 4);
+        StandardCategory cat5 = new StandardCategory("Health", null, 5);
+        StandardCategory cat6 = new StandardCategory("Hollidays", null, 6);
+        StandardCategory cat7 = new StandardCategory("Teeth correction", cat5, 7);
         //act
         totalList.add(cat1);
         totalList.add(cat2);
@@ -99,10 +99,5 @@ class CategoryServiceTest {
         assertEquals(expected, result);
     }
 
-    @Test
-    void getStandardCategoriesThrowExceptionNoCategories() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            categoryService.getStandardCategories();
-        });
-    }
+
 }
