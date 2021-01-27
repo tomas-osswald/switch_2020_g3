@@ -1,10 +1,14 @@
 package switch2020.project.domain.model.accounts;
 
+import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.sandbox.IBAN;
+
+import switch2020.project.domain.sandbox.Category;
+import switch2020.project.domain.utils.TransferenceDTO;
 
 public class BankAccount implements Account {
 
-    private AccountData data;
+    private AccountData accountData;
     private IBAN iban;
 
     /***** CONSTRUCTORS ******/
@@ -36,7 +40,7 @@ public class BankAccount implements Account {
         if(!validateBalance(balance)){
             balance = 0.00;
         }
-        this.data = new AccountData(balance,description,bankAccountID);
+        this.accountData = new AccountData(balance,description,bankAccountID);
     }
 
     /***** METHODS ******/
@@ -68,7 +72,7 @@ public class BankAccount implements Account {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount account = (BankAccount) o;
-        return data.equals(account.data);
+        return accountData.equals(account.accountData);
     }
 
     public boolean equals2(Object o) {
@@ -87,20 +91,20 @@ public class BankAccount implements Account {
 
     // BUSINESS METHODS
     public double getBalance(){
-        return data.getBalance();
+        return accountData.getBalance();
     }
 
     public String getDescription(){
-        return data.getDescription();
+        return accountData.getDescription();
     }
 
     public int getAccountID(){
-        return data.getAccountID();
+        return accountData.getAccountID();
     }
 
     public void changeBalance(double value){
-        double newBalance = this.data.getBalance() + value;
-        this.data.setBalance(newBalance);
+        double newBalance = this.accountData.getBalance() + value;
+        this.accountData.setBalance(newBalance);
     }
     /*
     public void changeBalance(Double value){
@@ -112,5 +116,19 @@ public class BankAccount implements Account {
     }
 
      */
+
+    public boolean isIDOfThisAccount(int accountID){
+        return this.accountData.isIDOfThisAccount(accountID);
+    }
+
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    }
+
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    }
+
+
 
 }

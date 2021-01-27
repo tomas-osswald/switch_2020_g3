@@ -59,7 +59,7 @@ public class CategoryService {
      * @param categoryID ID of the StandardCategory to be returned
      * @return chosen StandardCategory, if the StandardCategory is not found returns null;
      */
-    private StandardCategory getStandardCategoryByID(int categoryID) {
+    public StandardCategory getStandardCategoryByID(int categoryID) {
         StandardCategory selectedCategory = null;
         int size = this.categories.size();
         for (int index = 0; index < size; index++) {

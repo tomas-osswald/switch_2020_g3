@@ -482,6 +482,10 @@ public class Family {
     }
 
 
+    public Account getFamilyCashAccount(){
+        return this.familyCashAccount;
+    }
+
 //    public String getFamilyName() {
 //        return familyName;
 //    }

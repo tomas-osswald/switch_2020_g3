@@ -1,5 +1,7 @@
 package switch2020.project.domain.model.accounts;
 
+import switch2020.project.domain.model.categories.StandardCategory;
+import switch2020.project.domain.utils.TransferenceDTO;
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 public class BankSavingsAccount implements Account {
@@ -74,5 +76,17 @@ public class BankSavingsAccount implements Account {
         if (o == null || getClass() != o.getClass()) return false;
         BankSavingsAccount that = (BankSavingsAccount) o;
         return Double.compare(that.interestRate, interestRate) == 0 && accountData.equals(that.accountData);
+    }
+
+    public boolean isIDOfThisAccount(int accountID){
+        return this.accountData.isIDOfThisAccount(accountID);
+    }
+
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    }
+
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 }

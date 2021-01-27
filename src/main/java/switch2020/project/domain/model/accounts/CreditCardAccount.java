@@ -1,5 +1,8 @@
 package switch2020.project.domain.model.accounts;
 
+import switch2020.project.domain.model.categories.StandardCategory;
+import switch2020.project.domain.sandbox.Category;
+import switch2020.project.domain.utils.TransferenceDTO;
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 public class CreditCardAccount implements Account {
@@ -83,4 +86,17 @@ public class CreditCardAccount implements Account {
     public String getDescription() {
         return this.accountData.getDescription();
     }
+
+    public boolean isIDOfThisAccount(int accountID){
+        return this.accountData.isIDOfThisAccount(accountID);
+    }
+
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+
+    }
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    }
+
 }

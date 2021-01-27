@@ -432,6 +432,13 @@ public class FamilyMember {
         return (this.ccNumber.equals(otherMember.ccNumber) && this.administrator == otherMember.administrator && this.accounts.equals(otherMember.accounts) && this.name.equals(otherMember.name) && this.birthDate.equals(otherMember.birthDate) && this.phoneNumbers.equals(otherMember.phoneNumbers) && this.emails.equals(otherMember.emails) && this.vatNumber.equals(otherMember.vatNumber) && this.address.equals(otherMember.address));
     }
 
+    public Account getAccount(int accountID) {
+        for (Account account: accounts) {
+            if(account.isIDOfThisAccount(accountID)) return account;
+        }
+        return null;
+    }
+
 }
 
 
