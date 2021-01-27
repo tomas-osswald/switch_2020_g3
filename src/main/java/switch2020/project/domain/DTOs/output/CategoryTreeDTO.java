@@ -56,17 +56,17 @@ public class CategoryTreeDTO {
         ArrayList<Integer> ids = new ArrayList<>();
         for (StandardCategory standardCategory : standardCategories) {
             if (!ids.contains(standardCategory.getCategoryID())) {
-                System.out.println("== " + standardCategory.getName() + " ==");
+                System.out.println("== " + standardCategory.getCategoryName() + " ==");
 
                 ids.add(standardCategory.getCategoryID());
             }
             for (StandardCategory standardCategory1 : standardCategories) {
                 if (standardCategory1.getParentID() == standardCategory.getCategoryID() && !ids.contains(standardCategory1.getCategoryID())) {
-                    System.out.println("    -- " + standardCategory1.getName() + " --");
+                    System.out.println("    -- " + standardCategory1.getCategoryName() + " --");
                     ids.add(standardCategory1.getCategoryID());
                     for (StandardCategory standardCategory2 : standardCategories) {
                         if (standardCategory2.getParentID() == standardCategory1.getCategoryID() && !ids.contains(standardCategory2.getCategoryID())) {
-                            System.out.println("        - " + standardCategory2.getName() + " -");
+                            System.out.println("        - " + standardCategory2.getCategoryName() + " -");
                             ids.add(standardCategory2.getCategoryID());
                         }
                     }
@@ -94,7 +94,7 @@ public class CategoryTreeDTO {
         String[] categoriesNames = new String[standardCategories.size()];
         int index = 0;
         for (StandardCategory standardcategory : standardCategories) {
-            categoriesNames[index] = standardcategory.getName();
+            categoriesNames[index] = standardcategory.getCategoryName();
             index++;
         }
         return categoriesNames;

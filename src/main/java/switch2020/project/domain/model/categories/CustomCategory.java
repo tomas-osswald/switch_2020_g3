@@ -1,28 +1,21 @@
 package switch2020.project.domain.model.categories;
 
-public class CustomCategory {
+public class CustomCategory implements Category {
     private int categoryID;
     private String categoryName;
-    private StandardCategory parentStandardCategory;
-    private CustomCategory parentCustomCategory;
+    private Category parentCategory;
 
-    public CustomCategory(String categoryName, StandardCategory parentCategory, int categoryID) {
+
+    public CustomCategory(String categoryName, Category parentCategory, int categoryID) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
         this.categoryName = categoryName.trim().toUpperCase();
-        this.parentStandardCategory = parentCategory;
+        this.parentCategory = parentCategory;
         this.categoryID = categoryID;
     }
 
     public CustomCategory(String categoryName, int categoryID) {
         if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
         this.categoryName = categoryName.trim().toUpperCase();
-        this.categoryID = categoryID;
-    }
-
-    public CustomCategory(String categoryName, CustomCategory parentCategory, int categoryID) {
-        if (!isNameValid(categoryName)) throw new IllegalArgumentException("Name invalid");
-        this.categoryName = categoryName.trim().toUpperCase();
-        this.parentCustomCategory = parentCategory;
         this.categoryID = categoryID;
     }
 
@@ -36,11 +29,7 @@ public class CustomCategory {
     }
 
     public int getParentID() {
-        if (this.parentStandardCategory != null) {
-            return this.parentStandardCategory.getCategoryID();
-        } else {
-            return this.parentCustomCategory.getCategoryID();
-        }
+        return this.parentCategory.getCategoryID();
     }
 
     private boolean isNameValid(String categoryName) {
