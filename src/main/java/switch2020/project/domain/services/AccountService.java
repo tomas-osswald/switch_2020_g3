@@ -1,5 +1,6 @@
 package switch2020.project.domain.services;
 
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.model.*;
 import switch2020.project.domain.model.accounts.*;
 
@@ -60,11 +61,10 @@ public class AccountService {
         }
     }
 
-    public boolean createPersonalCreditCardAccount(FamilyMember targetMember, String accountName,
-                                                   double withdrawalLimit) {
+    public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
 
-        Account creditCardAccount = new CreditCardAccount(withdrawalLimit, accountName, accountID);
+        Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
         return targetMember.addAccount(creditCardAccount);
     }
 

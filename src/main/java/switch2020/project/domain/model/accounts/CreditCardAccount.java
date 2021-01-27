@@ -1,5 +1,6 @@
 package switch2020.project.domain.model.accounts;
 
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 public class CreditCardAccount implements Account {
@@ -9,10 +10,10 @@ public class CreditCardAccount implements Account {
     private double withdrawalLimit;
 
     // Constructors
-    public CreditCardAccount(double withdrawalLimit, String cardDescription, int accountID) {
-        validadeWithrawLimit(withdrawalLimit);
+    public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
+        validadeWithrawLimit(addCreditCardAccountDTO.getWithdrwaLimit());
         try {
-            this.accountData = new AccountData(withdrawalLimit, cardDescription, accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCardDescription(), accountID);
         } catch (InvalidAccountDesignationException exception) {
             String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
             this.accountData = new AccountData(withdrawalLimit, cardDescriptionDefault, accountID);
