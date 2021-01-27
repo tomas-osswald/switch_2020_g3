@@ -135,8 +135,9 @@ actor "Actor" as actor
 participant ": UI" as UI
 participant ": TransferMoneyFromCashAccount\n Controller" as controller
 participant ": Application" as app
-participant "aAccountService : AccountService" as aserv
-participant "aFamilyService : FamilyService" as fserv
+'participant "aAccountService \n : AccountService" as aserv
+participant "aTransactionService \n : TransactionService" as tserv
+participant "aFamilyService \n : FamilyService" as fserv
 participant "aFamily : Family" as family
 participant "aCreditCardAccount : CreditCard Account" as credit
 participant "aFamilyMember : FamilyMember" as familyMember
@@ -158,17 +159,14 @@ deactivate fserv
 
 controller -> family : getFamilyMember(familyMemberID)
 activate family
-family -> controller : aFamilyMember
+activate familyMember
+family -> familyMember : hasAccount(AccountID)
 deactivate family
 
-app -> controller : getAccountService()
+/'app -> controller : getAccountService()
 activate app
 controller -> app : aAccountService
-deactivate app
-
-
-controller -> aserv : addCreditCardAccount(aFamilyMember, cardDescription, withdrawLimit)
-activate aserv
+deactivate app '/
 
 aserv -> aserv : id = generateID()
 
