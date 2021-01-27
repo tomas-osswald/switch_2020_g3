@@ -10,6 +10,7 @@ public class BankSavingsAccount implements Account {
     // Attributes
     private AccountData accountData;
     private double interestRate;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKSAVINGSACCOUNT);
 
 
     // Constructors

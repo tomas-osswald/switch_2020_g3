@@ -9,6 +9,7 @@ public class CashAccount implements Account {
 
     // Attributes
     private AccountData accountData;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
 
 
 

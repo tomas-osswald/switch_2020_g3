@@ -9,6 +9,7 @@ public class BankAccount implements Account {
 
     private AccountData accountData;
     private IBAN iban;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
 
     /***** CONSTRUCTORS ******/
     /*

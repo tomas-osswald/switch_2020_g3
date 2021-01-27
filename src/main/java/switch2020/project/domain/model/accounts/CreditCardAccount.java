@@ -10,6 +10,7 @@ public class CreditCardAccount implements Account {
     // Attributes
     private AccountData accountData;
     private Double withdrawalLimit;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
