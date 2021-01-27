@@ -5,10 +5,6 @@ import switch2020.project.domain.model.FamilyMember;
 public class EmailService {
 
 
-    public EmailService() {
-
-    }
-
 
 
     public boolean addEmail(String emailToAdd, FamilyMember targetMember) {

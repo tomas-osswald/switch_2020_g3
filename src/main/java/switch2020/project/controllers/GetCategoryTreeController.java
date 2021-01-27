@@ -1,13 +1,13 @@
 package switch2020.project.controllers;
 
+import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.CategoryService;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
 
 public class GetCategoryTreeController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public GetCategoryTreeController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
@@ -15,7 +15,8 @@ public class GetCategoryTreeController {
 
     /**
      * Controller method to retrieve a family's category tree
-     * @param familyID id of the family of which to get the Custom Categories
+     *
+     * @param familyID      id of the family of which to get the Custom Categories
      * @param adminCCNumber CC number of the admin, to check permission for this operation
      * @return True if successfully retrieved the CategoryTreeDTO object
      */
@@ -25,13 +26,11 @@ public class GetCategoryTreeController {
         try {
             if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
                 CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
-                categoryTree.printTree();
                 return true;
             } else {
                 return false;
             }
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
             return false;
         }
     }

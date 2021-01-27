@@ -1,9 +1,9 @@
 package switch2020.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.services.FamilyService;
-import switch2020.project.domain.DTOs.output.FamilyMemberRelationDTO;
 
 import java.util.Date;
 
@@ -50,10 +50,10 @@ class AddOrChangeRelationControllerTest {
     @Test
     void InstantiationOfAddRelationController() {
         Application application = new Application();
+        AddRelationBaseController addRelationBaseController = new AddRelationBaseController(application);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        assertNotNull(addOrChangeRelationController);
+        assertNotNull(addRelationBaseController);
     }
 
     @Test
@@ -67,9 +67,9 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        assertTrue(addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
+        AddRelationBaseController addRelationBaseController = new AddRelationBaseController(application);
+        assertTrue(addRelationBaseController.addRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
     }
 
     @Test
@@ -85,9 +85,9 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        assertFalse(addOrChangeRelationController.createRelation(cc2, cc2, cc3, familyOneIDGenerated, relationDesignation, false));
+        AddRelationBaseController addRelationBaseController = new AddRelationBaseController(application);
+        assertFalse(addRelationBaseController.addRelation(cc2, cc2, cc3, familyOneIDGenerated, relationDesignation, false));
     }
 
     @Test
@@ -101,9 +101,9 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        assertFalse(addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
+        AddRelationBaseController addRelationBaseController = new AddRelationBaseController(application);
+        assertFalse(addRelationBaseController.addRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false));
     }
 
     @Test
@@ -118,9 +118,9 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
-        assertTrue(addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false));
+        ChangeRelationBaseController changeRelationBaseController = new ChangeRelationBaseController(application);
+        changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        assertTrue(changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false));
     }
 
     @Test
@@ -135,12 +135,12 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        ChangeRelationBaseController changeRelationBaseController = new ChangeRelationBaseController(application);
+        changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
         FamilyMemberRelationDTO oldDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
 
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false);
+        changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false);
         FamilyMemberRelationDTO newDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
 
         assertNotEquals(oldDTO, newDTO);
@@ -159,12 +159,12 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        ChangeRelationBaseController changeRelationBaseController = new ChangeRelationBaseController(application);
+        changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
         FamilyMemberRelationDTO oldDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
 
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, true);
+        changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, true);
         FamilyMemberRelationDTO newDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
 
         assertNotEquals(oldDTO, newDTO);
@@ -184,15 +184,18 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddOrChangeRelationController addOrChangeRelationController = new AddOrChangeRelationController(application);
 
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        ChangeRelationBaseController changeRelationBaseController = new ChangeRelationBaseController(application);
+
+        changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
         FamilyMemberRelationDTO oldDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
 
-        addOrChangeRelationController.createRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false);
+        assertFalse(changeRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false));
         FamilyMemberRelationDTO newDTO = familyService.getFamilyMembersRelationDTOList(familyOneIDGenerated, cc).get(0);
 
         assertEquals(oldDTO, newDTO);
         assertNotSame(oldDTO, newDTO);
     }
+
+
 }

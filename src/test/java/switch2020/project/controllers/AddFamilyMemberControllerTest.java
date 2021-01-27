@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
-import switch2020.project.domain.model.Relation;
 
 import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,7 +43,7 @@ class AddFamilyMemberControllerTest {
     @Test
     /** Test if Family Member is added to Family **/
     void AddFamilyMember_FamilyExists() {
-        FamilyMember Diogo = new FamilyMember(ccNumber, name, date, numero, email, nif, rua, codPostal, local, city,admin);
+        FamilyMember Diogo = new FamilyMember(ccNumber, name, date, numero, email, nif, rua, codPostal, local, city, admin);
         String familyName = "Ribeiro";
         int familyID = 1;
         Family Ribeiros = new Family(familyName, familyID);
@@ -55,23 +55,14 @@ class AddFamilyMemberControllerTest {
 
 
     @Test
-    void NotAddFamilyMember_FamilyNotExists(){
+    void NotAddFamilyMember_FamilyNotExists() {
         String familyName = "Ribeiro";
         int familyID = 1;
         Family Ribeiros = new Family(familyName, familyID);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
-        assertFalse(FFMapp.addFamilyMember(ccNumber2, ccNumber,name,date,numero,email,nif,rua,codPostal,local, city,2));
+        assertFalse(FFMapp.addFamilyMember(ccNumber2, ccNumber, name, date, numero, email, nif, rua, codPostal, local, city, 2));
     }
 
-    @Test
-    /** Missing data entry validation : name, date, phone, email etc **/
-    void NotAddFamilyMember_WrongDataEntry() {
-        /*
-        Family Ribeiros = new Family(1);
-        FamilyService service = new FamilyService(Ribeiros);
-        assertFalse(service.addFamilyMember(name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,relation2,1));
-         */
-    }
 
 }

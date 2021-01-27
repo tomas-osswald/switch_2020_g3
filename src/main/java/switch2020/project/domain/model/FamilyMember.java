@@ -74,7 +74,7 @@ public class FamilyMember {
         if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
         }
-        this.birthDate = birthDate;
+        this.birthDate = (Date) birthDate.clone();
 
         PhoneNumber telef = new PhoneNumber(phone);
         this.phoneNumbers.add(telef);
@@ -103,7 +103,7 @@ public class FamilyMember {
         if (!validateBirthDate(birthDate)) {
             throw new IllegalArgumentException("Insert Date");
         }
-        this.birthDate = birthDate;
+        this.birthDate = (Date) birthDate.clone();
 
         if (validatePhone(phone)) {
             PhoneNumber telef = new PhoneNumber(phone);
@@ -278,7 +278,7 @@ public class FamilyMember {
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateName(String name) {
-        if (name == null || name.isEmpty() || name.trim().length()==0) {
+        if (name == null || name.isEmpty() || name.trim().length() == 0) {
             return false;
         }
         return true;
@@ -293,7 +293,7 @@ public class FamilyMember {
     }
 
     public boolean validateEmail(String email) {
-        if (email == null || email.isEmpty() || email.trim().length()==0) {
+        if (email == null || email.isEmpty() || email.trim().length() == 0) {
             return false;
         }
         return true;
@@ -397,7 +397,8 @@ public class FamilyMember {
 
 
     public List<Account> getAccounts() {
-        return accounts;
+        List<Account> accountsClone = this.accounts;
+        return accountsClone;
     }
 
     protected boolean compareID(String ccNumber) {
@@ -433,8 +434,8 @@ public class FamilyMember {
     }
 
     public Account getAccount(int accountID) {
-        for (Account account: accounts) {
-            if(account.isIDOfThisAccount(accountID)) return account;
+        for (Account account : accounts) {
+            if (account.isIDOfThisAccount(accountID)) return account;
         }
         return null;
     }

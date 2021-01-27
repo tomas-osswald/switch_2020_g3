@@ -30,62 +30,6 @@ public class CategoryTreeDTO {
     }
 
 
-    /*
-    /**
-     * Method to present the StandardCategory List
-     *
-     * @return StandardCategory List
-
-    public List<StandardCategory> getStandardCategories() {
-        return standardCategories;
-    }
-
-    /**
-     * Method to present the CustomCategory List
-     *
-     * @return CustomCategory List
-
-    public List<CustomCategory> getCustomCategories() {
-        return customCategories;
-    }
-*/
-
-    /**
-     * Temporary method to print the Tree on the console
-     */
-    public void printTree() {
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (Category standardCategory : categories) {
-            if (!ids.contains(standardCategory.getCategoryID())) {
-                System.out.println("== " + standardCategory.getCategoryName() + " ==");
-
-                ids.add(standardCategory.getCategoryID());
-            }
-            for (Category standardCategory1 : categories) {
-                if (standardCategory1.getParentID() == standardCategory.getCategoryID() && !ids.contains(standardCategory1.getCategoryID())) {
-                    System.out.println("    -- " + standardCategory1.getCategoryName() + " --");
-                    ids.add(standardCategory1.getCategoryID());
-                    for (Category standardCategory2 : categories) {
-                        if (standardCategory2.getParentID() == standardCategory1.getCategoryID() && !ids.contains(standardCategory2.getCategoryID())) {
-                            System.out.println("        - " + standardCategory2.getCategoryName() + " -");
-                            ids.add(standardCategory2.getCategoryID());
-                        }
-                    }
-                }
-/*
-                for (CustomCategory customCategory : customCategories) {
-                    if (customCategory.getParentID() == standardCategory.getCategoryID()) {
-                        System.out.println("    -- " + customCategory.getCategoryName() + " --");
-                        printChildren(customCategory);
-                    }
-                }
-            }
-
-        }*/
-            }
-        }
-    }
-
     /**
      * Method to return an Array of all the StandardCategories' Names
      *
@@ -95,7 +39,7 @@ public class CategoryTreeDTO {
         String[] categoriesNames = new String[categories.size()];
         int index = 0;
         for (Category standardcategory : categories) {
-            if(standardcategory instanceof StandardCategory){
+            if (standardcategory instanceof StandardCategory) {
                 categoriesNames[index] = standardcategory.getCategoryName();
                 index++;
             }
@@ -103,19 +47,6 @@ public class CategoryTreeDTO {
         }
         return categoriesNames;
     }
-/*
-    /**
-     * Recursive method to print a Category's children
-     * @param category
 
-    public void printChildren(CustomCategory category) {
-        for (CustomCategory childCategory : customCategories) {
-            if (category.getCategoryID() == childCategory.getParentID()) {
-                System.out.println("        - " + childCategory.getCategoryName() + " -");
-                printChildren(childCategory);
-            }
-        }
-    }
-        */
 
 }
