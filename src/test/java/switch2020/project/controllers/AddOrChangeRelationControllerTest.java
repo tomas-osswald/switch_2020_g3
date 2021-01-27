@@ -118,9 +118,9 @@ class AddOrChangeRelationControllerTest {
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
         familyService.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
 
-        AddRelationBaseController addRelationBaseController = new AddRelationBaseController(application);
-        addRelationBaseController.addRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
-        assertTrue(addRelationBaseController.addRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false));
+        ChangeRelationBaseController addRelationBaseController = new ChangeRelationBaseController(application);
+        addRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, relationDesignation, false);
+        assertTrue(addRelationBaseController.changeRelation(cc, cc, cc2, familyOneIDGenerated, newRelationDesignation, false));
     }
 
     @Test
