@@ -1,10 +1,10 @@
 package switch2020.project.domain.services;
 
+import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
+import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.categories.Category;
 import switch2020.project.domain.model.categories.CustomCategory;
-import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.categories.StandardCategory;
-import switch2020.project.domain.DTOs.output.CategoryTreeDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +130,9 @@ public class CategoryService {
      * @return List of StandardCategory objects
      */
     public List<StandardCategory> getCategories() {
-        return this.categories;
+        List<StandardCategory> categoriesClone = new ArrayList<>();
+        categoriesClone.addAll(this.categories);
+        return categoriesClone;
     }
 
     public CategoryTreeDTO getStandardCategoryTree() {

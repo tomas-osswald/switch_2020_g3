@@ -4,7 +4,7 @@ import switch2020.project.domain.model.Application;
 
 public class ChangeRelationBaseController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
 
     public ChangeRelationBaseController(Application ffmApplication) {

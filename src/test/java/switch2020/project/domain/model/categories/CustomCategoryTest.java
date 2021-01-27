@@ -1,4 +1,4 @@
-package switch2020.project.domain.model;
+package switch2020.project.domain.model.categories;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

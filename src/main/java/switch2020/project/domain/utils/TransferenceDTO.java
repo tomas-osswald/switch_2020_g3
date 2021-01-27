@@ -12,14 +12,14 @@ public class TransferenceDTO {
     private String transactionDesignation;
     private Date transactionDate;
 
-    public TransferenceDTO(int familyID, String familyMemberCC, int accountID, double transferedValue, int categoryID, String transactionDesignation, Date transactionDate){
+    public TransferenceDTO(int familyID, String familyMemberCC, int accountID, double transferedValue, int categoryID, String transactionDesignation, Date transactionDate) {
         this.familyID = familyID;
         this.familyMemberCC = familyMemberCC;
         this.accountID = accountID;
         this.transferedValue = transferedValue;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;
-        this.transactionDate = transactionDate;
+        this.transactionDate = (Date) transactionDate.clone();
     }
 
     public int getFamilyID() {
@@ -48,7 +48,7 @@ public class TransferenceDTO {
     }
 
     public Date getTransactionDate() {
-        return transactionDate;
+        return (Date) transactionDate.clone();
     }
 
 }

@@ -26,7 +26,6 @@ public class GetCategoryTreeController {
         try {
             if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
                 CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
-                categoryTree.printTree();
                 return true;
             } else {
                 return false;
