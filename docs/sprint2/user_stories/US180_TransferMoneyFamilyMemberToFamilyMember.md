@@ -130,7 +130,7 @@ The controller will return:
 
 ``` puml
 autonumber 1
-title addCreditCardAccount
+title transferMoneyCashAccountCardAccount
 actor "Actor" as actor
 participant ": UI" as UI
 participant ": AddCreditCardAccount\n Controller" as controller
