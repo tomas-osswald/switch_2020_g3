@@ -3,6 +3,7 @@ package switch2020.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.FamilyMember;
@@ -55,21 +56,25 @@ class AddCreditCardAccountControllerTest {
 
     @Test
     void addCreditCardAccountToFamilyMemberTrue() {
-        Assertions.assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(id2, family1ID, "VISA do Diogo", 5000));
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00);
+        Assertions.assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberTrueWithCardDescriptionNull() {
-        assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(id2, 1, null, 5000));
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, null, 5000.00);
+        assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberFalseFamilyDoesNotExist() {
-        assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(id2, 2, "MasterCard do Diogo", 5000));
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, 2, "MasterCard do Diogo", 5000.00);
+        assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberFalseFamilyMemberDoesNotExist() {
-        assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember("3", family1ID, "MasterCard do Diogo", 5000));
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO("3", family1ID, "MasterCard do Diogo", 5000.00);
+        assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 }

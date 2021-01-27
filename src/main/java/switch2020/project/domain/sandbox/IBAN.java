@@ -23,7 +23,7 @@ public class IBAN {
     private boolean validate(String iban) {
         if (iban == null)
             return false;
-        if (iban.isEmpty() || iban.isBlank())
+        if (iban.isEmpty() || iban.trim().length()==0)
             return false;
         return checkIBAN(iban);
     }

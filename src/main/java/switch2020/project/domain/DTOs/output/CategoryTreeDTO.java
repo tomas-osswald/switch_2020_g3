@@ -1,5 +1,6 @@
 package switch2020.project.domain.DTOs.output;
 
+import switch2020.project.domain.model.categories.Category;
 import switch2020.project.domain.model.categories.CustomCategory;
 import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.services.CategoryService;
@@ -9,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryTreeDTO {
-    List<StandardCategory> standardCategories = new ArrayList();
+    List<Category> categories = new ArrayList();
     List<CustomCategory> customCategories = new ArrayList();
 
     public CategoryTreeDTO(CategoryService categoryService) {
-        this.standardCategories.addAll(categoryService.getStandardCategories());
+        this.categories.addAll(categoryService.getStandardCategories());
     }
 
     /**
@@ -24,8 +25,8 @@ public class CategoryTreeDTO {
      * @param familyID        FamilyID of the target family.
      */
     public CategoryTreeDTO(CategoryService categoryService, FamilyService familyService, int familyID) {
-        this.standardCategories.addAll(categoryService.getStandardCategories());
-        this.customCategories.addAll(familyService.getCustomCategories(familyID));
+        this.categories.addAll(categoryService.getStandardCategories());
+        this.categories.addAll(familyService.getCustomCategories(familyID));
     }
 
 
@@ -54,19 +55,19 @@ public class CategoryTreeDTO {
      */
     public void printTree() {
         ArrayList<Integer> ids = new ArrayList<>();
-        for (StandardCategory standardCategory : standardCategories) {
+        for (Category standardCategory : categories) {
             if (!ids.contains(standardCategory.getCategoryID())) {
-                System.out.println("== " + standardCategory.getName() + " ==");
+                System.out.println("== " + standardCategory.getCategoryName() + " ==");
 
                 ids.add(standardCategory.getCategoryID());
             }
-            for (StandardCategory standardCategory1 : standardCategories) {
+            for (Category standardCategory1 : categories) {
                 if (standardCategory1.getParentID() == standardCategory.getCategoryID() && !ids.contains(standardCategory1.getCategoryID())) {
-                    System.out.println("    -- " + standardCategory1.getName() + " --");
+                    System.out.println("    -- " + standardCategory1.getCategoryName() + " --");
                     ids.add(standardCategory1.getCategoryID());
-                    for (StandardCategory standardCategory2 : standardCategories) {
+                    for (Category standardCategory2 : categories) {
                         if (standardCategory2.getParentID() == standardCategory1.getCategoryID() && !ids.contains(standardCategory2.getCategoryID())) {
-                            System.out.println("        - " + standardCategory2.getName() + " -");
+                            System.out.println("        - " + standardCategory2.getCategoryName() + " -");
                             ids.add(standardCategory2.getCategoryID());
                         }
                     }
@@ -91,11 +92,14 @@ public class CategoryTreeDTO {
      * @return String Array of StandardCategory objects names.
      */
     public String[] getArrayOfStandardCategoriesNames() {
-        String[] categoriesNames = new String[standardCategories.size()];
+        String[] categoriesNames = new String[categories.size()];
         int index = 0;
-        for (StandardCategory standardcategory : standardCategories) {
-            categoriesNames[index] = standardcategory.getName();
-            index++;
+        for (Category standardcategory : categories) {
+            if(standardcategory instanceof StandardCategory){
+                categoriesNames[index] = standardcategory.getCategoryName();
+                index++;
+            }
+
         }
         return categoriesNames;
     }

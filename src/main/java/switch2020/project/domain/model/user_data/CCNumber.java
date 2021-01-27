@@ -30,7 +30,7 @@ public class CCNumber {
     private boolean validateNumber(String ccNumber) {
         int sum = 0;
         boolean secondDigit = false;
-        if (ccNumber == null || ccNumber.isBlank() || ccNumber.isEmpty()) {
+        if (ccNumber == null || ccNumber.trim().length()==0 || ccNumber.isEmpty()) {
             throw new IllegalArgumentException("CC Number is blank or empty");
         }
         if (ccNumber.length() != 12)

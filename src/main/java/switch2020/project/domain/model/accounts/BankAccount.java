@@ -3,7 +3,6 @@ package switch2020.project.domain.model.accounts;
 import switch2020.project.domain.model.categories.StandardCategory;
 import switch2020.project.domain.sandbox.IBAN;
 
-import switch2020.project.domain.sandbox.Category;
 import switch2020.project.domain.utils.TransferenceDTO;
 
 public class BankAccount implements Account {
@@ -46,7 +45,7 @@ public class BankAccount implements Account {
     /***** METHODS ******/
     // VALIDATORS
     public boolean validateDescription(String description){
-        if(description == null || description.isEmpty() || description.isBlank()){
+        if(description == null || description.isEmpty() || description.trim().length()==0){
             return false;
         }
         return true;

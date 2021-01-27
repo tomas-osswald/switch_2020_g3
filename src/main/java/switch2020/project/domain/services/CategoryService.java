@@ -1,5 +1,6 @@
 package switch2020.project.domain.services;
 
+import switch2020.project.domain.model.categories.Category;
 import switch2020.project.domain.model.categories.CustomCategory;
 import switch2020.project.domain.model.Family;
 import switch2020.project.domain.model.categories.StandardCategory;
@@ -200,7 +201,7 @@ public class CategoryService {
         return selectedCategory;
     }
 
-    private void checkIfParentNull(CustomCategory parent) {
+    private void checkIfParentNull(Category parent) {
         if (parent == null) {
             throw new IllegalArgumentException("Expected CustomCategoryParent but was null");
         }
