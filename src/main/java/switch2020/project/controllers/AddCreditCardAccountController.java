@@ -8,7 +8,7 @@ import switch2020.project.domain.services.FamilyService;
 public class AddCreditCardAccountController {
     private Application ffmApplication;
 
-    public AddCreditCardAccountController(Application app) {
+    public AddCreditCardAccountController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
     }
 
