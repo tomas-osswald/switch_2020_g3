@@ -1,23 +1,26 @@
 package switch2020.project.domain.model.accounts;
 
+import switch2020.project.domain.model.categories.StandardCategory;
+import switch2020.project.domain.utils.TransferenceDTO;
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 public class CreditCardAccount implements Account {
 
     // Attributes
     private AccountData accountData;
-    private double withdrawalLimit;
+    private Double withdrawalLimit;
 
     // Constructors
-    public CreditCardAccount(double withdrawalLimit, String cardDescription, int accountID) {
-        validadeWithrawLimit(withdrawalLimit);
+    public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
+        validadeWithrawLimit(addCreditCardAccountDTO.getWithdrwaLimit());
         try {
-            this.accountData = new AccountData(withdrawalLimit, cardDescription, accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCardDescription(), accountID);
         } catch (InvalidAccountDesignationException exception) {
             String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
-            this.accountData = new AccountData(withdrawalLimit, cardDescriptionDefault, accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), cardDescriptionDefault, accountID);
         }
-        this.withdrawalLimit = withdrawalLimit;
+        this.withdrawalLimit = addCreditCardAccountDTO.getWithdrwaLimit();
     }
 
     // Bussiness Methods
@@ -83,4 +86,17 @@ public class CreditCardAccount implements Account {
     public String getDescription() {
         return this.accountData.getDescription();
     }
+
+    public boolean isIDOfThisAccount(int accountID){
+        return this.accountData.isIDOfThisAccount(accountID);
+    }
+
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+
+    }
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    }
+
 }

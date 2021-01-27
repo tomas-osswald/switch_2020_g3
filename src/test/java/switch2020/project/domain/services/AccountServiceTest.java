@@ -3,6 +3,7 @@ package switch2020.project.domain.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.model.*;
 
 import java.util.Date;
@@ -86,6 +87,7 @@ class AccountServiceTest {
     int family1ID = 5;
     String family1Name = "Silva";
     Family silva = new Family(family1Name, family1ID);
+    int generatedID = 1;
 
     @BeforeEach
     void setup() {
@@ -131,11 +133,15 @@ class AccountServiceTest {
 
     @Test
     void createPersonalCreditCardAccountTrue() {
-        assertTrue(accountService.createPersonalCreditCardAccount(diogo,"Conta do Ze", 5000));
+        FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00);
+        assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
         }
 
     @Test
     void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
-        assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(diogo,"Conta da Maria", -100));
+        FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00);
+        assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
     }
 }

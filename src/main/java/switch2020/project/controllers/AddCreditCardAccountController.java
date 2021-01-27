@@ -1,23 +1,24 @@
 package switch2020.project.controllers;
 
+import switch2020.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switch2020.project.domain.model.Application;
 import switch2020.project.domain.model.FamilyMember;
 import switch2020.project.domain.services.AccountService;
 import switch2020.project.domain.services.FamilyService;
 
 public class AddCreditCardAccountController {
-    private Application app;
+    private Application ffmApplication;
 
-    public AddCreditCardAccountController(Application app) {
-        this.app = app;
+    public AddCreditCardAccountController(Application ffmApplication) {
+        this.ffmApplication = ffmApplication;
     }
 
-    public boolean addCreditCardAccountToFamilyMember(String familyMemberID, int familyID, String cardDescription, int withdrwaLimit) {
+    public boolean addCreditCardAccountToFamilyMember(AddCreditCardAccountDTO addCreditCardAccountDTO) {
         try {
-            FamilyService familyService = this.app.getFamilyService();
-            FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(familyMemberID);
-            AccountService accountService = this.app.getAccountService();
-            return accountService.createPersonalCreditCardAccount(targetMember, cardDescription, withdrwaLimit);
+            FamilyService familyService = this.ffmApplication.getFamilyService();
+            FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
+            AccountService accountService = this.ffmApplication.getAccountService();
+            return accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, targetMember);
         } catch (Exception exception) {
             return false;
         }

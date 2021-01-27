@@ -58,7 +58,7 @@ public class Family {
     // Validations
 
     private boolean isNameValid(String familyName) {
-        if (familyName == null || familyName.isBlank() || familyName.isEmpty()) return false;
+        if (familyName == null || familyName.trim().length()==0 || familyName.isEmpty()) return false;
 
         return true;
     }
@@ -481,6 +481,10 @@ public class Family {
         return false;
     }
 
+
+    public Account getFamilyCashAccount(){
+        return this.familyCashAccount;
+    }
 
 //    public String getFamilyName() {
 //        return familyName;
