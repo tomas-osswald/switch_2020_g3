@@ -67,7 +67,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "HABITAÇÃO";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }
@@ -79,7 +79,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "SERVIÇOS";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }
@@ -91,7 +91,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "SERVIÇOS";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }
@@ -103,7 +103,7 @@ class StandardCategoryTest {
         StandardCategory newStandardCategory = new StandardCategory(categoryName, parentCategory,categoryID);
         String expected = "SERVIÇOS";
 
-        String result = newStandardCategory.getName();
+        String result = newStandardCategory.getCategoryName();
 
         assertEquals(expected,result);
     }

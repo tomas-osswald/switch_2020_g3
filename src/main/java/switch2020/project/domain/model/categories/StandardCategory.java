@@ -1,6 +1,6 @@
 package switch2020.project.domain.model.categories;
 
-public class StandardCategory {
+public class StandardCategory implements Category {
 
     //Attributes
     private int categoryID;
@@ -26,7 +26,7 @@ public class StandardCategory {
 
     public String getParentName() {
         if (this.parentCategory != null) {
-            return this.parentCategory.getName();
+            return this.parentCategory.getCategoryName();
         }
         return "root";
     }
@@ -35,7 +35,7 @@ public class StandardCategory {
         return categoryID;
     }
 
-    public String getName() {
+    public String getCategoryName() {
         return this.categoryName;
     }
 
