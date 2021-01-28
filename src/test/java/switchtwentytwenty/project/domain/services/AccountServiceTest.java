@@ -11,9 +11,12 @@ import switchtwentytwenty.project.controllers.AddFamilyController;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.accounts.AccountType;
+import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
+import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
 
 class AccountServiceTest {
 
@@ -82,6 +85,7 @@ class AccountServiceTest {
     double negativeBalance = -2;
     String accountName = "Current Account";
     String accountName2 = "Other Current Account";
+    double interestRate = 2.00;
 
     int family1ID = 5;
     String family1Name = "Silva";
@@ -143,4 +147,28 @@ class AccountServiceTest {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00);
         assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
     }
+
+    @Test
+    void verifyAccountType_BankSavings_ExpectingTrue() {
+        //Arrange
+        BankSavingsAccount BankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
+        AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
+        //Act
+        boolean result = BankSavings.checkAccountType(BANKSAVINGSACCOUNT);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void verifyAccountType_BankSavings_ExpectingFalse() {
+        //Arrange
+        BankSavingsAccount BankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = BankSavings.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+    //Batista - Acrescentar diferentes EnumTypes para testar o resto
 }
