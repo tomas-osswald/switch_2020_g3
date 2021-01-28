@@ -1,11 +1,11 @@
-package switch2020.project.domain.model;
+package switchtwentytwenty.project.domain.model;
 
 
 import org.junit.jupiter.api.Test;
-import switch2020.project.domain.model.user_data.Address;
-import switch2020.project.domain.model.user_data.EmailAddress;
-import switch2020.project.domain.model.user_data.PhoneNumber;
-import switch2020.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.model.user_data.Address;
+import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
+import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
+import switchtwentytwenty.project.domain.model.user_data.VatNumber;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -143,4 +143,29 @@ class AccountServiceTest {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00);
         assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
     }
+
+    @Test
+    void TransferCashBetweenFamilyMemberCashAccountToAnotherFamilyMemberWithCashAccount(){
+
+    }
+
+    @Test
+    void TransferCashBetweenFamilyMemberCashAccountToAnotherFamilyMemberWithNoCashAccount(){
+
+    }
+
+    @Test
+    void TransferCashBetweenFamilyMemberCashAccountInsuficientFundsToAnotherFamilyMemberWithCashAccount(){
+
+    }
+
+    @Test
+    void TransferCashBetweenFamilyMemberCashAccountNegativeValueToAnotherFamilyMemberWithCashAccount(){
+
+    }
+
+    @Test
+    void TransferCashBetweenFamilyMemberCashAccountNullValueToAnotherFamilyMemberWithCashAccount(){
+
+    }
 }

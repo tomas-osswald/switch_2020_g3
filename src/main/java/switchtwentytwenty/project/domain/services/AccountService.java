@@ -95,12 +95,15 @@ public class AccountService {
 
     public boolean transferCashBetweenFamilyMembersCashAccounts(Account originAccount, Account destinationAccount, StandardCategory category, TransferenceDTO transferCashDTO){
         double transferedValue = transferCashDTO.getTransferedValue();
+        int familyID = transferCashDTO.getFamilyID();
+
         if(!originAccount.hasEnoughMoneyForTransaction(transferedValue)) return false; //problema a evitar,  return no meio do código
-       /* if(destinationAccount==null) {
-            transferCashDTO.getFamilyID(createPersonalCashAccount(destinationAccount.
+      /* if(destinationAccount==null) {
+           FamilyMember destinationMember = new FamilyMember()
+            createPersonalCashAccount()
 
         }*/
-        //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
+
         originAccount.changeBalance(transferedValue*-1);
         originAccount.registerTransaction(destinationAccount, category, transferCashDTO);
         destinationAccount.changeBalance(transferedValue);
