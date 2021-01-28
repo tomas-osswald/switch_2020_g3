@@ -9,6 +9,7 @@ public class BankAccount implements Account {
 
     private AccountData accountData;
     private IBAN iban;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
 
     /***** CONSTRUCTORS ******/
     /*
@@ -128,6 +129,8 @@ public class BankAccount implements Account {
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
-
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+        return this.accountType.getAccountType().equals(accountTypeEnum);
+    }
 
 }

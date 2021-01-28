@@ -17,4 +17,6 @@ public interface Account {
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO);
 
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum);
+
 }

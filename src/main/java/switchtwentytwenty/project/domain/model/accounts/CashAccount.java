@@ -9,6 +9,7 @@ public class CashAccount implements Account {
 
     // Attributes
     private AccountData accountData;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
 
 
 
@@ -111,4 +112,7 @@ public class CashAccount implements Account {
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+        return this.accountType.getAccountType().equals(accountTypeEnum);
+    }
 }
