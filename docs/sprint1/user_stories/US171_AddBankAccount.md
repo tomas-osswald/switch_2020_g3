@@ -51,8 +51,10 @@ The account balance can be negative;
 
 ### 1.3 Dependencies
 
-This user story has a dependency with these **1** user stories:
+This user story has a dependency with these **2** user stories:
 
+- **[US010](US101_AddFamily.md)** *(As a system manager, I want to create a family.)*
+  - In order to have a FamilyMember, the system needs to have that Family.
 - **[US101](US101_AddFamilyMember.md)** *(As a family Administrator, I want to add a familyMember to a family)*
   - In order to add a bank account, the system needs to have that Family Member.
   
