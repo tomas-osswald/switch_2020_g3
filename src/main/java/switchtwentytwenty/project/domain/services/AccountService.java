@@ -1,19 +1,20 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
-import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 
 import java.util.List;
 
 public class AccountService {
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
+    public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
-            Account cashAccount = new CashAccount(accountDesignation, initialBalance, accountID);
+            Account cashAccount = new CashAccount(addCashAccountDTO, accountID);
             return targetMember.addAccount(cashAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -74,20 +75,19 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO){
+    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO) {
         double transferedValue = transferCashDTO.getTransferedValue();
-        if(familyAccount==null) throw new IllegalArgumentException("Family has no account");
-        if(!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
+        if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
 
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferedValue*-1);
+        familyAccount.changeBalance(transferedValue * -1);
         familyAccount.registerTransaction(targetAccount, category, transferCashDTO);
         targetAccount.changeBalance(transferedValue);
         targetAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
         return true;
     }
-
 
 
 }
