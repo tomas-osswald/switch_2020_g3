@@ -8,8 +8,6 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
-import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +97,7 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
+    /*
     protected boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
         boolean isSameType = false;
         if (account.checkAccountType(accountTypeEnum)) {
@@ -106,11 +105,11 @@ public class AccountService {
         }
         return isSameType;
     }
-
+    */
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
-            if (verifyAccountType(account, AccountTypeEnum.CASHACCOUNT)) {
+            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) {
                 AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }

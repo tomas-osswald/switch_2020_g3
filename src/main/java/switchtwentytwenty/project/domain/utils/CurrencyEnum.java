@@ -3,5 +3,6 @@ package switchtwentytwenty.project.domain.utils;
 public enum CurrencyEnum {
     EURO,
     DOLLAR,
-    YEN
+    YEN,
+    POUND
 }

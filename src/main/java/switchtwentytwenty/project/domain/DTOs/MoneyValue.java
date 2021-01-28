@@ -42,7 +42,21 @@ public class MoneyValue {
     }
 
     /*
-    private void updateEuroExchangeRate() {
+    private void updateEuroExchangeRate() throws IOException {
+
+        String url_str = "https://v6.exchangerate-api.com/v6/YOUR-API-KEY/latest/USD";
+
+        URL url = new URL(url_str);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+
+        JsonParser jp = new JsonParser();
+        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonObject jsonobj = root.getAsJsonObject();
+
+
+        String req_result = jsonobj.get("EUR").getAsString();
         //this.euroToDollarExchangeRate = get exchange rate from web;
         //this.dollarToEuroExchangeRate = get exchange rate from web;
     }
@@ -51,7 +65,6 @@ public class MoneyValue {
         //this.yenToDollarExchangeRate = get exchange rate from web;
         //this.dollarToYenExchangeRate = get exchange rate from web;
     }
-
 
 
     private double calculateToDollar() {

@@ -10,6 +10,7 @@ class MoneyValueTest {
     MoneyValue moneyValueEuro = new MoneyValue(2.5, CurrencyEnum.EURO);
     MoneyValue moneyValueYen = new MoneyValue(199.65, CurrencyEnum.YEN);
     MoneyValue moneyValueDollar = new MoneyValue(-3.0, CurrencyEnum.DOLLAR);
+    MoneyValue moneyValueunknwon = new MoneyValue(9.0,CurrencyEnum.POUND);
 
     @Test
     void getValue() {
@@ -36,6 +37,13 @@ class MoneyValueTest {
     void getCurrencyDollar() {
         String expected = "-3.0$";
         String result = moneyValueDollar.getCurrency();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getCurrencyUnknownSign() {
+        String expected = "9.0?";
+        String result = moneyValueunknwon.getCurrency();
         assertEquals(expected, result);
     }
 }
