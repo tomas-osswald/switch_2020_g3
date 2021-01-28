@@ -64,10 +64,10 @@ This user story has a dependency with these **1** user stories:
 In order to fulfill this requirement, we need three main data pieces:
 - Family ID;
 - Family Member ID;
-- Bank Account Name;
+- Bank Account ID;
 
 Since the accounts will be stored inside the Family Members, we need to be able to identify the family member in question. For this we need both the familyID and the familyMemberID.
-To identify the account we need the account ID, which is unique in each family member.
+To identify the account we need the account ID, which is unique in each family member, this approach removes the need to check if the account belongs to the user requesting the balance.
 
 At a later iteration, the family's and family member's IDs would be acquired through the Log In information. For this sprint, the IDs will have to be inputted along with the Bank Account information.
 
@@ -76,74 +76,60 @@ At a later iteration, the family's and family member's IDs would be acquired thr
 ````puml
 @startuml
 autonumber
-title US171 - AddBankAccout Sequece Diagram
+title US171 - GetAccountBalance Sequece Diagram
 
 actor "FamilyMember" as actor
 participant ": UI" as UI
-participant ": addBankAccountController" as controller
+participant ": GetAccountBalanceController" as controller
 participant ": FFM Application" as app
 participant "accServ : AccountService" as accServ
 participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
-participant "aBankAccount : BankAccount" as bankAcc
-participant "aIban : Iban" as iban
+participant "aAccount: Account" as account
 
 activate actor
-actor -> UI: addBankAccount(iban,balance)
+actor -> UI: get account balance
 activate UI
 UI -> actor: ask data
 deactivate UI
 actor -> UI: inputs required data
 activate UI
-UI -> controller: addBankAccount(familyID,familyMemberID,iban,balance)
+UI -> controller: getAccountBalance(familyID,familyMemberID, accountID)
+
 activate controller
-controller -> app: getFamilyMemberId(familyID,familyMemberID)
+controller -> app: getFamilyService()
 activate app
-app -> famService: getFamilyMemberId(familyID,familyMemberID)
+app -> controller: aFamilyService
+deactivate app
+
+controller -> famService: getFamily(familyID)
 activate famService
-famService -> family: getFamilyMemberId(familyID,familyMemberID)
-activate family
-family -> famService: ok
-deactivate family
-famService -> app: ok
+famService -> famService: getFamily(familyID)
+famService -> controller: aFamily
 deactivate famService
-app -> controller: ok
-deactivate app
-
-controller -> app: addBankAccount(familyID,familyMemberID,iban,balance)
-activate app
-app -> accServ: addBankAccount(familyID,familyMemberID,iban,balance)
+controller -> family: getFamilyMember(familyMemberID)
+activate family
+family -> family: getFamilyMember(familyMemberID)
+family -> controller: aFamilyMember
+deactivate family
+controller -> accServ: getAccountBalance(FamilyMember, accountID)
 activate accServ
-
-accServ -> bankAcc **: create(id,iban,balance)
-activate bankAcc
-bankAcc -> iban **: create(iban)
-deactivate bankAcc
-
-accServ -> person: addAccount(aBankAccount)
+accServ -> person: getAccountBalance(accountID)
 activate person
-
-alt vat exists - TRUE
-  person -> person: checkIfAccountAlreadyPresent()
-  person -> accServ: fail
-  accServ -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
-person -> person: addAccount(aBankAccount)
-end
-
-person -> accServ: ok
+person -> person: getAccount(accountID)
+person -> account: getAccountBalance()
+activate account
+account -> account: getBalance()
+account -> person: balance
+deactivate account
+person -> accServ: balance
 deactivate person
-accServ -> app: ok
+accServ -> controller: balance
 deactivate accServ
-app -> controller: ok
-deactivate app
-controller -> UI: ok
+controller -> UI: balance
 deactivate controller
-UI -> actor: informs success
+UI -> actor: Display balance
 deactivate UI
 deactivate actor
 
@@ -152,34 +138,33 @@ deactivate actor
 
 
 ## 3.1. Functionality Use
-The AddBankAccountController will invoke the Application object, which returns the Family Service.
-The Family Service will get the Family, which in turn will return the Family Member.
-The Account Service will now be called to add the bank account to the family member in question. The Bank Account. First, there will be an email validation inside the Application to ensure that is unique, then the same will be done to the vatNumber inside the Family object because we are assuming that the same Person can be part of different Families. If any of those validations turn to be true the method fails, otherwise the method is executed by calling the FamilyMember constructor, creating a new Person and storing it inside the Family object. 
-To finish this process, the Application return a confirmation message to the controller that will inform the UI, and therefore the user, that the method succeeded. 
-
+The getAccountBalanceController will invoke the application object, the Family Service object, the Family object, the Family Member object and finally the account object.
+In each of these steps it will find the corresponding instance, using either the familyId, familyMemberID or accountID.
+Once the correct account is reached, it will get and return the balance of the account back to the controller.
 
 
 ## 3.2. Class Diagram
 The main Classes involved are:
-- AddBankAccountController
+- GetAccountBalanceController
 - Application
 - FamilyService
-- Bank Account
 - Family
 - FamilyMember
+- Account
 - BankAccount
-- IBAN
+- CreditCardAccount
+- SavingsAccount
 
 **AddBankAccount()**
 ```puml
 @startuml
 
-title AddBankAccount()
+title GetAccountBalance()
 hide empty members
 
-class AddBankAccountController {
+class GetAccountBalanceController {
   - Application app
-  + addBankAccount()
+  + getAccountBalance()
 }
 
 class Application {
@@ -195,22 +180,13 @@ class FamilyService {
 class Family {
   - int familyID
   - List<FamilyMember> familyMembers
-  - getFamilyMemberByID()  
+  + getFamilyMemberByID()  
 }
 
 class FamilyMember {
-  - CCNumber ccNumber;
-  - String name;
-  - Date birthDate;
-  - List<PhoneNumber> phoneNumbers
-  - List<EmailAddress> emails
-  - VatNumber vatNumber;
-  - Address address;
-  - Relation relation;
-  - boolean administrator;
   - List<Account> accounts
   # compareID()
-  + addBankAccount()
+  + getAccount()
   
 }
 
@@ -219,36 +195,31 @@ class CCNumber {
   + getCcNumber()
 }
 
-class AccountService {
-  + addBankAccount()
-  + createBankAccount()
-}
 class BankAccount {
-  - ID
-  - IBAN
-  - Designation
   - Balance
-  + create()
+}
+class SavingsAccount {
+  - Balance
+}
+class CreditCardAccount {
+  - Balance
 }
 
 interface Account{
 }
-class AccountData {
-  - balance
-  - designation
-  - accountID
-}
 
-AddBankAccountController --> Application
-AddBankAccountController --> FamilyService
-FamilyService --> Family
-Family --> FamilyMember
+GetAccountBalanceController --> Application
+GetAccountBalanceController --> FamilyService
+GetAccountBalanceController --> Family
+GetAccountBalanceController --> FamilyMember
+GetAccountBalanceController --> BankAccount
+GetAccountBalanceController --> SavingsAccount
+GetAccountBalanceController --> CreditCardAccount
 FamilyMember --> CCNumber
-AddBankAccountController --> AccountService
-AccountService --> BankAccount
-BankAccount -|> Account
-BankAccount --> FamilyMember
-BankAccount --* AccountData
+BankAccount --|> Account
+SavingsAccount --|> Account
+CreditCardAccount --|> Account
+
 
 
 @enduml
