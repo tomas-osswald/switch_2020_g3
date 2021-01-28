@@ -1,8 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.CashTransaction;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
@@ -17,6 +19,7 @@ public class AccountData {
     private int accountID;
     private List<Transaction> transactions;
     private Date creationDate;
+    private MoneyValue currentBalance;
 
     public AccountData(Double balance, String designation, int accountID) {
         validateDesignation(designation);
@@ -25,6 +28,16 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
+        this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
+    }
+
+    public AccountData(Double balance, String designation, int accountID, CurrencyEnum currencyEnum) {
+        validateDesignation(designation);
+        this.description = designation;
+        this.accountID = accountID;
+        this.transactions = new ArrayList<>();
+        this.creationDate = new Date();
+        this.currentBalance = new MoneyValue(balance, currencyEnum);
     }
 
     public Date getCreationDate() {
@@ -33,6 +46,10 @@ public class AccountData {
 
     public double getBalance() {
         return balance;
+    }
+
+    public MoneyValue getCurrentBalance() {
+        return this.currentBalance;
     }
 
     public void setBalance(double balance) {

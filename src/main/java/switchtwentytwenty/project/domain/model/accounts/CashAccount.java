@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
@@ -117,5 +118,9 @@ public class CashAccount implements Account {
 
     public String getDescription(){
         return accountData.getDescription();
+    }
+
+    public MoneyValue getMoneyBalance() {
+        return this.accountData.getCurrentBalance();
     }
 }

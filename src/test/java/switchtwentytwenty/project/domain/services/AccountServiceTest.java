@@ -235,6 +235,45 @@ class AccountServiceTest {
         assertFalse(result);
     }
 
+
+    @Test
+    void getAccountNoAccountWithGivenIDResultNull() {
+        int accountID = 1;
+        Account expected = null;
+
+        Account result = accountService.getAccount(diogo, accountID);
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void getAccountSuccessTypeBankAccount() {
+        String accountName = "Bank Account";
+        Double balance = null;
+        int accountID = 1;
+        Account expected = new BankAccount(accountName, balance, accountID);
+
+        accountService.addBankAccount(diogo, accountName, balance);
+        Account result = accountService.getAccount(diogo, accountID);
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void getAccountSuccessTypeBankSavingsAccount() {
+        String accountName = "Savings Account";
+        Double balance = null;
+        Double interestRate = null;
+        int accountID = 1;
+        Account expected = new BankSavingsAccount(accountID, accountName, balance, interestRate);
+
+        accountService.addBankSavingsAccount(diogo, accountName, balance, interestRate);
+        Account result = accountService.getAccount(diogo, accountID);
+
+        assertEquals(result, expected);
+    }
+
+
     @Test
     void checkCashAccountBalance_ExpectingCorrectValue() {
     }
@@ -246,8 +285,5 @@ class AccountServiceTest {
     @Test
     void checkCashAccountBalance_ExpectingWrongValue() {
     }
-
-
-
 
 }
