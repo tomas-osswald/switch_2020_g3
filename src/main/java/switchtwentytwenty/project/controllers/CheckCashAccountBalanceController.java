@@ -8,13 +8,14 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.AccountData;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CheckCashAccountBalanceController {
 
-    private Application ffmapplication;
+    private final Application ffmapplication;
 
     public CheckCashAccountBalanceController(Application ffmapplication) {
         this.ffmapplication = ffmapplication;
@@ -43,10 +44,10 @@ public class CheckCashAccountBalanceController {
                 AccountService accountService = new AccountService();
                 moneyValue = accountService.getFamilyCashAccountBalance(family);
             } else { // Not an Administrator
-                moneyValue = new MoneyValue(0.00); //empty money value, isto tem que ser melhorado!!!!!
+                moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
             }
         } catch (Exception e) { // Family Does Not Exist
-            moneyValue = new MoneyValue(0.00); //empty money value, isto tem que ser melhorado!!!!!
+            moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
 
         }
         return moneyValue;
@@ -61,7 +62,7 @@ public class CheckCashAccountBalanceController {
             AccountService accountService = new AccountService();
             moneyValue = accountService.getFamilyMemberCashAccountBalance(familyMember, accountID);
         } else {
-            moneyValue = new MoneyValue(0.00); //empty money value, isto tem que ser melhorado!!!!!
+            moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
         }
         return moneyValue;
     }

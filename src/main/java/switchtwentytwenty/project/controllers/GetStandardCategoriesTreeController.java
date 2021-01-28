@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.DTOs.output.CategoryTreeDTO;
 
 public class GetStandardCategoriesTreeController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
 
     public GetStandardCategoriesTreeController(Application ffmApplication) {

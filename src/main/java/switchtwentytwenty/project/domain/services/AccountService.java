@@ -9,8 +9,6 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
-import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,16 +78,24 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO) {
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
         double transferedValue = transferCashDTO.getTransferedValue();
+        Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
 
+        //Criar nova conta para family member que não a tenha?
+
+        int accountID = transferCashDTO.getAccountID();
+        Account targetCashAccount = familyMember.getAccount(accountID);
+
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
         familyAccount.changeBalance(transferedValue * -1);
-        familyAccount.registerTransaction(targetAccount, category, transferCashDTO);
-        targetAccount.changeBalance(transferedValue);
-        targetAccount.registerTransaction(familyAccount, category, transferCashDTO);
+        // Registar movimento gasto - Balance tem que ser negativo
+        familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
+        targetCashAccount.changeBalance(transferedValue);
+        //Registar movimento contrario - Balance tem que ser negativo
+        targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
         return true;
     }
@@ -100,6 +106,7 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
+    /*
     protected boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
         boolean isSameType = false;
         if (account.checkAccountType(accountTypeEnum)) {
@@ -107,11 +114,11 @@ public class AccountService {
         }
         return isSameType;
     }
-
+    */
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
-            if (verifyAccountType(account, AccountTypeEnum.CASHACCOUNT)) {
+            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) {
                 AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
@@ -121,13 +128,22 @@ public class AccountService {
 
     public MoneyValue getFamilyCashAccountBalance(Family family) {
         Account cashAccount = family.getFamilyCashAccount();
-        MoneyValue moneyValue = new MoneyValue(cashAccount.getBalance());
+        MoneyValue moneyValue = cashAccount.getMoneyBalance();
         return moneyValue;
     }
 
     public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
         Account cashAccount = familyMember.getAccount(accountID);
-        MoneyValue moneyValue = new MoneyValue(cashAccount.getBalance());
+        MoneyValue moneyValue = cashAccount.getMoneyBalance();
         return moneyValue;
+    }
+    /**
+     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * @param aFamilyMember account owner
+     * @param accountID account unique ID
+     * @return target account
+     */
+    public Account getAccount(FamilyMember aFamilyMember, int accountID) {
+        return aFamilyMember.getAccount(accountID);
     }
 }

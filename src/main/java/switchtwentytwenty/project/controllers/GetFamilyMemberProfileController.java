@@ -6,7 +6,7 @@ import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 
 public class GetFamilyMemberProfileController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public GetFamilyMemberProfileController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;

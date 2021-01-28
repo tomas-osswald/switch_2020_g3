@@ -8,6 +8,7 @@ import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -157,7 +158,7 @@ class CheckCashAccountBalanceControllerTest {
         CreateFamilyCashAccountController createFamilyCashAccountController = new CreateFamilyCashAccountController(application);
         createFamilyCashAccountController.createFamilyCashAccount(familyOneID, accountDescriptionOne, valueOne, cc);
 
-        MoneyValue expected = new MoneyValue(valueOne);
+        MoneyValue expected = new MoneyValue(valueOne, CurrencyEnum.EURO);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(cc, familyOneID);
 

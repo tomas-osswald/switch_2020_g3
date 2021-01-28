@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.controllers;
 
 import switchtwentytwenty.project.domain.model.Application;
+import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -10,7 +12,7 @@ import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 public class TransferCashFromFamilyAccountToPersonalAccountController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public TransferCashFromFamilyAccountToPersonalAccountController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
@@ -21,15 +23,14 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
         CategoryService categoryService = this.ffmApplication.getCategoryService();
         int familyID = transferCashDTO.getFamilyID();
         String familyMemberCC = transferCashDTO.getFamilyMemberCC();
-        int accountID = transferCashDTO.getAccountID();
         int categoryID = transferCashDTO.getCategoryID();
 
-        Account familyAccount = familyService.getFamily(familyID).getFamilyCashAccount();
-        Account targetAccount = familyService.getFamily(familyID).getFamilyMember(familyMemberCC).getAccount(accountID);
+        Family family = familyService.getFamily(familyID);
+        FamilyMember familyMember = familyService.getFamily(familyID).getFamilyMember(familyMemberCC);
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
         AccountService accountService = new AccountService();
-        return accountService.transferCashFromFamilyToFamilyMember(familyAccount, targetAccount, category, transferCashDTO);
+        return accountService.transferCashFromFamilyToFamilyMember(family, familyMember, category, transferCashDTO);
 
     }
 
