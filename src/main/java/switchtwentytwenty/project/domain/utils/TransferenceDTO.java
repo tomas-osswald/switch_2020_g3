@@ -34,9 +34,7 @@ public class TransferenceDTO {
         return accountID;
     }
 
-    public double getTransferedValue() {
-        return transferedValue;
-    }
+    public double getTransferedValue() {return transferedValue; }
 
     public int getCategoryID() {
         return categoryID;

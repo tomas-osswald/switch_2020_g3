@@ -118,112 +118,21 @@ CashAccount <-- FamilyMember : has
 
 # 3. Design
 
-The process to fulfill the requirement we need the input of data from a UI to create a CreditCardAccount object and add it to a specific FamilyMember(familyMemberID) in a given Family(familyID).
-To create a valid CreditCardAccount object the constructor must acept an id, that is generated in AccountService.
-A default Card Description is generated if has been inputed a invalid Card Description (null, empty or blank).
+The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
+To execute the transfer
 
 The controller will return:
-- True, if a CreditCardAccount as been successfull created and assign.
-- False, if catches on of the following throws ("Family don't exist", "Family Member don't exist")
+- True, 
+- False, 
 
 ## 3.1. Functionality Use
 
-``` puml
-autonumber 1
-title transferMoneyCashAccountCardAccount
-actor "Actor" as actor
-participant ": UI" as UI
-participant ": TransferMoneyFromCashAccount\n Controller" as controller
-participant ": Application" as app
-'participant "aAccountService \n : AccountService" as aserv
-participant "aTransactionService \n : TransactionService" as tserv
-participant "aFamilyService \n : FamilyService" as fserv
-participant "aFamily : Family" as family
-participant "aCreditCardAccount : CreditCard Account" as credit
-participant "aFamilyMember : FamilyMember" as familyMember
+# 3. Design
 
-activate actor
-activate UI
-deactivate UI
-actor -> UI : inputs required data
-UI -> controller : transferMoneyFromFamilyMemberCashAccount \n ToAnotherFamilyCashAccount \n (originFamilyMemberID,  destinationFamilyMemberID, ammount)
-activate controller
-controller -> app : getFamilyService()
-activate app
-app -> controller : aFamilyService
-deactivate app
-controller -> fserv : getFamily(familyID)
-activate fserv
-fserv -> controller : aFamily
-deactivate fserv
 
-controller -> family : getFamilyMember(familyMemberID)
-activate family
-activate familyMember
-family -> familyMember : hasAccount(AccountID)
-deactivate family
-
-/'app -> controller : getAccountService()
-activate app
-controller -> app : aAccountService
-deactivate app '/
-
-aserv -> aserv : id = generateID()
-
-aserv -> credit** : createCreditCardAccount(id, cardDescription, withdrawLimit)
-
-aserv -> familyMember : addAccountToList(aCreditCardAccount)
-activate familyMember 
-familyMember -> aserv : inform sucess
-deactivate familyMember
-aserv -> controller : inform sucess
-deactivate aserv
-
-controller -> UI : inform sucess
-deactivate controller
-
-UI -> actor : inform sucess
-deactivate UI
-deactivate actor
-```
 
 ## 3.2. Class Diagram
 
-```puml
-
-title Class Diagram - US173
-
-class AddCreditCardAcccountController {
-}
-
-class Application {
-}
-
-class AccountService {
-+ addCreditCardAccount()
-}
-
-class FamilyService {
-   }
-   
-class FamilyMember {
-    + addAccount()
-}
-
-class Account {
-}
-
-class CreditCardAccount {
-}
-
-AddCreditCardAcccountController  -> Application
-AddCreditCardAcccountController  -down-> AccountService
-(AccountService, FamilyMember) -> CreditCardAccount : add credit card account to member
-Application --> FamilyService : has
-FamilyService --> FamilyMember : has
-FamilyMember --> Account : has List<Account>
-Account  <-- CreditCardAccount : Is a
-```
 
 ## 3.3. Applied Patterns
 

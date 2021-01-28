@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.services;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -93,9 +94,9 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Account originAccount, Account destinationAccount, StandardCategory category, TransferenceDTO transferCashDTO){
-        double transferedValue = transferCashDTO.getTransferedValue();
-        int familyID = transferCashDTO.getFamilyID();
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Account originAccount, Account destinationAccount, StandardCategory category, CashTransferDTO cashTransferDTO){
+        double transferedValue = cashTransferDTO.getTransferedValue();
+        //int familyID = cashTransferDTO.getFamilyID();
 
         if(!originAccount.hasEnoughMoneyForTransaction(transferedValue)) return false; //problema a evitar,  return no meio do código
       /* if(destinationAccount==null) {
@@ -104,10 +105,10 @@ public class AccountService {
 
         }*/
 
-        originAccount.changeBalance(transferedValue*-1);
-        originAccount.registerTransaction(destinationAccount, category, transferCashDTO);
+        /*originAccount.changeBalance(transferedValue*-1);
+        originAccount.registerTransaction(destinationAccount, category, cashTransferDTO);
         destinationAccount.changeBalance(transferedValue);
-        destinationAccount.registerTransaction(originAccount, category, transferCashDTO);
+        destinationAccount.registerTransaction(originAccount, category, cashTransferDTO);*/
 
         return true;
     }
