@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
@@ -104,4 +105,7 @@ public class CreditCardAccount implements Account {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
+    public MoneyValue getMoneyBalance() {
+        return this.accountData.getCurrentBalance();
+    }
 }

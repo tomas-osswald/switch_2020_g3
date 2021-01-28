@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
@@ -20,4 +21,6 @@ public interface Account {
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum);
 
     public String getDescription();
+
+    public MoneyValue getMoneyBalance();
 }
