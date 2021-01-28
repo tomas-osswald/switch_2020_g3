@@ -41,6 +41,15 @@ public class MoneyValue {
         return "?";
     }
 
+    @Override
+    public boolean equals(Object otherMoneyValue) {
+        if (this == otherMoneyValue) return true;
+        if (otherMoneyValue == null || !(otherMoneyValue instanceof MoneyValue)) return false;
+        MoneyValue other = (MoneyValue) otherMoneyValue;
+        return Double.compare(other.getValue(), value) == 0 &&
+                this.currency.name().equals(other.currency.name());
+    }
+
     /*
     private void updateEuroExchangeRate() throws IOException {
 
