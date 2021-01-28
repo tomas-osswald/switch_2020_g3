@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class AddFamilyMemberController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public AddFamilyMemberController(Application ffmApplication){
         this.ffmApplication = ffmApplication;

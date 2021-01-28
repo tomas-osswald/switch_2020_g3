@@ -79,16 +79,24 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO) {
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
         double transferedValue = transferCashDTO.getTransferedValue();
+        Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
 
+        //Criar nova conta para family member que não a tenha?
+
+        int accountID = transferCashDTO.getAccountID();
+        Account targetCashAccount = familyMember.getAccount(accountID);
+
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
         familyAccount.changeBalance(transferedValue * -1);
-        familyAccount.registerTransaction(targetAccount, category, transferCashDTO);
-        targetAccount.changeBalance(transferedValue);
-        targetAccount.registerTransaction(familyAccount, category, transferCashDTO);
+        // Registar movimento gasto - Balance tem que ser negativo
+        familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
+        targetCashAccount.changeBalance(transferedValue);
+        //Registar movimento contrario - Balance tem que ser negativo
+        targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
         return true;
     }

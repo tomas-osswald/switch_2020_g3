@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CheckCashAccountBalanceController {
 
-    private Application ffmapplication;
+    private final Application ffmapplication;
 
     public CheckCashAccountBalanceController(Application ffmapplication) {
         this.ffmapplication = ffmapplication;
