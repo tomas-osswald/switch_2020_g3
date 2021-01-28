@@ -144,7 +144,7 @@ public class AccountService {
      * @return
      */
 
-    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta.
+    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
     public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
         MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
         return donaldTrump;
