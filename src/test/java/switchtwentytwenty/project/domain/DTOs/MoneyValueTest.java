@@ -7,19 +7,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MoneyValueTest {
 
-    MoneyValue moneyValue = new MoneyValue(2.5, CurrencyEnum.EURO);
+    MoneyValue moneyValueEuro = new MoneyValue(2.5, CurrencyEnum.EURO);
+    MoneyValue moneyValueYen = new MoneyValue(199.65, CurrencyEnum.YEN);
+    MoneyValue moneyValueDollar = new MoneyValue(-3.0, CurrencyEnum.DOLLAR);
 
     @Test
     void getValue() {
         double expected = 2.5;
-        double result = moneyValue.getValue();
+        double result = moneyValueEuro.getValue();
         assertEquals(expected, result, 0.01);
     }
 
     @Test
-    void getCurrency() {
-        String expected = "EURO";
-        String result = moneyValue.getCurrency();
+    void getCurrencyEuro() {
+        String expected = "2.5€";
+        String result = moneyValueEuro.getCurrency();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getCurrencyYen() {
+        String expected = "199.65¥";
+        String result = moneyValueYen.getCurrency();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getCurrencyDollar() {
+        String expected = "-3.0$";
+        String result = moneyValueDollar.getCurrency();
         assertEquals(expected, result);
     }
 }
