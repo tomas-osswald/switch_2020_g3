@@ -308,14 +308,13 @@ deactivate app
 
 controller -> aserv : getListOfCashAccountsOfAFamilyMember(aFamilyMember)
 activate aserv
-aserv -> familyMember : getListOfCashAccountsOfAFamilyMember( )
-
+aserv -> familyMember : geAccounts( )
 activate familyMember
 
+familyMember -> aserv : listOfAccounts
+deactivate familyMember
 
-familyMember -> aserv : listOfCashAccounts
-deactivate familyMember
-deactivate familyMember
+aserv -> aserv : createListOfCashAccounts(listOfAccounts)
 aserv -> controller : listOfCashAccounts
 deactivate aserv
 

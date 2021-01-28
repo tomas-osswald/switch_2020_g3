@@ -94,4 +94,8 @@ public class BankSavingsAccount implements Account {
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
+
+    public String getDescription(){
+        return accountData.getDescription();
+    }
 }
