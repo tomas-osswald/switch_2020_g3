@@ -62,6 +62,7 @@
 
             <!-- Required for running unit tests -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
@@ -114,16 +115,16 @@
                         <param>lapr.project.utils.*</param>
                     </inScopeClasses>-->
                     <targetClasses>
-                        <param>switch2020.project.domain.model.*</param>
-                        <param>switch2020.project.controllers.*</param>
-                        <param>switch2020.project.domain.services.*</param>
-                        <param>switch2020.project.domain.utils.*</param>
+                        <param>switchtwentytwenty.project.domain.model.*</param>
+                        <param>switchtwentytwenty.project.controllers.*</param>
+                        <param>switchtwentytwenty.project.domain.services.*</param>
+                        <param>switchtwentytwenty.project.domain.utils.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>switch2020.project.domain.model.*</param>
-                        <param>switch2020.project.controllers.*</param>
-                        <param>switch2020.project.domain.services.*</param>
-                        <param>switch2020.project.domain.utils.*</param>
+                        <param>switchtwentytwenty.project.domain.model.*</param>
+                        <param>switchtwentytwenty.project.controllers.*</param>
+                        <param>switchtwentytwenty.project.domain.services.*</param>
+                        <param>switchtwentytwenty.project.domain.utils.*</param>
                     </targetTests>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
