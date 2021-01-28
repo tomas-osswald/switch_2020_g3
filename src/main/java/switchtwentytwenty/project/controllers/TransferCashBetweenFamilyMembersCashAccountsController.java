@@ -20,15 +20,19 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
     public boolean TransferCashBetweenFamilyMembersCashAccounts(CashTransferDTO cashTransferDTO){
         FamilyService familyService = this.app.getFamilyService();
         CategoryService categoryService = this.app.getCategoryService();
-        /*int originAccountID = cashTransferDTO.
-        int categoryID = transferCashDTO.getCategoryID();
 
-        Account originAccount = familyService.getFamily(familyID).getFamilyMember(familyMemberCC).getAccount(accountID);
-        Account destinationAccount = familyService.getFamily(familyID).getFamilyMember(familyMemberCC).getAccount(accountID);
+        String originFamilyMemberCC = cashTransferDTO.getOriginFamilyMemberCC();
+        String destinationFamilyMemberCC = cashTransferDTO.getDestinationFamilyMemberCC();
+        int categoryID = cashTransferDTO.getCategoryID();
+        int familyID = cashTransferDTO.getFamilyID();
+        int originAccount = cashTransferDTO.getOriginAccountID();
+        int destinationAccount = cashTransferDTO.getDestinationAccountID();
+        Account originAccountID = familyService.getFamily(familyID).getFamilyMember(originFamilyMemberCC).getAccount(originAccount);
+        Account destinationAccountID = familyService.getFamily(familyID).getFamilyMember(destinationFamilyMemberCC).getAccount(destinationAccount);
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
         AccountService accountService = new AccountService();
-        return accountService.transferCashBetweenFamilyMembersCashAccounts(originAccount, destinationAccount, category, transferCashDTO);*/
-        return true;
+        return accountService.transferCashBetweenFamilyMembersCashAccounts(originAccountID, destinationAccountID, category, cashTransferDTO);
+
     }
 }
