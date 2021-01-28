@@ -8,8 +8,6 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
-import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,21 +103,35 @@ public class AccountService {
         List<Account> accounts = familyMember.getAccounts();
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
         return accountIDAndDescriptionDTOS;
-}
-
-    private boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
-        // acho que terás que usar o Check Account Type das Accounts
-        return true; // for Batista, only returning true to compile
     }
 
+    /*
+    protected boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        boolean isSameType = false;
+        if (account.checkAccountType(accountTypeEnum)) {
+            isSameType = true;
+        }
+        return isSameType;
+    }
+    */
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
-            if (verifyAccountType(account, AccountTypeEnum.CASHACCOUNT)) {
+            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) {
                 AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
         }
         return accountIDAndDescriptionDTOS;
+    }
+
+    /**
+     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * @param aFamilyMember account owner
+     * @param accountID account unique ID
+     * @return target account
+     */
+    public Account getAccount(FamilyMember aFamilyMember, int accountID) {
+        return aFamilyMember.getAccount(accountID);
     }
 }

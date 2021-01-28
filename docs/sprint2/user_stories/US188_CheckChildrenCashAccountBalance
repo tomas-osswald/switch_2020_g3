@@ -129,16 +129,21 @@ Deactivate Family
 Controller -> AccountService ** : createAccountService()
 Controller -> AccountService : checkCashAccountBalance(AccountID, childID)
 activate AccountService
+AccountService -> aFamilyMember : getAccount(AccountID)
+activate aFamilyMember
+aFamilyMember  --> AccountService : anAccount
+deactivate aFamilyMember
 AccountService -> AccountService : verifyAccountType(AccountID)
 alt false : Account is not CashAccount
 AccountService --> Controller : failure
 Controller --> UI : failure
 UI --> FamilyMember : Not a cash account
 else success
-AccountService -> aFamilyMember : getBalance()
-activate aFamilyMember
-aFamilyMember --> AccountService : cashAccountBalance
-deactivate aFamilyMember
+
+AccountService -> aCashAccount : getBalance()
+activate aCashAccount
+aCashAccount --> AccountService : cashAccountBalance
+deactivate aCashAccount
 AccountService --> Controller : cashAccountBalance
 deactivate AccountService
 Controller --> UI : cashAccountBalance
