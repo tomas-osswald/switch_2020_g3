@@ -283,8 +283,14 @@ class AccountServiceTest {
     }
 
     @Test
-    void checkCashAccountBalance_AssertThrows() {
+    void checkCashAccountBalance_AssertThrowsTrue() {
     }
+
+    @Test
+    void checkCashAccountBalance_AssertNotThrows() {
+    }
+
+
 
 
 
