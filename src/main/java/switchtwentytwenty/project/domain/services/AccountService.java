@@ -116,4 +116,14 @@ public class AccountService {
         }
         return accountIDAndDescriptionDTOS;
     }
+
+    /**
+     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * @param aFamilyMember account owner
+     * @param accountID account unique ID
+     * @return target account
+     */
+    public Account getAccount(FamilyMember aFamilyMember, int accountID) {
+        return aFamilyMember.getAccount(accountID);
+    }
 }
