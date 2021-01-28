@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -115,5 +116,9 @@ public class BankSavingsAccount implements Account {
 
     public String getDescription() {
         return accountData.getDescription();
+    }
+
+    public MoneyValue getMoneyBalance() {
+        return this.accountData.getCurrentBalance();
     }
 }
