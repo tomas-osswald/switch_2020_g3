@@ -1,7 +1,10 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
+import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
@@ -12,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
+    public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
-            Account cashAccount = new CashAccount(accountDesignation, initialBalance, accountID);
+            Account cashAccount = new CashAccount(addCashAccountDTO, accountID);
             return targetMember.addAccount(cashAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -56,14 +59,9 @@ public class AccountService {
 
     public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
         int accountID = generateID(targetMember);
-        try {
-            Account bankAccount = new BankAccount(accountName, balance, accountID);
-            targetMember.addAccount(bankAccount);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        Account bankAccount = new BankAccount(accountName, balance, accountID);
+        return targetMember.addAccount(bankAccount);
+
     }
 
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {

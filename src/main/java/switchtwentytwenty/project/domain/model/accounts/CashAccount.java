@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -7,41 +8,40 @@ import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignat
 public class CashAccount implements Account {
 
 
+    private final AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
     // Attributes
     private AccountData accountData;
-    private final AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
-
 
 
     // Constructors
-    public CashAccount(String designation, double balance, int cashAccountID) {
-        if (!validateBalance(balance)) {
+    public CashAccount(AddCashAccountDTO cashAccountDTO, int cashAccountID) {
+        if (!validateBalance(cashAccountDTO.getBalance())) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         try {
-            this.accountData = new AccountData(balance, designation, cashAccountID);
+            this.accountData = new AccountData(cashAccountDTO.getBalance(), cashAccountDTO.getDescription(), cashAccountID);
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Cash Account with ID" + " " + cashAccountID;
-            this.accountData = new AccountData(balance, defaultDesignation.toUpperCase(), cashAccountID);
+            this.accountData = new AccountData(cashAccountDTO.getBalance(), defaultDesignation.toUpperCase(), cashAccountID);
+        }
+
+    }
+
+    public CashAccount(String accountDesignation, double initialBalance, int accountID) {
+        if (!validateBalance(initialBalance)) {
+            throw new IllegalArgumentException("Balance can't be less than 0");
+        }
+        try {
+            this.accountData = new AccountData(initialBalance, accountDesignation, accountID);
+        } catch (InvalidAccountDesignationException exception) {
+            String defaultDesignation = "Cash Account with ID" + " " + accountID;
+            this.accountData = new AccountData(initialBalance, defaultDesignation.toUpperCase(), accountID);
         }
 
     }
 
     // Business Methods
 
-    /**
-     * A method that validates if the given cash account ID is valid
-     *
-     * @param cashAccountID given cash account ID to validate
-     * @return a boolean validID, true if valid, false if invalid
-     */
-    private boolean validateID(int cashAccountID) {
-        boolean validID = true;
-        if (cashAccountID < 0) {
-            validID = false;
-        }
-        return validID;
-    }
 
     /**
      * A method that validates if the given cash account balance is valid. Balance of a physical cash account can never
@@ -79,7 +79,6 @@ public class CashAccount implements Account {
     }
 
 
-
     /**
      * Changes the balance of this cash account object by a given value
      *
@@ -100,19 +99,19 @@ public class CashAccount implements Account {
         return (this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance());
     }
 
-    public boolean isIDOfThisAccount(int accountID){
+    public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
         return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 

@@ -7,10 +7,10 @@ import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignat
 public class BankSavingsAccount implements Account {
 
 
+    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKSAVINGSACCOUNT);
     // Attributes
     private AccountData accountData;
     private double interestRate;
-    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKSAVINGSACCOUNT);
 
 
     // Constructors
@@ -55,9 +55,27 @@ public class BankSavingsAccount implements Account {
     }
 
     public double getBalance() {
+        //Deverá ser calculado o balance com o interest rate sempre que consultado. Não sei se é assim que se calcula :S
+        //return calculateInterest(); usa-se isto depois dos testes estarem adaptados aos novos cáluclos.
         return this.accountData.getBalance();
     }
+    /*
+    private double calculateInterest() {
+        double balance = this.accountData.getBalance();
+        long interestDays = calculateDaysBetweenNowAndADate(this.accountData.getCreationDate());
+        for (int i = 0; i < interestDays; i++) {
+            balance = balance * this.interestRate;
+        }
+        return balance;
+    }
 
+    private long calculateDaysBetweenNowAndADate(Date date) {
+        Date currentDate = new Date();
+        LocalDateTime now = LocalDateTime.of(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay(), currentDate.getHours(), currentDate.getMinutes());
+        LocalDateTime dateToCheck = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
+        return Duration.between(now, dateToCheck).toDays();
+    }
+*/
 
     public void changeBalance(double value) {
         this.accountData.changeBalance(value);
@@ -79,23 +97,23 @@ public class BankSavingsAccount implements Account {
         return Double.compare(that.interestRate, interestRate) == 0 && accountData.equals(that.accountData);
     }
 
-    public boolean isIDOfThisAccount(int accountID){
+    public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
         return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return accountData.getDescription();
     }
 }
