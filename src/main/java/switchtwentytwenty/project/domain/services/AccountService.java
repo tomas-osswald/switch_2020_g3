@@ -54,14 +54,9 @@ public class AccountService {
 
     public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
         int accountID = generateID(targetMember);
-        try {
-            Account bankAccount = new BankAccount(accountName, balance, accountID);
-            targetMember.addAccount(bankAccount);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        Account bankAccount = new BankAccount(accountName, balance, accountID);
+        return targetMember.addAccount(bankAccount);
+
     }
 
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {

@@ -6,7 +6,7 @@
 
 ### 1.1 Client's Sheet
 
-- As a family Administrator, I want to add a familyMember to a family.
+- As a family member, I want to add a Bank Account I have.
 
 We interpreted this requirement as the function of a FamilyMember to add a Bank Account to his application account.
 
