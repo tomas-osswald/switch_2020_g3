@@ -50,6 +50,9 @@ class CheckCashAccountBalanceControllerTest {
 
     String familyName = "Simpsons";
     int familyOneID = 1;
+    int familyIDDoesNotExist = 2;
+
+    String familyMemberIDDoesNotExist = "221312412ZZ1";
 
     // CashAccount Data One
 
@@ -167,13 +170,75 @@ class CheckCashAccountBalanceControllerTest {
 
     @Test
     void checkFamilyCashAccountBalanceFamilyWithOutCashAccount() {
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(cc, familyOneID);
+
+        assertEquals(expected, result);
     }
 
     @Test
     void checkFamilyCashAccountBalanceFamilyWithCashAccountNoAdministrator() {
+        CreateFamilyCashAccountController createFamilyCashAccountController = new CreateFamilyCashAccountController(application);
+        createFamilyCashAccountController.createFamilyCashAccount(familyOneID, accountDescriptionOne, valueOne, cc);
+
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(id2, familyOneID);
+
+        assertEquals(expected, result);
     }
 
     @Test
     void checkFamilyCashAccountBalanceFamilyWithCashAccountFamilyDoesNotExist() {
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(cc, familyIDDoesNotExist);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void checkFamilyMemberCashAccountBalance() {
+        CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
+        createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
+
+        MoneyValue expected = new MoneyValue(valueOne, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(cc, id2, accountIDOne, familyOneID);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void checkFamilyMemberCashAccountBalanceNoAdministrator() {
+        CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
+        createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
+
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(id2, cc, accountIDOne, familyOneID);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void checkFamilyMemberCashAccountBalanceNoCashAccount() {
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(cc, id2, accountIDOne, familyOneID);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void checkFamilyMemberCashAccountBalanceFamilyMemberDoesNotExist() {
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(cc, familyMemberIDDoesNotExist, accountIDOne, familyOneID);
+
+        assertEquals(expected, result);
     }
 }

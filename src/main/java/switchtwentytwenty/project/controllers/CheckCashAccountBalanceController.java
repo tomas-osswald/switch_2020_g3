@@ -56,12 +56,16 @@ public class CheckCashAccountBalanceController {
     public MoneyValue checkFamilyMemberCashAccountBalance(String selfID, String otherID, int accountID, int familyID) {
         FamilyService familyService = ffmapplication.getFamilyService();
         MoneyValue moneyValue;
-        if (familyService.verifyAdministratorPermission(familyID, selfID)) {
-            Family family = familyService.getFamily(familyID);
-            FamilyMember familyMember = family.getFamilyMember(otherID);
-            AccountService accountService = new AccountService();
-            moneyValue = accountService.getFamilyMemberCashAccountBalance(familyMember, accountID);
-        } else {
+        try {
+            if (familyService.verifyAdministratorPermission(familyID, selfID)) {
+                Family family = familyService.getFamily(familyID);
+                FamilyMember familyMember = family.getFamilyMember(otherID);
+                AccountService accountService = new AccountService();
+                moneyValue = accountService.getFamilyMemberCashAccountBalance(familyMember, accountID);
+            } else {
+                moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
+            }
+        } catch (Exception e) {
             moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
         }
         return moneyValue;
