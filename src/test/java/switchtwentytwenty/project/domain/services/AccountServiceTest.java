@@ -235,4 +235,19 @@ class AccountServiceTest {
         assertFalse(result);
     }
 
+    @Test
+    void checkCashAccountBalance_ExpectingCorrectValue() {
+    }
+
+    @Test
+    void checkCashAccountBalance_ExpectingCorrectValueWithNegativeBalance() {
+    }
+
+    @Test
+    void checkCashAccountBalance_ExpectingWrongValue() {
+    }
+
+
+
+
 }

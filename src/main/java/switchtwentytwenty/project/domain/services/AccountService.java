@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
@@ -7,6 +8,7 @@ import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 import java.util.ArrayList;
@@ -133,5 +135,18 @@ public class AccountService {
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
         return aFamilyMember.getAccount(accountID);
+    }
+
+    /**
+     * Method to check the Balance of a Cash Account.
+     * @param accountID
+     * @param member
+     * @return
+     */
+
+    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta.
+    public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
+        MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
+        return donaldTrump;
     }
 }
