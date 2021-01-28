@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -22,6 +23,7 @@ public class GetAccountBalanceController {
         Account account = accountService.getAccount(familyMember, accountID);
 
         double accountBalance = account.getBalance();
+        //MoneyValue accountBalance = account.getMoneyBalance();
 
         return accountBalance;
     }
