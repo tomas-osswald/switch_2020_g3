@@ -28,7 +28,7 @@ public class AccountData {
     }
 
     public Date getCreationDate() {
-        return this.creationDate;
+        return (Date) this.creationDate.clone();
     }
 
     public double getBalance() {

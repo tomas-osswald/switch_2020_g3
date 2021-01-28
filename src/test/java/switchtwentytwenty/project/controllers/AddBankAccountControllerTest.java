@@ -44,6 +44,12 @@ class AddBankAccountControllerTest {
     void addBankAccountTest1_Success() {
         assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, balance));
     }
+
+    @Test
+    void addBankAccountTest1_Fail() {
+        assertFalse(addBankAccountController.addBankAccount(accountName, 100, cc, balance));
+    }
+
     @Test
     void addBankAccountTest2_NullNameSuccess() {
         assertTrue(addBankAccountController.addBankAccount(null, 1, cc, balance));
@@ -65,4 +71,6 @@ class AddBankAccountControllerTest {
     void addBankAccountTest6_NullBalanceSuccess() {
         assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, null));
     }
+
+
 }

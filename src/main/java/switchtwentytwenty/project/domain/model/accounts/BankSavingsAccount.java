@@ -4,10 +4,6 @@ import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 public class BankSavingsAccount implements Account {
 
 
@@ -63,7 +59,7 @@ public class BankSavingsAccount implements Account {
         //return calculateInterest(); usa-se isto depois dos testes estarem adaptados aos novos cáluclos.
         return this.accountData.getBalance();
     }
-
+    /*
     private double calculateInterest() {
         double balance = this.accountData.getBalance();
         long interestDays = calculateDaysBetweenNowAndADate(this.accountData.getCreationDate());
@@ -79,7 +75,7 @@ public class BankSavingsAccount implements Account {
         LocalDateTime dateToCheck = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
         return Duration.between(now, dateToCheck).toDays();
     }
-
+*/
 
     public void changeBalance(double value) {
         this.accountData.changeBalance(value);
@@ -117,7 +113,7 @@ public class BankSavingsAccount implements Account {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return accountData.getDescription();
     }
 }

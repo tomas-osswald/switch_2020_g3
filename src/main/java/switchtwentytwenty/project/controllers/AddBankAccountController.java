@@ -14,15 +14,14 @@ public class AddBankAccountController {
     }
 
     public boolean addBankAccount(String accountName, int familyID, String memberCC, Double balance) {
-
+        try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(memberCC);
             AccountService accountService = this.ffmApplication.getAccountService();
-            try{
-                return accountService.addBankAccount(targetMember, accountName, balance);
-            }catch(Exception e){
-                return false;
-            }
+            return accountService.addBankAccount(targetMember, accountName, balance);
+        } catch (Exception e) {
+            return false;
+        }
 
 
     }
