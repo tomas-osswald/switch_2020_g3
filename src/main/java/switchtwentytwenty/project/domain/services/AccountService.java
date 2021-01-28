@@ -1,19 +1,22 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
+import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
-import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
-    public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
+    public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
-            Account cashAccount = new CashAccount(accountDesignation, initialBalance, accountID);
+            Account cashAccount = new CashAccount(addCashAccountDTO, accountID);
             return targetMember.addAccount(cashAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -54,14 +57,9 @@ public class AccountService {
 
     public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
         int accountID = generateID(targetMember);
-        try {
-            Account bankAccount = new BankAccount(accountName, balance, accountID);
-            targetMember.addAccount(bankAccount);
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        Account bankAccount = new BankAccount(accountName, balance, accountID);
+        return targetMember.addAccount(bankAccount);
+
     }
 
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
@@ -79,20 +77,61 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO){
-        double transferedValue = transferCashDTO.getTransferedValue();
-        if(familyAccount==null) throw new IllegalArgumentException("Family has no account");
-        if(!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
+        double transferedValue = transferCashDTO.getTransferredValue();
+        Account familyAccount = family.getFamilyCashAccount();
+        if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
+
+        //Criar nova conta para family member que não a tenha?
+
+        int accountID = transferCashDTO.getAccountID();
+        Account targetCashAccount = familyMember.getAccount(accountID);
 
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferedValue*-1);
-        familyAccount.registerTransaction(targetAccount, category, transferCashDTO);
-        targetAccount.changeBalance(transferedValue);
-        targetAccount.registerTransaction(familyAccount, category, transferCashDTO);
+        familyAccount.changeBalance(transferedValue * -1);
+        // Registar movimento gasto - Balance tem que ser negativo
+        familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
+        targetCashAccount.changeBalance(transferedValue);
+        //Registar movimento contrario - Balance tem que ser negativo
+        targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
         return true;
     }
 
+    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
+        List<Account> accounts = familyMember.getAccounts();
+        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
+        return accountIDAndDescriptionDTOS;
+    }
 
+    /*
+    protected boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        boolean isSameType = false;
+        if (account.checkAccountType(accountTypeEnum)) {
+            isSameType = true;
+        }
+        return isSameType;
+    }
+    */
+    private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
+        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
+        for (Account account : listOfAccounts) {
+            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) {
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
+            }
+        }
+        return accountIDAndDescriptionDTOS;
+    }
 
+    /**
+     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * @param aFamilyMember account owner
+     * @param accountID account unique ID
+     * @return target account
+     */
+    public Account getAccount(FamilyMember aFamilyMember, int accountID) {
+        return aFamilyMember.getAccount(accountID);
+    }
 }

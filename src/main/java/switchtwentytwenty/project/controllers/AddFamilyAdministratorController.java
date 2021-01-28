@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AddFamilyAdministratorController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public AddFamilyAdministratorController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;

@@ -7,7 +7,7 @@ import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
 public class AddCreditCardAccountController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public AddCreditCardAccountController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
