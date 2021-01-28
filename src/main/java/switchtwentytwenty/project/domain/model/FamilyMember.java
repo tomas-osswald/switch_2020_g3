@@ -416,8 +416,8 @@ public class FamilyMember {
      */
 
     public boolean addAccount(Account account) {
-        this.accounts.add(account);
-        return true;
+        return this.accounts.add(account);
+
     }
 
     @Override

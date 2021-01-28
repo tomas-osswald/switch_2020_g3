@@ -19,4 +19,5 @@ public interface Account {
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum);
 
+    public String getDescription();
 }
