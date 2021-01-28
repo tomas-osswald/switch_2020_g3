@@ -241,17 +241,16 @@ deactivate app
 
 controller -> aserv : getFamilyMemberCashAccountBalance(aFamilyMember, accountID)
 activate aserv
-aserv -> familyMember : getAccountBalance(accountID)
-
+aserv -> familyMember : getAccount(accountID)
 activate familyMember
-familyMember -> cash : getBalance( )
+familyMember -> aserv : aCashAccount
+deactivate familyMember
+
+aserv -> cash : getBalance( )
 activate cash
-cash -> familyMember : balance
+cash -> aserv : balance
 deactivate cash
 
-familyMember -> aserv : balance
-deactivate familyMember
-deactivate familyMember
 aserv -> controller : balance
 deactivate aserv
 
