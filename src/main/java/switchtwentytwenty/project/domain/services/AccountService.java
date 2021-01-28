@@ -1,12 +1,14 @@
 package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
@@ -79,13 +81,13 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO){
+    public boolean transferCashFromFamilyToFamilyMember(Account familyAccount, Account targetAccount, StandardCategory category, TransferenceDTO transferCashDTO) {
         double transferedValue = transferCashDTO.getTransferedValue();
-        if(familyAccount==null) throw new IllegalArgumentException("Family has no account");
-        if(!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
+        if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
 
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferedValue*-1);
+        familyAccount.changeBalance(transferedValue * -1);
         familyAccount.registerTransaction(targetAccount, category, transferCashDTO);
         targetAccount.changeBalance(transferedValue);
         targetAccount.registerTransaction(familyAccount, category, transferCashDTO);
@@ -93,6 +95,25 @@ public class AccountService {
         return true;
     }
 
+    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
+        List<Account> accounts = familyMember.getAccounts();
+        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
+        return accountIDAndDescriptionDTOS;
+}
 
+    private boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        // acho que terás que usar o Check Account Type das Accounts
+        return true; // for Batista, only returning true to compile
+    }
 
+    private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
+        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
+        for (Account account : listOfAccounts) {
+            if (verifyAccountType(account, AccountTypeEnum.CASHACCOUNT)) {
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
+            }
+        }
+        return accountIDAndDescriptionDTOS;
+    }
 }
