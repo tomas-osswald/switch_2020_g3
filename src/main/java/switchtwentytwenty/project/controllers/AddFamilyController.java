@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.services.FamilyService;
 
 public class AddFamilyController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public AddFamilyController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;

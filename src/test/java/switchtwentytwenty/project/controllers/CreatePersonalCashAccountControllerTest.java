@@ -3,6 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 
 import java.util.Date;
@@ -30,42 +31,48 @@ class CreatePersonalCashAccountControllerTest {
     double balance = 0.6;
     double negativeBalance = -2;
     String accountName = "Savings";
+    AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1);
+    AddCashAccountDTO addCashAccountDTOnegativeBalance = new AddCashAccountDTO(negativeBalance, accountName, cc, 1);
+    AddCashAccountDTO addCashAccountDTOBlankName = new AddCashAccountDTO(balance, "   ", cc, 1);
+    AddCashAccountDTO addCashAccountDTOEmptyName = new AddCashAccountDTO(balance, "", cc, 1);
+
 
     @BeforeEach
     void setup() {
 
         addFamilyController.addFamily("Ribeiro");
         addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+
     }
 
     @Test
     void createPersonalCashAccount() {
-        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, balance));
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO));
 
     }
 
     @Test
     void createTwoPersonalCashAccounts() {
-        createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, balance);
-        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, balance));
+        createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO));
 
     }
 
     @Test
     void createPersonalCashAccountNegativeBalance() {
-        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(1, cc, accountName, negativeBalance));
+        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOnegativeBalance));
 
     }
 
     @Test
     void createPersonalCashAccountBlankName() {
-        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, "  ", balance));
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOBlankName));
 
     }
 
     @Test
     void createPersonalCashAccountEmptyName() {
-        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(1, cc, "", balance));
+        Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOEmptyName));
 
     }
 /*

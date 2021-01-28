@@ -7,7 +7,7 @@ import switchtwentytwenty.project.domain.services.RelationService;
 
 
 public class GetFamilyMembersListController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public GetFamilyMembersListController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;

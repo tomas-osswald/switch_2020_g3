@@ -132,5 +132,4 @@ public class BankAccount implements Account {
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
-
 }

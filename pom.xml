@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>switchtwentytwenty</groupId>
+    <groupId>switch2020</groupId>
     <artifactId>project</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>project</name>
@@ -62,6 +62,7 @@
 
             <!-- Required for running unit tests -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
@@ -101,6 +102,8 @@
                 <artifactId>pitest-maven</artifactId>
                 <version>1.6.2</version>
                 <dependencies>
+
+
                     <dependency> <!-- Only required because PITest does not work with JUnit5 without it -->
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>

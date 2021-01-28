@@ -11,9 +11,10 @@ import switchtwentytwenty.project.controllers.AddFamilyController;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.accounts.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
 
 class AccountServiceTest {
 
@@ -82,11 +83,21 @@ class AccountServiceTest {
     double negativeBalance = -2;
     String accountName = "Current Account";
     String accountName2 = "Other Current Account";
+    double interestRate = 2.00;
 
     int family1ID = 5;
     String family1Name = "Silva";
     Family silva = new Family(family1Name, family1ID);
     int generatedID = 1;
+
+    //Account Types Test setup
+    BankAccount bankAccount = new BankAccount("bank account", balance, generatedID);
+    BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
+    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00);
+    CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
+    CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
+    BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID);
+
 
     @BeforeEach
     void setup() {
@@ -145,27 +156,122 @@ class AccountServiceTest {
     }
 
     @Test
-    void TransferCashBetweenFamilyMemberCashAccountToAnotherFamilyMemberWithCashAccount(){
-
+    void verifyAccountType_BankSavings_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
+        //Act
+        boolean result = bankSavings.checkAccountType(expectedType);
+        //Assert
+        assertTrue(result);
     }
 
     @Test
-    void TransferCashBetweenFamilyMemberCashAccountToAnotherFamilyMemberWithNoCashAccount(){
-
+    void verifyAccountType_BankSavings_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = bankSavings.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
     }
 
     @Test
-    void TransferCashBetweenFamilyMemberCashAccountInsuficientFundsToAnotherFamilyMemberWithCashAccount(){
-
+    void verifyAccountType_CreditCardAccount_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = creditCardAccount.checkAccountType(expectedType);
+        //Assert
+        assertTrue(result);
     }
 
     @Test
-    void TransferCashBetweenFamilyMemberCashAccountNegativeValueToAnotherFamilyMemberWithCashAccount(){
-
+    void verifyAccountType_CreditCardAccount_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
+        //Act
+        boolean result = creditCardAccount.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
     }
 
     @Test
-    void TransferCashBetweenFamilyMemberCashAccountNullValueToAnotherFamilyMemberWithCashAccount(){
-
+    void verifyAccountType_BankAccount_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = BANKACCOUNT;
+        //Act
+        boolean result = bankAccount.checkAccountType(expectedType);
+        //Assert
+        assertTrue(result);
     }
+
+    @Test
+    void verifyAccountType_BankAccount_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = bankAccount.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void verifyAccountType_CashAccount_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = CASHACCOUNT;
+        //Act
+        boolean result = cashAccount.checkAccountType(expectedType);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void verifyAccountType_CashAccount_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = cashAccount.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+
+    @Test
+    void getAccountNoAccountWithGivenIDResultNull() {
+        int accountID = 1;
+        Account expected = null;
+
+        Account result = accountService.getAccount(diogo, accountID);
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void getAccountSuccessTypeBankAccount() {
+        String accountName = "Bank Account";
+        Double balance = null;
+        int accountID = 1;
+        Account expected = new BankAccount(accountName, balance, accountID);
+
+        accountService.addBankAccount(diogo, accountName, balance);
+        Account result = accountService.getAccount(diogo, accountID);
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void getAccountSuccessTypeBankSavingsAccount() {
+        String accountName = "Savings Account";
+        Double balance = null;
+        Double interestRate = null;
+        int accountID = 1;
+        Account expected = new BankSavingsAccount(accountID, accountName, balance, interestRate);
+
+        accountService.addBankSavingsAccount(diogo, accountName, balance, interestRate);
+        Account result = accountService.getAccount(diogo, accountID);
+
+        assertEquals(result, expected);
+    }
+
+
 }
