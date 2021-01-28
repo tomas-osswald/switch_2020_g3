@@ -22,7 +22,6 @@ public class AddBankSavingsAccountController {
             FamilyMember targetMember = targetFamily.getFamilyMember(ccNumber);
             return accountService.addBankSavingsAccount(targetMember, accountName, balance, interestRate);
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
             return false;
         }
     }

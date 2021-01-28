@@ -6,7 +6,7 @@
 
 As a family member, I want to add to a credit card account I have:
 
-**Demonstration 1** As administrator, I want to...
+**Demonstration 1** As a Family Member, I want to...
 
 - 1.1. Add a credit card account I have.
 

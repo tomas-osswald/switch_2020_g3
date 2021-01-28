@@ -65,6 +65,7 @@ passed directly into the CreatePersonalCashAccountController.
    title Create Personal Cash Account
    actor "Family Member" as member
    participant ": UI" as UI
+   participant " newDTO : AddCashAccountDTO" as dto
    participant ": CreatePersonalCashAccountController" as controller
    participant ": FFMApplication" as application
    participant ": AccountService" as accServ
@@ -82,7 +83,11 @@ passed directly into the CreatePersonalCashAccountController.
    deactivate UI
    member -> UI: input Account name
    activate UI
-   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberCC,initialBalance)
+   UI -> dto**: createDTO(name,familyID, familyMemberCC,initialBalance)
+   activate dto
+   dto-->UI
+   deactivate dto
+   UI -> controller: createPersonalCashAccount(addCashAccountDTO)
    activate controller
    controller -> application: getAccountService()
    activate application
@@ -98,10 +103,10 @@ passed directly into the CreatePersonalCashAccountController.
    deactivate fam
    famServ --> controller: FamilyMember
    deactivate famServ 
-   controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
+   controller -> accServ: createPersonalCashAccount(addCashAccountDTO)
    activate accServ
    accServ -> accServ: generateAccountID()
-   accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
+   accServ -> cashacc**: newCashAccount(addCashAccountDTO)
    activate cashacc
    cashacc -> cashacc: validateName(name)
    cashacc->cashacc: validateBalance(balance)
@@ -149,7 +154,13 @@ hide empty members
 class AddPersonalCashAccountController {
 + addPersonalCashAccount()
 }
+class addCashAccountDTO {
++ String memberCC
++ String accountDesignation
++ double initialBalance
++ int FamilyID
 
+}
 class CashAccount {
 }
 
@@ -184,6 +195,8 @@ class AccountData {
 interface Account {}
 
 AddPersonalCashAccountController --> Application : has
+AddPersonalCashAccountController --> AddCashAccountDTO : accepts
+CashAccount --> AddCashAccountDTO : accepts
 Application --> FamilyService : has
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
