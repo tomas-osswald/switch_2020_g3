@@ -235,8 +235,4 @@ class AccountServiceTest {
         assertFalse(result);
     }
 
-
-
-
-    //Batista - Acrescentar diferentes EnumTypes para testar o resto
 }
