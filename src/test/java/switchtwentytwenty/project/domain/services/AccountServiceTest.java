@@ -11,9 +11,7 @@ import switchtwentytwenty.project.controllers.AddFamilyController;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.accounts.AccountType;
-import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
-import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
+import switchtwentytwenty.project.domain.model.accounts.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
@@ -92,6 +90,15 @@ class AccountServiceTest {
     Family silva = new Family(family1Name, family1ID);
     int generatedID = 1;
 
+    //Account Types Test setup
+    BankAccount bankAccount = new BankAccount("bank account", balance, generatedID);
+    BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
+    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00);
+    CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
+    CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
+    BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID);
+
+
     @BeforeEach
     void setup() {
 
@@ -151,10 +158,9 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_BankSavings_ExpectingTrue() {
         //Arrange
-        BankSavingsAccount BankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = BankSavings.checkAccountType(BANKSAVINGSACCOUNT);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -162,13 +168,75 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_BankSavings_ExpectingFalse() {
         //Arrange
-        BankSavingsAccount BankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = BankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertFalse(result);
     }
+
+    @Test
+    void verifyAccountType_CreditCardAccount_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void verifyAccountType_CreditCardAccount_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
+        //Act
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void verifyAccountType_BankAccount_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = BANKACCOUNT;
+        //Act
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void verifyAccountType_BankAccount_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void verifyAccountType_CashAccount_ExpectingTrue() {
+        //Arrange
+        AccountTypeEnum expectedType = CASHACCOUNT;
+        //Act
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void verifyAccountType_CashAccount_ExpectingFalse() {
+        //Arrange
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+
+
 
     //Batista - Acrescentar diferentes EnumTypes para testar o resto
 }
