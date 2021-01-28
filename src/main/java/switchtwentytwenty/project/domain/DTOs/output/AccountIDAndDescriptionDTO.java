@@ -9,4 +9,14 @@ public class AccountIDAndDescriptionDTO {
         this.accountID = accountID;
         this.description = description;
     }
+
+    public boolean equals(Object o){
+        if(this == o) return true;
+
+        if(!(o instanceof AccountIDAndDescriptionDTO)) return false;
+
+        AccountIDAndDescriptionDTO otherDTO = (AccountIDAndDescriptionDTO) o;
+
+        return this.accountID == otherDTO.accountID && this.description.equals(otherDTO.description);
+    }
 }

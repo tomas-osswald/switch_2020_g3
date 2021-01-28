@@ -127,6 +127,17 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
+    public MoneyValue getFamilyCashAccountBalance(Family family) {
+        Account cashAccount = family.getFamilyCashAccount();
+        MoneyValue moneyValue = cashAccount.getMoneyBalance();
+        return moneyValue;
+    }
+
+    public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
+        Account cashAccount = familyMember.getAccount(accountID);
+        MoneyValue moneyValue = cashAccount.getMoneyBalance();
+        return moneyValue;
+    }
     /**
      * A method that obtains an account with a given ID belonging to a given FamilyMember
      * @param aFamilyMember account owner
