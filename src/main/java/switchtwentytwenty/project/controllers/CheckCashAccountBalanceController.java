@@ -37,12 +37,17 @@ public class CheckCashAccountBalanceController {
     public MoneyValue checkFamilyCashAccountBalance(String selfID, int familyID) {
         FamilyService familyService = ffmapplication.getFamilyService();
         MoneyValue moneyValue;
-        if (familyService.verifyAdministratorPermission(familyID, selfID)) {
-            Family family = familyService.getFamily(familyID);
-            AccountService accountService = new AccountService();
-            moneyValue = accountService.getFamilyCashAccountBalance(family);
-        } else {
+        try {
+            if (familyService.verifyAdministratorPermission(familyID, selfID)) {
+                Family family = familyService.getFamily(familyID);
+                AccountService accountService = new AccountService();
+                moneyValue = accountService.getFamilyCashAccountBalance(family);
+            } else { // Not an Administrator
+                moneyValue = new MoneyValue(0.00); //empty money value, isto tem que ser melhorado!!!!!
+            }
+        } catch (Exception e) { // Family Does Not Exist
             moneyValue = new MoneyValue(0.00); //empty money value, isto tem que ser melhorado!!!!!
+
         }
         return moneyValue;
     }
@@ -50,7 +55,7 @@ public class CheckCashAccountBalanceController {
     public MoneyValue checkFamilyMemberCashAccountBalance(String selfID, String otherID, int accountID, int familyID) {
         FamilyService familyService = ffmapplication.getFamilyService();
         MoneyValue moneyValue;
-        if(familyService.verifyAdministratorPermission(familyID, selfID)){
+        if (familyService.verifyAdministratorPermission(familyID, selfID)) {
             Family family = familyService.getFamily(familyID);
             FamilyMember familyMember = family.getFamilyMember(otherID);
             AccountService accountService = new AccountService();
