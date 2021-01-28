@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.services.CategoryService;
 
 public class AddStandardCategoryController {
 
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public  AddStandardCategoryController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;

@@ -10,8 +10,8 @@ class AddFamilyControllerTest {
     @Test
     void addFamily_testSuccess() {
         //Arrange
-        Application FFMapp = new Application();
-        AddFamilyController controller = new AddFamilyController(FFMapp);
+        Application ffmApplication = new Application();
+        AddFamilyController controller = new AddFamilyController(ffmApplication);
         String familyName = "Moura";
         //Act
         boolean result = controller.addFamily(familyName);
@@ -22,8 +22,8 @@ class AddFamilyControllerTest {
     @Test
     void addFamily_testFailure() {
         //Arrange
-        Application FFMapp = new Application();
-        AddFamilyController controller = new AddFamilyController(FFMapp);
+        Application ffmApplication = new Application();
+        AddFamilyController controller = new AddFamilyController(ffmApplication);
         String familyName = "";
         //Act
         boolean result = controller.addFamily(familyName);

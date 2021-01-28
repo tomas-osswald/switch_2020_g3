@@ -6,7 +6,7 @@ import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
 public class CreateFamilyCashAccountController {
-    private Application ffmApplication;
+    private final Application ffmApplication;
 
     public CreateFamilyCashAccountController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
