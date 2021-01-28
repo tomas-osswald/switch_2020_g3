@@ -25,8 +25,22 @@ public class MoneyValue {
     }
 
     public String getCurrency() {
-        return this.currency.name();
+        String symbol = getCurrencySymbol();
+        return this.value + symbol;
     }
+
+    private String getCurrencySymbol() {
+        switch (this.currency.name()) {
+            case "EURO":
+                return "€";
+            case "YEN":
+                return "¥";
+            case "DOLLAR":
+                return "$";
+        }
+        return "?";
+    }
+
     /*
     private void updateEuroExchangeRate() {
         //this.euroToDollarExchangeRate = get exchange rate from web;
