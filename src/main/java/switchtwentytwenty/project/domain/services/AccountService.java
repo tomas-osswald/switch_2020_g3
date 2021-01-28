@@ -10,6 +10,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import java.util.List;
 
 public class AccountService {
+
     public boolean createPersonalCashAccount(FamilyMember targetMember, String accountDesignation, double initialBalance) {
         int accountID = generateID(targetMember);
         try {

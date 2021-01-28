@@ -121,15 +121,15 @@ participant "aFamily : Family" as family
 participant "aCashTran : CashTransaction" as cashTrans
 
 activate actor
-actor -> UI: registerPaymentInCashAccount(selfCC,accountID,paymentDate,ammount,category)
+actor -> UI: registerPaymentInCashAccount(familyID,selfCC,accountID,paymentDate,ammount,category)
 activate UI
-UI -> controller: registerPaymentInCashAccount(selfCC,accountID,paymentDate,ammount,category)
+UI -> controller: registerPaymentInCashAccount(familyID,selfCC,accountID,paymentDate,ammount,category)
 activate controller
-controller -> app: getCashAccount(selfCC,accountID)
+controller -> app: getCashAccount(familyID,selfCC,accountID)
 activate app
-app -> famService: getCashAccount(selfCC,accountID)
+app -> famService: getCashAccount(familyID,selfCC,accountID)
 activate famService
-famService -> family: getCashAccount(selfCC,accountID)
+famService -> family: getCashAccount(familyID,selfCC,accountID)
 activate family
 family -> famService: ok
 deactivate family
