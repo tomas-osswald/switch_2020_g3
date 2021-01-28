@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AccountData {
@@ -15,6 +16,7 @@ public class AccountData {
     private String description;
     private int accountID;
     private List<Transaction> transactions;
+    private Date creationDate;
 
     public AccountData(Double balance, String designation, int accountID) {
         validateDesignation(designation);
@@ -22,6 +24,11 @@ public class AccountData {
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
+        this.creationDate = new Date();
+    }
+
+    public Date getCreationDate() {
+        return this.creationDate;
     }
 
     public double getBalance() {
@@ -53,7 +60,7 @@ public class AccountData {
     }
 
     private void validateDesignation(String designation) {
-        if (designation == null || designation.isEmpty() || designation.trim().length()==0) {
+        if (designation == null || designation.isEmpty() || designation.trim().length() == 0) {
             throw new InvalidAccountDesignationException("Invalid account designation");
         }
     }
@@ -68,11 +75,11 @@ public class AccountData {
                 description.equals(other.description);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount){
-        return (this.balance-transferenceAmount)>=0;
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
+        return (this.balance - transferenceAmount) >= 0;
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, transferenceDTO);
 
         transactions.add(cashTransaction);
