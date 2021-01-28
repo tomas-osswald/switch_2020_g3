@@ -114,4 +114,8 @@ public class CashAccount implements Account {
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
+
+    public String getDescription(){
+        return accountData.getDescription();
+    }
 }

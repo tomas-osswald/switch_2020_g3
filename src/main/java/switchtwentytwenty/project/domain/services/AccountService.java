@@ -2,12 +2,16 @@ package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.FamilyMember;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
@@ -89,5 +93,25 @@ public class AccountService {
         return true;
     }
 
+    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
+        List<Account> accounts = familyMember.getAccounts();
+        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
+        return accountIDAndDescriptionDTOS;
+}
 
+    private boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        // acho que terás que usar o Check Account Type das Accounts
+        return true; // for Batista, only returning true to compile
+    }
+
+    private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
+        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
+        for (Account account : listOfAccounts) {
+            if (verifyAccountType(account, AccountTypeEnum.CASHACCOUNT)) {
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
+            }
+        }
+        return accountIDAndDescriptionDTOS;
+    }
 }
