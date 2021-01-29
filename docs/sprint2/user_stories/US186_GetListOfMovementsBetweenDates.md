@@ -252,6 +252,58 @@ list will be returned.
 **Test 3:** MovementService: if the account holds no movements that occurred between the given dates, an empty list 
 will be returned.
 
+package switchtwentytwenty.project.domain.services;
+
+import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.model.accounts.BankAccount;
+import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
+import switchtwentytwenty.project.domain.model.accounts.CashAccount;
+import switchtwentytwenty.project.domain.model.accounts.CreditCardAccount;
+
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MovementServiceTest {
+
+    int accountID = 1;
+    String designation = "Account";
+    Double balance = null;
+    CashAccount aCashAccount = new CashAccount(designation, balance, accountID);
+    
+    MovementService movementService = new MovementService();
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultEmptyListNoMovements() {
+        // arrange
+        Date startDate = null;
+        Date endDate = null;
+        List<Movement> expected = new List<Movement>();
+
+        // act
+        List <Movement> result = movementService.createListOfMovementsBetweenDates(aCashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultEmptyListNoMovementsBetweenDates() {
+
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultOneMovementList() {
+
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultManyMovementsList() {
+
+    }
+}
 
 # 4. Implementation
 

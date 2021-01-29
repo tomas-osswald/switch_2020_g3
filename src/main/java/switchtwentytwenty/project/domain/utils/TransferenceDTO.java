@@ -42,7 +42,6 @@ public class TransferenceDTO {
         return categoryID;
     }
 
-
     public String getTransactionDesignation() {
         return transactionDesignation;
     }
