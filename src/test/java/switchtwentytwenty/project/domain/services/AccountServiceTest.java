@@ -12,6 +12,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
@@ -93,7 +94,7 @@ class AccountServiceTest {
     //Account Types Test setup
     BankAccount bankAccount = new BankAccount("bank account", balance, generatedID);
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
-    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00);
+    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID);
@@ -144,14 +145,14 @@ class AccountServiceTest {
     @Test
     void createPersonalCreditCardAccountTrue() {
         FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00 , 100.00, 50.00, CurrencyEnum.EURO);
         assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
         }
 
     @Test
     void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
         FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00 , 100.00, 50.00, CurrencyEnum.EURO);
         assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
     }
 
