@@ -21,7 +21,6 @@ public class CashTransaction implements Transaction {
         } else {
             transactionDate = transferenceDTO.getTransactionDate();
         }
-
         this.transactionData = new TransactionData(designation, transferedValue, transactionDate, category);
 
     }

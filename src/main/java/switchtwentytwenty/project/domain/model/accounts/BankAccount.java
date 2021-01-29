@@ -60,14 +60,15 @@ public class BankAccount implements Account {
         return true;
     }
 
+    /*
     public boolean validateIBAN(String iban){
         if( iban == null){
             return false;
         }
         return true;
     }
+     */
 
-    /**  **/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,13 +128,14 @@ public class BankAccount implements Account {
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
-        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+        return true; // DONT HAVE MEANING IN THIS CLASS
+        //return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
-
+    
     public MoneyValue getMoneyBalance() {
         return this.accountData.getCurrentBalance();
     }
