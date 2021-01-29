@@ -100,7 +100,7 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
 }
 
-    private boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
         // acho que terás que usar o Check Account Type das Accounts
         return true; // for Batista, only returning true to compile
     }
