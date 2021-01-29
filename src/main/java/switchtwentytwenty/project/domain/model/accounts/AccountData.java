@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AccountData {
 
-    private Double balance = 0.00;
+    private Double balance;
     private String description;
     private int accountID;
     private List<Transaction> transactions;
@@ -37,8 +37,9 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
-        this.currentBalance = new MoneyValue(balance, currencyEnum);
+        this.currentBalance = new MoneyValue(balance, currencyEnum); //TODO: Se não houver currencyEnum colocar default Euro? esta a ser feito em algum outro lado?
     }
+
 
     public Date getCreationDate() {
         return (Date) this.creationDate.clone();
@@ -93,7 +94,7 @@ public class AccountData {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return (this.balance - transferenceAmount) >= 0;
+        return ((this.balance - transferenceAmount) >= 0);
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
