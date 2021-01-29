@@ -4,7 +4,10 @@ import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.IBAN;
 
+import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+
+import java.util.List;
 
 public class BankAccount implements Account {
 
@@ -138,5 +141,13 @@ public class BankAccount implements Account {
     
     public MoneyValue getMoneyBalance() {
         return this.accountData.getCurrentBalance();
+    }
+
+    /**
+     * A method that returns the list of movements stored in this account's AccountData attribute
+     * @return List of movements
+     */
+    public List<Transaction> getListOfMovements() {
+        return this.accountData.getListOfMovements();
     }
 }

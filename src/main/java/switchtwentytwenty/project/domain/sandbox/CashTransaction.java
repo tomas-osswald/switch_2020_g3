@@ -25,4 +25,20 @@ public class CashTransaction implements Transaction {
 
     }
 
+    /**
+     * A method that returns the date of a transaction
+     * @return transaction date
+     */
+    public Date getTransactionDate() {
+        return transactionData.getTransactionDate();
+    }
+
+    /**
+     * A method that returns the TransactionData instance that is an attribute in this object.
+     * @return TransactionData object.
+     */
+    public TransactionData getTransactionData() {
+        return this.transactionData;
+    }
+
 }

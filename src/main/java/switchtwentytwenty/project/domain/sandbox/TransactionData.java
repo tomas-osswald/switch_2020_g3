@@ -11,6 +11,7 @@ public class TransactionData {
     private double ammount; //Currency?
     private StandardCategory category;
     private String designation;
+    private double remainingBalance;
 
     public TransactionData(String designation, double ammount, Date transactionDate, StandardCategory category) {
         this.transactionDate = (Date) transactionDate.clone();
@@ -19,5 +20,28 @@ public class TransactionData {
         this.category = category;
         this.designation = designation;
     }
-    
+
+    public Date getTransactionDate() {
+        return this.transactionDate;
+    }
+
+    public Date getRegistrationDate() {
+        return this.transactionDate;
+    }
+
+    public StandardCategory getCategory() {
+        return this.category;
+    }
+
+    public String getDesignation() {
+        return this.designation;
+    }
+
+    public double getAmmount() {
+        return this.ammount;
+    }
+
+    public double getRemainingBalance() {
+        return this.remainingBalance;
+    }
 }
