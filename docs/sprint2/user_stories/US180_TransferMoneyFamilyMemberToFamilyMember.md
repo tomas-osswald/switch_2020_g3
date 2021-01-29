@@ -66,7 +66,6 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 ##2.1. Domain Model Diagram
 
 ```puml
-@startuml
 
 title Class Diagram
 hide empty members
@@ -113,7 +112,6 @@ CashAccount --|> Account : implements
 CashAccount -* AccountData : contains
 CashAccount <-- FamilyMember : has
 
-@enduml
 ```
 
 # 3. Design
@@ -126,6 +124,67 @@ The controller will return:
 - False, 
 
 ## 3.1. Functionality Use
+
+````puml
+
+autonumber
+title Transfer Money From Personal Cash Account To another Personal Cash Account
+actor "Family Member" as fMember
+participant ": UI" as UI
+participant ": TransferCashBetweenFamilyMembers \n CashAccountsController" as controller
+participant ": FFMApplication" as application
+participant ": AccountService" as accServ
+participant ": FamilyService" as famServ
+participant "aFamily : Family" as fam
+participant "aFamilyMember : FamilyMember" as famMemb
+
+participant "newAccountData : AccountData" as data
+activate fMember
+fMember -> UI: input destination data
+activate UI
+UI -> controller : transferCash()
+activate controller
+
+controller -> application: getAccountService()
+activate application
+application --> controller: AccountService
+controller -> application: getFamilyService()
+application --> controller: FamilyService
+deactivate application
+controller -> famServ:getFamilyMember(familyID, familyMemberCC)
+activate famServ
+famServ-> fam: getFamilyMember(familyMemberCC)
+activate fam
+fam --> famServ: FamilyMember
+deactivate fam
+famServ --> controller: FamilyMember
+deactivate famServ
+controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
+activate accServ
+accServ -> accServ: generateAccountID()
+accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
+activate cashacc
+cashacc -> cashacc: validateName(name)
+cashacc->cashacc: validateBalance(balance)
+cashacc->data**: createAccountData(name, initialBalance, accountID)
+activate data
+data-->cashacc: becomes CashAccount.AccountData
+deactivate data
+cashacc-->accServ: Success
+deactivate cashacc
+accServ->fammemb: addAccount(newCashAccount)
+activate fammemb
+fammemb-->accServ: Success
+deactivate fammemb
+accServ-->controller: Success
+deactivate accServ
+controller --> UI: Success
+deactivate controller
+UI --> member: Inform Success
+deactivate UI
+deactivate member
+
+@endpuml
 
 # 3. Design
 

@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 import java.util.ArrayList;
@@ -99,6 +100,17 @@ public class AccountService {
         return true;
     }
 
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Account originAccount, Account destinationAccount, StandardCategory category, CashTransferDTO cashTransferDTO) {
+        double transferedValue = cashTransferDTO.getTransferedValue();
+        if (originAccount.hasEnoughMoneyForTransaction(transferedValue)) {
+            if (destinationAccount != null) {
+                originAccount.changeBalance(transferedValue * -1);
+                destinationAccount.changeBalance(transferedValue);
+            }
+        }
+        return false;
+    }
+
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
         List<Account> accounts = familyMember.getAccounts();
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
@@ -127,8 +139,9 @@ public class AccountService {
 
     /**
      * A method that obtains an account with a given ID belonging to a given FamilyMember
+     *
      * @param aFamilyMember account owner
-     * @param accountID account unique ID
+     * @param accountID     account unique ID
      * @return target account
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
