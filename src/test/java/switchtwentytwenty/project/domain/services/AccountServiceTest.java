@@ -102,7 +102,6 @@ class AccountServiceTest {
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
     CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID);
-    BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID);
 
 
     @BeforeEach
@@ -171,13 +170,13 @@ class AccountServiceTest {
         assertTrue(result);
     }
 
-    //TODO: Alterar novamente testes para aplicar o method do accountService (até linha 242)
+
     @Test
     void verifyAccountType_BankSavings_ExpectingFalse() {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = bankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -187,7 +186,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = creditCardAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -197,7 +196,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = creditCardAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -207,7 +206,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKACCOUNT;
         //Act
-        boolean result = bankAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -217,7 +216,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = bankAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -227,7 +226,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CASHACCOUNT;
         //Act
-        boolean result = cashAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -237,7 +236,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = cashAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
         assertFalse(result);
     }
