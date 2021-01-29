@@ -93,35 +93,16 @@ public class Family {
 
     // Business methods
 
-    /**
+    /*
      * Method that compares a given ID is equal to the ID of this family
      *
      * @param familyID int the familyID you wish to compare
      * @return true if the IDs match, otherwise false
-     */
+     *
     public boolean isIDOfThisFamily(int familyID) {
         return familyID == this.familyID;
     }
-
-
-    /**
-     * Method to find the index of a family member with a specific ID in the Family ArrayList
-     *
-     * @param ccNumber Integer representing the ID to find
-     * @return Int corresponding to the index of the family member that has the passed ID
-     * @throws IllegalArgumentException if there is no family member with the passed ID
-     */
-
-    private int findFamilyMemberIndexByID(String ccNumber) {
-        int index = 0;
-        for (FamilyMember member : this.familyMembers) {
-            if (member.getID() == ccNumber) {
-                return index;
-            }
-            index++;
-        }
-        throw new IllegalArgumentException("No family member with that ID was found");
-    }
+    */
 
     /**
      * Method to verify if a given Family Member is Administrator
@@ -129,8 +110,6 @@ public class Family {
      * @param ccNumber Family Member ID to verify
      * @return boolean
      */
-
-
     public boolean verifyAdministrator(String ccNumber) {
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.compareID(ccNumber))
@@ -173,7 +152,7 @@ public class Family {
             ccList.add(member.getFamilyMemberID());
         }
         for (String ccNumber : ccList) {
-            if (ccNumber == cc) {
+            if (ccNumber.equals(cc)) {
                 return true;
             }
         }

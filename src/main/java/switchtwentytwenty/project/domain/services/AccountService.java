@@ -100,7 +100,7 @@ public class AccountService {
         targetCashAccount.changeBalance(transferredValue);
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
-
+        
         return true;
     }
 
@@ -109,21 +109,21 @@ public class AccountService {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
         return accountIDAndDescriptionDTOS;
     }
-
+/*
     public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
         // acho que terás que usar o Check Account Type das Accounts
         return true; // for Batista, only returning true to compile
-    }
+    }*/
 
-    /*
-    protected boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+
+    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
         boolean isSameType = false;
         if (account.checkAccountType(accountTypeEnum)) {
             isSameType = true;
         }
         return isSameType;
     }
-    */
+
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
