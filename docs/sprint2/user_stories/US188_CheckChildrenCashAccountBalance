@@ -85,9 +85,10 @@ autonumber
 title CheckChildrenCashAccountBalance
 actor "Family Member" as FamilyMember
 participant "UI" as UI
-participant ": CheckCashAccount\nBalanceController" as Controller
+participant ": CheckChildrenCash\nAccountBalanceController" as Controller
 participant ": Application" as App
 participant ": FamilyService" as FamilyService
+participant ": RelationService" as Relation
 participant "aFamily : \nFamily" as Family
 participant ": AccountService" as AccountService
 participant "aCashAccount : CashAccount" as account
@@ -106,7 +107,7 @@ deactivate App
 Controller -> FamilyService : getFamily(familyID)
 activate FamilyService
 FamilyService -> FamilyService : getFamily(familyID)
-FamilyService --> Controller : Family
+FamilyService --> Controller : aFamily
 deactivate FamilyService
 Controller -> Family : getFamilyMember(parentID)
 Activate Family
@@ -115,25 +116,30 @@ Family --> Controller : FamilyMemberA
 Controller -> Family : getFamilyMember(childID)
 Family -> Family : getFamilyMember(childID)
 Family --> Controller : FamilyMemberB
-Family -> Family : isAparentOfB(FamilyMemberA,\n FamilyMemberB)
+Controller -> Relation **: createRelationService
+Relation -> Family : verifyParenthood(aFamily, \nFamilyMemberA, FamilyMemberB)
+activate Relation
 alt false : A is not parent of B
-Family --> Controller : Failure
+Family --> Relation : Failure
+Relation --> Controller : Failure
 Controller --> UI : Failure
 UI --> FamilyMember : You don't have permission \nto do this operation
 else success : A is parent of B
-Family --> Controller : True
+Family --> Relation : True
+Relation --> Controller : True
 end
 Deactivate Family
+deactivate Relation
 
 
 Controller -> AccountService ** : createAccountService()
-Controller -> AccountService : checkCashAccountBalance(AccountID, childID)
+Controller -> AccountService : checkCashAccountBalance(accountID, familyMemberB)
 activate AccountService
-AccountService -> aFamilyMember : getAccount(AccountID)
+AccountService -> aFamilyMember : getAccount(accountID)
 activate aFamilyMember
 aFamilyMember  --> AccountService : anAccount
 deactivate aFamilyMember
-AccountService -> AccountService : verifyAccountType(AccountID)
+AccountService -> AccountService : verifyAccountType(accountID, accountType)
 alt false : Account is not CashAccount
 AccountService --> Controller : failure
 Controller --> UI : failure
@@ -164,150 +170,6 @@ end ref
 
 
 
-```puml
-autonumber 1
-title checkFamilyCashAccountBalance( )
-actor "Actor" as actor
-participant ": UI" as UI
-participant ": CheckCashAccountBalance\n Controller" as controller
-participant ": Application" as app
-participant "aAccountService : AccountService" as aserv
-participant "aFamilyService : FamilyService" as fserv
-participant "aFamily : Family" as family
-participant "aCashAccount : CashAccount" as cash
-
-activate actor
-actor -> UI : check Family
-activate UI
-UI -> actor : ask: selfID, familyId
-deactivate UI
-
-actor -> UI : inputs required data
-activate UI
-UI -> controller : checkFamilyCashAccountBalance(selfID, familyID)
-
-activate controller
-controller -> app : getFamilyService()
-activate app
-app -> controller : aFamilyService
-deactivate app
-
-controller -> fserv : verifyAdministratorPermission(selfID, familyID)
-activate fserv
-fserv -> controller : inform success
-deactivate fserv
-
-controller -> fserv : getFamily(familyID)
-activate fserv
-fserv -> controller : aFamily
-deactivate fserv
-
-controller -> app : getAccountService()
-activate app
-controller <- app : aAccountService
-deactivate app
-
-controller -> aserv : getFamilyCashAccountBalance(aFamily)
-activate aserv
-
-aserv -> family : getFamilyCashAccountBalance( )
-activate family
-
-family -> cash : getBalance( )
-activate cash
-cash -> family : balance
-deactivate cash
-
-family -> aserv : balance
-deactivate family
-aserv -> controller : balance
-deactivate aserv
-
-controller -> UI : balance
-deactivate controller
-
-UI -> actor : balance
-deactivate UI
-deactivate actor
-```
-
-
-```puml
-
-autonumber 1
-title checkFamilyMemberCashAccountBalance( )
-actor "Actor" as actor
-participant ": UI" as UI
-participant ": CheckCashAccountBalance\n Controller" as controller
-participant ": Application" as app
-participant "aAccountService : AccountService" as aserv
-participant "aFamilyService : FamilyService" as fserv
-participant "aFamily : Family" as family
-participant "aFamilyMember : FamilyMember" as familyMember
-participant "aCashAccount : CashAccount" as cash
-
-activate actor
-actor -> UI : check Family Member
-activate UI
-UI -> actor : ask: selfID, otherID, familyId
-deactivate UI
-
-ref over actor : List of Cash Account of a Family Member\n - checkCashAccountBalance( ).4
-
-actor -> UI : inputs required data
-activate UI
-UI -> controller : checkFamilyMemberCashAccountBalance(selfID, otherID, accountID, familyID)
-
-activate controller
-controller -> app : getFamilyService()
-activate app
-app -> controller : aFamilyService
-deactivate app
-
-controller -> fserv : verifyAdministratorPermission(selfID, familyID)
-activate fserv
-fserv -> controller : inform success
-deactivate fserv
-
-controller -> fserv : getFamily(familyID)
-activate fserv
-fserv -> controller : aFamily
-deactivate fserv
-
-controller -> family : getFamilyMember(otherID)
-activate family
-family -> controller : aFamilyMember
-deactivate family
-
-controller -> app : getAccountService()
-activate app
-controller <- app : aAccountService
-deactivate app
-
-controller -> aserv : getFamilyMemberCashAccountBalance(aFamilyMember, accountID)
-activate aserv
-aserv -> familyMember : getAccountBalance(accountID)
-
-activate familyMember
-familyMember -> cash : getBalance( )
-activate cash
-cash -> familyMember : balance
-deactivate cash
-
-familyMember -> aserv : balance
-deactivate familyMember
-deactivate familyMember
-aserv -> controller : balance
-deactivate aserv
-
-controller -> UI : balance
-deactivate controller
-
-UI -> actor : balance
-deactivate UI
-deactivate actor
-
-```
 
 ````puml
 autonumber 1
@@ -372,17 +234,6 @@ UI -> actor : listOfCashAccounts
 deactivate UI
 deactivate actor
 ````
-
-
-
-
-
-
-
-
-
-
-
 
 
 

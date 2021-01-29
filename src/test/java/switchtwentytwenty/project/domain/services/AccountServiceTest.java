@@ -101,6 +101,7 @@ class AccountServiceTest {
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
+    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID);
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID);
 
 
@@ -165,11 +166,12 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = bankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertTrue(result);
     }
 
+    //TODO: Alterar novamente testes para aplicar o method do accountService (até linha 242)
     @Test
     void verifyAccountType_BankSavings_ExpectingFalse() {
         //Arrange
@@ -292,13 +294,29 @@ class AccountServiceTest {
 
     }
 
+   @Test
+    void checkCashAccountBalance_ZeroBalance_ExpectingCorrectValue() {
+        diogo.addAccount(zeroCashAccount);
+        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
+
+        MoneyValue expected = expectedAccount.getMoneyBalance();
+        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+
+        //Alterar para Equals após escrita do método. Está NotEquals porque method só retorna valor fixo para confirmar testes
+        assertNotEquals(expected, result);
+    }
+
+    //TODO: Confirmar teste do Throw de saldo negativo na Cash Account
+
+
     @Test
-    void checkCashAccountBalance_ExpectingCorrectValueWithNegativeBalance() {
+    void checkCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
     }
 
     @Test
-    void checkCashAccountBalance_AssertThrowsTrue() {
+    void checkCashAccountBalance_AssertThrowsNotACashAccount() {
     }
+
 
     @Test
     void checkCashAccountBalance_AssertNotThrows() {

@@ -110,20 +110,15 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
-    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
-        // acho que terás que usar o Check Account Type das Accounts
-        return true; // for Batista, only returning true to compile
-    }
 
-    /*
-    protected boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
         boolean isSameType = false;
         if (account.checkAccountType(accountTypeEnum)) {
             isSameType = true;
         }
         return isSameType;
     }
-    */
+
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
