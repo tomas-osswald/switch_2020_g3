@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.DTOs.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
@@ -62,7 +63,6 @@ class TransactionServiceTest {
         assertFalse(service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO3));
     }
 
-    /*
     @Test
     void createListOfMovementsBetweenDates_ResultEmptyListNoMovements() {
         // arrange
@@ -70,10 +70,10 @@ class TransactionServiceTest {
         TransactionService service = new TransactionService();
         Date startDate = new Date(2021, Calendar.JANUARY, 22);
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
-        List<Transaction> expected = new ArrayList<>();
+        List<TransactionDataDTO> expected = new ArrayList<>();
 
         // act
-        List<Transaction> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
@@ -87,10 +87,10 @@ class TransactionServiceTest {
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
         Date startDate = new Date(2021, Calendar.JANUARY, 22);
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
-        List<Transaction> expected = new ArrayList<>();
+        List<TransactionDataDTO> expected = new ArrayList<>();
 
         // act
-        List<Transaction> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
@@ -104,10 +104,10 @@ class TransactionServiceTest {
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
         Date startDate = new Date(2021, Calendar.JANUARY, 20);
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
-        List<Transaction> expected = new ArrayList<>();
+        List<TransactionDataDTO> expected = new ArrayList<>();
 
         // act
-        List<Transaction> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
@@ -123,13 +123,13 @@ class TransactionServiceTest {
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO3);
         Date startDate = new Date(2021, Calendar.JANUARY, 20);
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
-        List<Transaction> expected = new ArrayList<>();
+        List<TransactionDataDTO> expected = new ArrayList<>();
 
         // act
-        List<Transaction> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
     }
-    */
+
 }

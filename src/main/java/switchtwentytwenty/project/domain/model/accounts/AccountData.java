@@ -115,4 +115,11 @@ public class AccountData {
         return this.currentBalance;
     }
 
+    /**
+     * A method that returns this accounts list of registered transactions.
+     * @return List of registered transactions.
+     */
+    public List<Transaction> getListOfMovements() {
+        return this.transactions;
+    }
 }

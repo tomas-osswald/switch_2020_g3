@@ -2,9 +2,12 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
+
+import java.util.List;
 
 public class CreditCardAccount implements Account {
 
@@ -124,5 +127,13 @@ public class CreditCardAccount implements Account {
 
     public MoneyValue getMoneyBalance() {
         return this.accountData.getCurrentBalance();
+    }
+
+    /**
+     * A method that returns the list of movements stored in this account's AccountData attribute
+     * @return List of movements
+     */
+    public List<Transaction> getListOfMovements() {
+        return this.accountData.getListOfMovements();
     }
 }
