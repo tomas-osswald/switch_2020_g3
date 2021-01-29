@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
@@ -274,8 +276,18 @@ class AccountServiceTest {
     }
 
 
+    //Teste escrito antes do method estar definido
     @Test
     void checkCashAccountBalance_ExpectingCorrectValue() {
+        MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
+
+        diogo.addAccount(cashAccount);
+        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
+
+        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+
+        assertEquals(expected, result);
+
     }
 
     @Test
