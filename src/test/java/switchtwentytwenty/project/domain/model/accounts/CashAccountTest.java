@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CREDITCARDACCOUNT;
 
 class CashAccountTest {
 
@@ -212,6 +214,42 @@ class CashAccountTest {
         assertFalse(one.equals(two));
     }
 
+
+
+    @Test
+    void checkAccountType_CashAccount_ExpectingTrue() {
+        //Arrange
+        CashAccount cashAccount = new CashAccount("cash", 200.00, 1);
+        AccountTypeEnum expectedType = CASHACCOUNT;
+        //Act
+        boolean result = cashAccount.checkAccountType(expectedType);
+        //Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void checkAccountType_CashAccount_ExpectingFalse() {
+        //Arrange
+        CashAccount cashAccount = new CashAccount("cash", 200.00, 1);
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = cashAccount.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void checkAccountType_CashAccount_ExpectingFalseWithOtherType() {
+        //Arrange
+        CashAccount cashAccount = new CashAccount("cash", 200.00, 1);
+        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        //Act
+        boolean result = cashAccount.checkAccountType(expectedType);
+        //Assert
+        assertFalse(result);
+    }
+
+
     @Test
     void hasEnoughMoneyForTransaction() {
         double transferenceAmount = 10;
@@ -234,4 +272,5 @@ class CashAccountTest {
             cashAccount.hasEnoughMoneyForTransaction(transferenceAmount);
         });
     }
+
 }

@@ -12,7 +12,7 @@ public class TransactionService {
 
     public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){ // TODO: ALTERAR PARA GENERAL CATEGORY
         try{
-            if ( targetAccount.hasEnoughMoneyForTransaction(transferenceDTO.getTransferedValue()) ){
+            if ( targetAccount.hasEnoughMoneyForTransaction(transferenceDTO.getTransferredValue()) ){
                 return targetAccount.registerTransaction(targetAccount,category,transferenceDTO);
             } else {
                 return false;

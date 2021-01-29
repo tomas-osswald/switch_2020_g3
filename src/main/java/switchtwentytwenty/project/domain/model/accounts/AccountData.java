@@ -57,6 +57,10 @@ public class AccountData {
         this.balance = balance;
     }
 
+    public void setBalance(MoneyValue balance) {
+        this.currentBalance = balance;
+    }
+
     public void changeBalance(double value) {
         this.balance += value;
     }
@@ -105,6 +109,10 @@ public class AccountData {
 
         transactions.add(cashTransaction);
         return true;
+    }
+
+    public MoneyValue getMoneyValue(){
+        return this.currentBalance;
     }
 
 }
