@@ -22,11 +22,11 @@ public class TransactionData {
     }
 
     public Date getTransactionDate() {
-        return this.transactionDate;
+        return (Date) this.transactionDate.clone();
     }
 
     public Date getRegistrationDate() {
-        return this.transactionDate;
+        return (Date) this.registrationDate.clone();
     }
 
     public StandardCategory getCategory() {
