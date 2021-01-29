@@ -122,7 +122,6 @@ public class FamilyMember {
         this.address = morada;
     }
 
-
     // Family Admin - add Family Member
     /*
     public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {

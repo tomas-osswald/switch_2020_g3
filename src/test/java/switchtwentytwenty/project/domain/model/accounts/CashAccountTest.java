@@ -212,4 +212,26 @@ class CashAccountTest {
         assertFalse(one.equals(two));
     }
 
+    @Test
+    void hasEnoughMoneyForTransaction() {
+        double transferenceAmount = 10;
+        CashAccount cashAccount = new CashAccount("Acc",50,1);
+        assertTrue(cashAccount.hasEnoughMoneyForTransaction(transferenceAmount));
+    }
+
+    @Test
+    void NotEnoughMoneyForTransaction() {
+        double transferenceAmount = 100;
+        CashAccount cashAccount = new CashAccount("Acc",50,1);
+        assertFalse(cashAccount.hasEnoughMoneyForTransaction(transferenceAmount));
+    }
+
+    @Test
+    void NotEnoughMoneyForTransaction_NegativeAmmount() {
+        double transferenceAmount = -10;
+        CashAccount cashAccount = new CashAccount("Acc",50,1);
+        assertThrows(IllegalArgumentException.class,()->{
+            cashAccount.hasEnoughMoneyForTransaction(transferenceAmount);
+        });
+    }
 }

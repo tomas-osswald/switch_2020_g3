@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
+
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
@@ -104,6 +105,11 @@ public class AccountService {
         List<Account> accounts = familyMember.getAccounts();
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
         return accountIDAndDescriptionDTOS;
+    }
+
+    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        // acho que terás que usar o Check Account Type das Accounts
+        return true; // for Batista, only returning true to compile
     }
 
     /*

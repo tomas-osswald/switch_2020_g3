@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AccountData {
 
-    private Double balance;
+    private Double balance = 0.00;
     private String description;
     private int accountID;
     private List<Transaction> transactions;
@@ -94,6 +94,9 @@ public class AccountData {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
+        if(transferenceAmount < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
         return ((this.balance - transferenceAmount) >= 0);
     }
 
