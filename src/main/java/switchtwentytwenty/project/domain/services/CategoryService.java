@@ -158,9 +158,6 @@ public class CategoryService {
      * @return List
      */
     public List<StandardCategory> getStandardCategories() {
-        if (this.categories.size() == 0 || this.categories == null) {
-            throw new IllegalArgumentException("There are no standard categories");
-        }
         List standardCategories = new ArrayList<StandardCategory>();
         standardCategories = categories;
         return standardCategories;
