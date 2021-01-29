@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 
@@ -13,6 +14,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
@@ -96,7 +98,7 @@ class AccountServiceTest {
     //Account Types Test setup
     BankAccount bankAccount = new BankAccount("bank account", balance, generatedID);
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
-    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00);
+    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID);
@@ -147,14 +149,14 @@ class AccountServiceTest {
     @Test
     void createPersonalCreditCardAccountTrue() {
         FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00 , 100.00, 50.00, CurrencyEnum.EURO);
         assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
         }
 
     @Test
     void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
         FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00 , 100.00, 50.00, CurrencyEnum.EURO);
         assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
     }
 
@@ -276,6 +278,32 @@ class AccountServiceTest {
         assertEquals(result, expected);
     }
 
+    //Teste escrito antes do method estar definido
+    @Test
+    void checkCashAccountBalance_ExpectingCorrectValue() {
+        MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
+
+        diogo.addAccount(cashAccount);
+        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
+
+        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void checkCashAccountBalance_ExpectingCorrectValueWithNegativeBalance() {
+    }
+
+    @Test
+    void checkCashAccountBalance_AssertThrowsTrue() {
+    }
+
+    @Test
+    void checkCashAccountBalance_AssertNotThrows() {
+    }
+
 
 
     @Test
@@ -394,6 +422,7 @@ class AccountServiceTest {
             accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory,transferenceDTO);
         });
     }
+
 
 
 }

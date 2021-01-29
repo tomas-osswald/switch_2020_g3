@@ -132,7 +132,7 @@ class CheckCashAccountBalanceControllerTest {
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOTwo);
 
         AddCreditCardAccountController addCreditCardAccountController = new AddCreditCardAccountController(application);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyOneID, creditCardDescription, withdrawalLimit);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyOneID, creditCardDescription, withdrawalLimit , 100.00, 50.00, CurrencyEnum.EURO);
         addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO);
 
 
