@@ -22,7 +22,5 @@ public class AddBankAccountController {
         } catch (Exception e) {
             return false;
         }
-
-
     }
 }

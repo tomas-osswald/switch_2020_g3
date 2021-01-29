@@ -100,4 +100,25 @@ class CreateFamilyCashAccountControllerTest {
 
         Assertions.assertFalse(result);
     }
+
+    @Test
+    void createFamilyCashAccountFailureNotAdmin() {
+        FamilyMember admin = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local,city);
+
+        Application app = new Application();
+        CreateFamilyCashAccountController controller = new CreateFamilyCashAccountController(app);
+
+        int familyID = 1;
+        String familyName = "Moura";
+        Family aFamily = new Family(familyName, familyID);
+        app.getFamilyService().addFamily(aFamily);
+        aFamily.addFamilyMember(admin);
+
+        double balance = 0;
+        String accountDesignation = "Conta familia Moura";
+
+        boolean result = controller.createFamilyCashAccount(familyID,accountDesignation, balance, cc);
+
+        Assertions.assertFalse(result);
+    }
 }

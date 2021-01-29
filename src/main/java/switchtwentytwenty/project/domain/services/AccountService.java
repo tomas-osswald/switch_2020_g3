@@ -8,12 +8,14 @@ import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
+
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
@@ -79,21 +81,23 @@ public class AccountService {
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
-        double transferedValue = transferCashDTO.getTransferedValue();
+
+
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
-        if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
+        double transferredValue = transferCashDTO.getTransferredValue();
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferredValue)) return false;
 
-        //Criar nova conta para family member que não a tenha?
+        //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
 
         int accountID = transferCashDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(accountID);
 
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferedValue * -1);
+        familyAccount.changeBalance(transferredValue * -1);
         // Registar movimento gasto - Balance tem que ser negativo
         familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
-        targetCashAccount.changeBalance(transferedValue);
+        targetCashAccount.changeBalance(transferredValue);
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
@@ -104,6 +108,11 @@ public class AccountService {
         List<Account> accounts = familyMember.getAccounts();
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
         return accountIDAndDescriptionDTOS;
+    }
+
+    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        // acho que terás que usar o Check Account Type das Accounts
+        return true; // for Batista, only returning true to compile
     }
 
     /*
@@ -145,5 +154,18 @@ public class AccountService {
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
         return aFamilyMember.getAccount(accountID);
+    }
+
+    /**
+     * Method to check the Balance of a Cash Account.
+     * @param accountID
+     * @param member
+     * @return
+     */
+
+    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
+    public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
+        MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
+        return donaldTrump;
     }
 }

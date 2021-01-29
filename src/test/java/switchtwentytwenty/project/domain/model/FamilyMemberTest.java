@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.user_data.Address;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
@@ -346,4 +347,33 @@ class FamilyMemberTest {
         ZeManel.addAccount(bankAccount);
         assertTrue(ZeManel.getAccounts().get(0) == bankAccount);
     }
+
+    @Test
+    void getAccount() {
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
+        FamilyMember ZeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        ZeManel.addAccount(bankAccount);
+
+        Account expected = bankAccount;
+
+        Account result = ZeManel.getAccount(1);
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void getAccount_ExpectedFail() {
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
+        FamilyMember ZeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        ZeManel.addAccount(bankAccount);
+
+        Account expected = null;
+
+        Account result = ZeManel.getAccount(3);
+
+        assertEquals(expected, result);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.DTOs;
 
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
 public class MoneyValue {
 
@@ -114,4 +115,42 @@ public class MoneyValue {
     }
     */
 
+    public MoneyValue credit(MoneyValue moneyValue) {
+        MoneyValue creditMoneyValue;
+        if (sameCurrency(moneyValue))
+            creditMoneyValue = new MoneyValue(this.value + moneyValue.value, this.currency);
+        else
+            throw new NotSameCurrencyException("Currencies differ");
+        return creditMoneyValue;
+    }
+
+    public MoneyValue debit(MoneyValue moneyValue) {
+        MoneyValue deditMoneyValue;
+        if (sameCurrency(moneyValue))
+            deditMoneyValue = new MoneyValue(this.value - moneyValue.value, this.currency);
+        else
+            throw new NotSameCurrencyException("Currencies differ");
+        return deditMoneyValue;
+    }
+
+    private boolean sameCurrency(MoneyValue moneyValue) {
+        return this.currency.equals(moneyValue.currency);
+    }
+
+    /*
+    the value {@code 0} if {@code anotherDouble} is
+     *          numerically equal to this {@code Double}; a value
+     *          less than {@code 0} if this {@code Double}
+     *          is numerically less than {@code anotherDouble};
+     *          and a value greater than {@code 0} if this
+     *          {@code Double} is numerically greater than
+     *          {@code anotherDouble}.
+     * */
+
+    public double compareTo (MoneyValue moneyValue) {
+        if (sameCurrency(moneyValue))
+            return this.value.compareTo(moneyValue.value);
+        else
+            throw new NotSameCurrencyException("Currencies differ");
+    }
 }
