@@ -14,7 +14,7 @@ public class CashTransaction implements Transaction {
     public CashTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
         this.otherAccount = targetAccount;
         String designation = transferenceDTO.getTransactionDesignation();
-        double transferedValue = transferenceDTO.getTransferedValue();
+        double transferedValue = transferenceDTO.getTransferredValue();
         Date transactionDate;
         if (transferenceDTO.getTransactionDate() == null) {
             transactionDate = new Date();

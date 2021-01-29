@@ -37,8 +37,9 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
-        this.currentBalance = new MoneyValue(balance, currencyEnum);
+        this.currentBalance = new MoneyValue(balance, currencyEnum); //TODO: Se não houver currencyEnum colocar default Euro? esta a ser feito em algum outro lado?
     }
+
 
     public Date getCreationDate() {
         return (Date) this.creationDate.clone();
@@ -54,6 +55,10 @@ public class AccountData {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public void setBalance(MoneyValue balance) {
+        this.currentBalance = balance;
     }
 
     public void changeBalance(double value) {
@@ -93,7 +98,10 @@ public class AccountData {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return (this.balance - transferenceAmount) >= 0;
+        if(transferenceAmount < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
+        return ((this.balance - transferenceAmount) >= 0);
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
@@ -101,6 +109,10 @@ public class AccountData {
 
         transactions.add(cashTransaction);
         return true;
+    }
+
+    public MoneyValue getMoneyValue(){
+        return this.currentBalance;
     }
 
 }

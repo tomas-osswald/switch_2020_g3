@@ -5,6 +5,4 @@ public enum AccountTypeEnum { // ler ficheiro de configuração
     BANKSAVINGSACCOUNT,
     CASHACCOUNT,
     CREDITCARDACCOUNT
-
-
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -52,25 +53,25 @@ class AddCreditCardAccountControllerTest {
 
     @Test
     void addCreditCardAccountToFamilyMemberTrue() {
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
         assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberTrueWithCardDescriptionNull() {
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, null, 5000.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, null, 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
         assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberFalseFamilyDoesNotExist() {
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, 2, "MasterCard do Diogo", 5000.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, 2, "MasterCard do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
         assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberFalseFamilyMemberDoesNotExist() {
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO("3", family1ID, "MasterCard do Diogo", 5000.00);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO("3", family1ID, "MasterCard do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
         assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 }
