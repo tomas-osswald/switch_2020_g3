@@ -80,12 +80,12 @@ public class AccountService {
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
-        double transferedValue = transferCashDTO.getTransferedValue();
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
+        double transferedValue = transferCashDTO.getTransferedValue();
         if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
 
-        //Criar nova conta para family member que não a tenha?
+        //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
 
         int accountID = transferCashDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(accountID);
