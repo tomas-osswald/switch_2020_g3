@@ -6,10 +6,9 @@ public class AddCashAccountDTO {
     private String familyMemberID;
     private int familyID;
 
-    public AddCashAccountDTO(Double balance, String description, String familyMemberID, int familyID) {
+    public AddCashAccountDTO(Double balance, String description,String familyMemberID,int familyID) {
         this.balance = balance;
         this.description = description;
-
         this.familyMemberID = familyMemberID;
         this.familyID = familyID;
     }

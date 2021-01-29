@@ -93,6 +93,9 @@ public class AccountData {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
+        if(transferenceAmount < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
         return (this.balance - transferenceAmount) >= 0;
     }
 

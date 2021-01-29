@@ -11,6 +11,7 @@ public class Application {
     private FamilyService familyService = new FamilyService();
     private AccountService accountService = new AccountService();
     private RelationService relationService = new RelationService();
+    private TransactionService transactionService = new TransactionService();
 
     // Constructors
     public Application() {
@@ -41,4 +42,7 @@ public class Application {
     public RelationService getRelationService() {
         return this.relationService;
     }
+
+    public TransactionService getTransactionService(){ return this.transactionService; }
+
 }

@@ -116,36 +116,53 @@ participant ": UI" as UI
 participant ": addBankAccountController" as controller
 participant ": FFM Application" as app
 participant "famServ : FamilyService" as famService
+participant "accServ : AccountService" as accService
 participant "tranServ : TransactionService" as tranService
-participant "aFamily : Family" as family
+participant "aFamilyMember : FamilyMember" as familyMember
 participant "aCashTran : CashTransaction" as cashTrans
 
 activate actor
-actor -> UI: registerPaymentInCashAccount(selfCC,accountID,paymentDate,ammount,category)
+actor -> UI: registerPaymentInCashAccount(familyID,selfCC,accountID,paymentDate,ammount,categoryID)
 activate UI
-UI -> controller: registerPaymentInCashAccount(selfCC,accountID,paymentDate,ammount,category)
+UI -> controller: registerPaymentInCashAccount(transactionDTO)
 activate controller
-controller -> app: getCashAccount(selfCC,accountID)
+controller -> app: getCashAccount(familyID,selfCC,accountID)
 activate app
-app -> famService: getCashAccount(selfCC,accountID)
+app -> famService: getCashAccount(familyID,selfCC,accountID)
 activate famService
-famService -> family: getCashAccount(selfCC,accountID)
-activate family
-family -> famService: ok
-deactivate family
+famService -> familyMember: getCashAccount(familyID,selfCC,accountID)
+activate familyMember
+familyMember -> famService: ok
+deactivate familyMember
 famService -> app: ok
 deactivate famService
 app -> controller: ok
 deactivate app
-controller -> app: registerPaymentInCashAccount(selfCC,accountID,paymentDate,ammount,category)
+
+controller -> app : verifyCashAccount(Account)
 activate app
-app -> tranService: registerPaymentInCashAccount(selfCC,accountID,paymentDate,ammount,category)
+app -> accService : verifyCashAccount(Account)
+activate accService
+accService -> accService : verifyAccountType(Account,CashAccount)
+alt Account is not CashAccount - FALSE
+  accService -> app : fail
+  app -> controller : fail
+else Account is a CashAccount - TRUE
+  accService -> app : ok
+  deactivate accService
+  app -> controller : ok
+  deactivate app
+end
+
+controller -> app: registerPaymentInCashAccount(cashAccount,category,transactionDTO)
+activate app
+app -> tranService: registerPaymentInCashAccount(cashAccount,category,transactionDTO)
 activate tranService
 tranService -> tranService: checkIfBalanceIsEnough()
 alt Balance is not enough - FALSE
   tranService -> tranService: fail
 else Balance is enough - TRUE
-  tranService -> cashTrans **: createCashTransaction(selfCC,accountID,paymentDate,ammount,category)
+  tranService -> cashTrans **: createCashTransaction(cashAccount,category,transactionDTO)
   tranService -> tranService: addTransaction(aCashTransaction)
 end
 tranService -> app: ok
