@@ -151,14 +151,18 @@ public class AccountService {
     }
 
     /**
-     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * A method that obtains an account with a given ID belonging to a given FamilyMember. If account returned is null, it does not exist and an exception will be thrown.
      *
      * @param aFamilyMember account owner
      * @param accountID     account unique ID
      * @return target account
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
-        return aFamilyMember.getAccount(accountID);
+        Account account = aFamilyMember.getAccount(accountID);
+        if (account == null) {
+            throw new IllegalArgumentException("Account does not exist");
+        }
+        return account;
     }
 
     /**
