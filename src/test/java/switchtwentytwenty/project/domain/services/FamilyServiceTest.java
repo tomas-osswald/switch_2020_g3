@@ -420,4 +420,20 @@ class FamilyServiceTest {
 
         Assertions.assertFalse(result);
     }
+
+    @Test
+    void getFamilyListLenght() {
+        FamilyService familyService = new FamilyService();
+        String familyNameOne = "Moreira";
+        familyService.addFamily(familyNameOne);
+        String familyNameTwo = "Silva";
+        familyService.addFamily(familyNameTwo);
+        String familyNameThree = "Seisdedos";
+        familyService.addFamily(familyNameThree);
+        int expected = 3;
+
+        int result = familyService.getFamilyListLenght();
+
+        Assertions.assertEquals(expected,result);
+    }
 }

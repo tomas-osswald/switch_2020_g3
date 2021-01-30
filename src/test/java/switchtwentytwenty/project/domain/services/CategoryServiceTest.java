@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
@@ -109,6 +110,28 @@ class CategoryServiceTest {
         boolean result = categoryService.addStandardCategory(categoryName, parentID);
         //Assert
         assertFalse(result);
+    }
+
+    @Test
+    void getCategories() {
+        //Arrange
+        List<StandardCategory> expectedList = new ArrayList<>();
+        StandardCategory categoryOther = new StandardCategory("other",null,0);
+        StandardCategory categoryOne = new StandardCategory("Home", null, 1);
+        StandardCategory categoryTwo = new StandardCategory("Education", null, 2);
+        StandardCategory categoryThree = new StandardCategory("Food", categoryOne, 3);
+        expectedList.add(categoryOther);
+        expectedList.add(categoryOne);
+        expectedList.add(categoryTwo);
+        expectedList.add(categoryThree);
+        categoryService.addStandardCategory("Home",0);
+        categoryService.addStandardCategory("Education",0);
+        categoryService.addStandardCategory("Food",1);
+        //Act
+        List<StandardCategory> resultList = categoryService.getCategories();
+        //Asserts
+        assertEquals(expectedList.size(),resultList.size());
+        assertEquals(expectedList,resultList);
     }
 
 
