@@ -102,25 +102,14 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family,FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
-        /*if (originFamilyMemberAccount == null) {
-            throw new IllegalArgumentException("Sender has no account");
-        } else {
-            if (destinationFamilyMemberAccount == null) {
-                throw new IllegalArgumentException("Receiver has no account");
-            }
-
-        }*/
-
         double transferredValue = cashTransferDTO.getTransferedValue();
         originFamilyMemberAccount.changeBalance(transferredValue * -1);
-        //originFamilyMemberAccount.registerTransaction(originFamilyMemberAccount, category, cashTransferDTO);
         destinationFamilyMemberAccount.changeBalance(transferredValue);
-        //qdestinationFamilyMemberAccount.registerTransaction(destinationFamilyMemberAccount, category, cashTransferDTO);
         return true;
     }
 
