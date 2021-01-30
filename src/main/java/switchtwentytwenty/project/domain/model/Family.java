@@ -29,7 +29,7 @@ public class Family {
     //Constructors
 
     /**
-     * Constructor for an empty Family, uses the current date as the registation date for the created family
+     * Constructor for an empty Family, uses the current date as the registration date for the created family
      *
      * @param familyName String with Name of the family to be created
      */
@@ -225,19 +225,6 @@ public class Family {
         return this.familyMembers.size();
     }
 
-
-    /**
-     * Method return the number of Family Members in List -> relationsDesignations
-     *
-     * @return number of relation designations
-     */
-
-    public int numberOfRelationDesignations() {
-        return this.relationDesignations.size();
-
-    }
-
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -245,7 +232,6 @@ public class Family {
         Family otherFamily = (Family) other;
         return (this.familyID == otherFamily.familyID && this.familyName.equals(otherFamily.familyName));
     }
-
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -408,13 +394,6 @@ public class Family {
         return selectedCategory;
     }
 */
-    private int generateCustomCategoryID() {
-        int minID = 0;
-        for (CustomCategory category : this.familyCustomCategories) {
-            if (minID > category.getCategoryID()) minID = category.getCategoryID();
-        }
-        return minID - 1;
-    }
 
     public FamilyMember getFamilyMember(String ccNumber) {
         for (FamilyMember member : this.familyMembers) {
