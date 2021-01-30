@@ -22,4 +22,6 @@ class ResultTest {
     @Test
     void testEquals() {
     }
+
+
 }
