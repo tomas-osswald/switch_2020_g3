@@ -17,7 +17,12 @@ public class MoneyValue {
 
     public MoneyValue(Double value, CurrencyEnum currency) {
         this.value = value;
-        this.currency = currency;
+        if(currency==null){
+            this.currency = CurrencyEnum.EURO;
+        }else{
+            this.currency = currency;
+        }
+
     }
 
     public double getValue() {
