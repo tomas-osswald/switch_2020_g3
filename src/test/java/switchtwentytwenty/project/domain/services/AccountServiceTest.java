@@ -246,9 +246,7 @@ class AccountServiceTest {
         int accountID = 1;
         Account expected = null;
 
-        Account result = accountService.getAccount(diogo, accountID);
-
-        assertEquals(result, expected);
+        assertThrows(IllegalArgumentException.class, () -> accountService.getAccount(diogo, accountID));
     }
 
     @Test
