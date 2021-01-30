@@ -14,6 +14,8 @@ import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
+
 public class AccountService {
 
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
@@ -122,7 +124,7 @@ public class AccountService {
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
-            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) {
+            if (account.checkAccountType(CASHACCOUNT)) {
                 AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
@@ -160,7 +162,15 @@ public class AccountService {
 
     //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
     public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
-        MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
-        return donaldTrump;
+        MoneyValue currentBalance;
+        Account targetAccount = member.getAccount(accountID);
+        if (targetAccount == null) {
+            throw new NullPointerException("No account with such ID");
+        }
+        if (!targetAccount.checkAccountType(CASHACCOUNT)){
+            throw new IllegalArgumentException("Not a Cash Account");
+        }
+        currentBalance = targetAccount.getMoneyBalance();
+        return currentBalance;
     }
 }

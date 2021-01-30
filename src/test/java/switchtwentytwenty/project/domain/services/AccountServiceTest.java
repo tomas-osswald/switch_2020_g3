@@ -279,7 +279,7 @@ class AccountServiceTest {
         assertEquals(result, expected);
     }
 
-    //Teste escrito antes do method estar definido
+
     @Test
     void checkCashAccountBalance_ExpectingCorrectValue() {
         MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
@@ -301,8 +301,7 @@ class AccountServiceTest {
         MoneyValue expected = expectedAccount.getMoneyBalance();
         MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
 
-        //Alterar para Equals após escrita do método. Está NotEquals porque method só retorna valor fixo para confirmar testes
-        assertNotEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     //TODO: Confirmar teste do Throw de saldo negativo na Cash Account
@@ -310,15 +309,22 @@ class AccountServiceTest {
 
     @Test
     void checkCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
+        int invalidID = -1;
+        diogo.addAccount(cashAccount);
+
+        assertThrows(NullPointerException.class, () -> {
+            accountService.checkCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);});
     }
+
+
 
     @Test
     void checkCashAccountBalance_AssertThrowsNotACashAccount() {
-    }
+        diogo.addAccount(bankSavings);
+        int bankSavingsID = bankSavings.getAccountID();
 
-
-    @Test
-    void checkCashAccountBalance_AssertNotThrows() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            accountService.checkCashAccountBalance(bankSavingsID, diogo);});
     }
 
 
