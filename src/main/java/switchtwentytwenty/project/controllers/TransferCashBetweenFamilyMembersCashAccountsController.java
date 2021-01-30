@@ -34,9 +34,8 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
             AccountService accountService = new AccountService();
             return accountService.transferCashBetweenFamilyMembersCashAccounts(family, originFamilyMember, destinationFamilyMember, category, cashTransferDTO);
-        } catch (IllegalArgumentException exception) {
+        } catch ( NullPointerException exception) {
             return false;
         }
-
     }
 }

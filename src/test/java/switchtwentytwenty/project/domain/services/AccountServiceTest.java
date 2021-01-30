@@ -14,6 +14,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
@@ -423,6 +424,80 @@ class AccountServiceTest {
         });
     }
 
+    @Test
+    void transferCashBetweenSameFamilyMembersWithCashAccountsValid() {
+        //Arrange
+        int familyID = 1;
+        String originFamilyMemberCC = "175345988ZX8";
+        int originAccountID = 1;
+        String destinationFamilyMemberCC = "166699209ZY8";
+        int destinationAccountID = 1;
+        String falseFamilyMemberCC = "150149271ZZ6";
+        String falseFamilyMemberNIf = "219483345";
+        int falseDestinationAccountID = 1;
+        double transferedValue = 2.00;
+        int categoryID = 1;
+        String transactionDesignation = "Not for donuts";
+        Date transactionDate = new Date();
+
+        CategoryService categoryService = this.ffmApp.getCategoryService();
+        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1);
+        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1);
+
+        Family simpsonFamily = familyService.getFamily(1);
+        familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        FamilyMember mary = simpsonFamily.getFamilyMember(originFamilyMemberCC);
+        familyService.addFamilyMember(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+        FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
+
+        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
+        accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+
+        StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
+
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID,originFamilyMemberCC,originAccountID,destinationFamilyMemberCC,destinationAccountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+
+        boolean result = accountService.transferCashBetweenFamilyMembersCashAccounts(simpsonFamily,mary, tony,category,transferDTO);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void transferCashBetweenOneFamilyMemberWithCashAccountAndAnotherFamilyMemberWithNoCashAccount(){
+        //Arrange
+        int familyID = 1;
+        String originFamilyMemberCC = "175345988ZX8";
+        int originAccountID = 1;
+        String destinationFamilyMemberCC = "166699209ZY8";
+        int destinationAccountID = 1;
+        String falseFamilyMemberCC = "150149271ZZ6";
+        String falseFamilyMemberNIf = "219483345";
+        int falseDestinationAccountID = 1;
+        double transferedValue = 2.00;
+        int categoryID = 1;
+        String transactionDesignation = "Not for donuts";
+        Date transactionDate = new Date();
+
+        CategoryService categoryService = this.ffmApp.getCategoryService();
+        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1);
+        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1);
+
+        Family simpsonFamily = familyService.getFamily(1);
+        familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        FamilyMember mary = simpsonFamily.getFamilyMember(originFamilyMemberCC);
+        familyService.addFamilyMember(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+        FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
+
+        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
+        //accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+
+        StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
+
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID,originFamilyMemberCC,originAccountID,destinationFamilyMemberCC,destinationAccountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        Assertions.assertThrows(NullPointerException.class, ()->{
+            accountService.transferCashBetweenFamilyMembersCashAccounts(simpsonFamily,mary, tony,category,transferDTO);
+        });
+    }
 
 
 }
