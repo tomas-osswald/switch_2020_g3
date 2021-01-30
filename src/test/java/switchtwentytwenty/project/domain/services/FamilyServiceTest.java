@@ -7,10 +7,7 @@ import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorD
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.user_data.Address;
-import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
-import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
-import switchtwentytwenty.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.model.user_data.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FamilyServiceTest {
 
     String cc = "143896040ZV3";
+    CCNumber ccNumber = new CCNumber(cc);
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
     int numero = 919999999;
@@ -308,7 +306,7 @@ class FamilyServiceTest {
         phoneNumbers.add(phoneNumber);
         familyService.addFamily(family);
         family.addFamilyMember(diogo);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
 
@@ -323,7 +321,7 @@ class FamilyServiceTest {
         familyService.addFamily(family);
         family.addFamilyMember(diogo);
         family.addFamilyMember(jorge);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, jorge.getID());
 
