@@ -154,10 +154,10 @@ class CreditCardAccountTest {
     }
 
     @Test
-    void hasEnoughMoneytest() {
+    void hasEnoughMoneytestFalse() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
-        assertFalse(creditCardAccount.hasEnoughMoneyForTransaction(100.1));
+        assertFalse(creditCardAccount.hasEnoughMoneyForTransaction(1000.1));
     }
 
     @Test
@@ -228,5 +228,71 @@ class CreditCardAccountTest {
 
     }
 
+    @Test
+    void creditCardAccountNullInterestDebt() {
+        Double nullInterestDebt = null;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, nullInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
 
+        MoneyValue expected = new MoneyValue(0.00, currencyEnumOne);
+
+        MoneyValue result = creditCardAccount.getInterestDebt();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void creditCardAccountLessThanZeroInterestDebt() {
+        Double nullInterestDebt = -0.01;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, nullInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        MoneyValue expected = new MoneyValue(0.00, currencyEnumOne);
+
+        MoneyValue result = creditCardAccount.getInterestDebt();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void creditCardAccountNullWithdrawalLimit() {
+        Double nullWithdrawlLimitOne = null;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, nullWithdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        assertThrows(IllegalArgumentException.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
+    }
+
+    @Test
+    void creditCardAccountLessThanZeroInterestDebtTwo() {
+        Double nullInterestDebt = 0.01;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, nullInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        MoneyValue expected = new MoneyValue(0.01, currencyEnumOne);
+
+        MoneyValue result = creditCardAccount.getInterestDebt();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void hasEnoughMoneyForTransactionTrue() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        Double transferenceAmount = 10.00;
+
+        assertTrue(creditCardAccount.hasEnoughMoneyForTransaction(transferenceAmount));
+    }
+
+    @Test
+    void creditCardAccountEqualsZeroInterestDebt() {
+        Double zeroInterestDebt = 0.00;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, zeroInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        MoneyValue expected = new MoneyValue(0.00, currencyEnumOne);
+
+        MoneyValue result = creditCardAccount.getInterestDebt();
+
+        assertEquals(expected, result);
+    }
 }

@@ -11,27 +11,39 @@ import java.util.List;
 
 public class CreditCardAccount implements Account {
 
-    private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
     // Attributes
     private AccountData accountData;
     private MoneyValue withdrawalLimit;
     private MoneyValue interestDebt;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
-        validadeWithrawLimit(addCreditCardAccountDTO.getWithdrwaLimit());
+        validateWithrawalLimit(addCreditCardAccountDTO.getWithdrwaLimit());
         try {
             this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID);
         } catch (InvalidAccountDesignationException exception) {
             String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
             this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID);
         }
+
         this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCurrency());
 
-        this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
+        if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt()))
+            this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
+        else
+            this.interestDebt = new MoneyValue(0.00, addCreditCardAccountDTO.getCurrency());
+
     }
 
     // Bussiness Methods
+
+    private boolean validateInterestDebt(Double interestDebt) {
+        if (interestDebt == null)
+            return false;
+
+        return interestDebt >= 0.00;
+    }
 
     public MoneyValue getInterestDebt() {
         return this.interestDebt;
@@ -41,21 +53,20 @@ public class CreditCardAccount implements Account {
      * @param withdrawalLimit
      */
 
-    private void validadeWithrawLimit(double withdrawalLimit) {
+   /* private void validadeWithrawLimit(double withdrawalLimit) {
         if (!validateWithrawalLimit(withdrawalLimit)) {
             throw new IllegalArgumentException("withdrawal limit can't be less than 0");
         }
-    }
+    }*/
 
     /**
      * @param withrawalLimit
-     * @return
+     *
      */
 
-    private boolean validateWithrawalLimit(Double withrawalLimit) {
-        if (withrawalLimit == null)
-            return false;
-        return withrawalLimit > 0.00;
+    private void validateWithrawalLimit(Double withrawalLimit) {
+        if (withrawalLimit == null || withrawalLimit < 0.00)
+            throw new IllegalArgumentException("withdrawal limit can't be less than 0");
     }
 
     /**
@@ -112,7 +123,9 @@ public class CreditCardAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+        if(transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+            return true;
+        return false;
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {

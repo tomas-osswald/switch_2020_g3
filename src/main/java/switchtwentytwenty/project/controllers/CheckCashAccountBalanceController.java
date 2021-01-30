@@ -5,12 +5,12 @@ import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.accounts.AccountData;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CheckCashAccountBalanceController {
@@ -30,8 +30,7 @@ public class CheckCashAccountBalanceController {
             return accountService.getListOfCashAccountsOfAFamilyMember(familyMember);
 
         } else {
-            List<AccountIDAndDescriptionDTO> emptyList = new ArrayList<>();
-            return emptyList;
+            return Collections.emptyList();
         }
     }
 

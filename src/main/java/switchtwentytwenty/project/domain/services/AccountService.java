@@ -63,15 +63,16 @@ public class AccountService {
     public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
         int accountID = generateID(targetMember);
         Account bankAccount = new BankAccount(accountName, balance, accountID);
-        return targetMember.addAccount(bankAccount);
-
+        targetMember.addAccount(bankAccount);
+        return true;
     }
 
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
 
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        return targetMember.addAccount(creditCardAccount);
+        targetMember.addAccount(creditCardAccount);
+        return true;
     }
 
 
@@ -81,8 +82,8 @@ public class AccountService {
         }
         int accountID = generateID(targetMember);
         Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
-        return targetMember.addAccount(bankSavingsAccount);
-
+        targetMember.addAccount(bankSavingsAccount);
+        return true;
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
