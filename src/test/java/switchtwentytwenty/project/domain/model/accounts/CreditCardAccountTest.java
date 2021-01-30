@@ -185,9 +185,7 @@ class CreditCardAccountTest {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
-        System.out.println(creditCardAccount.getBalance());
         creditCardAccount.changeBalance(balanceChange);
-        System.out.println(creditCardAccount.getBalance());
         MoneyValue expected = new MoneyValue(99.0, CurrencyEnum.EURO);
         MoneyValue result = creditCardAccount.getMoneyBalance();
         assertEquals(expected, result);
@@ -199,9 +197,7 @@ class CreditCardAccountTest {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         //MoneyValue balanceChange = new MoneyValue(100.0, CurrencyEnum.EURO);
-        System.out.println(creditCardAccount.getBalance());
         creditCardAccount.changeBalance(1.0);
-        System.out.println(creditCardAccount.getBalance());
         double expected = 99.0;
         double result = creditCardAccount.getMoneyBalance().getValue();
         assertEquals(expected, result);
