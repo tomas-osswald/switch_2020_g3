@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.CashTransaction;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
@@ -107,7 +108,7 @@ public class AccountData {
         return ((this.balance - transferenceAmount) >= 0);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
+    public boolean registerTransaction(Account targetAccount, Category category, TransferenceDTO transferenceDTO) {
         // TODO: DUVIDA - Se este metodo esta no AccountData, nao pode ter construtor de CashTransaction. Se for exclusivo da CashAccount, entao retira-se daqui (interfere na BankAccount)
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, transferenceDTO);
         transactions.add(cashTransaction);

@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
@@ -128,7 +129,8 @@ public class CreditCardAccount implements Account {
         return false;
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
+
+    public boolean registerTransaction(Account targetAccount, Category category, TransferenceDTO transferenceDTO) {
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
