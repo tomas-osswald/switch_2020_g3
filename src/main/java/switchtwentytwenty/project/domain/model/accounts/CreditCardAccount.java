@@ -21,6 +21,8 @@ public class CreditCardAccount implements Account {
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
         validateWithrawalLimit(addCreditCardAccountDTO.getWithdrwaLimit());
+
+
         try {
             this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID);
         } catch (InvalidAccountDesignationException exception) {
@@ -30,20 +32,29 @@ public class CreditCardAccount implements Account {
 
         this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCurrency());
 
-        if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt()))
-            this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
-        else
-            this.interestDebt = new MoneyValue(0.00, addCreditCardAccountDTO.getCurrency());
+        if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
+            interestDebtLessThanTotalDebt(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getTotalDebt());
 
+            this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
+        } else{
+            this.interestDebt = new MoneyValue(0.00, addCreditCardAccountDTO.getCurrency());
+        }
     }
 
     // Bussiness Methods
+
+    private void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
+        if (intertestDebt > totalDebt)
+            throw new IllegalArgumentException("Interest Debt must be inferior than Total Debt");
+    }
 
     private boolean validateInterestDebt(Double interestDebt) {
         if (interestDebt == null)
             return false;
 
-        return interestDebt >= 0.00;
+        if (interestDebt < 0.00)
+            return false;
+        return true;
     }
 
     public MoneyValue getInterestDebt() {
@@ -62,7 +73,6 @@ public class CreditCardAccount implements Account {
 
     /**
      * @param withrawalLimit
-     *
      */
 
     private void validateWithrawalLimit(Double withrawalLimit) {
@@ -97,7 +107,7 @@ public class CreditCardAccount implements Account {
         if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
             throw new IllegalArgumentException("Credit exceeded");
 
-        this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
+        this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
     }
 
     public void changeBalance(double value) { //expense
@@ -124,7 +134,7 @@ public class CreditCardAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        if(transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+        if (transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
             return true;
         return false;
     }
