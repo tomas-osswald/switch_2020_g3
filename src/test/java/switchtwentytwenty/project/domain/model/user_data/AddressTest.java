@@ -122,6 +122,7 @@ class AddressTest {
         Address address = new Address(street, postalCode, local, cidade);
         Address address2 = new Address(street, postalCode, local, cidade);
         assertEquals(address2, address);
+
         assertNotSame(address2, address);
     }
 }
