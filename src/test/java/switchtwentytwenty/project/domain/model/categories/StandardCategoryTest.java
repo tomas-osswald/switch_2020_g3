@@ -246,4 +246,26 @@ class StandardCategoryTest {
         assertNotEquals(newStandardCategoryOne, newStandardCategoryTwo);
     }
 
+    @Test
+    void getParentID_Test1HasParent() {
+        //Arrange
+        String categoryNameOne = "Habitação";
+        int categoryIDOne = 2;
+        StandardCategory newStandardCategoryOne = new StandardCategory(categoryNameOne, parentCategory,categoryIDOne);
+        int expected = 1;
+        //Act
+        int result = newStandardCategoryOne.getParentID();
+        //Assert
+        Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    void getParentID_Test2CategoryHasNoParent() {
+        //Arrange
+        int expected = 0;
+        //Act
+        int result = parentCategory.getParentID();
+        //Assert
+        Assertions.assertEquals(expected,result);
+    }
 }

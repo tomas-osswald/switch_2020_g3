@@ -17,7 +17,12 @@ public class MoneyValue {
 
     public MoneyValue(Double value, CurrencyEnum currency) {
         this.value = value;
-        this.currency = currency;
+        if (currency == null) {
+            this.currency = CurrencyEnum.EURO;
+        } else {
+            this.currency = currency;
+        }
+
     }
 
     public double getValue() {
@@ -147,10 +152,14 @@ public class MoneyValue {
      *          {@code anotherDouble}.
      * */
 
-    public double compareTo (MoneyValue moneyValue) {
+    public double compareTo(MoneyValue moneyValue) {
         if (sameCurrency(moneyValue))
             return this.value.compareTo(moneyValue.value);
         else
             throw new NotSameCurrencyException("Currencies differ");
+    }
+
+    public CurrencyEnum getCurrencyType() {
+        return this.currency;
     }
 }
