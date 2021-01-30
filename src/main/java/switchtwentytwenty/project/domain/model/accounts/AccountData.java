@@ -52,10 +52,12 @@ public class AccountData {
 
     public void setBalance(double balance) {
         this.balance = balance;
+        this.currentBalance = new MoneyValue(balance, this.currentBalance.getCurrencyType());
     }
 
     public void setBalance(MoneyValue balance) {
         this.currentBalance = balance;
+        this.balance = balance.getValue();
     }
 
     public MoneyValue getCurrentBalance() {
