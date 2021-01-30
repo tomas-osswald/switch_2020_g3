@@ -13,7 +13,7 @@ public class BankAccount implements Account {
 
     private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
     private AccountData accountData;
-    private IBAN iban;
+    //private IBAN iban;
 
     /***** CONSTRUCTORS ******/
     /*
@@ -59,9 +59,7 @@ public class BankAccount implements Account {
     /***** METHODS ******/
     // VALIDATORS
     public boolean validateDescription(String description) {
-        if (description == null || description.isEmpty() || description.trim().length() == 0) {
-            return false;
-        }
+        if (description == null || description.isEmpty() || description.trim().length() == 0) return false;
         return true;
     }
 
@@ -120,16 +118,6 @@ public class BankAccount implements Account {
         MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
-    /*
-    public void changeBalance(Double value){
-        if(value == null){
-            throw new IllegalArgumentException("Inserir valor válido");
-        }
-        double newBalance = this.data.getBalance() + value;
-        this.data.setBalance(newBalance);
-    }
-
-     */
 
     public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
@@ -137,9 +125,7 @@ public class BankAccount implements Account {
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
         // return accountData.hasEnoughMoneyForTransaction(transferenceAmount); // TODO: voltar a colocar desta forma quando o MoneyValue tiver aplicado em toda a APP
-        if (transferenceAmount < 0) {
-            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
-        }
+        if (transferenceAmount < 0) throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         return ((this.getMoneyBalance().getValue() - transferenceAmount) >= 0);
     }
 

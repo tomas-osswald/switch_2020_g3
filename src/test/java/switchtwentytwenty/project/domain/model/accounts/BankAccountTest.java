@@ -3,10 +3,13 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -184,6 +187,13 @@ class BankAccountTest {
     @Test
     void NotIDOfThisAccount() {
         assertFalse(accountTest.isIDOfThisAccount(2));
+    }
+
+    @Test
+    void getListOfMovements() {
+        List<Transaction> expected = new ArrayList<>();
+        List<Transaction> result = accountTest.getListOfMovements();
+        assertEquals(expected,result);
     }
 
     /*
