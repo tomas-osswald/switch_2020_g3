@@ -1,19 +1,23 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
+
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
@@ -79,42 +83,55 @@ public class AccountService {
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
-        double transferedValue = transferCashDTO.getTransferedValue();
+
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
-        if (!familyAccount.hasEnoughMoneyForTransaction(transferedValue)) return false;
-
-        //Criar nova conta para family member que não a tenha?
-
+        double transferredValue = transferCashDTO.getTransferredValue();
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferredValue)) return false;
+        //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
         int accountID = transferCashDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(accountID);
-
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferedValue * -1);
+        familyAccount.changeBalance(transferredValue * -1);
         // Registar movimento gasto - Balance tem que ser negativo
         familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
-        targetCashAccount.changeBalance(transferedValue);
+        targetCashAccount.changeBalance(transferredValue);
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Account originAccount, Account destinationAccount, StandardCategory category, CashTransferDTO cashTransferDTO) {
-        double transferedValue = cashTransferDTO.getTransferedValue();
-        if (originAccount.hasEnoughMoneyForTransaction(transferedValue)) {
-            if (destinationAccount != null) {
-                originAccount.changeBalance(transferedValue * -1);
-                destinationAccount.changeBalance(transferedValue);
+    public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+        int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
+        int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
+        Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
+        Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
+        /*if (originFamilyMemberAccount == null) {
+            throw new IllegalArgumentException("Sender has no account");
+        } else {
+            if (destinationFamilyMemberAccount == null) {
+                throw new IllegalArgumentException("Receiver has no account");
             }
-        }
-        return false;
+
+        }*/
+        double transferredValue = cashTransferDTO.getTransferedValue();
+        originFamilyMemberAccount.changeBalance(transferredValue * -1);
+        //originFamilyMemberAccount.registerTransaction(originFamilyMemberAccount, category, cashTransferDTO);
+        destinationFamilyMemberAccount.changeBalance(transferredValue);
+        //destinationFamilyMemberAccount.registerTransaction(destinationFamilyMemberAccount, category, cashTransferDTO);
+        return true;
     }
 
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
         List<Account> accounts = familyMember.getAccounts();
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
         return accountIDAndDescriptionDTOS;
+    }
+
+    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        // acho que terás que usar o Check Account Type das Accounts
+        return true; // for Batista, only returning true to compile
     }
 
     /*
@@ -137,14 +154,37 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
+    public MoneyValue getFamilyCashAccountBalance(Family family) {
+        Account cashAccount = family.getFamilyCashAccount();
+        MoneyValue moneyValue = cashAccount.getMoneyBalance();
+        return moneyValue;
+    }
+
+    public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
+        Account cashAccount = familyMember.getAccount(accountID);
+        MoneyValue moneyValue = cashAccount.getMoneyBalance();
+        return moneyValue;
+    }
     /**
      * A method that obtains an account with a given ID belonging to a given FamilyMember
-     *
      * @param aFamilyMember account owner
-     * @param accountID     account unique ID
+     * @param accountID account unique ID
      * @return target account
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
         return aFamilyMember.getAccount(accountID);
+    }
+
+    /**
+     * Method to check the Balance of a Cash Account.
+     * @param accountID
+     * @param member
+     * @return
+     */
+
+    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
+    public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
+        MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
+        return donaldTrump;
     }
 }

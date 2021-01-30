@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
@@ -9,22 +10,29 @@ public class CreditCardAccount implements Account {
 
     // Attributes
     private AccountData accountData;
-    private Double withdrawalLimit;
+    private MoneyValue withdrawalLimit;
+    private MoneyValue interestDebt;
     private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
         validadeWithrawLimit(addCreditCardAccountDTO.getWithdrwaLimit());
         try {
-            this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCardDescription(), accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID);
         } catch (InvalidAccountDesignationException exception) {
             String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
-            this.accountData = new AccountData(addCreditCardAccountDTO.getWithdrwaLimit(), cardDescriptionDefault, accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID);
         }
-        this.withdrawalLimit = addCreditCardAccountDTO.getWithdrwaLimit();
+        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCurrency());
+
+        this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
     }
 
     // Bussiness Methods
+
+    public MoneyValue getInterestDebt () {
+        return this.interestDebt;
+    }
 
     /**
      *
@@ -44,7 +52,7 @@ public class CreditCardAccount implements Account {
     private boolean validateWithrawalLimit(Double withrawalLimit) {
         if (withrawalLimit == null)
             return false;
-        return withrawalLimit > 0.0;
+        return withrawalLimit > 0.00;
     }
 
     /**
@@ -70,8 +78,18 @@ public class CreditCardAccount implements Account {
         return withdrawalLimit;
     }*/
 
+    public void changeBalance(MoneyValue value) { //expense
+        // validar se mesma moeda
+        //TODO: isto vai ser preciso validar? ou cagar e andar? ass: johnny sins
+        if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) < 0.00))
+            throw new IllegalArgumentException("ultrapassa credito");
+
+        this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
+    }
+
     public void changeBalance(double value) { //expense
-        if ((this.accountData.getBalance() - Math.abs(value)) > 0)
+        // validar se mesma moeda
+        if (true/*(this.accountData.getBalance() - Math.abs(value)) > withdrawalLimit*/)
             throw new IllegalArgumentException("ultrapassa credito");
         this.accountData.setBalance(this.accountData.getBalance() - Math.abs(value));
     }
@@ -94,7 +112,7 @@ public class CreditCardAccount implements Account {
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
         return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
-
+        //TODO: Discutir na reunião se faz sentido estar em todas as contas ass:johnny sins
     }
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);
@@ -104,4 +122,7 @@ public class CreditCardAccount implements Account {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
+    public MoneyValue getMoneyBalance() {
+        return this.accountData.getCurrentBalance();
+    }
 }

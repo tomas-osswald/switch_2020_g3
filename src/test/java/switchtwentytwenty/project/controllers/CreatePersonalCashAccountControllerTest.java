@@ -75,6 +75,16 @@ class CreatePersonalCashAccountControllerTest {
         Assertions.assertTrue(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOEmptyName));
 
     }
+
+    @Test
+    void createPersonalCashInvalidFamily() {
+        int familyID = 100;
+        AddCashAccountDTO addCashAccountDTOInvalidFamily = new AddCashAccountDTO(negativeBalance, accountName, cc, familyID);
+
+
+        Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOInvalidFamily));
+    }
+
 /*
     @Test
     void createPersonalCashAccountNullName() {

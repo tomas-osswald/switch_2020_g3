@@ -15,10 +15,12 @@ public class CashTransferDTO {
     private final Date transactionDate;
 
 
-    public CashTransferDTO(int familyID, String originFamilyMemberCC, int originAccountId, String destinationFamilyMemberCC, int destinationAccountID, double transferedValue, int categoryID, String transactionDesignation, Date transactionDate) {
+    public CashTransferDTO(int familyID, String originFamilyMemberCC, int originAccountID, String destinationFamilyMemberCC, int destinationAccountID, double transferedValue, int categoryID, String transactionDesignation, Date transactionDate) {
         this.familyID = familyID;
         this.originFamilyMemberCC = originFamilyMemberCC;
+        this.originAccountID = originAccountID;
         this.destinationFamilyMemberCC = destinationFamilyMemberCC;
+        this.destinationAccountID = destinationAccountID;
         this.transferedValue = transferedValue;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;

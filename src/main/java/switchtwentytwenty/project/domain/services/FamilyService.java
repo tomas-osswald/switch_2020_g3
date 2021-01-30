@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorD
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
@@ -154,7 +155,6 @@ public class FamilyService {
         return null;
     }
 
-
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {
             if (familyID == family.getFamilyID()) {
@@ -277,7 +277,7 @@ public class FamilyService {
         return false;
     }
 
-   /*
+    /*
     //Custom Parent
     public boolean addCategory(int familyID, String designation, int parentID) {
         return getFamily(familyID).addCustomCategory(designation, parentID);
@@ -296,5 +296,6 @@ public class FamilyService {
     }
 
  */
+
 }
 

@@ -107,7 +107,7 @@ Family -> CashAccount : has
 ``` puml
 autonumber 1
 title checkFamilyOrFamilyMemberCashAccountBalance( )
-actor "Actor" as actor
+actor "Family Administrator" as actor
 participant ": UI" as UI
 
 activate actor
@@ -124,7 +124,7 @@ ref over actor : Check Family Member Cash Account\n - checkCashAccountBalance( )
 ```puml
 autonumber 1
 title checkFamilyCashAccountBalance( )
-actor "Actor" as actor
+actor "Family Administrator" as actor
 participant ": UI" as UI
 participant ": CheckCashAccountBalance\n Controller" as controller
 participant ": Application" as app
@@ -167,16 +167,16 @@ deactivate app
 controller -> aserv : getFamilyCashAccountBalance(aFamily)
 activate aserv
 
-aserv -> family : getFamilyCashAccountBalance( )
+aserv -> family : getFamilyCashAccount( )
 activate family
+family -> aserv : aCashAccount
+deactivate family
 
-family -> cash : getBalance( )
+aserv -> cash : getBalance( )
 activate cash
-cash -> family : balance
+cash -> aserv : balance
 deactivate cash
 
-family -> aserv : balance
-deactivate family
 aserv -> controller : balance
 deactivate aserv
 
@@ -191,7 +191,7 @@ deactivate actor
 ```puml
 autonumber 1
 title checkFamilyMemberCashAccountBalance( )
-actor "Actor" as actor
+actor "Family Administrator" as actor
 participant ": UI" as UI
 participant ": CheckCashAccountBalance\n Controller" as controller
 participant ": Application" as app
@@ -266,7 +266,7 @@ deactivate actor
 ```puml
 autonumber 1
 title getListOfCashAccountsOfAFamilyMember( )
-actor "Actor" as actor
+actor "Family Administrator" as actor
 participant ": UI" as UI
 participant ": CheckCashAccountBalance\n Controller" as controller
 participant ": Application" as app

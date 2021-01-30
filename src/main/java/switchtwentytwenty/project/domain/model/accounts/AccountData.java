@@ -1,8 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.CashTransaction;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
@@ -17,6 +19,7 @@ public class AccountData {
     private int accountID;
     private List<Transaction> transactions;
     private Date creationDate;
+    private MoneyValue currentBalance;
 
     public AccountData(Double balance, String designation, int accountID) {
         validateDesignation(designation);
@@ -25,7 +28,18 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
+        this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
+
+    public AccountData(Double balance, String designation, int accountID, CurrencyEnum currencyEnum) {
+        validateDesignation(designation);
+        this.description = designation;
+        this.accountID = accountID;
+        this.transactions = new ArrayList<>();
+        this.creationDate = new Date();
+        this.currentBalance = new MoneyValue(balance, currencyEnum); //TODO: Se não houver currencyEnum colocar default Euro? esta a ser feito em algum outro lado?
+    }
+
 
     public Date getCreationDate() {
         return (Date) this.creationDate.clone();
@@ -35,8 +49,16 @@ public class AccountData {
         return balance;
     }
 
+    public MoneyValue getCurrentBalance() {
+        return this.currentBalance;
+    }
+
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public void setBalance(MoneyValue balance) {
+        this.currentBalance = balance;
     }
 
     public void changeBalance(double value) {
@@ -76,7 +98,10 @@ public class AccountData {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return (this.balance - transferenceAmount) >= 0;
+        if(transferenceAmount < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
+        return ((this.balance - transferenceAmount) >= 0);
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
@@ -84,6 +109,10 @@ public class AccountData {
 
         transactions.add(cashTransaction);
         return true;
+    }
+
+    public MoneyValue getMoneyValue(){
+        return this.currentBalance;
     }
 
 }
