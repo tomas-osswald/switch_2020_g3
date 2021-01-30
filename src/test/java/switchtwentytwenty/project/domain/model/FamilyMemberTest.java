@@ -132,27 +132,27 @@ class FamilyMemberTest {
     /* Null with Admin */
     @Test
     void NotCreateMember_BirthDateNull_Admin() {
-        assertThrows(NullPointerException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city, admin));
+        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city, admin));
     }
 
     /* Null with NoAdmin */
     @Test
     void NotCreateMember_BirthDateNull_NoAdmin() {
-        assertThrows(NullPointerException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city));
+        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city));
     }
 
     /* Valid with Admin */
     @Test
     void CreateMember_BirthDateValid_Admin() {
         FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-        assertTrue(person.validateBirthDate(date));
+        assertNotNull(person);
     }
 
     /* Valid with NoAdmin */
     @Test
     void CreateMember_BirthDateValid_NoAdmin() {
         FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        assertTrue(person.validateBirthDate(date));
+        assertNotNull(person);
     }
 
     /**
@@ -395,9 +395,41 @@ class FamilyMemberTest {
         String newEmail = "1120717@pt";
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             diogo.addEmail(newEmail);
         });
     }
 
+    @Test
+    void testEquals_differentObjects() {
+        FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        Family notPerson = new Family("testFamily",0);
+
+        Assertions.assertNotEquals(person,notPerson);
+    }
+
+    @Test
+    void testEquals_differentPersons() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember personTwo = new FamilyMember(id2, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        Assertions.assertNotEquals(personOne,personTwo);
+    }
+    @Test
+    void testEquals_samePerson() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember personTwo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        Assertions.assertEquals(personOne,personTwo);
+        Assertions.assertNotSame(personOne,personTwo);
+    }
+
+    @Test
+    void addAccount_failureAccountIsNull() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        boolean result = personOne.addAccount(null);
+        
+        Assertions.assertFalse(result);
+    }
 }

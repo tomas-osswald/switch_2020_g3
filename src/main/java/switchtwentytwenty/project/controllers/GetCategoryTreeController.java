@@ -23,14 +23,10 @@ public class GetCategoryTreeController {
     public boolean getCategoryTree(int familyID, String adminCCNumber) {
         FamilyService familyService = this.ffmApplication.getFamilyService();
         CategoryService categoryService = this.ffmApplication.getCategoryService();
-        try {
-            if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
-                CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception exception) {
+        if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
+            CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
+            return true;
+        } else {
             return false;
         }
     }

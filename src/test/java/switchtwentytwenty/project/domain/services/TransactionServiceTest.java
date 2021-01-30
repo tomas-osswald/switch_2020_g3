@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.CashTransaction;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
@@ -39,10 +40,18 @@ class TransactionServiceTest {
     double transferedValue = 200;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
-    Date transactionDate = new Date(2021,1,21);
-    TransferenceDTO transacaoDTO1 = new TransferenceDTO(familyID,selfCC,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
-    TransferenceDTO transacaoDTO2 = new TransferenceDTO(familyID,selfCC,accountID,600,categoryID,transactionDesignation,transactionDate);
-    TransferenceDTO transacaoDTO3 = new TransferenceDTO(familyID,selfCC,accountID,-100,categoryID,transactionDesignation,transactionDate);
+    Date transactionDateOne = new Date(2021,0,21);
+    Date transactionDateTwo = new Date(2021,0,22);
+    Date transactionDateThree = new Date(2021,0,20);
+    TransferenceDTO transacaoDTO1 = new TransferenceDTO(familyID,selfCC,accountID,transferedValue,categoryID,transactionDesignation,transactionDateOne);
+    TransferenceDTO transacaoDTO2 = new TransferenceDTO(familyID,selfCC,accountID,600,categoryID,transactionDesignation,transactionDateTwo);
+    TransferenceDTO transacaoDTO3 = new TransferenceDTO(familyID,selfCC,accountID,-100,categoryID,transactionDesignation,transactionDateThree);
+    CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, transacaoDTO1);
+    CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, transacaoDTO2);
+    CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, transacaoDTO3);
+    TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(cashTransactionOne.getTransactionData());
+    TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(cashTransactionTwo.getTransactionData());
+    TransactionDataDTO transactionDataDTOThree = new TransactionDataDTO(cashTransactionThree.getTransactionData());
 
 
     @Test
@@ -77,6 +86,7 @@ class TransactionServiceTest {
 
         // assert
         assertEquals(expected, result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -94,6 +104,7 @@ class TransactionServiceTest {
 
         // assert
         assertEquals(expected, result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -105,31 +116,96 @@ class TransactionServiceTest {
         Date startDate = new Date(2021, Calendar.JANUARY, 20);
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
         List<TransactionDataDTO> expected = new ArrayList<>();
+        expected.add(transactionDataDTOOne);
+        int expectedSize = 1;
 
         // act
         List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
+        assertEquals(expectedSize, result.size());
     }
 
     @Test
     void createListOfMovementsBetweenDates_ResultManyMovementsList() {
         // arrange
+        String description = "Cash Account do Ze Manel";
+        Double balance = 10000.00;
+        int accountID = 1;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
         CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
         TransactionService service = new TransactionService();
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO2);
-        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO3);
         Date startDate = new Date(2021, Calendar.JANUARY, 20);
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
         List<TransactionDataDTO> expected = new ArrayList<>();
+        expected.add(transactionDataDTOOne);
+        expected.add(transactionDataDTOTwo);
+        int expectedSize = 2;
 
         // act
         List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
+        assertEquals(expectedSize, result.size());
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_SwitchedDates() {
+        // arrange
+        String description = "Cash Account do Ze Manel";
+        Double balance = 10000.00;
+        int accountID = 1;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO2);
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        Date endDate = new Date(2021, Calendar.JANUARY, 20);
+        Date startDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
+        expected.add(transactionDataDTOOne);
+        expected.add(transactionDataDTOTwo);
+        expected.add(transactionDataDTOOne);
+        int expectedSize = 3;
+
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+        assertEquals(expectedSize, result.size());
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_DifferentTransactionDates() {
+        // arrange
+        String description = "Cash Account do Ze Manel";
+        Double balance = 10000.00;
+        int accountID = 1;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO2);
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO2);
+        Date endDate = new Date(2021, Calendar.JANUARY, 21);
+        Date startDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
+        expected.add(transactionDataDTOTwo);
+        expected.add(transactionDataDTOTwo);
+        int expectedSize = 2;
+
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+        assertEquals(expectedSize, result.size());
     }
 
 }

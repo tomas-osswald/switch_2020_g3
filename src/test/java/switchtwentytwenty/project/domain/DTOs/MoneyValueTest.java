@@ -89,4 +89,18 @@ class MoneyValueTest {
         assertEquals(expected, result);
 
     }
+
+    @Test
+    void credit() {
+        Assertions.assertThrows(NotSameCurrencyException.class,()->{
+            moneyValueDollar.credit(moneyValueEuro);
+        });
+    }
+
+    @Test
+    void debit() {
+        Assertions.assertThrows(NotSameCurrencyException.class,()->{
+            moneyValueDollar.debit(moneyValueEuro);
+        });
+    }
 }
