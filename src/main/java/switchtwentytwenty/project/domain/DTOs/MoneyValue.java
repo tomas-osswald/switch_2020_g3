@@ -130,12 +130,12 @@ public class MoneyValue {
     }
 
     public MoneyValue debit(MoneyValue moneyValue) {
-        MoneyValue deditMoneyValue;
+        MoneyValue debitMoneyValue;
         if (sameCurrency(moneyValue))
-            deditMoneyValue = new MoneyValue(this.value - moneyValue.value, this.currency);
+            debitMoneyValue = new MoneyValue(this.value - moneyValue.value, this.currency);
         else
             throw new NotSameCurrencyException("Currencies differ");
-        return deditMoneyValue;
+        return debitMoneyValue;
     }
 
     private boolean sameCurrency(MoneyValue moneyValue) {

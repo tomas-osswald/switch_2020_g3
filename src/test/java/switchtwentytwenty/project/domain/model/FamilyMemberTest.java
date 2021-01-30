@@ -423,4 +423,13 @@ class FamilyMemberTest {
         Assertions.assertEquals(personOne,personTwo);
         Assertions.assertNotSame(personOne,personTwo);
     }
+
+    @Test
+    void addAccount_failureAccountIsNull() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        boolean result = personOne.addAccount(null);
+        
+        Assertions.assertFalse(result);
+    }
 }
