@@ -7,7 +7,7 @@ public class TransferenceDTO {
     private int familyID;
     private String familyMemberCC;
     private int accountID;
-    private double transferredValue; //Currency ?
+    private double transferredValue; //MoneyValue ?
     private int categoryID;
     private String transactionDesignation;
     private Date transactionDate;
@@ -19,7 +19,11 @@ public class TransferenceDTO {
         this.transferredValue = transferredValue;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;
-        this.transactionDate = (Date) transactionDate.clone();
+        if (transactionDate ==null) {
+            this.transactionDate = new Date();
+        } else {
+            this.transactionDate = (Date) transactionDate.clone();
+        }
     }
 
     public int getFamilyID() {

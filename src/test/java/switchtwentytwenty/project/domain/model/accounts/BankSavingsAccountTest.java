@@ -260,4 +260,23 @@ class BankSavingsAccountTest {
     }
 
 
+    @Test
+    void hasEnoughMoneyForTransaction_False() {
+        BankSavingsAccount account = accountPositive;
+        double valueForTransaction = 5.00;
+
+        boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void hasEnoughMoneyForTransaction_True() {
+        BankSavingsAccount account = accountPositive;
+        double valueForTransaction = 0.25;
+
+        boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
+
+        assertTrue(result);
+    }
 }

@@ -14,14 +14,9 @@ public class GetStandardCategoriesTreeController {
 
     public boolean getStandardCategoriesTree() {
         CategoryService categoryService = this.ffmApplication.getCategoryService();
-        try {
+
             CategoryTreeDTO standardCategoryTree = categoryService.getStandardCategoryTree();
             return true;
 
-
-        } catch (Exception exception) {
-
-            return false;
-        }
     }
 }

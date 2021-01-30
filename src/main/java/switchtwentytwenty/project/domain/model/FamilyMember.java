@@ -283,9 +283,8 @@ public class FamilyMember {
         return true;
     }
 
-    public boolean validateBirthDate(Date birthDate) {
-        String date = birthDate.toString();
-        if (date == null || date.isEmpty()) {
+    private boolean validateBirthDate(Date birthDate) {
+        if (birthDate == null || birthDate.toString().isEmpty()) {
             return false;
         }
         return true;
@@ -391,7 +390,7 @@ public class FamilyMember {
      * @return MemberProfileDTO with member's attributes
      */
     public MemberProfileDTO createProfile() {
-        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
+        return new MemberProfileDTO(ccNumber, name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
     }
 
 
@@ -416,6 +415,9 @@ public class FamilyMember {
      */
 
     public boolean addAccount(Account account) {
+        if (account == null) {
+            return false;
+        }
         return this.accounts.add(account);
 
     }

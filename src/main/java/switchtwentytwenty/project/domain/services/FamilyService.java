@@ -5,7 +5,6 @@ import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorD
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
@@ -144,15 +143,13 @@ public class FamilyService {
      * @return Family instance
      */
     public Family getFamily(int familyID) {
-        if (checkIfFamilyExists(familyID)) {
-            for (Family family : families) {
+        if (!checkIfFamilyExists(familyID)) throw new IllegalArgumentException("No family with such ID");
+        Family selectedFamily=null;
+        for (Family family : families) {
                 if (family.getFamilyID() == familyID)
-                    return family;
-            }
-        } else {
-            throw new IllegalArgumentException("No family with such ID");
+                    selectedFamily = family;
         }
-        return null;
+        return selectedFamily;
     }
 
     private boolean checkIfFamilyExists(int familyID) {
@@ -202,9 +199,14 @@ public class FamilyService {
 
 
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
-        Family family = getFamily(familyID);
-        boolean isAdmin = family.verifyAdministrator(ccNumber);
-        return isAdmin;
+        try {
+            Family family = getFamily(familyID);
+            boolean isAdmin = family.verifyAdministrator(ccNumber);
+            return isAdmin;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     /**

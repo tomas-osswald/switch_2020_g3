@@ -3,10 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Application;
-import switchtwentytwenty.project.domain.model.user_data.Address;
-import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
-import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
-import switchtwentytwenty.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 
@@ -20,6 +17,7 @@ class GetFamilyMemberProfileControllerTest {
 
     //Added 1st FamilyMember to test
     String id = "000000000ZZ4";
+    CCNumber ccNumber = new CCNumber(id);
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
     int numero = 919999999;
@@ -76,7 +74,7 @@ class GetFamilyMemberProfileControllerTest {
         phoneNumbers.add(phoneNumber);
         app.getFamilyService().addFamily(family);
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getID());
 
@@ -91,7 +89,7 @@ class GetFamilyMemberProfileControllerTest {
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(jorge);
 
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = controller.getMemberProfile(familyOneID, jorge.getID());
 

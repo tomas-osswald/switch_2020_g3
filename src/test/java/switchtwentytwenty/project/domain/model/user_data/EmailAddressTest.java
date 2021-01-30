@@ -120,5 +120,15 @@ class EmailAddressTest {
 
         assertNotEquals(emailOne, emailTwo);
     }
+
+    @Test
+    public void getEmailTest() {
+        EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
+        String expected = "1120717@isep.ipp.pt";
+
+        String result = email.getEmail();
+
+        Assertions.assertTrue(result.compareTo(expected)==0);
+    }
 }
 

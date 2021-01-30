@@ -1,27 +1,26 @@
 package switchtwentytwenty.project.domain.DTOs.output;
 
 import switchtwentytwenty.project.domain.model.Relation;
-import switchtwentytwenty.project.domain.model.user_data.Address;
-import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
-import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
-import switchtwentytwenty.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.model.user_data.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class MemberProfileDTO {
+
+    private String ccNumber;
     private String name;
     private Date birthDate;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
     private List<EmailAddress> emails = new ArrayList<>();
     private VatNumber vatNumber;
     private Address address;
-    private Relation relation;
     private boolean administrator;
 
 
-    public MemberProfileDTO(String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
+    public MemberProfileDTO(CCNumber ccNumber, String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
+        this.ccNumber = ccNumber.getCcNumber();
         this.name = name;
         this.birthDate = (Date) birthDate.clone();
         List<PhoneNumber> phoneNumbersClone = new ArrayList<>();
@@ -40,10 +39,8 @@ public class MemberProfileDTO {
         if (this == o) return true;
         if (!(o instanceof MemberProfileDTO)) return false;
         MemberProfileDTO that = (MemberProfileDTO) o;
-        if (this.relation == null) {
-            return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address);
-        }
-        return administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address) && relation.equals(that.relation);
+
+        return ccNumber==that.ccNumber && administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address);
     }
 
     /*@Override

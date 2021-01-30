@@ -6,7 +6,7 @@ public class Result<T> {
     private boolean result;
     private T content;
 
-    private Result(boolean result, T content) {
+    public Result(boolean result, T content) {
         this.result = result;
         this.content = content;
     }
@@ -19,7 +19,7 @@ public class Result<T> {
         return new Result<>(false, messageContent);
     }
 
-    public boolean isSucess() {
+    public boolean isSuccess() {
         return result;
     }
 
