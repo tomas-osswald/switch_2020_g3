@@ -77,4 +77,10 @@ class AddCategoryToFamilyTreeControllerTest {
     void testAddCategoryToFamilyTree_FailNullName(){
         Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC,1,null,0));
     }
+
+    @Test
+    void addCategoryToFamilyTreeAssertFalseIfNoSuchFamilyID() {
+        Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC, 5, "Rent", 1));
+
+    }
 }

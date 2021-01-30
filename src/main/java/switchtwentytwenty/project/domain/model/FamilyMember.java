@@ -416,6 +416,9 @@ public class FamilyMember {
      */
 
     public boolean addAccount(Account account) {
+        if (account == null) {
+            return false;
+        }
         return this.accounts.add(account);
 
     }
