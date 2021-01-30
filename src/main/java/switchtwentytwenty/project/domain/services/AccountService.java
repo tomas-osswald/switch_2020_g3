@@ -7,9 +7,11 @@ import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +65,16 @@ public class AccountService {
     public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
         int accountID = generateID(targetMember);
         Account bankAccount = new BankAccount(accountName, balance, accountID);
-        return targetMember.addAccount(bankAccount);
-
+        targetMember.addAccount(bankAccount);
+        return true;
     }
 
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
 
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        return targetMember.addAccount(creditCardAccount);
+        targetMember.addAccount(creditCardAccount);
+        return true;
     }
 
 
@@ -81,23 +84,19 @@ public class AccountService {
         }
         int accountID = generateID(targetMember);
         Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
-        return targetMember.addAccount(bankSavingsAccount);
-
+        targetMember.addAccount(bankSavingsAccount);
+        return true;
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
-
 
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         double transferredValue = transferCashDTO.getTransferredValue();
         if (!familyAccount.hasEnoughMoneyForTransaction(transferredValue)) return false;
-
         //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
-
         int accountID = transferCashDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(accountID);
-
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
         familyAccount.changeBalance(transferredValue * -1);
         // Registar movimento gasto - Balance tem que ser negativo
@@ -106,6 +105,17 @@ public class AccountService {
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
+        return true;
+    }
+
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family,FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+        int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
+        int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
+        Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
+        Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
+        double transferredValue = cashTransferDTO.getTransferedValue();
+        originFamilyMemberAccount.changeBalance(transferredValue * -1);
+        destinationFamilyMemberAccount.changeBalance(transferredValue);
         return true;
     }
 
@@ -148,14 +158,18 @@ public class AccountService {
     }
 
     /**
-     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * A method that obtains an account with a given ID belonging to a given FamilyMember. If account returned is null, it does not exist and an exception will be thrown.
      *
      * @param aFamilyMember account owner
      * @param accountID     account unique ID
      * @return target account
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
-        return aFamilyMember.getAccount(accountID);
+        Account account = aFamilyMember.getAccount(accountID);
+        if (account == null) {
+            throw new IllegalArgumentException("Account does not exist");
+        }
+        return account;
     }
 
     /**
