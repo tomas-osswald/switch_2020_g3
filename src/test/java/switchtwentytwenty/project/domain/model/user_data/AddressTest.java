@@ -11,20 +11,22 @@ class AddressTest {
     String local = "Zinde";
     String city = "Porto";
 
-    /** Street **/
+    /**
+     * Street
+     **/
     @Test
     void NotCreateAddress_StreetNull() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(null, postalCode, local, city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(null, postalCode, local, city));
     }
 
     @Test
     void NotCreateAddress_StreetEmpty() {
-        assertThrows(IllegalArgumentException.class,()-> new Address("", postalCode, local, city));
+        assertThrows(IllegalArgumentException.class, () -> new Address("", postalCode, local, city));
     }
 
     @Test
     void NotCreateAddress_StreetBlank() {
-        assertThrows(IllegalArgumentException.class,()-> new Address("     ", postalCode, local, city));
+        assertThrows(IllegalArgumentException.class, () -> new Address("     ", postalCode, local, city));
     }
 
     @Test
@@ -34,25 +36,27 @@ class AddressTest {
         assertTrue(address.validateStreet(street));
     }
 
-    /** Postal Code **/
+    /**
+     * Postal Code
+     **/
     @Test
     void NotCreateAddress_PostalCodeNull() {
-        assertThrows(NullPointerException.class,()-> new Address(street,null,local,city)); // O IllegalArgumentException nao funciona neste caso nao sei porque
+        assertThrows(NullPointerException.class, () -> new Address(street, null, local, city)); // O IllegalArgumentException nao funciona neste caso nao sei porque
     }
 
     @Test
     void NotCreateAddress_PostalCodeEmpty() {
-        assertThrows(IllegalArgumentException.class,()->new Address(street, "", local, city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, "", local, city));
     }
 
     @Test
     void NotCreateAddress_PostalCodeBlank() {
-        assertThrows(IllegalArgumentException.class,()->new Address(street, "    ", local, city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, "    ", local, city));
     }
 
     @Test
     void NotCreateAddress_PostalCodeIncorrect() {
-        assertThrows(IllegalArgumentException.class,()->new Address(street, "4444-55", local, city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, "4444-55", local, city));
     }
 
     @Test
@@ -62,20 +66,22 @@ class AddressTest {
         assertTrue(address.validatePostalCode(postal));
     }
 
-    /** Local **/
+    /**
+     * Local
+     **/
     @Test
     void CreateAddress_LocalNull() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,null,city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, postalCode, null, city));
     }
 
     @Test
     void CreateAddress_LocalEmpty() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,"",city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, postalCode, "", city));
     }
 
     @Test
     void CreateAddress_LocalBlank() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,"     ",city));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, postalCode, "     ", city));
     }
 
     @Test
@@ -85,20 +91,22 @@ class AddressTest {
         assertTrue(address.validateLocal(localid));
     }
 
-    /** City **/
+    /**
+     * City
+     **/
     @Test
     void CreateAddress_CityNull() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,local,null));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, postalCode, local, null));
     }
 
     @Test
     void CreateAddress_CityEmpty() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,local,""));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, postalCode, local, ""));
     }
 
     @Test
     void CreateAddress_CityBlank() {
-        assertThrows(IllegalArgumentException.class,()-> new Address(street,postalCode,local,""));
+        assertThrows(IllegalArgumentException.class, () -> new Address(street, postalCode, local, ""));
     }
 
     @Test
@@ -106,5 +114,15 @@ class AddressTest {
         String cidade = "Lisboa";
         Address address = new Address(street, postalCode, local, cidade);
         assertTrue(address.validateCity(cidade));
+    }
+
+    @Test
+    void testEquals() {
+        String cidade = "Lisboa";
+        Address address = new Address(street, postalCode, local, cidade);
+        Address address2 = new Address(street, postalCode, local, cidade);
+        assertEquals(address2, address);
+
+        assertNotSame(address2, address);
     }
 }

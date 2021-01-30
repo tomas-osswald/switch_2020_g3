@@ -2,13 +2,18 @@ package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.DTOs.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,6 +61,75 @@ class TransactionServiceTest {
     void NoRegisterPaymentMyCashAccount_NegativeAmmount() {
         TransactionService service = new TransactionService();
         assertFalse(service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO3));
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultEmptyListNoMovements() {
+        // arrange
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        Date startDate = new Date(2021, Calendar.JANUARY, 22);
+        Date endDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
+
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultEmptyListNoMovementsBetweenDates() {
+        // arrange
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        Date startDate = new Date(2021, Calendar.JANUARY, 22);
+        Date endDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
+
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultOneMovementList() {
+        // arrange
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        Date startDate = new Date(2021, Calendar.JANUARY, 20);
+        Date endDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
+
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createListOfMovementsBetweenDates_ResultManyMovementsList() {
+        // arrange
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO2);
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO3);
+        Date startDate = new Date(2021, Calendar.JANUARY, 20);
+        Date endDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
+
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
     }
 
 }

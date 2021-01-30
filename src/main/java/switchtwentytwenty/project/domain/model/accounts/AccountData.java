@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -49,16 +50,16 @@ public class AccountData {
         return balance;
     }
 
-    public MoneyValue getCurrentBalance() {
-        return this.currentBalance;
-    }
-
     public void setBalance(double balance) {
         this.balance = balance;
     }
 
     public void setBalance(MoneyValue balance) {
         this.currentBalance = balance;
+    }
+
+    public MoneyValue getCurrentBalance() {
+        return this.currentBalance;
     }
 
     public void changeBalance(double value) {
@@ -98,21 +99,29 @@ public class AccountData {
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        if(transferenceAmount < 0){
+        if (transferenceAmount < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
         return ((this.balance - transferenceAmount) >= 0);
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
+        // TODO: DUVIDA - Se este metodo esta no AccountData, nao pode ter construtor de CashTransaction. Se for exclusivo da CashAccount, entao retira-se daqui (interfere na BankAccount)
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, transferenceDTO);
-
         transactions.add(cashTransaction);
         return true;
     }
 
-    public MoneyValue getMoneyValue(){
+    public MoneyValue getMoneyValue() {
         return this.currentBalance;
     }
 
+    /**
+     * A method that returns this accounts list of registered transactions.
+     *
+     * @return List of registered transactions.
+     */
+    public List<Transaction> getListOfMovements() {
+        return Collections.unmodifiableList(this.transactions);
+    }
 }

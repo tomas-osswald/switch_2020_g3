@@ -1,7 +1,9 @@
 package switchtwentytwenty.project.domain.DTOs;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -62,5 +64,20 @@ class MoneyValueTest {
     @Test
     void TestEquals_NotEquals() {
         assertNotEquals(moneyValueEuro, moneyValueYen);
+    }
+
+    @Test
+    void compareTo() {
+        Assertions.assertThrows(NotSameCurrencyException.class, () -> {
+            moneyValueDollar.compareTo(moneyValueEuro);
+        });
+
+    }
+
+    @Test
+    void testCompareTo() {
+        double expected = 0;
+        double result = moneyValueEuro.compareTo(getMoneyValueEuro2);
+        assertEquals(expected, result, 0.01);
     }
 }

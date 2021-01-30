@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
@@ -343,20 +344,20 @@ class FamilyMemberTest {
     @Test
     void addAccount_BankAccount() {
         BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember ZeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        ZeManel.addAccount(bankAccount);
-        assertTrue(ZeManel.getAccounts().get(0) == bankAccount);
+        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        zeManel.addAccount(bankAccount);
+        assertTrue(zeManel.getAccounts().get(0) == bankAccount);
     }
 
     @Test
     void getAccount() {
         BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember ZeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        ZeManel.addAccount(bankAccount);
+        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        zeManel.addAccount(bankAccount);
 
         Account expected = bankAccount;
 
-        Account result = ZeManel.getAccount(1);
+        Account result = zeManel.getAccount(1);
 
         assertEquals(expected, result);
 
@@ -365,15 +366,35 @@ class FamilyMemberTest {
     @Test
     void getAccount_ExpectedFail() {
         BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember ZeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        ZeManel.addAccount(bankAccount);
+        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        zeManel.addAccount(bankAccount);
 
         Account expected = null;
 
-        Account result = ZeManel.getAccount(3);
+        Account result = zeManel.getAccount(3);
 
         assertEquals(expected, result);
     }
 
+
+    @Test
+    void addEmail_ValidEmail() {
+        String newEmail = "1120717@isep.ipp.pt";
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+
+        boolean result = diogo.addEmail(newEmail);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void addEmail_InvalidEmail() {
+        String newEmail = "1120717@pt";
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            diogo.addEmail(newEmail);
+        });
+    }
 
 }
