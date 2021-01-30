@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.model.user_data.Address;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
 import switchtwentytwenty.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -343,21 +344,21 @@ class FamilyMemberTest {
 
     @Test
     void addAccount_BankAccount() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        zeManel.addAccount(bankAccount);
-        assertTrue(zeManel.getAccounts().get(0) == bankAccount);
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        diogo.addAccount(bankAccount);
+        assertTrue(diogo.getAccounts().get(0) == bankAccount);
     }
 
     @Test
     void getAccount() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        zeManel.addAccount(bankAccount);
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        diogo.addAccount(bankAccount);
 
         Account expected = bankAccount;
 
-        Account result = zeManel.getAccount(1);
+        Account result = diogo.getAccount(1);
 
         assertEquals(expected, result);
 
@@ -365,13 +366,13 @@ class FamilyMemberTest {
 
     @Test
     void getAccount_ExpectedFail() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        zeManel.addAccount(bankAccount);
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        diogo.addAccount(bankAccount);
 
         Account expected = null;
 
-        Account result = zeManel.getAccount(3);
+        Account result = diogo.getAccount(3);
 
         assertEquals(expected, result);
     }

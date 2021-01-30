@@ -98,7 +98,7 @@ public class AccountData {
                 description.equals(other.description);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
         if (transferenceAmount < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
