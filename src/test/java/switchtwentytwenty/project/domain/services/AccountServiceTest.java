@@ -285,25 +285,25 @@ class AccountServiceTest {
 
 
     @Test
-    void checkCashAccountBalance_ExpectingCorrectValue() {
+    void checkChildCashAccountBalance_ExpectingCorrectValue() {
         MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
 
         diogo.addAccount(cashAccount);
         Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
 
-        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
 
         assertEquals(expected, result);
 
     }
 
    @Test
-    void checkCashAccountBalance_ZeroBalance_ExpectingCorrectValue() {
+    void checkChildCashAccountBalance_ZeroBalance_ExpectingCorrectValue() {
         diogo.addAccount(zeroCashAccount);
         Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
 
         MoneyValue expected = expectedAccount.getMoneyBalance();
-        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
 
         assertEquals(expected, result);
     }
@@ -312,23 +312,23 @@ class AccountServiceTest {
 
 
     @Test
-    void checkCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
+    void checkChildCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
         int invalidID = -1;
         diogo.addAccount(cashAccount);
 
         assertThrows(NullPointerException.class, () -> {
-            accountService.checkCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);});
+            accountService.checkChildCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);});
     }
 
 
 
     @Test
-    void checkCashAccountBalance_AssertThrowsNotACashAccount() {
+    void checkChildCashAccountBalance_AssertThrowsNotACashAccount() {
         diogo.addAccount(bankSavings);
         int bankSavingsID = bankSavings.getAccountID();
 
         assertThrows(IllegalArgumentException.class, () -> {
-            accountService.checkCashAccountBalance(bankSavingsID, diogo);});
+            accountService.checkChildCashAccountBalance(bankSavingsID, diogo);});
     }
 
 

@@ -166,9 +166,9 @@ public class AccountService {
      * @return
      */
 
-    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
+    //TODO: Verificar origem da não-cobertura do NullPointer (Teste de throw está a passar)
 
-    public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
+    public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member){
         MoneyValue currentBalance;
         Account targetAccount = member.getAccount(accountID);
         if (targetAccount == null) {
