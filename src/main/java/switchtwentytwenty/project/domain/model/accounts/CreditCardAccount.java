@@ -42,7 +42,7 @@ public class CreditCardAccount implements Account {
         if (interestDebt == null)
             return false;
 
-        return interestDebt > 0.00;
+        return interestDebt >= 0.00;
     }
 
     public MoneyValue getInterestDebt() {

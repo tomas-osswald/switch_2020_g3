@@ -243,7 +243,7 @@ class CreditCardAccountTest {
 
     @Test
     void creditCardAccountLessThanZeroInterestDebt() {
-        Double nullInterestDebt = -1.00;
+        Double nullInterestDebt = -0.01;
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, nullInterestDebt, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
 
@@ -262,12 +262,12 @@ class CreditCardAccountTest {
     }
 
     @Test
-    void creditCardAccountLessZeroInterestDebt() {
-        Double nullInterestDebt = 0.00;
+    void creditCardAccountLessThanZeroInterestDebtTwo() {
+        Double nullInterestDebt = 0.01;
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, nullInterestDebt, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
 
-        MoneyValue expected = new MoneyValue(0.00, currencyEnumOne);
+        MoneyValue expected = new MoneyValue(0.01, currencyEnumOne);
 
         MoneyValue result = creditCardAccount.getInterestDebt();
 
@@ -281,5 +281,18 @@ class CreditCardAccountTest {
         Double transferenceAmount = 10.00;
 
         assertTrue(creditCardAccount.hasEnoughMoneyForTransaction(transferenceAmount));
+    }
+
+    @Test
+    void creditCardAccountEqualsZeroInterestDebt() {
+        Double zeroInterestDebt = 0.00;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, zeroInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        MoneyValue expected = new MoneyValue(0.00, currencyEnumOne);
+
+        MoneyValue result = creditCardAccount.getInterestDebt();
+
+        assertEquals(expected, result);
     }
 }
