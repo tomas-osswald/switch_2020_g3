@@ -119,8 +119,7 @@ public class AccountService {
 
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
         List<Account> accounts = familyMember.getAccounts();
-        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
-        return accountIDAndDescriptionDTOS;
+        return createListOfCashAccounts(accounts);
     }
 /*
     public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
@@ -150,14 +149,12 @@ public class AccountService {
 
     public MoneyValue getFamilyCashAccountBalance(Family family) {
         Account cashAccount = family.getFamilyCashAccount();
-        MoneyValue moneyValue = cashAccount.getMoneyBalance();
-        return moneyValue;
+        return cashAccount.getMoneyBalance();
     }
 
     public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
         Account cashAccount = familyMember.getAccount(accountID);
-        MoneyValue moneyValue = cashAccount.getMoneyBalance();
-        return moneyValue;
+        return cashAccount.getMoneyBalance();
     }
 
     /**
