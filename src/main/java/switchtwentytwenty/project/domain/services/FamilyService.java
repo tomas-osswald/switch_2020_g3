@@ -143,15 +143,13 @@ public class FamilyService {
      * @return Family instance
      */
     public Family getFamily(int familyID) {
-        if (checkIfFamilyExists(familyID)) {
-            for (Family family : families) {
+        if (!checkIfFamilyExists(familyID)) throw new IllegalArgumentException("No family with such ID");
+        Family selectedFamily=null;
+        for (Family family : families) {
                 if (family.getFamilyID() == familyID)
-                    return family;
-            }
-        } else {
-            throw new IllegalArgumentException("No family with such ID");
+                    selectedFamily = family;
         }
-        return null;
+        return selectedFamily;
     }
 
     private boolean checkIfFamilyExists(int familyID) {

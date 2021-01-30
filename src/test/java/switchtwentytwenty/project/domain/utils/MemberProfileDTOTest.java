@@ -2,10 +2,7 @@ package switchtwentytwenty.project.domain.utils;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
-import switchtwentytwenty.project.domain.model.user_data.Address;
-import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
-import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
-import switchtwentytwenty.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.model.user_data.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +14,7 @@ class MemberProfileDTOTest {
 
     //Family Member Diogo
     String cc = "000000000ZZ4";
+    CCNumber ccNumber = new CCNumber(cc);
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
     Integer numero = 919999999;
@@ -39,7 +37,7 @@ class MemberProfileDTOTest {
     @Test
     void compareSameProfileMemberDTO() {
 
-        MemberProfileDTO diogoProfile = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO diogoProfile = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         assertSame(diogoProfile, diogoProfile);
         assertEquals(diogoProfile, diogoProfile);
@@ -47,7 +45,7 @@ class MemberProfileDTOTest {
 
     @Test
     void compareProfileDTOWithAnotherClass() {
-        MemberProfileDTO diogoProfile = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO diogoProfile = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         assertNotEquals(diogoProfile, address);
     }
