@@ -79,10 +79,8 @@ public class CreditCardAccount implements Account {
     }*/
 
     public void changeBalance(MoneyValue value) { //expense
-        // validar se mesma moeda
-        //TODO: isto vai ser preciso validar? ou cagar e andar? ass: johnny sins
         if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) < 0.00))
-            throw new IllegalArgumentException("ultrapassa credito");
+            throw new IllegalArgumentException("Credit exceeded");
 
         this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
     }
@@ -112,7 +110,6 @@ public class CreditCardAccount implements Account {
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
         return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
-        //TODO: Discutir na reunião se faz sentido estar em todas as contas ass:johnny sins
     }
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
         return accountData.registerTransaction(targetAccount, category, transferenceDTO);

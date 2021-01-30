@@ -118,7 +118,7 @@ public class MoneyValue {
     public MoneyValue credit(MoneyValue moneyValue) {
         MoneyValue creditMoneyValue;
         if (sameCurrency(moneyValue))
-            creditMoneyValue = new MoneyValue(this.value + moneyValue.value, this.currency);
+            creditMoneyValue = new MoneyValue(Math.abs(this.value) + Math.abs(moneyValue.value), this.currency);
         else
             throw new NotSameCurrencyException("Currencies differ");
         return creditMoneyValue;
@@ -127,7 +127,7 @@ public class MoneyValue {
     public MoneyValue debit(MoneyValue moneyValue) {
         MoneyValue deditMoneyValue;
         if (sameCurrency(moneyValue))
-            deditMoneyValue = new MoneyValue(this.value - moneyValue.value, this.currency);
+            deditMoneyValue = new MoneyValue(Math.abs(this.value) - Math.abs(moneyValue.value), this.currency);
         else
             throw new NotSameCurrencyException("Currencies differ");
         return deditMoneyValue;
