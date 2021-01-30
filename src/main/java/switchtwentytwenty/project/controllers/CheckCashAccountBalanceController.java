@@ -9,7 +9,6 @@ import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

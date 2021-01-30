@@ -1,9 +1,15 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -186,7 +192,7 @@ class CreditCardAccountTest {
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
         creditCardAccount.changeBalance(balanceChange);
-        MoneyValue expected = new MoneyValue(99.0, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(101.0, CurrencyEnum.EURO);
         MoneyValue result = creditCardAccount.getMoneyBalance();
         assertEquals(expected, result);
 
@@ -294,5 +300,61 @@ class CreditCardAccountTest {
         MoneyValue result = creditCardAccount.getInterestDebt();
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void changeBalanceMoneyValueInsuccess() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        MoneyValue balanceChange = new MoneyValue(10000.0, CurrencyEnum.EURO);
+        assertThrows(IllegalArgumentException.class, () -> creditCardAccount.changeBalance(balanceChange));
+    }
+
+    @Test
+    void changeBalanceMoneyValueSuccessTwo() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        MoneyValue balanceChange = new MoneyValue(900.00, CurrencyEnum.EURO);
+        creditCardAccount.changeBalance(balanceChange);
+        MoneyValue expected = new MoneyValue(1000.00, CurrencyEnum.EURO);
+        MoneyValue result = creditCardAccount.getMoneyBalance();
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void validInstanceOfCreditCardAccountWithInterestDebtZero() {
+        Double zeroInterestDebt = 0.00;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, zeroInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        assertNotNull(creditCardAccount);
+    }
+
+    @Test
+    void interestDebtLessThanTotalDebtTrue() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        assertNotNull(creditCardAccount);
+    }
+
+    @Test
+    void interestDebtLessThanTotalDebtFalse() {
+        Double invalidInterestDebt = 5000.00;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, invalidInterestDebt, currencyEnumOne);
+
+        assertThrows(IllegalArgumentException.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
+    }
+
+    @Test
+    void registerTransaction() {
+        Double zeroInterestDebt = 0.00;
+        TransferenceDTO transferenceDto = new TransferenceDTO(3, "sim", 2, 2.2, 0, "test", new Date());
+        Category category = new StandardCategory("test", null, 2);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, zeroInterestDebt, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        assertTrue(creditCardAccount.registerTransaction(creditCardAccount, category, transferenceDto));
     }
 }

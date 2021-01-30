@@ -5,8 +5,13 @@ import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyExcepti
 
 public class MoneyValue {
 
-    private Double value;
+
+
+    private final Double value;
     private CurrencyEnum currency;
+
+    // Global variable // Constant
+    final String CURRENCYDIFFER = "Currency differ";
 
     /*
     private double euroToDollarExchangeRate;
@@ -53,7 +58,7 @@ public class MoneyValue {
         if (otherMoneyValue == null || !(otherMoneyValue instanceof MoneyValue)) return false;
         MoneyValue other = (MoneyValue) otherMoneyValue;
         return Double.compare(other.getValue(), value) == 0 &&
-                this.currency.name().equals(other.currency.name());
+                this.currency.equals(other.currency);
     }
 
     /*
@@ -125,7 +130,7 @@ public class MoneyValue {
         if (sameCurrency(moneyValue))
             creditMoneyValue = new MoneyValue(Math.abs(this.value) + Math.abs(moneyValue.value), this.currency);
         else
-            throw new NotSameCurrencyException("Currencies differ");
+            throw new NotSameCurrencyException(CURRENCYDIFFER);
         return creditMoneyValue;
     }
 
@@ -134,7 +139,7 @@ public class MoneyValue {
         if (sameCurrency(moneyValue))
             debitMoneyValue = new MoneyValue(Math.abs(this.value) - Math.abs(moneyValue.value), this.currency);
         else
-            throw new NotSameCurrencyException("Currencies differ");
+            throw new NotSameCurrencyException(CURRENCYDIFFER);
         return debitMoneyValue;
     }
 
@@ -156,7 +161,7 @@ public class MoneyValue {
         if (sameCurrency(moneyValue))
             return this.value.compareTo(moneyValue.value);
         else
-            throw new NotSameCurrencyException("Currencies differ");
+            throw new NotSameCurrencyException(CURRENCYDIFFER);
     }
 
     public CurrencyEnum getCurrencyType() {
