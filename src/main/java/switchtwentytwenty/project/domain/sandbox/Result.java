@@ -6,7 +6,7 @@ public class Result<T> {
     private boolean result;
     private T content;
 
-    private Result(boolean result, T content) {
+    public Result(boolean result, T content) {
         this.result = result;
         this.content = content;
     }
