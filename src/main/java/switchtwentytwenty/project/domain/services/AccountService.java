@@ -7,9 +7,11 @@ import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,17 +87,13 @@ public class AccountService {
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
 
-
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         double transferredValue = transferCashDTO.getTransferredValue();
         if (!familyAccount.hasEnoughMoneyForTransaction(transferredValue)) return false;
-
         //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
-
         int accountID = transferCashDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(accountID);
-
         //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
         familyAccount.changeBalance(transferredValue * -1);
         // Registar movimento gasto - Balance tem que ser negativo
@@ -104,6 +102,17 @@ public class AccountService {
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
 
+        return true;
+    }
+
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family,FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+        int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
+        int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
+        Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
+        Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
+        double transferredValue = cashTransferDTO.getTransferedValue();
+        originFamilyMemberAccount.changeBalance(transferredValue * -1);
+        destinationFamilyMemberAccount.changeBalance(transferredValue);
         return true;
     }
 
