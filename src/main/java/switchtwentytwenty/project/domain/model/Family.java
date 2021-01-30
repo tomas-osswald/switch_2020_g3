@@ -187,12 +187,13 @@ public class Family {
      */
 
     private FamilyMember getFamilyMemberByID(String ccNumber) {
+        if(!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
+        FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.compareID(ccNumber))
-                return familyMember;
+                selectedFamilyMember = familyMember;
         }
-        // If given ID is not present, a exception is thrown
-        throw new IllegalArgumentException("No family member with such ID");
+        return selectedFamilyMember;
     }
 
     /**
@@ -423,21 +424,22 @@ public class Family {
     }
 
     private Relation checkIfMembersHaveRelationAndGetIt(Relation newRelation) {
+        Relation selectedRelation = null;
         for (Relation relation : familyRelations) {
-            if (relation.getMemberA().equals(newRelation.getMemberA()) && relation.getMemberB().equals(newRelation.getMemberB())) {
-                return relation;
-            }
+            if (relation.getMemberA().equals(newRelation.getMemberA()) && relation.getMemberB().equals(newRelation.getMemberB()))
+                selectedRelation = relation;
         }
-        return null;
+        return selectedRelation;
     }
 
     public boolean isAParentOfB(FamilyMember memberA, FamilyMember memberB) {
+        boolean parenthood=false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
-                return relation.isAParentOfB();
+                parenthood = relation.isAParentOfB();
             }
         }
-        return false;
+        return parenthood;
     }
 
 
