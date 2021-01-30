@@ -115,11 +115,12 @@ public class AccountService {
             }
 
         }*/
+
         double transferredValue = cashTransferDTO.getTransferedValue();
         originFamilyMemberAccount.changeBalance(transferredValue * -1);
         //originFamilyMemberAccount.registerTransaction(originFamilyMemberAccount, category, cashTransferDTO);
         destinationFamilyMemberAccount.changeBalance(transferredValue);
-        //destinationFamilyMemberAccount.registerTransaction(destinationFamilyMemberAccount, category, cashTransferDTO);
+        //qdestinationFamilyMemberAccount.registerTransaction(destinationFamilyMemberAccount, category, cashTransferDTO);
         return true;
     }
 
