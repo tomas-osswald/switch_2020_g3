@@ -8,6 +8,7 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Relation;
+import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -66,11 +67,6 @@ class CheckChildCashAccountBalanceControllerTest {
     String familyOneName = "Simpson";
     Family family = new Family(familyOneName, familyOneID);
 
-    //Setup - Relations
-    Relation noParentRelation = new Relation(relacao, jorge, diogo, false);
-    Relation parentRelation = new Relation(relacao, jorge, diogo, false);
-
-
     //Setup - Accounts
 
     //Cash Account one
@@ -82,12 +78,10 @@ class CheckChildCashAccountBalanceControllerTest {
     AddCashAccountDTO accountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, cc, family.getFamilyID());
     CashAccount cashAccount = new CashAccount(accountDTO, accountIDOne);
 
-    // CashAccount Two
+    // Different Account - not Cash
+    BankSavingsAccount savingsAccount = new BankSavingsAccount(accountIDOne, "savings", 100.00, 1.00);
 
-    Double valueTwo = 50.00;
-    String accountDescriptionTwo = "Cash Account";
-    int accountIDTwo = 2;
-    CashAccount cashAccountTwo = new CashAccount(accountDescriptionTwo, valueTwo, accountIDTwo);
+
 
 
 
@@ -129,7 +123,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
         cashAccount.changeBalance(-10.00);
-        double expected = cashAccount.getBalance();
+        double expected = 0.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
 
@@ -137,7 +131,49 @@ class CheckChildCashAccountBalanceControllerTest {
     }
 
     @Test
-    void checkChildCashAccountBalance_ExpectingNotEquals_NotParent() {
+    void checkChildCashAccountBalance_ExpectingNegativeBalance_WrongFamily() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        jorge.addAccount(cashAccount);
+        int cashAccountID = cashAccount.getAccountID();
+        familyService.addFamily(family);
+        relationService.addRelation(family, diogo, jorge, "Pai", false);
+        accountService.createPersonalCashAccount(jorge, accountDTO);
+        String parentID = diogo.getID();
+        String childID = jorge.getID();
+
+
+        double expected = -1.00;
+
+        Double result = childCashController.checkChildCashAccountBalance(-90, parentID, childID, cashAccountID);
+
+        assertEquals(expected, result, 0.001);
+    }
+
+    @Test
+    void checkChildCashAccountBalance_ExpectingNegativeBalance_WrongFamilyMember() {
+        int familyID = family.getFamilyID();
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        jorge.addAccount(cashAccount);
+        int cashAccountID = cashAccount.getAccountID();
+        familyService.addFamily(family);
+        relationService.addRelation(family, diogo, jorge, "Pai", false);
+        accountService.createPersonalCashAccount(jorge, accountDTO);
+        String parentID = diogo.getID();
+        String childID = jorge.getID();
+
+
+        double expected = -1.00;
+
+        Double result = childCashController.checkChildCashAccountBalance(familyID, "000000000000", childID, cashAccountID);
+
+        assertEquals(expected, result, 0.001);
+    }
+
+
+    @Test
+    void checkChildCashAccountBalance_ExpectingNegativeBalance_NotParent() {
         int familyID = family.getFamilyID();
         family.addFamilyMember(diogo);
         family.addFamilyMember(jorge);
@@ -157,29 +193,25 @@ class CheckChildCashAccountBalanceControllerTest {
         assertEquals(expected, result, 0.001);
     }
 
-
-    @Test
-    void checkChildCashAccountBalance_ThrowsWrongFamilyMember() {
-    }
-
-    @Test
-    void checkChildCashAccountBalance_ThrowsWrongFamilyMemberTwo() {
-    }
-
-    @Test
-    void checkChildCashAccountBalance_ThrowsNoParenthood() {
-    }
-
-    @Test
-    void checkChildCashAccountBalance_ThrowsNoCashAccount() {
-    }
-
     @Test
     void checkChildCashAccountBalance_NoCashAccount() {
-    }
+        int familyID = family.getFamilyID();
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        jorge.addAccount(savingsAccount);
+        int savingsAccountID = savingsAccount.getAccountID();
+        familyService.addFamily(family);
+        relationService.addRelation(family, diogo, jorge, "Pai", false);
+        accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getBalance(), savingsAccount.getInterestRate());
+        String parentID = diogo.getID();
+        String childID = jorge.getID();
 
 
-    @Test
-    void checkChildCashAccountBalance() {
+        double expected = -1.00;
+
+        Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, savingsAccountID);
+
+        assertEquals(expected, result, 0.001);
     }
+
 }
