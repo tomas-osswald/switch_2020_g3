@@ -96,12 +96,16 @@ class AccountServiceTest {
     int generatedID = 1;
 
     //Account Types Test setup
-    BankAccount bankAccount = new BankAccount("bank account", balance, generatedID);
+    BankAccount bankAccount = new BankAccount("bank account", balance, generatedID, CurrencyEnum.EURO);
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
+
     CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID);
+
+    BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
+
 
 
     @BeforeEach
@@ -257,7 +261,7 @@ class AccountServiceTest {
         String accountName = "Bank Account";
         Double balance = null;
         int accountID = 1;
-        Account expected = new BankAccount(accountName, balance, accountID);
+        Account expected = new BankAccount(accountName, balance, accountID, CurrencyEnum.EURO);
 
         accountService.addBankAccount(diogo, accountName, balance);
         Account result = accountService.getAccount(diogo, accountID);

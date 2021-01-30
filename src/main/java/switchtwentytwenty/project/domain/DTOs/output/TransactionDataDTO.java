@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.domain.DTOs.output;
 
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.TransactionData;
 
 import java.util.Date;
@@ -9,7 +9,7 @@ public class TransactionDataDTO {
 
     private Date transactionDate;
     private double ammount; //Currency?
-    private StandardCategory category;
+    private Category category;
     private String designation;
     private double remainingBalance;
 

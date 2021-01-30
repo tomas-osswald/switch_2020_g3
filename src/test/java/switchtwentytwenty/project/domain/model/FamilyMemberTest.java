@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
+import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.model.user_data.Address;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
 import switchtwentytwenty.project.domain.model.user_data.VatNumber;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +23,7 @@ class FamilyMemberTest {
 
     //Family Member Diogo
     String cc = "000000000ZZ4";
+    CCNumber ccNumber = new CCNumber(cc);
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
     Integer numero = 919999999;
@@ -249,7 +252,7 @@ class FamilyMemberTest {
     void getMemberProfileTest1_objectsAreEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = diogoNoAdmin.createProfile();
 
@@ -262,7 +265,7 @@ class FamilyMemberTest {
     void getMemberProfileTest2_objectsAreNotEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = jorge.createProfile();
 
@@ -276,7 +279,7 @@ class FamilyMemberTest {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
         FamilyMember admin = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, true);
 
         MemberProfileDTO result = admin.createProfile();
         //Assert
@@ -289,7 +292,7 @@ class FamilyMemberTest {
     void getMemberProfileTest4_AdministratorTrueObjectsAreNotEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, true);
 
         MemberProfileDTO result = jorge.createProfile();
 
@@ -300,7 +303,7 @@ class FamilyMemberTest {
     void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
         FamilyMember joaquim = new FamilyMember(cc, name, date, numero, null, nif, rua, codPostal, local, city);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = joaquim.createProfile();
 
@@ -311,7 +314,7 @@ class FamilyMemberTest {
     @Test
     void getMemberProfileTest6_objectsAreNotEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = diogo.createProfile();
 
@@ -322,7 +325,7 @@ class FamilyMemberTest {
     void getMemberProfileTest7_objectsAreEqualInvalidPhoneNumber() {
         emails.add(emailAddress);
         FamilyMember joaquim = new FamilyMember(cc, name, date, null, email, nif, rua, codPostal, local, city);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = joaquim.createProfile();
 
@@ -333,7 +336,7 @@ class FamilyMemberTest {
     @Test
     void getMemberProfileTest8_objectsAreNotEqualInvalidPhoneNumbers() {
         emails.add(emailAddress);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = diogo.createProfile();
 
@@ -343,21 +346,21 @@ class FamilyMemberTest {
 
     @Test
     void addAccount_BankAccount() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        zeManel.addAccount(bankAccount);
-        assertTrue(zeManel.getAccounts().get(0) == bankAccount);
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        diogo.addAccount(bankAccount);
+        assertTrue(diogo.getAccounts().get(0) == bankAccount);
     }
 
     @Test
     void getAccount() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        zeManel.addAccount(bankAccount);
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        diogo.addAccount(bankAccount);
 
         Account expected = bankAccount;
 
-        Account result = zeManel.getAccount(1);
+        Account result = diogo.getAccount(1);
 
         assertEquals(expected, result);
 
@@ -365,13 +368,13 @@ class FamilyMemberTest {
 
     @Test
     void getAccount_ExpectedFail() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
-        FamilyMember zeManel = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        zeManel.addAccount(bankAccount);
+        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        diogo.addAccount(bankAccount);
 
         Account expected = null;
 
-        Account result = zeManel.getAccount(3);
+        Account result = diogo.getAccount(3);
 
         assertEquals(expected, result);
     }

@@ -26,9 +26,10 @@ public class TransactionService {
 
     /**
      * A method that returns a list of movements registered in an account that occurred between two given dates.
+     *
      * @param anAccount given account
      * @param startDate first date
-     * @param endDate last date
+     * @param endDate   last date
      * @return the list of transactions between said dates
      */
     public List<TransactionDataDTO> createListOfMovementsBetweenDates(Account anAccount, Date startDate, Date endDate) {
@@ -46,16 +47,17 @@ public class TransactionService {
 
     /**
      * A method that returns true if a given transaction occurred between two given dates
+     *
      * @param aTransaction given transaction
-     * @param startDate first date
-     * @param endDate last date
+     * @param startDate    first date
+     * @param endDate      last date
      * @return true if between given dates, else false
      */
     private boolean checkIfMovementBetweenDates(Transaction aTransaction, Date startDate, Date endDate) {
 
         // Switch dates if endDate is earlier than startDate
         if (startDate.after(endDate)) {
-            Date temp = startDate;
+            Date temp = (Date) startDate.clone();
             startDate = endDate;
             endDate = temp;
         }

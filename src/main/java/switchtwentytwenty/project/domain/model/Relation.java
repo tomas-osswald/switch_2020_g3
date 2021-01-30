@@ -55,10 +55,12 @@ public class Relation {
         return (this.relationDesignation.equals(otherRelation.relationDesignation) && this.memberA.equals(otherRelation.memberA) && this.memberB.equals(otherRelation.memberB) && this.isAparentOfB == otherRelation.isAparentOfB);
     }
 
+    /*
     @Override
     public int hashCode() {
         return relationDesignation != null ? relationDesignation.hashCode() : 0;
     }
+   */
 
     /**
      * Method to get the relation designation of the Relation

@@ -102,7 +102,7 @@ public class AccountService {
         targetCashAccount.changeBalance(transferredValue);
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
-
+        
         return true;
     }
 

@@ -391,7 +391,7 @@ public class FamilyMember {
      * @return MemberProfileDTO with member's attributes
      */
     public MemberProfileDTO createProfile() {
-        return new MemberProfileDTO(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
+        return new MemberProfileDTO(ccNumber, name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
     }
 
 
