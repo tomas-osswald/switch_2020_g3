@@ -4,6 +4,7 @@ import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.IBAN;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class BankAccount implements Account {
 
     private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
     private AccountData accountData;
-    private IBAN iban;
+    //private IBAN iban;
 
     /***** CONSTRUCTORS ******/
     /*
@@ -45,12 +46,20 @@ public class BankAccount implements Account {
         this.accountData = new AccountData(balance, description, bankAccountID);
     }
 
+    public BankAccount(String description, Double balance, Integer bankAccountID, CurrencyEnum currencyEnum) {
+        if (!validateDescription(description)) {
+            description = "BankAccount" + " " + bankAccountID;
+        }
+        if (!validateBalance(balance)) {
+            balance = 0.00;
+        }
+        this.accountData = new AccountData(balance, description, bankAccountID, currencyEnum);
+    }
+
     /***** METHODS ******/
     // VALIDATORS
     public boolean validateDescription(String description) {
-        if (description == null || description.isEmpty() || description.trim().length() == 0) {
-            return false;
-        }
+        if (description == null || description.isEmpty() || description.trim().length() == 0) return false;
         return true;
     }
 
@@ -105,27 +114,19 @@ public class BankAccount implements Account {
         return accountData.getAccountID();
     }
 
-    public void changeBalance(double value) {
-        double newBalance = this.accountData.getBalance() + value;
+    public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
+        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
-    /*
-    public void changeBalance(Double value){
-        if(value == null){
-            throw new IllegalArgumentException("Inserir valor válido");
-        }
-        double newBalance = this.data.getBalance() + value;
-        this.data.setBalance(newBalance);
-    }
-
-     */
 
     public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+        // return accountData.hasEnoughMoneyForTransaction(transferenceAmount); // TODO: voltar a colocar desta forma quando o MoneyValue tiver aplicado em toda a APP
+        if (transferenceAmount < 0) throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        return ((this.getMoneyBalance().getValue() - transferenceAmount) >= 0);
     }
 
     public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {

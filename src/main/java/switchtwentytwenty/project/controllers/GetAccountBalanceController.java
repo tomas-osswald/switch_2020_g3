@@ -23,7 +23,7 @@ public class GetAccountBalanceController {
         Account account = accountService.getAccount(familyMember, accountID);
 
         double accountBalance = account.getBalance();
-        //MoneyValue accountBalance = account.getMoneyBalance();
+        //MoneyValue accountBalance = account.getMoneyBalance().getValue();
 
         return accountBalance;
     }
