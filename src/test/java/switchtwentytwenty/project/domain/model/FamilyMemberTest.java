@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
+import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.model.user_data.Address;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
@@ -22,6 +23,7 @@ class FamilyMemberTest {
 
     //Family Member Diogo
     String cc = "000000000ZZ4";
+    CCNumber ccNumber = new CCNumber(cc);
     String name = "Diogo";
     Date date = new Date(1990, 8, 26);
     Integer numero = 919999999;
@@ -130,27 +132,27 @@ class FamilyMemberTest {
     /* Null with Admin */
     @Test
     void NotCreateMember_BirthDateNull_Admin() {
-        assertThrows(NullPointerException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city, admin));
+        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city, admin));
     }
 
     /* Null with NoAdmin */
     @Test
     void NotCreateMember_BirthDateNull_NoAdmin() {
-        assertThrows(NullPointerException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city));
+        assertThrows(IllegalArgumentException.class, () -> new FamilyMember(cc, name, null, numero, email, nif, rua, codPostal, local, city));
     }
 
     /* Valid with Admin */
     @Test
     void CreateMember_BirthDateValid_Admin() {
         FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-        assertTrue(person.validateBirthDate(date));
+        assertNotNull(person);
     }
 
     /* Valid with NoAdmin */
     @Test
     void CreateMember_BirthDateValid_NoAdmin() {
         FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        assertTrue(person.validateBirthDate(date));
+        assertNotNull(person);
     }
 
     /**
@@ -250,7 +252,7 @@ class FamilyMemberTest {
     void getMemberProfileTest1_objectsAreEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = diogoNoAdmin.createProfile();
 
@@ -263,7 +265,7 @@ class FamilyMemberTest {
     void getMemberProfileTest2_objectsAreNotEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = jorge.createProfile();
 
@@ -277,7 +279,7 @@ class FamilyMemberTest {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
         FamilyMember admin = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, true);
 
         MemberProfileDTO result = admin.createProfile();
         //Assert
@@ -290,7 +292,7 @@ class FamilyMemberTest {
     void getMemberProfileTest4_AdministratorTrueObjectsAreNotEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, true);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, true);
 
         MemberProfileDTO result = jorge.createProfile();
 
@@ -301,7 +303,7 @@ class FamilyMemberTest {
     void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
         FamilyMember joaquim = new FamilyMember(cc, name, date, numero, null, nif, rua, codPostal, local, city);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = joaquim.createProfile();
 
@@ -312,7 +314,7 @@ class FamilyMemberTest {
     @Test
     void getMemberProfileTest6_objectsAreNotEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = diogo.createProfile();
 
@@ -323,7 +325,7 @@ class FamilyMemberTest {
     void getMemberProfileTest7_objectsAreEqualInvalidPhoneNumber() {
         emails.add(emailAddress);
         FamilyMember joaquim = new FamilyMember(cc, name, date, null, email, nif, rua, codPostal, local, city);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = joaquim.createProfile();
 
@@ -334,7 +336,7 @@ class FamilyMemberTest {
     @Test
     void getMemberProfileTest8_objectsAreNotEqualInvalidPhoneNumbers() {
         emails.add(emailAddress);
-        MemberProfileDTO expected = new MemberProfileDTO(name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = diogo.createProfile();
 
@@ -393,9 +395,41 @@ class FamilyMemberTest {
         String newEmail = "1120717@pt";
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             diogo.addEmail(newEmail);
         });
     }
 
+    @Test
+    void testEquals_differentObjects() {
+        FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        Family notPerson = new Family("testFamily",0);
+
+        Assertions.assertNotEquals(person,notPerson);
+    }
+
+    @Test
+    void testEquals_differentPersons() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember personTwo = new FamilyMember(id2, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        Assertions.assertNotEquals(personOne,personTwo);
+    }
+    @Test
+    void testEquals_samePerson() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        FamilyMember personTwo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        Assertions.assertEquals(personOne,personTwo);
+        Assertions.assertNotSame(personOne,personTwo);
+    }
+
+    @Test
+    void addAccount_failureAccountIsNull() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        boolean result = personOne.addAccount(null);
+        
+        Assertions.assertFalse(result);
+    }
 }

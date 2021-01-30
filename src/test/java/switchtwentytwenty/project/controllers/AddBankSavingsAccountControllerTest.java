@@ -71,6 +71,16 @@ class AddBankSavingsAccountControllerTest {
         assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
     }
 
+    @Test
+    public void checkIfBankSavingsReturnsFalseIfNoMemberCCInFamily() {
+        String accountName = "Savings Account";
+        Double balance = 1.23;
+        Double interestRate = 3.00;
+
+        testFamily.addFamilyMember(familyMember2);
+        assertFalse(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+    }
+
 
     @Test
     public void checkIfBankSavingsAccountAddedNullInput() {
@@ -93,4 +103,7 @@ class AddBankSavingsAccountControllerTest {
         assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1.00,5.21));
     }
 
+    @Test
+    void addBankSavingsAccount() {
+    }
 }
