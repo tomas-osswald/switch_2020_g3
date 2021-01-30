@@ -29,7 +29,7 @@ public class Family {
     //Constructors
 
     /**
-     * Constructor for an empty Family, uses the current date as the registation date for the created family
+     * Constructor for an empty Family, uses the current date as the registration date for the created family
      *
      * @param familyName String with Name of the family to be created
      */
@@ -187,12 +187,13 @@ public class Family {
      */
 
     private FamilyMember getFamilyMemberByID(String ccNumber) {
+        if(!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
+        FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.compareID(ccNumber))
-                return familyMember;
+                selectedFamilyMember = familyMember;
         }
-        // If given ID is not present, a exception is thrown
-        throw new IllegalArgumentException("No family member with such ID");
+        return selectedFamilyMember;
     }
 
     /**
@@ -225,19 +226,6 @@ public class Family {
         return this.familyMembers.size();
     }
 
-
-    /**
-     * Method return the number of Family Members in List -> relationsDesignations
-     *
-     * @return number of relation designations
-     */
-
-    public int numberOfRelationDesignations() {
-        return this.relationDesignations.size();
-
-    }
-
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -245,7 +233,6 @@ public class Family {
         Family otherFamily = (Family) other;
         return (this.familyID == otherFamily.familyID && this.familyName.equals(otherFamily.familyName));
     }
-
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -408,13 +395,6 @@ public class Family {
         return selectedCategory;
     }
 */
-    private int generateCustomCategoryID() {
-        int minID = 0;
-        for (CustomCategory category : this.familyCustomCategories) {
-            if (minID > category.getCategoryID()) minID = category.getCategoryID();
-        }
-        return minID - 1;
-    }
 
     public FamilyMember getFamilyMember(String ccNumber) {
         for (FamilyMember member : this.familyMembers) {
@@ -444,21 +424,22 @@ public class Family {
     }
 
     private Relation checkIfMembersHaveRelationAndGetIt(Relation newRelation) {
+        Relation selectedRelation = null;
         for (Relation relation : familyRelations) {
-            if (relation.getMemberA().equals(newRelation.getMemberA()) && relation.getMemberB().equals(newRelation.getMemberB())) {
-                return relation;
-            }
+            if (relation.getMemberA().equals(newRelation.getMemberA()) && relation.getMemberB().equals(newRelation.getMemberB()))
+                selectedRelation = relation;
         }
-        return null;
+        return selectedRelation;
     }
 
     public boolean isAParentOfB(FamilyMember memberA, FamilyMember memberB) {
+        boolean parenthood=false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
-                return relation.isAParentOfB();
+                parenthood = relation.isAParentOfB();
             }
         }
-        return false;
+        return parenthood;
     }
 
 

@@ -18,7 +18,8 @@ public class AddBankAccountController {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(memberCC);
             AccountService accountService = this.ffmApplication.getAccountService();
-            return accountService.addBankAccount(targetMember, accountName, balance);
+            accountService.addBankAccount(targetMember, accountName, balance);
+            return true;
         } catch (Exception e) {
             return false;
         }

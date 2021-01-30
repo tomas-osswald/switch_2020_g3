@@ -208,6 +208,7 @@ public class CategoryService {
 
     private void checkIfParentNull(StandardCategory parent) {
         if (parent == null) {
+
             throw new IllegalArgumentException("Expected StandardCategoryParent but was null");
         }
     }

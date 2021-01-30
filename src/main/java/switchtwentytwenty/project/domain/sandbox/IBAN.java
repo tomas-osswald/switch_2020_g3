@@ -149,7 +149,7 @@ public class IBAN {
             case 'Z':
                 return BigInteger.valueOf(35);
             default:
-                throw new IllegalArgumentException("Invalid CC Number");
+                throw new IllegalArgumentException("Invalid IBAN Number");
         }
     }
 }
