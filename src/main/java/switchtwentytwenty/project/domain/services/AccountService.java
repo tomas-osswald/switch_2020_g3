@@ -74,10 +74,13 @@ public class AccountService {
 
 
     public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
+        if (targetMember == null) {
+            return false;
+        }
         int accountID = generateID(targetMember);
         Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
-        targetMember.addAccount(bankSavingsAccount);
-        return true;
+        return targetMember.addAccount(bankSavingsAccount);
+
     }
 
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
@@ -100,7 +103,7 @@ public class AccountService {
         targetCashAccount.changeBalance(transferredValue);
         //Registar movimento contrario - Balance tem que ser negativo
         targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
-        
+
         return true;
     }
 
@@ -146,10 +149,12 @@ public class AccountService {
         MoneyValue moneyValue = cashAccount.getMoneyBalance();
         return moneyValue;
     }
+
     /**
      * A method that obtains an account with a given ID belonging to a given FamilyMember
+     *
      * @param aFamilyMember account owner
-     * @param accountID account unique ID
+     * @param accountID     account unique ID
      * @return target account
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
@@ -158,13 +163,14 @@ public class AccountService {
 
     /**
      * Method to check the Balance of a Cash Account.
+     *
      * @param accountID
      * @param member
      * @return
      */
 
     //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
-    public MoneyValue checkCashAccountBalance (int accountID, FamilyMember member){
+    public MoneyValue checkCashAccountBalance(int accountID, FamilyMember member) {
         MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
         return donaldTrump;
     }

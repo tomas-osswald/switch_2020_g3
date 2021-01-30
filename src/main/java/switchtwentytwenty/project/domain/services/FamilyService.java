@@ -5,7 +5,6 @@ import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorD
 import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
@@ -202,9 +201,14 @@ public class FamilyService {
 
 
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
-        Family family = getFamily(familyID);
-        boolean isAdmin = family.verifyAdministrator(ccNumber);
-        return isAdmin;
+        try {
+            Family family = getFamily(familyID);
+            boolean isAdmin = family.verifyAdministrator(ccNumber);
+            return isAdmin;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     /**

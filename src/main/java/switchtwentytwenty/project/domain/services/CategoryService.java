@@ -166,14 +166,21 @@ public class CategoryService {
 
     //No Parent
     public boolean addCategoryToFamilyTree(Family targetFamily, String categoryDesignation, int parentID) {
+        if (targetFamily == null) {
+            return false;
+        }
         if (parentID > 0) {
             StandardCategory parent = getStandardCategoryByID(parentID);
-            checkIfParentNull(parent);
+            if (checkIfParentNull(parent)) {
+                return false;
+            }
             CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
         } else if (parentID < 0) {
             CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
-            checkIfParentNull(parent);
+            if (checkIfParentNull(parent)) {
+                return false;
+            }
             CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
             return targetFamily.addCategory(newCustomCategory);
         } else {
@@ -200,17 +207,14 @@ public class CategoryService {
         return selectedCategory;
     }
 
-    private void checkIfParentNull(Category parent) {
+    private boolean checkIfParentNull(Category parent) {
         if (parent == null) {
-            throw new IllegalArgumentException("Expected CustomCategoryParent but was null");
+            return true;
+            //throw new IllegalArgumentException("Expected StandardCategoryParent but was null");
         }
+        return false;
     }
 
-    private void checkIfParentNull(StandardCategory parent) {
-        if (parent == null) {
-            throw new IllegalArgumentException("Expected StandardCategoryParent but was null");
-        }
-    }
 
     private int generateCustomCategoryID(Family targetFamily) {
         int minID = 0;
