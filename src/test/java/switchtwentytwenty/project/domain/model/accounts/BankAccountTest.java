@@ -1,21 +1,47 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
 
+    // BankAccount
     String description = "BankAccount do Ze Manel";
     Double balance = 500.00;
     int bankID = 1;
     BankAccount accountTest = new BankAccount(description, balance, bankID);
+
+    // FamilyMember
+    int familyID = 1;
+    String selfCC = "0000000000ZZ4";
+
+    // Category
+    StandardCategory parentStandard = new StandardCategory("root",null,1);
+
+    // CashTransaction
+    double transferedValue = 200;
+    int categoryID = 2;
+    String transactionDesignation = "Luz Novembro";
+    Date transactionDate = new Date(2021,1,21);
+    TransferenceDTO transacaoDTO1 = new TransferenceDTO(familyID,selfCC,bankID,transferedValue,categoryID,transactionDesignation,transactionDate);
 
     /** CONSTRUCTOR **/
     @Test
     void createBankAccount_SameObject(){
         BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1);
         assertTrue(account.equals(account));
+    }
+
+    @Test
+    void createBankAccount_DifferentObjects(){
+        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 2);
+        assertFalse(accountTest.equals(account));
     }
 
     @Test
@@ -66,6 +92,13 @@ class BankAccountTest {
         assertEquals(expected, account.getBalance());
     }
 
+    @Test
+    void CreateBankAccount_NegativeBalance(){
+        BankAccount account = new BankAccount("Conta do Bito", -10.00, 2);
+        Double expected = -10.00;
+        assertEquals(expected, account.getBalance());
+    }
+
     /** BUSINESS METHODS **/
     @Test
     void getBalance() {
@@ -85,7 +118,7 @@ class BankAccountTest {
 
     @Test
     void getBankID() {
-        BankAccount account = new BankAccount(description, balance,2);
+        BankAccount account = new BankAccount(description,balance,2);
         Integer result = account.getAccountID();
         Integer expected = 2;
         assertEquals(result,expected);
@@ -93,11 +126,63 @@ class BankAccountTest {
 
     @Test
     void changeBalance() {
-        BankAccount account = new BankAccount(description, balance,bankID);
+        BankAccount account = new BankAccount(description,balance,bankID);
         account.changeBalance(30.00);
         Double result = account.getBalance();
         Double expected = 530.0;
         assertEquals(result,expected);
+    }
+
+    @Test
+    void hasEnoughMoneyForTransaction() {
+        assertTrue(accountTest.hasEnoughMoneyForTransaction(200));
+    }
+
+    @Test
+    void NotEnoughMoneyForTransaction() {
+        assertFalse(accountTest.hasEnoughMoneyForTransaction(2000));
+    }
+
+    @Test
+    void NotEnoughMoneyForTransaction_NegaticeAmmount() {
+        assertThrows(IllegalArgumentException.class,()->{
+            accountTest.hasEnoughMoneyForTransaction(-200);
+        });
+    }
+
+    @Test
+    void registerTransaction() { // Teste para encher chouriços
+        assertTrue(accountTest.registerTransaction(accountTest,parentStandard,transacaoDTO1));
+    }
+
+    @Test
+    void checkAccountType_isBankAccount() {
+        assertTrue(accountTest.checkAccountType(AccountTypeEnum.BANKACCOUNT));
+    }
+
+    @Test
+    void checkAccountType_NotCashAccount() {
+        assertFalse(accountTest.checkAccountType(AccountTypeEnum.CASHACCOUNT));
+    }
+
+    @Test
+    void checkAccountType_NotBankSavingsAccount() {
+        assertFalse(accountTest.checkAccountType(AccountTypeEnum.BANKSAVINGSACCOUNT));
+    }
+
+    @Test
+    void checkAccountType_NotCreditCardAccount() {
+        assertFalse(accountTest.checkAccountType(AccountTypeEnum.CREDITCARDACCOUNT));
+    }
+
+    @Test
+    void isIDOfThisAccount() {
+        assertTrue(accountTest.isIDOfThisAccount(1));
+    }
+
+    @Test
+    void NotIDOfThisAccount() {
+        assertFalse(accountTest.isIDOfThisAccount(2));
     }
 
     /*

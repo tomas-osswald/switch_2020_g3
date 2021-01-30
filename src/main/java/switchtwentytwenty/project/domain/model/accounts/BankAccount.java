@@ -3,14 +3,16 @@ package switchtwentytwenty.project.domain.model.accounts;
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.IBAN;
-
+import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+
+import java.util.List;
 
 public class BankAccount implements Account {
 
+    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
     private AccountData accountData;
     private IBAN iban;
-    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
 
     /***** CONSTRUCTORS ******/
     /*
@@ -33,41 +35,41 @@ public class BankAccount implements Account {
     }
 
      */
-
-    public BankAccount(String description, Double balance, Integer bankAccountID){
-        if(!validateDescription(description)){
-            description = "BankAccount"+" "+bankAccountID;
+    public BankAccount(String description, Double balance, Integer bankAccountID) {
+        if (!validateDescription(description)) {
+            description = "BankAccount" + " " + bankAccountID;
         }
-        if(!validateBalance(balance)){
+        if (!validateBalance(balance)) {
             balance = 0.00;
         }
-        this.accountData = new AccountData(balance,description,bankAccountID);
+        this.accountData = new AccountData(balance, description, bankAccountID);
     }
 
     /***** METHODS ******/
     // VALIDATORS
-    public boolean validateDescription(String description){
-        if(description == null || description.isEmpty() || description.trim().length()==0){
+    public boolean validateDescription(String description) {
+        if (description == null || description.isEmpty() || description.trim().length() == 0) {
             return false;
         }
         return true;
     }
 
-    public boolean validateBalance(Double balance){
-        if( balance == null){
+    public boolean validateBalance(Double balance) {
+        if (balance == null) {
             return false;
         }
         return true;
     }
 
+    /*
     public boolean validateIBAN(String iban){
         if( iban == null){
             return false;
         }
         return true;
     }
+     */
 
-    /**  **/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,7 +82,7 @@ public class BankAccount implements Account {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount account = (BankAccount) o;
-        return this.getBalance() == account.getBalance() && this.getDescription() == account.getDescription() && this.getAccountID() == account.getAccountID();
+        return this.getBalance() == account.getBalance() && this.getDescription().equals(account.getDescription()) && this.getAccountID() == account.getAccountID();
     }
 
     /*
@@ -91,19 +93,19 @@ public class BankAccount implements Account {
      */
 
     // BUSINESS METHODS
-    public double getBalance(){
+    public double getBalance() {
         return accountData.getBalance();
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return accountData.getDescription();
     }
 
-    public int getAccountID(){
+    public int getAccountID() {
         return accountData.getAccountID();
     }
 
-    public void changeBalance(double value){
+    public void changeBalance(double value) {
         double newBalance = this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
@@ -118,23 +120,33 @@ public class BankAccount implements Account {
 
      */
 
-    public boolean isIDOfThisAccount(int accountID){
+    public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount ){
+    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
         return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO){
-        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
+        return true; // DONT HAVE MEANING IN THIS CLASS
+        //return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
 
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum){
+    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
     public MoneyValue getMoneyBalance() {
         return this.accountData.getCurrentBalance();
+    }
+
+    /**
+     * A method that returns the list of movements stored in this account's AccountData attribute
+     *
+     * @return List of movements
+     */
+    public List<Transaction> getListOfMovements() {
+        return this.accountData.getListOfMovements();
     }
 }

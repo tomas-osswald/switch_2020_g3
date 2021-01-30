@@ -7,7 +7,7 @@ public class TransferenceDTO {
     private int familyID;
     private String familyMemberCC;
     private int accountID;
-    private double transferredValue; //Currency ?
+    private double transferredValue; //MoneyValue ?
     private int categoryID;
     private String transactionDesignation;
     private Date transactionDate;

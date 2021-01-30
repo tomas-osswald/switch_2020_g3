@@ -2,7 +2,10 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+
+import java.util.List;
 
 public interface Account {
 
@@ -23,4 +26,6 @@ public interface Account {
     public String getDescription();
 
     public MoneyValue getMoneyBalance();
+
+    public List<Transaction> getListOfMovements();
 }
