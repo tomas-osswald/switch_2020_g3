@@ -99,5 +99,17 @@ class CategoryServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void addStandardCategory_CategoryAlreadyInList() {
+        //Arrange
+        String categoryName = "Services";
+        int parentID = 0;
+        //Act
+        categoryService.addStandardCategory(categoryName, parentID);
+        boolean result = categoryService.addStandardCategory(categoryName, parentID);
+        //Assert
+        assertFalse(result);
+    }
+
 
 }
