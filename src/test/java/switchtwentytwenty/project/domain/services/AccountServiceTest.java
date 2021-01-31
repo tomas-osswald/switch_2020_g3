@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 
+import java.util.Currency;
 import java.util.Date;
 import switchtwentytwenty.project.controllers.AddFamilyAdministratorController;
 import switchtwentytwenty.project.controllers.AddFamilyController;
@@ -17,7 +18,7 @@ import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
@@ -392,10 +393,11 @@ class AccountServiceTest {
         accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 525);
         accountService.createPersonalCashAccount(diogo,cashAccountDTO);
         //Transference Data
-        double transferedValue = 200;
-        TransferenceDTO transferenceDTO = new TransferenceDTO(familyID,id,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        double transferAmount = 200;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID,id,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
-        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory,transferenceDTO);
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory, familyCashTransferDTO);
 
         Assertions.assertTrue(result);
     }
@@ -417,10 +419,11 @@ class AccountServiceTest {
         accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 100);
         accountService.createPersonalCashAccount(diogo,cashAccountDTO);
         //Transference Data
-        double transferedValue = 200;
-        TransferenceDTO transferenceDTO = new TransferenceDTO(familyID,id,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        double transferAmount = 200;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID,id,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
-        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory,transferenceDTO);
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory, familyCashTransferDTO);
 
         Assertions.assertFalse(result);
     }
@@ -441,11 +444,12 @@ class AccountServiceTest {
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createPersonalCashAccount(diogo,cashAccountDTO);
         //Transference Data
-        double transferedValue = 200;
-        TransferenceDTO transferenceDTO = new TransferenceDTO(familyID,id,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        double transferAmount = 200;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID,id,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
         Assertions.assertThrows(IllegalArgumentException.class, ()->{
-            accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory,transferenceDTO);
+            accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory, familyCashTransferDTO);
         });
     }
 
@@ -524,5 +528,29 @@ class AccountServiceTest {
         });
     }
 
+    @Test
+    void transferCashFromFamilyToFamilyMember_FamilyMemberDoesNotHaveCashAccount() {
+        //Common Data
+        int familyID = 1;
+        int accountID = 2;
+        int categoryID = 1;
+        StandardCategory transactionCategory = new StandardCategory("Apostas",null,100);
+        String transactionDesignation = "Lost Bet";
+        Date transactionDate = new Date();
+        //Account Data
+        double initialBalance = 1000.00;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance,"Diogo's Wallet",id,1);
+        Family ribeiro = familyService.getFamily(familyID);
+        FamilyMember diogo = ribeiro.getFamilyMember(id);
+        accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 525);
+        accountService.createPersonalCashAccount(diogo,cashAccountDTO);
+        //Transference Data
+        double transferAmount = 200;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID,id,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro,diogo,transactionCategory, familyCashTransferDTO);
+
+        Assertions.assertTrue(result);
+    }
 }

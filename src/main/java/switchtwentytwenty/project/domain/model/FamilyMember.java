@@ -284,10 +284,7 @@ public class FamilyMember {
     }
 
     private boolean validateBirthDate(Date birthDate) {
-        if (birthDate == null || birthDate.toString().isEmpty()) {
-            return false;
-        }
-        return true;
+        return (!(birthDate == null || birthDate.toString().isEmpty()));
     }
 
     public boolean validateEmail(String email) {

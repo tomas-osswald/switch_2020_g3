@@ -6,7 +6,7 @@ import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.CashTransaction;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.ArrayList;
@@ -108,9 +108,9 @@ public class AccountData {
         return ((this.balance - transferenceAmount) >= 0);
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, TransferenceDTO transferenceDTO) {
+    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         // TODO: DUVIDA - Se este metodo esta no AccountData, nao pode ter construtor de CashTransaction. Se for exclusivo da CashAccount, entao retira-se daqui (interfere na BankAccount)
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, transferenceDTO);
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }

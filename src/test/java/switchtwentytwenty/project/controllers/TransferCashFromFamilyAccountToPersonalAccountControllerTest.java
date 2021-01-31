@@ -10,11 +10,10 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
@@ -38,11 +37,12 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
     int familyID = 1;
     String familyMemberCC = "000000000ZZ4";
     int accountID = 1;
-    double transferedValue = 2.00;
+    double transferAmount = 2.00;
+    CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     String transactionDesignation = "Not for donuts";
     Date transactionDate = new Date();
-    TransferenceDTO transferenceDTO;
+    FamilyCashTransferDTO familyCashTransferDTO;
 
     Application ffmApplication = new Application();
 
@@ -69,15 +69,16 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
         accountService.createFamilyCashAccount(simpsonFamily, "Simpson's Wallet", 12.75);
         accountService.createPersonalCashAccount(homer,cashAccountDTO);
 
+
     }
 
     @Test
     void transferCashFromFamilyToFamilyMember_validTransference() {
 
-        transferenceDTO = new TransferenceDTO(familyID,familyMemberCC,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
 
-        boolean result = controller.transferCashFromFamilyToFamilyMember(transferenceDTO);
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
 
         Assertions.assertTrue(result);
     }
@@ -85,17 +86,25 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
     @Test
     void transferCashFromFamilyToFamilyMember_invalidTransferenceIllegalFamily() {
         int familyID = 3;
-        transferenceDTO = new TransferenceDTO(familyID,familyMemberCC,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
 
 
-        boolean result = controller.transferCashFromFamilyToFamilyMember(transferenceDTO);
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
 
 
         Assertions.assertFalse(result);
     }
 
 
+    @Test
+    void transferCashFromFamilyToFamilyMember_validCustomCategory() {
+        int categoryID = -1;
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
 
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
 
+        Assertions.assertTrue(result);
+    }
 }

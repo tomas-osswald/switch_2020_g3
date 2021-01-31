@@ -6,7 +6,8 @@ import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -21,11 +22,12 @@ class CashTransactionTest {
     int familyID = 2;
     String familyMemberCC = "000000000BC4";
     int accountID = 2;
-    double transactionAmmount = 2.2;
+    double transferAmount = 2.2;
+    CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
 
 
-    TransferenceDTO dto = new TransferenceDTO(familyID, familyMemberCC, accountID, transactionAmmount, categoryID, "test", date);
+    FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID, familyMemberCC, accountID, transferAmount, currency, categoryID, "test", date);
 
 
     @Test

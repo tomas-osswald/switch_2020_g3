@@ -1,10 +1,11 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -283,7 +284,7 @@ class BankSavingsAccountTest {
 
     @Test
     void registerTransaction() {
-        TransferenceDTO transferenceDto = new TransferenceDTO(3, "sim", 2, 2.2, 0, "test", new Date());
+        FamilyCashTransferDTO transferenceDto = new FamilyCashTransferDTO(3, "sim", 2, 2.2, CurrencyEnum.EURO, 0, "test", new Date());
         Category category = new StandardCategory("test", null, 2);
         assertTrue(accountPositive.registerTransaction(accountPositiveTwo, category, transferenceDto));
     }

@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -139,9 +139,8 @@ public class CreditCardAccount implements Account {
         return false;
     }
 
-
-    public boolean registerTransaction(Account targetAccount, Category category, TransferenceDTO transferenceDTO) {
-        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {

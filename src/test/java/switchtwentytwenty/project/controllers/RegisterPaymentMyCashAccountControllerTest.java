@@ -6,9 +6,9 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -37,12 +37,13 @@ class RegisterPaymentMyCashAccountControllerTest {
     CashAccount contaCash = new CashAccount(cashAccountDTO,accountID);
 
     // CashTransaction
-    double transferedValue = 200;
+    double transferAmount = 200;
+    CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021,1,21);
-    TransferenceDTO transacaoDTO1 = new TransferenceDTO(familyID,selfCC,accountID,transferedValue,categoryID,transactionDesignation,transactionDate);
-    TransferenceDTO transacaoDTO2 = new TransferenceDTO(familyID,selfCC,accountID,-200,categoryID,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-200,currency,categoryID,transactionDesignation,transactionDate);
 
     @Test
     void registerPaymentMyCashAccount() {

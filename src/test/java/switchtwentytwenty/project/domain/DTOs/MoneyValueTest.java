@@ -91,16 +91,26 @@ class MoneyValueTest {
     }
 
     @Test
-    void credit() {
+    void creditTest_failureDifferentCurrencies() {
         Assertions.assertThrows(NotSameCurrencyException.class,()->{
             moneyValueDollar.credit(moneyValueEuro);
         });
     }
 
     @Test
-    void debit() {
+    void debitTest_failureDifferentCurrencies() {
         Assertions.assertThrows(NotSameCurrencyException.class,()->{
             moneyValueDollar.debit(moneyValueEuro);
         });
+    }
+
+    @Test
+    void getCurrencyType() {
+        CurrencyEnum expected = CurrencyEnum.EURO;
+
+        CurrencyEnum result = moneyValueEuro.getCurrencyType();
+
+        Assertions.assertEquals(expected,result);
+
     }
 }

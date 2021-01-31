@@ -1,5 +1,7 @@
 package switchtwentytwenty.project.domain.model.categories;
 
+import java.util.Objects;
+
 public class StandardCategory implements Category {
 
     //Attributes
@@ -47,6 +49,7 @@ public class StandardCategory implements Category {
 
     //Validation Methods
 
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -54,6 +57,12 @@ public class StandardCategory implements Category {
         StandardCategory otherCategory = (StandardCategory) other;
         return categoryName.equals(otherCategory.categoryName);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryID, categoryName, parentCategory);
+    }
+
 
     /**
      * Method to validate if name is valid. Tests if String is null, empty or composed only of blank spaces

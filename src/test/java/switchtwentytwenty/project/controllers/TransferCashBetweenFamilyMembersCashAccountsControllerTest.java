@@ -7,16 +7,12 @@ import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CashTransferDTO;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 

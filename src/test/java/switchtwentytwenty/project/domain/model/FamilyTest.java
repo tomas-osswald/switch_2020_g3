@@ -2,6 +2,8 @@ package switchtwentytwenty.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.model.categories.CustomCategory;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
@@ -387,4 +389,64 @@ class FamilyTest {
 
         assertFalse(family.hasDesignation(relationDesignation2));
     }
+
+    @Test
+    void testHashCode_Test1True() {
+        Family familyOne = new Family(familyOneName, familyOneID);
+        Family familyTwo = new Family(familyOneName, familyOneID);
+
+        Assertions.assertEquals(familyOne.hashCode(),familyTwo.hashCode());
+    }
+
+    @Test
+    void testHashCode_Test2False() {
+        Family familyOne = new Family(familyOneName, familyOneID);
+        String familyTwoName = "Griffin";
+        int familyTwoID = 321;
+        Family familyTwo = new Family(familyTwoName, familyTwoID);
+
+        Assertions.assertNotEquals(familyOne.hashCode(),familyTwo.hashCode());
+    }
+
+    @Test
+    void testEquals_notAFamily(){
+        Family familyOne = new Family(familyOneName, familyOneID);
+        Date notAFamily = new Date();
+
+        Assertions.assertNotEquals(familyOneID,notAFamily);
+    }
+
+    @Test
+    void testEquals_familiesAreEquals(){
+        Family familyOne = new Family(familyOneName, familyOneID);
+        Family familyTwo = new Family(familyOneName, familyOneID);
+
+        Assertions.assertEquals(familyOne,familyTwo);
+    }
+
+
+    @Test
+    void getCustomCategoryByID() {
+        int customCategoryID = -1;
+        CustomCategory customCategory = new CustomCategory("TestCategory",customCategoryID);
+        family.addCategory(customCategory);
+
+        CustomCategory result = family.getCustomCategoryByID(customCategoryID);
+
+
+        Assertions.assertEquals(customCategory,result);
+    }
+
+    @Test
+    void getCustomCategoryByID_IDoutOfBounds() {
+        int customCategoryID = -1;
+        CustomCategory customCategory = new CustomCategory("TestCategory",customCategoryID);
+        family.addCategory(customCategory);
+
+        CustomCategory result = family.getCustomCategoryByID(-100);
+
+
+        Assertions.assertNull(result);
+    }
+
 }
