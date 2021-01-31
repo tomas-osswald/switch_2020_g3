@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.TransferenceDTO;
@@ -19,7 +20,7 @@ public interface Account {
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount );
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO);
+    public boolean registerTransaction(Account targetAccount, Category category, TransferenceDTO transferenceDTO);
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum);
 

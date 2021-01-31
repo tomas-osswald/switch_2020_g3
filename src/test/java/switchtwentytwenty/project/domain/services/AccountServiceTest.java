@@ -102,7 +102,11 @@ class AccountServiceTest {
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
+
+    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID);
+
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
+
 
 
     @BeforeEach
@@ -166,17 +170,18 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = bankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertTrue(result);
     }
+
 
     @Test
     void verifyAccountType_BankSavings_ExpectingFalse() {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = bankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -186,7 +191,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = creditCardAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -196,7 +201,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = creditCardAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -206,7 +211,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKACCOUNT;
         //Act
-        boolean result = bankAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -216,7 +221,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = bankAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -226,7 +231,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CASHACCOUNT;
         //Act
-        boolean result = cashAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -236,7 +241,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = cashAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -277,30 +282,52 @@ class AccountServiceTest {
         assertEquals(result, expected);
     }
 
-    //Teste escrito antes do method estar definido
+
     @Test
-    void checkCashAccountBalance_ExpectingCorrectValue() {
+    void checkChildCashAccountBalance_ExpectingCorrectValue() {
         MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
 
         diogo.addAccount(cashAccount);
         Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
 
-        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
 
         assertEquals(expected, result);
 
     }
 
-    @Test
-    void checkCashAccountBalance_ExpectingCorrectValueWithNegativeBalance() {
+   @Test
+    void checkChildCashAccountBalance_ZeroBalance_ExpectingCorrectValue() {
+        diogo.addAccount(zeroCashAccount);
+        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
+
+        MoneyValue expected = expectedAccount.getMoneyBalance();
+        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
+
+        assertEquals(expected, result);
     }
 
-    @Test
-    void checkCashAccountBalance_AssertThrowsTrue() {
-    }
+    //TODO: Confirmar teste do Throw de saldo negativo na Cash Account
+
 
     @Test
-    void checkCashAccountBalance_AssertNotThrows() {
+    void checkChildCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
+        int invalidID = -1;
+        diogo.addAccount(cashAccount);
+
+        assertThrows(NullPointerException.class, () -> {
+            accountService.checkChildCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);});
+    }
+
+
+
+    @Test
+    void checkChildCashAccountBalance_AssertThrowsNotACashAccount() {
+        diogo.addAccount(bankSavings);
+        int bankSavingsID = bankSavings.getAccountID();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            accountService.checkChildCashAccountBalance(bankSavingsID, diogo);});
     }
 
 

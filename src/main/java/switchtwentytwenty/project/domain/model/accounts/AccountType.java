@@ -1,13 +1,13 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 public class AccountType {
-    private AccountTypeEnum accountType;
+    private AccountTypeEnum accountTypeEnum;
 
     public AccountType(AccountTypeEnum accountTypeEnum){
-        this.accountType = accountTypeEnum;
+        this.accountTypeEnum = accountTypeEnum;
     }
 
     public AccountTypeEnum getAccountType() {
-        return this.accountType;
+        return this.accountTypeEnum;
     }
 }
