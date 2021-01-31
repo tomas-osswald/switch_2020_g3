@@ -7,9 +7,9 @@ import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,28 +83,27 @@ public class AccountService {
 
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
-
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
 
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
-        double transferredValue = transferCashDTO.getTransferredValue();
-        if (!familyAccount.hasEnoughMoneyForTransaction(transferredValue)) return false;
+        double transferAmount = familyCashTransferDTO.getTransferAmount();
+        //CurrencyEnum currency = familyCashTransferDTO.getCurrency();
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferAmount)) return false;
+        //if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency")
+        int memberAccountID = familyCashTransferDTO.getAccountID();
+        Account targetCashAccount = familyMember.getAccount(memberAccountID);
+        if(targetCashAccount==null) {
+            int familyMemberAccountID = generateID(familyMember);
+            double initialBalance = 0.00;
+            String accountDesignation = "Cash account for " + familyMember.getName();
+            targetCashAccount = new CashAccount(accountDesignation,initialBalance,familyMemberAccountID);
+        }
+        familyAccount.changeBalance(transferAmount * -1);
+        targetCashAccount.changeBalance(transferAmount);
 
-        //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
-
-        int accountID = transferCashDTO.getAccountID();
-        Account targetCashAccount = familyMember.getAccount(accountID);
-
-        //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferredValue * -1);
-        // Registar movimento gasto - Balance tem que ser negativo
-        familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
-        targetCashAccount.changeBalance(transferredValue);
-        //Registar movimento contrario - Balance tem que ser negativo
-        targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
-
-        return true;
+        TransactionService transactionService = new TransactionService();
+        return transactionService.registerCashTransfer(familyAccount,targetCashAccount,category,familyCashTransferDTO);
     }
 
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {

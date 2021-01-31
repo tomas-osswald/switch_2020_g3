@@ -1,11 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,11 +28,12 @@ class BankAccountTest {
     StandardCategory parentStandard = new StandardCategory("root",null,1);
 
     // CashTransaction
-    double transferedValue = 200;
+    double transferAmount = 200;
+    CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021,1,21);
-    TransferenceDTO transacaoDTO1 = new TransferenceDTO(familyID,selfCC,bankID,transferedValue,categoryID,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,bankID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
     /** CONSTRUCTOR **/
     @Test

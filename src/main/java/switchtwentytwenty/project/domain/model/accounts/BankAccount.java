@@ -1,11 +1,11 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.sandbox.IBAN;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
 
 import java.util.List;
 
@@ -129,7 +129,7 @@ public class BankAccount implements Account {
         return ((this.getMoneyBalance().getValue() - transferenceAmount) >= 0);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
+    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         return true; // DONT HAVE MEANING IN THIS CLASS
         //return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }

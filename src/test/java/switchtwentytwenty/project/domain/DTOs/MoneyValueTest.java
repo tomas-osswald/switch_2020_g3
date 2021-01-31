@@ -91,14 +91,14 @@ class MoneyValueTest {
     }
 
     @Test
-    void credit() {
+    void creditTest_failureDifferentCurrencies() {
         Assertions.assertThrows(NotSameCurrencyException.class,()->{
             moneyValueDollar.credit(moneyValueEuro);
         });
     }
 
     @Test
-    void debit() {
+    void debitTest_failureDifferentCurrencies() {
         Assertions.assertThrows(NotSameCurrencyException.class,()->{
             moneyValueDollar.debit(moneyValueEuro);
         });

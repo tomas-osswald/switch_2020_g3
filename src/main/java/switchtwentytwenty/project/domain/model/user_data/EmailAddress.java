@@ -47,9 +47,8 @@ public class EmailAddress {
         return Objects.equals(email, that.email);
     }
 
-    /*
     @Override
     public int hashCode() {
         return Objects.hash(email);
-    }*/
+    }
 }

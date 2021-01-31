@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
@@ -386,5 +387,23 @@ class FamilyTest {
         String relationDesignation2 = "COUSIN";
 
         assertFalse(family.hasDesignation(relationDesignation2));
+    }
+
+    @Test
+    void testHashCode_Test1True() {
+        Family familyOne = new Family(familyOneName, familyOneID);
+        Family familyTwo = new Family(familyOneName, familyOneID);
+
+        Assertions.assertEquals(familyOne.hashCode(),familyTwo.hashCode());
+    }
+
+    @Test
+    void testHashCode_Test2False() {
+        Family familyOne = new Family(familyOneName, familyOneID);
+        String familyTwoName = "Griffin";
+        int familyTwoID = 321;
+        Family familyTwo = new Family(familyTwoName, familyTwoID);
+
+        Assertions.assertNotEquals(familyOne.hashCode(),familyTwo.hashCode());
     }
 }

@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model.categories;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -267,5 +268,27 @@ class StandardCategoryTest {
         int result = parentCategory.getParentID();
         //Assert
         Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    void hashCode_Test1True() {
+        String categoryNameOne = "Habitação";
+        int categoryIDOne = 1;
+        StandardCategory standardCategoryOne = new StandardCategory(categoryNameOne, parentCategory,categoryIDOne);
+        StandardCategory standardCategoryTwo = new StandardCategory(categoryNameOne, parentCategory,categoryIDOne);
+
+        Assertions.assertEquals(standardCategoryOne.hashCode(),standardCategoryTwo.hashCode());
+    }
+
+    @Test
+    void hashCode_Test2False() {
+        String categoryNameOne = "Habitação";
+        int categoryIDOne = 1;
+        StandardCategory standardCategoryOne = new StandardCategory(categoryNameOne, parentCategory,categoryIDOne);
+        String categoryNameTwo = "Saneamento";
+        int categoryIDTwo = 2;
+        StandardCategory standardCategoryTwo = new StandardCategory(categoryNameTwo, parentCategory,categoryIDTwo);
+
+        Assertions.assertNotEquals(standardCategoryOne.hashCode(),standardCategoryTwo.hashCode());
     }
 }

@@ -1,22 +1,26 @@
-package switchtwentytwenty.project.domain.utils;
+package switchtwentytwenty.project.domain.DTOs.input;
+
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
-public class TransferenceDTO {
+public class FamilyCashTransferDTO {
 
     private int familyID;
     private String familyMemberCC;
     private int accountID;
-    private double transferredValue; //MoneyValue ?
+    private double transferAmount;
+    private CurrencyEnum currency;
     private int categoryID;
     private String transactionDesignation;
     private Date transactionDate;
 
-    public TransferenceDTO(int familyID, String familyMemberCC, int accountID, double transferredValue, int categoryID, String transactionDesignation, Date transactionDate) {
+    public FamilyCashTransferDTO(int familyID, String familyMemberCC, int accountID, double transferAmount, CurrencyEnum currency, int categoryID, String transactionDesignation, Date transactionDate) {
         this.familyID = familyID;
         this.familyMemberCC = familyMemberCC;
         this.accountID = accountID;
-        this.transferredValue = transferredValue;
+        this.transferAmount = transferAmount;
+        this.currency = currency;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;
         if (transactionDate ==null) {
@@ -38,8 +42,12 @@ public class TransferenceDTO {
         return accountID;
     }
 
-    public double getTransferredValue() {
-        return transferredValue;
+    public double getTransferAmount() {
+        return transferAmount;
+    }
+
+    public CurrencyEnum getCurrency(){
+        return currency;
     }
 
     public int getCategoryID() {

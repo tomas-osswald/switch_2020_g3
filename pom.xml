@@ -125,12 +125,14 @@
                         <param>switchtwentytwenty.project.controllers.*</param>
                         <param>switchtwentytwenty.project.domain.services.*</param>
                         <param>switchtwentytwenty.project.domain.utils.*</param>
+                        <param>switchtwentytwenty.project.domain.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>switchtwentytwenty.project.domain.model.*</param>
                         <param>switchtwentytwenty.project.controllers.*</param>
                         <param>switchtwentytwenty.project.domain.services.*</param>
                         <param>switchtwentytwenty.project.domain.utils.*</param>
+                        <param>switchtwentytwenty.project.domain.*</param>
                     </targetTests>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
