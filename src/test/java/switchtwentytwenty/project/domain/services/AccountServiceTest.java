@@ -15,6 +15,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
@@ -102,7 +103,11 @@ class AccountServiceTest {
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
+
+    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID);
+
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
+
 
 
     @BeforeEach
@@ -166,17 +171,18 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = bankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertTrue(result);
     }
+
 
     @Test
     void verifyAccountType_BankSavings_ExpectingFalse() {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = bankSavings.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -186,7 +192,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = creditCardAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -196,7 +202,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
         //Act
-        boolean result = creditCardAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -206,7 +212,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = BANKACCOUNT;
         //Act
-        boolean result = bankAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -216,7 +222,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = bankAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -226,7 +232,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CASHACCOUNT;
         //Act
-        boolean result = cashAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
         assertTrue(result);
     }
@@ -236,7 +242,7 @@ class AccountServiceTest {
         //Arrange
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
-        boolean result = cashAccount.checkAccountType(expectedType);
+        boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
         assertFalse(result);
     }
@@ -247,9 +253,7 @@ class AccountServiceTest {
         int accountID = 1;
         Account expected = null;
 
-        Account result = accountService.getAccount(diogo, accountID);
-
-        assertEquals(result, expected);
+        assertThrows(IllegalArgumentException.class, () -> accountService.getAccount(diogo, accountID));
     }
 
     @Test
@@ -279,30 +283,52 @@ class AccountServiceTest {
         assertEquals(result, expected);
     }
 
-    //Teste escrito antes do method estar definido
+
     @Test
-    void checkCashAccountBalance_ExpectingCorrectValue() {
+    void checkChildCashAccountBalance_ExpectingCorrectValue() {
         MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
 
         diogo.addAccount(cashAccount);
         Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
 
-        MoneyValue result = accountService.checkCashAccountBalance(expectedAccount.getAccountID(), diogo);
+        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
 
         assertEquals(expected, result);
 
     }
 
-    @Test
-    void checkCashAccountBalance_ExpectingCorrectValueWithNegativeBalance() {
+   @Test
+    void checkChildCashAccountBalance_ZeroBalance_ExpectingCorrectValue() {
+        diogo.addAccount(zeroCashAccount);
+        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
+
+        MoneyValue expected = expectedAccount.getMoneyBalance();
+        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
+
+        assertEquals(expected, result);
     }
 
-    @Test
-    void checkCashAccountBalance_AssertThrowsTrue() {
-    }
+    //TODO: Confirmar teste do Throw de saldo negativo na Cash Account
+
 
     @Test
-    void checkCashAccountBalance_AssertNotThrows() {
+    void checkChildCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
+        int invalidID = -1;
+        diogo.addAccount(cashAccount);
+
+        assertThrows(NullPointerException.class, () -> {
+            accountService.checkChildCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);});
+    }
+
+
+
+    @Test
+    void checkChildCashAccountBalance_AssertThrowsNotACashAccount() {
+        diogo.addAccount(bankSavings);
+        int bankSavingsID = bankSavings.getAccountID();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            accountService.checkChildCashAccountBalance(bankSavingsID, diogo);});
     }
 
 
@@ -427,6 +453,80 @@ class AccountServiceTest {
         });
     }
 
+    @Test
+    void transferCashBetweenSameFamilyMembersWithCashAccountsValid() {
+        //Arrange
+        int familyID = 1;
+        String originFamilyMemberCC = "175345988ZX8";
+        int originAccountID = 1;
+        String destinationFamilyMemberCC = "166699209ZY8";
+        int destinationAccountID = 1;
+        String falseFamilyMemberCC = "150149271ZZ6";
+        String falseFamilyMemberNIf = "219483345";
+        int falseDestinationAccountID = 1;
+        double transferedValue = 2.00;
+        int categoryID = 1;
+        String transactionDesignation = "Not for donuts";
+        Date transactionDate = new Date();
+
+        CategoryService categoryService = this.ffmApp.getCategoryService();
+        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1);
+        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1);
+
+        Family simpsonFamily = familyService.getFamily(1);
+        familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        FamilyMember mary = simpsonFamily.getFamilyMember(originFamilyMemberCC);
+        familyService.addFamilyMember(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+        FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
+
+        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
+        accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+
+        StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
+
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID,originFamilyMemberCC,originAccountID,destinationFamilyMemberCC,destinationAccountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+
+        boolean result = accountService.transferCashBetweenFamilyMembersCashAccounts(simpsonFamily,mary, tony,category,transferDTO);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void transferCashBetweenOneFamilyMemberWithCashAccountAndAnotherFamilyMemberWithNoCashAccount(){
+        //Arrange
+        int familyID = 1;
+        String originFamilyMemberCC = "175345988ZX8";
+        int originAccountID = 1;
+        String destinationFamilyMemberCC = "166699209ZY8";
+        int destinationAccountID = 1;
+        String falseFamilyMemberCC = "150149271ZZ6";
+        String falseFamilyMemberNIf = "219483345";
+        int falseDestinationAccountID = 1;
+        double transferedValue = 2.00;
+        int categoryID = 1;
+        String transactionDesignation = "Not for donuts";
+        Date transactionDate = new Date();
+
+        CategoryService categoryService = this.ffmApp.getCategoryService();
+        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1);
+        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1);
+
+        Family simpsonFamily = familyService.getFamily(1);
+        familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        FamilyMember mary = simpsonFamily.getFamilyMember(originFamilyMemberCC);
+        familyService.addFamilyMember(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+        FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
+
+        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
+        //accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+
+        StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
+
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID,originFamilyMemberCC,originAccountID,destinationFamilyMemberCC,destinationAccountID,transferedValue,categoryID,transactionDesignation,transactionDate);
+        Assertions.assertThrows(NullPointerException.class, ()->{
+            accountService.transferCashBetweenFamilyMembersCashAccounts(simpsonFamily,mary, tony,category,transferDTO);
+        });
+    }
 
     @Test
     void transferCashFromFamilyToFamilyMember_FamilyMemberDoesNotHaveCashAccount() {

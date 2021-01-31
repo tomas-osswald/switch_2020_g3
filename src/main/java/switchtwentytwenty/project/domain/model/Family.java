@@ -183,7 +183,7 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    private FamilyMember getFamilyMemberByID(String ccNumber) {
+    public FamilyMember getFamilyMemberByID(String ccNumber) {
         if(!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
         FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {

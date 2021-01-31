@@ -1,8 +1,13 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,7 +98,6 @@ class BankSavingsAccountTest {
     }
 
 
-
     @Test
     void getInterestRatePositiveInterestRate() {
         int accountID = 1;
@@ -131,11 +135,11 @@ class BankSavingsAccountTest {
 
     @Test
     void getAccountIDTestCorrectID() {
-    int expectedID = 1;
+        int expectedID = 1;
 
-    int result = accountPositive.getAccountID();
+        int result = accountPositive.getAccountID();
 
-    assertEquals(expectedID, result);
+        assertEquals(expectedID, result);
     }
 
     @Test
@@ -146,7 +150,6 @@ class BankSavingsAccountTest {
 
         assertNotEquals(expectedID, result);
     }
-
 
 
     @Test
@@ -196,7 +199,7 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingNegativeNumberExpectingEquals() {
-        double balanceChange = - 1.00;
+        double balanceChange = -1.00;
         double expected = 0.23;
 
         accountPositive.changeBalance(balanceChange);
@@ -205,7 +208,6 @@ class BankSavingsAccountTest {
         assertEquals(expected, result, 0.001);
         assertNotNull(result);
     }
-
 
 
     @Test
@@ -223,10 +225,10 @@ class BankSavingsAccountTest {
 
     @Test
     void equalsTrueSameAccount() {
-    BankSavingsAccount expected = accountPositive;
-    BankSavingsAccount result = expected;
-    assertEquals(expected, result);
-    assertSame(expected, result);
+        BankSavingsAccount expected = accountPositive;
+        BankSavingsAccount result = expected;
+        assertEquals(expected, result);
+        assertSame(expected, result);
 
     }
 
@@ -278,5 +280,12 @@ class BankSavingsAccountTest {
         boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
 
         assertTrue(result);
+    }
+
+    @Test
+    void registerTransaction() {
+        FamilyCashTransferDTO transferenceDto = new FamilyCashTransferDTO(3, "sim", 2, 2.2, CurrencyEnum.EURO, 0, "test", new Date());
+        Category category = new StandardCategory("test", null, 2);
+        assertTrue(accountPositive.registerTransaction(accountPositiveTwo, category, transferenceDto));
     }
 }

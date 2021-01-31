@@ -10,10 +10,13 @@ import switchtwentytwenty.project.domain.model.user_data.VatNumber;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Relation;
+import switchtwentytwenty.project.domain.utils.exceptions.NoParentalPermissionException;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RelationServiceTest {
     //Family Member Diogo
@@ -112,5 +115,27 @@ class RelationServiceTest {
         RelationService relationService = new RelationService();
         boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
         Assertions.assertFalse(result);
+    }
+
+
+    @Test
+    void verifyParenthood_assertTrue() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        Relation relation = new Relation("Filho", diogo, jorge, true);
+        family.addRelation(relation);
+        RelationService relationService = new RelationService();
+        boolean result = relationService.verifyParenthood(family, diogo, jorge);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void verifyParenthood_False_ThrowException() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        Relation relation = new Relation("Filho", diogo, jorge, false);
+        family.addRelation(relation);
+        RelationService relationService = new RelationService();
+        assertThrows(NoParentalPermissionException.class, () -> {relationService.verifyParenthood(family, diogo, jorge);});
     }
 }

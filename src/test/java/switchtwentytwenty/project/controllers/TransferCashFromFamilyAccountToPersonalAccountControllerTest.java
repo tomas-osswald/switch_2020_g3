@@ -55,6 +55,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
         CategoryService categoryService = ffmApplication.getCategoryService();
 
         familyService.addFamily(familyName);
+
         familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, postalCode, local, city, familyID);
         categoryService.addStandardCategory("Compras",0);
 
