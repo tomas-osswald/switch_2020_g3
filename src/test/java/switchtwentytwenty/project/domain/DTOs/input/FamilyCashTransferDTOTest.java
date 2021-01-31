@@ -44,4 +44,26 @@ class FamilyCashTransferDTOTest {
 
         Assertions.assertEquals(expected,result);
     }
+
+    @Test
+    void getCategoryID() {
+        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        int expected = 2;
+
+        int result = dto.getCategoryID();
+
+        Assertions.assertEquals(expected,result);
+
+    }
+
+    @Test
+    void getTransactionDesignation() {
+        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        String expected = "TestTransaction";
+
+        String result = dto.getTransactionDesignation();
+
+        Assertions.assertTrue(result.compareTo(expected)==0);
+
+    }
 }

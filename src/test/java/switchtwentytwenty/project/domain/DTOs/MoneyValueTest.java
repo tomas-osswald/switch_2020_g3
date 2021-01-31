@@ -103,4 +103,14 @@ class MoneyValueTest {
             moneyValueDollar.debit(moneyValueEuro);
         });
     }
+
+    @Test
+    void getCurrencyType() {
+        CurrencyEnum expected = CurrencyEnum.EURO;
+
+        CurrencyEnum result = moneyValueEuro.getCurrencyType();
+
+        Assertions.assertEquals(expected,result);
+
+    }
 }
