@@ -135,7 +135,7 @@ class CashAccountTest {
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
         double expected = 10;
 
-        double result = cashAccountOne.getBalance();
+        double result = cashAccountOne.getMoneyBalance().getValue();
 
         assertEquals(expected, result, 0.001);
     }
@@ -148,8 +148,8 @@ class CashAccountTest {
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
         double expected = 15;
 
-        cashAccountOne.changeBalance(5.00);
-        double result = cashAccountOne.getBalance();
+        cashAccountOne.credit(new MoneyValue(5.0, CurrencyEnum.EURO));
+        double result = cashAccountOne.getMoneyBalance().getValue();
 
         assertEquals(expected, result, 0.001);
     }
@@ -162,8 +162,8 @@ class CashAccountTest {
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
         double expected = 5;
 
-        cashAccountOne.changeBalance(-5.00);
-        double result = cashAccountOne.getBalance();
+        cashAccountOne.debit(new MoneyValue(5.0, CurrencyEnum.EURO));
+        double result = cashAccountOne.getMoneyBalance().getValue();
 
         assertEquals(expected, result, 0.001);
     }
@@ -175,7 +175,7 @@ class CashAccountTest {
         int cashAccountID = 1002;
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
         assertThrows(IllegalStateException.class, () -> {
-            cashAccountOne.changeBalance(-15.00);
+            cashAccountOne.debit(new MoneyValue(15.0, CurrencyEnum.EURO));
         });
     }
 

@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -13,7 +14,17 @@ public class AddBankAccountController {
         this.ffmApplication = ffmApplication;
     }
 
-    public boolean addBankAccount(String accountName, int familyID, String memberCC, Double balance) {
+    public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO) {
+        AccountService accountService = new AccountService();
+        try {
+            FamilyService familyService = this.ffmApplication.getFamilyService();
+            FamilyMember targetMember = familyService.getFamily(addBankAccountDTO.getFamilyID()).getFamilyMember(addBankAccountDTO.getFamilyMemberID());
+            return accountService.addBankAccount(addBankAccountDTO, targetMember);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    /*public boolean addBankAccount(String accountName, int familyID, String memberCC, Double balance) {
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(memberCC);
@@ -24,4 +35,5 @@ public class AddBankAccountController {
             return false;
         }
     }
+     */
 }

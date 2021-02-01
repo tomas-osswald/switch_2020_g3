@@ -1,7 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.IBAN;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -35,6 +38,18 @@ public class BankAccount implements Account {
     }
 
      */
+    public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
+        double balance = addBankAccountDTO.getBalance();
+        if (!validateBalance(balance)) {
+            balance = 0.00;
+        }
+        String description = addBankAccountDTO.getDescription();
+        if (!validateDescription(description)){
+            description = "BankAccount" + " " + bankAccountID;
+        }
+        this.accountData = new AccountData(balance, description, bankAccountID);
+
+    }
     public BankAccount(String description, Double balance, Integer bankAccountID) {
         if (!validateDescription(description)) {
             description = "BankAccount" + " " + bankAccountID;
@@ -86,13 +101,6 @@ public class BankAccount implements Account {
         return accountData.equals(account.accountData);
     }
 
-    public boolean equals2(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BankAccount)) return false;
-        BankAccount account = (BankAccount) o;
-        return this.getBalance() == account.getBalance() && this.getDescription().equals(account.getDescription()) && this.getAccountID() == account.getAccountID();
-    }
-
     /*
     @Override
     public int hashCode() {
@@ -101,10 +109,6 @@ public class BankAccount implements Account {
      */
 
     // BUSINESS METHODS
-    public double getBalance() {
-        return accountData.getBalance();
-    }
-
     public String getDescription() {
         return accountData.getDescription();
     }
@@ -113,8 +117,8 @@ public class BankAccount implements Account {
         return accountData.getAccountID();
     }
 
-    public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
-        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
+    public void changeBalance(MoneyValue value) { // TODO: adicionar CurrencyEnum como argumento
+        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value.getValue(), CurrencyEnum.EURO); //this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
 

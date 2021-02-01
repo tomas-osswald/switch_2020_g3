@@ -29,7 +29,7 @@ class BankAccountTest {
     StandardCategory parentStandard = new StandardCategory("root", null, 1);
 
     // CashTransaction
-    MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
+    double transferAmount =200.0;
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
@@ -55,18 +55,6 @@ class BankAccountTest {
     void createBankAccount_NotSameObject() {
         BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
         assertNotSame(accountTest, account);
-    }
-
-    @Test
-    void createBankAccount_SameObjectData() {
-        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
-        assertTrue(accountTest.equals2(account));
-    }
-
-    @Test
-    void createBankAccount_NotSameObjectData() {
-        BankAccount account = new BankAccount(description, balance, 2, CurrencyEnum.EURO);
-        assertFalse(accountTest.equals2(account));
     }
 
     /**
@@ -100,7 +88,7 @@ class BankAccountTest {
     void CreateBankAccount_NullBalance() {
         BankAccount account = new BankAccount("Conta do Bito", null, 2, CurrencyEnum.EURO);
         Double expected = 0.00;
-        assertEquals(expected, account.getBalance());
+        assertEquals(expected, account.getMoneyBalance().getValue());
     }
 
     @Test
@@ -140,7 +128,7 @@ class BankAccountTest {
     @Test
     void changeBalance() {
         BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
-        account.changeBalance(30.00);
+        account.changeBalance(new MoneyValue(30.0, CurrencyEnum.EURO));
         Double result = account.getMoneyBalance().getValue();
         Double expected = 530.0;
         assertEquals(result, expected);

@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
@@ -18,7 +19,8 @@ public class TransactionService {
     public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         try {
-            if (targetAccount.hasEnoughMoneyForTransaction(familyCashTransferDTO.getTransferAmount())) {
+            MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
+            if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
                 //TODO: alterar targetCashAccount para null. BT
                 return targetCashAccount.registerTransaction(targetCashAccount, category, familyCashTransferDTO);
             } else {

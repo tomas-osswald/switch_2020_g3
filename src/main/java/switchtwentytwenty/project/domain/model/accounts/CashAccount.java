@@ -80,21 +80,8 @@ public class CashAccount implements Account {
      *
      * @return returns the balance of this cash account
      */
-    public double getBalance() {
-        return this.accountData.getBalance();
-    }
-
-
-    /**
-     * Changes the balance of this cash account object by a given value
-     *
-     * @param value given value to add to this cash account's balance
-     */
-    public void changeBalance(double value) {
-        if (!validateBalance(this.accountData.getBalance() + value)) {
-            throw new IllegalStateException("Balance can't be less than 0");
-        }
-        this.accountData.setBalance(this.accountData.getBalance() + value);
+    public MoneyValue getBalance() {
+        return this.accountData.getCurrentBalance();
     }
 
     @Override
@@ -102,7 +89,7 @@ public class CashAccount implements Account {
         if (this == other) return true;
         if (!(other instanceof CashAccount)) return false;
         CashAccount otherAccount = (CashAccount) other;
-        return (this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance());
+        return (this.accountData.equals(otherAccount.accountData));
     }
 
     public boolean isIDOfThisAccount(int accountID) {
@@ -110,7 +97,10 @@ public class CashAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
-        return accountData.hasEnoughMoneyForTransaction(value);
+        if (value.getValue() < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
+        return this.accountData.getMoneyValue().debit(value).getValue() >= 0;
     }
 
     public boolean registerTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
@@ -138,12 +128,14 @@ public class CashAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //expense
+    public void debit(MoneyValue value) {
+        if (accountData.getMoneyValue().getValue() - value.getValue() < 0) throw new IllegalStateException("Balance can't be less than 0");
 
+        accountData.debit(value);
     }
 
-    public void credit(MoneyValue value) { //expense
-
+    public void credit(MoneyValue value) {
+        accountData.credit(value);
     }
 
 

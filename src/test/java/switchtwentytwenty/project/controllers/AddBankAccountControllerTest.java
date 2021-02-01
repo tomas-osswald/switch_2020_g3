@@ -2,6 +2,7 @@ package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 
 import java.util.Date;
@@ -39,41 +40,46 @@ class AddBankAccountControllerTest {
         addFamilyController.addFamily("Ribeiro");
         addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
 
+
     }
     @Test
     void addBankAccountTest1_Success() {
-        assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, balance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
 
     @Test
     void addBankAccountTest1_Fail() {
-        assertFalse(addBankAccountController.addBankAccount(accountName, 100, cc, balance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 100);//familyID doesn't exists'
+        assertFalse(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
 
     @Test
     void addBankAccountTest2_NullNameSuccess() {
-        assertTrue(addBankAccountController.addBankAccount(null, 1, cc, balance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, cc, 1);//no accountName is given
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
     @Test
     void addBankAccountTest3_BlankNameSuccess() {
-        assertTrue(addBankAccountController.addBankAccount("", 1, cc, balance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "  ", cc, 1);//accountName is blank
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
     @Test
     void addBankAccountTest4_NegativeBalanceSuccess() {
-        assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, negativeBalance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1);
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
     @Test
     void addBankAccountTest5_AddTwoBankAccountsSuccess() {
-        addBankAccountController.addBankAccount(accountName, 1, cc, balance);
-        assertTrue(addBankAccountController.addBankAccount(accountName2, 1, cc, balance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1);
+        addBankAccountController.addBankAccount(addBankAccountDTO);
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO2));
     }
-    @Test
+    //TODO test for null balance - needed changes by Diogo to transform Null into 0
+    /*@Test
     void addBankAccountTest6_NullBalanceSuccess() {
-        assertTrue(addBankAccountController.addBankAccount(accountName, 1, cc, null));
-    }
-
-
-    @Test
-    void addBankAccount() {
-    }
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1);
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
+    }*/
 }

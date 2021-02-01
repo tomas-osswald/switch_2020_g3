@@ -15,7 +15,6 @@ import java.util.List;
 
 public class AccountData {
 
-    private Double balance = 0.00;
     private String description;
     private int accountID;
     private List<Transaction> transactions;
@@ -24,7 +23,6 @@ public class AccountData {
 
     public AccountData(Double balance, String designation, int accountID) {
         validateDesignation(designation);
-        this.balance = balance;
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
@@ -51,26 +49,23 @@ public class AccountData {
         return (Date) this.creationDate.clone();
     }
 
-    public double getBalance() {
-        return balance;
-    }
-
     public void setBalance(double balance) {
-        this.balance = balance;
         this.currentBalance = new MoneyValue(balance, this.currentBalance.getCurrencyType());
     }
 
     public void setBalance(MoneyValue balance) {
         this.currentBalance = balance;
-        this.balance = balance.getValue();
     }
 
     public MoneyValue getCurrentBalance() {
         return this.currentBalance;
     }
 
-    public void changeBalance(double value) {
-        this.balance += value;
+    public void credit(MoneyValue moneyValue){
+        this.currentBalance=this.currentBalance.credit(moneyValue);
+    }
+    public void debit(MoneyValue moneyValue){
+        this.currentBalance=this.currentBalance.debit(moneyValue);
     }
 
     public String getDescription() {
@@ -100,17 +95,17 @@ public class AccountData {
         if (this == otherAccountData) return true;
         if (otherAccountData == null || !(otherAccountData instanceof AccountData)) return false;
         AccountData other = (AccountData) otherAccountData;
-        return Double.compare(other.balance, balance) == 0 &&
+        return currentBalance.equals(other.currentBalance) &&
                 accountID == other.accountID &&
                 description.equals(other.description);
     }
 
-    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
+    /*public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
         if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
         return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
-    }
+    }*/
 
     public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, familyCashTransferDTO);

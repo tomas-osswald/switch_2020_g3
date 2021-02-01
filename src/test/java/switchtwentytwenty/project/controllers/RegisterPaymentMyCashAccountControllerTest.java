@@ -38,13 +38,13 @@ class RegisterPaymentMyCashAccountControllerTest {
     CashAccount contaCash = new CashAccount(cashAccountDTO,accountID);
 
     // CashTransaction
-    MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
+    double transferAmount = 200.0;
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021,1,21);
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
-    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,new MoneyValue(-200.0, CurrencyEnum.EURO),currency,categoryID,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-200.0,currency,categoryID,transactionDesignation,transactionDate);
 
     @Test
     void registerPaymentMyCashAccount() {

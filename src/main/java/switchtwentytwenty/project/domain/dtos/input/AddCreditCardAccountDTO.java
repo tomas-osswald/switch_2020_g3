@@ -12,11 +12,11 @@ public class AddCreditCardAccountDTO {
     final private Double interestDebt;
     final private CurrencyEnum currency;
 
-    public AddCreditCardAccountDTO(String familyMemberID, int familyID, String cardDescription, Double withdrwaLimit, Double totalDebt, Double interestDebt, CurrencyEnum currency) {
+    public AddCreditCardAccountDTO(String familyMemberID, int familyID, String cardDescription, Double withdrawalLimit, Double totalDebt, Double interestDebt, CurrencyEnum currency) {
         this.familyMemberID = familyMemberID;
         this.familyID = familyID;
         this.cardDescription = cardDescription;
-        this.withdrwaLimit = withdrwaLimit;
+        this.withdrwaLimit = withdrawalLimit;
         this.totalDebt = totalDebt;
         this.interestDebt = interestDebt;
         this.currency = currency;
@@ -34,7 +34,7 @@ public class AddCreditCardAccountDTO {
         return cardDescription;
     }
 
-    public Double getWithdrwaLimit() {
+    public Double getWithdrawalLimit() {
         return withdrwaLimit;
     }
 

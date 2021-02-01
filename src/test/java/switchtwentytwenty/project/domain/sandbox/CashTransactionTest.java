@@ -23,7 +23,7 @@ class CashTransactionTest {
     int familyID = 2;
     String familyMemberCC = "000000000BC4";
     int accountID = 2;
-    MoneyValue transferAmount = new MoneyValue(2.2, CurrencyEnum.EURO);
+    double transferAmount = 2.2;
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
 

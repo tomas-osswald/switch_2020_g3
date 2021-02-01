@@ -12,10 +12,6 @@ public interface Account {
 
     public int getAccountID();
 
-    public double getBalance();
-
-    public void changeBalance(double value);
-
     public boolean isIDOfThisAccount(int accountID);
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue value );

@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -98,7 +99,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
-        double expected = cashAccount.getBalance();
+        double expected = cashAccount.getMoneyBalance().getValue();
 
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
@@ -120,7 +121,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
-        cashAccount.changeBalance(-10.00);
+        cashAccount.debit(new MoneyValue(10.0, CurrencyEnum.EURO));
         double expected = 0.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
@@ -200,7 +201,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int savingsAccountID = savingsAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getBalance(), savingsAccount.getInterestRate());
+        accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getMoneyBalance().getValue(), savingsAccount.getInterestRate());
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
