@@ -11,6 +11,7 @@ import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BankAccount implements Account {
 
@@ -95,26 +96,17 @@ public class BankAccount implements Account {
      */
 
     @Override
+    public int hashCode() {
+        return Objects.hash(accountData.getBalance(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount account = (BankAccount) o;
         return accountData.equals(account.accountData);
     }
-
-    public boolean equals2(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BankAccount)) return false;
-        BankAccount account = (BankAccount) o;
-        return this.getBalance() == account.getBalance() && this.getDescription().equals(account.getDescription()) && this.getAccountID() == account.getAccountID();
-    }
-
-    /*
-    @Override
-    public int hashCode() {
-        return Objects.hash(data);
-    }
-     */
 
     // BUSINESS METHODS
     public double getBalance() {
@@ -167,12 +159,16 @@ public class BankAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //expense
-
+    public void debit(MoneyValue value) {
+        double saldo = this.accountData.getCurrentBalance().getValue();
+        double cashout = Math.abs(value.getValue());
+        this.accountData.setBalance(saldo-cashout);
     }
 
-    public void credit(MoneyValue value) { //expense
-
+    public void credit(MoneyValue value) {
+        double saldo = this.accountData.getCurrentBalance().getValue();
+        double cashin = Math.abs(value.getValue());
+        this.accountData.setBalance(saldo+cashin);
     }
 
 }

@@ -45,7 +45,6 @@ public class AccountData {
             this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
-
     public Date getCreationDate() {
         return (Date) this.creationDate.clone();
     }
