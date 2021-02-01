@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 

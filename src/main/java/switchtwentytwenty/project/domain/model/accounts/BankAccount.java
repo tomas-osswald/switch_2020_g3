@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.IBAN;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
