@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BankSavingsAccount implements Account {
 
@@ -52,6 +53,13 @@ public class BankSavingsAccount implements Account {
             valid = false;
         }
         return valid;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountData.getAccountID(),
+                accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
+                accountData.getCurrentBalance().getCurrency(), interestRate);
     }
 
     public int getAccountID() {

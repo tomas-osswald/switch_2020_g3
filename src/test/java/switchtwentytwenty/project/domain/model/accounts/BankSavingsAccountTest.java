@@ -297,4 +297,20 @@ class BankSavingsAccountTest {
         Category category = new StandardCategory("test", null, 2);
         assertTrue(accountPositive.registerTransaction(accountPositiveTwo, category, transferenceDto));
     }
+
+    @Test
+    void testHashCode() {
+        BankSavingsAccount expected = accountPositive;
+        BankSavingsAccount result = expected;
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
+    void testHashCode_DifferentObjects() {
+        BankSavingsAccount expected = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, name, balance, interestRate);
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+
 }
