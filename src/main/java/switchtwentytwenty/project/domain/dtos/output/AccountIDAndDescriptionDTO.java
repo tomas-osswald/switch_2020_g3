@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.DTOs.output;
+package switchtwentytwenty.project.domain.dtos.output;
 
 public class AccountIDAndDescriptionDTO {
 

@@ -3,7 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;

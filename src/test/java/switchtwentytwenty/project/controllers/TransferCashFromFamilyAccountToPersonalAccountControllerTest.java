@@ -3,14 +3,14 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;

@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.sandbox;
 
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 
 import java.util.Date;
 

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.DTOs.output.CategoryTreeDTO;
+import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
 
 import java.util.Date;
 
