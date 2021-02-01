@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -105,8 +105,8 @@ public class BankSavingsAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
+        return accountData.hasEnoughMoneyForTransaction(value);
     }
 
     public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
@@ -127,6 +127,7 @@ public class BankSavingsAccount implements Account {
 
     /**
      * A method that returns the list of movements stored in this account's AccountData attribute
+     *
      * @return List of movements
      */
     public List<Transaction> getListOfMovements() {

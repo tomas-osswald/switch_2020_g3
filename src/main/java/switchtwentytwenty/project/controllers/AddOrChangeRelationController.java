@@ -31,7 +31,8 @@ public class AddOrChangeRelationController {
             }
             FamilyMember memberA = targetFamily.getFamilyMember(memberACCNumber);
             FamilyMember memberB = targetFamily.getFamilyMember(memberBCCNumber);
-            return relationService.addRelation(targetFamily, memberA, memberB, relationDesignation, aIsParentOfB);
+            relationService.addRelation(targetFamily, memberA, memberB, relationDesignation, aIsParentOfB);
+            return true;
         } catch (IllegalArgumentException exception) {
             return false;
         }
