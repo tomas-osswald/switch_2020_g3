@@ -1,8 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
@@ -286,6 +288,37 @@ class BankAccountTest {
         MoneyValue result = accountTest.getMoneyBalance();
         MoneyValue expected = new MoneyValue(800.00,currency);
         assertEquals(expected, result);
+    }
+
+    @Test
+    void checkCurrency() {
+
+        boolean result = accountTest.checkCurrency(CurrencyEnum.EURO);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void createBankAccount_NegativeBalance() {
+        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00,description,"0000000000ZZ4",1);
+        BankAccount account = new BankAccount(dto,1);
+        assertTrue(account.equals(account));
+    }
+
+    @Test
+    void createBankAccount_constructorWithNoCurrency() {
+        BankAccount account = new BankAccount(description, 500.00,1);
+        assertTrue(account.equals(account));
+    }
+    @Test
+    void createBankAccount_constructorWithNoCurrencyNegativeBalance() {
+        BankAccount account = new BankAccount(description, null,1);
+        assertTrue(account.equals(account));
+    }
+    @Test
+    void createBankAccount_constructorWithNoCurrencyNoDescription() {
+        BankAccount account = new BankAccount("", -12.50,1);
+        assertTrue(account.equals(account));
     }
 
 }

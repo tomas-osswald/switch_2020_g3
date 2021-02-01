@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -299,5 +300,13 @@ class BankSavingsAccountTest {
         assertEquals(expected.hashCode(), result.hashCode());
     }
 
+    @Test
+    void checkCurrency() {
+
+        BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);
+        boolean result = account.checkCurrency(CurrencyEnum.EURO);
+
+        Assertions.assertTrue(result);
+    }
 
 }

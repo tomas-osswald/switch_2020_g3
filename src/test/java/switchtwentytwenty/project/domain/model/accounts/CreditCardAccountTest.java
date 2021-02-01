@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
@@ -403,4 +404,16 @@ class CreditCardAccountTest {
         assertThrows(IllegalArgumentException.class, () -> creditCardAccount.credit(balanceChange));
 
     }
+
+    @Test
+    void checkCurrency() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        boolean result = creditCardAccount.checkCurrency(CurrencyEnum.EURO);
+
+        Assertions.assertTrue(result);
+    }
+
+
 }

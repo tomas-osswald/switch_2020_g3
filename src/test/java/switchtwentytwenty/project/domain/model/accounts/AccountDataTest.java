@@ -128,4 +128,11 @@ class AccountDataTest {
 
         Assertions.assertNotNull(accountData);
     }
+
+    @Test
+    void constructorForAccountData_UsingMoneyValueCurrencyNull() {
+        AccountData accountDataEUR = new AccountData(balance, designation, accountID, null);
+
+        Assertions.assertNotNull(accountDataEUR);
+    }
 }

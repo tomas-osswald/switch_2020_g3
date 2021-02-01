@@ -276,4 +276,13 @@ class CashAccountTest {
         });
     }
 
+    @Test
+    void testGetBalance() {
+        CashAccount cashAccount = new CashAccount("Acc", 50.0, 1,currency);
+        MoneyValue expected = new MoneyValue(50.0, CurrencyEnum.EURO);
+
+        MoneyValue result = cashAccount.getMoneyBalance();
+
+        Assertions.assertEquals(expected,result);
+    }
 }

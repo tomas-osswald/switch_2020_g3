@@ -75,15 +75,6 @@ public class CashAccount implements Account {
                 this.accountData.getAccountID();
     }
 
-    /**
-     * Getter for the balance of this cash account object
-     *
-     * @return returns the balance of this cash account
-     */
-    public MoneyValue getBalance() {
-        return this.accountData.getCurrentBalance();
-    }
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

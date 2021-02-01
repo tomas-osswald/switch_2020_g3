@@ -3,10 +3,6 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.sandbox.IBAN;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
-import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -42,9 +38,9 @@ public class BankAccount implements Account {
      */
     public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
         double balance = addBankAccountDTO.getBalance();
-        if (!validateBalance(balance)) {
+       /* if (!validateBalance(balance)) {
             balance = 0.00;
-        }
+        }*/
         String description = addBankAccountDTO.getDescription();
         if (!validateDescription(description)){
             description = "BankAccount" + " " + bankAccountID;
@@ -97,7 +93,7 @@ public class BankAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountData.getBalance(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
+        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
     }
 
     @Override
