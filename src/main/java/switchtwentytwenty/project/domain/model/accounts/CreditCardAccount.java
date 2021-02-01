@@ -132,8 +132,8 @@ public class CreditCardAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        if (transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+    public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
+        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
             return true;
         return false;
     }

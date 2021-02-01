@@ -2,8 +2,10 @@ package switchtwentytwenty.project.domain.sandbox;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -11,7 +13,7 @@ class TransactionDataTest {
 
     Date date = new Date();
     Category category = new StandardCategory("cat", null, 2);
-    TransactionData transactionData = new TransactionData("test", 22.2, date, category);
+    TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO), date, category);
 
     @Test
     void getTransactionDate() {
@@ -44,14 +46,14 @@ class TransactionDataTest {
     @Test
     void getAmmount() {
         double expected = 22.2;
-        double result = transactionData.getAmmount();
+        double result = transactionData.getAmmount().getValue();
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void getRemainingBalance() {
         double expected = 0;
-        double result = transactionData.getRemainingBalance();
+        double result = transactionData.getRemainingBalance().getValue();
         Assertions.assertEquals(expected,result);
     }
 }

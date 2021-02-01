@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.dtos.input;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ class FamilyCashTransferDTOTest {
     int familyID = 1;
     String familyMemberCC="000000000BC4";
     int accountID = 2;
-    double transferAmount = 130.00;
+    MoneyValue transferAmount = new MoneyValue(130.0, CurrencyEnum.EURO);
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "TestTransaction";

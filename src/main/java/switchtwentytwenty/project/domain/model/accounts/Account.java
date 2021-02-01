@@ -17,7 +17,7 @@ public interface Account {
 
     public boolean isIDOfThisAccount(int accountID);
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount );
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value );
 
     public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO);
 

@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.sandbox;
 
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
 import java.util.Date;
 
@@ -9,12 +9,12 @@ public class TransactionData {
     private Date transactionDate;
     private Date registrationDate;
     // private Account destinationAccount;
-    private double ammount; //Currency?
+    private MoneyValue ammount; //Currency?
     private Category category;
     private String designation;
-    private double remainingBalance;
+    private MoneyValue remainingBalance = new MoneyValue(0.0, null);
 
-    public TransactionData(String designation, double ammount, Date transactionDate, Category category) {
+    public TransactionData(String designation, MoneyValue ammount, Date transactionDate, Category category) {
         this.transactionDate = (Date) transactionDate.clone();
         this.registrationDate = new Date();
         this.ammount = ammount;
@@ -38,11 +38,11 @@ public class TransactionData {
         return this.designation;
     }
 
-    public double getAmmount() {
+    public MoneyValue getAmmount() {
         return this.ammount;
     }
 
-    public double getRemainingBalance() {
+    public MoneyValue getRemainingBalance() {
         return this.remainingBalance;
     }
 }
