@@ -124,7 +124,8 @@ public class BankAccount implements Account {
 
     public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
         // return accountData.hasEnoughMoneyForTransaction(transferenceAmount); // TODO: voltar a colocar desta forma quando o MoneyValue tiver aplicado em toda a APP
-        if (transferenceAmount < 0) throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        if (transferenceAmount < 0)
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         return ((this.getMoneyBalance().getValue() - transferenceAmount) >= 0);
     }
 
@@ -149,4 +150,13 @@ public class BankAccount implements Account {
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
     }
+
+    public void debit(MoneyValue value) { //expense
+
+    }
+
+    public void credit(MoneyValue value) { //expense
+
+    }
+
 }
