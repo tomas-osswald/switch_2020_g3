@@ -109,7 +109,10 @@ public class CashAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
-        return accountData.hasEnoughMoneyForTransaction(value);
+        if (value.getValue() < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
+        return this.accountData.getMoneyValue().debit(value).getValue() >= 0;
     }
 
     public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
