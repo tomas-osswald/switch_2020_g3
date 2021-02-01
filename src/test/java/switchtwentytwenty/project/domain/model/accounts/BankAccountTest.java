@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
@@ -218,20 +219,75 @@ class BankAccountTest {
     }
 
     @Test
-    void debit() {
+    void Debit_SameBalance() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 200.00;
+        assertEquals(expected, result);
     }
 
     @Test
-    void credit() {
+    void Debit_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(200.00,currency);
+        assertEquals(expected, result);
     }
 
-    /*
     @Test
-    void NotChangeBalance_NullValue() {
-        BankAccount account = new BankAccount(description, balance,bankID);
-        assertThrows(IllegalArgumentException.class,()->{
-            account.changeBalance(null);
-        });
+    void Debit_NegativeAmmountBecomePositive_Samebalances() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 200.00;
+        assertEquals(expected, result);
     }
-     */
+
+    @Test
+    void Debit_NegativeAmmountBecomePositive_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(200.00,currency);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_SameBalance() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 800.00;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(800.00,currency);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_NegativeAmmountBecomePositive_Samebalances() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 800.00;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_NegativeAmmountBecomePositive_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(800.00,currency);
+        assertEquals(expected, result);
+    }
+    
 }

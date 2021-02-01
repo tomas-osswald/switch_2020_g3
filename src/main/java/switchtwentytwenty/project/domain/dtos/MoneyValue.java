@@ -5,8 +5,6 @@ import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyExcepti
 
 public class MoneyValue {
 
-
-
     private final Double value;
     private CurrencyEnum currency;
 
@@ -128,7 +126,7 @@ public class MoneyValue {
     public MoneyValue credit(MoneyValue moneyValue) {
         MoneyValue creditMoneyValue;
         if (sameCurrency(moneyValue))
-            creditMoneyValue = new MoneyValue(Math.abs(this.value) + Math.abs(moneyValue.value), this.currency);
+            creditMoneyValue = new MoneyValue(this.value + Math.abs(moneyValue.value), this.currency);
         else
             throw new NotSameCurrencyException(CURRENCYDIFFER);
         return creditMoneyValue;
@@ -137,7 +135,7 @@ public class MoneyValue {
     public MoneyValue debit(MoneyValue moneyValue) {
         MoneyValue debitMoneyValue;
         if (sameCurrency(moneyValue))
-            debitMoneyValue = new MoneyValue(Math.abs(this.value) - Math.abs(moneyValue.value), this.currency);
+            debitMoneyValue = new MoneyValue(this.value - Math.abs(moneyValue.value), this.currency);
         else
             throw new NotSameCurrencyException(CURRENCYDIFFER);
         return debitMoneyValue;

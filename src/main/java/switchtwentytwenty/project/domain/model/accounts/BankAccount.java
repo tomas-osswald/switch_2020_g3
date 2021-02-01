@@ -144,14 +144,15 @@ public class BankAccount implements Account {
     }
 
     public void debit(MoneyValue value) { //cash out (expense)
-        double saldo = this.accountData.getBalance();
-        double cashin = value.getValue();
-        this.accountData.setBalance(saldo-cashin);
+        double saldo = this.accountData.getCurrentBalance().getValue();
+        double cashout = Math.abs(value.getValue());
+        this.accountData.getCurrentBalance().debit(value);
+        this.accountData.setBalance(saldo-cashout);
     }
 
     public void credit(MoneyValue value) { //cash in
-        double saldo = this.accountData.getBalance();
-        double cashin = value.getValue();
+        double saldo = this.accountData.getCurrentBalance().getValue();
+        double cashin = Math.abs(value.getValue());
         this.accountData.setBalance(saldo+cashin);
     }
 
