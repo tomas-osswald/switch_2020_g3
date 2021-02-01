@@ -163,8 +163,4 @@ public class MoneyValue {
     public CurrencyEnum getCurrencyType() {
         return this.currency;
     }
-
-    public MoneyValue getSymmetric() {
-        return new MoneyValue(-this.value, this.currency);
-    }
 }
