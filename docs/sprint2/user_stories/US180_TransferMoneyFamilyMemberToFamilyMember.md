@@ -114,6 +114,10 @@ CashAccount <-- FamilyMember : has
 
 ```
 
+## 2.2. Teste diagrama
+
+
+
 # 3. Design
 
 The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
@@ -192,7 +196,8 @@ UI --> fMember: Inform Success
 deactivate UI
 deactivate fMember
 
-@endpuml
+````
+
 
 # 3. Design
 
@@ -206,6 +211,33 @@ deactivate fMember
 
 ## 3.4. Tests
 
+**Test 1:** Controller: 
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsTrueWithSufficientFunds() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+
+        boolean result = controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersOfUnknownFamily() {
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 1, "Beer", date1);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+
+        Assertions.assertThrows(Exception.class, () -> controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+    }
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory() {
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 9, "Beer", date1);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+
+        Assertions.assertThrows(Exception.class, () -> controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+    }
 
 ## 4. Implementation
 

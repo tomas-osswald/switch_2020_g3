@@ -7,7 +7,7 @@ import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+import switchtwentytwenty.project.domain.DTOs.input.CashTransferDTO;
 
 public class TransferCashBetweenFamilyMembersCashAccountsController {
 

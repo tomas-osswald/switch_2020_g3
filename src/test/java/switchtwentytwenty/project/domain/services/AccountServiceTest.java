@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 
-import java.util.Currency;
 import java.util.Date;
 import switchtwentytwenty.project.controllers.AddFamilyAdministratorController;
 import switchtwentytwenty.project.controllers.AddFamilyController;
@@ -15,7 +14,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.accounts.*;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+import switchtwentytwenty.project.domain.DTOs.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;

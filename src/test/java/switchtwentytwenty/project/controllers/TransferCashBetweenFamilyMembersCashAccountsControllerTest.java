@@ -10,7 +10,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+import switchtwentytwenty.project.domain.DTOs.input.CashTransferDTO;
 
 import java.util.Date;
 
