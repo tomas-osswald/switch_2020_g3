@@ -2,6 +2,8 @@ package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
+import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
+import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
@@ -14,9 +16,11 @@ import java.util.List;
 public class TransactionService {
 
     public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
+        CashAccount targetCashAccount = (CashAccount) targetAccount;
         try {
             if (targetAccount.hasEnoughMoneyForTransaction(familyCashTransferDTO.getTransferAmount())) {
-                return targetAccount.registerTransaction(targetAccount, category, familyCashTransferDTO);
+                //TODO: alterar targetCashAccount para null. BT
+                return targetCashAccount.registerTransaction(targetCashAccount, category, familyCashTransferDTO);
             } else {
                 return false;
             }
@@ -72,11 +76,15 @@ public class TransactionService {
         return isBetweenDates;
     }
 
-    public boolean registerCashTransfer(Account familyAccount, Account targetCashAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO){
-
+    public boolean registerCashTransfer(Account originAccount, Account destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO){
+        if(!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid Currency");
+        if(!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid Currency");
+        CashAccount originCashAccount = (CashAccount) originAccount;
+        CashAccount destinationCashAccount = (CashAccount) destinationAccount;
         //TODO: Fazer 2 métodos diferentes um para entradas e outro para saidas? ou deviamos passar o valor ou o sinal para registar as transações? B.T.
-        return (familyAccount.registerTransaction(targetCashAccount, category, familyCashTransferDTO)||targetCashAccount.registerTransaction(familyAccount, category, familyCashTransferDTO));
-
+        originCashAccount.registerTransaction(destinationCashAccount, category, familyCashTransferDTO);
+        destinationCashAccount.registerTransaction(originCashAccount, category, familyCashTransferDTO);
+        return true;
     }
 
 }

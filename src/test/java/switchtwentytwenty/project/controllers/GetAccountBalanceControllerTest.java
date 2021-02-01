@@ -52,7 +52,7 @@ class GetAccountBalanceControllerTest {
         addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
         addBankAccountController.addBankAccount(currentAccName, 1, cc, bankAccBalance);
         addBankSavingsAccountController.addBankSavingsAccount(1, cc, savingsAccName, savingsAccBalance, interestRate);
-        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(cashAccBalance, cashAccName, cc, 1);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(cashAccBalance, cashAccName, cc, 1, CurrencyEnum.EURO);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
         //AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 1, creditCardAccName, 5000.00);
         //addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO);

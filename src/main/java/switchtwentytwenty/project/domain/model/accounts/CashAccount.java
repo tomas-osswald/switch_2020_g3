@@ -2,11 +2,13 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class CashAccount implements Account {
@@ -16,34 +18,32 @@ public class CashAccount implements Account {
     // Attributes
     private AccountData accountData;
 
-
     // Constructors
     public CashAccount(AddCashAccountDTO cashAccountDTO, int cashAccountID) {
         if (!validateBalance(cashAccountDTO.getBalance())) {
-            throw new IllegalArgumentException("Balance can't be less than 0");
+            throw new IllegalArgumentException("Balance can't be negative");
         }
         try {
-            this.accountData = new AccountData(cashAccountDTO.getBalance(), cashAccountDTO.getDescription(), cashAccountID);
+            this.accountData = new AccountData(cashAccountDTO.getBalance(), cashAccountDTO.getDescription(), cashAccountID, cashAccountDTO.getCurrency());
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Cash Account with ID" + " " + cashAccountID;
-            this.accountData = new AccountData(cashAccountDTO.getBalance(), defaultDesignation.toUpperCase(), cashAccountID);
+            this.accountData = new AccountData(cashAccountDTO.getBalance(), defaultDesignation.toUpperCase(), cashAccountID, cashAccountDTO.getCurrency());
         }
 
     }
 
-    public CashAccount(String accountDesignation, double initialBalance, int accountID) {
+    public CashAccount(String accountDesignation, double initialBalance, int accountID, CurrencyEnum currency) {
         if (!validateBalance(initialBalance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         try {
-            this.accountData = new AccountData(initialBalance, accountDesignation, accountID);
+            this.accountData = new AccountData(initialBalance, accountDesignation, accountID, currency);
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Cash Account with ID" + " " + accountID;
-            this.accountData = new AccountData(initialBalance, defaultDesignation.toUpperCase(), accountID);
+            this.accountData = new AccountData(initialBalance, defaultDesignation.toUpperCase(), accountID, currency);
         }
 
     }
-
 
 
     // Business Methods
@@ -109,19 +109,19 @@ public class CashAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
+        return accountData.hasEnoughMoneyForTransaction(value);
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
+    public boolean registerTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+        return accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return accountData.getDescription();
     }
 
@@ -131,6 +131,7 @@ public class CashAccount implements Account {
 
     /**
      * A method that returns the list of movements stored in this account's AccountData attribute
+     *
      * @return List of movements
      */
     public List<Transaction> getListOfMovements() {
@@ -143,5 +144,10 @@ public class CashAccount implements Account {
 
     public void credit(MoneyValue value) { //expense
 
+    }
+
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
     }
 }

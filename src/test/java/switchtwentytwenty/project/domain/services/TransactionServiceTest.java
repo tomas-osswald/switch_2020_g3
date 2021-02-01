@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
@@ -31,11 +32,11 @@ class TransactionServiceTest {
     String description = "Cash Account do Ze Manel";
     Double balance = 450.00;
     int accountID = 1;
-    AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
+    AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID, CurrencyEnum.EURO);
     CashAccount contaCash = new CashAccount(cashAccountDTO,accountID);
 
     // CashTransaction
-    double transferAmount = 200;
+    MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
@@ -43,8 +44,8 @@ class TransactionServiceTest {
     Date transactionDateTwo = new Date(2021,0,22);
     Date transactionDateThree = new Date(2021,0,20);
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDateOne);
-    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,600,currency,categoryID,transactionDesignation,transactionDateTwo);
-    FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-100,currency,categoryID,transactionDesignation,transactionDateThree);
+    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,new MoneyValue(600.0, CurrencyEnum.EURO),currency,categoryID,transactionDesignation,transactionDateTwo);
+    FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,new MoneyValue(-100.0, CurrencyEnum.EURO),currency,categoryID,transactionDesignation,transactionDateThree);
     CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, transacaoDTO1);
     CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, transacaoDTO2);
     CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, transacaoDTO3);
@@ -132,7 +133,7 @@ class TransactionServiceTest {
         String description = "Cash Account do Ze Manel";
         Double balance = 10000.00;
         int accountID = 1;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID, CurrencyEnum.EURO);
         CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
         TransactionService service = new TransactionService();
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
@@ -158,7 +159,7 @@ class TransactionServiceTest {
         String description = "Cash Account do Ze Manel";
         Double balance = 10000.00;
         int accountID = 1;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID, CurrencyEnum.EURO);
         CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
         TransactionService service = new TransactionService();
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
@@ -186,7 +187,7 @@ class TransactionServiceTest {
         String description = "Cash Account do Ze Manel";
         Double balance = 10000.00;
         int accountID = 1;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance,description,selfCC,familyID, CurrencyEnum.EURO);
         CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
         TransactionService service = new TransactionService();
         service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);

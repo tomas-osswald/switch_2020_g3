@@ -3,14 +3,15 @@ package switchtwentytwenty.project.domain.services;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class AccountService {
 
     public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialBalance) {
         //if (accountDesignation==null||accountDesignation.trim().length()==0||accountDesignation.isEmpty()) accountDesignation = ("Conta da familia " + targetFamily.getFamilyName());
-        Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0);
+        Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0, CurrencyEnum.EURO);
         if (!targetFamily.hasCashAccount()) {
             targetFamily.addCashAccount(newCashAccount);
             return true;
@@ -91,26 +92,26 @@ public class AccountService {
 
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
-        double transferAmount = familyCashTransferDTO.getTransferAmount();
-        //CurrencyEnum currency = familyCashTransferDTO.getCurrency();
+        MoneyValue transferAmount = familyCashTransferDTO.getTransferAmount();
+        CurrencyEnum currency = familyCashTransferDTO.getCurrency();
         if (!familyAccount.hasEnoughMoneyForTransaction(transferAmount)) return false;
-        //if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency")
+        if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
         int memberAccountID = familyCashTransferDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(memberAccountID);
-        if(targetCashAccount==null) {
+        if (targetCashAccount == null) {
             int familyMemberAccountID = generateID(familyMember);
             double initialBalance = 0.00;
             String accountDesignation = "Cash account for " + familyMember.getName();
-            targetCashAccount = new CashAccount(accountDesignation,initialBalance,familyMemberAccountID);
+            targetCashAccount = new CashAccount(accountDesignation, initialBalance, familyMemberAccountID, currency);
         }
-        familyAccount.changeBalance(transferAmount * -1);
-        targetCashAccount.changeBalance(transferAmount);
+        familyAccount.changeBalance(transferAmount.getValue() * -1);
+        targetCashAccount.changeBalance(transferAmount.getValue());
 
         TransactionService transactionService = new TransactionService();
-        return transactionService.registerCashTransfer(familyAccount,targetCashAccount,category,familyCashTransferDTO);
+        return transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family,FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
@@ -180,14 +181,13 @@ public class AccountService {
      */
 
     //TODO: Verificar origem da não-cobertura do NullPointer (Teste de throw está a passar)
-
-    public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member){
+    public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member) {
         MoneyValue currentBalance;
         Account targetAccount = member.getAccount(accountID);
         if (targetAccount == null) {
             throw new NullPointerException("No account with such ID");
         }
-        if (!targetAccount.checkAccountType(CASHACCOUNT)){
+        if (!targetAccount.checkAccountType(CASHACCOUNT)) {
             throw new IllegalArgumentException("Not a Cash Account");
         }
         currentBalance = targetAccount.getMoneyBalance();

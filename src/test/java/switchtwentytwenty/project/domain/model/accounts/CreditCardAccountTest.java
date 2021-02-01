@@ -162,7 +162,7 @@ class CreditCardAccountTest {
     void hasEnoughMoneytestFalse() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
-        assertFalse(creditCardAccount.hasEnoughMoneyForTransaction(1000.1));
+        assertFalse(creditCardAccount.hasEnoughMoneyForTransaction(new MoneyValue(1001.0, CurrencyEnum.EURO)));
     }
 
     @Test
@@ -283,7 +283,7 @@ class CreditCardAccountTest {
     void hasEnoughMoneyForTransactionTrue() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
-        Double transferenceAmount = 10.00;
+        MoneyValue transferenceAmount = new MoneyValue(10.0, CurrencyEnum.EURO);
 
         assertTrue(creditCardAccount.hasEnoughMoneyForTransaction(transferenceAmount));
     }
@@ -347,13 +347,4 @@ class CreditCardAccountTest {
         assertThrows(IllegalArgumentException.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
     }
 
-    @Test
-    void registerTransaction() {
-        Double zeroInterestDebt = 0.00;
-        FamilyCashTransferDTO transferenceDto = new FamilyCashTransferDTO(3, "sim", 2, 2.2,CurrencyEnum.EURO, 0, "test", new Date());
-        Category category = new StandardCategory("test", null, 2);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, zeroInterestDebt, currencyEnumOne);
-        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
-        assertTrue(creditCardAccount.registerTransaction(creditCardAccount, category, transferenceDto));
-    }
 }

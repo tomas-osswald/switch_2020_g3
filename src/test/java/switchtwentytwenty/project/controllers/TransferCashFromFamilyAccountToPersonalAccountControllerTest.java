@@ -3,6 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -37,7 +38,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
     int familyID = 1;
     String familyMemberCC = "000000000ZZ4";
     int accountID = 1;
-    double transferAmount = 2.00;
+    MoneyValue transferAmount = new MoneyValue(2.0, CurrencyEnum.EURO);
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     String transactionDesignation = "Not for donuts";
@@ -63,7 +64,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
         FamilyMember homer = simpsonFamily.getFamilyMember(familyMemberCC);
         categoryService.addCategoryToFamilyTree(simpsonFamily,"Donuts",1);
 
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(0.23,"Homer's Wallet",familyMemberCC,1);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(0.23,"Homer's Wallet",familyMemberCC,1, currency);
 
         AccountService accountService = new AccountService();
         accountService.createFamilyCashAccount(simpsonFamily, "Simpson's Wallet", 12.75);

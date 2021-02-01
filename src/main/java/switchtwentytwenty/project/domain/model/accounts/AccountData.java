@@ -32,6 +32,7 @@ public class AccountData {
         this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
+
     public AccountData(Double balance, String designation, int accountID, CurrencyEnum currencyEnum) {
         validateDesignation(designation);
         this.description = designation;
@@ -104,15 +105,14 @@ public class AccountData {
                 description.equals(other.description);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
-        if (transferenceAmount < 0) {
+    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
+        if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
-        return ((this.balance - transferenceAmount) >= 0);
+        return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        // TODO: DUVIDA - Se este metodo esta no AccountData, nao pode ter construtor de CashTransaction. Se for exclusivo da CashAccount, entao retira-se daqui (interfere na BankAccount)
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
@@ -129,5 +129,9 @@ public class AccountData {
      */
     public List<Transaction> getListOfMovements() {
         return Collections.unmodifiableList(this.transactions);
+    }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return this.currentBalance.getCurrencyType().equals(currency);
     }
 }

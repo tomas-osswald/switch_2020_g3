@@ -1,10 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 
 import java.util.List;
 
@@ -122,16 +122,11 @@ public class BankAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
+    public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
         // return accountData.hasEnoughMoneyForTransaction(transferenceAmount); // TODO: voltar a colocar desta forma quando o MoneyValue tiver aplicado em toda a APP
-        if (transferenceAmount < 0)
+        if (transferenceAmount.getValue() < 0)
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
-        return ((this.getMoneyBalance().getValue() - transferenceAmount) >= 0);
-    }
-
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return true; // DONT HAVE MEANING IN THIS CLASS
-        //return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+        return ((this.getMoneyBalance().getValue() - transferenceAmount.getValue()) >= 0);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
@@ -158,5 +153,10 @@ public class BankAccount implements Account {
     public void credit(MoneyValue value) { //expense
 
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 
 }

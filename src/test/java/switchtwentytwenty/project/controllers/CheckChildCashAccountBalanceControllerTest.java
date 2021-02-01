@@ -12,6 +12,7 @@ import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.services.RelationService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -72,7 +73,7 @@ class CheckChildCashAccountBalanceControllerTest {
     String accountDescriptionOne = "Cash Account";
     int accountIDOne = 1;
 
-    AddCashAccountDTO accountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, cc, family.getFamilyID());
+    AddCashAccountDTO accountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, cc, family.getFamilyID(), CurrencyEnum.EURO);
     CashAccount cashAccount = new CashAccount(accountDTO, accountIDOne);
 
     // Different Account - not Cash

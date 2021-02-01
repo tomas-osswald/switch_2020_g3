@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -144,14 +145,10 @@ public class CreditCardAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        if (transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+    public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
+        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
             return true;
         return false;
-    }
-
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
@@ -170,4 +167,9 @@ public class CreditCardAccount implements Account {
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 }

@@ -412,7 +412,7 @@ class FamilyTest {
         Family familyOne = new Family(familyOneName, familyOneID);
         Date notAFamily = new Date();
 
-        Assertions.assertNotEquals(familyOneID,notAFamily);
+        Assertions.assertNotEquals(familyOne,notAFamily);
     }
 
     @Test
