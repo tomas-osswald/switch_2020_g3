@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetFamilyMembersListControllerTest {
 
@@ -109,6 +110,25 @@ class GetFamilyMembersListControllerTest {
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
         assertFalse(result);
+    }
+
+    @Test
+    void getDTOList_TestSuccess() {
+        //Arrange
+        familyMembers.add(diogo);
+        familyMembers.add(jorge);
+        familyMembers.add(manuelAdmin);
+        family.addFamilyMemberArray(familyMembers);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        Application app = new Application();
+        app.getFamilyService().addFamily(family);
+        GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
+        //Act
+        boolean result = controller.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
+        //Assert
+        //As nothing has been added to expected both lists are Empty, as predicted
+        assertTrue(result);
     }
 
 
