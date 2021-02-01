@@ -29,9 +29,9 @@ class TransactionDataDTOTest {
     TransactionData transactionDataOne = new TransactionData(designationOne, amountOne, transactionDateOne, categoryOne);
     TransactionData transactionDataTwo = new TransactionData(designationTwo, amountTwo, transactionDateTwo, categoryTwo);
 
-    TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(transactionDataOne);
-    TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(transactionDataTwo);
-    TransactionDataDTO transactionDataDTOThree = new TransactionDataDTO(transactionDataOne);
+    switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDataDTOOne = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionDataOne);
+    switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDataDTOTwo = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionDataTwo);
+    switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDataDTOThree = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionDataOne);
 
     @Test
     void constructorForTransactionDataDTO(){
@@ -43,7 +43,7 @@ class TransactionDataDTOTest {
         TransactionData transactionData = new TransactionData(designation,ammount,transactionDate,category);
 
         //Act
-        TransactionDataDTO transactionDTO = new TransactionDataDTO(transactionData);
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDTO = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionData);
 
         //Assert
         Assertions.assertNotNull(transactionDTO);
@@ -52,38 +52,38 @@ class TransactionDataDTOTest {
 
     @Test
     void equalsTrueSameObject() {
-        TransactionDataDTO expected = transactionDataDTOOne;
-        TransactionDataDTO result = transactionDataDTOOne;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
         assertEquals(expected, result);
         assertSame(expected, result);
     }
 
     @Test
     void equalsTrueDifferentObjects() {
-        TransactionDataDTO expected = transactionDataDTOOne;
-        TransactionDataDTO result = transactionDataDTOThree;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOThree;
         assertEquals(expected, result);
     }
 
     @Test
     void equalsFalseNotSameInstance() {
         AccountService expected = new AccountService();
-        TransactionDataDTO result = transactionDataDTOOne;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
         assertNotSame(expected, result);
         assertNotEquals(expected, result);
     }
 
     @Test
     void equalsFalseNullObject() {
-        TransactionDataDTO expected = null;
-        TransactionDataDTO result = transactionDataDTOOne;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = null;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
         assertNotEquals(expected, result);
     }
 
     @Test
     void equalsFalseDifferentObjects() {
-        TransactionDataDTO expected = transactionDataDTOOne;
-        TransactionDataDTO result = transactionDataDTOTwo;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
+        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOTwo;
         assertNotEquals(expected, result);
     }
 
