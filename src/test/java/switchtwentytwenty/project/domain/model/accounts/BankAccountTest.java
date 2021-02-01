@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
@@ -19,7 +20,8 @@ class BankAccountTest {
     String description = "BankAccount do Ze Manel";
     Double balance = 500.00;
     int bankID = 1;
-    BankAccount accountTest = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
+    CurrencyEnum currency = CurrencyEnum.EURO;
+    BankAccount accountTest = new BankAccount(description, balance, bankID, currency);
 
     // FamilyMember
     int familyID = 1;
@@ -30,7 +32,6 @@ class BankAccountTest {
 
     // CashTransaction
     MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
-    CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021, 1, 21);
@@ -41,32 +42,32 @@ class BankAccountTest {
      **/
     @Test
     void createBankAccount_SameObject() {
-        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1, currency);
         assertTrue(account.equals(account));
     }
 
     @Test
     void createBankAccount_DifferentObjects() {
-        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 2, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 2, currency);
         assertFalse(accountTest.equals(account));
     }
 
     @Test
-    void createBankAccount_NotSameObject() {
+    void createBankAccount_DifferentObject() {
         BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
         assertNotSame(accountTest, account);
     }
 
     @Test
     void createBankAccount_SameObjectData() {
-        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
-        assertTrue(accountTest.equals2(account));
+        BankAccount account = new BankAccount(description, balance, bankID, currency);
+        assertTrue(accountTest.equals(account));
     }
 
     @Test
     void createBankAccount_NotSameObjectData() {
         BankAccount account = new BankAccount(description, balance, 2, CurrencyEnum.EURO);
-        assertFalse(accountTest.equals2(account));
+        assertFalse(accountTest.equals(account));
     }
 
     /**
@@ -205,13 +206,91 @@ class BankAccountTest {
         assertEquals(expected, result);
     }
 
-    /*
+    /* // TODO: Encontrar o porquê de os hashCodes não serem iguais
     @Test
-    void NotChangeBalance_NullValue() {
-        BankAccount account = new BankAccount(description, balance,bankID);
-        assertThrows(IllegalArgumentException.class,()->{
-            account.changeBalance(null);
-        });
+    void HashCode_SameContent() {
+        BankAccount newAccount = new BankAccount(description, balance, bankID, currency);
+        assertTrue(newAccount.hashCode() == accountTest.hashCode());
     }
+
      */
+
+    @Test
+    void HashCode_DifferentContent() {
+        BankAccount newAccount = new BankAccount("Xpto", 0.0, 2, CurrencyEnum.DOLLAR);
+        assertNotEquals(newAccount.hashCode(), accountTest.hashCode());
+    }
+
+    @Test
+    void Debit_SameBalance() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 200.00;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Debit_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(200.00,currency);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Debit_NegativeAmmountBecomePositive_Samebalances() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 200.00;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Debit_NegativeAmmountBecomePositive_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.debit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(200.00,currency);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_SameBalance() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 800.00;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(800.00,currency);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_NegativeAmmountBecomePositive_Samebalances() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        Double result = accountTest.getMoneyBalance().getValue();
+        Double expected = 800.00;
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void Credit_NegativeAmmountBecomePositive_SameObject() {
+        MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
+        accountTest.credit(moneyValue);
+        MoneyValue result = accountTest.getMoneyBalance();
+        MoneyValue expected = new MoneyValue(800.00,currency);
+        assertEquals(expected, result);
+    }
+
 }
