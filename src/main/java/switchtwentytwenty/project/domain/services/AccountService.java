@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
@@ -58,9 +59,10 @@ public class AccountService {
         }
     }
 
-    public boolean addBankAccount(FamilyMember targetMember, String accountName, Double balance) {
+    public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
-        Account bankAccount = new BankAccount(accountName, balance, accountID);
+
+        Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
         return targetMember.addAccount(bankAccount);
 
     }

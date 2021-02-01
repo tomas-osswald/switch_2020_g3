@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
 
@@ -96,12 +97,13 @@ class AccountServiceTest {
     int generatedID = 1;
 
     //Account Types Test setup
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+    AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1);
     BankAccount bankAccount = new BankAccount("bank account", balance, generatedID, CurrencyEnum.EURO);
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00 , 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
-    BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
 
 
     @BeforeEach
@@ -132,18 +134,21 @@ class AccountServiceTest {
     @Test
     void addBankAccountTest1_Success() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        assertTrue(accountService.addBankAccount(diogo, accountName, balance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+        assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
     }
-    @Test
+    /*@Test
     void addBankAccountTest2_NullBalanceSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        Assertions.assertTrue(accountService.addBankAccount(diogo, accountName, null));
-    }
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1);
+        assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
+    }*/
     @Test
     void addBankAccountTest3_AddTwoBankAccountsSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        accountService.addBankAccount(diogo, accountName, balance);
-        assertTrue(accountService.addBankAccount(diogo, accountName, negativeBalance));
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(negativeBalance, accountName, cc, 1);
+        assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
     }
 
     @Test
@@ -253,15 +258,23 @@ class AccountServiceTest {
 
     @Test
     void getAccountSuccessTypeBankAccount() {
-        String accountName = "Bank Account";
-        Double balance = null;
-        int accountID = 1;
-        Account expected = new BankAccount(accountName, balance, accountID, CurrencyEnum.EURO);
+        Account expected = new BankAccount(addBankAccountDTO, 1);
 
-        accountService.addBankAccount(diogo, accountName, balance);
-        Account result = accountService.getAccount(diogo, accountID);
+        accountService.addBankAccount(addBankAccountDTO, diogo);
+        Account result = accountService.getAccount(diogo, 1);
 
-        assertEquals(result, expected);
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
+    void getAccountFailureTypeBankAccount() {
+        Account expected = new BankAccount(addBankAccountDTO, 1);
+
+        accountService.addBankAccount(addBankAccountDTO2, diogo);
+        Account result = accountService.getAccount(diogo, 1);
+
+        assertNotEquals(expected, result);
+        assertNotSame(expected, result);
     }
 
     @Test
@@ -275,7 +288,7 @@ class AccountServiceTest {
         accountService.addBankSavingsAccount(diogo, accountName, balance, interestRate);
         Account result = accountService.getAccount(diogo, accountID);
 
-        assertEquals(result, expected);
+        assertEquals(expected, result);
     }
 
     //Teste escrito antes do method estar definido
