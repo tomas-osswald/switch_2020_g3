@@ -38,7 +38,11 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
-        this.currentBalance = new MoneyValue(balance, currencyEnum);
+
+        if(currencyEnum != null)
+            this.currentBalance = new MoneyValue(balance, currencyEnum);
+        else
+            this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
     public Date getCreationDate() {
@@ -99,11 +103,11 @@ public class AccountData {
                 description.equals(other.description);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
-        if (transferenceAmount < 0) {
+    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
+        if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
-        return ((this.balance - transferenceAmount) >= 0);
+        return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
     }
 
     public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {

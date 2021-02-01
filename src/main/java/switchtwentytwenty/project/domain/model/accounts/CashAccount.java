@@ -2,9 +2,9 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -43,7 +43,6 @@ public class CashAccount implements Account {
         }
 
     }
-
 
 
     // Business Methods
@@ -109,8 +108,8 @@ public class CashAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
+        return accountData.hasEnoughMoneyForTransaction(value);
     }
 
     public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
@@ -121,7 +120,7 @@ public class CashAccount implements Account {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return accountData.getDescription();
     }
 
@@ -131,9 +130,18 @@ public class CashAccount implements Account {
 
     /**
      * A method that returns the list of movements stored in this account's AccountData attribute
+     *
      * @return List of movements
      */
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
+    }
+
+    public void debit(MoneyValue value) { //expense
+
+    }
+
+    public void credit(MoneyValue value) { //expense
+
     }
 }
