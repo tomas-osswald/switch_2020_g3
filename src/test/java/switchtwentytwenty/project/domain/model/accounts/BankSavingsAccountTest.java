@@ -42,6 +42,11 @@ class BankSavingsAccountTest {
     BankSavingsAccount invalidNameAccountTwo = new BankSavingsAccount(accountIDTwo, invalidName, balanceTwo, interestRateTwo);
     BankSavingsAccount invalidInterestRateAccount = new BankSavingsAccount(accountIDTwo, invalidName, balanceTwo, invalidInterestRate);
     BankSavingsAccount invalidBalanceAccount = new BankSavingsAccount(accountIDTwo, invalidName, invalidBalance, invalidInterestRate);
+    MoneyValue expectedPositiveMoneyValue = new MoneyValue(1.23, CurrencyEnum.EURO);
+    MoneyValue expectedNegativeMoneyValue = new MoneyValue(-1.23, CurrencyEnum.EURO);
+    MoneyValue zeroMoneyValue = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+
 
     @Test
     void ConstructorSuccessPositiveInterestRate() {
@@ -153,11 +158,12 @@ class BankSavingsAccountTest {
     }
 
 
+    //TODO: Alterar para moneyValue / Credit e Debit até 231
     @Test
     void getBalanceExpectingEqualsTrue() {
-        Double expected = balance;
+        MoneyValue expected = expectedPositiveMoneyValue;
 
-        Double result = accountPositive.getBalance();
+        MoneyValue result = accountPositive.getMoneyBalance();
 
         assertEquals(expected, result);
         assertNotNull(result);
@@ -165,22 +171,24 @@ class BankSavingsAccountTest {
 
     @Test
     void getBalanceExpectingNotEquals() {
-        Double expected = 9.00;
+        MoneyValue expected = expectedNegativeMoneyValue;
 
-        Double result = accountPositive.getBalance();
+        MoneyValue result = accountPositive.getMoneyBalance();
 
         assertNotEquals(expected, result);
         assertNotNull(result);
 
     }
 
+
     @Test
     void changeBalanceAddingZeroExpectingEquals() {
-        MoneyValue balanceChange = new MoneyValue(0.0, CurrencyEnum.EURO);
-        Double expected = 1.23;
 
-        accountPositive.changeBalance(balanceChange);
-        Double result = accountPositive.getBalance();
+        MoneyValue expected = expectedNegativeMoneyValue;
+
+
+        accountNegative.credit(zeroMoneyValue);
+        MoneyValue result = accountNegative.getMoneyBalance();
 
         assertEquals(expected, result);
         assertNotNull(result);
@@ -188,38 +196,38 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingPositiveNumberExpectingEquals() {
-        MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
-        Double expected = 2.23;
 
-        accountPositive.changeBalance(balanceChange);
-        Double result = accountPositive.getBalance();
+        MoneyValue expected = zeroMoneyValue;
 
-        assertEquals(expected, result, 0.001);
+        accountNegative.credit(expectedPositiveMoneyValue);
+        MoneyValue result = accountNegative.getMoneyBalance();
+
+        assertEquals(expected, result);
         assertNotNull(result);
     }
 
     @Test
     void changeBalanceAddingNegativeNumberExpectingEquals() {
-        MoneyValue balanceChange = new MoneyValue(-1.0, CurrencyEnum.EURO);
-        double expected = 0.23;
 
-        accountPositive.changeBalance(balanceChange);
-        Double result = accountPositive.getBalance();
+        MoneyValue expected = zeroMoneyValue;
 
-        assertEquals(expected, result, 0.001);
+        accountPositive.debit(expectedNegativeMoneyValue);
+        MoneyValue result = accountPositive.getMoneyBalance();
+
+        assertEquals(expected, result);
         assertNotNull(result);
     }
 
 
     @Test
     void changeBalanceExpectingNotEquals() {
-        MoneyValue balanceChange = new MoneyValue(4.0, CurrencyEnum.EURO);
-        double expected = 14.23;
 
-        accountPositive.changeBalance(balanceChange);
-        Double result = accountPositive.getBalance();
+        MoneyValue expected = zeroMoneyValue;
 
-        assertNotEquals(expected, result, 0.001);
+        accountPositive.credit(expectedPositiveMoneyValue);
+        MoneyValue result = accountPositive.getMoneyBalance();
+
+        assertNotEquals(expected, result);
         assertNotNull(result);
     }
 
@@ -289,4 +297,20 @@ class BankSavingsAccountTest {
         Category category = new StandardCategory("test", null, 2);
         assertTrue(accountPositive.registerTransaction(accountPositiveTwo, category, transferenceDto));
     }
+
+    @Test
+    void testHashCode() {
+        BankSavingsAccount expected = accountPositive;
+        BankSavingsAccount result = expected;
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
+    void testHashCode_DifferentObjects() {
+        BankSavingsAccount expected = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, name, balance, interestRate);
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+
 }
