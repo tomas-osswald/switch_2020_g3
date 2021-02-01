@@ -270,7 +270,7 @@ class BankSavingsAccountTest {
 
         boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
 
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test
