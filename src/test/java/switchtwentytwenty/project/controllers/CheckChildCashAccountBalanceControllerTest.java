@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -12,6 +13,7 @@ import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.services.RelationService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -119,7 +121,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
-        cashAccount.changeBalance(-10.00);
+        cashAccount.changeBalance(new MoneyValue(-10.0, CurrencyEnum.EURO));
         double expected = 0.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);

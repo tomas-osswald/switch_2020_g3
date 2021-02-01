@@ -6,12 +6,10 @@ import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyExcepti
 public class MoneyValue {
 
 
-
-    private final Double value;
-    private CurrencyEnum currency;
-
     // Global variable // Constant
     final String CURRENCYDIFFER = "Currency differ";
+    private final Double value;
+    private CurrencyEnum currency;
 
     /*
     private double euroToDollarExchangeRate;
@@ -166,5 +164,9 @@ public class MoneyValue {
 
     public CurrencyEnum getCurrencyType() {
         return this.currency;
+    }
+
+    public MoneyValue getSimmetric() {
+        return new MoneyValue(-this.value, this.currency);
     }
 }

@@ -81,9 +81,13 @@ public class BankSavingsAccount implements Account {
     }
 */
 
+
     //TODO: Destruir (inclui Interface)
     public void changeBalance(double value) {
+            }
 
+    public void changeBalance(MoneyValue value) {
+        this.accountData.changeBalance(value.getValue());
     }
 
     public double getInterestRate() {
@@ -106,8 +110,15 @@ public class BankSavingsAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
+    /**
+     * A method that always returns true, because there has no restrictions for this account type
+     *
+     * @param value
+     * @return
+     */
+
     public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
-        return accountData.hasEnoughMoneyForTransaction(value);
+        return true;
     }
 
     public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {

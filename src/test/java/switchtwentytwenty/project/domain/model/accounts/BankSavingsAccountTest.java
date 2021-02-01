@@ -183,7 +183,9 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingZeroExpectingEquals() {
+
         MoneyValue expected = expectedNegativeMoneyValue;
+
 
         accountNegative.credit(zeroMoneyValue);
         MoneyValue result = accountNegative.getMoneyBalance();
@@ -276,7 +278,7 @@ class BankSavingsAccountTest {
 
         boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
 
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test
