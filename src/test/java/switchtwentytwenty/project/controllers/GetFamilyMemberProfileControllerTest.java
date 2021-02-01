@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.model.Family;

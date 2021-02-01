@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
-import switchtwentytwenty.project.domain.DTOs.output.CategoryTreeDTO;
+import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -30,23 +30,6 @@ public class GetCategoryTreeController {
             return false;
         }
     }
-
-   /* public boolean getCategoryTree(int familyID, String adminCCNumber) {
-        FamilyService familyService = this.ffmApp.getFamilyService();
-        CategoryService categoryService = this.ffmApp.getCategoryService();
-        try {
-            if (familyService.verifyAdministratorPermission(familyID, adminCCNumber)) {
-                CategoryTreeDTO categoryTree = categoryService.getCategoryTree(familyID, familyService);
-                categoryTree.printTree();
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            return false;
-        }
-    }*/
 
 
 }

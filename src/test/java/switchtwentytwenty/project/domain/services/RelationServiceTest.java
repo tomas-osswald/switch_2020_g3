@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
 import switchtwentytwenty.project.domain.model.user_data.Address;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;

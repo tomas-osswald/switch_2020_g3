@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
-import switchtwentytwenty.project.domain.DTOs.output.TransactionDataDTO;
+import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;

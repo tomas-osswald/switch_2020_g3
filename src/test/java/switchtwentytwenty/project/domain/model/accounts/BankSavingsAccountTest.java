@@ -1,7 +1,8 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -265,7 +266,7 @@ class BankSavingsAccountTest {
     @Test
     void hasEnoughMoneyForTransaction_False() {
         BankSavingsAccount account = accountPositive;
-        double valueForTransaction = 5.00;
+        MoneyValue valueForTransaction = new MoneyValue(5.0, CurrencyEnum.EURO);
 
         boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
 
@@ -275,7 +276,7 @@ class BankSavingsAccountTest {
     @Test
     void hasEnoughMoneyForTransaction_True() {
         BankSavingsAccount account = accountPositive;
-        double valueForTransaction = 0.25;
+        MoneyValue valueForTransaction = new MoneyValue(0.25, CurrencyEnum.EURO);
 
         boolean result = account.hasEnoughMoneyForTransaction(valueForTransaction);
 
@@ -284,7 +285,7 @@ class BankSavingsAccountTest {
 
     @Test
     void registerTransaction() {
-        FamilyCashTransferDTO transferenceDto = new FamilyCashTransferDTO(3, "sim", 2, 2.2, CurrencyEnum.EURO, 0, "test", new Date());
+        FamilyCashTransferDTO transferenceDto = new FamilyCashTransferDTO(3, "sim", 2, new MoneyValue(2.2, CurrencyEnum.EURO), CurrencyEnum.EURO, 0, "test", new Date());
         Category category = new StandardCategory("test", null, 2);
         assertTrue(accountPositive.registerTransaction(accountPositiveTwo, category, transferenceDto));
     }

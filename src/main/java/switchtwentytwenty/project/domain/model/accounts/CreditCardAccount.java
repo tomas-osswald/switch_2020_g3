@@ -1,11 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
-import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -103,12 +102,24 @@ public class CreditCardAccount implements Account {
         return withdrawalLimit;
     }*/
 
-    public void changeBalance(MoneyValue value) { //expense
+    //TODO: Deixar em java doc a diferença entre debit e credit no credit card account
+
+    public void debit(MoneyValue value) { //expense
         if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
             throw new IllegalArgumentException("Credit exceeded");
 
         this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
     }
+
+    public void credit(MoneyValue value) { //expense
+        if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
+            throw new IllegalArgumentException("Credit exceeded");
+
+        this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
+    }
+
+    //while
+    //25 the balance of a credit card account is the amount due at that moment
 
     public void changeBalance(double value) { //expense
         // validar se mesma moeda
@@ -133,8 +144,8 @@ public class CreditCardAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        if (transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+    public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
+        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
             return true;
         return false;
     }

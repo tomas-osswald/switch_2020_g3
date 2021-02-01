@@ -2,12 +2,10 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AccountDataTest {
 
@@ -39,7 +37,7 @@ class AccountDataTest {
 
     @Test
     void hasEnoughMoneyForTransaction_True() {
-        double valueSpent = 20;
+        MoneyValue valueSpent = new MoneyValue(20.0, CurrencyEnum.EURO);
 
         boolean result = accountData.hasEnoughMoneyForTransaction(valueSpent);
 
@@ -48,15 +46,16 @@ class AccountDataTest {
 
     @Test
     void hasEnoughMoneyForTransaction_TrueAllMoneyinAccount() {
-        double valueSpent = 200;
+        MoneyValue valueSpent = new MoneyValue(200.0, CurrencyEnum.EURO);
 
         boolean result = accountData.hasEnoughMoneyForTransaction(valueSpent);
 
         Assertions.assertTrue(result);
     }
+
     @Test
     void hasEnoughMoneyForTransaction_FalseValueIsHigher() {
-        double valueSpent = 2000;
+        MoneyValue valueSpent = new MoneyValue(2000.0, CurrencyEnum.EURO);
 
         boolean result = accountData.hasEnoughMoneyForTransaction(valueSpent);
 
@@ -68,7 +67,7 @@ class AccountDataTest {
     }
 
     @Test
-    void constructorForAccountData_UsingMoneyValue(){
+    void constructorForAccountData_UsingMoneyValue() {
         AccountData accountDataEUR = new AccountData(balance, designation, accountID, CurrencyEnum.EURO);
 
         Assertions.assertNotNull(accountDataEUR);
@@ -82,18 +81,18 @@ class AccountDataTest {
         //Act
         Date result = accountDataEUR.getCreationDate();
         //Assert
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
     void getMoneyValue() {
         //Arrange
         AccountData accountDataEUR = new AccountData(balance, designation, accountID, CurrencyEnum.EURO);
-        MoneyValue expected = new MoneyValue(balance,CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(balance, CurrencyEnum.EURO);
         //Act
         MoneyValue result = accountDataEUR.getMoneyValue();
         //Assert
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -101,13 +100,13 @@ class AccountDataTest {
         //Arrange
         AccountData accountDataEUR = new AccountData(balance, designation, accountID, CurrencyEnum.EURO);
         double newAmmount = 5000.00;
-        MoneyValue newBalance = new MoneyValue(newAmmount,CurrencyEnum.DOLLAR);
-        MoneyValue expected = new MoneyValue(newAmmount,CurrencyEnum.DOLLAR);
+        MoneyValue newBalance = new MoneyValue(newAmmount, CurrencyEnum.DOLLAR);
+        MoneyValue expected = new MoneyValue(newAmmount, CurrencyEnum.DOLLAR);
         //Act
         accountDataEUR.setBalance(newBalance);
         MoneyValue result = accountDataEUR.getMoneyValue();
         //Assert
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -119,6 +118,6 @@ class AccountDataTest {
         accountDataEUR.setDescription(newDescription);
         String result = accountDataEUR.getDescription();
         //Assert
-        Assertions.assertEquals(newDescription,result);
+        Assertions.assertEquals(newDescription, result);
     }
 }

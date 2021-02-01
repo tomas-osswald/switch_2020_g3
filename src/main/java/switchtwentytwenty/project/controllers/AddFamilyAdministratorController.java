@@ -2,7 +2,7 @@ package switchtwentytwenty.project.controllers;
 
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 
 import java.util.Date;
 import java.util.List;

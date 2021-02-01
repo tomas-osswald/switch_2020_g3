@@ -3,7 +3,6 @@ package switchtwentytwenty.project.controllers;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
@@ -12,13 +11,13 @@ import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 
 public class TransferCashBetweenFamilyMembersCashAccountsController {
 
-    private Application app;
+    private final Application app;
 
     public TransferCashBetweenFamilyMembersCashAccountsController(Application app) {
         this.app = app;
     }
 
-    public boolean TransferCashBetweenFamilyMembersCashAccounts(CashTransferDTO cashTransferDTO){
+    public boolean transferCashBetweenFamilyMembersCashAccounts(CashTransferDTO cashTransferDTO){
         FamilyService familyService = this.app.getFamilyService();
         CategoryService categoryService = this.app.getCategoryService();
         int familyID = cashTransferDTO.getFamilyID();
