@@ -166,7 +166,7 @@ public class MoneyValue {
         return this.currency;
     }
 
-    public MoneyValue getSimmetric() {
+    public MoneyValue getSymmetric() {
         return new MoneyValue(-this.value, this.currency);
     }
 }
