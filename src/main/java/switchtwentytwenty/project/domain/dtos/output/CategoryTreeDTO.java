@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.DTOs.output;
+package switchtwentytwenty.project.domain.dtos.output;
 
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;

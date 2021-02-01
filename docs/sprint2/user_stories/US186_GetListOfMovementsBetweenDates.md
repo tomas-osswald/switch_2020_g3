@@ -255,7 +255,7 @@ will be returned.
 package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;

@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
-import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;

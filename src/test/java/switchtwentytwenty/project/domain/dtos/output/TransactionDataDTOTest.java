@@ -1,8 +1,7 @@
-package switchtwentytwenty.project.domain.DTOs.output;
+package switchtwentytwenty.project.domain.dtos.output;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.TransactionData;

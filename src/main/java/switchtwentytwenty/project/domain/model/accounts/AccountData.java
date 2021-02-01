@@ -1,12 +1,11 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.CashTransaction;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.ArrayList;
