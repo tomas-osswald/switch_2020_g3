@@ -81,7 +81,7 @@ public class BankAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountType, accountData);
+        return Objects.hash(accountData.getBalance(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
     }
 
     @Override
@@ -143,14 +143,13 @@ public class BankAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //cash out (expense)
+    public void debit(MoneyValue value) {
         double saldo = this.accountData.getCurrentBalance().getValue();
         double cashout = Math.abs(value.getValue());
-        this.accountData.getCurrentBalance().debit(value);
         this.accountData.setBalance(saldo-cashout);
     }
 
-    public void credit(MoneyValue value) { //cash in
+    public void credit(MoneyValue value) {
         double saldo = this.accountData.getCurrentBalance().getValue();
         double cashin = Math.abs(value.getValue());
         this.accountData.setBalance(saldo+cashin);
