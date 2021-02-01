@@ -58,11 +58,11 @@ public class BankSavingsAccount implements Account {
         return this.accountData.getAccountID();
     }
 
+    //TODO: Destruir (inclui Interface)
     public double getBalance() {
-        //Deverá ser calculado o balance com o interest rate sempre que consultado. Não sei se é assim que se calcula :S
-        //return calculateInterest(); usa-se isto depois dos testes estarem adaptados aos novos cáluclos.
-        return this.accountData.getBalance();
+    return 99999999;
     }
+
     /*
     private double calculateInterest() {
         double balance = this.accountData.getBalance();
@@ -81,8 +81,9 @@ public class BankSavingsAccount implements Account {
     }
 */
 
+    //TODO: Destruir (inclui Interface)
     public void changeBalance(double value) {
-        this.accountData.changeBalance(value);
+
     }
 
     public double getInterestRate() {
@@ -134,11 +135,11 @@ public class BankSavingsAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //expense
-
+    public void debit(MoneyValue value) {
+    this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
     }
 
-    public void credit(MoneyValue value) { //expense
-
+    public void credit(MoneyValue value) {
+    this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
     }
 }
