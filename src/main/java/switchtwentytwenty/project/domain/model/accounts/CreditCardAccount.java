@@ -31,7 +31,7 @@ public class CreditCardAccount implements Account {
         this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
 
         if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
-            validateTotalDebt(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getInterestDebt());
+            validateTotalDebt(addCreditCardAccountDTO.getTotalDebt());
             interestDebtLessThanTotalDebt(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getTotalDebt());
 
             this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
@@ -40,12 +40,14 @@ public class CreditCardAccount implements Account {
         }
     }
 
-    private void validateTotalDebt(Double totalDebt, Double interestDebt) {
+
+
+    // Bussiness Methods
+
+    private void validateTotalDebt(Double totalDebt) {
         if (totalDebt == null || totalDebt < 0.00)
             throw new IllegalArgumentException("Total debt must not be null or greater than Zero");
     }
-
-    // Bussiness Methods
 
     private void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
         if (intertestDebt > totalDebt)
