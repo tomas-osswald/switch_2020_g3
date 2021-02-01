@@ -13,7 +13,7 @@ public interface Account {
 
     public double getBalance();
 
-    public void changeBalance(double value);
+    public void changeBalance(MoneyValue value);
 
     public boolean isIDOfThisAccount(int accountID);
 
