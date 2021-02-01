@@ -39,6 +39,11 @@ class BankSavingsAccountTest {
     BankSavingsAccount invalidNameAccountTwo = new BankSavingsAccount(accountIDTwo, invalidName, balanceTwo, interestRateTwo);
     BankSavingsAccount invalidInterestRateAccount = new BankSavingsAccount(accountIDTwo, invalidName, balanceTwo, invalidInterestRate);
     BankSavingsAccount invalidBalanceAccount = new BankSavingsAccount(accountIDTwo, invalidName, invalidBalance, invalidInterestRate);
+    MoneyValue expectedPositiveMoneyValue = new MoneyValue(1.23, CurrencyEnum.EURO);
+    MoneyValue expectedNegativeMoneyValue = new MoneyValue(-1.23, CurrencyEnum.EURO);
+    MoneyValue zeroMoneyValue = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+
 
     @Test
     void ConstructorSuccessPositiveInterestRate() {
@@ -278,5 +283,21 @@ class BankSavingsAccountTest {
 
         assertTrue(result);
     }
+
+
+    @Test
+    void testHashCode() {
+        BankSavingsAccount expected = accountPositive;
+        BankSavingsAccount result = expected;
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
+    void testHashCode_DifferentObjects() {
+        BankSavingsAccount expected = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, name, balance, interestRate);
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
 
 }
