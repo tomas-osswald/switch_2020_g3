@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.sandbox;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
@@ -10,8 +11,9 @@ import java.util.Date;
 class TransactionDataTest {
 
     Date date = new Date();
+    MoneyValue ammount = new MoneyValue(22.2, null);
     Category category = new StandardCategory("cat", null, 2);
-    TransactionData transactionData = new TransactionData("test", 22.2, date, category);
+    TransactionData transactionData = new TransactionData("test", ammount, date, category);
 
     @Test
     void getTransactionDate() {
@@ -43,15 +45,15 @@ class TransactionDataTest {
 
     @Test
     void getAmmount() {
-        double expected = 22.2;
-        double result = transactionData.getAmmount();
+        MoneyValue expected = new MoneyValue(22.2,null);
+        MoneyValue result = transactionData.getAmmount();
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void getRemainingBalance() {
-        double expected = 0;
-        double result = transactionData.getRemainingBalance();
+        MoneyValue expected = new MoneyValue(0.0, null);
+        MoneyValue result = transactionData.getRemainingBalance();
         Assertions.assertEquals(expected,result);
     }
 }

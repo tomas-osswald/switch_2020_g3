@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
@@ -35,16 +36,18 @@ class TransactionServiceTest {
     CashAccount contaCash = new CashAccount(cashAccountDTO,accountID);
 
     // CashTransaction
-    double transferAmount = 200;
+    MoneyValue transferAmount1 = new MoneyValue(200.0, null);
+    MoneyValue transferAmount2 = new MoneyValue(600.0, null);
+    MoneyValue transferAmount3 = new MoneyValue(-100.0, null);
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDateOne = new Date(2021,0,21);
     Date transactionDateTwo = new Date(2021,0,22);
     Date transactionDateThree = new Date(2021,0,20);
-    FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDateOne);
-    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,600,currency,categoryID,transactionDesignation,transactionDateTwo);
-    FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-100,currency,categoryID,transactionDesignation,transactionDateThree);
+    FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount1,currency,categoryID,transactionDesignation,transactionDateOne);
+    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount2,currency,categoryID,transactionDesignation,transactionDateTwo);
+    FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount3,currency,categoryID,transactionDesignation,transactionDateThree);
     CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, transacaoDTO1);
     CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, transacaoDTO2);
     CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, transacaoDTO3);
