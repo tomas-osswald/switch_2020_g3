@@ -7,7 +7,7 @@ public class MoneyValue {
 
 
     // Global variable // Constant
-    final String CURRENCYDIFFER = "Currency differ";
+    static final String CURRENCYDIFFER = "Currency differ";
     private final Double value;
     private CurrencyEnum currency;
 
@@ -145,16 +145,14 @@ public class MoneyValue {
         return this.currency.equals(moneyValue.currency);
     }
 
-    /*
-    the value {@code 0} if {@code anotherDouble} is
-     *          numerically equal to this {@code Double}; a value
-     *          less than {@code 0} if this {@code Double}
-     *          is numerically less than {@code anotherDouble};
-     *          and a value greater than {@code 0} if this
-     *          {@code Double} is numerically greater than
-     *          {@code anotherDouble}.
-     * */
-
+    /**
+     * Method to compare two Money Value
+     *
+     * @param moneyValue MoneyValue to compare
+     * @return returns zero if is numerical the same, less than zero if this MoneyValue is less than another MoneyValue and greater than zero if this MoneyValue is greater than another Money Value
+     *
+     * Throws an NotSameCurrencyException if this MoneyValue have diferent currency than another Money Value
+     */
     public double compareTo(MoneyValue moneyValue) {
         if (sameCurrency(moneyValue))
             return this.value.compareTo(moneyValue.value);
