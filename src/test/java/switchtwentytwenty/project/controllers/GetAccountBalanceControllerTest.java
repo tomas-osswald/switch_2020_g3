@@ -133,6 +133,5 @@ class GetAccountBalanceControllerTest {
 
         Assertions.assertNotEquals(expected, result);
     }
-    //adicionar testes para moneyvalue quando estiver tudo adicionado
 
 }

@@ -77,6 +77,7 @@ class AddBankAccountControllerTest {
         addBankAccountController.addBankAccount(addBankAccountDTO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO2));
     }
+    //TODO test for null balance - needed changes by Diogo to transform Null into 0
     /*@Test
     void addBankAccountTest6_NullBalanceSuccess() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1);
