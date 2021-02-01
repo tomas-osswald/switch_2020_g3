@@ -37,7 +37,7 @@ public class CCNumber {
             throw new IllegalArgumentException("Invalid CC Number size");
         String ccNumberUpper = ccNumber.toUpperCase();
         for (int i = ccNumberUpper.length() - 1; i >= 0; --i) {
-            int value = GetNumberFromChar(ccNumberUpper.charAt(i));
+            int value = getNumberFromChar(ccNumberUpper.charAt(i));
             if (secondDigit) {
                 value *= 2;
                 if (value > 9)
@@ -57,7 +57,7 @@ public class CCNumber {
      * @return int representing the value of the character
      * Adaptado de https://www.autenticacao.gov.pt/documents/
      */
-    private int GetNumberFromChar(char letter) {
+    private int getNumberFromChar(char letter) {
         switch (letter) {
             case '0':
                 return 0;

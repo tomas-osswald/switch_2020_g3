@@ -9,7 +9,7 @@ import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.services.TransactionService;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 
 public class RegisterPaymentMyCashAccountController {
 
@@ -19,7 +19,7 @@ public class RegisterPaymentMyCashAccountController {
         this.ffmApplication = ffmApplication;
     }
 
-    public boolean RegisterPaymentMyCashAccount(FamilyCashTransferDTO familyCashTransferDTO) {
+    public boolean registerPaymentMyCashAccount(FamilyCashTransferDTO familyCashTransferDTO) {
         // FamilyService
         FamilyService famService = this.ffmApplication.getFamilyService();
         FamilyMember myself = famService.getFamily(familyCashTransferDTO.getFamilyID()).getFamilyMember(familyCashTransferDTO.getFamilyMemberCC());

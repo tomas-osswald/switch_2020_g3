@@ -3,11 +3,10 @@ package switchtwentytwenty.project.domain.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;

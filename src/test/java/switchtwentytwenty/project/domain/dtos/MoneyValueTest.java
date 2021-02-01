@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.DTOs;
+package switchtwentytwenty.project.domain.dtos;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

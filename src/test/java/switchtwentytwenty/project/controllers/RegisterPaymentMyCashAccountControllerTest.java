@@ -1,13 +1,13 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
@@ -56,7 +56,7 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
-        assertTrue(controller.RegisterPaymentMyCashAccount(transacaoDTO1));
+        assertTrue(controller.registerPaymentMyCashAccount(transacaoDTO1));
     }
 
     @Test
@@ -70,7 +70,7 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
-        assertFalse(controller.RegisterPaymentMyCashAccount(transacaoDTO2));
+        assertFalse(controller.registerPaymentMyCashAccount(transacaoDTO2));
     }
 
 }
