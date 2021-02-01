@@ -73,7 +73,6 @@ public class CreditCardAccount implements Account {
     /**
      * @param withrawalLimit
      */
-
     private void validateWithrawalLimit(Double withrawalLimit) {
         if (withrawalLimit == null || withrawalLimit < 0.00)
             throw new IllegalArgumentException("withdrawal limit can't be less than 0");
@@ -132,8 +131,8 @@ public class CreditCardAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        if (transferenceAmount + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+    public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
+        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
             return true;
         return false;
     }

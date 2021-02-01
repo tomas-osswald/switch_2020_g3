@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -37,13 +38,13 @@ class RegisterPaymentMyCashAccountControllerTest {
     CashAccount contaCash = new CashAccount(cashAccountDTO,accountID);
 
     // CashTransaction
-    double transferAmount = 200;
+    MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021,1,21);
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
-    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-200,currency,categoryID,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,new MoneyValue(-200.0, CurrencyEnum.EURO),currency,categoryID,transactionDesignation,transactionDate);
 
     @Test
     void registerPaymentMyCashAccount() {
