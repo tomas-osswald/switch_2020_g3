@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BankAccount implements Account {
 
@@ -79,26 +80,17 @@ public class BankAccount implements Account {
      */
 
     @Override
+    public int hashCode() {
+        return Objects.hash(accountType, accountData);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount account = (BankAccount) o;
         return accountData.equals(account.accountData);
     }
-
-    public boolean equals2(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BankAccount)) return false;
-        BankAccount account = (BankAccount) o;
-        return this.getBalance() == account.getBalance() && this.getDescription().equals(account.getDescription()) && this.getAccountID() == account.getAccountID();
-    }
-
-    /*
-    @Override
-    public int hashCode() {
-        return Objects.hash(data);
-    }
-     */
 
     // BUSINESS METHODS
     public double getBalance() {
@@ -151,12 +143,16 @@ public class BankAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //expense
-
+    public void debit(MoneyValue value) { //cash out (expense)
+        double saldo = this.accountData.getBalance();
+        double cashin = value.getValue();
+        this.accountData.setBalance(saldo-cashin);
     }
 
-    public void credit(MoneyValue value) { //expense
-
+    public void credit(MoneyValue value) { //cash in
+        double saldo = this.accountData.getBalance();
+        double cashin = value.getValue();
+        this.accountData.setBalance(saldo+cashin);
     }
 
 }

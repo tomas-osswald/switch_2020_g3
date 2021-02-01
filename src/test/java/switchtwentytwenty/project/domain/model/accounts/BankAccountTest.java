@@ -19,7 +19,8 @@ class BankAccountTest {
     String description = "BankAccount do Ze Manel";
     Double balance = 500.00;
     int bankID = 1;
-    BankAccount accountTest = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
+    CurrencyEnum currency = CurrencyEnum.EURO;
+    BankAccount accountTest = new BankAccount(description, balance, bankID, currency);
 
     // FamilyMember
     int familyID = 1;
@@ -30,7 +31,6 @@ class BankAccountTest {
 
     // CashTransaction
     MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
-    CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021, 1, 21);
@@ -52,7 +52,7 @@ class BankAccountTest {
     }
 
     @Test
-    void createBankAccount_NotSameObject() {
+    void createBankAccount_DifferentObject() {
         BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
         assertNotSame(accountTest, account);
     }
@@ -60,13 +60,13 @@ class BankAccountTest {
     @Test
     void createBankAccount_SameObjectData() {
         BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
-        assertTrue(accountTest.equals2(account));
+        assertTrue(accountTest.equals(account));
     }
 
     @Test
     void createBankAccount_NotSameObjectData() {
         BankAccount account = new BankAccount(description, balance, 2, CurrencyEnum.EURO);
-        assertFalse(accountTest.equals2(account));
+        assertFalse(accountTest.equals(account));
     }
 
     /**
@@ -203,6 +203,26 @@ class BankAccountTest {
         List<Transaction> expected = new ArrayList<>();
         List<Transaction> result = accountTest.getListOfMovements();
         assertEquals(expected, result);
+    }
+
+    @Test
+    void HashCode_SameContent() {
+        BankAccount newAccount = new BankAccount(description, balance, bankID, currency);
+        assertEquals(newAccount, accountTest);
+    }
+
+    @Test
+    void HashCode_DifferentContent() {
+        BankAccount newAccount = new BankAccount("Xpto", 0.0, 2, CurrencyEnum.DOLLAR);
+        assertNotEquals(newAccount, accountTest);
+    }
+
+    @Test
+    void debit() {
+    }
+
+    @Test
+    void credit() {
     }
 
     /*
