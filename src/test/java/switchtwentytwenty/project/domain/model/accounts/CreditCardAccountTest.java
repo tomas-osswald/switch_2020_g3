@@ -202,7 +202,7 @@ class CreditCardAccountTest {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         //MoneyValue balanceChange = new MoneyValue(100.0, CurrencyEnum.EURO);
-        creditCardAccount.changeBalance(1.0);
+        creditCardAccount.changeBalance(new MoneyValue(1.0, CurrencyEnum.EURO));
         double expected = 99.0;
         double result = creditCardAccount.getMoneyBalance().getValue();
         assertEquals(expected, result);
@@ -228,7 +228,7 @@ class CreditCardAccountTest {
         //MoneyValue balanceChange = new MoneyValue(1000000.0, CurrencyEnum.EURO);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            creditCardAccount.changeBalance(10000000.0);
+            creditCardAccount.changeBalance(new MoneyValue(10000000.0, CurrencyEnum.EURO));
         });
 
     }

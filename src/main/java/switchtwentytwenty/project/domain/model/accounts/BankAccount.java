@@ -113,8 +113,8 @@ public class BankAccount implements Account {
         return accountData.getAccountID();
     }
 
-    public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
-        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
+    public void changeBalance(MoneyValue value) { // TODO: adicionar CurrencyEnum como argumento
+        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value.getValue(), CurrencyEnum.EURO); //this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
 

@@ -81,8 +81,8 @@ public class BankSavingsAccount implements Account {
     }
 */
 
-    public void changeBalance(double value) {
-        this.accountData.changeBalance(value);
+    public void changeBalance(MoneyValue value) {
+        this.accountData.changeBalance(value.getValue());
     }
 
     public double getInterestRate() {

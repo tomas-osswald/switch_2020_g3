@@ -103,8 +103,9 @@ public class AccountService {
             String accountDesignation = "Cash account for " + familyMember.getName();
             targetCashAccount = new CashAccount(accountDesignation, initialBalance, familyMemberAccountID);
         }
-        familyAccount.changeBalance(transferAmount.getValue() * -1);
-        targetCashAccount.changeBalance(transferAmount.getValue());
+        MoneyValue simmetricValue = transferAmount.getSimmetric();
+        familyAccount.changeBalance(simmetricValue);
+        targetCashAccount.changeBalance(transferAmount);
 
         TransactionService transactionService = new TransactionService();
         return transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
@@ -115,8 +116,8 @@ public class AccountService {
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
-        double transferredValue = cashTransferDTO.getTransferedValue();
-        originFamilyMemberAccount.changeBalance(transferredValue * -1);
+        MoneyValue transferredValue = cashTransferDTO.getTransferedValue();
+        originFamilyMemberAccount.changeBalance(transferredValue.getSimmetric());
         destinationFamilyMemberAccount.changeBalance(transferredValue);
         return true;
     }

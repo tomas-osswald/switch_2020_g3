@@ -463,7 +463,7 @@ class AccountServiceTest {
         String falseFamilyMemberCC = "150149271ZZ6";
         String falseFamilyMemberNIf = "219483345";
         int falseDestinationAccountID = 1;
-        double transferedValue = 2.00;
+        MoneyValue transferedValue = new MoneyValue(2.0, CurrencyEnum.EURO);
         int categoryID = 1;
         String transactionDesignation = "Not for donuts";
         Date transactionDate = new Date();
@@ -501,7 +501,7 @@ class AccountServiceTest {
         String falseFamilyMemberCC = "150149271ZZ6";
         String falseFamilyMemberNIf = "219483345";
         int falseDestinationAccountID = 1;
-        double transferedValue = 2.00;
+        MoneyValue transferedValue = new MoneyValue(2.0, CurrencyEnum.EURO);
         int categoryID = 1;
         String transactionDesignation = "Not for donuts";
         Date transactionDate = new Date();

@@ -176,7 +176,7 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingZeroExpectingEquals() {
-        double balanceChange = 0.00;
+        MoneyValue balanceChange = new MoneyValue(0.0, CurrencyEnum.EURO);
         Double expected = 1.23;
 
         accountPositive.changeBalance(balanceChange);
@@ -188,7 +188,7 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingPositiveNumberExpectingEquals() {
-        double balanceChange = 1.00;
+        MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
         Double expected = 2.23;
 
         accountPositive.changeBalance(balanceChange);
@@ -200,7 +200,7 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingNegativeNumberExpectingEquals() {
-        double balanceChange = -1.00;
+        MoneyValue balanceChange = new MoneyValue(-1.0, CurrencyEnum.EURO);
         double expected = 0.23;
 
         accountPositive.changeBalance(balanceChange);
@@ -213,7 +213,7 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceExpectingNotEquals() {
-        double balanceChange = 4.00;
+        MoneyValue balanceChange = new MoneyValue(4.0, CurrencyEnum.EURO);
         double expected = 14.23;
 
         accountPositive.changeBalance(balanceChange);

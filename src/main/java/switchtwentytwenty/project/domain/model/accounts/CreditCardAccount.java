@@ -121,11 +121,11 @@ public class CreditCardAccount implements Account {
     //while
     //25 the balance of a credit card account is the amount due at that moment
 
-    public void changeBalance(double value) { //expense
+    public void changeBalance(MoneyValue value) { //expense
         // validar se mesma moeda
-        if ((this.accountData.getBalance() + Math.abs(value)) > withdrawalLimit.getValue())
+        if ((this.accountData.getBalance() + Math.abs(value.getValue())) > withdrawalLimit.getValue())
             throw new IllegalArgumentException("ultrapassa credito");
-        this.accountData.setBalance(this.accountData.getBalance() - Math.abs(value));
+        this.accountData.setBalance(this.accountData.getBalance() - Math.abs(value.getValue()));
     }
 
     @Override

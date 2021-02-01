@@ -89,11 +89,11 @@ public class CashAccount implements Account {
      *
      * @param value given value to add to this cash account's balance
      */
-    public void changeBalance(double value) {
-        if (!validateBalance(this.accountData.getBalance() + value)) {
+    public void changeBalance(MoneyValue value) {
+        if (!validateBalance(this.accountData.getBalance() + value.getValue())) {
             throw new IllegalStateException("Balance can't be less than 0");
         }
-        this.accountData.setBalance(this.accountData.getBalance() + value);
+        this.accountData.setBalance(this.accountData.getBalance() + value.getValue());
     }
 
     @Override
