@@ -28,4 +28,8 @@ public interface Account {
     public MoneyValue getMoneyBalance();
 
     public List<Transaction> getListOfMovements();
+
+    public void debit(MoneyValue value);
+
+    public void credit(MoneyValue value);
 }

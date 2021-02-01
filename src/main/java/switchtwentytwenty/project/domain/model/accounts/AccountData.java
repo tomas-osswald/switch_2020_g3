@@ -38,7 +38,11 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
-        this.currentBalance = new MoneyValue(balance, currencyEnum);
+
+        if(currencyEnum != null)
+            this.currentBalance = new MoneyValue(balance, currencyEnum);
+        else
+            this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
 

@@ -101,12 +101,24 @@ public class CreditCardAccount implements Account {
         return withdrawalLimit;
     }*/
 
-    public void changeBalance(MoneyValue value) { //expense
+    //TODO: Deixar em java doc a diferença entre debit e credit no credit card account
+
+    public void debit(MoneyValue value) { //expense
         if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
             throw new IllegalArgumentException("Credit exceeded");
 
         this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
     }
+
+    public void credit(MoneyValue value) { //expense
+        if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
+            throw new IllegalArgumentException("Credit exceeded");
+
+        this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
+    }
+
+    //while
+    //25 the balance of a credit card account is the amount due at that moment
 
     public void changeBalance(double value) { //expense
         // validar se mesma moeda

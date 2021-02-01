@@ -133,4 +133,12 @@ public class BankSavingsAccount implements Account {
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
     }
+
+    public void debit(MoneyValue value) { //expense
+
+    }
+
+    public void credit(MoneyValue value) { //expense
+
+    }
 }
