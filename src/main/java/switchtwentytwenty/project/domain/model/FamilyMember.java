@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.domain.model;
 
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.user_data.*;
 
@@ -284,10 +284,7 @@ public class FamilyMember {
     }
 
     private boolean validateBirthDate(Date birthDate) {
-        if (birthDate == null || birthDate.toString().isEmpty()) {
-            return false;
-        }
-        return true;
+        return (!(birthDate == null || birthDate.toString().isEmpty()));
     }
 
     public boolean validateEmail(String email) {

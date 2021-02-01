@@ -1,12 +1,12 @@
 package switchtwentytwenty.project.controllers;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 
 public class GetAccountBalanceController {
     private final Application fmmApplication;

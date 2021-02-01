@@ -1,10 +1,11 @@
 package switchtwentytwenty.project.domain.services;
 
-import switchtwentytwenty.project.domain.DTOs.output.TransactionDataDTO;
+import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class TransactionService {
 
-    public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
+    public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
         try {
-            if (targetAccount.hasEnoughMoneyForTransaction(transferenceDTO.getTransferredValue())) {
-                return targetAccount.registerTransaction(targetAccount, category, transferenceDTO);
+            if (targetAccount.hasEnoughMoneyForTransaction(familyCashTransferDTO.getTransferAmount())) {
+                return targetAccount.registerTransaction(targetAccount, category, familyCashTransferDTO);
             } else {
                 return false;
             }
@@ -69,6 +70,13 @@ public class TransactionService {
             isBetweenDates = true;
         }
         return isBetweenDates;
+    }
+
+    public boolean registerCashTransfer(Account familyAccount, Account targetCashAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO){
+
+        //TODO: Fazer 2 métodos diferentes um para entradas e outro para saidas? ou deviamos passar o valor ou o sinal para registar as transações? B.T.
+        return (familyAccount.registerTransaction(targetCashAccount, category, familyCashTransferDTO)||targetCashAccount.registerTransaction(familyAccount, category, familyCashTransferDTO));
+
     }
 
 }

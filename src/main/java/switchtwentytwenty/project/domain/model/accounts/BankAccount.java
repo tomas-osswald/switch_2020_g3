@@ -1,12 +1,14 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
+
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.IBAN;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 
 import java.util.List;
 
@@ -127,8 +129,8 @@ public class BankAccount implements Account {
         return accountData.getAccountID();
     }
 
-    public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
-        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
+    public void changeBalance(MoneyValue value) { // TODO: adicionar CurrencyEnum como argumento
+        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value.getValue(), CurrencyEnum.EURO); //this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
 
@@ -136,13 +138,14 @@ public class BankAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
+    public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
         // return accountData.hasEnoughMoneyForTransaction(transferenceAmount); // TODO: voltar a colocar desta forma quando o MoneyValue tiver aplicado em toda a APP
-        if (transferenceAmount < 0) throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
-        return ((this.getMoneyBalance().getValue() - transferenceAmount) >= 0);
+        if (transferenceAmount.getValue() < 0)
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        return ((this.getMoneyBalance().getValue() - transferenceAmount.getValue()) >= 0);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
+    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         return true; // DONT HAVE MEANING IN THIS CLASS
         //return accountData.registerTransaction(targetAccount, category, transferenceDTO);
     }
@@ -163,4 +166,13 @@ public class BankAccount implements Account {
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
     }
+
+    public void debit(MoneyValue value) { //expense
+
+    }
+
+    public void credit(MoneyValue value) { //expense
+
+    }
+
 }

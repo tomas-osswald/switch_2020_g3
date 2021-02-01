@@ -2,7 +2,9 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.services.FamilyService;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
@@ -144,7 +146,7 @@ class CashAccountTest {
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
         double expected = 15;
 
-        cashAccountOne.changeBalance(5.00);
+        cashAccountOne.changeBalance(new MoneyValue(5.0, CurrencyEnum.EURO));
         double result = cashAccountOne.getBalance();
 
         assertEquals(expected, result, 0.001);
@@ -158,7 +160,7 @@ class CashAccountTest {
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
         double expected = 5;
 
-        cashAccountOne.changeBalance(-5.00);
+        cashAccountOne.changeBalance(new MoneyValue(-5.0, CurrencyEnum.EURO));
         double result = cashAccountOne.getBalance();
 
         assertEquals(expected, result, 0.001);
@@ -171,20 +173,20 @@ class CashAccountTest {
         int cashAccountID = 1002;
         CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID);
         assertThrows(IllegalStateException.class, () -> {
-            cashAccountOne.changeBalance(-15.00);
+            cashAccountOne.changeBalance(new MoneyValue(-15.0, CurrencyEnum.EURO));
         });
     }
 
     @Test
     void equalsTrueItself() {
-        CashAccount one = new CashAccount("Account",1, 1);
+        CashAccount one = new CashAccount("Account", 1, 1);
 
         assertTrue(one.equals(one));
     }
 
     @Test
     void equalsFalseNotCashAccountObject() {
-        CashAccount one = new CashAccount("Account",1, 1);
+        CashAccount one = new CashAccount("Account", 1, 1);
         FamilyService familyService = new FamilyService();
 
         assertFalse(one.equals(familyService));
@@ -192,28 +194,27 @@ class CashAccountTest {
 
     @Test
     void equalsTrueSameBalanceAndID() {
-        CashAccount one = new CashAccount("Account",1, 1);
-        CashAccount two = new CashAccount("Account",1, 1);
+        CashAccount one = new CashAccount("Account", 1, 1);
+        CashAccount two = new CashAccount("Account", 1, 1);
 
         assertTrue(one.equals(two));
     }
 
     @Test
     void equalsFalseSameBalanceDifferentID() {
-        CashAccount one = new CashAccount("Account",1, 1);
-        CashAccount two = new CashAccount("Account",5, 1);
+        CashAccount one = new CashAccount("Account", 1, 1);
+        CashAccount two = new CashAccount("Account", 5, 1);
 
         assertFalse(one.equals(two));
     }
 
     @Test
     void equalsFalseDifferentBalanceSameID() {
-        CashAccount one = new CashAccount("Account",1, 1);
-        CashAccount two = new CashAccount("Account",1.01, 1);
+        CashAccount one = new CashAccount("Account", 1, 1);
+        CashAccount two = new CashAccount("Account", 1.01, 1);
 
         assertFalse(one.equals(two));
     }
-
 
 
     @Test
@@ -252,23 +253,23 @@ class CashAccountTest {
 
     @Test
     void hasEnoughMoneyForTransaction() {
-        double transferenceAmount = 10;
-        CashAccount cashAccount = new CashAccount("Acc",50,1);
+        MoneyValue transferenceAmount = new MoneyValue(10.0, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount("Acc", 50, 1);
         assertTrue(cashAccount.hasEnoughMoneyForTransaction(transferenceAmount));
     }
 
     @Test
     void NotEnoughMoneyForTransaction() {
-        double transferenceAmount = 100;
-        CashAccount cashAccount = new CashAccount("Acc",50,1);
+        MoneyValue transferenceAmount = new MoneyValue(100.0, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount("Acc", 50, 1);
         assertFalse(cashAccount.hasEnoughMoneyForTransaction(transferenceAmount));
     }
 
     @Test
     void NotEnoughMoneyForTransaction_NegativeAmmount() {
-        double transferenceAmount = -10;
-        CashAccount cashAccount = new CashAccount("Acc",50,1);
-        assertThrows(IllegalArgumentException.class,()->{
+        MoneyValue transferenceAmount = new MoneyValue(-10.0, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount("Acc", 50, 1);
+        assertThrows(IllegalArgumentException.class, () -> {
             cashAccount.hasEnoughMoneyForTransaction(transferenceAmount);
         });
     }

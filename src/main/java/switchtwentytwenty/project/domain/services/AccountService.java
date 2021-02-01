@@ -1,19 +1,23 @@
 package switchtwentytwenty.project.domain.services;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
-import switchtwentytwenty.project.domain.DTOs.output.AccountIDAndDescriptionDTO;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
+
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
+import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
 
 public class AccountService {
 
@@ -64,14 +68,14 @@ public class AccountService {
 
         Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
         return targetMember.addAccount(bankAccount);
-
     }
 
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
 
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        return targetMember.addAccount(creditCardAccount);
+        targetMember.addAccount(creditCardAccount);
+        return true;
     }
 
 
@@ -81,44 +85,49 @@ public class AccountService {
         }
         int accountID = generateID(targetMember);
         Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
-        return targetMember.addAccount(bankSavingsAccount);
-
+        targetMember.addAccount(bankSavingsAccount);
+        return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, StandardCategory category, TransferenceDTO transferCashDTO) {
-
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
 
         Account familyAccount = family.getFamilyCashAccount();
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
-        double transferredValue = transferCashDTO.getTransferredValue();
-        if (!familyAccount.hasEnoughMoneyForTransaction(transferredValue)) return false;
+        MoneyValue transferAmount = familyCashTransferDTO.getTransferAmount();
+        //CurrencyEnum currency = familyCashTransferDTO.getCurrency();
+        if (!familyAccount.hasEnoughMoneyForTransaction(transferAmount)) return false;
+        //if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency")
+        int memberAccountID = familyCashTransferDTO.getAccountID();
+        Account targetCashAccount = familyMember.getAccount(memberAccountID);
+        if (targetCashAccount == null) {
+            int familyMemberAccountID = generateID(familyMember);
+            double initialBalance = 0.00;
+            String accountDesignation = "Cash account for " + familyMember.getName();
+            targetCashAccount = new CashAccount(accountDesignation, initialBalance, familyMemberAccountID);
+        }
+        MoneyValue simmetricValue = transferAmount.getSimmetric();
+        familyAccount.changeBalance(simmetricValue);
+        targetCashAccount.changeBalance(transferAmount);
 
-        //TODO: Discutir; Criar nova conta para family member que não a tenha? Processo de registo de transactions - usar Service?
+        TransactionService transactionService = new TransactionService();
+        return transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
+    }
 
-        int accountID = transferCashDTO.getAccountID();
-        Account targetCashAccount = familyMember.getAccount(accountID);
-
-        //Pensar em forma de fazer undo??? criar um metodo para adicionar dinheiro e outro para remover dinheiro??
-        familyAccount.changeBalance(transferredValue * -1);
-        // Registar movimento gasto - Balance tem que ser negativo
-        familyAccount.registerTransaction(targetCashAccount, category, transferCashDTO);
-        targetCashAccount.changeBalance(transferredValue);
-        //Registar movimento contrario - Balance tem que ser negativo
-        targetCashAccount.registerTransaction(familyAccount, category, transferCashDTO);
-
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+        int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
+        int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
+        Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
+        Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
+        MoneyValue transferredValue = cashTransferDTO.getTransferedValue();
+        originFamilyMemberAccount.changeBalance(transferredValue.getSimmetric());
+        destinationFamilyMemberAccount.changeBalance(transferredValue);
         return true;
     }
 
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
         List<Account> accounts = familyMember.getAccounts();
-        List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = createListOfCashAccounts(accounts);
-        return accountIDAndDescriptionDTOS;
+        return createListOfCashAccounts(accounts);
     }
-/*
-    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
-        // acho que terás que usar o Check Account Type das Accounts
-        return true; // for Batista, only returning true to compile
-    }*/
 
 
     public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
@@ -132,7 +141,7 @@ public class AccountService {
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
-            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) {
+            if (account.checkAccountType(CASHACCOUNT)) {
                 AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
@@ -142,25 +151,27 @@ public class AccountService {
 
     public MoneyValue getFamilyCashAccountBalance(Family family) {
         Account cashAccount = family.getFamilyCashAccount();
-        MoneyValue moneyValue = cashAccount.getMoneyBalance();
-        return moneyValue;
+        return cashAccount.getMoneyBalance();
     }
 
     public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
         Account cashAccount = familyMember.getAccount(accountID);
-        MoneyValue moneyValue = cashAccount.getMoneyBalance();
-        return moneyValue;
+        return cashAccount.getMoneyBalance();
     }
 
     /**
-     * A method that obtains an account with a given ID belonging to a given FamilyMember
+     * A method that obtains an account with a given ID belonging to a given FamilyMember. If account returned is null, it does not exist and an exception will be thrown.
      *
      * @param aFamilyMember account owner
      * @param accountID     account unique ID
      * @return target account
      */
     public Account getAccount(FamilyMember aFamilyMember, int accountID) {
-        return aFamilyMember.getAccount(accountID);
+        Account account = aFamilyMember.getAccount(accountID);
+        if (account == null) {
+            throw new IllegalArgumentException("Account does not exist");
+        }
+        return account;
     }
 
     /**
@@ -171,9 +182,17 @@ public class AccountService {
      * @return
      */
 
-    //Só assinatura para escrever testes. Falta acrescentar a validação do tipo de conta e respetiva Exceção
-    public MoneyValue checkCashAccountBalance(int accountID, FamilyMember member) {
-        MoneyValue donaldTrump = new MoneyValue(100.00, CurrencyEnum.EURO);
-        return donaldTrump;
+    //TODO: Verificar origem da não-cobertura do NullPointer (Teste de throw está a passar)
+    public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member) {
+        MoneyValue currentBalance;
+        Account targetAccount = member.getAccount(accountID);
+        if (targetAccount == null) {
+            throw new NullPointerException("No account with such ID");
+        }
+        if (!targetAccount.checkAccountType(CASHACCOUNT)) {
+            throw new IllegalArgumentException("Not a Cash Account");
+        }
+        currentBalance = targetAccount.getMoneyBalance();
+        return currentBalance;
     }
 }

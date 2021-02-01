@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.utils.TransferenceDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -81,8 +81,8 @@ public class BankSavingsAccount implements Account {
     }
 */
 
-    public void changeBalance(double value) {
-        this.accountData.changeBalance(value);
+    public void changeBalance(MoneyValue value) {
+        this.accountData.changeBalance(value.getValue());
     }
 
     public double getInterestRate() {
@@ -105,12 +105,12 @@ public class BankSavingsAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(double transferenceAmount) {
-        return accountData.hasEnoughMoneyForTransaction(transferenceAmount);
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
+        return accountData.hasEnoughMoneyForTransaction(value);
     }
 
-    public boolean registerTransaction(Account targetAccount, StandardCategory category, TransferenceDTO transferenceDTO) {
-        return accountData.registerTransaction(targetAccount, category, transferenceDTO);
+    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
@@ -127,9 +127,18 @@ public class BankSavingsAccount implements Account {
 
     /**
      * A method that returns the list of movements stored in this account's AccountData attribute
+     *
      * @return List of movements
      */
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
+    }
+
+    public void debit(MoneyValue value) { //expense
+
+    }
+
+    public void credit(MoneyValue value) { //expense
+
     }
 }

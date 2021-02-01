@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
-import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -18,7 +18,8 @@ public class AddCreditCardAccountController {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
             AccountService accountService = this.ffmApplication.getAccountService();
-            return accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, targetMember);
+            accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, targetMember);
+            return true;
         } catch (Exception exception) {
             return false;
         }

@@ -3,21 +3,15 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.MoneyValue;
 import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.DTOs.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
-import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
-import switchtwentytwenty.project.domain.model.accounts.Account;
-import switchtwentytwenty.project.domain.services.AccountService;
-import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
-import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Date;
 
 class GetAccountBalanceControllerTest {
 

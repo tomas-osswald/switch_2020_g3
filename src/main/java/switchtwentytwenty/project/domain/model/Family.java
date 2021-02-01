@@ -1,15 +1,12 @@
 package switchtwentytwenty.project.domain.model;
 
-import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Family {
 
@@ -186,7 +183,7 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    private FamilyMember getFamilyMemberByID(String ccNumber) {
+    public FamilyMember getFamilyMemberByID(String ccNumber) {
         if(!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
         FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {
@@ -226,6 +223,7 @@ public class Family {
         return this.familyMembers.size();
     }
 
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -233,6 +231,12 @@ public class Family {
         Family otherFamily = (Family) other;
         return (this.familyID == otherFamily.familyID && this.familyName.equals(otherFamily.familyName));
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(familyID, familyName, registrationDate, familyMembers, relationDesignations, familyCashAccount, familyCustomCategories, familyRelations);
+    }
+
 
     /**
      * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
@@ -376,14 +380,16 @@ public class Family {
         familyCustomCategories.add(newCategory);
         return true;
     }
+*/
 
     /**
      * This method returns a CustomCategory of a given ID
      *
      * @param categoryID ID of the CustomCategory to be returned
      * @return chosen CustomCategory, if the CustomCategory is not found returns null;
+     */
 
-    private CustomCategory getCustomCategoryByID(int categoryID) {
+    public CustomCategory getCustomCategoryByID(int categoryID) {
         CustomCategory selectedCategory = null;
         int size = this.familyCustomCategories.size();
         for (int index = 0; index < size; index++) {
@@ -394,7 +400,6 @@ public class Family {
         }
         return selectedCategory;
     }
-*/
 
     public FamilyMember getFamilyMember(String ccNumber) {
         for (FamilyMember member : this.familyMembers) {

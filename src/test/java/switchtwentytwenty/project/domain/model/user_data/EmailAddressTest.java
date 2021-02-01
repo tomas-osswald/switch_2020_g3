@@ -130,5 +130,21 @@ class EmailAddressTest {
 
         Assertions.assertTrue(result.compareTo(expected)==0);
     }
+
+    @Test
+    void testHashCode_True() {
+        EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
+        EmailAddress emailTwo = new EmailAddress("1120717@isep.ipp.pt");
+
+        Assertions.assertEquals(emailOne.hashCode(),emailTwo.hashCode());
+    }
+
+    @Test
+    void testHashCode_False() {
+        EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
+        EmailAddress emailTwo = new EmailAddress("1120722@isep.ipp.pt");
+
+        Assertions.assertNotEquals(emailOne.hashCode(),emailTwo.hashCode());
+    }
 }
 

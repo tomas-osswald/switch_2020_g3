@@ -1,11 +1,14 @@
-package switchtwentytwenty.project.domain.DTOs;
+package switchtwentytwenty.project.domain.dtos;
 
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
 public class MoneyValue {
 
-    private Double value;
+
+    // Global variable // Constant
+    final String CURRENCYDIFFER = "Currency differ";
+    private final Double value;
     private CurrencyEnum currency;
 
     /*
@@ -53,7 +56,7 @@ public class MoneyValue {
         if (otherMoneyValue == null || !(otherMoneyValue instanceof MoneyValue)) return false;
         MoneyValue other = (MoneyValue) otherMoneyValue;
         return Double.compare(other.getValue(), value) == 0 &&
-                this.currency.name().equals(other.currency.name());
+                this.currency.equals(other.currency);
     }
 
     /*
@@ -123,18 +126,18 @@ public class MoneyValue {
     public MoneyValue credit(MoneyValue moneyValue) {
         MoneyValue creditMoneyValue;
         if (sameCurrency(moneyValue))
-            creditMoneyValue = new MoneyValue(this.value + moneyValue.value, this.currency);
+            creditMoneyValue = new MoneyValue(Math.abs(this.value) + Math.abs(moneyValue.value), this.currency);
         else
-            throw new NotSameCurrencyException("Currencies differ");
+            throw new NotSameCurrencyException(CURRENCYDIFFER);
         return creditMoneyValue;
     }
 
     public MoneyValue debit(MoneyValue moneyValue) {
         MoneyValue debitMoneyValue;
         if (sameCurrency(moneyValue))
-            debitMoneyValue = new MoneyValue(this.value - moneyValue.value, this.currency);
+            debitMoneyValue = new MoneyValue(Math.abs(this.value) - Math.abs(moneyValue.value), this.currency);
         else
-            throw new NotSameCurrencyException("Currencies differ");
+            throw new NotSameCurrencyException(CURRENCYDIFFER);
         return debitMoneyValue;
     }
 
@@ -156,10 +159,14 @@ public class MoneyValue {
         if (sameCurrency(moneyValue))
             return this.value.compareTo(moneyValue.value);
         else
-            throw new NotSameCurrencyException("Currencies differ");
+            throw new NotSameCurrencyException(CURRENCYDIFFER);
     }
 
     public CurrencyEnum getCurrencyType() {
         return this.currency;
+    }
+
+    public MoneyValue getSimmetric() {
+        return new MoneyValue(-this.value, this.currency);
     }
 }
