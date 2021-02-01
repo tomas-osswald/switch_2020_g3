@@ -2,8 +2,8 @@ package switchtwentytwenty.project.domain.dtos.output;
 
 public class AccountIDAndDescriptionDTO {
 
-    final private int accountID;
-    final private String description;
+    private final int accountID;
+    private final String description;
 
     public AccountIDAndDescriptionDTO(int accountID, String description){
         this.accountID = accountID;

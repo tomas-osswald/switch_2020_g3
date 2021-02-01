@@ -19,6 +19,7 @@ public class AccountData {
     private String description;
     private int accountID;
     private List<Transaction> transactions;
+    //TODO: Será que não será melhor mudar para SimpleFormatDate? Pois nos permite escolher o formato e não dar cagada nos testes a comparar datas até ao millisegundo? by: Jonhnny Sins
     private Date creationDate;
     private MoneyValue currentBalance;
 
