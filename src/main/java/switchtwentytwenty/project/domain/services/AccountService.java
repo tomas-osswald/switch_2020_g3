@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.DTOs.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
@@ -10,7 +11,6 @@ import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.List;

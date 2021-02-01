@@ -33,6 +33,7 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
             AccountService accountService = new AccountService();
             return accountService.transferCashBetweenFamilyMembersCashAccounts(family, originFamilyMember, destinationFamilyMember, category, cashTransferDTO);
+            //TODO corrigir esta falha de cobertura
         } catch ( NullPointerException exception) {
             return false;
         }
