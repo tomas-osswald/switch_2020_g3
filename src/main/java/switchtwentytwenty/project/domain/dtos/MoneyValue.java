@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.DTOs;
+package switchtwentytwenty.project.domain.dtos;
 
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;

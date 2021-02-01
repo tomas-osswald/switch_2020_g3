@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.model;
 
-import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 

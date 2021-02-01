@@ -2,7 +2,7 @@ package switchtwentytwenty.project.controllers;
 
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 
 public class GetFamilyMemberProfileController {
 

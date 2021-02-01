@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.utils;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 

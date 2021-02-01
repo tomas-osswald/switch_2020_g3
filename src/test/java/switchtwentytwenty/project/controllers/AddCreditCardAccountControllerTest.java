@@ -2,7 +2,7 @@ package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;

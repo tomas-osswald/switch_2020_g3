@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.domain.services;
 
-import switchtwentytwenty.project.domain.DTOs.output.CategoryTreeDTO;
+import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;

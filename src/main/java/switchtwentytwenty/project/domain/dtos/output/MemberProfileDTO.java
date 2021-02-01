@@ -1,6 +1,5 @@
-package switchtwentytwenty.project.domain.DTOs.output;
+package switchtwentytwenty.project.domain.dtos.output;
 
-import switchtwentytwenty.project.domain.model.Relation;
 import switchtwentytwenty.project.domain.model.user_data.*;
 
 import java.util.ArrayList;

@@ -4,11 +4,10 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.DTOs.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 
 public class TransferCashFromFamilyAccountToPersonalAccountController {
 

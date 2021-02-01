@@ -2,9 +2,9 @@ package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyMemberRelationDTO;
-import switchtwentytwenty.project.domain.DTOs.output.FamilyWithoutAdministratorDTO;
-import switchtwentytwenty.project.domain.DTOs.output.MemberProfileDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.user_data.*;
