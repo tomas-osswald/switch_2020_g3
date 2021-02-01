@@ -1,10 +1,8 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
-import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -158,12 +156,11 @@ class BankSavingsAccountTest {
     }
 
 
-    //TODO: Alterar para moneyValue / Credit e Debit até 231
     @Test
     void getBalanceExpectingEqualsTrue() {
-        MoneyValue expected = expectedPositiveMoneyValue;
+        Double expected = balance;
 
-        MoneyValue result = accountPositive.getMoneyBalance();
+        Double result = accountPositive.getMoneyBalance().getValue();
 
         assertEquals(expected, result);
         assertNotNull(result);
@@ -171,24 +168,22 @@ class BankSavingsAccountTest {
 
     @Test
     void getBalanceExpectingNotEquals() {
-        MoneyValue expected = expectedNegativeMoneyValue;
+        Double expected = 9.00;
 
-        MoneyValue result = accountPositive.getMoneyBalance();
+        Double result = accountPositive.getMoneyBalance().getValue();
 
         assertNotEquals(expected, result);
         assertNotNull(result);
 
     }
 
-
     @Test
     void changeBalanceAddingZeroExpectingEquals() {
+        MoneyValue balanceChange = new MoneyValue(0.0, CurrencyEnum.EURO);
+        Double expected = 1.23;
 
-        MoneyValue expected = expectedNegativeMoneyValue;
-
-
-        accountNegative.credit(zeroMoneyValue);
-        MoneyValue result = accountNegative.getMoneyBalance();
+        accountPositive.credit(balanceChange);
+        Double result = accountPositive.getMoneyBalance().getValue();
 
         assertEquals(expected, result);
         assertNotNull(result);
@@ -196,38 +191,37 @@ class BankSavingsAccountTest {
 
     @Test
     void changeBalanceAddingPositiveNumberExpectingEquals() {
+        MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
+        Double expected = 2.23;
 
-        MoneyValue expected = zeroMoneyValue;
+        accountPositive.credit(balanceChange);
+        Double result = accountPositive.getMoneyBalance().getValue();
 
-        accountNegative.credit(expectedPositiveMoneyValue);
-        MoneyValue result = accountNegative.getMoneyBalance();
-
-        assertEquals(expected, result);
+        assertEquals(expected, result, 0.001);
         assertNotNull(result);
     }
 
     @Test
     void changeBalanceAddingNegativeNumberExpectingEquals() {
+        MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
+        double expected = 0.23;
 
-        MoneyValue expected = zeroMoneyValue;
+        accountPositive.debit(balanceChange);
+        Double result = accountPositive.getMoneyBalance().getValue();
 
-        accountPositive.debit(expectedNegativeMoneyValue);
-        MoneyValue result = accountPositive.getMoneyBalance();
-
-        assertEquals(expected, result);
+        assertEquals(expected, result, 0.001);
         assertNotNull(result);
     }
 
 
     @Test
     void changeBalanceExpectingNotEquals() {
+        MoneyValue balanceChange = new MoneyValue(4.0, CurrencyEnum.EURO);
+        double expected = 14.23;
 
-        MoneyValue expected = zeroMoneyValue;
-
-        accountPositive.credit(expectedPositiveMoneyValue);
-        MoneyValue result = accountPositive.getMoneyBalance();
-
-        assertNotEquals(expected, result);
+        accountPositive.credit(balanceChange);
+        Double result = accountPositive.getMoneyBalance().getValue();
+        assertNotEquals(expected, result, 0.001);
         assertNotNull(result);
     }
 
@@ -291,12 +285,6 @@ class BankSavingsAccountTest {
         assertTrue(result);
     }
 
-    @Test
-    void registerTransaction() {
-        FamilyCashTransferDTO transferenceDto = new FamilyCashTransferDTO(3, "sim", 2, new MoneyValue(2.2, CurrencyEnum.EURO), CurrencyEnum.EURO, 0, "test", new Date());
-        Category category = new StandardCategory("test", null, 2);
-        assertTrue(accountPositive.registerTransaction(accountPositiveTwo, category, transferenceDto));
-    }
 
     @Test
     void testHashCode() {
@@ -312,5 +300,13 @@ class BankSavingsAccountTest {
         assertEquals(expected.hashCode(), result.hashCode());
     }
 
+    @Test
+    void checkCurrency() {
+
+        BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);
+        boolean result = account.checkCurrency(CurrencyEnum.EURO);
+
+        Assertions.assertTrue(result);
+    }
 
 }

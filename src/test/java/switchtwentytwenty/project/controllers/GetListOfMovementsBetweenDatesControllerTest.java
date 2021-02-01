@@ -8,6 +8,7 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 import java.util.List;
@@ -67,9 +68,9 @@ class GetListOfMovementsBetweenDatesControllerTest {
     int cashAccountID = 1;
     int cashAccountBlankID = 2;
     int cashAccountEmptyID = 3;
-    AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1);
-    AddCashAccountDTO addCashAccountDTOBlankName = new AddCashAccountDTO(balance, "   ", cc2, 1);
-    AddCashAccountDTO addCashAccountDTOEmptyName = new AddCashAccountDTO(balance, "", cc3, 1);
+    AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+    AddCashAccountDTO addCashAccountDTOBlankName = new AddCashAccountDTO(balance, "   ", cc2, 1, CurrencyEnum.EURO);
+    AddCashAccountDTO addCashAccountDTOEmptyName = new AddCashAccountDTO(balance, "", cc3, 1, CurrencyEnum.EURO);
 
     CashAccount cashAccount = new CashAccount(addCashAccountDTO, cashAccountID);
     CashAccount cashAccountBlank = new CashAccount(addCashAccountDTOBlankName, cashAccountBlankID);

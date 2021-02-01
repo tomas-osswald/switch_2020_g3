@@ -74,7 +74,7 @@ class CheckChildCashAccountBalanceControllerTest {
     String accountDescriptionOne = "Cash Account";
     int accountIDOne = 1;
 
-    AddCashAccountDTO accountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, cc, family.getFamilyID());
+    AddCashAccountDTO accountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, cc, family.getFamilyID(), CurrencyEnum.EURO);
     CashAccount cashAccount = new CashAccount(accountDTO, accountIDOne);
 
     // Different Account - not Cash
@@ -95,7 +95,8 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
-        Double expected = cashAccount.getBalance();
+
+        double expected = cashAccount.getMoneyBalance().getValue();
 
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
@@ -117,8 +118,9 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
-        cashAccount.changeBalance(new MoneyValue(-10.0, CurrencyEnum.EURO));
-        Double expected = 0.00;
+
+        cashAccount.debit(new MoneyValue(10.0, CurrencyEnum.EURO));
+        double expected = 0.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
 
@@ -197,7 +199,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int savingsAccountID = savingsAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getBalance(), savingsAccount.getInterestRate());
+        accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getMoneyBalance().getValue(), savingsAccount.getInterestRate());
         String parentID = diogo.getID();
         String childID = jorge.getID();
 

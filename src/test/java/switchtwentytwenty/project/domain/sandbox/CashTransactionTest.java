@@ -18,12 +18,12 @@ class CashTransactionTest {
     Date date = new Date();
     Category category = new StandardCategory("lel", null, 2);
     TransactionData transactionData = new TransactionData("test", new MoneyValue(2.2, CurrencyEnum.EURO), date, category);
-    Account cashAccount = new CashAccount("test", 2.2, 2);
+    Account cashAccount = new CashAccount("test", 2.2, 2,CurrencyEnum.EURO);
     //Transaction Data
     int familyID = 2;
     String familyMemberCC = "000000000BC4";
     int accountID = 2;
-    MoneyValue transferAmount = new MoneyValue(2.2, CurrencyEnum.EURO);
+    double transferAmount = 2.2;
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 2;
 

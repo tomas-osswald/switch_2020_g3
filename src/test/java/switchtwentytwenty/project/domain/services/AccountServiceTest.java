@@ -12,9 +12,6 @@ import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import java.util.Date;
 import switchtwentytwenty.project.controllers.AddFamilyAdministratorController;
 import switchtwentytwenty.project.controllers.AddFamilyController;
-import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -24,7 +21,6 @@ import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
@@ -110,8 +106,8 @@ class AccountServiceTest {
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00, 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
-    CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID);
-    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID);
+    CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID,CurrencyEnum.EURO);
+    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID,CurrencyEnum.EURO);
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
 
 
@@ -355,7 +351,7 @@ class AccountServiceTest {
     void createPersonalCashAccount_validInputValues() {
         String cashAccount = "Wallet";
         double balance = 0.23;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, family1ID);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, family1ID, CurrencyEnum.EURO);
 
         boolean result = accountService.createPersonalCashAccount(diogo, cashAccountDTO);
 
@@ -366,7 +362,7 @@ class AccountServiceTest {
     void createPersonalCashAccount_invalidInputValues() {
         String cashAccount = "Wallet";
         double balance = -1000;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, family1ID);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, family1ID, CurrencyEnum.EURO);
 
         boolean result = accountService.createPersonalCashAccount(diogo, cashAccountDTO);
 
@@ -404,13 +400,13 @@ class AccountServiceTest {
         Date transactionDate = new Date();
         //Account Data
         double initialBalance = 1000.00;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 525);
         accountService.createPersonalCashAccount(diogo, cashAccountDTO);
         //Transference Data
-        MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
+        double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
@@ -430,13 +426,13 @@ class AccountServiceTest {
         Date transactionDate = new Date();
         //Account Data
         double initialBalance = 100.0;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 100);
         accountService.createPersonalCashAccount(diogo, cashAccountDTO);
         //Transference Data
-        MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
+        double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
@@ -456,12 +452,12 @@ class AccountServiceTest {
         Date transactionDate = new Date();
         //Account Data
         double initialBalance = 100.0;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1,CurrencyEnum.EURO);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createPersonalCashAccount(diogo, cashAccountDTO);
         //Transference Data
-        MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
+        double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
@@ -487,8 +483,8 @@ class AccountServiceTest {
         Date transactionDate = new Date();
 
         CategoryService categoryService = this.ffmApp.getCategoryService();
-        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1);
-        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1);
+        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1, CurrencyEnum.EURO);
+        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1, CurrencyEnum.EURO);
 
         Family simpsonFamily = familyService.getFamily(1);
         familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
@@ -525,8 +521,8 @@ class AccountServiceTest {
         Date transactionDate = new Date();
 
         CategoryService categoryService = this.ffmApp.getCategoryService();
-        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1);
-        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1);
+        AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1, CurrencyEnum.EURO);
+        AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1, CurrencyEnum.EURO);
 
         Family simpsonFamily = familyService.getFamily(1);
         familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
@@ -556,13 +552,13 @@ class AccountServiceTest {
         Date transactionDate = new Date();
         //Account Data
         double initialBalance = 1000.00;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 525);
         accountService.createPersonalCashAccount(diogo, cashAccountDTO);
         //Transference Data
-        MoneyValue transferAmount = new MoneyValue(200.0, CurrencyEnum.EURO);
+        double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 

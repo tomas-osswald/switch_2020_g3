@@ -4,6 +4,7 @@ import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -66,10 +67,14 @@ public class BankSavingsAccount implements Account {
         return this.accountData.getAccountID();
     }
 
-    //TODO: Destruir (inclui Interface)
+    /*
     public double getBalance() {
-    return 99999999;
+        //Deverá ser calculado o balance com o interest rate sempre que consultado. Não sei se é assim que se calcula :S
+        //return calculateInterest(); usa-se isto depois dos testes estarem adaptados aos novos cáluclos.
+        return this.accountData.getBalance();
     }
+
+     */
 
     /*
     private double calculateInterest() {
@@ -88,15 +93,6 @@ public class BankSavingsAccount implements Account {
         return Duration.between(now, dateToCheck).toDays();
     }
 */
-
-
-    //TODO: Destruir (inclui Interface)
-    public void changeBalance(double value) {
-            }
-
-    public void changeBalance(MoneyValue value) {
-        this.accountData.changeBalance(value.getValue());
-    }
 
     public double getInterestRate() {
         return this.interestRate;
@@ -129,10 +125,6 @@ public class BankSavingsAccount implements Account {
         return true;
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
-    }
-
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
@@ -154,11 +146,16 @@ public class BankSavingsAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) {
-    this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
+    public void debit(MoneyValue value) { //expense
+        accountData.debit(value);
     }
 
-    public void credit(MoneyValue value) {
-    this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
+    public void credit(MoneyValue value) { //expense
+        accountData.credit(value);
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 }

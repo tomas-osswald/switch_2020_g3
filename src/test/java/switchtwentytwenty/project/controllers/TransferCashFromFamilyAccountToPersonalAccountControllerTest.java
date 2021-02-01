@@ -38,7 +38,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
     int familyID = 1;
     String familyMemberCC = "000000000ZZ4";
     int accountID = 1;
-    MoneyValue transferAmount = new MoneyValue(2.0, CurrencyEnum.EURO);
+    double transferAmount = 2.00;
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     String transactionDesignation = "Not for donuts";
@@ -64,7 +64,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
         FamilyMember homer = simpsonFamily.getFamilyMember(familyMemberCC);
         categoryService.addCategoryToFamilyTree(simpsonFamily,"Donuts",1);
 
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(0.23,"Homer's Wallet",familyMemberCC,1);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(0.23,"Homer's Wallet",familyMemberCC,1, currency);
 
         AccountService accountService = new AccountService();
         accountService.createFamilyCashAccount(simpsonFamily, "Simpson's Wallet", 12.75);
@@ -75,7 +75,6 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
 
     @Test
     void transferCashFromFamilyToFamilyMember_validTransference() {
-
         familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
 

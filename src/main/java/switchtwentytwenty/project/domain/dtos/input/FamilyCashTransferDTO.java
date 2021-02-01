@@ -10,13 +10,13 @@ public class FamilyCashTransferDTO {
     private int familyID;
     private String familyMemberCC;
     private int accountID;
-    private MoneyValue transferAmount;
+    private double transferAmount;
     private CurrencyEnum currency;
     private int categoryID;
     private String transactionDesignation;
     private Date transactionDate;
 
-    public FamilyCashTransferDTO(int familyID, String familyMemberCC, int accountID, MoneyValue transferAmount, CurrencyEnum currency, int categoryID, String transactionDesignation, Date transactionDate) {
+    public FamilyCashTransferDTO(int familyID, String familyMemberCC, int accountID, double transferAmount, CurrencyEnum currency, int categoryID, String transactionDesignation, Date transactionDate) {
         this.familyID = familyID;
         this.familyMemberCC = familyMemberCC;
         this.accountID = accountID;
@@ -43,7 +43,7 @@ public class FamilyCashTransferDTO {
         return accountID;
     }
 
-    public MoneyValue getTransferAmount() {
+    public double getTransferAmount() {
         return transferAmount;
     }
 

@@ -15,7 +15,7 @@ public class CashTransaction implements Transaction {
     public CashTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         this.otherAccount = targetAccount;
         String designation = familyCashTransferDTO.getTransactionDesignation();
-        MoneyValue transferedValue = familyCashTransferDTO.getTransferAmount();
+        MoneyValue transferedValue = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
         Date transactionDate = familyCashTransferDTO.getTransactionDate();
         this.transactionData = new TransactionData(designation, transferedValue, transactionDate, category);
     }
