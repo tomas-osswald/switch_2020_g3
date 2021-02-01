@@ -19,8 +19,7 @@ public class CreditCardAccount implements Account {
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
-        validateWithrawalLimit(addCreditCardAccountDTO.getWithdrwaLimit());
-
+        validateWithrawalLimit(addCreditCardAccountDTO.getWithdrawalLimit());
         try {
             this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID, addCreditCardAccountDTO.getCurrency());
         } catch (InvalidAccountDesignationException exception) {
@@ -28,7 +27,7 @@ public class CreditCardAccount implements Account {
             this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID, addCreditCardAccountDTO.getCurrency());
         }
 
-        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCurrency());
+        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
 
         if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
             validateTotalDebt(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getInterestDebt());

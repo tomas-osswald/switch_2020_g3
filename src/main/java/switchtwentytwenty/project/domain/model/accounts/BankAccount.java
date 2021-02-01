@@ -1,6 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
+
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.sandbox.IBAN;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
@@ -35,6 +39,18 @@ public class BankAccount implements Account {
     }
 
      */
+    public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
+        double balance = addBankAccountDTO.getBalance();
+        if (!validateBalance(balance)) {
+            balance = 0.00;
+        }
+        String description = addBankAccountDTO.getDescription();
+        if (!validateDescription(description)){
+            description = "BankAccount" + " " + bankAccountID;
+        }
+        this.accountData = new AccountData(balance, description, bankAccountID);
+
+    }
     public BankAccount(String description, Double balance, Integer bankAccountID) {
         if (!validateDescription(description)) {
             description = "BankAccount" + " " + bankAccountID;
