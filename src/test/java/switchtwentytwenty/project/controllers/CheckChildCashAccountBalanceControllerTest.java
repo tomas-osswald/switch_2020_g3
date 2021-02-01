@@ -81,10 +81,6 @@ class CheckChildCashAccountBalanceControllerTest {
     BankSavingsAccount savingsAccount = new BankSavingsAccount(accountIDOne, "savings", 100.00, 1.00);
 
 
-
-
-
-
     @Test
     void checkChildCashAccountBalance_PositiveMoneyValue() {
         int familyID = family.getFamilyID();
@@ -99,7 +95,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
-        double expected = cashAccount.getBalance();
+        Double expected = cashAccount.getBalance();
 
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
@@ -122,7 +118,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
         cashAccount.changeBalance(new MoneyValue(-10.0, CurrencyEnum.EURO));
-        double expected = 0.00;
+        Double expected = 0.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
 
@@ -142,7 +138,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(-90, parentID, childID, cashAccountID);
 
@@ -163,7 +159,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, "000000000000", childID, cashAccountID);
 
@@ -185,7 +181,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
 
@@ -206,7 +202,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, savingsAccountID);
 
