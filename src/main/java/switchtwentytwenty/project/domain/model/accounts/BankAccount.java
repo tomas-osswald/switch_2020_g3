@@ -38,9 +38,10 @@ public class BankAccount implements Account {
      */
     public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
         double balance = addBankAccountDTO.getBalance();
-        /*if (!validateBalance(balance)) {
+
+        if (!validateBalance(balance)) {
             balance = 0.00;
-        }*/
+        }
         String description = addBankAccountDTO.getDescription();
         if (!validateDescription(description)){
             description = "BankAccount" + " " + bankAccountID;
