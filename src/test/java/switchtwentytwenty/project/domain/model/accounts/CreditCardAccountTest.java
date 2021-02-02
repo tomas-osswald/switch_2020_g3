@@ -245,8 +245,8 @@ class CreditCardAccountTest {
 
     @Test
     void creditCardAccountLessThanZeroInterestDebt() {
-        Double nullInterestDebt = -0.01;
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, nullInterestDebt, currencyEnumOne);
+        Double negativeInterestDebt = -0.01;
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, negativeInterestDebt, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
 
         MoneyValue expected = new MoneyValue(0.00, currencyEnumOne);

@@ -15,33 +15,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionDataDTOTest {
 
-    StandardCategory parentStandard = new StandardCategory("root",null,1);
+    StandardCategory parentStandard = new StandardCategory("root", null, 1);
 
     String designationOne = "movement one";
     MoneyValue amountOne = new MoneyValue(1.0, CurrencyEnum.EURO);
     Date transactionDateOne = new Date(2021, 1, 21);
-    StandardCategory categoryOne = new StandardCategory("Serviços",parentStandard,2);
+    StandardCategory categoryOne = new StandardCategory("Serviços", parentStandard, 2);
 
     String designationTwo = "movement two";
     MoneyValue amountTwo = new MoneyValue(2.0, CurrencyEnum.EURO);
     Date transactionDateTwo = new Date(2021, 2, 21);
-    StandardCategory categoryTwo = new StandardCategory("Serviços",parentStandard,2);
-
-    TransactionData transactionDataOne = new TransactionData(designationOne, amountOne, transactionDateOne, categoryOne);
-    TransactionData transactionDataTwo = new TransactionData(designationTwo, amountTwo, transactionDateTwo, categoryTwo);
+    StandardCategory categoryTwo = new StandardCategory("Serviços", parentStandard, 2);
+    boolean credit = true;
+    TransactionData transactionDataOne = new TransactionData(designationOne, amountOne, credit, transactionDateOne, categoryOne);
+    TransactionData transactionDataTwo = new TransactionData(designationTwo, amountTwo, credit, transactionDateTwo, categoryTwo);
 
     TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(transactionDataOne);
     TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(transactionDataTwo);
     TransactionDataDTO transactionDataDTOThree = new TransactionDataDTO(transactionDataOne);
 
     @Test
-    void constructorForTransactionDataDTO(){
+    void constructorForTransactionDataDTO() {
         //Arrange
         String designation = "New Transaction";
         MoneyValue ammount = new MoneyValue(50.0, CurrencyEnum.EURO);
         Date transactionDate = new Date();
         Category category = new StandardCategory("TestCategory", null, 1);
-        TransactionData transactionData = new TransactionData(designation,ammount,transactionDate,category);
+        TransactionData transactionData = new TransactionData(designation, ammount, credit, transactionDate, category);
 
         //Act
         TransactionDataDTO transactionDTO = new TransactionDataDTO(transactionData);

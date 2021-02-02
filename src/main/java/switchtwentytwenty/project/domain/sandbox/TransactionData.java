@@ -8,18 +8,19 @@ import java.util.Date;
 public class TransactionData {
     private Date transactionDate;
     private Date registrationDate;
-    // private Account destinationAccount;
-    private MoneyValue ammount; //Currency?
+    private MoneyValue ammount;
     private Category category;
     private String designation;
     private MoneyValue remainingBalance = new MoneyValue(0.0, null);
+    private boolean credit;
 
-    public TransactionData(String designation, MoneyValue ammount, Date transactionDate, Category category) {
+    public TransactionData(String designation, MoneyValue ammount,boolean credit, Date transactionDate, Category category) {
         this.transactionDate = (Date) transactionDate.clone();
         this.registrationDate = new Date();
         this.ammount = ammount;
         this.category = category;
         this.designation = designation;
+        this.credit = credit;
     }
 
     public Date getTransactionDate() {
@@ -45,4 +46,8 @@ public class TransactionData {
     public MoneyValue getRemainingBalance() {
         return this.remainingBalance;
     }
+
+    public boolean isCredit() {return this.credit;}
+
+    public boolean isDebit() {return !this.credit;}
 }

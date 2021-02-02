@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class CashTransactionTest {
     Date date = new Date();
     Category category = new StandardCategory("lel", null, 2);
-    TransactionData transactionData = new TransactionData("test", new MoneyValue(2.2, CurrencyEnum.EURO), date, category);
+    TransactionData transactionData = new TransactionData("test", new MoneyValue(2.2, CurrencyEnum.EURO),true, date, category);
     Account cashAccount = new CashAccount("test", 2.2, 2,CurrencyEnum.EURO);
     //Transaction Data
     int familyID = 2;
@@ -33,8 +33,8 @@ class CashTransactionTest {
 
     @Test
     void cashTransactionConstructorTest() {
-
-        CashTransaction cashTransaction = new CashTransaction(cashAccount, category, dto);
+        boolean credit = true;
+        CashTransaction cashTransaction = new CashTransaction(cashAccount, category, credit, dto);
 
         Assertions.assertNotNull(cashTransaction);
     }
@@ -42,8 +42,8 @@ class CashTransactionTest {
 
     @Test
     void getTransactionData() {
-
-        CashTransaction cashTransaction = new CashTransaction(cashAccount, category, dto);
+        boolean credit = true;
+        CashTransaction cashTransaction = new CashTransaction(cashAccount, category, credit, dto);
         TransactionData result = cashTransaction.getTransactionData();
         assertNotNull(result);
     }
