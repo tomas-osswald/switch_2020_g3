@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.services;
 
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
 import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
@@ -161,12 +162,12 @@ public class FamilyService {
         return false;
     }
 
-    public boolean addFamilyMember(String selfCC, String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID) {
-        if (checkIfFamilyExists(familyID)) {
-            int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-            if (this.families.get(posicaoFamilia).verifyAdministrator(selfCC)) {
-                if (!checkIfEmailPresent(email)) {
-                    this.families.get(posicaoFamilia).addFamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+    public boolean addFamilyMember(AddFamilyMemberDTO familyMemberDTO) {
+        if (checkIfFamilyExists(familyMemberDTO.getFamilyID())) {
+            int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
+            if (this.families.get(posicaoFamilia).verifyAdministrator(familyMemberDTO.getSelfCCNumber())) {
+                if (!checkIfEmailPresent(familyMemberDTO.getEmail())) {
+                    this.families.get(posicaoFamilia).addFamilyMember(familyMemberDTO);
                     return true;
                 }
                 throw new IllegalArgumentException("This email already exists");

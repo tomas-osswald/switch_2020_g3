@@ -15,22 +15,22 @@ import java.util.List;
 
 public class AccountData {
 
-    private Double balance = 0.00;
     private String description;
     private int accountID;
     private List<Transaction> transactions;
+    //TODO: Será que não será melhor mudar para SimpleFormatDate? Pois nos permite escolher o formato e não dar cagada nos testes a comparar datas até ao millisegundo? by: Jonhnny Sins
     private Date creationDate;
     private MoneyValue currentBalance;
 
     public AccountData(Double balance, String designation, int accountID) {
         validateDesignation(designation);
-        this.balance = balance;
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new Date();
         this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
+
 
     public AccountData(Double balance, String designation, int accountID, CurrencyEnum currencyEnum) {
         validateDesignation(designation);
@@ -45,31 +45,27 @@ public class AccountData {
             this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
-
     public Date getCreationDate() {
         return (Date) this.creationDate.clone();
     }
 
-    public double getBalance() {
-        return balance;
-    }
-
     public void setBalance(double balance) {
-        this.balance = balance;
         this.currentBalance = new MoneyValue(balance, this.currentBalance.getCurrencyType());
     }
 
     public void setBalance(MoneyValue balance) {
         this.currentBalance = balance;
-        this.balance = balance.getValue();
     }
 
     public MoneyValue getCurrentBalance() {
         return this.currentBalance;
     }
 
-    public void changeBalance(double value) {
-        this.balance += value;
+    public void credit(MoneyValue moneyValue){
+        this.currentBalance=this.currentBalance.credit(moneyValue);
+    }
+    public void debit(MoneyValue moneyValue){
+        this.currentBalance=this.currentBalance.debit(moneyValue);
     }
 
     public String getDescription() {
@@ -99,7 +95,7 @@ public class AccountData {
         if (this == otherAccountData) return true;
         if (otherAccountData == null || !(otherAccountData instanceof AccountData)) return false;
         AccountData other = (AccountData) otherAccountData;
-        return Double.compare(other.balance, balance) == 0 &&
+        return currentBalance.equals(other.currentBalance) &&
                 accountID == other.accountID &&
                 description.equals(other.description);
     }
@@ -111,8 +107,7 @@ public class AccountData {
         return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
     }*/
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        // TODO: DUVIDA - Se este metodo esta no AccountData, nao pode ter construtor de CashTransaction. Se for exclusivo da CashAccount, entao retira-se daqui (interfere na BankAccount)
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
@@ -129,5 +124,9 @@ public class AccountData {
      */
     public List<Transaction> getListOfMovements() {
         return Collections.unmodifiableList(this.transactions);
+    }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return this.currentBalance.getCurrencyType().equals(currency);
     }
 }

@@ -3,6 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -41,14 +42,15 @@ class AddCreditCardAccountControllerTest {
     String local2 = "Gaia";
     String city2 = "Porto";
 
-
     int family1ID = 1;
+
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc,id2,name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,family1ID);
 
     @BeforeEach
     void setup() {
         familyService.addFamily("Silva");
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, family1ID);
-        familyService.addFamilyMember(cc,id2,name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,family1ID);
+        familyService.addFamilyMember(familyMemberDTO);
     }
 
     @Test

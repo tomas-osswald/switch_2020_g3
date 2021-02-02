@@ -3,6 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 
 import java.util.Date;
@@ -18,13 +19,14 @@ class AddCategoryToFamilyTreeControllerTest {
     Date birthdate = new Date(1990, 12, 28);
     String adminCC = "137843828ZX3";
 
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(adminCC, "153017597ZV5", "Diana", birthdate, 910000000, "test2@gmail.com", 205629091, "Rua Dois", "4405-586", "Valadares", "Gaia", 1);
+
     @BeforeEach
     void testSetup() {
         familyController.addFamily("Nogueira");// id = 1
         standardCategoryController.addStandardCategory("House", 0);//id=1
         adminController.addFamilyAdministrator(adminCC, "Ricardo", birthdate, 910000000, "test@gmail.com", 231235470, "Rua Um", "4400-265", "Mafamude", "Gaia", 1);
-        memberController.addFamilyMember(adminCC, "153017597ZV5", "Diana", birthdate, 910000000, "test2@gmail.com", 205629091, "Rua Dois", "4405-586", "Valadares", "Gaia", 1);
-
+        memberController.addFamilyMember(familyMemberDTO);
     }
 
     @Test

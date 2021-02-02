@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class CreditCardAccount implements Account {
         this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
 
         if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
-            validateTotalDebt(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getInterestDebt());
+            validateTotalDebt(addCreditCardAccountDTO.getTotalDebt());
             interestDebtLessThanTotalDebt(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getTotalDebt());
 
             this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
@@ -39,12 +40,14 @@ public class CreditCardAccount implements Account {
         }
     }
 
-    private void validateTotalDebt(Double totalDebt, Double interestDebt) {
+
+
+    // Bussiness Methods
+
+    private void validateTotalDebt(Double totalDebt) {
         if (totalDebt == null || totalDebt < 0.00)
             throw new IllegalArgumentException("Total debt must not be null or greater than Zero");
     }
-
-    // Bussiness Methods
 
     private void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
         if (intertestDebt > totalDebt)
@@ -83,15 +86,6 @@ public class CreditCardAccount implements Account {
                 this.accountData.getAccountID();
     }
 
-    /**
-     * Getter for the balance of this cash account object
-     *
-     * @return returns the balance of this cash account
-     */
-    public double getBalance() {
-        return this.accountData.getBalance();
-    }
-
     //TODO: Deixar em java doc a diferença entre debit e credit no credit card account
 
     public void debit(MoneyValue value) { //expense
@@ -108,6 +102,8 @@ public class CreditCardAccount implements Account {
         this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
     }
 
+
+    /*
     //while
     //25 the balance of a credit card account is the amount due at that moment
 
@@ -119,6 +115,7 @@ public class CreditCardAccount implements Account {
         this.accountData.setBalance(this.accountData.getCurrentBalance().getValue() + Math.abs(value.getValue()));
 
     }
+     */
 
     @Override
     public boolean equals(Object other) {
@@ -142,10 +139,6 @@ public class CreditCardAccount implements Account {
         return false;
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
-    }
-
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
@@ -162,4 +155,9 @@ public class CreditCardAccount implements Account {
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 }

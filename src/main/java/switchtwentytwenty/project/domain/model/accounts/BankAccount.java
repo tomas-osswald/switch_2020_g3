@@ -2,15 +2,12 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.DTOs.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.sandbox.IBAN;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
-import switchtwentytwenty.project.domain.model.categories.Category;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BankAccount implements Account {
 
@@ -41,9 +38,9 @@ public class BankAccount implements Account {
      */
     public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
         double balance = addBankAccountDTO.getBalance();
-        if (!validateBalance(balance)) {
+       /* if (!validateBalance(balance)) {
             balance = 0.00;
-        }
+        }*/
         String description = addBankAccountDTO.getDescription();
         if (!validateDescription(description)){
             description = "BankAccount" + " " + bankAccountID;
@@ -95,6 +92,11 @@ public class BankAccount implements Account {
      */
 
     @Override
+    public int hashCode() {
+        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
@@ -102,25 +104,9 @@ public class BankAccount implements Account {
         return accountData.equals(account.accountData);
     }
 
-    public boolean equals2(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BankAccount)) return false;
-        BankAccount account = (BankAccount) o;
-        return this.getBalance() == account.getBalance() && this.getDescription().equals(account.getDescription()) && this.getAccountID() == account.getAccountID();
-    }
 
-    /*
-    @Override
-    public int hashCode() {
-        return Objects.hash(data);
-    }
-     */
 
     // BUSINESS METHODS
-    public double getBalance() {
-        return accountData.getBalance();
-    }
-
     public String getDescription() {
         return accountData.getDescription();
     }
@@ -145,11 +131,6 @@ public class BankAccount implements Account {
         return ((this.getMoneyBalance().getValue() - transferenceAmount.getValue()) >= 0);
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return true; // DONT HAVE MEANING IN THIS CLASS
-        //return accountData.registerTransaction(targetAccount, category, transferenceDTO);
-    }
-
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
@@ -167,12 +148,21 @@ public class BankAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //expense
-
+    public void debit(MoneyValue value) {
+        double saldo = this.accountData.getCurrentBalance().getValue();
+        double cashout = Math.abs(value.getValue());
+        this.accountData.setBalance(saldo-cashout);
     }
 
-    public void credit(MoneyValue value) { //expense
-
+    public void credit(MoneyValue value) {
+        double saldo = this.accountData.getCurrentBalance().getValue();
+        double cashin = Math.abs(value.getValue());
+        this.accountData.setBalance(saldo+cashin);
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 
 }

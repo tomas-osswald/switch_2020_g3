@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -21,6 +22,7 @@ class CheckCashAccountBalanceControllerTest {
     Application application = new Application();
     FamilyService familyService = application.getFamilyService();
     CheckCashAccountBalanceController checkCashAccountBalanceController = new CheckCashAccountBalanceController(application);
+    CurrencyEnum currency = CurrencyEnum.EURO;
 
     // Family Administrator
 
@@ -65,6 +67,7 @@ class CheckCashAccountBalanceControllerTest {
     Double valueTwo = 50.00;
     String accountDescriptionTwo = "Cash Account";
     int accountIDTwo = 2;
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc, id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneID);
 
     // Credit Card Account Data One
 
@@ -77,13 +80,13 @@ class CheckCashAccountBalanceControllerTest {
     void setup() {
         familyService.addFamily(familyName);
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneID);
-        familyService.addFamilyMember(cc, id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneID);
+        familyService.addFamilyMember(familyMemberDTO);
     }
 
     @Test
     void getListOfCashAccountsOfAFamilyMemberListWithOneCashAccount() {
         CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
-        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID,currency);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
 
         List<AccountIDAndDescriptionDTO> expectedList = new ArrayList<>();
@@ -98,8 +101,8 @@ class CheckCashAccountBalanceControllerTest {
     @Test
     void getListOfCashAccountsOfAFamilyMemberListWithTwoCashAccount() {
         CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
-        AddCashAccountDTO addCashAccountDTOOne = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
-        AddCashAccountDTO addCashAccountDTOTwo = new AddCashAccountDTO(valueTwo, accountDescriptionTwo, id2, familyOneID);
+        AddCashAccountDTO addCashAccountDTOOne = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID, currency);
+        AddCashAccountDTO addCashAccountDTOTwo = new AddCashAccountDTO(valueTwo, accountDescriptionTwo, id2, familyOneID, currency);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOOne);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOTwo);
 
@@ -126,8 +129,8 @@ class CheckCashAccountBalanceControllerTest {
     @Test
     void getListOfCashAccountsOfAFamilyMemberListWithTwoAccountTypes() {
         CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
-        AddCashAccountDTO addCashAccountDTOOne = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
-        AddCashAccountDTO addCashAccountDTOTwo = new AddCashAccountDTO(valueTwo, accountDescriptionTwo, id2, familyOneID);
+        AddCashAccountDTO addCashAccountDTOOne = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID, currency);
+        AddCashAccountDTO addCashAccountDTOTwo = new AddCashAccountDTO(valueTwo, accountDescriptionTwo, id2, familyOneID, currency);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOOne);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOTwo);
 
@@ -201,7 +204,7 @@ class CheckCashAccountBalanceControllerTest {
     @Test
     void checkFamilyMemberCashAccountBalance() {
         CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
-        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID, currency);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
 
         MoneyValue expected = new MoneyValue(valueOne, CurrencyEnum.EURO);
@@ -214,7 +217,7 @@ class CheckCashAccountBalanceControllerTest {
     @Test
     void checkFamilyMemberCashAccountBalanceNoAdministrator() {
         CreatePersonalCashAccountController createPersonalCashAccountController = new CreatePersonalCashAccountController(application);
-        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID,currency);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
 
         MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
