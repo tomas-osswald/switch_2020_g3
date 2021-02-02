@@ -29,6 +29,6 @@ public class RelationService {
         if (!targetFamily.isAParentOfB(memberA, memberB)){
             throw new NoParentalPermissionException("No parental permission");
         }
-        return parenthood;
+        return true;
     }
 }
