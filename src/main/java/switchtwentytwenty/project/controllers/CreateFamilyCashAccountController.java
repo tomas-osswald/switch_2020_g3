@@ -27,7 +27,8 @@ public class CreateFamilyCashAccountController {
             AccountService accountService = this.ffmApplication.getAccountService();
             Family targetFamily = familyService.getFamily(familyID);
             if (targetFamily.verifyAdministrator(ccNumber)) {
-                return accountService.createFamilyCashAccount(targetFamily, accountDesignation, initialBalance);
+                accountService.createFamilyCashAccount(targetFamily, accountDesignation, initialBalance);
+                return true;
             } else {
                 throw new IllegalArgumentException("This user does not have admin permissions");
             }
