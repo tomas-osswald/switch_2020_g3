@@ -38,7 +38,7 @@ public class BankAccount implements Account {
      */
     public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
         double balance = addBankAccountDTO.getBalance();
-       /* if (!validateBalance(balance)) {
+        /*if (!validateBalance(balance)) {
             balance = 0.00;
         }*/
         String description = addBankAccountDTO.getDescription();
@@ -93,7 +93,7 @@ public class BankAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
+        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements());
     }
 
     @Override
@@ -115,8 +115,8 @@ public class BankAccount implements Account {
         return accountData.getAccountID();
     }
 
-    public void changeBalance(MoneyValue value) { // TODO: adicionar CurrencyEnum como argumento
-        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value.getValue(), CurrencyEnum.EURO); //this.accountData.getBalance() + value;
+    public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
+        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
         this.accountData.setBalance(newBalance);
     }
 

@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
@@ -45,9 +46,10 @@ class RegisterPaymentMyCashAccountControllerTest {
     Date transactionDate = new Date(2021,1,21);
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
     FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-200.0,currency,categoryID,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,700.0,currency,categoryID,transactionDesignation,transactionDate);
 
     @Test
-    void registerPaymentMyCashAccount() {
+    void registerPaymentMyCashAccount_SameBalance() {
         Application ffmApp = new Application();
         RegisterPaymentMyCashAccountController controller = new RegisterPaymentMyCashAccountController(ffmApp);
         // FamilyService
@@ -57,7 +59,27 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
-        assertTrue(controller.registerPaymentMyCashAccount(transacaoDTO1));
+        controller.registerPaymentMyCashAccount(transacaoDTO1);
+        double expected = 250.00;
+        double result = contaCash.getMoneyBalance().getValue();
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void registerPaymentMyCashAccount_SameMoneyValue() {
+        Application ffmApp = new Application();
+        RegisterPaymentMyCashAccountController controller = new RegisterPaymentMyCashAccountController(ffmApp);
+        // FamilyService
+        FamilyService familyService = ffmApp.getFamilyService();
+        Family family = new Family("Ribeiros",familyID);
+        familyService.addFamily(family);
+        FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
+        family.addFamilyMember(zeManel);
+        zeManel.addAccount(contaCash);
+        controller.registerPaymentMyCashAccount(transacaoDTO1);
+        MoneyValue expected = new MoneyValue(250.00,CurrencyEnum.EURO);
+        MoneyValue result = contaCash.getMoneyBalance();
+        assertEquals(expected,result);
     }
 
     @Test
@@ -72,6 +94,20 @@ class RegisterPaymentMyCashAccountControllerTest {
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
         assertFalse(controller.registerPaymentMyCashAccount(transacaoDTO2));
+    }
+
+    @Test
+    void NotRegisterPaymentMyCashAccount_NotEnoughBalance() {
+        Application ffmApp = new Application();
+        RegisterPaymentMyCashAccountController controller = new RegisterPaymentMyCashAccountController(ffmApp);
+        // FamilyService
+        FamilyService familyService = ffmApp.getFamilyService();
+        Family family = new Family("Ribeiros",familyID);
+        familyService.addFamily(family);
+        FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
+        family.addFamilyMember(zeManel);
+        zeManel.addAccount(contaCash);
+        assertFalse(controller.registerPaymentMyCashAccount(transacaoDTO3));
     }
 
 }

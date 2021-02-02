@@ -301,6 +301,13 @@ class BankSavingsAccountTest {
     }
 
     @Test
+    void testHashCode_DifferentObjects_TestZeroAccountID() {
+        BankSavingsAccount expected = new BankSavingsAccount(0, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(0, name, balance, interestRate);
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
     void checkCurrency() {
 
         BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);

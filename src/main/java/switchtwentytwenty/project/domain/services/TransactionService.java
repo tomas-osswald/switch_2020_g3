@@ -19,16 +19,14 @@ public class TransactionService {
     public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
-        try {
-            MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
-            if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
-                //TODO: alterar targetCashAccount para null. BT
-                return targetCashAccount.registerTransaction(targetCashAccount, category, credit, familyCashTransferDTO);
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
+        MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
+        if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
+            //TODO: alterar targetCashAccount para null. BT
+            targetCashAccount.registerTransaction(null, category,credit, familyCashTransferDTO);
+            targetCashAccount.debit(transferAmount);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Not enough balance");
         }
     }
 

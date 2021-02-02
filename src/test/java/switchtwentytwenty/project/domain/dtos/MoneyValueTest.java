@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MoneyValueTest {
 
@@ -92,14 +91,14 @@ class MoneyValueTest {
 
     @Test
     void creditTest_failureDifferentCurrencies() {
-        Assertions.assertThrows(NotSameCurrencyException.class,()->{
+        Assertions.assertThrows(NotSameCurrencyException.class, () -> {
             moneyValueDollar.credit(moneyValueEuro);
         });
     }
 
     @Test
     void debitTest_failureDifferentCurrencies() {
-        Assertions.assertThrows(NotSameCurrencyException.class,()->{
+        Assertions.assertThrows(NotSameCurrencyException.class, () -> {
             moneyValueDollar.debit(moneyValueEuro);
         });
     }
@@ -110,7 +109,31 @@ class MoneyValueTest {
 
         CurrencyEnum result = moneyValueEuro.getCurrencyType();
 
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
 
+    }
+
+    @Test
+    void testEquals1() {
+        assertFalse(moneyValueEuro.equals(moneyValueDollar));
+    }
+
+    @Test
+    void testEquals2() {
+        assertTrue(moneyValueEuro.equals(moneyValueEuro));
+    }
+
+    @Test
+    void testHashCode() {
+        int notExpected = 0;
+        int result = moneyValueEuro.hashCode();
+        assertNotEquals(notExpected, result);
+    }
+
+    @Test
+    void testHashCodeEquals() {
+        MoneyValue hash1 = new MoneyValue(2.0, CurrencyEnum.EURO);
+        MoneyValue hash2 = new MoneyValue(2.0, CurrencyEnum.EURO);
+        assertEquals(hash1.hashCode(), hash2.hashCode());
     }
 }

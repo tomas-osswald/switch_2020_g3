@@ -21,7 +21,7 @@ class FamilyCashTransferDTOTest {
     @Test
     void dtoConstructorWithTransactionDate(){
         transactionDate = new Date();
-        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO dto = new switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
         Assertions.assertNotNull(dto);
     }
@@ -29,7 +29,7 @@ class FamilyCashTransferDTOTest {
     @Test
     void dtoConstructorWithoutTransactionDate(){
         transactionDate = null;
-        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO dto = new switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
 
         Assertions.assertNotNull(dto);
     }
@@ -37,7 +37,7 @@ class FamilyCashTransferDTOTest {
     @Test
     void getCurrency() {
         transactionDate = new Date();
-        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO dto = new switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         CurrencyEnum expected = CurrencyEnum.EURO;
 
         CurrencyEnum result = dto.getCurrency();
@@ -47,7 +47,7 @@ class FamilyCashTransferDTOTest {
 
     @Test
     void getCategoryID() {
-        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO dto = new switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         int expected = 2;
 
         int result = dto.getCategoryID();
@@ -58,7 +58,7 @@ class FamilyCashTransferDTOTest {
 
     @Test
     void getTransactionDesignation() {
-        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO dto = new switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO(familyID,familyMemberCC,accountID, transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         String expected = "TestTransaction";
 
         String result = dto.getTransactionDesignation();

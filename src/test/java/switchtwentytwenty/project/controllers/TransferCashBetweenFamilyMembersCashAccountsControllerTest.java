@@ -3,16 +3,16 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
@@ -70,7 +70,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
     String falseFamilyMemberCC = "150149271ZZ6";
     String falseFamilyMemberNIf = "219483345";
     int falseDestinationAccountID = 1;
-    MoneyValue transferedValue = new MoneyValue(2.0, CurrencyEnum.EURO);
+    double transferedValue = 2.00;
     int categoryID = 1;
     String transactionDesignation = "Not for donuts";
     Date transactionDate = new Date();
@@ -122,7 +122,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersOfUnknownFamily() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000", 1, new MoneyValue(2.0, CurrencyEnum.EURO), 1, "Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 1, "Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
         Assertions.assertThrows(Exception.class, () -> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
@@ -130,11 +130,12 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000", 1, new MoneyValue(2.0, CurrencyEnum.EURO), 9, "Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 9, "Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
         Assertions.assertThrows(Exception.class, () -> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
     }
+
 
 
 }

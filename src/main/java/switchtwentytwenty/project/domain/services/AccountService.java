@@ -1,10 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 
 import switchtwentytwenty.project.domain.model.Family;
@@ -12,7 +9,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.utils.CashTransferDTO;
+
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -127,9 +124,11 @@ public class AccountService {
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
-        MoneyValue transferredValue = cashTransferDTO.getTransferedValue();
-        originFamilyMemberAccount.debit(transferredValue);
-        destinationFamilyMemberAccount.credit(transferredValue);
+
+        double transferredValue = cashTransferDTO.getTransferedValue();
+        MoneyValue transferAmmount = new MoneyValue(transferredValue, null);
+        originFamilyMemberAccount.debit(transferAmmount);
+        destinationFamilyMemberAccount.credit(transferAmmount);
         return true;
     }
 
