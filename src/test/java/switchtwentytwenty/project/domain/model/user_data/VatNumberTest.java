@@ -27,18 +27,20 @@ class VatNumberTest {
     void compareSameVATNumber() {
         int vat = 123456789;
         VatNumber vatNumber = new VatNumber(vat);
+        VatNumber vatNumber2 = new VatNumber(vat);
 
-        assertSame(vatNumber, vatNumber);
-        assertEquals(vatNumber, vatNumber);
+        assertSame(vatNumber, vatNumber2);
+        assertEquals(vatNumber, vatNumber2);
     }
 
     @Test
     void compareVATNumberWithAnotherClass() {
+        Integer number = 957247231;
+        PhoneNumber phoneNumber = new PhoneNumber(number);
         int vat = 123456789;
         VatNumber vatNumber = new VatNumber(vat);
-        FamilyService familyService = new FamilyService();
 
-        assertNotEquals(vatNumber, familyService);
+        assertNotEquals(vatNumber, phoneNumber);
     }
     @Test
     void compareTwoInstanceOfVATNumber() {
@@ -62,6 +64,23 @@ class VatNumberTest {
 
         assertNotSame(vatNumber, vatNumber2);
         assertNotEquals(vatNumber, vatNumber2);
+    }
+
+    @Test
+    void testHashCodeEqualObjects() {
+        int vat = 123456789;
+        VatNumber expected = new VatNumber(vat);
+        VatNumber result = new VatNumber(vat);
+        assertEquals(result.hashCode(), expected.hashCode());
+    }
+
+    @Test
+    void testHashCodeDifferentObjects() {
+        int vat = 123456789;
+        int vat2 = 123456780;
+        VatNumber expected = new VatNumber(vat);
+        VatNumber result = new VatNumber(vat2);
+        assertNotEquals(result.hashCode(), expected.hashCode());
     }
 
 }

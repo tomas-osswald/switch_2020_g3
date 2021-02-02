@@ -6,7 +6,9 @@ import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class AccountDataTest {
 
@@ -135,5 +137,19 @@ class AccountDataTest {
         AccountData accountDataEUR = new AccountData(balance, designation, accountID, null);
 
         Assertions.assertNotNull(accountDataEUR);
+    }
+
+    @Test
+    void testHashCodeEqualObjects() {
+        AccountData expected = accountData;
+        AccountData result = accountData;
+        assertEquals(result.hashCode(), expected.hashCode());
+    }
+
+    @Test
+    void testHashCodeDifferentObjects() {
+        AccountData expected = new AccountData(balance, designation, 1002);
+        AccountData result = accountData;
+        assertNotEquals(result.hashCode(), expected.hashCode());
     }
 }

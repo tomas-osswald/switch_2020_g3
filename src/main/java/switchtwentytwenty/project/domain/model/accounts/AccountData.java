@@ -9,10 +9,7 @@ import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class AccountData {
 
@@ -101,6 +98,10 @@ public class AccountData {
                 description.equals(other.description);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, accountID);
+    }
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
         if (moneyValue.getValue() < 0) {

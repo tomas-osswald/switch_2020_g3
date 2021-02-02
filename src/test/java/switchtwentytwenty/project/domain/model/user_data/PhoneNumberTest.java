@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.model.user_data;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.model.accounts.AccountData;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,18 +28,20 @@ class PhoneNumberTest {
     void compareSamePhone() {
         Integer number = 957247231;
         PhoneNumber phoneNumber = new PhoneNumber(number);
+        PhoneNumber phoneNumber2 = new PhoneNumber(number);
 
-        assertSame(phoneNumber, phoneNumber);
-        assertEquals(phoneNumber, phoneNumber);
+        assertSame(phoneNumber, phoneNumber2);
+        assertEquals(phoneNumber, phoneNumber2);
     }
 
     @Test
     void compareWithAnotherClass() {
+        VatNumber vat = new VatNumber(123456789);
         Integer number = 957247231;
         PhoneNumber phoneNumber = new PhoneNumber(number);
 
-        assertNotEquals(phoneNumber, number);
-        assertNotSame(phoneNumber, number);
+        assertNotEquals(phoneNumber, vat);
+        assertNotSame(phoneNumber, vat);
     }
 
     @Test
@@ -63,5 +66,22 @@ class PhoneNumberTest {
 
         assertNotSame(phoneNumber, phoneNumber2);
         assertNotEquals(phoneNumber, phoneNumber2);
+    }
+
+    @Test
+    void testHashCodeEqualObjects() {
+        Integer number = 957247231;
+        PhoneNumber expected = new PhoneNumber(number);
+        PhoneNumber result = new PhoneNumber(number);
+        assertEquals(result.hashCode(), expected.hashCode());
+    }
+
+    @Test
+    void testHashCodeDifferentObjects() {
+        Integer number = 957247231;
+        Integer number2 = 957245231;
+        PhoneNumber expected = new PhoneNumber(number);
+        PhoneNumber result = new PhoneNumber(number2);
+        assertNotEquals(result.hashCode(), expected.hashCode());
     }
 }
