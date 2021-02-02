@@ -323,7 +323,7 @@ class BankSavingsAccountTest {
 
         Assertions.assertTrue(result);
     }
-git
+
     @Test
     void checkCurrencyEuro() {
         BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
