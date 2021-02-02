@@ -21,12 +21,12 @@ public class RelationService {
     }
 
     public boolean checkIfMemberAisParentOfB(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        return targetFamily.isAParentOfB(memberA, memberB);
+        return targetFamily.verifyParenthood(memberA, memberB);
     }
 
     public boolean verifyParenthood(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        boolean parenthood = targetFamily.isAParentOfB(memberA, memberB);
-        if (!targetFamily.isAParentOfB(memberA, memberB)){
+        boolean parenthood = targetFamily.verifyParenthood(memberA, memberB);
+        if (!targetFamily.verifyParenthood(memberA, memberB)){
             throw new NoParentalPermissionException("No parental permission");
         }
         return true;
