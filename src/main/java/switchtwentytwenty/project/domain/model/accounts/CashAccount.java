@@ -8,7 +8,6 @@ import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class CashAccount implements Account {
@@ -95,7 +94,8 @@ public class CashAccount implements Account {
     }
 
     public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO, credit);
+        accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO, credit);
+        return true;
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {

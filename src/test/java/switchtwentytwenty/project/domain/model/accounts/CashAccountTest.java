@@ -3,8 +3,14 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.CustomCategory;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
@@ -19,7 +25,7 @@ class CashAccountTest {
         double balance = 1.00;
         String designation = "My Cash Account";
         int cashAccountID = 1001;
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
 
         Assertions.assertNotNull(cashAccountOne);
     }
@@ -30,7 +36,7 @@ class CashAccountTest {
         String designation = "Second Cash Account";
         int cashAccountID = 1011;
 
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
 
         Assertions.assertNotNull(cashAccountOne);
     }
@@ -41,7 +47,7 @@ class CashAccountTest {
         String designation = "My Cash Account";
         int cashAccountID = 1001;
 
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
 
         Assertions.assertNotNull(cashAccountOne);
     }
@@ -53,7 +59,7 @@ class CashAccountTest {
         int cashAccountID = 1001;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+            CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         });
     }
 
@@ -64,7 +70,7 @@ class CashAccountTest {
         int cashAccountID = 1001;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+            CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         });
     }
 
@@ -74,7 +80,7 @@ class CashAccountTest {
         String designation = null;
         int cashAccountID = 1001;
 
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
 
         Assertions.assertNotNull(cashAccountOne);
     }
@@ -85,7 +91,7 @@ class CashAccountTest {
         String designation = "";
         int cashAccountID = 1001;
 
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
 
         Assertions.assertNotNull(cashAccountOne);
     }
@@ -96,7 +102,7 @@ class CashAccountTest {
         String designation = "  ";
         int cashAccountID = 1001;
 
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
 
         Assertions.assertNotNull(cashAccountOne);
     }
@@ -106,7 +112,7 @@ class CashAccountTest {
         double balance = 0;
         String designation = "Account";
         int cashAccountID = 1001;
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         int expected = 1001;
 
         int result = cashAccountOne.getAccountID();
@@ -119,7 +125,7 @@ class CashAccountTest {
         double balance = 0;
         String designation = "Account";
         int cashAccountID = 1002;
-        CashAccount cashAccountTwo = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountTwo = new CashAccount(designation, balance, cashAccountID, currency);
         int expected = 1002;
 
         int result = cashAccountTwo.getAccountID();
@@ -132,7 +138,7 @@ class CashAccountTest {
         double balance = 10;
         String designation = "Account";
         int cashAccountID = 1002;
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         double expected = 10;
 
         double result = cashAccountOne.getMoneyBalance().getValue();
@@ -145,7 +151,7 @@ class CashAccountTest {
         double balance = 10;
         String designation = "Account";
         int cashAccountID = 1002;
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         double expected = 15;
 
         cashAccountOne.credit(new MoneyValue(5.0, CurrencyEnum.EURO));
@@ -159,7 +165,7 @@ class CashAccountTest {
         double balance = 10;
         String designation = "Account";
         int cashAccountID = 1002;
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         double expected = 5;
 
         cashAccountOne.debit(new MoneyValue(5.0, CurrencyEnum.EURO));
@@ -173,7 +179,7 @@ class CashAccountTest {
         double balance = 10;
         String designation = "Account";
         int cashAccountID = 1002;
-        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID,currency);
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
         assertThrows(IllegalStateException.class, () -> {
             cashAccountOne.debit(new MoneyValue(15.0, CurrencyEnum.EURO));
         });
@@ -181,14 +187,14 @@ class CashAccountTest {
 
     @Test
     void equalsTrueItself() {
-        CashAccount one = new CashAccount("Account", 1, 1,currency);
+        CashAccount one = new CashAccount("Account", 1, 1, currency);
 
         assertTrue(one.equals(one));
     }
 
     @Test
     void equalsFalseNotCashAccountObject() {
-        CashAccount one = new CashAccount("Account", 1, 1,currency);
+        CashAccount one = new CashAccount("Account", 1, 1, currency);
         FamilyService familyService = new FamilyService();
 
         assertFalse(one.equals(familyService));
@@ -196,24 +202,24 @@ class CashAccountTest {
 
     @Test
     void equalsTrueSameBalanceAndID() {
-        CashAccount one = new CashAccount("Account", 1, 1,currency);
-        CashAccount two = new CashAccount("Account", 1, 1,currency);
+        CashAccount one = new CashAccount("Account", 1, 1, currency);
+        CashAccount two = new CashAccount("Account", 1, 1, currency);
 
         assertTrue(one.equals(two));
     }
 
     @Test
     void equalsFalseSameBalanceDifferentID() {
-        CashAccount one = new CashAccount("Account", 1, 1,currency);
-        CashAccount two = new CashAccount("Account", 5, 1,currency);
+        CashAccount one = new CashAccount("Account", 1, 1, currency);
+        CashAccount two = new CashAccount("Account", 5, 1, currency);
 
         assertFalse(one.equals(two));
     }
 
     @Test
     void equalsFalseDifferentBalanceSameID() {
-        CashAccount one = new CashAccount("Account", 1, 1,currency);
-        CashAccount two = new CashAccount("Account", 1.01, 1,currency);
+        CashAccount one = new CashAccount("Account", 1, 1, currency);
+        CashAccount two = new CashAccount("Account", 1.01, 1, currency);
 
         assertFalse(one.equals(two));
     }
@@ -222,7 +228,7 @@ class CashAccountTest {
     @Test
     void checkAccountType_CashAccount_ExpectingTrue() {
         //Arrange
-        CashAccount cashAccount = new CashAccount("cash", 200.00, 1,currency);
+        CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
         AccountTypeEnum expectedType = CASHACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
@@ -233,7 +239,7 @@ class CashAccountTest {
     @Test
     void checkAccountType_CashAccount_ExpectingFalse() {
         //Arrange
-        CashAccount cashAccount = new CashAccount("cash", 200.00, 1,currency);
+        CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
@@ -244,7 +250,7 @@ class CashAccountTest {
     @Test
     void checkAccountType_CashAccount_ExpectingFalseWithOtherType() {
         //Arrange
-        CashAccount cashAccount = new CashAccount("cash", 200.00, 1,currency);
+        CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
         AccountTypeEnum expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
@@ -256,21 +262,21 @@ class CashAccountTest {
     @Test
     void hasEnoughMoneyForTransaction() {
         MoneyValue transferenceAmount = new MoneyValue(10.0, CurrencyEnum.EURO);
-        CashAccount cashAccount = new CashAccount("Acc", 50, 1,currency);
+        CashAccount cashAccount = new CashAccount("Acc", 50, 1, currency);
         assertTrue(cashAccount.hasEnoughMoneyForTransaction(transferenceAmount));
     }
 
     @Test
     void NotEnoughMoneyForTransaction() {
         MoneyValue transferenceAmount = new MoneyValue(100.0, CurrencyEnum.EURO);
-        CashAccount cashAccount = new CashAccount("Acc", 50, 1,currency);
+        CashAccount cashAccount = new CashAccount("Acc", 50, 1, currency);
         assertFalse(cashAccount.hasEnoughMoneyForTransaction(transferenceAmount));
     }
 
     @Test
     void NotEnoughMoneyForTransaction_NegativeAmmount() {
         MoneyValue transferenceAmount = new MoneyValue(-10.0, CurrencyEnum.EURO);
-        CashAccount cashAccount = new CashAccount("Acc", 50, 1,currency);
+        CashAccount cashAccount = new CashAccount("Acc", 50, 1, currency);
         assertThrows(IllegalArgumentException.class, () -> {
             cashAccount.hasEnoughMoneyForTransaction(transferenceAmount);
         });
@@ -278,11 +284,62 @@ class CashAccountTest {
 
     @Test
     void testGetBalance() {
-        CashAccount cashAccount = new CashAccount("Acc", 50.0, 1,currency);
+        CashAccount cashAccount = new CashAccount("Acc", 50.0, 1, currency);
         MoneyValue expected = new MoneyValue(50.0, CurrencyEnum.EURO);
 
         MoneyValue result = cashAccount.getMoneyBalance();
 
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void checkCurrencyYen() {
+        CashAccount cashAccount = new CashAccount("Bank", 20.00, 1, CurrencyEnum.YEN);
+        assertTrue(cashAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void checkCurrencyFalse() {
+        CashAccount cashAccount = new CashAccount("Bank", 20.00, 1, CurrencyEnum.EURO);
+
+        assertFalse(cashAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void hasEnoughMoneyForTransactionTrue() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        assertTrue(cashAccount.hasEnoughMoneyForTransaction(new MoneyValue(8.00, CurrencyEnum.EURO)));
+    }
+
+    @Test
+    void hasEnoughMoneyForTransactionTrueZero() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        assertTrue(cashAccount.hasEnoughMoneyForTransaction(new MoneyValue(10.00, CurrencyEnum.EURO)));
+    }
+
+    @Test
+    void hasEnoughMoneyForTransactionThrowNegativeValue() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        assertThrows(Exception.class, () -> cashAccount.hasEnoughMoneyForTransaction(new MoneyValue(-0.01, CurrencyEnum.EURO)));
+    }
+
+    @Test
+    void hasEnoughMoneyForTransactionTrueZeroTwo() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        assertTrue(cashAccount.hasEnoughMoneyForTransaction(new MoneyValue(0.00, CurrencyEnum.EURO)));
+    }
+
+    @Test
+    void registerTransaction() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "cc", 1, 2.00, CurrencyEnum.EURO, 1, "Shopping", new Date());
+
+        assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, familyCashTransferDTO));
     }
 }

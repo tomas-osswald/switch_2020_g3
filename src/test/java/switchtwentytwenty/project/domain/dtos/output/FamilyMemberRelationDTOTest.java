@@ -1,15 +1,17 @@
 package switchtwentytwenty.project.domain.dtos.output;
 
 import org.junit.jupiter.api.Test;
+
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.Relation;
 import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 
-import java.util.Date;
+import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyMemberRelationDTOTest {
+
 
     //FamilyMember Setup parent
     String cc = "000000000ZZ4";
@@ -24,6 +26,8 @@ class FamilyMemberRelationDTOTest {
     String local = "Zinde";
     String city = "Porto";
     String relacao = "filho";
+
+
 
     // FamilyMember setup child
     String id2 = "166699209ZY8";
@@ -46,6 +50,16 @@ class FamilyMemberRelationDTOTest {
     FamilyMember child = new FamilyMember (id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, noAdministrator);
 
 
+    @Test
+    void compareSameInstance() {
+        FamilyMember familyMemberOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        FamilyMember familyMemberTwo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        Relation relation = new Relation("Pais", familyMemberOne, familyMemberTwo, true);
+        FamilyMemberRelationDTO familyMemberRelationDTO =  new FamilyMemberRelationDTO(relation);
+
+        assertSame(familyMemberRelationDTO, familyMemberRelationDTO);
+        assertEquals(familyMemberRelationDTO, familyMemberRelationDTO);
+    }
 
     @Test
     void testHashCode() {
@@ -86,6 +100,7 @@ class FamilyMemberRelationDTOTest {
 
         assertNotEquals(expectedMember.hashCode(), resultMember.hashCode());
     }
+
 
 
 }

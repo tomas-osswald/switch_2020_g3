@@ -116,7 +116,8 @@ public class AccountService {
         targetCashAccount.credit(transferAmount);
 
         TransactionService transactionService = new TransactionService();
-        return transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
+        transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
+        return true;
     }
 
     public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {

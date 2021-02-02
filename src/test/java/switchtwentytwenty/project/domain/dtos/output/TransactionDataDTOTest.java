@@ -55,42 +55,51 @@ class TransactionDataDTOTest {
     void equalsTrueSameObject() {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
-        assertEquals(expected, result);
-        assertSame(expected, result);
-        assertTrue(expected.equals(result));
+        assertSame(result, expected);
+        assertEquals(result, expected);
     }
 
     @Test
     void equalsTrueDifferentObjects() {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOThree;
-        assertEquals(expected, result);
-        assertTrue(expected.equals(result));
+        assertEquals(result, expected);
     }
 
     @Test
     void equalsFalseNotSameInstance() {
         AccountService expected = new AccountService();
-        switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
-        assertNotSame(expected, result);
-        assertNotEquals(expected, result);
-        assertFalse(expected.equals(result));
+        TransactionDataDTO result = transactionDataDTOOne;
+        assertNotSame(result, expected);
+        assertNotEquals(result, expected);
     }
 
     @Test
     void equalsFalseNullObject() {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = null;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
-        assertNotEquals(expected, result);
-        assertFalse(result.equals(expected));
+        assertNotEquals(result, expected);
     }
 
     @Test
     void equalsFalseDifferentObjects() {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOTwo;
-        assertNotEquals(expected, result);
-        assertFalse(expected.equals(result));
+        assertNotEquals(result, expected);
+    }
+
+    @Test
+    void testHashCode() {
+        TransactionDataDTO expected = transactionDataDTOOne;
+        TransactionDataDTO result = transactionDataDTOOne;
+        assertEquals(result.hashCode(), expected.hashCode());
+    }
+
+    @Test
+    void testHashCode_DifferentObjects() {
+        TransactionDataDTO expected = transactionDataDTOOne;
+        TransactionDataDTO result = transactionDataDTOTwo;
+        assertNotEquals(result.hashCode(), expected.hashCode());
     }
 
 }
