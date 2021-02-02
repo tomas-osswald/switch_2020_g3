@@ -10,7 +10,7 @@ import java.util.Objects;
 public class TransactionDataDTO {
 
     private final Date transactionDate;
-    private final MoneyValue ammount; //Currency?
+    private final MoneyValue ammount;
     private final Category category;
     private final String designation;
     private final MoneyValue remainingBalance;

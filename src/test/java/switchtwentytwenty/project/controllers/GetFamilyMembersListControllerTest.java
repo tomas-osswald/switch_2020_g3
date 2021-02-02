@@ -126,10 +126,13 @@ class GetFamilyMembersListControllerTest {
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
         boolean result = controller.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
+        boolean resultFalse = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
         assertTrue(result);
+        assertFalse(resultFalse);
     }
+
 
 
 }
