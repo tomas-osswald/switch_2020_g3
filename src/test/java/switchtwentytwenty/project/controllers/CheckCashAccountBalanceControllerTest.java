@@ -68,6 +68,7 @@ class CheckCashAccountBalanceControllerTest {
     String accountDescriptionTwo = "Cash Account";
     int accountIDTwo = 2;
     AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc, id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneID);
+    AddFamilyMemberDTO familyMemberDTOAdmin = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneID);
 
     // Credit Card Account Data One
 
@@ -79,7 +80,7 @@ class CheckCashAccountBalanceControllerTest {
     @BeforeEach
     void setup() {
         familyService.addFamily(familyName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneID);
+        familyService.addFamilyAdministrator(familyMemberDTOAdmin);
         familyService.addFamilyMember(familyMemberDTO);
     }
 

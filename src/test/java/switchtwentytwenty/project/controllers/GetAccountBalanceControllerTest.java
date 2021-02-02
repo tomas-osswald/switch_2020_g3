@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -36,6 +37,7 @@ class GetAccountBalanceControllerTest {
     String city = "Porto";
     String relacao = "filho";
 
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
 
     double bankAccBalance = 0.6;
     double savingsAccBalance = 15;
@@ -48,11 +50,12 @@ class GetAccountBalanceControllerTest {
     String creditCardAccName = "Credit Card";
     MoneyValue accountBalance = new MoneyValue(bankAccBalance, CurrencyEnum.EURO);
 
+
     @BeforeEach
     void setUp() {
 
         addFamilyController.addFamily("Ribeiro");
-        addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(bankAccBalance, currentAccName, cc, 1);
         addBankAccountController.addBankAccount(addBankAccountDTO);
         addBankSavingsAccountController.addBankSavingsAccount(1, cc, savingsAccName, savingsAccBalance, interestRate);

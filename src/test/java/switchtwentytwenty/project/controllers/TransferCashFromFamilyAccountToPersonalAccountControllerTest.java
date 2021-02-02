@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -47,7 +48,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
 
     Application ffmApplication = new Application();
 
-
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(ccNumber,ccNumber, name, birthDate, phone, email, vat, street, postalCode, local, city, familyID);
 
     @BeforeEach
     void setUp(){
@@ -57,7 +58,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
 
         familyService.addFamily(familyName);
 
-        familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, postalCode, local, city, familyID);
+        familyService.addFamilyAdministrator(familyMemberDTO);
         categoryService.addStandardCategory("Compras",0);
 
         Family simpsonFamily = familyService.getFamily(1);

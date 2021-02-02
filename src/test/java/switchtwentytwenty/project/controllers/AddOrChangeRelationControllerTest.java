@@ -48,6 +48,7 @@ class AddOrChangeRelationControllerTest {
     String familyOneName = "Simpson";
     int familyOneIDGenerated = 1;
 
+    AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
     AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneIDGenerated);
     AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, cc3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyOneIDGenerated);
 
@@ -68,7 +69,7 @@ class AddOrChangeRelationControllerTest {
 
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
 
 
@@ -85,7 +86,7 @@ class AddOrChangeRelationControllerTest {
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
 
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
         familyService.addFamilyMember(familyMemberDTO3);
 
@@ -102,7 +103,7 @@ class AddOrChangeRelationControllerTest {
 
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
 
 
@@ -119,7 +120,7 @@ class AddOrChangeRelationControllerTest {
 
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
 
         ChangeRelationBaseController changeRelationBaseController = new ChangeRelationBaseController(application);
@@ -136,7 +137,7 @@ class AddOrChangeRelationControllerTest {
 
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
 
 
@@ -160,7 +161,7 @@ class AddOrChangeRelationControllerTest {
 
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
 
 
@@ -185,7 +186,7 @@ class AddOrChangeRelationControllerTest {
 
         FamilyService familyService = application.getFamilyService();
         familyService.addFamily(familyOneName);
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO2);
 
 
