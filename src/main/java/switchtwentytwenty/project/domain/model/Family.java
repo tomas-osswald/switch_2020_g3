@@ -185,7 +185,7 @@ public class Family {
      */
 
     public FamilyMember getFamilyMemberByID(String ccNumber) {
-        if(!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
+        if (!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
         FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {
             if (familyMember.compareID(ccNumber))
@@ -416,7 +416,8 @@ public class Family {
     }
 
     public boolean addCategory(CustomCategory newCustomCategory) {
-        return this.familyCustomCategories.add(newCustomCategory);
+        this.familyCustomCategories.add(newCustomCategory);
+        return true;
     }
 
 
@@ -439,7 +440,7 @@ public class Family {
     }
 
     public boolean isAParentOfB(FamilyMember memberA, FamilyMember memberB) {
-        boolean parenthood=false;
+        boolean parenthood = false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
                 parenthood = relation.isAParentOfB();
