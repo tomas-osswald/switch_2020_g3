@@ -31,9 +31,8 @@ public class TransactionDataDTO {
         return Double.compare(that.ammount.getValue(), ammount.getValue()) == 0 && Double.compare(that.remainingBalance.getValue(), remainingBalance.getValue()) == 0 && Objects.equals(transactionDate, that.transactionDate) && Objects.equals(category, that.category) && Objects.equals(designation, that.designation);
     }
 
-    /*
     @Override
     public int hashCode() {
         return Objects.hash(transactionDate, ammount, category, designation, remainingBalance);
-    }*/
+    }
 }

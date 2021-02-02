@@ -45,7 +45,6 @@ class BankSavingsAccountTest {
     MoneyValue zeroMoneyValue = new MoneyValue(0.00, CurrencyEnum.EURO);
 
 
-
     @Test
     void ConstructorSuccessPositiveInterestRate() {
         assertNotNull(accountPositive);
@@ -246,15 +245,14 @@ class BankSavingsAccountTest {
     void equalsFalseNotSameInstance() {
         AccountService expected = new AccountService();
         BankSavingsAccount result = accountPositiveTwo;
-        assertNotSame(expected, result);
-        assertNotEquals(expected, result);
+        assertNotEquals(result, expected);
     }
 
     @Test
     void equalsFalseNullObject() {
         BankSavingsAccount expected = null;
         BankSavingsAccount result = accountPositiveTwo;
-        assertNotEquals(expected, result);
+        assertNotEquals(result, expected);
     }
 
     @Test
@@ -308,6 +306,13 @@ class BankSavingsAccountTest {
     }
 
     @Test
+    void testHashCode1() {
+        BankSavingsAccount expected = new BankSavingsAccount(-1, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(-1, name, balance, interestRate);
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
     void checkCurrency() {
 
         BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);
@@ -327,5 +332,21 @@ class BankSavingsAccountTest {
         BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
 
         assertFalse(bankSavingsAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+
+    @Test
+    void getDescriptionNotNull() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+        assertNotNull(bankSavingsAccount.getDescription());
+    }
+
+    @Test
+    void getDescriptionEmpty() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "", 20.00, 1.00);
+        String notExpected = "";
+
+        assertNotNull(bankSavingsAccount.getDescription());
+        assertNotEquals(bankSavingsAccount.getDescription(), notExpected);
     }
 }

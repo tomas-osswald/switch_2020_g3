@@ -94,7 +94,8 @@ public class CashAccount implements Account {
     }
 
     public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO, credit);
+        accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO, credit);
+        return true;
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
