@@ -35,48 +35,62 @@ deactivate Parent
 
 ````
 
+### 1.3 Dependencies
+
+This user story has a dependency with these user stories:
+
+
+- **[US010](US010_AddFamily.md)** *(As a system manager, I want to create a family)*
+   - In order to be added a family member, the system needs to have a family;
+
+- **[US011](US010_AddFamilyAdministrator.md)** *(As a system manager, I want to add a family administrator)*
+   - In order to be added a family member, the family needs to have a family administrator;
+
+- **[US101](US101_AddFamilyMember.md)** *(As a family Administrator, I want to add a familyMember to a family)*
+   - In order to add a bank account, the system needs to have that Family Member.
+
+- **[US171](US170_CreatePersonalCashAccount.md)** *(As a family member, I want to create a personal cash account.)*
+   - In order to be get cash account balance, there needs to be a cash account in the family member.
+   
+- **[US105](US105_AddRelation.md)** *(As an administrator, I want to create a relation between two family members.)*
+   - In order to obtain a Relation and verify the parenthood, there has to be a relation.
+
+
+
 # 2. Analysis
 
 Our analysis of this US is as follows:
 
-To create a Bank Savings Account we need to have:
+To check the balance of a child's cash account we need to know:
 
-1. An account name
-   > *Question:*  
-   > *Pegando numa resposta anterior em relação à criação de contas (sejam cash, bank, savings ou credit card),
-   > devemos incluir uma designação (exemplo: "Conta do Banco") para que o utilizador possa personalizar as contas.*
-   >
-   > PO:  
-   > Claro que tem de ter uma designação compreensível.
+1. The Family (Obtained by FamilyID)
+2. The corresponding FamilyMembers (both obtained by ID)
+3. The Account ID
 
-2. An account ID  
-   An unique account ID is going to be necessary in order to differentiate accounts. Product Owner said specifically to
-   not use the IBAN as an unique identifier:
-   > PO:   
-   >Para começar, não peçam aos utilizadores para conhecerem/identificarem as contas pelo IBAN ou pelo número do cartão.  
-   > Está completamente fora de questão.  
-   >A forma como identificam as contas no código é um problema de implementação. Pensem numa solução.
+As the accounts are stored within the FamilyMembers Class, we will need to know the target
+FamilyMember. This will be obtained through the ID. As it is a requirement that the actor
+is a parent or has parental permissions over the child, we will also have to verify the parental relation
+between both members. That is one of the reasons we will need both FamilyMembers ID.
+As a FamilyMember can have multiple accounts, we will also need the AccountID which is unique
+for each account in each FamilyMember.
 
-3. An Interest rate  
-   We've decided to add this attribute in order to distinguish bewteen account types. In the future it will allow the
-   user to forecast future earnings, review earnings to-date, etc..
+In the future the ID's necessity will be overcome by the Log In information, along with the respective
+permissions, or lack of them.
 
-
-4. A Family Member  
-   The user to whom the account will be added. At the moment there is no business rule, limiting the number of Family
-   Members linked to the same account.
-
-It is expected of a Savings Account to have a balance. At the moment, the Product Owner referred that defining the
-balance it would be a future feature regarding bank data importation. Having this in mind we decided to initialize all
-accounts with 0 as the initial balance.
 
 # 3. Design
 
-This functionality allows the actor to add a Bank Savings Account to the given Family Member profile.
+This functionality allows the actor to check the Balance of one of his/her children's cash accounts.
+
+A parental permission verification will have to take place, in order to confirm the actor's permission
+over the children's account. 
 
 Since we don't have an existing UI at the moment, all the necessary data will have to be manually inserted by the user.
 
-The actor will need to insert the following data: familyID, familyMemberID, balance, accountName and interestRate.
+The actor will need to insert the following data: familyID, familyMemberID (actor), 
+(child) FamilyMemberID and accountID.
+
+
 
 ````puml
 autonumber
@@ -292,31 +306,38 @@ deactivate FamilyMember
 The Controller will receive the input from the Family Member and with that information will invoke Application (which
 has the Family Service), and will obtain Family Service.
 
-Family Service will provide the family associated with the given ID (familyID). Afterwards it will look for the given
-Family Member stored in such Family.
+Family Service will provide the family associated with the given ID (familyID).  
+Afterwards it will look for the given Family Members stored in such Family and return them to the Controller.
 
-The next step is going to be the creation of the Account Service. This Account Service will only exist during the scope
-of the functionality as it holds no relevant data.
+Since the relation atribute is now possible between any two given Family Members there is a need for a
+Relation Service. So, after the Controller obtains the FamilyMembers, the next step will be instancing a Relation Service. Then, this service will verify
+the relation between both FamilyMembers to validate (or not) the parental permission to check the balance.
 
-Then, the Controller will invoke the addBankSavingsAccount method from the Account Service. This will generate an unique
-accountID associated with the previously obtained FamilyMember. It will use the former inserted data to create a Bank
-Savings Account object.
+After validating the permission, an Account Service will also be instanced. (Both Relation and Account Service only
+exist during the scope in which they are needed. They are both "created as needed" as they both hold no relevant data).
 
-The constructor will validate the data and if the data comes in an invalid state the constructor will use default values
-in order to make it valid. It will start by validating the Balance, then uses the data to create an Account Data object,
-which in turn will validate the name. If the name is invalid th Bank Savings Account constructor will catch the
-exception and provide a default valid name.
+The AccountService will be given the target FamilyMember and respective accountID in order to verify if
+the given account is actually a cash account. If it is, it will invoke the method to check the Balance
+of given account.
 
-Finally, it will validate the interestRate in the same way as it validates the name.
+It will then return the value to the Controller, and in the future to the UI.
 
-It will return sucess back to the Account Service and in turn, to the Controller and in the future to the UI and the
-user.
 
 ## 3.2. Class Diagram
 
+The main Classes involved are:
+- CheckChildrenCashAccountBalanceController
+- Application
+- FamilyService
+- Family
+- FamilyMember
+- RelationService
+- AccountService
+- CashAccount
+
 ```puml
 
-title Class Diagram
+title US188 Class Diagram
 hide empty members
 
 class CheckChildrenCashAccountBalanceController {
@@ -332,7 +353,7 @@ class CashAccount {
 }
 
 class AccountData {
-- double balance
+- MoneyValue currentBalance
 - String description
 - int accountID
 - List<Transaction> transactions
@@ -344,7 +365,9 @@ class RelationService {
 + verifyParenthood()
 }
 
-class AccountService {}
+class AccountService {
++ checkChildCashBalance()
+}
 
 class FamilyService {
 + getFamily()
@@ -362,76 +385,18 @@ interface Account {}
 
 
 CheckChildrenCashAccountBalanceController --> Application : has
+
+CheckChildrenCashAccountBalanceController -----> AccountService : creates
 Application --> FamilyService : has
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
-FamilyMember --> CashAccount : has
+FamilyMember -> CashAccount : has
 CashAccount --|> Account : implements
 CashAccount -* AccountData : contains
-CheckChildrenCashAccountBalanceController --> RelationService : creates
+CheckChildrenCashAccountBalanceController ---> RelationService : creates
+RelationService --> Family : verifies relation
 
-
-
-
-
-
-
-```
-
-```puml
-
-
-
-title Class Diagram
-hide empty members
-
-class AddBankSavingsAccountController {
-+ addBankSavingsAccount()
-}
-
-class BankSavingsAccount {
-- double interestRate
-}
-
-class Application {
-+ getFamilyService()
-}
-
-class FamilyService {
-+ getFamily()
-}
-
-class Family {
-+ getFamilyMember()
-}
-
-class FamilyMember {
-+ addAccount()
-}
-
-class AccountService {
-+ addBankSavingsAccount()
-}
-
-class AccountData {
-- double balance
-- String description
-- int accountID
-- List<Transaction> transactions
-}
-
-
-interface Account {}
-
-AddBankSavingsAccountController --> Application : has
-Application --> FamilyService : has
-AddBankSavingsAccountController --> AccountService : creates
-FamilyService --> Family : has list
-Family --> FamilyMember : has list
-AccountService --> BankSavingsAccount : creates
-BankSavingsAccount --|> Account : implements
-BankSavingsAccount -* AccountData : contains
-BankSavingsAccount <-- FamilyMember : has
+AccountService --> CashAccount : verifies account type and retrieves balance
 
 
 ```
@@ -450,103 +415,182 @@ Following that, we decided to apply the Pure Fabrication Principle and created a
 This Class is responsible for all operations regarding Account type Classes, thus providing low Coupling and high
 Cohesion, keeping one Class as the Information Expert and applying the Single Responsibility Principle.
 
+Also, when changing the Relation and allowing it to be between any two FamilyMembers, it stopped making sense to
+keep the Relations in the FamilyMembers. So, the relation List is stored in each Family. Besides that there is
+a need of managing all sorts of Relations now and to verify some permissions like Parenthood.
+So, applying the Pure Fabrication Principle we've created an RelationService which deals with everything
+surrounding Relations. This also allows for a Class being the Information Expert.
+
 ## 3.4. Tests
 
-**Test 1:** Controller: Account creation does not fail with null balance and interest rate or blank account name.
+**Test 1:** Controller: Success obtaining cash balance.
 
-    @Test
-    public void checkIfBankSavingsAccountAddedNullInput() {
-        String accountName = " ";
-        Double balance = null;
-        Double interestRate = null;
+      @Test
+      //Arrange
+      void checkChildCashAccountBalance_PositiveMoneyValue() {
+      int familyID = family.getFamilyID();
+      family.addFamilyMember(diogo);
+      family.addFamilyMember(jorge);
+      jorge.addAccount(cashAccount);
+      int cashAccountID = cashAccount.getAccountID();
+      Relation parent = new Relation("Pai", diogo, jorge, true);
+      familyService.addFamily(family);
+      relationService.addRelation(family, diogo, jorge, "Pai", true);
+      accountService.createPersonalCashAccount(jorge, accountDTO);
+      String parentID = diogo.getID();
+      String childID = jorge.getID();
 
-        testFamily.addFamilyMember(familyMember1);
-        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+      Double expected = cashAccount.getBalance();
+      
+      //Act
+      Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
+      
+      //Assert
+      assertEquals(expected, result, 0.001);
+
     }
 
-**Test 2:** Controller: Account creation will only fail if member or family do not exist
+**Test 2:** Controller: Obtaining expected -1.00 (not a valid cash balance) for not finding the given Family.
 
-    @Test
-    public void checkIfThrowsWhenNoSuchFamilyID() {
-        testFamily.addFamilyMember(familyMember3);
-        assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1.00,5.21));
+      @Test
+        //Arrange
+        void checkChildCashAccountBalance_ExpectingNegativeBalance_WrongFamily() {
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        jorge.addAccount(cashAccount);
+        int cashAccountID = cashAccount.getAccountID();
+        familyService.addFamily(family);
+        relationService.addRelation(family, diogo, jorge, "Pai", false);
+        accountService.createPersonalCashAccount(jorge, accountDTO);
+        String parentID = diogo.getID();
+        String childID = jorge.getID();
+
+        Double expected = -1.00;
+
+        //Act
+        Double result = childCashController.checkChildCashAccountBalance(-90, parentID, childID, cashAccountID);
+
+        //Assert
+        assertEquals(expected, result, 0.001);
     }
 
-    @Test
-    public void checkIfThrowsWhenNoSuchMemberID() {
-    assertFalse(controller.addBankSavingsAccount(10, "110142608ZZ1", "Savings 3", 1.00,5.21));
+**Test 3:** Controller: Obtaining expected -1.00 (not a valid cash balance) for not finding the given FamilyMember.
+    
+      @Test
+        //Arrange
+        void checkChildCashAccountBalance_ExpectingNegativeBalance_WrongFamilyMember() {
+        int familyID = family.getFamilyID();
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        jorge.addAccount(cashAccount);
+        int cashAccountID = cashAccount.getAccountID();
+        familyService.addFamily(family);
+        relationService.addRelation(family, diogo, jorge, "Pai", false);
+        accountService.createPersonalCashAccount(jorge, accountDTO);
+        String parentID = diogo.getID();
+        String childID = jorge.getID();
+
+        Double expected = -1.00;
+      
+        //Act
+        Double result = childCashController.checkChildCashAccountBalance(familyID, "000000000000", childID, cashAccountID);
+        
+        //Assert
+        assertEquals(expected, result, 0.001);
     }
 
-**Test 3:** BankSavingsAccount: Account creation will always be successful, null or empty parameters will be handled by
-the constructor
 
-    @Test
-    void ConstructorSuccessBlankNameNullBalanceAndInterestRate() {
-        int accountID = 1;
-        String name = " ";
-        Double balance = null;
-        Double interestRate = null;
+**Test 4:** Controller: Obtaining expected -1.00 (not a valid cash balance) for not being a CashAccount.
 
-        BankSavingsAccount accountOne = new BankSavingsAccount(accountID, name , balance, interestRate);
-        BankSavingsAccount accountTwo = new BankSavingsAccount(accountID, name , balance, interestRate);
+      @Test
+      //Arrange
+      void checkChildCashAccountBalance_NoCashAccount() {
+      int familyID = family.getFamilyID();
+      family.addFamilyMember(diogo);
+      family.addFamilyMember(jorge);
+      jorge.addAccount(savingsAccount);
+      int savingsAccountID = savingsAccount.getAccountID();
+      familyService.addFamily(family);
+      relationService.addRelation(family, diogo, jorge, "Pai", false);
+      accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getBalance(), savingsAccount.getInterestRate());
+      String parentID = diogo.getID();
+      String childID = jorge.getID();
 
-        assertNotNull(accountOne);
-        assertEquals(accountOne, accountTwo);
-        assertNotSame(accountOne, accountTwo);
+      Double expected = -1.00;
+      
+      //Act
+      Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, savingsAccountID);
+      
+      //Assert
+      assertEquals(expected, result, 0.001);
     }
+
+**Test 5:** Controller: Obtaining expected -1.00 (not a valid cash balance) for not being a Parent.
+
+
+      @Test
+        void checkChildCashAccountBalance_ExpectingNegativeBalance_NotParent() {
+        int familyID = family.getFamilyID();
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        jorge.addAccount(cashAccount);
+        int cashAccountID = cashAccount.getAccountID();
+        familyService.addFamily(family);
+        relationService.addRelation(family, diogo, jorge, "Pai", false);
+        accountService.createPersonalCashAccount(jorge, accountDTO);
+        String parentID = diogo.getID();
+        String childID = jorge.getID();
+
+
+        Double expected = -1.00;
+
+        Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
+
+        assertEquals(expected, result, 0.001);
+      }
 
 # 4. Implementation
 
-### Add a Bank Savings Account to a Family Member
+### Verify a relation between two FamilyMembers
 
-The method in the AccountService will generate an unique ID and associate it with the given FamilyMember. Then it will
-instantiate a new bankSavingsAccount Object and add it to the target FamilyMember.
+The method in the RelationService will verify if both FamilyMembers previously inserted have a parenthood
+type of relation. If not, throws an Exception.
 
-    public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
-    int accountID = generateID(targetMember);
-    Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
-    targetMember.addAccount(bankSavingsAccount);
-    return true;
-    }
-
-### Create a Bank Savings Account
-
-The Bank Savings Account Class will have three core methods.
-The first two validate attributes balance and interestRate in order
-to guarantee they are always valid according to business rules.
-The constructor will apply such validations when instantiating
-a new object of such type.
-
-    private boolean validateBalance(Double balance) {
-    boolean valid = true;
-    if (balance == null) {
-    valid = false;
-    }
-    return valid;
-    }
-
-    private boolean validateInterestRate(Double interestRate) {
-        boolean valid = true;
-        if (interestRate == null) {
-            valid = false;
+    public boolean verifyParenthood(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
+        boolean parenthood = targetFamily.isAParentOfB(memberA, memberB);
+        if (!targetFamily.isAParentOfB(memberA, memberB)){
+            throw new NoParentalPermissionException("No parental permission");
         }
-        return valid;
+        return parenthood;
     }
 
-    public BankSavingsAccount(int accountID, String name, Double balance, Double interestRate) {
-    try {
-    if (!validateBalance(balance)) {
-    balance = 0.00;
-    }
-    this.accountData = new AccountData(balance, name, accountID);
-    } catch (InvalidAccountDesignationException exception) {
-    String defaultDesignation = "Bank Savings Account with ID" + " " + accountID;
-    this.accountData = new AccountData(balance, defaultDesignation, accountID);
-    }
-        if (!validateInterestRate(interestRate)) {
-            interestRate = 0.00;
+### Verify if it is a Cash Account
+
+This method verifies the type of account. As this US is related to cash Accounts, the functionality will
+only have success if the account is of the correct type.
+
+
+      public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+        boolean isSameType = false;
+        if (account.checkAccountType(accountTypeEnum)) {
+            isSameType = true;
         }
-        this.interestRate = interestRate;
+        return isSameType;
+    }
+
+### Return the current Balance of a child's Cash Account
+
+       public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member) {
+        MoneyValue currentBalance;
+        Account targetAccount = member.getAccount(accountID);
+        if (targetAccount == null) {
+            throw new NullPointerException("No account with such ID");
+        }
+        if (!targetAccount.checkAccountType(CASHACCOUNT)) {
+            throw new IllegalArgumentException("Not a Cash Account");
+        }
+        currentBalance = targetAccount.getMoneyBalance();
+        return currentBalance;
     }
 
 # 5. Integration
@@ -555,17 +599,3 @@ EDIT EDIT EDIT EDIT EDIT EDIT EDIT
 
 
 # 6. Observations
-
-Interest Rate will have to be manually inserted as a percentage in order to perform the correct calculations. UI will
-have to deal with this.
-
-Will Interest Rate be a Class in the future? (As it will have behaviour of its own)
-
-In the future we're thinking about implementing a forecast feature to calculate expected earnings on a given date.
-
-Currently we allow users to select the same name for different accounts they own. With the implementation of the UI this
-could be changed.
-
-At the moment adding a Bank Savings Account will always be successful if the Family and the FamilyMember exist. However,
-account service methods will still return a boolean as in the future there can be situations where account creation will
-not be possible.

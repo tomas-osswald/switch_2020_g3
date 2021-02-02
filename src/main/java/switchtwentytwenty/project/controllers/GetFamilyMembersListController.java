@@ -31,16 +31,17 @@ public class GetFamilyMembersListController {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             RelationService relationService = this.ffmApplication.getRelationService();
             Family targetFamily = familyService.getFamily(familyID);
-            if(!targetFamily.verifyAdministrator(adminCCNumber)){
-                return false;
+            if (!targetFamily.verifyAdministrator(adminCCNumber)) {
+                controllerSuccess = false;
+            } else {
+                relationService.getFamilyMembersRelationDTOList(targetFamily);
+                controllerSuccess = true;
             }
-            relationService.getFamilyMembersRelationDTOList(targetFamily);
-            controllerSuccess = true;
         } catch (IllegalArgumentException wrongFamilyID) {
-            System.out.println(wrongFamilyID.getMessage());
             controllerSuccess = false;
-        } return controllerSuccess;
+        }
+        return controllerSuccess;
     }
 
-    }
+}
 
