@@ -462,6 +462,91 @@ class AccountServiceTest {
     }
 
     @Test
+    void transferCashFromFamilyToFamilyMember_DifferentCurrency() {
+        //Common Data
+        int familyID = 1;
+        int accountID = 1;
+        int categoryID = 1;
+        StandardCategory transactionCategory = new StandardCategory("Apostas", null, 100);
+        String transactionDesignation = "Lost Bet";
+        Date transactionDate = new Date();
+        //Account Data
+        double initialBalance = 100.0;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1,CurrencyEnum.DOLLAR);
+        Family ribeiro = familyService.getFamily(familyID);
+        FamilyMember diogo = ribeiro.getFamilyMember(id);
+        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        //Transference Data
+        double transferAmount = 200.0;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        });
+    }
+
+    @Test
+    void transferCashFromFamilyToFamilyMember_ValidateDebitOnFamilyAccount() {
+        //Common Data
+        int familyID = 1;
+        int accountID = 1;
+        int categoryID = 1;
+        StandardCategory transactionCategory = new StandardCategory("Apostas", null, 100);
+        String transactionDesignation = "Lost Bet";
+        Date transactionDate = new Date();
+        //Account Data
+        double initialBalance = 1000.00;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
+        Family ribeiro = familyService.getFamily(familyID);
+        FamilyMember diogo = ribeiro.getFamilyMember(id);
+        accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 525.0);
+        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        //Transference Data
+        double transferAmount = 200.0;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
+        //Expected
+        MoneyValue expected = new MoneyValue(325.0,CurrencyEnum.EURO);
+
+        accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        Account familyAccount = ribeiro.getFamilyCashAccount();
+        MoneyValue result = familyAccount.getMoneyBalance();
+
+        Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    void transferCashFromFamilyToFamilyMember_ValidateCreditOnPersonalAccount() {
+        //Common Data
+        int familyID = 1;
+        int accountID = 1;
+        int categoryID = 1;
+        StandardCategory transactionCategory = new StandardCategory("Apostas", null, 100);
+        String transactionDesignation = "Lost Bet";
+        Date transactionDate = new Date();
+        //Account Data
+        double initialBalance = 1000.00;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
+        Family ribeiro = familyService.getFamily(familyID);
+        FamilyMember diogo = ribeiro.getFamilyMember(id);
+        accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 525.0);
+        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        //Transference Data
+        double transferAmount = 200.00;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
+        //Expected
+        MoneyValue expected = new MoneyValue(1200.00,CurrencyEnum.EURO);
+
+        accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        Account personalAccount = diogo.getAccount(1);
+        MoneyValue result = personalAccount.getMoneyBalance();
+
+        Assertions.assertEquals(expected,result);
+    }
+
+    @Test
     void transferCashBetweenSameFamilyMembersWithCashAccountsValid() {
         //Arrange
         int familyID = 1;

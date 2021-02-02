@@ -103,7 +103,7 @@ public class AccountData {
         return Objects.hash(description, accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
+    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) {
         if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }

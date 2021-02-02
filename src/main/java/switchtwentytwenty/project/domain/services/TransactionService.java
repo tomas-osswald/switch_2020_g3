@@ -78,8 +78,8 @@ public class TransactionService {
     }
 
     public boolean registerCashTransfer(Account originAccount, Account destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO){
-        if(!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid Currency");
-        if(!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid Currency");
+        if(!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid AccountType");
+        if(!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid AccountType");
         CashAccount originCashAccount = (CashAccount) originAccount;
         CashAccount destinationCashAccount = (CashAccount) destinationAccount;
 

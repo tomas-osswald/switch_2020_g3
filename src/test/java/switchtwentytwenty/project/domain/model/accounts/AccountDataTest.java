@@ -3,9 +3,14 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
+import javax.smartcardio.CardTerminal;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -152,4 +157,37 @@ class AccountDataTest {
         AccountData result = accountData;
         assertNotEquals(result.hashCode(), expected.hashCode());
     }
+
+    @Test
+    void registerCashTransaction_TestSuccess() {
+        //Arrange
+        CashAccount cashAccount = null;
+        Category category = new StandardCategory("Testing",null,0);
+        Date date = new Date();
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1,"",1,25.00,CurrencyEnum.EURO,1,"Transferencia de Teste",date);
+        boolean credit = true;
+
+        //Act
+        boolean result = accountData.registerCashTransaction(cashAccount,category,familyCashTransferDTO,credit);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void registerCashTransaction_TestAccountList() {
+        //Arrange
+        CashAccount cashAccount = null;
+        Category category = new StandardCategory("Testing",null,0);
+        Date date = new Date();
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1,"",1,25.00,CurrencyEnum.EURO,1,"Transferencia de Teste",date);
+        boolean credit = true;
+        int expected = 1;
+        //Act
+        accountData.registerCashTransaction(cashAccount,category,familyCashTransferDTO,credit);
+        int result = accountData.getListOfMovements().size();
+        //Assert
+        Assertions.assertEquals(expected,result);
+    }
+
 }

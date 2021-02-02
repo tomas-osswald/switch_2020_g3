@@ -60,13 +60,27 @@ class TransactionDataTest {
     }
 
     @Test
-    void isCredit() {
+    void isCredit_True() {
         boolean result = transactionData.isCredit();
         Assertions.assertTrue(result);
     }
 
     @Test
-    void isDebit() {
+    void isCredit_False() {
+        TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO),false, date, category);
+        boolean result = transactionData.isCredit();
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void isDebit_True() {
+        TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO),false, date, category);
+        boolean result = transactionData.isDebit();
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void isDebit_False() {
         boolean result = transactionData.isDebit();
         Assertions.assertFalse(result);
     }

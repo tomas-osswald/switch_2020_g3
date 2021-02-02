@@ -1,9 +1,12 @@
 package switchtwentytwenty.project.domain.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
+import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.CashTransaction;
@@ -223,6 +226,37 @@ class TransactionServiceTest {
         // assert
         assertEquals(expected, result);
         assertEquals(expectedSize, result.size());
+    }
+
+    @Test
+    void registerCashTransfer_TestValidTransaction(){
+        TransactionService service = new TransactionService();
+
+        boolean result = service.registerCashTransfer(contaCash,contaCash,categoria1,transacaoDTO1);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void registerCashTransfer_TestDifferentCurrenciesOriginAccount(){
+        TransactionService service = new TransactionService();
+        AddBankAccountDTO bankAccountDTO = new AddBankAccountDTO(balance,"TestAccount",selfCC,familyID,CurrencyEnum.EURO);
+        BankAccount notCashAccount = new BankAccount(bankAccountDTO,100);
+
+        Assertions.assertThrows(IllegalArgumentException.class, ()->{
+            service.registerCashTransfer(notCashAccount,contaCash,categoria1,transacaoDTO1);
+        });
+    }
+
+    @Test
+    void registerCashTransfer_TestDifferentCurrenciesDestinationAccount(){
+        TransactionService service = new TransactionService();
+        AddBankAccountDTO bankAccountDTO = new AddBankAccountDTO(balance,"TestAccount",selfCC,familyID,CurrencyEnum.EURO);
+        BankAccount notCashAccount = new BankAccount(bankAccountDTO,100);
+
+        Assertions.assertThrows(IllegalArgumentException.class, ()->{
+            service.registerCashTransfer(contaCash,notCashAccount,categoria1,transacaoDTO1);
+        });
     }
 
 }
