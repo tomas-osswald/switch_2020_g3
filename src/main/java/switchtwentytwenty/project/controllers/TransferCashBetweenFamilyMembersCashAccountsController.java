@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -7,7 +8,6 @@ import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 
 public class TransferCashBetweenFamilyMembersCashAccountsController {
 
@@ -17,7 +17,7 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
         this.app = app;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(CashTransferDTO cashTransferDTO){
+    public boolean transferCashBetweenFamilyMembersCashAccounts(CashTransferDTO cashTransferDTO) {
         FamilyService familyService = this.app.getFamilyService();
         CategoryService categoryService = this.app.getCategoryService();
         int familyID = cashTransferDTO.getFamilyID();
@@ -34,8 +34,7 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             AccountService accountService = new AccountService();
             accountService.transferCashBetweenFamilyMembersCashAccounts(family, originFamilyMember, destinationFamilyMember, category, cashTransferDTO);
             return true;
-            //TODO corrigir esta falha de cobertura
-        } catch ( NullPointerException exception) {
+        } catch (NullPointerException exception) {
             return false;
         }
     }
