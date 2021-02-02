@@ -104,9 +104,13 @@ class FamilyServiceTest {
     int familyThreeIDGenerated = 3;
 
     AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
+    AddFamilyMemberDTO familyMemberDTO12 = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 2);
+    AddFamilyMemberDTO familyMemberDTO13 = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated);
     AddFamilyMemberDTO familyMemberDTO21 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1);
     AddFamilyMemberDTO familyMemberDTO22 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,2);
+    AddFamilyMemberDTO familyMemberDTO2x1 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email, nif2, rua2, codPostal2, local2, city2,1);
     AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, 1);
+    AddFamilyMemberDTO familyMemberDTO33 = new AddFamilyMemberDTO(cc,id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyThreeIDGenerated);
     AddFamilyMemberDTO familyMemberDTOabc1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, "abc@gmail.com", nif, rua, codPostal, local, city,1);
     AddFamilyMemberDTO familyMemberDTOabc2 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2,1);
 
@@ -217,14 +221,14 @@ class FamilyServiceTest {
     void addFamilyAdministrator_FamilyExists() {
         Family ribeiros = new Family("Ribeiro", 1);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1));
+        assertTrue(familyService.addFamilyAdministrator(familyMemberDTO1));
     }
 
     @Test
     void NotAddFamilyAdministrator_FamilyNotExists() {
         Family ribeiros = new Family("Ribeiro", 1);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 2));
+        assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(familyMemberDTO12));
     }
 
     @Test
@@ -232,7 +236,7 @@ class FamilyServiceTest {
         Family ribeiros = new Family("Ribeiro", 1);
         ribeiros.addFamilyMember(familyMemberDTO1);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertTrue(familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
+        assertTrue(familyService.addFamilyAdministrator(familyMemberDTO21));
     }
 
     @Test
@@ -240,7 +244,7 @@ class FamilyServiceTest {
         Family ribeiros = new Family("Ribeiro", 1);
         ribeiros.addFamilyMember(familyMemberDTOabc1);
         FamilyService familyService = new FamilyService(ribeiros);
-        assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, 1));
+        assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(familyMemberDTOabc2));
     }
 
     @Test
@@ -248,7 +252,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertTrue(familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated));
+        assertTrue(familyService.addFamilyAdministrator(familyMemberDTO1));
     }
 
     @Test
@@ -256,7 +260,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyTwoIDGenerated));
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(familyMemberDTO12));
     }
 
     @Test
@@ -265,9 +269,9 @@ class FamilyServiceTest {
         familyService.addFamily(familyOneName); //id1
         familyService.addFamily(familyTwoName); //id2
 
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated); // for family One
+        familyService.addFamilyAdministrator(familyMemberDTO1); // for family One
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated)); // insert same email from user from family one
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(familyMemberDTO2x1)); // insert same email from user from family one
     }
 
     @Test
@@ -275,7 +279,7 @@ class FamilyServiceTest {
         FamilyService familyService = new FamilyService();
         familyService.addFamily(familyOneName); //id1
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoID)); // insert a FamilyId that doenst exists in system
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(familyMemberDTO22)); // insert a FamilyId that doenst exists in system
     }
 
     //Test related to validation before obtaining FamilyMemberRelationDTOList
@@ -387,9 +391,9 @@ class FamilyServiceTest {
         familyService.addFamily(familyTwoName); //id2
         familyService.addFamily(familyThreeName); //id3
 
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
-        familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated);
-        familyService.addFamilyAdministrator(id3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, familyThreeIDGenerated);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
+        familyService.addFamilyAdministrator(familyMemberDTO22);
+        familyService.addFamilyAdministrator(familyMemberDTO33);
 
         List<FamilyWithoutAdministratorDTO> expected = new ArrayList<>(); //empty list
 
@@ -405,7 +409,7 @@ class FamilyServiceTest {
         familyService.addFamily(familyOneName);
         familyService.addFamily(familyTwoName);
 
-        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyThreeIDGenerated));
+        assertThrows(Exception.class, () -> familyService.addFamilyAdministrator(familyMemberDTO13));
     }
 
     @Test

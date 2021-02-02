@@ -23,6 +23,8 @@ class AddEmailControllerTest {
     String local = "Zinde";
     String city = "Porto";
 
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
+
     @Test
     void addEmailControllerSuccess() {
         Application app = new Application();
@@ -32,7 +34,7 @@ class AddEmailControllerTest {
         String newEmail = "1120717@google.com";
         //FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         familyController.addFamily("peido");
-        addAdminController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
+        addAdminController.addFamilyAdministrator(familyMemberDTO);
         assertTrue(controller.addEmail(newEmail, 1, cc));
     }
 
@@ -45,7 +47,7 @@ class AddEmailControllerTest {
         String newEmail = "1120717@@@@@google.com";
         //FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         familyController.addFamily("peido");
-        addAdminController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
+        addAdminController.addFamilyAdministrator(familyMemberDTO);
         assertFalse(controller.addEmail(newEmail, 1, cc));
     }
 }

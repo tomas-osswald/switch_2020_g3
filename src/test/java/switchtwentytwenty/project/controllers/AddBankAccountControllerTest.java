@@ -3,6 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 
 import java.util.Date;
@@ -34,11 +35,13 @@ class AddBankAccountControllerTest {
     String accountName = "Current Account";
     String accountName2 = "Other Current Account";
 
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+
     @BeforeEach
     void setup() {
 
         addFamilyController.addFamily("Ribeiro");
-        addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
 
 
     }

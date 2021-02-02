@@ -45,11 +45,12 @@ class AddCreditCardAccountControllerTest {
     int family1ID = 1;
 
     AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc,id2,name2,date2,numero2,email2,nif2,rua2,codPostal2,local2,city2,family1ID);
+    AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city, family1ID);
 
     @BeforeEach
     void setup() {
         familyService.addFamily("Silva");
-        familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, family1ID);
+        familyService.addFamilyAdministrator(familyMemberDTO1);
         familyService.addFamilyMember(familyMemberDTO);
     }
 

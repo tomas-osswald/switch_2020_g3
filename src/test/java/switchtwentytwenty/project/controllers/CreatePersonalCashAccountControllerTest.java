@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -37,12 +38,13 @@ class CreatePersonalCashAccountControllerTest {
     AddCashAccountDTO addCashAccountDTOBlankName = new AddCashAccountDTO(balance, "   ", cc, 1, CurrencyEnum.EURO);
     AddCashAccountDTO addCashAccountDTOEmptyName = new AddCashAccountDTO(balance, "", cc, 1, CurrencyEnum.EURO);
 
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
 
     @BeforeEach
     void setup() {
 
         addFamilyController.addFamily("Ribeiro");
-        addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
 
     }
 

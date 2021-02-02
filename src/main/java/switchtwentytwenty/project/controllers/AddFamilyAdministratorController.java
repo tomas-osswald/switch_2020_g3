@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
@@ -21,10 +22,10 @@ public class AddFamilyAdministratorController {
         return familyService.familiesWithoutAdministrator();
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID){
+    public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO){
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
-            familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, familyID);
+            familyService.addFamilyAdministrator(familyMemberDTO);
             return true;
         } catch (Exception exception) {
             return false;
