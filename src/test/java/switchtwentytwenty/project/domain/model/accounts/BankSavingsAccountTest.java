@@ -45,7 +45,6 @@ class BankSavingsAccountTest {
     MoneyValue zeroMoneyValue = new MoneyValue(0.00, CurrencyEnum.EURO);
 
 
-
     @Test
     void ConstructorSuccessPositiveInterestRate() {
         assertNotNull(accountPositive);
@@ -327,5 +326,20 @@ class BankSavingsAccountTest {
         BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
 
         assertFalse(bankSavingsAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void getDescriptionNotNull() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+        assertNotNull(bankSavingsAccount.getDescription());
+    }
+
+    @Test
+    void getDescriptionEmpty() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "", 20.00, 1.00);
+        String notExpected = "";
+
+        assertNotNull(bankSavingsAccount.getDescription());
+        assertNotEquals(bankSavingsAccount.getDescription(), notExpected);
     }
 }
