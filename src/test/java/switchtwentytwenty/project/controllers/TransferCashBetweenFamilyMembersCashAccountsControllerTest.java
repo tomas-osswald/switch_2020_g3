@@ -136,6 +136,15 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         Assertions.assertThrows(Exception.class, () -> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
     }
 
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, 9, "Beer", date1);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        Assertions.assertFalse(result);
+    }
+
+
 
 
 }

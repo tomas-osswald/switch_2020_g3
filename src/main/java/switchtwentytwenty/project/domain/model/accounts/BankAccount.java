@@ -13,34 +13,15 @@ public class BankAccount implements Account {
 
     private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
     private AccountData accountData;
-    //private IBAN iban;
 
     /***** CONSTRUCTORS ******/
-    /*
-    public BankAccount(String description, double balance, int bankAccountID, String iban){
-        if(!validateDescription(description)){
-            description = "BankAccount"+" "+bankAccountID;
-        }
-        if(!validateBalance(balance)){
-            throw new IllegalArgumentException("Inserir aproximação do balanço");
-        }
-        if(!validateID(bankAccountID)){
-            throw new IllegalArgumentException("Inserir valor");
-        }
-        this.data = new AccountData(balance,description,bankAccountID);
 
-        if(validateIBAN(iban)){
-            IBAN ibann = new IBAN(iban);
-            this.iban = ibann;
-        }
-    }
-
-     */
     public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
         double balance = addBankAccountDTO.getBalance();
-        /*if (!validateBalance(balance)) {
+
+        if (!validateBalance(balance)) {
             balance = 0.00;
-        }*/
+        }
         String description = addBankAccountDTO.getDescription();
         if (!validateDescription(description)){
             description = "BankAccount" + " " + bankAccountID;
@@ -82,15 +63,6 @@ public class BankAccount implements Account {
         return true;
     }
 
-    /*
-    public boolean validateIBAN(String iban){
-        if( iban == null){
-            return false;
-        }
-        return true;
-    }
-     */
-
     @Override
     public int hashCode() {
         return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements());
@@ -125,7 +97,6 @@ public class BankAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
-        // return accountData.hasEnoughMoneyForTransaction(transferenceAmount); // TODO: voltar a colocar desta forma quando o MoneyValue tiver aplicado em toda a APP
         if (transferenceAmount.getValue() < 0)
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         return ((this.getMoneyBalance().getValue() - transferenceAmount.getValue()) >= 0);

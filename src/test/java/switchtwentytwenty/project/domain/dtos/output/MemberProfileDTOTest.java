@@ -71,7 +71,6 @@ class MemberProfileDTOTest {
     void getMemberProfileTest1_objectsAreEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
-        CCNumber differentCCNumber = new CCNumber("166699209ZY8");
         MemberProfileDTO dto1 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO dto2 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
@@ -135,5 +134,26 @@ class MemberProfileDTOTest {
         MemberProfileDTO dto2 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         assertNotEquals(dto1, dto2);
+    }
+    @Test
+    void getMemberProfileTest7_hashCodesAreEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO dto1 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO dto2 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        assertEquals(dto1.hashCode(), dto2.hashCode());
+        assertNotSame(dto1, dto2);
+    }
+    @Test
+    void getMemberProfileTest8_hashCodesAreNotEqual() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+        MemberProfileDTO dto1 = new MemberProfileDTO(ccNumber, "passaros", date, phoneNumbers, emails, vatNumber, address, admin);
+
+        MemberProfileDTO dto2 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        assertNotEquals(dto1.hashCode(), dto2.hashCode());
     }
 }
