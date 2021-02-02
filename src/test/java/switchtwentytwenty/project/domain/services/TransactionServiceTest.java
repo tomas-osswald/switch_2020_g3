@@ -56,21 +56,37 @@ class TransactionServiceTest {
 
 
     @Test
-    void RegisterPaymentMyCashAccount() {
+    void RegisterPaymentMyCashAccount_SameBalance() {
         TransactionService service = new TransactionService();
-        assertTrue(service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO1));
+        service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO1);
+        double expected = 250.00;
+        double result = contaCash.getMoneyBalance().getValue();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void RegisterPaymentMyCashAccount_SameMoneyValue() {
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO1);
+        MoneyValue expected = new MoneyValue(250.00,CurrencyEnum.EURO);
+        MoneyValue result = contaCash.getMoneyBalance();
+        assertEquals(expected, result);
     }
 
     @Test
     void NoRegisterPaymentMyCashAccount_NotEnoughMoney() {
         TransactionService service = new TransactionService();
-        assertFalse(service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO2));
+        assertThrows(IllegalArgumentException.class,()->{
+            service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO2);
+        });
     }
 
     @Test
     void NoRegisterPaymentMyCashAccount_NegativeAmmount() {
         TransactionService service = new TransactionService();
-        assertFalse(service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO3));
+        assertThrows(IllegalArgumentException.class,()->{
+            service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO3);
+        });
     }
 
     @Test

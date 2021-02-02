@@ -14,7 +14,6 @@ public class FamilyMember {
 
     // Attributes
     private CCNumber ccNumber;
-    //private int familyMemberID;
     private String name;
     private Date birthDate;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
@@ -26,40 +25,6 @@ public class FamilyMember {
 
 
     /********************** CONSTRUCTORS **********************/
-
-    // System Manager - add FamilyMember
-    /*
-    public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
-
-        this.familyMemberID = familyMemberID;
-
-        if (!validateName(name)) {
-            throw new IllegalArgumentException("Invalid Name");
-        }
-        this.name = name;
-
-        if (!validateBirthDate(birthDate)) {
-            throw new IllegalArgumentException("Insert Date");
-        }
-        this.birthDate = birthDate;
-
-        PhoneNumber telef = new PhoneNumber(phone);
-        this.phoneNumbers.add(telef);
-
-        EmailAddress mail = new EmailAddress(email);
-        this.emails.add(mail);
-
-        VatNumber nif = new VatNumber(vat);
-        this.vatNumber = nif;
-
-        Address morada = new Address(street, codPostal, local, city);
-        this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = administrator;
-    }
-    */
 
     //Constructor that uses a CCNumber as ID
     public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, boolean administrator) {
@@ -122,165 +87,11 @@ public class FamilyMember {
         this.address = morada;
     }
 
-    // Family Admin - add Family Member
-    /*
-    public FamilyMember(int familyMemberID, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
-
-        this.familyMemberID = familyMemberID;
-
-        if (!validateName(name)) {
-            throw new IllegalArgumentException();
-        }
-        this.name = name;
-
-        if (!validateBirthDate(birthDate)) {
-            throw new IllegalArgumentException("Insert Date");
-        }
-        this.birthDate = birthDate;
-
-        if (validatePhone(phone)) {
-            PhoneNumber telef = new PhoneNumber(phone);
-            this.phoneNumbers.add(telef);
-        }
-
-        if (validateEmail(email)) {
-            EmailAddress mail = new EmailAddress(email);
-            this.emails.add(mail);
-        }
-
-        VatNumber nif = new VatNumber(vat);
-        this.vatNumber = nif;
-
-        Address morada = new Address(street, codPostal, local, city);
-        this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = false;
-    }
-
-    // System Manager - add FamilyMember | ID is generated inside de APP
-    public FamilyMember(String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation, boolean administrator) {
-
-        this.familyMemberID = familyMemberID; // Generate ID
-
-        if (!validateName(name)) {
-            throw new IllegalArgumentException("Invalid Name");
-        }
-        this.name = name;
-
-        if (!validateBirthDate(birthDate)) {
-            throw new IllegalArgumentException("Insert Date");
-        }
-        this.birthDate = birthDate;
-
-
-        PhoneNumber telef = new PhoneNumber(phone);
-        this.phoneNumbers.add(telef);
-
-        EmailAddress mail = new EmailAddress(email);
-        this.emails.add(mail);
-
-        VatNumber nif = new VatNumber(vat);
-        this.vatNumber = nif;
-
-        Address morada = new Address(street, codPostal, local, city);
-        this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = administrator;
-    }
-
-    // Family Admin - add Family Member | ID is generated inside de APP
-    public FamilyMember(String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
-
-        this.familyMemberID = familyMemberID;
-
-        if (!validateName(name)) {
-            throw new IllegalArgumentException();
-        }
-        this.name = name;
-
-        if (!validateBirthDate(birthDate)) {
-            throw new IllegalArgumentException("Insert Date");
-        }
-        this.birthDate = birthDate;
-
-        if (validatePhone(phone)) {
-            PhoneNumber telef = new PhoneNumber(phone);
-            this.phoneNumbers.add(telef);
-        }
-
-        if (validateEmail(email)) {
-            EmailAddress mail = new EmailAddress(email);
-            this.emails.add(mail);
-        }
-
-        VatNumber nif = new VatNumber(vat);
-        this.vatNumber = nif;
-
-        Address morada = new Address(street, codPostal, local, city);
-        this.address = morada;
-
-        this.relation = relation;
-
-        this.administrator = false;
-    }
-
-    //Constructor without relation
-    public FamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
-
-        this.ccNumber = new CCNumber(cc);
-
-        if (!validateName(name)) {
-            throw new IllegalArgumentException("Insert Name");
-        }
-        this.name = name;
-
-        if (!validateBirthDate(birthDate)) {
-            throw new IllegalArgumentException("Insert Date");
-        }
-        this.birthDate = birthDate;
-
-        PhoneNumber telef = new PhoneNumber(phone);
-        this.phoneNumbers.add(telef);
-
-        EmailAddress mail = new EmailAddress(email);
-        this.emails.add(mail);
-
-        VatNumber nif = new VatNumber(vat);
-        this.vatNumber = nif;
-
-        Address morada = new Address(street, codPostal, local, city);
-        this.address = morada;
-
-        //Changed to return null instead of having null parameter, otherwise would point to Exception in Relation.
-
-        // this.relation = null;
-
-        this.administrator = false;
-    }
-
-    // Add email to FamilyMember
-    public FamilyMember(int iD, String email, int vat, String street, String codPostal, String local, String city, Relation relation) {
-        this.familyMemberID = iD;
-    }
-
-    public FamilyMember(String familyMemberID) {
-        this.ccNumber = new CCNumber(familyMemberID);
-    }
-
-     */
-
 
     /********************** GETTERS AND SETTERS **********************/
 
     public boolean validateName(String name) {
-        if (name == null || name.isEmpty() || name.trim().length() == 0) {
-            return false;
-        }
-        return true;
+        return (!(name == null || name.isEmpty() || name.trim().length() == 0));
     }
 
     private boolean validateBirthDate(Date birthDate) {
@@ -288,38 +99,17 @@ public class FamilyMember {
     }
 
     public boolean validateEmail(String email) {
-        if (email == null || email.isEmpty() || email.trim().length() == 0) {
-            return false;
-        }
-        return true;
+        return (!(email == null || email.isEmpty() || email.trim().length() == 0));
     }
 
-    /*private boolean validateRelation(Relation relation) {
-        if (this.relation != null) {
-            return true;
-        }
-        return false;
-    }*/
-
     public boolean validatePhone(Integer phone) {
-        if (phone == null) {
-            return false;
-        }
-        return true;
+        return (!(phone == null));
     }
 
     public List<EmailAddress> getEmails() {
         return Collections.unmodifiableList(emails);
     }
 
-    /*public boolean validateVat(int vat) {
-        return this.vatNumber.validateVatNumber(vat);
-    }
-
-    public boolean validatePhone(int phone) {
-        PhoneNumber mobile = new PhoneNumber(phone);
-        return mobile.validate(phone);
-    }*/
 
     public int getVatNumber() {
         return this.vatNumber.getVatNumber();
@@ -421,7 +211,6 @@ public class FamilyMember {
             return false;
         }
         return this.accounts.add(account);
-
     }
 
     @Override

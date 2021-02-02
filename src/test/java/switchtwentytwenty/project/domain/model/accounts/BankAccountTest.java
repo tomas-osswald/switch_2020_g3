@@ -203,14 +203,12 @@ class BankAccountTest {
         assertEquals(expected, result);
     }
 
-    /* // TODO: Encontrar o porquê de os hashCodes não serem iguais
+    // TODO: Encontrar o porquê de os hashCodes não serem iguais
     @Test
     void HashCode_SameContent() {
         BankAccount newAccount = new BankAccount(description, balance, bankID, currency);
         assertTrue(newAccount.hashCode() == accountTest.hashCode());
     }
-
-     */
 
     @Test
     void HashCode_DifferentContent() {

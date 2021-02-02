@@ -101,12 +101,14 @@ public class AccountData {
                 description.equals(other.description);
     }
 
-    /*public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
+    /*
+    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
         if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
         return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
-    }*/
+    }
+    */
 
     public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, familyCashTransferDTO);
