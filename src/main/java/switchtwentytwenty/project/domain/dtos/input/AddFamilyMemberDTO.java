@@ -21,7 +21,11 @@ public class AddFamilyMemberDTO {
         this.selfCCNumber = selfCCNumber;
         this.cc = cc;
         this.name = name;
-        this.birthDate = birthDate;
+        if (birthDate == null ){
+            this.birthDate = new Date();
+        } else {
+            this.birthDate = (Date) birthDate.clone();
+        }
         this.phone = phone;
         this.email = email;
         this.vat = vat;
@@ -38,7 +42,7 @@ public class AddFamilyMemberDTO {
 
     public String getName(){ return this.name; }
 
-    public Date getBirthDate() { return this.birthDate; }
+    public Date getBirthDate() { return (Date) this.birthDate.clone(); }
 
     public Integer getPhone() { return this.phone; }
 
