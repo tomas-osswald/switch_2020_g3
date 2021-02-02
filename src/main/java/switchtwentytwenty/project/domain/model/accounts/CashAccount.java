@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CashAccount implements Account {
 
@@ -80,6 +81,12 @@ public class CashAccount implements Account {
         if (!(other instanceof CashAccount)) return false;
         CashAccount otherAccount = (CashAccount) other;
         return (this.accountData.equals(otherAccount.accountData));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountData.getAccountID(), accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
+                accountData.getCurrentBalance().getCurrency());
     }
 
     public boolean isIDOfThisAccount(int accountID) {

@@ -189,7 +189,7 @@ class CashAccountTest {
     void equalsTrueItself() {
         CashAccount one = new CashAccount("Account", 1, 1, currency);
 
-        assertTrue(one.equals(one));
+        assertEquals(one, one);
     }
 
     @Test
@@ -197,7 +197,7 @@ class CashAccountTest {
         CashAccount one = new CashAccount("Account", 1, 1, currency);
         FamilyService familyService = new FamilyService();
 
-        assertFalse(one.equals(familyService));
+        assertNotEquals(one, familyService);
     }
 
     @Test
@@ -205,7 +205,7 @@ class CashAccountTest {
         CashAccount one = new CashAccount("Account", 1, 1, currency);
         CashAccount two = new CashAccount("Account", 1, 1, currency);
 
-        assertTrue(one.equals(two));
+        assertEquals(one, two);
     }
 
     @Test
@@ -213,7 +213,7 @@ class CashAccountTest {
         CashAccount one = new CashAccount("Account", 1, 1, currency);
         CashAccount two = new CashAccount("Account", 5, 1, currency);
 
-        assertFalse(one.equals(two));
+        assertNotEquals(one, two);
     }
 
     @Test
@@ -221,7 +221,7 @@ class CashAccountTest {
         CashAccount one = new CashAccount("Account", 1, 1, currency);
         CashAccount two = new CashAccount("Account", 1.01, 1, currency);
 
-        assertFalse(one.equals(two));
+        assertNotEquals(one, two);
     }
 
 
@@ -341,5 +341,25 @@ class CashAccountTest {
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "cc", 1, 2.00, CurrencyEnum.EURO, 1, "Shopping", new Date());
 
         assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, familyCashTransferDTO));
+    }
+
+    @Test
+    void testHashCodeEqualObjects() {
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount expected = new CashAccount(designation, balance, cashAccountID, currency);
+        CashAccount result = new CashAccount(designation, balance, cashAccountID, currency);
+        assertEquals(result.hashCode(), expected.hashCode());
+    }
+
+    @Test
+    void testHashCodeDifferentObjects() {
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount expected = new CashAccount(designation, balance, cashAccountID, currency);
+        CashAccount result = new CashAccount(designation, balance, 1002, currency);
+        assertNotEquals(result.hashCode(), expected.hashCode());
     }
 }
