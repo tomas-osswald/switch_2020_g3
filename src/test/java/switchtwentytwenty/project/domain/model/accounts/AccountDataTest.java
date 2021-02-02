@@ -8,6 +8,8 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class AccountDataTest {
 
     double balance = 200;
@@ -61,6 +63,14 @@ class AccountDataTest {
         boolean result = accountData.hasEnoughMoneyForTransaction(valueSpent);
 
         Assertions.assertFalse(result);
+    }
+
+    @Test
+    void hasEnoughMoneyForTransaction_NegativeValue() {
+        MoneyValue valueSpent = new MoneyValue(-200.0, CurrencyEnum.EURO);
+        assertThrows(IllegalArgumentException.class,()->{
+            accountData.hasEnoughMoneyForTransaction(valueSpent);
+        });
     }
 
     @Test

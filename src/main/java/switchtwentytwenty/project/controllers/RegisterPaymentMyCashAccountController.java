@@ -26,11 +26,11 @@ public class RegisterPaymentMyCashAccountController {
         Account cashAccount = myself.getAccount(familyCashTransferDTO.getAccountID());
 
         // Category Service
-        CategoryService categoryService = new CategoryService();
+        CategoryService categoryService = this.ffmApplication.getCategoryService();//new CategoryService();
         StandardCategory category = categoryService.getStandardCategoryByID(familyCashTransferDTO.getCategoryID()); // TODO: ALTERAR PARA GENERAL CATEGORY
 
         // AccountService
-        AccountService accountService = new AccountService();
+        AccountService accountService = this.ffmApplication.getAccountService();//new AccountService();
         accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT);
 
         // TransactionService

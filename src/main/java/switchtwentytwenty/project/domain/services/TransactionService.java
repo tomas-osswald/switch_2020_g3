@@ -21,7 +21,6 @@ public class TransactionService {
         boolean credit = false;
         MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
         if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
-            //TODO: alterar targetCashAccount para null. BT
             targetCashAccount.registerTransaction(null, category,credit, familyCashTransferDTO);
             targetCashAccount.debit(transferAmount);
             return true;
