@@ -44,17 +44,17 @@ public class CreditCardAccount implements Account {
 
     // Bussiness Methods
 
-    private void validateTotalDebt(Double totalDebt) {
+    protected void validateTotalDebt(Double totalDebt) {
         if (totalDebt == null || totalDebt < 0.00)
             throw new IllegalArgumentException("Total debt must not be null or greater than Zero");
     }
 
-    private void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
+    protected void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
         if (intertestDebt > totalDebt)
             throw new IllegalArgumentException("Interest Debt must be inferior than Total Debt");
     }
 
-    private boolean validateInterestDebt(Double interestDebt) {
+    protected boolean validateInterestDebt(Double interestDebt) {
         if (interestDebt == null)
             return false;
 
@@ -71,7 +71,7 @@ public class CreditCardAccount implements Account {
      * @param withrawalLimit
      */
 
-    private void validateWithrawalLimit(Double withrawalLimit) {
+    protected void validateWithrawalLimit(Double withrawalLimit) {
         if (withrawalLimit == null || withrawalLimit < 0.00)
             throw new IllegalArgumentException("withdrawal limit can't be less than 0");
     }
@@ -88,18 +88,28 @@ public class CreditCardAccount implements Account {
 
     //TODO: Deixar em java doc a diferença entre debit e credit no credit card account
 
+    /**
+     * Method to debit from a Credit Card Account, will add (credit) the amount to balance
+     * End balance must not be greater than withdrawalLimit
+     * @param value MoneyValue to debit
+     */
     public void debit(MoneyValue value) { //expense
         if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
             throw new IllegalArgumentException("Credit exceeded");
 
-        this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
+        this.accountData.credit(value);
     }
 
+    /**
+     * Method to credit from a Credit Card Account, will subtract (debit) the amount to balance
+     * End balance must not be less than zero
+     * @param value MoneyValue to credit
+     */
     public void credit(MoneyValue value) { //expense
         if ((this.accountData.getMoneyValue().debit(value).getValue() < 0.00))
             throw new IllegalArgumentException("Balance must be zero or greater");
 
-        this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
+        this.accountData.debit(value);
     }
 
 
@@ -134,7 +144,7 @@ public class CreditCardAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
-        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() <= withdrawalLimit.getValue())
             return true;
         return false;
     }
