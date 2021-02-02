@@ -391,10 +391,7 @@ class FamilyMemberTest {
     void addEmail_InvalidEmail() {
         String newEmail = "1120717@pt";
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            diogo.addEmail(newEmail);
-        });
+        assertFalse(diogo.addEmail(newEmail));
     }
 
     @Test

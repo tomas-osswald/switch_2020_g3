@@ -6,7 +6,8 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EmailServiceTest {
 
@@ -22,7 +23,7 @@ class EmailServiceTest {
     String city = "Porto";
 
     @Test
-    void emailServiceConstructor(){
+    void emailServiceConstructor() {
         EmailService emailService = new EmailService();
 
         Assertions.assertNotNull(emailService);
@@ -34,7 +35,7 @@ class EmailServiceTest {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         EmailService emailService = new EmailService();
 
-        boolean result = emailService.addEmail(newEmail,diogo);
+        boolean result = emailService.addEmail(newEmail, diogo);
 
         assertTrue(result);
     }
@@ -44,10 +45,7 @@ class EmailServiceTest {
         String newEmail = "1120717@pt";
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         EmailService emailService = new EmailService();
-
-        Assertions.assertThrows(IllegalArgumentException.class,()->{
-            emailService.addEmail(newEmail,diogo);
-        });
+        assertFalse(emailService.addEmail(newEmail, diogo));
 
     }
 

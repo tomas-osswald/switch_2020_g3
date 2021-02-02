@@ -4,7 +4,7 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
 public class MoneyValue {
-    
+
 
     // Global variable // Constant
     static final String CURRENCYDIFFER = "Currency differ";
@@ -17,6 +17,7 @@ public class MoneyValue {
     private double dollarToEuroExchangeRate;
     private double dollarToYenExchangeRate;
     */
+
 
     public MoneyValue(Double value, CurrencyEnum currency) {
         this.value = value;
