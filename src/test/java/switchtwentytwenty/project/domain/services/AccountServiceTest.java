@@ -5,14 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.*;
+
 
 import java.util.Date;
 import switchtwentytwenty.project.controllers.AddFamilyAdministratorController;
 import switchtwentytwenty.project.controllers.AddFamilyController;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -486,10 +484,13 @@ class AccountServiceTest {
         AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1, CurrencyEnum.EURO);
         AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1, CurrencyEnum.EURO);
 
+        AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+
         Family simpsonFamily = familyService.getFamily(1);
-        familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        familyService.addFamilyMember(familyMemberDTO2);
         FamilyMember mary = simpsonFamily.getFamilyMember(originFamilyMemberCC);
-        familyService.addFamilyMember(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+        familyService.addFamilyMember(familyMemberDTO3);
         FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
 
         accountService.createPersonalCashAccount(mary, mCashAccountDTO);
@@ -524,10 +525,14 @@ class AccountServiceTest {
         AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1, CurrencyEnum.EURO);
         AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1, CurrencyEnum.EURO);
 
+        AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+
+
         Family simpsonFamily = familyService.getFamily(1);
-        familyService.addFamilyMember(cc, originFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
+        familyService.addFamilyMember(familyMemberDTO2);
         FamilyMember mary = simpsonFamily.getFamilyMember(originFamilyMemberCC);
-        familyService.addFamilyMember(cc, destinationFamilyMemberCC, name3, date3, numero3, email3, 219483345, rua3, codPostal3, local3, city3, familyID);
+        familyService.addFamilyMember(familyMemberDTO3);
         FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
 
         accountService.createPersonalCashAccount(mary, mCashAccountDTO);
