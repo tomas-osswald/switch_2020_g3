@@ -122,4 +122,18 @@ class MoneyValueTest {
     void testEquals2() {
         assertTrue(moneyValueEuro.equals(moneyValueEuro));
     }
+
+    @Test
+    void testHashCode() {
+        int notExpected = 0;
+        int result = moneyValueEuro.hashCode();
+        assertNotEquals(notExpected, result);
+    }
+
+    @Test
+    void testHashCodeEquals() {
+        MoneyValue hash1 = new MoneyValue(2.0, CurrencyEnum.EURO);
+        MoneyValue hash2 = new MoneyValue(2.0, CurrencyEnum.EURO);
+        assertEquals(hash1.hashCode(), hash2.hashCode());
+    }
 }

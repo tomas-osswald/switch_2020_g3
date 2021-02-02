@@ -41,16 +41,37 @@ class ResultTest {
     }
 
     @Test
-    void testPureSuccess(){
+    void testPureSuccess() {
         Result<String> pass = Result.success();
         assertTrue(pass.isSuccess());
     }
 
     @Test
-    void testPureFailure(){
+    void testPureFailure() {
         Result<String> fail = Result.failure("Fail");
         assertFalse(fail.isSuccess());
     }
 
 
+    @Test
+    void compareSameInstance() {
+        Result<String> result = Result.success();
+        assertSame(result, result);
+        assertEquals(result, result);
+    }
+
+    @Test
+    void compareWithAnotherClass() {
+        Result<String> result = Result.success();
+        String compare = "result";
+        assertNotEquals(result, compare);
+    }
+
+    @Test
+    void diferentContent() {
+        Result<String> resultOne = Result.failure("failure");
+        Result<String> resultTwo = Result.failure("falhanço");
+
+        assertNotEquals(resultOne, resultTwo);
+    }
 }

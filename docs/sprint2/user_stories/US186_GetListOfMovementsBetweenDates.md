@@ -23,7 +23,7 @@ participant "System" as system
 activate member
 member -> system : choose account
 activate system
-member -> system : input dates
+member -> system : select dates
 
 system --> member : return list
 
@@ -132,35 +132,35 @@ autonumber
 
 title GetListOfMovementsBetweenDates(getList)
 
-participant ": MovementService" as MovementService
+participant ": TransactionService" as TransactionService
 participant "anAccount\n: Account" as Account
-participant "aMovement\n: Movement" as Movement
-participant "aMovementDTO\n: MovementDTO" as MovementDTO
+participant "aTransaction\n: Transaction" as Transaction
+participant "aTransactionDataDTO\n: TransactionDataDTO" as TransactionDataDTO
 
--> MovementService ** : createMovementService()
--> MovementService : createListOfMovementsBetweenDates\n(anAccount, startDate, endDate)
-activate MovementService
+-> TransactionService ** : createMovementService()
+-> TransactionService : createListOfMovementsBetweenDates\n(anAccount, startDate, endDate)
+activate TransactionService
 
-MovementService -> Account : getListOfMovements()
+TransactionService -> Account : getListOfMovements()
 activate Account
-Account --> MovementService : aListOfMovements
+Account --> TransactionService : aListOfMovements
 deactivate Account
 
 loop for every movement in aListOfMovements
-MovementService --> Movement : isMovementBetweenDates\n(aMovement, startDate, endDate)
-activate Movement
+TransactionService --> Transaction : isMovementBetweenDates\n(aMovement, startDate, endDate)
+activate Transaction
 alt false
-Movement --> MovementService : false
+Transaction --> TransactionService : false
 else true
-Movement --> MovementService : true
-deactivate Movement
-MovementService --> MovementDTO ** : createMovementDTO(aMovement)
-MovementService --> MovementService : addMovementDTOToList\n(aMovementDTO)
+Transaction --> TransactionService : true
+deactivate Transaction
+TransactionService --> TransactionDataDTO ** : createMovementDTO(aMovement)
+TransactionService --> TransactionService : addMovementDTOToList\n(aMovementDTO)
 end
 end
 
-<-- MovementService : ListOfMovementsBetweenDates
-deactivate MovementService
+<-- TransactionService : ListOfMovementsBetweenDates
+deactivate TransactionService
 ````
 
 ## 3.1. Functionality Use
@@ -207,22 +207,27 @@ class FamilyMember {
 + getAccount()
 }
 
-class MovementService {
+class AccountService {
++ getAccount()
+}
+
+class TransactionService {
 + createListOfMovementsBetweenDates()
 }
 
-class MovementDTO {
+class TransactionDataDTO {
 }
 
 interface Account {}
 
 GetListOfMovements\nBetweenDatesController --> Application : has
 Application --> FamilyService : has
-GetListOfMovements\nBetweenDatesController --> MovementService : creates
+GetListOfMovements\nBetweenDatesController --> AccountService : creates
+GetListOfMovements\nBetweenDatesController --> TransactionService : creates
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
 FamilyMember --> Account : has list
-MovementService --> MovementDTO : creates list
+TransactionService --> TransactionDataDTO : creates list
 
 
 ```
@@ -242,83 +247,108 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
 
 ## 3.4. Tests
 
-**Test 1:** Controller: If any exception is thrown (Family, FamilyMember or Account with given IDs do not exist), a null
+**Test 1, 2 and 3:** Controller: If any exception is thrown (Family, FamilyMember or Account with given IDs do not exist), a null
 list will be returned.
 
+    @Test
+    void checkIfNullWhenNoSuchMemberID() {
+        assertNull(controller.getListOfMovementsBetweenDates(testFamilyID, "110142608ZZ1", cashAccountID, startDateOne, endDateThree));
+    }
 
-**Test 2:** MovementService: if the account holds no movements, an empty list will be returned.
+    @Test
+    void checkIfNullWhenNoSuchFamilyID() {
+        assertNull(controller.getListOfMovementsBetweenDates(11, cc, cashAccountID, startDateOne, endDateThree));
+    }
+
+    @Test
+    void checkIfNullWhenNoSuchAccountID() {
+        assertNull(controller.getListOfMovementsBetweenDates(testFamilyID, cc, 5, startDateOne, endDateThree));
+    }
 
 
-**Test 3:** MovementService: if the account holds no movements that occurred between the given dates, an empty list 
-will be returned.
-
-package switchtwentytwenty.project.domain.services;
-
-import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.model.accounts.BankAccount;
-import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
-import switchtwentytwenty.project.domain.model.accounts.CashAccount;
-import switchtwentytwenty.project.domain.model.accounts.CreditCardAccount;
-
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class MovementServiceTest {
-
-    int accountID = 1;
-    String designation = "Account";
-    Double balance = null;
-    CashAccount aCashAccount = new CashAccount(designation, balance, accountID);
-    
-    MovementService movementService = new MovementService();
+**Test 2:** TransactionService: if the account holds no movements, an empty list will be returned.
 
     @Test
     void createListOfMovementsBetweenDates_ResultEmptyListNoMovements() {
         // arrange
-        Date startDate = null;
-        Date endDate = null;
-        List<Movement> expected = new List<Movement>();
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        Date startDate = new Date(2021, Calendar.JANUARY, 22);
+        Date endDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
 
         // act
-        List <Movement> result = movementService.createListOfMovementsBetweenDates(aCashAccount, startDate, endDate);
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
 
         // assert
         assertEquals(expected, result);
+        assertTrue(result.isEmpty());
     }
+
+**Test 3:** TransactionService: if the account holds no movements that occurred between the given dates, an empty list 
+will be returned.
 
     @Test
     void createListOfMovementsBetweenDates_ResultEmptyListNoMovementsBetweenDates() {
+        // arrange
+        CashAccount cashAccount = new CashAccount(cashAccountDTO,accountID);
+        TransactionService service = new TransactionService();
+        service.registerPaymentMyCashAccount(cashAccount, categoria1, transacaoDTO1);
+        Date startDate = new Date(2021, Calendar.JANUARY, 22);
+        Date endDate = new Date(2021, Calendar.JANUARY, 30);
+        List<TransactionDataDTO> expected = new ArrayList<>();
 
+        // act
+        List<TransactionDataDTO> result = service.createListOfMovementsBetweenDates(cashAccount, startDate, endDate);
+
+        // assert
+        assertEquals(expected, result);
+        assertTrue(result.isEmpty());
     }
-
-    @Test
-    void createListOfMovementsBetweenDates_ResultOneMovementList() {
-
-    }
-
-    @Test
-    void createListOfMovementsBetweenDates_ResultManyMovementsList() {
-
-    }
-}
 
 # 4. Implementation
 
 ### Check if movement happened between two given dates
 
+    private boolean checkIfMovementBetweenDates(Transaction aTransaction, Date startDate, Date endDate) {
 
-### Create Movement DTO
+        // Switch dates if endDate is earlier than startDate
+        if (startDate.after(endDate)) {
+            Date temp = (Date) startDate.clone();
+            startDate = endDate;
+            endDate = temp;
+        }
 
+        boolean isBetweenDates = false;
+        Date transactionDate = aTransaction.getTransactionDate();
 
-### Create Movement DTO list
+        if (transactionDate.after(startDate) && transactionDate.before(endDate)) {
+            isBetweenDates = true;
+        }
+        return isBetweenDates;
+    }
 
+### Create TransactionDataDTO list
+
+    public List<TransactionDataDTO> createListOfMovementsBetweenDates(Account anAccount, Date startDate, Date endDate) {
+        List<Transaction> listOfMovements = anAccount.getListOfMovements();
+        List<TransactionDataDTO> listOfMovementsBetweenDates = new ArrayList<>();
+
+        for (Transaction transaction : listOfMovements)
+            if (checkIfMovementBetweenDates(transaction, startDate, endDate)) {
+                TransactionDataDTO transactionDTO = new TransactionDataDTO(transaction.getTransactionData());
+                listOfMovementsBetweenDates.add(transactionDTO);
+            }
+
+        return listOfMovementsBetweenDates;
+    }
 
 # 5. Integration
 
-EDIT EDIT EDIT EDIT EDIT EDIT EDIT
-
+To implement this user story, previous user stories regarding account creation (US170-173) and movement registration 
+(US180 and US181) had to be completed beforehand. Without these, there would be no account from which to get movements
+and there would be no movements kept by these accounts. With these classes implemented, the main requirements of this 
+user story are a method that will verify the movement's date and a method to obtain the list of existing movements and
+transform these into data that can be sent back to the UI.
 
 # 6. Observations

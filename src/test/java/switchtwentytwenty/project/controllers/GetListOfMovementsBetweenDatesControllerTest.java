@@ -132,17 +132,17 @@ class GetListOfMovementsBetweenDatesControllerTest {
     }
 
     @Test
-    void checkIfThrowsWhenNoSuchMemberID() {
+    void checkIfNullWhenNoSuchMemberID() {
         assertNull(controller.getListOfMovementsBetweenDates(testFamilyID, "110142608ZZ1", cashAccountID, startDateOne, endDateThree));
     }
 
     @Test
-    void checkIfThrowsWhenNoSuchFamilyID() {
+    void checkIfNullWhenNoSuchFamilyID() {
         assertNull(controller.getListOfMovementsBetweenDates(11, cc, cashAccountID, startDateOne, endDateThree));
     }
 
     @Test
-    void checkIfThrowsWhenNoSuchAccountID() {
+    void checkIfNullWhenNoSuchAccountID() {
         assertNull(controller.getListOfMovementsBetweenDates(testFamilyID, cc, 5, startDateOne, endDateThree));
     }
 
