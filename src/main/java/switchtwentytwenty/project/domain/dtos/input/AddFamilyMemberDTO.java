@@ -4,18 +4,18 @@ import java.util.Date;
 
 public class AddFamilyMemberDTO {
 
-    private String selfCCNumber;
-    private String cc;
-    private String name;
-    private Date birthDate;
-    private Integer phone;
-    private String email;
-    private Integer vat;
-    private String street;
-    private String codPostal;
-    private String local;
-    private String city;
-    private int familyID;
+    private final String selfCCNumber;
+    private final String cc;
+    private final String name;
+    private final Date birthDate;
+    private final Integer phone;
+    private final String email;
+    private final Integer vat;
+    private final String street;
+    private final String codPostal;
+    private final String local;
+    private final String city;
+    private final int familyID;
 
     public AddFamilyMemberDTO(String selfCCNumber,String cc, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID){
         this.selfCCNumber = selfCCNumber;
