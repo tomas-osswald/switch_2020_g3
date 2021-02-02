@@ -374,9 +374,14 @@ public class FamilyMember {
      * @return True if the EmailAddress object is successfully created and added to the EmailAddress ArrayList
      */
     public boolean addEmail(String emailToAdd) {
-        EmailAddress newEmail = new EmailAddress(emailToAdd);
-        emails.add(newEmail);
-        return true;
+        try{
+            EmailAddress newEmail = new EmailAddress(emailToAdd);
+            emails.add(newEmail);
+            return true;
+        }catch (IllegalArgumentException e){
+            return false;
+        }
+
     }
 
 
