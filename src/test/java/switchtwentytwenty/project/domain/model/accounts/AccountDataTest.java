@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 class AccountDataTest {
@@ -77,9 +78,9 @@ class AccountDataTest {
     void getCreationDate() {
         //Arrange
         AccountData accountDataEUR = new AccountData(balance, designation, accountID, CurrencyEnum.EURO);
-        Date expected = new Date();
+        SimpleDateFormat expected = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
         //Act
-        Date result = accountDataEUR.getCreationDate();
+        SimpleDateFormat result = accountDataEUR.getCreationDate();
         //Assert
         Assertions.assertEquals(expected, result);
     }

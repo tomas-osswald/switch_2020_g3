@@ -41,20 +41,39 @@ public class CreditCardAccount implements Account {
     }
 
 
-
     // Bussiness Methods
 
-    private void validateTotalDebt(Double totalDebt) {
+    /**
+     * Method to validate TotalDebt, must be not null and not less than zero
+     *
+     * @param totalDebt Value to be checked
+     *                  If not valid throws an exception
+     */
+    protected void validateTotalDebt(Double totalDebt) {
         if (totalDebt == null || totalDebt < 0.00)
             throw new IllegalArgumentException("Total debt must not be null or greater than Zero");
     }
 
-    private void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
+    /**
+     * Method to check if interest is less than total debt
+     *
+     * @param intertestDebt Interest Debt
+     * @param totalDebt     Total Debt
+     *                      If interest debt greater than total debt throws an exception
+     */
+    protected void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
         if (intertestDebt > totalDebt)
             throw new IllegalArgumentException("Interest Debt must be inferior than Total Debt");
     }
 
-    private boolean validateInterestDebt(Double interestDebt) {
+    /**
+     * Method to validade InterestDebt
+     *
+     * @param interestDebt Value to be checked
+     * @return false if is null or less than Zero (0)
+     * true if equals or greater than zero
+     */
+    protected boolean validateInterestDebt(Double interestDebt) {
         if (interestDebt == null)
             return false;
 
@@ -63,17 +82,24 @@ public class CreditCardAccount implements Account {
         return true;
     }
 
-    public MoneyValue getInterestDebt() {
-        return this.interestDebt;
+    /**
+     * Method to validade Withdrawal Limit
+     *
+     * @param withrawalLimit Value to be checked
+     *                       If null or less than zero throws an exception
+     */
+    protected void validateWithrawalLimit(Double withrawalLimit) {
+        if (withrawalLimit == null || withrawalLimit < 0.00)
+            throw new IllegalArgumentException("withdrawal limit can't be less than 0");
     }
 
     /**
-     * @param withrawalLimit
+     * Method to get Interest Debt
+     *
+     * @return interestDebt
      */
-
-    private void validateWithrawalLimit(Double withrawalLimit) {
-        if (withrawalLimit == null || withrawalLimit < 0.00)
-            throw new IllegalArgumentException("withdrawal limit can't be less than 0");
+    public MoneyValue getInterestDebt() {
+        return this.interestDebt;
     }
 
     /**
@@ -86,20 +112,30 @@ public class CreditCardAccount implements Account {
                 this.accountData.getAccountID();
     }
 
-    //TODO: Deixar em java doc a diferença entre debit e credit no credit card account
-
+    /**
+     * Method to debit from a Credit Card Account, will add (credit) the amount to balance
+     * End balance must not be greater than withdrawalLimit
+     *
+     * @param value MoneyValue to debit
+     */
     public void debit(MoneyValue value) { //expense
         if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
             throw new IllegalArgumentException("Credit exceeded");
 
-        this.accountData.setBalance(this.accountData.getMoneyValue().credit(value));
+        this.accountData.credit(value);
     }
 
+    /**
+     * Method to credit from a Credit Card Account, will subtract (debit) the amount to balance
+     * End balance must not be less than zero
+     *
+     * @param value MoneyValue to credit
+     */
     public void credit(MoneyValue value) { //expense
         if ((this.accountData.getMoneyValue().debit(value).getValue() < 0.00))
             throw new IllegalArgumentException("Balance must be zero or greater");
 
-        this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
+        this.accountData.debit(value);
     }
 
 
@@ -125,24 +161,53 @@ public class CreditCardAccount implements Account {
         return this.accountData.equals(otherAccount.accountData);
     }
 
+    /**
+     * Method to get Description of Account
+     *
+     * @return description
+     */
     public String getDescription() {
         return this.accountData.getDescription();
     }
 
+    /**
+     * Method to check if the given int is accounts ID
+     *
+     * @param accountID ID to check
+     * @return true if is ID of this Account
+     * false if is not ID of this Account
+     */
     public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
+    /**
+     * Method to check if this Account has enough money to do a given transaction
+     *
+     * @param transferenceAmount MoneyValeu to check
+     * @return true if a a given MoneyVale plus current balance not exceeds withdrawal limit, else return false
+     */
     public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
-        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() < withdrawalLimit.getValue())
+        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() <= withdrawalLimit.getValue())
             return true;
         return false;
     }
 
+    /**
+     * Method to check AccountType
+     *
+     * @param accountTypeEnum AccountType to compare
+     * @return true if are equals, else return false
+     */
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
+    /**
+     * Method to get Balance
+     *
+     * @return return MoneyBalance
+     */
     public MoneyValue getMoneyBalance() {
         return this.accountData.getCurrentBalance();
     }
@@ -156,7 +221,13 @@ public class CreditCardAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public boolean checkCurrency(CurrencyEnum currency){
+    /**
+     * Method to check if a given Currency
+     *
+     * @param currency Currency to compare
+     * @return true if are equals, else return false
+     */
+    public boolean checkCurrency(CurrencyEnum currency) {
         return accountData.checkCurrency(currency);
     }
 

@@ -322,10 +322,10 @@ class AccountServiceTest {
     @Test
     void checkChildCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
         int invalidID = -1;
-        diogo.addAccount(cashAccount);
 
-        assertThrows(NullPointerException.class, () -> {
-            accountService.checkChildCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);
+        assertThrows(IllegalArgumentException.class, () -> {
+            accountService.checkChildCashAccountBalance
+                    (invalidID, diogo);
         });
     }
 
@@ -566,5 +566,14 @@ class AccountServiceTest {
         boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
 
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    void name() {
+        FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+        accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember);
+
+        assertThrows(Exception.class, () -> accountService.getFamilyMemberCashAccountBalance(familyMember, 1));
     }
 }

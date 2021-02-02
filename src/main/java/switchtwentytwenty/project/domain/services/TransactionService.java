@@ -18,16 +18,15 @@ public class TransactionService {
 
     public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
         CashAccount targetCashAccount = (CashAccount) targetAccount;
-        try {
-            MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
-            if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
-                //TODO: alterar targetCashAccount para null. BT
-                return targetCashAccount.registerTransaction(targetCashAccount, category, familyCashTransferDTO);
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
+        boolean credit = false;
+        MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
+        if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
+            //TODO: alterar targetCashAccount para null. BT
+            targetCashAccount.registerTransaction(null, category,credit, familyCashTransferDTO);
+            targetCashAccount.debit(transferAmount);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Not enough balance");
         }
     }
 
@@ -83,9 +82,9 @@ public class TransactionService {
         if(!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid Currency");
         CashAccount originCashAccount = (CashAccount) originAccount;
         CashAccount destinationCashAccount = (CashAccount) destinationAccount;
-        //TODO: Fazer 2 métodos diferentes um para entradas e outro para saidas? ou deviamos passar o valor ou o sinal para registar as transações? B.T.
-        originCashAccount.registerTransaction(destinationCashAccount, category, familyCashTransferDTO);
-        destinationCashAccount.registerTransaction(originCashAccount, category, familyCashTransferDTO);
+
+        originCashAccount.registerTransaction(destinationCashAccount, category,false, familyCashTransferDTO);
+        destinationCashAccount.registerTransaction(originCashAccount, category,true, familyCashTransferDTO);
         return true;
     }
 

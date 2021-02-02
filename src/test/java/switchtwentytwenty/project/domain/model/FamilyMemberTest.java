@@ -271,8 +271,6 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
-
-    //tests MemberProfileDTO using FamilyMember constructor to create admins
     @Test
     void getMemberProfileTest3_AdministratorTrueObjectsAreEqual() {
 
@@ -298,7 +296,6 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
-
     @Test
     void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
@@ -394,10 +391,7 @@ class FamilyMemberTest {
     void addEmail_InvalidEmail() {
         String newEmail = "1120717@pt";
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            diogo.addEmail(newEmail);
-        });
+        assertFalse(diogo.addEmail(newEmail));
     }
 
     @Test

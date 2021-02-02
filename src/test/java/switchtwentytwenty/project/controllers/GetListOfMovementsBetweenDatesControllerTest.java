@@ -92,7 +92,7 @@ class GetListOfMovementsBetweenDatesControllerTest {
 
     @Test
     void checkIfListObtainedFromCashAccount() {
-        cashAccount.registerTransaction(cashAccount, categoria1, transacaoDTO1);
+        cashAccount.registerTransaction(cashAccount, categoria1,true, transacaoDTO1);
         int expected = 1;
 
         List<TransactionDataDTO> result = controller.getListOfMovementsBetweenDates(testFamilyID, cc, cashAccountID, startDateOne, endDateThree);
