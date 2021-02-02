@@ -31,9 +31,11 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
 
             if (categoryID>=0) category = categoryService.getStandardCategoryByID(categoryID);
             else category = family.getCustomCategoryByID(categoryID);
+            if (category==null) return false;
 
             AccountService accountService = new AccountService();
-            return accountService.transferCashFromFamilyToFamilyMember(family, familyMember, category, familyCashTransferDTO);
+            accountService.transferCashFromFamilyToFamilyMember(family, familyMember, category, familyCashTransferDTO);
+            return true;
         } catch (IllegalArgumentException exception) {
             return false;
         }
