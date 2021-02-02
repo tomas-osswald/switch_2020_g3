@@ -30,7 +30,6 @@ class PhoneNumberTest {
         PhoneNumber phoneNumber = new PhoneNumber(number);
         PhoneNumber phoneNumber2 = new PhoneNumber(number);
 
-        assertSame(phoneNumber, phoneNumber2);
         assertEquals(phoneNumber, phoneNumber2);
     }
 

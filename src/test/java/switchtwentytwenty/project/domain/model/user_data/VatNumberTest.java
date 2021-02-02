@@ -29,7 +29,6 @@ class VatNumberTest {
         VatNumber vatNumber = new VatNumber(vat);
         VatNumber vatNumber2 = new VatNumber(vat);
 
-        assertSame(vatNumber, vatNumber2);
         assertEquals(vatNumber, vatNumber2);
     }
 
