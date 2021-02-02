@@ -35,7 +35,16 @@ public class RegisterPaymentMyCashAccountController {
 
         // TransactionService
         TransactionService transactionService = this.ffmApplication.getTransactionService();
-        return transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+
+        try {
+            if(transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO)){
+                return true;
+            } else {
+                return false;
+            }
+        }  catch (Exception e) {
+            return false;
+        }
     }
 
 }
