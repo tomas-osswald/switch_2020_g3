@@ -246,16 +246,14 @@ class BankSavingsAccountTest {
     void equalsFalseNotSameInstance() {
         AccountService expected = new AccountService();
         BankSavingsAccount result = accountPositiveTwo;
-        assertFalse(result.equals(expected));
-        assertNotEquals(expected, result);
+        assertNotEquals(result, expected);
     }
 
     @Test
     void equalsFalseNullObject() {
         BankSavingsAccount expected = null;
         BankSavingsAccount result = accountPositiveTwo;
-        assertNotEquals(expected, result);
-        assertFalse(result.equals(expected));
+        assertNotEquals(result, expected);
     }
 
     @Test
