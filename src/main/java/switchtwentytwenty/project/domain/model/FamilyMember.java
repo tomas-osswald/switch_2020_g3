@@ -15,11 +15,11 @@ public class FamilyMember {
     // Attributes
     private CCNumber ccNumber;
     private String name;
-    private Date birthDate;
+    private final Date birthDate;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
     private List<EmailAddress> emails = new ArrayList<>();
-    private VatNumber vatNumber;
-    private Address address;
+    private final VatNumber vatNumber;
+    private final Address address;
     private boolean administrator;
     private List<Account> accounts = new ArrayList<>();
 
