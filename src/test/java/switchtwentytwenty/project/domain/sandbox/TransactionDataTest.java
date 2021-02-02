@@ -13,7 +13,7 @@ class TransactionDataTest {
 
     Date date = new Date();
     Category category = new StandardCategory("cat", null, 2);
-    TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO), date, category);
+    TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO),true, date, category);
 
     @Test
     void getTransactionDate() {
@@ -55,5 +55,17 @@ class TransactionDataTest {
         double expected = 0;
         double result = transactionData.getRemainingBalance().getValue();
         Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    void isCredit() {
+        boolean result = transactionData.isCredit();
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void isDebit() {
+        boolean result = transactionData.isDebit();
+        Assertions.assertFalse(result);
     }
 }

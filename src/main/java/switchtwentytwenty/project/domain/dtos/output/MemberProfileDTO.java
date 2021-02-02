@@ -5,17 +5,18 @@ import switchtwentytwenty.project.domain.model.user_data.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class MemberProfileDTO {
 
-    private String ccNumber;
-    private String name;
-    private Date birthDate;
+    private final String ccNumber;
+    private final String name;
+    private final Date birthDate;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
     private List<EmailAddress> emails = new ArrayList<>();
-    private VatNumber vatNumber;
-    private Address address;
-    private boolean administrator;
+    private final VatNumber vatNumber;
+    private final Address address;
+    private final boolean administrator;
 
 
     public MemberProfileDTO(CCNumber ccNumber, String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
@@ -42,8 +43,8 @@ public class MemberProfileDTO {
         return ccNumber==that.ccNumber && administrator == that.administrator && name.equals(that.name) && birthDate.equals(that.birthDate) && phoneNumbers.equals(that.phoneNumbers) && emails.equals(that.emails) && vatNumber.equals(that.vatNumber) && address.equals(that.address);
     }
 
-    /*@Override
+    @Override
     public int hashCode() {
         return Objects.hash(name, birthDate, phoneNumbers, emails, vatNumber, address, administrator);
-    }*/
+    }
 }

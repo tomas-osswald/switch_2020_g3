@@ -189,7 +189,7 @@ public class AccountService {
         MoneyValue currentBalance;
         Account targetAccount = member.getAccount(accountID);
         if (targetAccount == null) {
-            throw new NullPointerException("No account with such ID");
+            throw new IllegalArgumentException("No account with such ID");
         }
         if (!targetAccount.checkAccountType(CASHACCOUNT)) {
             throw new IllegalArgumentException("Not a Cash Account");

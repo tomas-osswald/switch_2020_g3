@@ -62,10 +62,11 @@ public class AccountData {
     }
 
     public void credit(MoneyValue moneyValue){
-        this.currentBalance=this.currentBalance.credit(moneyValue);
+        this.currentBalance = this.currentBalance.credit(moneyValue);
     }
+
     public void debit(MoneyValue moneyValue){
-        this.currentBalance=this.currentBalance.debit(moneyValue);
+        this.currentBalance = this.currentBalance.debit(moneyValue);
     }
 
     public String getDescription() {
@@ -107,8 +108,8 @@ public class AccountData {
         return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
     }*/
 
-    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, familyCashTransferDTO);
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }
