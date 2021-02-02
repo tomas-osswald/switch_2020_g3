@@ -8,6 +8,7 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -18,8 +19,7 @@ public class AccountData {
     private String description;
     private int accountID;
     private List<Transaction> transactions;
-    //TODO: Será que não será melhor mudar para SimpleFormatDate? Pois nos permite escolher o formato e não dar cagada nos testes a comparar datas até ao millisegundo? by: Jonhnny Sins
-    private Date creationDate;
+    private SimpleDateFormat creationDate;
     private MoneyValue currentBalance;
 
     public AccountData(Double balance, String designation, int accountID) {
@@ -27,7 +27,7 @@ public class AccountData {
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
-        this.creationDate = new Date();
+        this.creationDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
         this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
@@ -37,7 +37,7 @@ public class AccountData {
         this.description = designation;
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
-        this.creationDate = new Date();
+        this.creationDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
 
         if(currencyEnum != null)
             this.currentBalance = new MoneyValue(balance, currencyEnum);
@@ -45,8 +45,8 @@ public class AccountData {
             this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
     }
 
-    public Date getCreationDate() {
-        return (Date) this.creationDate.clone();
+    public SimpleDateFormat getCreationDate() {
+        return (SimpleDateFormat) this.creationDate.clone();
     }
 
     public void setBalance(double balance) {
