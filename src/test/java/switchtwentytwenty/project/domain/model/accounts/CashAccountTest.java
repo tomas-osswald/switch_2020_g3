@@ -285,4 +285,17 @@ class CashAccountTest {
 
         Assertions.assertEquals(expected,result);
     }
+
+    @Test
+    void checkCurrencyYen() {
+        CashAccount cashAccount = new CashAccount("Bank", 20.00, 1, CurrencyEnum.YEN);
+        assertTrue(cashAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void checkCurrencyFalse() {
+        CashAccount cashAccount = new CashAccount("Bank", 20.00, 1, CurrencyEnum.EURO);
+
+        assertFalse(cashAccount.checkCurrency(CurrencyEnum.YEN));
+    }
 }

@@ -7,7 +7,7 @@ public class AddCashAccountDTO {
     private String description;
     private String familyMemberID;
     private int familyID;
-    private CurrencyEnum currency;
+    private final CurrencyEnum currency;
 
     public AddCashAccountDTO(Double balance, String description,String familyMemberID,int familyID,CurrencyEnum currency) {
         this.balance = balance;

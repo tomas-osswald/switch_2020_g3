@@ -309,4 +309,16 @@ class BankSavingsAccountTest {
         Assertions.assertTrue(result);
     }
 
+    @Test
+    void checkCurrencyEuro() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+        assertTrue(bankSavingsAccount.checkCurrency(CurrencyEnum.EURO));
+    }
+
+    @Test
+    void checkCurrencyFalse() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+
+        assertFalse(bankSavingsAccount.checkCurrency(CurrencyEnum.YEN));
+    }
 }

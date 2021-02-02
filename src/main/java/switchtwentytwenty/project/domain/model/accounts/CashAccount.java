@@ -8,7 +8,6 @@ import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class CashAccount implements Account {

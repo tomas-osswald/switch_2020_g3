@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
@@ -321,4 +322,31 @@ class BankAccountTest {
         assertTrue(account.equals(account));
     }
 
+    @Test
+    void checkCurrencyYen() {
+        BankAccount bankAccount = new BankAccount("Bank", 20.00, 1, CurrencyEnum.YEN);
+        assertTrue(bankAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void checkCurrencyFalse() {
+        BankAccount bankAccount = new BankAccount("Bank", 20.00, 1, CurrencyEnum.EURO);
+
+        assertFalse(bankAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void getDescriptionNotNull() {
+        BankAccount account = new BankAccount("Conta do Bitó", balance, bankID, CurrencyEnum.EURO);
+        assertNotNull(account.getDescription());
+    }
+
+    @Test
+    void getDescriptionEmpty() {
+        BankAccount account = new BankAccount("", balance, bankID, CurrencyEnum.EURO);
+        String notExpected = "";
+
+        assertNotNull(account.getDescription());
+        assertNotEquals(account.getDescription(), notExpected);
+    }
 }
