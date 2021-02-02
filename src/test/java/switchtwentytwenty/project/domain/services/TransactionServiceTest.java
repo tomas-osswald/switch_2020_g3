@@ -70,10 +70,11 @@ class TransactionServiceTest {
     @Test
     void RegisterPaymentMyCashAccount_SameMoneyValue() {
         TransactionService service = new TransactionService();
-        service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO1);
+        boolean successTransaction = service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO1);
         MoneyValue expected = new MoneyValue(250.00,CurrencyEnum.EURO);
         MoneyValue result = contaCash.getMoneyBalance();
         assertEquals(expected, result);
+        assertTrue(successTransaction);
     }
 
     @Test
