@@ -308,6 +308,13 @@ class BankSavingsAccountTest {
     }
 
     @Test
+    void testHashCode1() {
+        BankSavingsAccount expected = new BankSavingsAccount(-1, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(-1, name, balance, interestRate);
+        assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
     void checkCurrency() {
 
         BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);
@@ -315,5 +322,6 @@ class BankSavingsAccountTest {
 
         Assertions.assertTrue(result);
     }
+
 
 }
