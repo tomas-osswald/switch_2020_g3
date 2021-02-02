@@ -4,7 +4,6 @@ import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
-import java.util.Date;
 
 public class AddFamilyMemberController {
 

@@ -25,7 +25,7 @@ public class TransactionService {
             targetCashAccount.debit(transferAmount);
             return true;
         } else {
-            return false;
+            throw new IllegalArgumentException("Not enough balance");
         }
     }
 
