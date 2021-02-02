@@ -58,8 +58,7 @@ public class BankSavingsAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountData.getAccountID(),
-                accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
+        return Objects.hash(accountData.getAccountID(), accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
                 accountData.getCurrentBalance().getCurrency(), interestRate);
     }
 
