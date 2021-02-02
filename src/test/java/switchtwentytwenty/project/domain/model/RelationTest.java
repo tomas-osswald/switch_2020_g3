@@ -138,5 +138,48 @@ class RelationTest {
         assertNotEquals(relation, objectToCompare);
         assertNotSame(relation, objectToCompare);
     }
+
+
+    @Test
+    void testHashCode_DifferentObjects_ExpectingEquals() {
+        Relation newRelation = new Relation("Pai", diogo, jorge, true);
+        Relation newRelationTwo = new Relation("Pai", diogo, jorge, true);
+        assertEquals(newRelation.hashCode(), newRelationTwo.hashCode());
+
+    }
+
+    @Test
+    void testHashCode_DifferentObjects_ExpectingNotEquals_notParent() {
+        Relation newRelation = new Relation("Pai", diogo, jorge, true);
+        Relation newRelationTwo = new Relation("Pai", diogo, jorge, false);
+        assertNotEquals(newRelation.hashCode(), newRelationTwo.hashCode());
+
+    }
+
+    @Test
+    void testHashCode_DifferentObjects_ExpectingNotEquals_differentDesignation() {
+        Relation newRelation = new Relation("mãe", diogo, jorge, true);
+        Relation newRelationTwo = new Relation("Pai", diogo, jorge, false);
+        assertNotEquals(newRelation.hashCode(), newRelationTwo.hashCode());
+
+    }
+
+    @Test
+    void testHashCode_SameObjects_ExpectingEquals() {
+        Relation newRelation = new Relation("Pai", diogo, jorge, true);
+        Family family = new Family("Simpsons", 123);
+        family.addFamilyMember(diogo);
+        family.addFamilyMember(jorge);
+        family.addRelation(newRelation);
+        Family familyTwo = new Family("Griffin", 456);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        familyTwo.addRelation(newRelation);
+        assertEquals(newRelation.hashCode(), newRelation.hashCode());
+    }
+
+
+
+
 }
 
