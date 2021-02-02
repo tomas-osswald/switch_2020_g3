@@ -76,6 +76,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
     Date transactionDate = new Date();
     CashTransferDTO transferenceDTO;
 
+    AddFamilyMemberDTO familyMemberDTO0 = new AddFamilyMemberDTO(ccNumber, ccNumber, name, birthDate, phone, email, vat, street, postalCode, local, city, familyID);
     AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(ccNumber, originFamilyMemberCC, name1, date1, numero1, email1, nif1, rua1, codPostal1, local1, city1, familyID);
     AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(ccNumber, destinationFamilyMemberCC, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyID);
 
@@ -90,7 +91,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
         familyService.addFamily(familyName);
 
-        familyService.addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, postalCode, local, city, familyID);
+        familyService.addFamilyAdministrator(familyMemberDTO0);
         categoryService.addStandardCategory("Compras", 0);
 
         Family simpsonFamily = familyService.getFamily(1);

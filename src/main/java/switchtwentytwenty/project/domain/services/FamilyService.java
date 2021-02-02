@@ -10,7 +10,6 @@ import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FamilyService {
@@ -177,11 +176,11 @@ public class FamilyService {
         throw new IllegalArgumentException("Family does not exist");
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, Integer phone, String email, Integer vat, String street, String codPostal, String local, String city, int familyID) {
-        if (checkIfFamilyExists(familyID)) {
-            if (!checkIfEmailPresent(email)) {
-                int posicaoFamilia = this.families.indexOf(getFamily(familyID));
-                this.families.get(posicaoFamilia).addFamilyAdministrator(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city);
+    public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
+        if (checkIfFamilyExists(familyMemberDTO.getFamilyID())) {
+            if (!checkIfEmailPresent(familyMemberDTO.getEmail())) {
+                int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
+                this.families.get(posicaoFamilia).addFamilyAdministrator(familyMemberDTO);
                 return true;
             }
             throw new IllegalArgumentException("This email already exists");
@@ -202,8 +201,7 @@ public class FamilyService {
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
         try {
             Family family = getFamily(familyID);
-            boolean isAdmin = family.verifyAdministrator(ccNumber);
-            return isAdmin;
+            return family.verifyAdministrator(ccNumber);
         } catch (Exception e) {
             return false;
         }

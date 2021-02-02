@@ -54,6 +54,7 @@ class FamilyTest {
 
     AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
     AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1);
+    AddFamilyMemberDTO familyMemberDTO21 = new AddFamilyMemberDTO(cc, cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2, 1);
     AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1);
 
 
@@ -270,7 +271,7 @@ class FamilyTest {
     @Test
     void familyHasAdministrator() {
         Family family = new Family(familyOneName, familyOneID);
-        family.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        family.addFamilyAdministrator(familyMemberDTO1);
         family.addFamilyMember(familyMemberDTO2);
 
         assertTrue(family.hasAdministrator());
@@ -298,7 +299,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertTrue(familia.addFamilyAdministrator(familyMemberDTO2));
     }
 
     @Test
@@ -308,7 +309,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyAdministrator(familyMemberDTO21));
     }
 
     @Test

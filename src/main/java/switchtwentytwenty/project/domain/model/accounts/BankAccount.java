@@ -52,15 +52,11 @@ public class BankAccount implements Account {
     /***** METHODS ******/
     // VALIDATORS
     public boolean validateDescription(String description) {
-        if (description == null || description.isEmpty() || description.trim().length() == 0) return false;
-        return true;
+        return description != null && !description.isEmpty() && description.trim().length() != 0;
     }
 
     public boolean validateBalance(Double balance) {
-        if (balance == null) {
-            return false;
-        }
-        return true;
+        return balance != null;
     }
 
     @Override

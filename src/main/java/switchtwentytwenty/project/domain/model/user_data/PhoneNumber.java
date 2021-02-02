@@ -22,11 +22,7 @@ public class PhoneNumber {
         boolean test = Pattern.matches(regex,phone);
         if (phoneNumber == null){
             return false;
-        } else if(!test) {
-            return false;
-        } else {
-            return true;
-        }
+        } else return test;
     }
 
     @Override

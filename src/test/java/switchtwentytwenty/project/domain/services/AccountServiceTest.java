@@ -104,11 +104,12 @@ class AccountServiceTest {
     CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID,CurrencyEnum.EURO);
     BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
 
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id,id, name, date, numero, email, nif, rua, codPostal, local, city, 1);
 
     @BeforeEach
     void setup() {
         addFamilyController.addFamily("Ribeiro");
-        addFamilyAdministratorController.addFamilyAdministrator(id, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
     }
 
     @Test

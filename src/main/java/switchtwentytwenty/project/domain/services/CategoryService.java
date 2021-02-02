@@ -136,8 +136,7 @@ public class CategoryService {
     }
 
     public CategoryTreeDTO getStandardCategoryTree() {
-        CategoryTreeDTO standardCategoryTree = new CategoryTreeDTO(this);
-        return standardCategoryTree;
+        return new CategoryTreeDTO(this);
     }
 
     /**

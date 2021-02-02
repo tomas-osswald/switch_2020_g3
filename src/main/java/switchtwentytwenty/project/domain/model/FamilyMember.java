@@ -103,7 +103,7 @@ public class FamilyMember {
     }
 
     public boolean validatePhone(Integer phone) {
-        return (!(phone == null));
+        return (phone != null);
     }
 
     public List<EmailAddress> getEmails() {

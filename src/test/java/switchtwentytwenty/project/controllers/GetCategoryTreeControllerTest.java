@@ -26,10 +26,11 @@ class GetCategoryTreeControllerTest {
     String adminCC = "000000000ZZ4";
     String cc2 = "137843828ZX3";
     AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(adminCC, cc2, "Not Admin", birthdate, 919999999, "abc@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", 13);
+    AddFamilyMemberDTO familyMemberDTOAdmin = new AddFamilyMemberDTO(adminCC,adminCC, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", 10);
 
     @BeforeEach
     public void setup() {
-        familyAdministratorController.addFamilyAdministrator(adminCC, "Admin", birthdate, 919999999, "lol@gmail.com", 212122233, "Rua Nossa", "4444-555", "Zinde", "Porto", 10);
+        familyAdministratorController.addFamilyAdministrator(familyMemberDTOAdmin);
         familyMemberController.addFamilyMember(familyMemberDTO);
 
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
@@ -57,6 +58,7 @@ class GetCategoryTreeControllerTest {
     @Test
     public void compareCategoryTree() {
         CategoryTreeDTO categoryTree = app.getCategoryService().getCategoryTree(10, app.getFamilyService());
+        assertNotNull(categoryTree);
         assertArrayEquals(categoryTree.getArrayOfStandardCategoriesNames(), expected);
     }
 

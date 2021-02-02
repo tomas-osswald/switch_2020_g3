@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
@@ -43,6 +44,9 @@ class AddFamilyAdministratorControllerTest {
     String city2 = "Porto";
     String relacao2 = "pai";
 
+    AddFamilyMemberDTO familyMemberDTO11 = new AddFamilyMemberDTO(cc,cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated);
+    AddFamilyMemberDTO familyMemberDTO12 = new AddFamilyMemberDTO(cc,cc,name,date, numero, email, nif, rua, codPostal, local, city, familyTwoIDGenerated);
+    AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc2,cc2,name2,date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated);
 
     @Test
     void familiesWithoutAdministratorList() {
@@ -53,7 +57,7 @@ class AddFamilyAdministratorControllerTest {
         controller.addFamily(familyTwoName); // id2
 
         AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(application);
-        addFamilyAdministratorController.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated); // to family 1
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO11); // to family 1
 
         List<FamilyWithoutAdministratorDTO> expected = new ArrayList<>();
         FamilyWithoutAdministratorDTO dto1 = new FamilyWithoutAdministratorDTO(familyTwoName, familyTwoIDGenerated);
@@ -73,8 +77,8 @@ class AddFamilyAdministratorControllerTest {
         controller.addFamily(familyTwoName); // id2
 
         AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(application);
-        addFamilyAdministratorController.addFamilyAdministrator(cc,name,date, numero, email, nif, rua, codPostal, local, city, familyOneIDGenerated); // to family 1
-        addFamilyAdministratorController.addFamilyAdministrator(cc2,name2,date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyTwoIDGenerated); // to family 2
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO11); // to family 1
+        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO2); // to family 2
 
         List<FamilyWithoutAdministratorDTO> expected = new ArrayList<>();
 
@@ -88,7 +92,7 @@ class AddFamilyAdministratorControllerTest {
         Family ribeiro = new Family("Ribeiro",1);
         Application ffmApp = new Application(ribeiro);
         AddFamilyAdministratorController controller = new AddFamilyAdministratorController(ffmApp);
-        assertTrue(controller.addFamilyAdministrator(cc,name,date,numero,email,nif,rua,codPostal,local,city,1));
+        assertTrue(controller.addFamilyAdministrator(familyMemberDTO11));
     }
 
     @Test
@@ -96,6 +100,6 @@ class AddFamilyAdministratorControllerTest {
         Family ribeiro = new Family("Ribeiro",1);
         Application ffmApp = new Application(ribeiro);
         AddFamilyAdministratorController controller = new AddFamilyAdministratorController(ffmApp);
-        assertFalse(controller.addFamilyAdministrator(cc,name,date,numero,email,nif,rua,codPostal,local,city,2));
+        assertFalse(controller.addFamilyAdministrator(familyMemberDTO12));
     }
 }

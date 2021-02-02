@@ -94,7 +94,7 @@ public class AccountData {
     @Override
     public boolean equals(Object otherAccountData) {
         if (this == otherAccountData) return true;
-        if (otherAccountData == null || !(otherAccountData instanceof AccountData)) return false;
+        if (!(otherAccountData instanceof AccountData)) return false;
         AccountData other = (AccountData) otherAccountData;
         return currentBalance.equals(other.currentBalance) &&
                 accountID == other.accountID &&

@@ -119,7 +119,7 @@ public class Family {
 
     public boolean hasDesignation(String relationDesignation) {
         for (String relationDesigantion : relationDesignations) {
-            if (relationDesigantion.toLowerCase().equals(relationDesignation.toLowerCase()))
+            if (relationDesigantion.equalsIgnoreCase(relationDesignation))
                 return true;
         }
         return false;
@@ -204,7 +204,7 @@ public class Family {
      * @param familyMembers FamilyMember arry to add to list
      */
 
-    public void addFamilyMemberArray(ArrayList<FamilyMember> familyMembers) {
+    public void addFamilyMemberArray(List<FamilyMember> familyMembers) {
         this.familyMembers.addAll(familyMembers);
     }
 
@@ -262,10 +262,10 @@ public class Family {
         }
     }
 
-    public boolean addFamilyAdministrator(String ccNumber, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
+    public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
         boolean administrator = true;
-        if (!checkIfVatExists(vat)) {
-            FamilyMember newFamilyMember = new FamilyMember(ccNumber, name, birthDate, phone, email, vat, street, codPostal, local, city, administrator);
+        if (!checkIfVatExists(familyMemberDTO.getVat())) {
+            FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(),familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity(), administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -328,8 +328,7 @@ public class Family {
      */
 
     public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
-        FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
-        return familyWithoutAdministratorDTO;
+        return new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
     }
 
     /**
@@ -342,8 +341,7 @@ public class Family {
     public MemberProfileDTO getFamilyMemberProfile(String ccNumber) {
 
         FamilyMember familyMember = getFamilyMemberByID(ccNumber);
-        MemberProfileDTO memberProfile = familyMember.createProfile();
-        return memberProfile;
+        return familyMember.createProfile();
     }
 
     /*
