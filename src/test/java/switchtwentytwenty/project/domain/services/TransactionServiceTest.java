@@ -38,6 +38,7 @@ class TransactionServiceTest {
     // CashTransaction
     double transferAmount = 200.0;
     CurrencyEnum currency = CurrencyEnum.EURO;
+    boolean credit = true;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDateOne = new Date(2021,0,21);
@@ -46,9 +47,9 @@ class TransactionServiceTest {
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDateOne);
     FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,600.0,currency,categoryID,transactionDesignation,transactionDateTwo);
     FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-100.0,currency,categoryID,transactionDesignation,transactionDateThree);
-    CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, transacaoDTO1);
-    CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, transacaoDTO2);
-    CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, transacaoDTO3);
+    CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1,credit, transacaoDTO1);
+    CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1,credit, transacaoDTO2);
+    CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1,credit, transacaoDTO3);
     TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(cashTransactionOne.getTransactionData());
     TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(cashTransactionTwo.getTransactionData());
     TransactionDataDTO transactionDataDTOThree = new TransactionDataDTO(cashTransactionThree.getTransactionData());
