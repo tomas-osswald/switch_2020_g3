@@ -7,8 +7,8 @@ public class CashTransferDTO {
     private final String originFamilyMemberCC;
     private final String destinationFamilyMemberCC;
     private final int familyID;
-    private int originAccountID;
-    private int destinationAccountID;
+    private final int originAccountID;
+    private final int destinationAccountID;
     private final double transferedValue; //Currency ?
     private final int categoryID;
     private final String transactionDesignation;
