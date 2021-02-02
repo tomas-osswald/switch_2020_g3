@@ -72,6 +72,13 @@ public class AccountService {
         return targetMember.addAccount(bankAccount);
     }
 
+    /**
+     * Method to create a Personal Credit Card Account
+     *
+     * @param addCreditCardAccountDTO DTO with information to create a Credit Card Account instance
+     * @param targetMember            Target Member to add a Credit Card Account
+     * @return return true if nothing was throw
+     */
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
 
@@ -97,7 +104,7 @@ public class AccountService {
         if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         double transferValue = familyCashTransferDTO.getTransferAmount();
         CurrencyEnum currency = familyCashTransferDTO.getCurrency();
-        MoneyValue transferAmount = new MoneyValue(transferValue,currency);
+        MoneyValue transferAmount = new MoneyValue(transferValue, currency);
         if (!familyAccount.hasEnoughMoneyForTransaction(transferAmount)) return false;
         if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
         int memberAccountID = familyCashTransferDTO.getAccountID();
@@ -126,6 +133,12 @@ public class AccountService {
         return true;
     }
 
+    /**
+     * Method to return a List of Cash Account of a given Family Member
+     *
+     * @param familyMember Given Family Member
+     * @return List of Cash Accounts (AccountIDAndDescriptionDTO)
+     */
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
         List<Account> accounts = familyMember.getAccounts();
         return createListOfCashAccounts(accounts);
@@ -140,6 +153,12 @@ public class AccountService {
         return isSameType;
     }
 
+    /**
+     * Method to create a list of Cash Account of a List of Accounts
+     *
+     * @param listOfAccounts List of Accounts
+     * @return List with Cash Accounts (AccountIDAndDescriptionDTO)
+     */
     private List<AccountIDAndDescriptionDTO> createListOfCashAccounts(List<Account> listOfAccounts) {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
@@ -151,14 +170,27 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
+    /**
+     * Method to get a Family Cash Account Balance
+     *
+     * @param family Target Family
+     * @return MoneyValue with Balance and Currency of Family Cash Account
+     */
     public MoneyValue getFamilyCashAccountBalance(Family family) {
         Account cashAccount = family.getFamilyCashAccount();
         return cashAccount.getMoneyBalance();
     }
 
+    /**
+     * Method to get a Family Member Cash Account Balance
+     *
+     * @param familyMember Target Family Member
+     * @param accountID    Account ID to get balance
+     * @return MoneyValue with Balance and Currency of a Family Member Cash Account
+     */
     public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
         Account cashAccount = getAccount(familyMember, accountID);
-        if (cashAccount.checkAccountType(CASHACCOUNT))
+        if (cashAccount.checkAccountType(CASHACCOUNT)) // verify if is a Cash Account
             return cashAccount.getMoneyBalance();
         else
             throw new IllegalArgumentException("Not a Cash Account");

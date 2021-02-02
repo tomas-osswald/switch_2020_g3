@@ -13,6 +13,12 @@ public class AddCreditCardAccountController {
         this.ffmApplication = ffmApplication;
     }
 
+    /**
+     * Method to add a Credit Card Account to a given Family Member
+     *
+     * @param addCreditCardAccountDTO DTO with information to create a Credit Card Account instance
+     * @return true if a Credit Card Account was sucessfull created and assigne, false if an error occured during the process
+     */
     public boolean addCreditCardAccountToFamilyMember(AddCreditCardAccountDTO addCreditCardAccountDTO) {
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
