@@ -157,8 +157,11 @@ public class AccountService {
     }
 
     public MoneyValue getFamilyMemberCashAccountBalance(FamilyMember familyMember, int accountID) {
-        Account cashAccount = familyMember.getAccount(accountID);
-        return cashAccount.getMoneyBalance();
+        Account cashAccount = getAccount(familyMember, accountID);
+        if (cashAccount.checkAccountType(CASHACCOUNT))
+            return cashAccount.getMoneyBalance();
+        else
+            throw new IllegalArgumentException("Not a Cash Account");
     }
 
     /**
