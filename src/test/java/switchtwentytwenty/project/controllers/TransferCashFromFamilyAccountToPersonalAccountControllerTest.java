@@ -69,8 +69,6 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
         AccountService accountService = new AccountService();
         accountService.createFamilyCashAccount(simpsonFamily, "Simpson's Wallet", 12.75);
         accountService.createPersonalCashAccount(homer,cashAccountDTO);
-
-
     }
 
     @Test
@@ -107,4 +105,16 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
 
         Assertions.assertTrue(result);
     }
+
+    @Test
+    void transferCashFromFamilyToFamilyMember_categoryIDzero() {
+        int categoryID = 0;
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
+
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
+
+        Assertions.assertTrue(result);
+    }
+
 }

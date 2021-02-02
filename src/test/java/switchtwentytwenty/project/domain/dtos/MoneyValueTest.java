@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.dtos;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
@@ -15,7 +16,7 @@ class MoneyValueTest {
     MoneyValue moneyValueDollar = new MoneyValue(-3.0, CurrencyEnum.DOLLAR);
     MoneyValue moneyValueunknwon = new MoneyValue(9.0, CurrencyEnum.POUND);
     MoneyValue moneyValueNullCurrency = new MoneyValue(2.5, null);
-
+    MoneyValue moneyValueNull = null;
     @Test
     void getValue() {
         double expected = 2.5;
@@ -119,8 +120,20 @@ class MoneyValueTest {
     }
 
     @Test
-    void testEquals2() {
+    void testEqualsItslef() {
         assertTrue(moneyValueEuro.equals(moneyValueEuro));
+    }
+
+    @Test
+    void testEqualsDifferentObjects() {
+        Family family = new Family("lol",2);
+        assertFalse(moneyValueEuro.equals(family));
+    }
+
+    @Test
+    void testEqualsNull() {
+        Family family = new Family("lol",2);
+        assertFalse(moneyValueEuro.equals(moneyValueNull));
     }
 
     @Test

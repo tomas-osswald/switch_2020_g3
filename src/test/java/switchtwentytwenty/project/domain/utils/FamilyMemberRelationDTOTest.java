@@ -22,7 +22,6 @@ class FamilyMemberRelationDTOTest {
     String codPostal = "4444-555";
     String local = "Zinde";
     String city = "Porto";
-    String relacao = "filho";
     boolean admin = true;
 
     //Family Member Tony
@@ -36,8 +35,6 @@ class FamilyMemberRelationDTOTest {
     String codPostal2 = "4444-556";
     String local2 = "Gaia";
     String city2 = "Porto";
-    String relacao2 = "primo";
-
     boolean admin2 = false;
 
     FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
