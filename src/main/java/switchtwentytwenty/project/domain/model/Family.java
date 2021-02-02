@@ -438,7 +438,7 @@ public class Family {
         return selectedRelation;
     }
 
-    public boolean isAParentOfB(FamilyMember memberA, FamilyMember memberB) {
+    public boolean verifyParenthood(FamilyMember memberA, FamilyMember memberB) {
         boolean parenthood=false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
