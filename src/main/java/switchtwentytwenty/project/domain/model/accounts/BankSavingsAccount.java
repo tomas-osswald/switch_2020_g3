@@ -4,9 +4,11 @@ import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BankSavingsAccount implements Account {
 
@@ -54,15 +56,26 @@ public class BankSavingsAccount implements Account {
         return valid;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountData.getAccountID(),
+                accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
+                accountData.getCurrentBalance().getCurrency(), interestRate);
+    }
+
     public int getAccountID() {
         return this.accountData.getAccountID();
     }
 
+    /*
     public double getBalance() {
         //Deverá ser calculado o balance com o interest rate sempre que consultado. Não sei se é assim que se calcula :S
         //return calculateInterest(); usa-se isto depois dos testes estarem adaptados aos novos cáluclos.
         return this.accountData.getBalance();
     }
+
+     */
+
     /*
     private double calculateInterest() {
         double balance = this.accountData.getBalance();
@@ -80,10 +93,6 @@ public class BankSavingsAccount implements Account {
         return Duration.between(now, dateToCheck).toDays();
     }
 */
-
-    public void changeBalance(double value) {
-        this.accountData.changeBalance(value);
-    }
 
     public double getInterestRate() {
         return this.interestRate;
@@ -105,12 +114,15 @@ public class BankSavingsAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
-        return accountData.hasEnoughMoneyForTransaction(value);
-    }
+    /**
+     * A method that always returns true, because there has no restrictions for this account type
+     *
+     * @param value
+     * @return
+     */
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
+        return true;
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
@@ -135,10 +147,15 @@ public class BankSavingsAccount implements Account {
     }
 
     public void debit(MoneyValue value) { //expense
-
+        accountData.debit(value);
     }
 
     public void credit(MoneyValue value) { //expense
-
+        accountData.credit(value);
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 }

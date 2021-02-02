@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -50,6 +51,11 @@ class FamilyTest {
     String local2 = "Gaia";
     String city2 = "Porto";
     String relacao2 = "primo";
+
+    AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
+    AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1);
+    AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc,cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1);
+
 
     boolean admin2 = false;
 
@@ -223,7 +229,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertTrue(familia.addFamilyMember(familyMemberDTO2));
     }
 
     @Test
@@ -233,7 +239,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(familyMemberDTO3));
     }
 
     @Test
@@ -243,7 +249,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertTrue(familia.addFamilyMember(familyMemberDTO2));
     }
 
     @Test
@@ -253,7 +259,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(familyMemberDTO3));
     }
 
     @Test
@@ -265,7 +271,7 @@ class FamilyTest {
     void familyHasAdministrator() {
         Family family = new Family(familyOneName, familyOneID);
         family.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        family.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
+        family.addFamilyMember(familyMemberDTO2);
 
         assertTrue(family.hasAdministrator());
     }
@@ -273,7 +279,7 @@ class FamilyTest {
     @Test
     void familyHasNoAdministratorWithFamilyMembers() {
         Family family = new Family(familyOneName, familyOneID);
-        family.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        family.addFamilyMember(familyMemberDTO1);
 
         assertFalse(family.hasAdministrator());
     }
@@ -312,7 +318,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertTrue(familia.addFamilyMember(familyMemberDTO2));
     }
 
     @Test
@@ -322,7 +328,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(familyMemberDTO3));
     }
 
 
@@ -412,7 +418,7 @@ class FamilyTest {
         Family familyOne = new Family(familyOneName, familyOneID);
         Date notAFamily = new Date();
 
-        Assertions.assertNotEquals(familyOneID,notAFamily);
+        Assertions.assertNotEquals(familyOne,notAFamily);
     }
 
     @Test

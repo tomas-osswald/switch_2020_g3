@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.DTOs.input;
+package switchtwentytwenty.project.domain.dtos.input;
 
 import java.util.Date;
 

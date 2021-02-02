@@ -316,6 +316,70 @@ user.
 
 ```puml
 
+title Class Diagram
+hide empty members
+
+class CheckChildrenCashAccountBalanceController {
++ checkChildrenCashAccountBalance()
+}
+
+class Application {
++ getFamilyService()
+}
+
+class CashAccount {
+- accountType
+}
+
+class AccountData {
+- double balance
+- String description
+- int accountID
+- List<Transaction> transactions
+}
+
+
+
+class RelationService {
++ verifyParenthood()
+}
+
+class AccountService {}
+
+class FamilyService {
++ getFamily()
+}
+
+class Family {
++ getFamilyMember()
+}
+
+class FamilyMember {
++ getAccount()
+}
+
+interface Account {}
+
+
+CheckChildrenCashAccountBalanceController --> Application : has
+Application --> FamilyService : has
+FamilyService --> Family : has list
+Family --> FamilyMember : has list
+FamilyMember --> CashAccount : has
+CashAccount --|> Account : implements
+CashAccount -* AccountData : contains
+CheckChildrenCashAccountBalanceController --> RelationService : creates
+
+
+
+
+
+
+
+```
+
+```puml
+
 
 
 title Class Diagram

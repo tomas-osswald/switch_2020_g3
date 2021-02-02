@@ -57,6 +57,7 @@ class TransactionDataDTOTest {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
         assertEquals(expected, result);
         assertSame(expected, result);
+        assertTrue(expected.equals(result));
     }
 
     @Test
@@ -64,6 +65,7 @@ class TransactionDataDTOTest {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOThree;
         assertEquals(expected, result);
+        assertTrue(expected.equals(result));
     }
 
     @Test
@@ -72,6 +74,7 @@ class TransactionDataDTOTest {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
         assertNotSame(expected, result);
         assertNotEquals(expected, result);
+        assertFalse(expected.equals(result));
     }
 
     @Test
@@ -79,6 +82,7 @@ class TransactionDataDTOTest {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = null;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOOne;
         assertNotEquals(expected, result);
+        assertFalse(result.equals(expected));
     }
 
     @Test
@@ -86,6 +90,7 @@ class TransactionDataDTOTest {
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO expected = transactionDataDTOOne;
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO result = transactionDataDTOTwo;
         assertNotEquals(expected, result);
+        assertFalse(expected.equals(result));
     }
 
 }

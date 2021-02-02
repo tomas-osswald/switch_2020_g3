@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
@@ -19,28 +20,34 @@ public class CreditCardAccount implements Account {
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
-        validateWithrawalLimit(addCreditCardAccountDTO.getWithdrwaLimit());
-
-
+        validateWithrawalLimit(addCreditCardAccountDTO.getWithdrawalLimit());
         try {
-            this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID, addCreditCardAccountDTO.getCurrency());
         } catch (InvalidAccountDesignationException exception) {
             String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
-            this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID);
+            this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID, addCreditCardAccountDTO.getCurrency());
         }
 
-        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrwaLimit(), addCreditCardAccountDTO.getCurrency());
+        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
 
         if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
+            validateTotalDebt(addCreditCardAccountDTO.getTotalDebt());
             interestDebtLessThanTotalDebt(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getTotalDebt());
 
             this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
-        } else{
+        } else {
             this.interestDebt = new MoneyValue(0.00, addCreditCardAccountDTO.getCurrency());
         }
     }
 
+
+
     // Bussiness Methods
+
+    private void validateTotalDebt(Double totalDebt) {
+        if (totalDebt == null || totalDebt < 0.00)
+            throw new IllegalArgumentException("Total debt must not be null or greater than Zero");
+    }
 
     private void interestDebtLessThanTotalDebt(Double intertestDebt, Double totalDebt) {
         if (intertestDebt > totalDebt)
@@ -61,18 +68,9 @@ public class CreditCardAccount implements Account {
     }
 
     /**
-     * @param withdrawalLimit
-     */
-
-   /* private void validadeWithrawLimit(double withdrawalLimit) {
-        if (!validateWithrawalLimit(withdrawalLimit)) {
-            throw new IllegalArgumentException("withdrawal limit can't be less than 0");
-        }
-    }*/
-
-    /**
      * @param withrawalLimit
      */
+
     private void validateWithrawalLimit(Double withrawalLimit) {
         if (withrawalLimit == null || withrawalLimit < 0.00)
             throw new IllegalArgumentException("withdrawal limit can't be less than 0");
@@ -88,19 +86,6 @@ public class CreditCardAccount implements Account {
                 this.accountData.getAccountID();
     }
 
-    /**
-     * Getter for the balance of this cash account object
-     *
-     * @return returns the balance of this cash account
-     */
-    public double getBalance() {
-        return this.accountData.getBalance();
-    }
-
-    /*public double getWithdrawalLimit() {
-        return withdrawalLimit;
-    }*/
-
     //TODO: Deixar em java doc a diferença entre debit e credit no credit card account
 
     public void debit(MoneyValue value) { //expense
@@ -111,21 +96,26 @@ public class CreditCardAccount implements Account {
     }
 
     public void credit(MoneyValue value) { //expense
-        if ((this.accountData.getMoneyValue().credit(value).compareTo(withdrawalLimit) > 0.00))
-            throw new IllegalArgumentException("Credit exceeded");
+        if ((this.accountData.getMoneyValue().debit(value).getValue() < 0.00))
+            throw new IllegalArgumentException("Balance must be zero or greater");
 
         this.accountData.setBalance(this.accountData.getMoneyValue().debit(value));
     }
 
+
+    /*
     //while
     //25 the balance of a credit card account is the amount due at that moment
 
-    public void changeBalance(double value) { //expense
+    public void changeBalance(MoneyValue value) { //expense
         // validar se mesma moeda
-        if ((this.accountData.getBalance() + Math.abs(value)) > withdrawalLimit.getValue())
+        if ((this.accountData.getBalance() + Math.abs(value.getValue())) > withdrawalLimit.getValue())
             throw new IllegalArgumentException("ultrapassa credito");
-        this.accountData.setBalance(this.accountData.getBalance() - Math.abs(value));
+
+        this.accountData.setBalance(this.accountData.getCurrentBalance().getValue() + Math.abs(value.getValue()));
+
     }
+     */
 
     @Override
     public boolean equals(Object other) {
@@ -149,10 +139,6 @@ public class CreditCardAccount implements Account {
         return false;
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
-    }
-
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
@@ -169,4 +155,9 @@ public class CreditCardAccount implements Account {
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
     }
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
+    }
+
 }

@@ -120,4 +120,19 @@ class AccountDataTest {
         //Assert
         Assertions.assertEquals(newDescription, result);
     }
+
+    @Test
+    void accountDateWithNullCurrency() {
+        CurrencyEnum currencyEnumNull = null;
+        AccountData accountData = new AccountData(balance, designation, accountID, currencyEnumNull);
+
+        Assertions.assertNotNull(accountData);
+    }
+
+    @Test
+    void constructorForAccountData_UsingMoneyValueCurrencyNull() {
+        AccountData accountDataEUR = new AccountData(balance, designation, accountID, null);
+
+        Assertions.assertNotNull(accountDataEUR);
+    }
 }

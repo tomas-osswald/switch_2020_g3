@@ -5,8 +5,10 @@ import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class CashAccount implements Account {
@@ -16,30 +18,29 @@ public class CashAccount implements Account {
     // Attributes
     private AccountData accountData;
 
-
     // Constructors
     public CashAccount(AddCashAccountDTO cashAccountDTO, int cashAccountID) {
         if (!validateBalance(cashAccountDTO.getBalance())) {
-            throw new IllegalArgumentException("Balance can't be less than 0");
+            throw new IllegalArgumentException("Balance can't be negative");
         }
         try {
-            this.accountData = new AccountData(cashAccountDTO.getBalance(), cashAccountDTO.getDescription(), cashAccountID);
+            this.accountData = new AccountData(cashAccountDTO.getBalance(), cashAccountDTO.getDescription(), cashAccountID, cashAccountDTO.getCurrency());
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Cash Account with ID" + " " + cashAccountID;
-            this.accountData = new AccountData(cashAccountDTO.getBalance(), defaultDesignation.toUpperCase(), cashAccountID);
+            this.accountData = new AccountData(cashAccountDTO.getBalance(), defaultDesignation.toUpperCase(), cashAccountID, cashAccountDTO.getCurrency());
         }
 
     }
 
-    public CashAccount(String accountDesignation, double initialBalance, int accountID) {
+    public CashAccount(String accountDesignation, double initialBalance, int accountID, CurrencyEnum currency) {
         if (!validateBalance(initialBalance)) {
             throw new IllegalArgumentException("Balance can't be less than 0");
         }
         try {
-            this.accountData = new AccountData(initialBalance, accountDesignation, accountID);
+            this.accountData = new AccountData(initialBalance, accountDesignation, accountID, currency);
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Cash Account with ID" + " " + accountID;
-            this.accountData = new AccountData(initialBalance, defaultDesignation.toUpperCase(), accountID);
+            this.accountData = new AccountData(initialBalance, defaultDesignation.toUpperCase(), accountID, currency);
         }
 
     }
@@ -74,34 +75,12 @@ public class CashAccount implements Account {
                 this.accountData.getAccountID();
     }
 
-    /**
-     * Getter for the balance of this cash account object
-     *
-     * @return returns the balance of this cash account
-     */
-    public double getBalance() {
-        return this.accountData.getBalance();
-    }
-
-
-    /**
-     * Changes the balance of this cash account object by a given value
-     *
-     * @param value given value to add to this cash account's balance
-     */
-    public void changeBalance(double value) {
-        if (!validateBalance(this.accountData.getBalance() + value)) {
-            throw new IllegalStateException("Balance can't be less than 0");
-        }
-        this.accountData.setBalance(this.accountData.getBalance() + value);
-    }
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof CashAccount)) return false;
         CashAccount otherAccount = (CashAccount) other;
-        return (this.accountData.getAccountID() == otherAccount.getAccountID() && this.accountData.getBalance() == otherAccount.getBalance());
+        return (this.accountData.equals(otherAccount.accountData));
     }
 
     public boolean isIDOfThisAccount(int accountID) {
@@ -109,11 +88,14 @@ public class CashAccount implements Account {
     }
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
-        return accountData.hasEnoughMoneyForTransaction(value);
+        if (value.getValue() < 0){
+            throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
+        }
+        return this.accountData.getMoneyValue().debit(value).getValue() >= 0;
     }
 
-    public boolean registerTransaction(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        return accountData.registerTransaction(targetAccount, category, familyCashTransferDTO);
+    public boolean registerTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+        return accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO);
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
@@ -137,11 +119,18 @@ public class CashAccount implements Account {
         return this.accountData.getListOfMovements();
     }
 
-    public void debit(MoneyValue value) { //expense
+    public void debit(MoneyValue value) {
+        if (accountData.getMoneyValue().getValue() - value.getValue() < 0) throw new IllegalStateException("Balance can't be less than 0");
 
+        accountData.debit(value);
     }
 
-    public void credit(MoneyValue value) { //expense
+    public void credit(MoneyValue value) {
+        accountData.credit(value);
+    }
 
+
+    public boolean checkCurrency(CurrencyEnum currency){
+        return accountData.checkCurrency(currency);
     }
 }

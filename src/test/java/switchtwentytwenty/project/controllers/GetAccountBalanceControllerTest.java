@@ -3,10 +3,13 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+
 
 import java.util.Date;
 
@@ -50,90 +53,85 @@ class GetAccountBalanceControllerTest {
 
         addFamilyController.addFamily("Ribeiro");
         addFamilyAdministratorController.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
-        addBankAccountController.addBankAccount(currentAccName, 1, cc, bankAccBalance);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(bankAccBalance, currentAccName, cc, 1);
+        addBankAccountController.addBankAccount(addBankAccountDTO);
         addBankSavingsAccountController.addBankSavingsAccount(1, cc, savingsAccName, savingsAccBalance, interestRate);
-        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(cashAccBalance, cashAccName, cc, 1);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 1, creditCardAccName, 5000.00, 100.0, 20.0, CurrencyEnum.EURO);
+        addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO);
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(cashAccBalance, cashAccName, cc, 1,CurrencyEnum.EURO);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
-        //AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 1, creditCardAccName, 5000.00);
-        //addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO);
     }
 
     @Test
     void getBankAccountBalanceTest1_Success() {
-        double expected = 0.6;
+        MoneyValue expected = new MoneyValue(0.6, CurrencyEnum.EURO);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 1);
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 1);
 
-        Assertions.assertEquals(expected, result, 0.01);
+        Assertions.assertEquals(expected, result);
+        Assertions.assertNotSame(expected, result);
     }
     @Test
     void getBankAccountBalanceTest2_NotEquals() {
 
-        //expected value is purposefully incorrect
-        double expected = 0.9;
+        MoneyValue expected = new MoneyValue(0.9, CurrencyEnum.EURO);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 1);
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 1);
 
-        Assertions.assertNotEquals(expected, result, 0.01);
+        Assertions.assertNotEquals(expected, result);
     }
     @Test
     void getSavingsAccountBalanceTest1_Success() {
-        double expected = 15;
+        MoneyValue expected = new MoneyValue(15.0, CurrencyEnum.EURO);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 2);
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 2);
 
-        Assertions.assertEquals(expected, result, 0.01);
+        Assertions.assertEquals(expected, result);
+        Assertions.assertNotSame(expected, result);
     }
     @Test
     void getSavingsAccountBalanceTest2_NotEquals() {
+        MoneyValue expected = new MoneyValue(0.9, CurrencyEnum.EURO);
 
-        //expected value is purposefully incorrect
-        double expected = 0.9;
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 2);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 2);
-
-        Assertions.assertNotEquals(expected, result, 0.01);
+        Assertions.assertNotEquals(expected, result);
     }
-    /*
+
     @Test
     void getCreditCardAccountBalanceTest1_Success() {
-        double expected = 5000;
+        MoneyValue expected = new MoneyValue(100.0, CurrencyEnum.EURO);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 3);
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 3);
 
-        Assertions.assertEquals(expected, result, 0.01);
+        Assertions.assertEquals(expected, result);
+        Assertions.assertNotSame(expected, result);
     }
     @Test
     void getCreditCardAccountBalanceTest2_NotEquals() {
+        MoneyValue expected = new MoneyValue(0.9, CurrencyEnum.EURO);
 
-        //expected value is purposefully incorrect
-        double expected = 0.9;
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 3);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 3);
-
-        Assertions.assertNotEquals(expected, result, 0.01);
+        Assertions.assertNotEquals(expected, result);
     }
-     */
+
     @Test
     void getCashAccountBalanceTest1_Success() {
-        double expected = 5;
+        MoneyValue expected = new MoneyValue(5.0, CurrencyEnum.EURO);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 3);
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 4);
 
-        Assertions.assertEquals(expected, result, 0.01);
+        Assertions.assertEquals(expected, result);
+        Assertions.assertNotSame(expected, result);
     }
     @Test
     void getCashAccountBalanceTest2_NotEquals() {
+        MoneyValue expected = new MoneyValue(0.9, CurrencyEnum.EURO);
 
-        //expected value is purposefully incorrect
-        double expected = 0.9;
+        MoneyValue result = getAccountBalanceController.getAccountBalance(1, cc, 4);
 
-        double result = getAccountBalanceController.getAccountBalance(1, cc, 3);
-
-        Assertions.assertNotEquals(expected, result, 0.01);
+        Assertions.assertNotEquals(expected, result);
     }
-
-    //adicionar testes para todos os tipos de contas
-    //adicionar testes para moneyvalue quando estiver tudo adicionado
 
 }

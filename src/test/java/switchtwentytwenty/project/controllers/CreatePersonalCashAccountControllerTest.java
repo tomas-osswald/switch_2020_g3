@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -31,10 +32,10 @@ class CreatePersonalCashAccountControllerTest {
     double balance = 0.6;
     double negativeBalance = -2;
     String accountName = "Savings";
-    AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1);
-    AddCashAccountDTO addCashAccountDTOnegativeBalance = new AddCashAccountDTO(negativeBalance, accountName, cc, 1);
-    AddCashAccountDTO addCashAccountDTOBlankName = new AddCashAccountDTO(balance, "   ", cc, 1);
-    AddCashAccountDTO addCashAccountDTOEmptyName = new AddCashAccountDTO(balance, "", cc, 1);
+    AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+    AddCashAccountDTO addCashAccountDTOnegativeBalance = new AddCashAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
+    AddCashAccountDTO addCashAccountDTOBlankName = new AddCashAccountDTO(balance, "   ", cc, 1, CurrencyEnum.EURO);
+    AddCashAccountDTO addCashAccountDTOEmptyName = new AddCashAccountDTO(balance, "", cc, 1, CurrencyEnum.EURO);
 
 
     @BeforeEach
@@ -79,7 +80,7 @@ class CreatePersonalCashAccountControllerTest {
     @Test
     void createPersonalCashInvalidFamily() {
         int familyID = 100;
-        AddCashAccountDTO addCashAccountDTOInvalidFamily = new AddCashAccountDTO(negativeBalance, accountName, cc, familyID);
+        AddCashAccountDTO addCashAccountDTOInvalidFamily = new AddCashAccountDTO(negativeBalance, accountName, cc, familyID, CurrencyEnum.EURO);
 
 
         Assertions.assertFalse(createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTOInvalidFamily));

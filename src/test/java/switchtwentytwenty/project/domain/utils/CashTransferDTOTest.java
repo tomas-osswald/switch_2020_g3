@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.utils;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.DTOs.input.CashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 
 import java.util.Date;
 
