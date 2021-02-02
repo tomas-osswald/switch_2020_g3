@@ -61,12 +61,6 @@ public class Family {
         return true;
     }
 
-    /*private boolean isDateValid(Date registrationDate) {
-        Date today = new Date();
-        if (registrationDate.after(today)) return false; //means registration date is after current date
-        return true;
-    }*/
-
     /********************** GETTERS AND SETTERS **********************/
 
     public List<FamilyMember> getFamilyMembers() {
