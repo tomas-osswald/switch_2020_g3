@@ -52,7 +52,7 @@ class GetListOfMovementsBetweenDatesControllerTest {
     int creditCardAccountID = 4;
     AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
     AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, testFamilyID, "Credit Card", 200.00, 1.00, 0.50, CurrencyEnum.EURO);
-    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "bank", cc, testFamilyID);
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "bank", cc, testFamilyID, CurrencyEnum.EURO);
 
     CashAccount cashAccount = new CashAccount(addCashAccountDTO, cashAccountID);
     BankAccount bankAccount = new BankAccount(addBankAccountDTO, bankAccountID);
