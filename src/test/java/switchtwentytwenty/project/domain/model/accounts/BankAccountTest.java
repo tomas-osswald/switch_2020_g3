@@ -1,10 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
@@ -33,7 +33,7 @@ class BankAccountTest {
     StandardCategory parentStandard = new StandardCategory("root", null, 1);
 
     // CashTransaction
-    double transferAmount =200.0;
+    double transferAmount = 200.0;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021, 1, 21);
@@ -143,7 +143,7 @@ class BankAccountTest {
     @Test
     void changeBalance() {
         BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
-        account.changeBalance(new MoneyValue(30.0, CurrencyEnum.EURO));
+        account.changeBalance(30.00);
         Double result = account.getMoneyBalance().getValue();
         Double expected = 530.0;
         assertEquals(result, expected);
@@ -230,7 +230,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
         accountTest.debit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(200.00,currency);
+        MoneyValue expected = new MoneyValue(200.00, currency);
         assertEquals(expected, result);
     }
 
@@ -248,7 +248,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
         accountTest.debit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(200.00,currency);
+        MoneyValue expected = new MoneyValue(200.00, currency);
         assertEquals(expected, result);
     }
 
@@ -266,7 +266,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
         accountTest.credit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(800.00,currency);
+        MoneyValue expected = new MoneyValue(800.00, currency);
         assertEquals(expected, result);
     }
 
@@ -284,7 +284,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
         accountTest.credit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(800.00,currency);
+        MoneyValue expected = new MoneyValue(800.00, currency);
         assertEquals(expected, result);
     }
 
@@ -298,25 +298,54 @@ class BankAccountTest {
 
     @Test
     void createBankAccount_NegativeBalance() {
-        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00,description,"0000000000ZZ4",1);
-        BankAccount account = new BankAccount(dto,1);
+        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00, description, "0000000000ZZ4", 1);
+        BankAccount account = new BankAccount(dto, 1);
         assertTrue(account.equals(account));
     }
 
     @Test
     void createBankAccount_constructorWithNoCurrency() {
-        BankAccount account = new BankAccount(description, 500.00,1);
-        assertTrue(account.equals(account));
-    }
-    @Test
-    void createBankAccount_constructorWithNoCurrencyNegativeBalance() {
-        BankAccount account = new BankAccount(description, null,1);
-        assertTrue(account.equals(account));
-    }
-    @Test
-    void createBankAccount_constructorWithNoCurrencyNoDescription() {
-        BankAccount account = new BankAccount("", -12.50,1);
+        BankAccount account = new BankAccount(description, 500.00, 1);
         assertTrue(account.equals(account));
     }
 
+    @Test
+    void createBankAccount_constructorWithNoCurrencyNegativeBalance() {
+        BankAccount account = new BankAccount(description, null, 1);
+        assertTrue(account.equals(account));
+    }
+
+    @Test
+    void createBankAccount_constructorWithNoCurrencyNoDescription() {
+        BankAccount account = new BankAccount("", -12.50, 1);
+        assertTrue(account.equals(account));
+    }
+
+    @Test
+    void checkCurrencyYen() {
+        BankAccount bankAccount = new BankAccount("Bank", 20.00, 1, CurrencyEnum.YEN);
+        assertTrue(bankAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void checkCurrencyFalse() {
+        BankAccount bankAccount = new BankAccount("Bank", 20.00, 1, CurrencyEnum.EURO);
+
+        assertFalse(bankAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void getDescriptionNotNull() {
+        BankAccount account = new BankAccount("Conta do Bitó", balance, bankID, CurrencyEnum.EURO);
+        assertNotNull(account.getDescription());
+    }
+
+    @Test
+    void getDescriptionEmpty() {
+        BankAccount account = new BankAccount("", balance, bankID, CurrencyEnum.EURO);
+        String notExpected = "";
+
+        assertNotNull(account.getDescription());
+        assertNotEquals(account.getDescription(), notExpected);
+    }
 }

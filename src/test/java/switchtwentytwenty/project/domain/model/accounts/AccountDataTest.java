@@ -36,7 +36,7 @@ class AccountDataTest {
     }
 
 
-    /*@Test
+    @Test
     void hasEnoughMoneyForTransaction_True() {
         MoneyValue valueSpent = new MoneyValue(20.0, CurrencyEnum.EURO);
 
@@ -61,7 +61,7 @@ class AccountDataTest {
         boolean result = accountData.hasEnoughMoneyForTransaction(valueSpent);
 
         Assertions.assertFalse(result);
-    }*/
+    }
 
     @Test
     void getListOfMovements() {

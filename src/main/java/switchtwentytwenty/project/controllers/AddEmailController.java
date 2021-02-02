@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.controllers;
 
-//import Application;
-
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.EmailService;

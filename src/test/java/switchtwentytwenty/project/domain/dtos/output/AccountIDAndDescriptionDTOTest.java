@@ -21,7 +21,7 @@ class AccountIDAndDescriptionDTOTest {
 
         assertNotEquals(other, accountIDAndDescriptionDTO);
         assertNotSame(other, accountIDAndDescriptionDTO);
-
+        assertFalse(accountIDAndDescriptionDTO.equals(other));
     }
 
     @Test

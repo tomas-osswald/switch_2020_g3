@@ -77,9 +77,7 @@ public class CreditCardAccount implements Account {
         if (interestDebt == null)
             return false;
 
-        if (interestDebt < 0.00)
-            return false;
-        return true;
+        return interestDebt >= 0.00;
     }
 
     /**
@@ -188,9 +186,7 @@ public class CreditCardAccount implements Account {
      * @return true if a a given MoneyVale plus current balance not exceeds withdrawal limit, else return false
      */
     public boolean hasEnoughMoneyForTransaction(MoneyValue transferenceAmount) {
-        if (transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() <= withdrawalLimit.getValue())
-            return true;
-        return false;
+        return transferenceAmount.getValue() + this.accountData.getMoneyValue().getValue() <= withdrawalLimit.getValue();
     }
 
     /**

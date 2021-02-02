@@ -1,8 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
-import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -16,7 +14,7 @@ public class BankSavingsAccount implements Account {
     private final AccountType accountType = new AccountType(AccountTypeEnum.BANKSAVINGSACCOUNT);
     // Attributes
     private AccountData accountData;
-    private double interestRate;
+    private final double interestRate;
 
 
     // Constructors
@@ -58,41 +56,13 @@ public class BankSavingsAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountData.getAccountID(),
-                accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
+        return Objects.hash(accountData.getAccountID(), accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
                 accountData.getCurrentBalance().getCurrency(), interestRate);
     }
 
     public int getAccountID() {
         return this.accountData.getAccountID();
     }
-
-    /*
-    public double getBalance() {
-        //Deverá ser calculado o balance com o interest rate sempre que consultado. Não sei se é assim que se calcula :S
-        //return calculateInterest(); usa-se isto depois dos testes estarem adaptados aos novos cáluclos.
-        return this.accountData.getBalance();
-    }
-
-     */
-
-    /*
-    private double calculateInterest() {
-        double balance = this.accountData.getBalance();
-        long interestDays = calculateDaysBetweenNowAndADate(this.accountData.getCreationDate());
-        for (int i = 0; i < interestDays; i++) {
-            balance = balance * this.interestRate;
-        }
-        return balance;
-    }
-
-    private long calculateDaysBetweenNowAndADate(Date date) {
-        Date currentDate = new Date();
-        LocalDateTime now = LocalDateTime.of(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay(), currentDate.getHours(), currentDate.getMinutes());
-        LocalDateTime dateToCheck = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
-        return Duration.between(now, dateToCheck).toDays();
-    }
-*/
 
     public double getInterestRate() {
         return this.interestRate;

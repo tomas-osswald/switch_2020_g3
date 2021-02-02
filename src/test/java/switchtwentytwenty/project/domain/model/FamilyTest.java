@@ -3,11 +3,11 @@ package switchtwentytwenty.project.domain.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
+import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
+import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
-import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,9 +52,9 @@ class FamilyTest {
     String city2 = "Porto";
     String relacao2 = "primo";
 
-    AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
-    AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1);
-    AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc,cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1);
+    AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+    AddFamilyMemberDTO familyMemberDTO2 = new AddFamilyMemberDTO(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1);
+    AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1);
 
 
     boolean admin2 = false;
@@ -338,7 +338,7 @@ class FamilyTest {
         phoneNumbers.add(phoneNumber);
         familyService.addFamily(family);
         family.addFamilyMember(diogo);
-        MemberProfileDTO expected = new MemberProfileDTO(ccNumber,name, date, phoneNumbers, emails, vatNumber, address, admin);
+        MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
         MemberProfileDTO result = family.getFamilyMemberProfile(diogo.getID());
 
@@ -400,7 +400,7 @@ class FamilyTest {
         Family familyOne = new Family(familyOneName, familyOneID);
         Family familyTwo = new Family(familyOneName, familyOneID);
 
-        Assertions.assertEquals(familyOne.hashCode(),familyTwo.hashCode());
+        Assertions.assertEquals(familyOne.hashCode(), familyTwo.hashCode());
     }
 
     @Test
@@ -410,42 +410,42 @@ class FamilyTest {
         int familyTwoID = 321;
         Family familyTwo = new Family(familyTwoName, familyTwoID);
 
-        Assertions.assertNotEquals(familyOne.hashCode(),familyTwo.hashCode());
+        Assertions.assertNotEquals(familyOne.hashCode(), familyTwo.hashCode());
     }
 
     @Test
-    void testEquals_notAFamily(){
+    void testEquals_notAFamily() {
         Family familyOne = new Family(familyOneName, familyOneID);
         Date notAFamily = new Date();
 
-        Assertions.assertNotEquals(familyOne,notAFamily);
+        Assertions.assertNotEquals(familyOne, notAFamily);
     }
 
     @Test
-    void testEquals_familiesAreEquals(){
+    void testEquals_familiesAreEquals() {
         Family familyOne = new Family(familyOneName, familyOneID);
         Family familyTwo = new Family(familyOneName, familyOneID);
 
-        Assertions.assertEquals(familyOne,familyTwo);
+        Assertions.assertEquals(familyOne, familyTwo);
     }
 
 
     @Test
     void getCustomCategoryByID() {
         int customCategoryID = -1;
-        CustomCategory customCategory = new CustomCategory("TestCategory",customCategoryID);
+        CustomCategory customCategory = new CustomCategory("TestCategory", customCategoryID);
         family.addCategory(customCategory);
 
         CustomCategory result = family.getCustomCategoryByID(customCategoryID);
 
 
-        Assertions.assertEquals(customCategory,result);
+        Assertions.assertEquals(customCategory, result);
     }
 
     @Test
     void getCustomCategoryByID_IDoutOfBounds() {
         int customCategoryID = -1;
-        CustomCategory customCategory = new CustomCategory("TestCategory",customCategoryID);
+        CustomCategory customCategory = new CustomCategory("TestCategory", customCategoryID);
         family.addCategory(customCategory);
 
         CustomCategory result = family.getCustomCategoryByID(-100);
@@ -454,4 +454,19 @@ class FamilyTest {
         Assertions.assertNull(result);
     }
 
+    @Test
+    void addCategory() {
+        Family testFamily = new Family("testFam", 1);
+        CustomCategory testCategory = new CustomCategory("test", null, -2);
+        assertTrue(testFamily.addCategory(testCategory));
+    }
+
+    @Test
+    void addRelation() {
+        Family testFamily = new Family("testFam", 1);
+        FamilyMember kaladin = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        FamilyMember adolin = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
+        Relation testRelation = new Relation("Bros", kaladin, adolin, false);
+        assertTrue(testFamily.addRelation(testRelation));
+    }
 }
