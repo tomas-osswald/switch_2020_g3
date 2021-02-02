@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
@@ -33,7 +32,7 @@ class BankAccountTest {
     StandardCategory parentStandard = new StandardCategory("root", null, 1);
 
     // CashTransaction
-    double transferAmount =200.0;
+    double transferAmount = 200.0;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021, 1, 21);
@@ -230,7 +229,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
         accountTest.debit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(200.00,currency);
+        MoneyValue expected = new MoneyValue(200.00, currency);
         assertEquals(expected, result);
     }
 
@@ -248,7 +247,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
         accountTest.debit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(200.00,currency);
+        MoneyValue expected = new MoneyValue(200.00, currency);
         assertEquals(expected, result);
     }
 
@@ -266,7 +265,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(300.00, CurrencyEnum.EURO);
         accountTest.credit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(800.00,currency);
+        MoneyValue expected = new MoneyValue(800.00, currency);
         assertEquals(expected, result);
     }
 
@@ -284,7 +283,7 @@ class BankAccountTest {
         MoneyValue moneyValue = new MoneyValue(-300.00, CurrencyEnum.EURO);
         accountTest.credit(moneyValue);
         MoneyValue result = accountTest.getMoneyBalance();
-        MoneyValue expected = new MoneyValue(800.00,currency);
+        MoneyValue expected = new MoneyValue(800.00, currency);
         assertEquals(expected, result);
     }
 
@@ -298,24 +297,26 @@ class BankAccountTest {
 
     @Test
     void createBankAccount_NegativeBalance() {
-        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00,description,"0000000000ZZ4",1);
-        BankAccount account = new BankAccount(dto,1);
+        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00, description, "0000000000ZZ4", 1);
+        BankAccount account = new BankAccount(dto, 1);
         assertTrue(account.equals(account));
     }
 
     @Test
     void createBankAccount_constructorWithNoCurrency() {
-        BankAccount account = new BankAccount(description, 500.00,1);
+        BankAccount account = new BankAccount(description, 500.00, 1);
         assertTrue(account.equals(account));
     }
+
     @Test
     void createBankAccount_constructorWithNoCurrencyNegativeBalance() {
-        BankAccount account = new BankAccount(description, null,1);
+        BankAccount account = new BankAccount(description, null, 1);
         assertTrue(account.equals(account));
     }
+
     @Test
     void createBankAccount_constructorWithNoCurrencyNoDescription() {
-        BankAccount account = new BankAccount("", -12.50,1);
+        BankAccount account = new BankAccount("", -12.50, 1);
         assertTrue(account.equals(account));
     }
 

@@ -3,6 +3,8 @@ package switchtwentytwenty.project.domain.dtos;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
+import java.util.Objects;
+
 public class MoneyValue {
 
 
@@ -58,6 +60,11 @@ public class MoneyValue {
         MoneyValue other = (MoneyValue) otherMoneyValue;
         return Double.compare(other.getValue(), value) == 0 &&
                 this.currency.equals(other.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(CURRENCYDIFFER, value, currency);
     }
 
     /*
@@ -151,7 +158,7 @@ public class MoneyValue {
      *
      * @param moneyValue MoneyValue to compare
      * @return returns zero if is numerical the same, less than zero if this MoneyValue is less than another MoneyValue and greater than zero if this MoneyValue is greater than another Money Value
-     *
+     * <p>
      * Throws an NotSameCurrencyException if this MoneyValue have diferent currency than another Money Value
      */
     public double compareTo(MoneyValue moneyValue) {
