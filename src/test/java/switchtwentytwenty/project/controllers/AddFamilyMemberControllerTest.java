@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -47,10 +48,11 @@ class AddFamilyMemberControllerTest {
         String familyName = "Ribeiro";
         int familyID = 1;
         Family Ribeiros = new Family(familyName, familyID);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(ccNumber, ccNumber2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1);
         Ribeiros.addFamilyMember(Diogo);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
-        assertTrue(FFMapp.addFamilyMember(ccNumber, ccNumber2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
+        assertTrue(FFMapp.addFamilyMember(familyMemberDTO));
     }
 
 
@@ -59,9 +61,10 @@ class AddFamilyMemberControllerTest {
         String familyName = "Ribeiro";
         int familyID = 1;
         Family Ribeiros = new Family(familyName, familyID);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(ccNumber2, ccNumber, name, date, numero, email, nif, rua, codPostal, local, city, 2);
         Application app = new Application(Ribeiros);
         AddFamilyMemberController FFMapp = new AddFamilyMemberController(app);
-        assertFalse(FFMapp.addFamilyMember(ccNumber2, ccNumber, name, date, numero, email, nif, rua, codPostal, local, city, 2));
+        assertFalse(FFMapp.addFamilyMember(familyMemberDTO));
     }
 
 

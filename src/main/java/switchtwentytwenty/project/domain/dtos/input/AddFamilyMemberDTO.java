@@ -29,6 +29,7 @@ public class AddFamilyMemberDTO {
         this.codPostal = codPostal;
         this.local = local;
         this.city = city;
+        this.familyID = familyID;
     }
 
     public String getSelfCCNumber(){ return this.selfCCNumber;}
@@ -52,7 +53,7 @@ public class AddFamilyMemberDTO {
     public String getLocal() { return this.local; }
 
     public String getCity() { return this.city; }
-    
+
     public int getFamilyID() { return this.familyID; }
 
 }

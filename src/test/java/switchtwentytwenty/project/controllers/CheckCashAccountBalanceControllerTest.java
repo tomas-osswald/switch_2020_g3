@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -65,6 +66,7 @@ class CheckCashAccountBalanceControllerTest {
     Double valueTwo = 50.00;
     String accountDescriptionTwo = "Cash Account";
     int accountIDTwo = 2;
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(cc, id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneID);
 
     // Credit Card Account Data One
 
@@ -77,7 +79,7 @@ class CheckCashAccountBalanceControllerTest {
     void setup() {
         familyService.addFamily(familyName);
         familyService.addFamilyAdministrator(cc, name, date, numero, email, nif, rua, codPostal, local, city, familyOneID);
-        familyService.addFamilyMember(cc, id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, familyOneID);
+        familyService.addFamilyMember(familyMemberDTO);
     }
 
     @Test
