@@ -93,7 +93,7 @@ public class BankAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements(), accountData.getCreationDate(),accountData.getMoneyValue());
+        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements());
     }
 
     @Override
