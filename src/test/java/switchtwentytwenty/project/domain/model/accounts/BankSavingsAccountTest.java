@@ -240,6 +240,8 @@ class BankSavingsAccountTest {
         BankSavingsAccount expected = accountPositive;
         BankSavingsAccount result = accountPositiveTwo;
         assertEquals(expected, result);
+        assertEquals(expected.getInterestRate(), result.getInterestRate());
+        assertEquals(expected.getAccountData(), result.getAccountData());
     }
 
     @Test
@@ -262,6 +264,8 @@ class BankSavingsAccountTest {
         BankSavingsAccount expected = accountPositive;
         BankSavingsAccount result = accountNegativeTwo;
         assertNotEquals(expected, result);
+        assertNotEquals(accountPositive.getInterestRate(), accountNegativeTwo.getInterestRate());
+        assertNotEquals(accountPositive.getAccountData(), accountNegativeTwo.getAccountData());
     }
 
 
@@ -302,16 +306,20 @@ class BankSavingsAccountTest {
 
     @Test
     void testHashCode_DifferentObjects_TestZeroAccountID() {
-        BankSavingsAccount expected = new BankSavingsAccount(0, name, balance, interestRate);
-        BankSavingsAccount result = new BankSavingsAccount(0, name, balance, interestRate);
-        assertEquals(expected.hashCode(), result.hashCode());
+        int notExpected = 0;
+        BankSavingsAccount resultAccount = new BankSavingsAccount(accountID, name, balance, interestRate);
+        int result = resultAccount.hashCode();
+
+        assertNotEquals(notExpected, result);
     }
 
     @Test
     void testHashCode1() {
-        BankSavingsAccount expected = new BankSavingsAccount(-1, name, balance, interestRate);
-        BankSavingsAccount result = new BankSavingsAccount(-1, name, balance, interestRate);
-        assertEquals(expected.hashCode(), result.hashCode());
+        BankSavingsAccount result = new BankSavingsAccount(accountID, name, balance, interestRate);
+
+        int expected = 0;
+
+        assertNotEquals(expected, result.hashCode());
     }
 
     @Test

@@ -57,6 +57,7 @@ class GetCategoryTreeControllerTest {
     @Test
     public void compareCategoryTree() {
         CategoryTreeDTO categoryTree = app.getCategoryService().getCategoryTree(10, app.getFamilyService());
+        assertNotNull(categoryTree);
         assertArrayEquals(categoryTree.getArrayOfStandardCategoriesNames(), expected);
     }
 
