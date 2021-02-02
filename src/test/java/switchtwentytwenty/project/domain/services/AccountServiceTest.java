@@ -94,15 +94,15 @@ class AccountServiceTest {
     int generatedID = 1;
 
     //Account Types Test setup
-    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
-    AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1);
-    BankAccount bankAccount = new BankAccount("bank account", balance, generatedID, CurrencyEnum.EURO);
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+    AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1, CurrencyEnum.EURO);
+    BankAccount bankAccount = new BankAccount(addBankAccountDTO, 1);
+    BankAccount bankAccount2 = new BankAccount(addBankAccountDTO2, 2);
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, "Savings", balance, interestRate);
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00, 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID,CurrencyEnum.EURO);
     CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID,CurrencyEnum.EURO);
-    BankAccount currentAccount = new BankAccount("Current", 100.00, generatedID, CurrencyEnum.EURO);
 
 
     @BeforeEach
@@ -133,22 +133,22 @@ class AccountServiceTest {
     @Test
     void addBankAccountTest1_Success() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
     }
 
-    /*@Test
+    @Test
     void addBankAccountTest2_NullBalanceSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
-    }*/
+    }
 
     @Test
     void addBankAccountTest3_AddTwoBankAccountsSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
-        AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(negativeBalance, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
     }
 

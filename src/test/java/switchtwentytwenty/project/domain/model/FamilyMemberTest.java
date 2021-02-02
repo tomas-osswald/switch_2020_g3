@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
@@ -72,6 +73,11 @@ class FamilyMemberTest {
     FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
     Relation relation2 = new Relation(relacao2, diogo, jorge, false);
     Relation relation = new Relation(relacao, jorge, diogo, false);
+
+    double balance = 0.6;
+    double negativeBalance = -2;
+    String accountName = "Current Account";
+    String accountName2 = "Other Current Account";
 
     /**
      * Name Validation
@@ -343,7 +349,8 @@ class FamilyMemberTest {
 
     @Test
     void addAccount_BankAccount() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+        BankAccount bankAccount = new BankAccount(addBankAccountDTO, 1);
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         diogo.addAccount(bankAccount);
         assertTrue(diogo.getAccounts().get(0) == bankAccount);
@@ -351,7 +358,8 @@ class FamilyMemberTest {
 
     @Test
     void getAccount() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+        BankAccount bankAccount = new BankAccount(addBankAccountDTO, 1);
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         diogo.addAccount(bankAccount);
 
@@ -365,7 +373,8 @@ class FamilyMemberTest {
 
     @Test
     void getAccount_ExpectedFail() {
-        BankAccount bankAccount = new BankAccount("BankAccount do Ze Manel", 500.00, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+        BankAccount bankAccount = new BankAccount(addBankAccountDTO, 1);
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         diogo.addAccount(bankAccount);
 
