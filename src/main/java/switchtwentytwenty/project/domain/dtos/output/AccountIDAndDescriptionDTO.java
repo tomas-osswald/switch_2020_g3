@@ -1,5 +1,7 @@
 package switchtwentytwenty.project.domain.dtos.output;
 
+import java.util.Objects;
+
 public class AccountIDAndDescriptionDTO {
 
     private final int accountID;
@@ -18,5 +20,10 @@ public class AccountIDAndDescriptionDTO {
         AccountIDAndDescriptionDTO otherDTO = (AccountIDAndDescriptionDTO) o;
 
         return this.accountID == otherDTO.accountID && this.description.equals(otherDTO.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountID, description);
     }
 }

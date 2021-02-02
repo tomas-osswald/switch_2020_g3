@@ -84,23 +84,13 @@ public class BankSavingsAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-    /**
-     * A method that always returns true, because there has no restrictions for this account type
-     *
-     * @param value
-     * @return
-     */
 
-    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
-        return true;
+    public String getDescription() {
+        return accountData.getDescription();
     }
 
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
-    }
-
-    public String getDescription() {
-        return accountData.getDescription();
     }
 
     public MoneyValue getMoneyBalance() {
@@ -124,8 +114,18 @@ public class BankSavingsAccount implements Account {
         accountData.credit(value);
     }
 
-    public boolean checkCurrency(CurrencyEnum currency){
+    public boolean checkCurrency(CurrencyEnum currency) {
         return accountData.checkCurrency(currency);
+    }
+
+    /**
+     * A method that always returns true, because there has no restrictions for this account type
+     *
+     * @param value
+     * @return
+     */
+    public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
+        return true;
     }
 
 }

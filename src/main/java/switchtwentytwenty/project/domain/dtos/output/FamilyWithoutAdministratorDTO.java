@@ -1,5 +1,7 @@
 package switchtwentytwenty.project.domain.dtos.output;
 
+import java.util.Objects;
+
 public class FamilyWithoutAdministratorDTO {
     private String familyName;
     private int familyID;
@@ -24,5 +26,10 @@ public class FamilyWithoutAdministratorDTO {
         FamilyWithoutAdministratorDTO otherDTO = (FamilyWithoutAdministratorDTO) o;
 
         return this.familyName.equals(otherDTO.familyName) && this.familyID == otherDTO.familyID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(familyName, familyID);
     }
 }

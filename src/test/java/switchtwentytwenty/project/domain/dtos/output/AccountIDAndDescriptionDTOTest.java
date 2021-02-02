@@ -50,4 +50,33 @@ class AccountIDAndDescriptionDTOTest {
         assertNotEquals(accountIDAndDescriptionDTO, accountIDAndDescriptionDTOTwo);
         assertNotSame(accountIDAndDescriptionDTO, accountIDAndDescriptionDTOTwo);
     }
+
+    @Test
+    void testHashCodeNotEquals() {
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(1, "Card");
+
+        int notExpected = 0;
+        int result = accountIDAndDescriptionDTO.hashCode();
+        assertNotEquals(notExpected, result);
+    }
+
+    @Test
+    void testHashCodeEquals() {
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(1, "Card");
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTOTwo = new AccountIDAndDescriptionDTO(1, "Card");
+
+        int resultOne = accountIDAndDescriptionDTO.hashCode();
+        int resultTwo = accountIDAndDescriptionDTOTwo.hashCode();
+        assertEquals(resultOne, resultTwo);
+    }
+
+    @Test
+    void testHashCodeNotEqualsTwo() {
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(2, "Card");
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTOTwo = new AccountIDAndDescriptionDTO(1, "Card");
+
+        int resultOne = accountIDAndDescriptionDTO.hashCode();
+        int resultTwo = accountIDAndDescriptionDTOTwo.hashCode();
+        assertNotEquals(resultOne, resultTwo);
+    }
 }

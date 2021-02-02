@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.domain.sandbox;
 
 
+import java.util.Objects;
+
 public class Result<T> {
 
     private boolean result;
@@ -31,6 +33,11 @@ public class Result<T> {
         Result<T> result = (Result<T>) o;
 
         return this.result == result.result && this.content.equals(result.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(result, content);
     }
 }
 
