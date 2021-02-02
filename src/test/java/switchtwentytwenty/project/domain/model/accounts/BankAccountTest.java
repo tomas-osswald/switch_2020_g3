@@ -142,7 +142,7 @@ class BankAccountTest {
     @Test
     void changeBalance() {
         BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
-        account.changeBalance(new MoneyValue(30.0, CurrencyEnum.EURO));
+        account.changeBalance(30.00);
         Double result = account.getMoneyBalance().getValue();
         Double expected = 530.0;
         assertEquals(result, expected);

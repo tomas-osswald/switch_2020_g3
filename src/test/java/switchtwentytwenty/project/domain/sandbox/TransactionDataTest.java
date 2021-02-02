@@ -12,8 +12,10 @@ import java.util.Date;
 class TransactionDataTest {
 
     Date date = new Date();
+    MoneyValue ammount = new MoneyValue(22.2, null);
     Category category = new StandardCategory("cat", null, 2);
     TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO),true, date, category);
+
 
     @Test
     void getTransactionDate() {
@@ -45,15 +47,15 @@ class TransactionDataTest {
 
     @Test
     void getAmmount() {
-        double expected = 22.2;
-        double result = transactionData.getAmmount().getValue();
+        MoneyValue expected = new MoneyValue(22.2,null);
+        MoneyValue result = transactionData.getAmmount();
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void getRemainingBalance() {
-        double expected = 0;
-        double result = transactionData.getRemainingBalance().getValue();
+        MoneyValue expected = new MoneyValue(0.0, null);
+        MoneyValue result = transactionData.getRemainingBalance();
         Assertions.assertEquals(expected,result);
     }
 

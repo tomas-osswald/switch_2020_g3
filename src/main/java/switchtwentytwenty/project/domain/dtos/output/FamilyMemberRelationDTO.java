@@ -2,6 +2,8 @@ package switchtwentytwenty.project.domain.dtos.output;
 
 import switchtwentytwenty.project.domain.model.Relation;
 
+import java.util.Objects;
+
 public class FamilyMemberRelationDTO {
 
     // Attributes
@@ -36,11 +38,9 @@ public class FamilyMemberRelationDTO {
         return (this.relationDesignation.equals(that.relationDesignation) && this.parentalPermission == that.parentalPermission);
     }
 
-    /*@Override
+    @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (relationDesignation != null ? relationDesignation.hashCode() : 0);
-        return result;
-    }*/
+        return Objects.hash(relationDesignation, parentalPermission);
+    }
 }
 
