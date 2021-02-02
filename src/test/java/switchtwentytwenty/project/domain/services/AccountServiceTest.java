@@ -328,10 +328,10 @@ class AccountServiceTest {
     @Test
     void checkChildCashAccountBalance_AssertThrowsNoAccountWithSuchID() {
         int invalidID = -1;
-        diogo.addAccount(cashAccount);
 
-        assertThrows(NullPointerException.class, () -> {
-            accountService.checkChildCashAccountBalance(diogo.getAccount(invalidID).getAccountID(), diogo);
+        assertThrows(IllegalArgumentException.class, () -> {
+            accountService.checkChildCashAccountBalance
+                    (invalidID, diogo);
         });
     }
 
