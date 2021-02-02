@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model;
 
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
 import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
@@ -253,10 +254,10 @@ public class Family {
      * }
      */
 
-    public boolean addFamilyMember(String cc, String name, Date birthDate, int phone, String email, int vat, String street, String codPostal, String local, String city) {
-        if (!checkIfVatExists(vat)) {
-            if (!checkIfCCNumberExists(cc)) {
-                FamilyMember newFamilyMember = new FamilyMember(cc, name, birthDate, phone, email, vat, street, codPostal, local, city);
+    public boolean addFamilyMember(AddFamilyMemberDTO familyMemberDTO) {
+        if (!checkIfVatExists(familyMemberDTO.getVat())) {
+            if (!checkIfCCNumberExists(familyMemberDTO.getCc())) {
+                FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(), familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity());
                 familyMembers.add(newFamilyMember);
                 return true;
             } else {

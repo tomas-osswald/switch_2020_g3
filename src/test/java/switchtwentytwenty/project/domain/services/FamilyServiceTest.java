@@ -1,7 +1,9 @@
 package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.dtos.output.FamilyMemberRelationDTO;
 import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
@@ -101,6 +103,19 @@ class FamilyServiceTest {
     int familyTwoIDGenerated = 2;
     int familyThreeIDGenerated = 3;
 
+    AddFamilyMemberDTO familyMemberDTO1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, email, nif, rua, codPostal, local, city,1);
+    AddFamilyMemberDTO familyMemberDTO21 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,1);
+    AddFamilyMemberDTO familyMemberDTO22 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2,2);
+    AddFamilyMemberDTO familyMemberDTO3 = new AddFamilyMemberDTO(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, 1);
+    AddFamilyMemberDTO familyMemberDTOabc1 = new AddFamilyMemberDTO(cc,cc, name, date, numero, "abc@gmail.com", nif, rua, codPostal, local, city,1);
+    AddFamilyMemberDTO familyMemberDTOabc2 = new AddFamilyMemberDTO(cc,cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2,1);
+
+    @BeforeEach
+    void setup(){
+
+
+    }
+
     @Test
     void GetFamilyByID() {
         int familyOneID = 1;
@@ -135,8 +150,9 @@ class FamilyServiceTest {
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
+        System.out.println(familyMemberDTOabc2.getFamilyID());
         FamilyService familias = new FamilyService(ribeiro);
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, 1));
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(familyMemberDTOabc2));
     }
 
     @Test
@@ -146,8 +162,9 @@ class FamilyServiceTest {
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
+        System.out.println(familyMemberDTO21.getFamilyID());
         FamilyService familias = new FamilyService(ribeiro);
-        assertTrue(familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
+        assertTrue(familias.addFamilyMember(familyMemberDTO21));
     }
 
     @Test
@@ -157,7 +174,7 @@ class FamilyServiceTest {
         String familyName = "Ribeiro";
         Family ribeiro = new Family(familyName, familyID);
         FamilyService familias = new FamilyService(ribeiro);
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 2));
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(familyMemberDTO22));
     }
 
     @Test
@@ -168,7 +185,7 @@ class FamilyServiceTest {
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-        assertTrue(familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
+        assertTrue(familias.addFamilyMember(familyMemberDTO21));
     }
 
     @Test
@@ -179,7 +196,7 @@ class FamilyServiceTest {
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
+        assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(familyMemberDTO21));
     }
 
     @Test
@@ -190,7 +207,7 @@ class FamilyServiceTest {
         Family ribeiro = new Family(familyName, familyID);
         ribeiro.addFamilyMember(diogo);
         FamilyService familias = new FamilyService(ribeiro);
-        assertTrue(familias.addFamilyMember(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, 1));
+        assertTrue(familias.addFamilyMember(familyMemberDTO3));
     }
 
     /**
@@ -213,7 +230,7 @@ class FamilyServiceTest {
     @Test
     void addFamilyAdministrator_EmailNotPresent() { // Not able to create a family member object
         Family ribeiros = new Family("Ribeiro", 1);
-        ribeiros.addFamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        ribeiros.addFamilyMember(familyMemberDTO1);
         FamilyService familyService = new FamilyService(ribeiros);
         assertTrue(familyService.addFamilyAdministrator(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
     }
@@ -221,7 +238,7 @@ class FamilyServiceTest {
     @Test
     void NotAddFamilyAdministrator_EmailPresent() { // Not able to create a family member object
         Family ribeiros = new Family("Ribeiro", 1);
-        ribeiros.addFamilyMember(cc, name, date, numero, "abc@gmail.com", nif, rua, codPostal, local, city);
+        ribeiros.addFamilyMember(familyMemberDTOabc1);
         FamilyService familyService = new FamilyService(ribeiros);
         assertThrows(IllegalArgumentException.class, () -> familyService.addFamilyAdministrator(cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, 1));
     }
