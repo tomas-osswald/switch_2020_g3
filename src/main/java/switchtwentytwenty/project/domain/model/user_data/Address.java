@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.model.user_data;
 
-import java.util.regex.Pattern;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Address {
     private final String street;
@@ -11,54 +11,44 @@ public class Address {
 
     /********************** CONSTRUCTORS **********************/
 
-    public Address(String street, String postalCode,String local, String city){
-        if(!validateStreet(street))
+    public Address(String street, String postalCode, String local, String city) {
+        if (!validateStreet(street))
             throw new IllegalArgumentException("Insert street.");
         this.street = street;
 
-        if(!validatePostalCode(postalCode))
+        if (!validatePostalCode(postalCode))
             throw new IllegalArgumentException("Insert Postal Code correctly");
         this.postalCode = postalCode;
 
-        if(!validateLocal(local))
+        if (!validateLocal(local))
             throw new IllegalArgumentException("Insert Local correctly");
         this.local = local;
 
-        if(!validateCity(city))
+        if (!validateCity(city))
             throw new IllegalArgumentException("Insert City correctly");
         this.city = city;
     }
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public boolean validateStreet(String street){
-        if (street == null || street.trim().length()==0 || street.isEmpty())
-            return false;
-        return true;
+    public boolean validateStreet(String street) {
+        return street != null && street.trim().length() != 0 && !street.isEmpty();
     }
 
-    public boolean validatePostalCode(String postalCode){
+    public boolean validatePostalCode(String postalCode) {
         String regex = "\\d{4}(-\\d{3})?";
         boolean test = Pattern.matches(regex, postalCode);
-        if (postalCode == null || postalCode.trim().length()==0 || postalCode.isEmpty()) {
+        if (postalCode == null || postalCode.trim().length() == 0 || postalCode.isEmpty()) {
             return false;
-        }else if(!test) {
-            return false;
-        } else {
-            return true;
-        }
+        } else return test;
     }
 
-    public boolean validateLocal(String local){
-        if (local == null || local.trim().length()==0 || local.isEmpty())
-            return false;
-        return true;
+    public boolean validateLocal(String local) {
+        return local != null && local.trim().length() != 0 && !local.isEmpty();
     }
 
     public boolean validateCity(String city) {
-        if (city == null || city.trim().length()==0 || city.isEmpty())
-            return false;
-        return true;
+        return city != null && city.trim().length() != 0 && !city.isEmpty();
     }
 
     @Override

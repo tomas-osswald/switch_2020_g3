@@ -10,7 +10,6 @@ import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FamilyService {
@@ -202,8 +201,7 @@ public class FamilyService {
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
         try {
             Family family = getFamily(familyID);
-            boolean isAdmin = family.verifyAdministrator(ccNumber);
-            return isAdmin;
+            return family.verifyAdministrator(ccNumber);
         } catch (Exception e) {
             return false;
         }

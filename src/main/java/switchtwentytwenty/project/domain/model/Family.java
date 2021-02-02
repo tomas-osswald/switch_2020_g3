@@ -119,7 +119,7 @@ public class Family {
 
     public boolean hasDesignation(String relationDesignation) {
         for (String relationDesigantion : relationDesignations) {
-            if (relationDesigantion.toLowerCase().equals(relationDesignation.toLowerCase()))
+            if (relationDesigantion.equalsIgnoreCase(relationDesignation))
                 return true;
         }
         return false;
@@ -204,7 +204,7 @@ public class Family {
      * @param familyMembers FamilyMember arry to add to list
      */
 
-    public void addFamilyMemberArray(ArrayList<FamilyMember> familyMembers) {
+    public void addFamilyMemberArray(List<FamilyMember> familyMembers) {
         this.familyMembers.addAll(familyMembers);
     }
 
@@ -328,8 +328,7 @@ public class Family {
      */
 
     public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
-        FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO = new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
-        return familyWithoutAdministratorDTO;
+        return new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
     }
 
     /**
@@ -342,8 +341,7 @@ public class Family {
     public MemberProfileDTO getFamilyMemberProfile(String ccNumber) {
 
         FamilyMember familyMember = getFamilyMemberByID(ccNumber);
-        MemberProfileDTO memberProfile = familyMember.createProfile();
-        return memberProfile;
+        return familyMember.createProfile();
     }
 
     /*

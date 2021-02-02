@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.dtos.output;
 
 public class FamilyWithoutAdministratorDTO {
-    private String familyName;
-    private int familyID;
+    private final String familyName;
+    private final int familyID;
 
     /**
      *

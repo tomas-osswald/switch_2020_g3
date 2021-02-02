@@ -22,11 +22,7 @@ public class VatNumber {
         boolean test = Pattern.matches(regex,vat);
         if (vatNumber == null ) {
             return false;
-        } else if (!test){
-            return false;
-        } else {
-            return true;
-        }
+        } else return test;
     }
 
     public int getVatNumber(){
