@@ -81,10 +81,6 @@ class CheckChildCashAccountBalanceControllerTest {
     BankSavingsAccount savingsAccount = new BankSavingsAccount(accountIDOne, "savings", 100.00, 1.00);
 
 
-
-
-
-
     @Test
     void checkChildCashAccountBalance_PositiveMoneyValue() {
         int familyID = family.getFamilyID();
@@ -98,6 +94,7 @@ class CheckChildCashAccountBalanceControllerTest {
         accountService.createPersonalCashAccount(jorge, accountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
+
 
         double expected = cashAccount.getMoneyBalance().getValue();
 
@@ -121,6 +118,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
+
         cashAccount.debit(new MoneyValue(10.0, CurrencyEnum.EURO));
         double expected = 0.00;
 
@@ -142,7 +140,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(-90, parentID, childID, cashAccountID);
 
@@ -163,7 +161,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, "000000000000", childID, cashAccountID);
 
@@ -185,7 +183,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, cashAccountID);
 
@@ -206,7 +204,7 @@ class CheckChildCashAccountBalanceControllerTest {
         String childID = jorge.getID();
 
 
-        double expected = -1.00;
+        Double expected = -1.00;
 
         Double result = childCashController.checkChildCashAccountBalance(familyID, parentID, childID, savingsAccountID);
 

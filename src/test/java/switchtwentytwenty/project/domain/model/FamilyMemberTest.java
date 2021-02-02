@@ -271,8 +271,6 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
-
-    //tests MemberProfileDTO using FamilyMember constructor to create admins
     @Test
     void getMemberProfileTest3_AdministratorTrueObjectsAreEqual() {
 
@@ -298,7 +296,6 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
-
     @Test
     void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);

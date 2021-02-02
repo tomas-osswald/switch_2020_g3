@@ -126,13 +126,30 @@ class GetFamilyMembersListControllerTest {
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
         boolean result = controller.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
-        boolean resultFalse = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
         assertTrue(result);
-        assertFalse(resultFalse);
     }
 
 
+    @Test
+    void getFamilyMembersAndRelation_testNoAdminAndFalse() {
+        //Arrange
+        familyMembers.add(diogo);
+        familyMembers.add(jorge);
+        familyMembers.add(manuelAdmin);
+        family.addFamilyMemberArray(familyMembers);
+        familyTwo.addFamilyMember(diogo);
+        familyTwo.addFamilyMember(jorge);
+        Application app = new Application();
+        app.getFamilyService().addFamily(family);
+        GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
+        //Act
+        boolean noAdmin = family.verifyAdministrator(diogo.getID());
+        boolean resultTwo = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
+        //Assert
+        //As nothing has been added to expected both lists are Empty, as predicted
 
+        assertFalse(resultTwo);
+    }
 }
