@@ -122,7 +122,7 @@ public class AccountService {
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
 
-        double transferredValue = cashTransferDTO.getTransferedValue();
+        double transferredValue = cashTransferDTO.getTransferAmount();
         MoneyValue transferAmmount = new MoneyValue(transferredValue, null);
         originFamilyMemberAccount.debit(transferAmmount);
         destinationFamilyMemberAccount.credit(transferAmmount);

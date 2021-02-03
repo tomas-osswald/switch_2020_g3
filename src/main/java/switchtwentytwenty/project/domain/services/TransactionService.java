@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
@@ -87,6 +88,20 @@ public class TransactionService {
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
         originCashAccount.registerTransaction(destinationCashAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
         destinationCashAccount.registerTransaction(originCashAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        return true;
+    }
+
+    public boolean registerCashTransferOther(Account originAccount, Account destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
+        if (!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
+            throw new IllegalArgumentException("Invalid AccountType");
+        if (!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
+            throw new IllegalArgumentException("Invalid AccountType");
+        CashAccount originCashAccount = (CashAccount) originAccount;
+        CashAccount destinationCashAccount = (CashAccount) destinationAccount;
+        MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+        MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
+        originCashAccount.registerTransactionOther(destinationCashAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
+        destinationCashAccount.registerTransactionOther(originCashAccount, category, true,remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

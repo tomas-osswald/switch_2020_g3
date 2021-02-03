@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CashTransferDTOTest {
     Date date = new Date();
-    CashTransferDTO cashTransferDTO = new CashTransferDTO(2, "175345988ZX8", 1, "000000000ZZ4", 1, 2.3, 1, "Test", date);
+    CurrencyEnum currency = CurrencyEnum.EURO;
+    CashTransferDTO cashTransferDTO = new CashTransferDTO(2,"175345988ZX8",1,"000000000ZZ4",1,2.3,currency,1,"Test",date);
 
     @Test
     void getTransactionDesignation() {
@@ -28,7 +29,7 @@ class CashTransferDTOTest {
     @Test
     void getTransferedValue() {
         double expected = 2.3;
-        double result = cashTransferDTO.getTransferedValue();
+        double result = cashTransferDTO.getTransferAmount();
         assertEquals(expected, result);
     }
 

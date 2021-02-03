@@ -1,5 +1,7 @@
 package switchtwentytwenty.project.domain.dtos.input;
 
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+
 import java.util.Date;
 
 public class CashTransferDTO {
@@ -9,22 +11,28 @@ public class CashTransferDTO {
     private final int familyID;
     private final int originAccountID;
     private final int destinationAccountID;
-    private final double transferedValue; //Currency ?
+    private final double transferAmount;
+    private final CurrencyEnum currency;
     private final int categoryID;
     private final String transactionDesignation;
     private final Date transactionDate;
 
 
-    public CashTransferDTO(int familyID, String originFamilyMemberCC, int originAccountID, String destinationFamilyMemberCC, int destinationAccountID, double transferedValue, int categoryID, String transactionDesignation, Date transactionDate) {
+    public CashTransferDTO(int familyID, String originFamilyMemberCC, int originAccountID, String destinationFamilyMemberCC, int destinationAccountID, double transferAmount, CurrencyEnum currency, int categoryID, String transactionDesignation, Date transactionDate) {
         this.familyID = familyID;
         this.originFamilyMemberCC = originFamilyMemberCC;
         this.originAccountID = originAccountID;
         this.destinationFamilyMemberCC = destinationFamilyMemberCC;
         this.destinationAccountID = destinationAccountID;
-        this.transferedValue = transferedValue;
+        this.transferAmount = transferAmount;
+        this.currency = currency;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;
-        this.transactionDate = (Date) transactionDate.clone();
+        if (transactionDate ==null) {
+            this.transactionDate = new Date();
+        } else {
+            this.transactionDate = (Date) transactionDate.clone();
+        }
     }
 
     public int getFamilyID() {
@@ -47,8 +55,12 @@ public class CashTransferDTO {
         return destinationAccountID;
     }
 
-    public double getTransferedValue() {
-        return transferedValue;
+    public double getTransferAmount() {
+        return transferAmount;
+    }
+
+    public CurrencyEnum getCurrency(){
+        return currency;
     }
 
     public int getCategoryID() {
