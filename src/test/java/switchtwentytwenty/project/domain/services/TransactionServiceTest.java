@@ -88,6 +88,7 @@ class TransactionServiceTest {
     @Test
     void NoRegisterPaymentMyCashAccount_NegativeAmmount() {
         TransactionService service = new TransactionService();
+
         assertThrows(IllegalArgumentException.class,()->{
             service.registerPaymentMyCashAccount(contaCash,categoria1,transacaoDTO3);
         });
