@@ -1,7 +1,10 @@
 | Term/Class Name    | Description | Type
 |------------|----------|---------|
 | Address | Address object|Class|
+| BankAccount| BankAccount object |Class|
+| BankSavingAccount| BankSavingAccount object |Class|
 | CashAccount| CashAccount object |Class|
+| CreditCardAccount| CreditCardAccount object |Class|
 | CategoryTreeDTO|Object to transfer Standard and Custom categories|Class|
 | CustomCategories | Attribute of the Family class |List|
 | CustomCategory| Custom financial transaction category, may have children | Class|

@@ -161,6 +161,7 @@ The main Classes involved are:
 **AddBankAccount()**
 ```puml
 @startuml
+skinparam linetype ortho
 
 title AddBankAccount()
 hide empty members
@@ -178,6 +179,7 @@ class AddBankAccountController {
 
 class Application {
   + getFamilyService()
+  + getAccountService()
 }
 
 class FamilyService {
@@ -206,7 +208,6 @@ class BankAccount {
 interface Account{
 }
 class AccountData {
-  - balance
   - description
   - accountID
   - creationDate
@@ -216,16 +217,16 @@ class MoneyValue {
   - currency
 }
 
-AddBankAccountController -> Application: has
-AddBankAccountController --> AddBankAccountDTO: accepts
-Application -> FamilyService: has
-FamilyService -> Family: has list
+AddBankAccountController --> Application: has
+AddBankAccountController -left-> AddBankAccountDTO: accepts
+AddBankAccountController --> FamilyService: calls
+FamilyService --> Family: has list
 Family --> FamilyMember: has list
-AddBankAccountController --> AccountService: creates
+AddBankAccountController --> AccountService: calls
 AccountService --> BankAccount: creates
 BankAccount -|> Account: implements
 BankAccount --> AddBankAccountDTO: accepts
-FamilyMember --> BankAccount: adds
+FamilyMember --> BankAccount: has
 BankAccount --* AccountData: contains
 AccountData --> MoneyValue: has
 
@@ -234,8 +235,27 @@ AccountData --> MoneyValue: has
 ```
 
 ## 3.3. Applied Patterns
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
-We also used the SOLID SRP principle.
+
+- GRASP:
+    - Information expert:
+        - This pattern was used in classes that implemented the Account interface, like in this case CashAccount class, for returning a DTO with the account id and description without removing information outside the class;
+
+    - Controller:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
+
+    - Pure Fabrication:
+        - In this user story the Application and AccountService class was used, which does not represent a business domain concept. It was created to be responsible for all operations regarding Account type Classes.
+
+    - High cohesion and Low Coupling:
+        - The creation of the AccountService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+
+    - Protected Variation:
+        - An Account interface was used in which the polymorphism was used to be implemented in several classes, each representative of a type of Account.
+
+- SOLID:
+    - Single-responsibility principle:
+        - this pattern was used in the AccountService class, in which it the only responsibility is manage account operations.
+
 
 ## 3.4. Domain Tests 
 
