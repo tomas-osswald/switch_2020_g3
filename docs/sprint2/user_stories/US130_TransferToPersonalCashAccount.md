@@ -18,7 +18,27 @@ to the cash account of any family member. If the family member doesn't have a ca
 The money transfer must be a positive value and of the same currency as the family and destination cash account.
 The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
 
+
+## System Sequence Diagram
+
+````puml
+autonumber
+title System Sequence Diagram - US130
+
+Actor "FamilyAdmin" as Actor
+Participant "System" as System
+
+activate Actor
+Actor -> System : Transfer Money \nto Family Member
+activate System
+System --> Actor : ask for required data
+Actor -> System : required data
+System --> Actor : Success
+deactivate System
+````
+
 # 2. Analysis
+
 
 
 
@@ -26,22 +46,26 @@ The money transfer will only occur if the family has a cash account and if that 
 
 ````puml
 @startuml
-
+title US130 - Transfer Money from Family Cash Account To a Personal Cash Account - SequenceDiagram
 autonumber
 
 Actor "FamilyAdmin" as Actor
+Participant "UI" as UI
 Participant ": TransferCashFromFamilyAccount\nToPersonalAccountController" as controller
 Participant ": Application" as App
 Participant ": FamilyService" as FamilyService
 Participant "aFamily\n : Family" as Family
 Participant ": CategoryService" as CategoryService
 Participant ": AccountService" as AccountService
-Participant "aFamilyMember\n : FamilyMember" as FamilyMember
 
-Actor -> controller : Transfer Money to Family Member
-controller -> Actor : ask for required data
 
-Actor -> controller : transferCashFrom\nFamilyToFamilyMember\n(FamilyCashTransferDTO)
+Actor -> UI : Transfer Money \nto Family Member
+activate UI
+UI --> Actor : ask for required data
+
+Actor -> UI : required data
+
+UI -> controller : transferCashFrom\nFamilyToFamilyMember\n(FamilyCashTransferDTO)
 activate controller
 controller -> App : getFamilyService()
 activate App
@@ -57,8 +81,6 @@ controller -> Family : getFamilyMember(familyMemberCC)
 activate Family
 Family --> controller : aFamilyMember
 deactivate Family
-
-
 
 alt categoryID >= 0
 controller -> App : getCategoryService()
@@ -79,7 +101,45 @@ deactivate Family
 
 end
 
-controller -> AccountService : transferCashFromFamilyToFamilyMember(aFamily, aFamilyMember, category, familyCashTransferDTO)
+controller -> AccountService ** : create
+
+controller -> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, category, familyCashTransferDTO)
+activate AccountService
+
+ref over AccountService
+
+Transfer Cash From 
+Family To Family Member
+
+end ref
+
+AccountService --> controller : success
+deactivate AccountService
+
+controller --> UI : success
+deactivate controller
+
+UI --> Actor : Success
+deactivate UI
+
+@enduml
+
+````
+
+````puml
+title Transfer Cash From Family To Family Member
+autonumber
+
+Participant ": AccountService" as AccountService
+Participant "aFamily\n : Family" as Family
+Participant "transferAmount\n : MoneyValue" as transferMoneyValue
+Participant "familyCashAccount\n : CashAccount" as familyCashAccount
+Participant "aFamilyMember\n : FamilyMember" as FamilyMember
+Participant "personalCashAccount\n : CashAccount" as personalCashAccount
+Participant ": TransactionService" as TransactionService
+
+
+-> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, category,\n familyCashTransferDTO)
 activate AccountService
 
 AccountService -> Family : getFamilyCashAccount()
@@ -87,123 +147,95 @@ activate Family
 Family --> AccountService : familyCashAccount
 deactivate Family
 
-AccountService -> FamilyMember : getAccount
+AccountService -> transferMoneyValue ** : create(transferValue, currency)
+
+AccountService -> familyCashAccount : hasEnoughMoneyForTransaction(transferAmount)
+activate familyCashAccount
+
+opt not enough money for transaction
+familyCashAccount --> AccountService : false
+<-- AccountService : failure
+
+else enough money for transaction
+familyCashAccount --> AccountService : true
+deactivate familyCashAccount
+end
+
+AccountService -> familyCashAccount : checkCurrency(currency)
+activate familyCashAccount
+
+opt different currency
+familyCashAccount --> AccountService : false
+<-- AccountService : failure
+
+else same currency
+familyCashAccount --> AccountService : true
+deactivate familyCashAccount
+end opt
+
+AccountService -> FamilyMember : getAccount(personalAccountID)
 activate FamilyMember
-FamilyMember -> Account : isIDOfThisAccount
-activate Account
-Account --> FamilyMember
-deactivate Account
-
-AccountService -> Account : hasEnoughMoneyForTransaction
-activate Account
-Account --> AccountService
-deactivate Account
-AccountService -> Account : checkCurrency
-activate Account
-Account --> AccountService
-deactivate Account
-
-FamilyMember --> AccountService
+FamilyMember --> AccountService : personalCashAccount
 deactivate FamilyMember
-AccountService -> AccountService : generateID
-activate AccountService
-AccountService --> AccountService
-deactivate AccountService
-AccountService -> CashAccount : new
-activate CashAccount
-CashAccount -> CashAccount : validateBalance
-activate CashAccount
-CashAccount --> CashAccount
-deactivate CashAccount
-CashAccount -> AccountData : new
-activate AccountData
-AccountData -> AccountData : validateDesignation
-activate AccountData
-AccountData -> InvalidAccountDesignationException : new
-activate InvalidAccountDesignationException
-InvalidAccountDesignationException --> AccountData
-deactivate InvalidAccountDesignationException
-AccountData --> AccountData
-deactivate AccountData
-AccountData -> MoneyValue : new
-activate MoneyValue
-MoneyValue --> AccountData
-deactivate MoneyValue
-AccountData -> MoneyValue : new
-activate MoneyValue
-MoneyValue --> AccountData
-deactivate MoneyValue
-AccountData --> CashAccount
-deactivate AccountData
-CashAccount -> AccountData : new
-activate AccountData
-AccountData -> AccountData : validateDesignation
-activate AccountData
-AccountData -> InvalidAccountDesignationException : new
-activate InvalidAccountDesignationException
-InvalidAccountDesignationException --> AccountData
-deactivate InvalidAccountDesignationException
-AccountData --> AccountData
-deactivate AccountData
-AccountData -> MoneyValue : new
-activate MoneyValue
-MoneyValue --> AccountData
-deactivate MoneyValue
-AccountData -> MoneyValue : new
-activate MoneyValue
-MoneyValue --> AccountData
-deactivate MoneyValue
-AccountData --> CashAccount
-deactivate AccountData
-CashAccount --> AccountService
-deactivate CashAccount
-AccountService -> Account : debit
-activate Account
-Account --> AccountService
-deactivate Account
-AccountService -> Account : credit
-activate Account
-Account --> AccountService
-deactivate Account
-AccountService -> TransactionService : registerCashTransfer
+
+opt if (personalCashAccount == null)
+AccountService -> personalCashAccount ** : create
+end
+
+AccountService -> familyCashAccount : debit(transferAmount)
+
+AccountService -> personalCashAccount : credit(transferAmount)
+
+AccountService -> TransactionService ** : create
+AccountService -> TransactionService : registerCashTransfer\n(familyCashAccount, personalCashAccount, familyCashTransferDTO)
 activate TransactionService
-TransactionService -> Account : checkAccountType
-activate Account
-Account --> TransactionService
-deactivate Account
-TransactionService -> Account : checkAccountType
-activate Account
-Account --> TransactionService
-deactivate Account
-TransactionService -> CashAccount : registerTransaction
-activate CashAccount
-CashAccount -> AccountData : registerCashTransaction
-activate AccountData
-AccountData -> CashTransaction : new
-activate CashTransaction
-CashTransaction --> AccountData
-deactivate CashTransaction
-AccountData --> CashAccount
-deactivate AccountData
-CashAccount --> TransactionService
-deactivate CashAccount
-TransactionService -> CashAccount : registerTransaction
-activate CashAccount
-CashAccount -> AccountData : registerCashTransaction
-activate AccountData
-AccountData -> CashTransaction : new
-activate CashTransaction
-CashTransaction --> AccountData
-deactivate CashTransaction
-AccountData --> CashAccount
-deactivate AccountData
-CashAccount --> TransactionService
-deactivate CashAccount
-TransactionService --> AccountService
+
+ref over TransactionService
+
+Register Cash Transfer
+
+end ref
+
+TransactionService --> AccountService : success
 deactivate TransactionService
-AccountService --> controller
+
+<-- AccountService : success
 deactivate AccountService
-return
-@enduml
+
+````
+
+````puml
+autonumber
+title Register Cash Transfer
+
+Participant ": TransactionService" as TransactionService
+Participant "familyCashAccount\n : CashAccount" as familyCashAccount
+Participant "personalCashAccount\n : CashAccount" as personalCashAccount
+
+-> TransactionService : registerCashTransfer\n(familyCashAccount, personalCashAccount, familyCashTransferDTO)
+activate TransactionService
+
+TransactionService -> familyCashAccount : getMoneyBalance()
+activate familyCashAccount
+familyCashAccount --> TransactionService : remainingBalanceOrigin
+deactivate familyCashAccount
+
+TransactionService -> familyCashAccount : registerTransaction(personalCashAccount, category,\n isCredit, remainingBalanceOrigin, familyCashTransferDTO)
+activate familyCashAccount
+familyCashAccount --> TransactionService : true
+deactivate familyCashAccount
+
+TransactionService -> personalCashAccount : getMoneyBalance()
+activate personalCashAccount
+personalCashAccount --> TransactionService : remainingBalanceDestination
+deactivate personalCashAccount
+
+TransactionService -> personalCashAccount : registerTransaction(familyCashAccount, category, isCredit,\n remainingBalanceDestination, familyCashTransferDTO)
+activate personalCashAccount
+personalCashAccount --> TransactionService : remainingBalanceDestination
+deactivate personalCashAccount
+
+<-- TransactionService : success
+deactivate TransactionService
 
 ````
