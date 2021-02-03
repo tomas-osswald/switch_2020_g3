@@ -6,6 +6,7 @@ import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -361,5 +362,31 @@ class BankAccountTest {
 
         assertNotNull(account.getDescription());
         assertNotEquals(account.getDescription(), notExpected);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTO() {
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(1, description);
+
+        AccountIDAndDescriptionDTO result = account.getAccountIDAndDescriptionDTO();
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTONotEquals() {
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(2, description);
+
+        AccountIDAndDescriptionDTO result = account.getAccountIDAndDescriptionDTO();
+
+        assertNotEquals(expected, result);
+        assertNotNull(result);
     }
 }

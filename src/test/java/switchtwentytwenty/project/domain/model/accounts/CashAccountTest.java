@@ -3,8 +3,10 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -361,5 +363,39 @@ class CashAccountTest {
         CashAccount expected = new CashAccount(designation, balance, cashAccountID, currency);
         CashAccount result = new CashAccount(designation, balance, 1002, currency);
         assertNotEquals(result.hashCode(), expected.hashCode());
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTO() {
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
+
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(cashAccountID, designation);
+
+        AccountIDAndDescriptionDTO result = cashAccountOne.getAccountIDAndDescriptionDTO();
+
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTONotEquals() {
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
+
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(2, designation);
+
+        AccountIDAndDescriptionDTO result = cashAccountOne.getAccountIDAndDescriptionDTO();
+
+
+        assertNotEquals(expected, result);
+        assertNotNull(result);
     }
 }

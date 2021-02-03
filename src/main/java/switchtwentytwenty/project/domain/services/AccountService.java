@@ -163,7 +163,7 @@ public class AccountService {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
             if (account.checkAccountType(CASHACCOUNT)) {
-                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = account.getAccountIDAndDescriptionDTO();
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
         }
