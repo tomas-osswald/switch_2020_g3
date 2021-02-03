@@ -3,7 +3,7 @@
 hide empty members
 hide circles
 left to right direction
-title Domain Model Diagram - SP01
+title Domain Model Diagram - SP02
 
 class Family {
 UniqueID
@@ -14,51 +14,82 @@ RegistrationDate
 class FamilyMember {
 Name
 BirthDate
+Address
+Vat number
+Email
+Telephone
+CCnumber
 }
 
-class CCnumber {
+
+class BankSavingsAccount {
+UniqueID
+Balance
+Transactions
+Description
 }
 
-class PhoneNumber {
+class BankAccount {
+UniqueID
+Balance
+Transactions
+Description
 }
 
-class EmailAddress {
+class CreditCardAccount {
+UniqueID
+Balance
+Transactions
+InterestDebt
+Description
 }
 
-class VatNumber {
-}
-
-class Address {
-Street
-Postal Code
-Local
-City
-}
 
 class CashAccount {
 UniqueID
 Balance
+Transactions
+Description
 }
 
-class Relation {
+class Relations {
 Designation
+FamilyMemberA
+FamilyMemberB
+ParentalPermission
 }
+
 
 class Category {
 UniqueID
 Name
+ParentCategory
 }
 
-Family "*" -- "*" Category : \n\nhas standard >
-Family "1" -- "0..*" Category : \n\nhas custom >
-Family "1" -- "1" CashAccount : has >
-Family "1" -- "1" FamilyMember : has administrator >
+class Transaction {
+targetAccount
+Date
+Amount
+Category
+Designation
+Credit/Debit
+}
+
+Family "*" -- "*" Category : has standard >
+Family "1" -- "0..*" Category : has custom >
+Family "1" -- "0..1" CashAccount : has >
+Family "1" -- "0..1" FamilyMember : has administrator >
 Family "1" -- "1..*" FamilyMember : has members >
-FamilyMember "1" -- "0..1" Relation : has >
-FamilyMember "1" -- "1" CCnumber : has >
-FamilyMember "1" -- "0..*" PhoneNumber : has >
-FamilyMember "1" -- "0..*" EmailAddress : has >
-FamilyMember "1" -- "1" VatNumber : has >
-FamilyMember "1" -- "1" Address : has >
+Family "1" -- "0..*" Relations : has >
+'Relation has the FamilyMembers to whom it pertains
+FamilyMember "1" -- "0..*" BankSavingsAccount : has >
+FamilyMember "1" -- "0..*" CreditCardAccount : has >
+FamilyMember "1" -- "0..*" BankAccount : has >
+FamilyMember "1" -- "0..*" CashAccount : has >
+CashAccount "1" -- "0..*" Transaction : has >
+CreditCardAccount "1" -- "0..*" Transaction : has >
+BankAccount "1" -- "0..*" Transaction : has >
+BankSavingsAccount "1" -- "0..*" Transaction : has >
+
 
 @enduml
