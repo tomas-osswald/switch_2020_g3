@@ -74,7 +74,7 @@ class CCNumberTest {
     @Test
     void CreateInValidCCNumberUnusedLetter() {
         String testCCNumber = "000000000BF4";
-        Assertions.assertThrows(IllegalArgumentException.class, ()->{
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CCNumber testCC = new CCNumber(testCCNumber);
         });
     }
@@ -84,7 +84,7 @@ class CCNumberTest {
         String testCCNumberOne = "000000000BC4";
         CCNumber testOne = new CCNumber(testCCNumberOne);
         CCNumber testTwo = testOne;
-        Assertions.assertEquals(testOne,testTwo);
+        Assertions.assertEquals(testOne, testTwo);
     }
 
     @Test
@@ -92,7 +92,7 @@ class CCNumberTest {
         String testCCNumberOne = "000000000BC4";
         CCNumber testOne = new CCNumber(testCCNumberOne);
         Date notCCNumber = new Date();
-        Assertions.assertNotEquals(testOne,notCCNumber);
+        Assertions.assertNotEquals(testOne, notCCNumber);
     }
 
     @Test
@@ -101,7 +101,7 @@ class CCNumberTest {
         CCNumber testOne = new CCNumber(testCCNumberOne);
         String testCCNumber = "000000000ZZ4";
         CCNumber testTwo = new CCNumber(testCCNumber);
-        Assertions.assertEquals(testOne,testTwo);
+        Assertions.assertEquals(testOne, testTwo);
     }
 
     @Test
@@ -110,7 +110,32 @@ class CCNumberTest {
         CCNumber testOne = new CCNumber(testCCNumberOne);
         String testCCNumber = "000000000ZZ4";
         CCNumber testTwo = new CCNumber(testCCNumber);
-        Assertions.assertNotEquals(testOne,testTwo);
+        Assertions.assertNotEquals(testOne, testTwo);
+    }
+
+
+    @Test
+    void testHashCodeNotEquals() {
+        String testCCNumberOne = "000000000BC4";
+        CCNumber testOne = new CCNumber(testCCNumberOne);
+        String testCCNumber = "000000000ZZ4";
+        CCNumber testTwo = new CCNumber(testCCNumber);
+        Assertions.assertNotEquals(testOne.hashCode(), testTwo.hashCode());
+    }
+
+    @Test
+    void testHashCodeEquals() {
+        String testCCNumberOne = "000000000BC4";
+        CCNumber testOne = new CCNumber(testCCNumberOne);
+        CCNumber testTwo = new CCNumber(testCCNumberOne);
+        Assertions.assertEquals(testOne.hashCode(), testTwo.hashCode());
+    }
+
+    @Test
+    void testHashCodeNotEqualsZero() {
+        String testCCNumberOne = "000000000BC4";
+        CCNumber testOne = new CCNumber(testCCNumberOne);
+        Assertions.assertNotEquals(testOne.hashCode(), 0);
     }
 
 
