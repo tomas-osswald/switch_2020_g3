@@ -53,9 +53,6 @@ public class BankAccount implements Account {
         return accountData.equals(account.accountData);
     }
 
-
-
-    // BUSINESS METHODS
     public String getDescription() {
         return accountData.getDescription();
     }
