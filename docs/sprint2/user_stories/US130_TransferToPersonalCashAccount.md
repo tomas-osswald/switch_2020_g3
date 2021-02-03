@@ -2,73 +2,162 @@
 
 
 ```` puml
-
-   autonumber
-   title Transfer Money From Family Cash Account To a Personal Cash Account
-   actor "Family Administrator" as famAdmin
-   participant ": UI" as UI
-   participant ": TransferToPersonalCashAccountController" as controller
-   participant ": FFMApplication" as application
-   
-   
-   participant ": AccountService" as accServ
-   participant ": FamilyService" as famServ
-   participant "aFamily : Family" as fam
-   participant "aFamilyMember : FamilyMember" as famMemb
-   
-
-
-   participant "newCashAccount : Account" as cashacc
-   participant "newAccountData : AccountData" as data
-    
-   
-   activate member
-   member -> UI: create a Personal Cash Account
-   activate UI
-   UI --> member: ask for Account name
-   deactivate UI
-   member -> UI: input Account name
-   activate UI
-   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberCC,initialBalance)
-   activate controller
-   controller -> application: getAccountService()
-   activate application
-   application --> controller: AccountService
-   controller -> application: getFamilyService()
-   application --> controller: FamilyService
-   deactivate application
-   controller -> famServ:getFamilyMember(familyID, familyMemberCC)
-   activate famServ
-   famServ-> fam: getFamilyMember(familyMemberCC)
-   activate fam
-   fam --> famServ: FamilyMember
-   deactivate fam
-   famServ --> controller: FamilyMember
-   deactivate famServ 
-   controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
-   activate accServ
-   accServ -> accServ: generateAccountID()
-   accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
-   activate cashacc
-   cashacc -> cashacc: validateName(name)
-   cashacc->cashacc: validateBalance(balance)
-   cashacc->data**: createAccountData(name, initialBalance, accountID)
-   activate data
-   data-->cashacc: becomes CashAccount.AccountData
-   deactivate data
-   cashacc-->accServ: Success
-   deactivate cashacc
-   accServ->fammemb: addAccount(newCashAccount)
-   activate fammemb
-   fammemb-->accServ: Success
-   deactivate fammemb
-   accServ-->controller: Success
-   deactivate accServ
-   controller --> UI: Success
-   deactivate controller
-   UI --> member: Inform Success
-   deactivate UI
-   deactivate member
-
-@endpuml
+@startuml
+participant Actor
+Actor -> TransferCashFromFamilyAccountToPersonalAccountController : transferCashFromFamilyToFamilyMember
+activate TransferCashFromFamilyAccountToPersonalAccountController
+TransferCashFromFamilyAccountToPersonalAccountController -> FamilyService : getFamily
+activate FamilyService
+FamilyService -> FamilyService : checkIfFamilyExists
+activate FamilyService
+FamilyService --> FamilyService
+deactivate FamilyService
+FamilyService --> TransferCashFromFamilyAccountToPersonalAccountController
+deactivate FamilyService
+TransferCashFromFamilyAccountToPersonalAccountController -> FamilyService : getFamily
+activate FamilyService
+FamilyService -> FamilyService : checkIfFamilyExists
+activate FamilyService
+FamilyService --> FamilyService
+deactivate FamilyService
+FamilyService --> TransferCashFromFamilyAccountToPersonalAccountController
+deactivate FamilyService
+TransferCashFromFamilyAccountToPersonalAccountController -> Family : getFamilyMember
+activate Family
+Family -> FamilyMember : compareID
+activate FamilyMember
+FamilyMember --> Family
+deactivate FamilyMember
+Family --> TransferCashFromFamilyAccountToPersonalAccountController
+deactivate Family
+TransferCashFromFamilyAccountToPersonalAccountController -> CategoryService : getStandardCategoryByID
+activate CategoryService
+CategoryService --> TransferCashFromFamilyAccountToPersonalAccountController
+deactivate CategoryService
+TransferCashFromFamilyAccountToPersonalAccountController -> Family : getCustomCategoryByID
+activate Family
+Family --> TransferCashFromFamilyAccountToPersonalAccountController
+deactivate Family
+TransferCashFromFamilyAccountToPersonalAccountController -> AccountService : transferCashFromFamilyToFamilyMember
+activate AccountService
+AccountService -> MoneyValue : new
+activate MoneyValue
+MoneyValue --> AccountService
+deactivate MoneyValue
+AccountService -> Account : hasEnoughMoneyForTransaction
+activate Account
+Account --> AccountService
+deactivate Account
+AccountService -> Account : checkCurrency
+activate Account
+Account --> AccountService
+deactivate Account
+AccountService -> FamilyMember : getAccount
+activate FamilyMember
+FamilyMember -> Account : isIDOfThisAccount
+activate Account
+Account --> FamilyMember
+deactivate Account
+FamilyMember --> AccountService
+deactivate FamilyMember
+AccountService -> AccountService : generateID
+activate AccountService
+AccountService --> AccountService
+deactivate AccountService
+AccountService -> CashAccount : new
+activate CashAccount
+CashAccount -> CashAccount : validateBalance
+activate CashAccount
+CashAccount --> CashAccount
+deactivate CashAccount
+CashAccount -> AccountData : new
+activate AccountData
+AccountData -> AccountData : validateDesignation
+activate AccountData
+AccountData -> InvalidAccountDesignationException : new
+activate InvalidAccountDesignationException
+InvalidAccountDesignationException --> AccountData
+deactivate InvalidAccountDesignationException
+AccountData --> AccountData
+deactivate AccountData
+AccountData -> MoneyValue : new
+activate MoneyValue
+MoneyValue --> AccountData
+deactivate MoneyValue
+AccountData -> MoneyValue : new
+activate MoneyValue
+MoneyValue --> AccountData
+deactivate MoneyValue
+AccountData --> CashAccount
+deactivate AccountData
+CashAccount -> AccountData : new
+activate AccountData
+AccountData -> AccountData : validateDesignation
+activate AccountData
+AccountData -> InvalidAccountDesignationException : new
+activate InvalidAccountDesignationException
+InvalidAccountDesignationException --> AccountData
+deactivate InvalidAccountDesignationException
+AccountData --> AccountData
+deactivate AccountData
+AccountData -> MoneyValue : new
+activate MoneyValue
+MoneyValue --> AccountData
+deactivate MoneyValue
+AccountData -> MoneyValue : new
+activate MoneyValue
+MoneyValue --> AccountData
+deactivate MoneyValue
+AccountData --> CashAccount
+deactivate AccountData
+CashAccount --> AccountService
+deactivate CashAccount
+AccountService -> Account : debit
+activate Account
+Account --> AccountService
+deactivate Account
+AccountService -> Account : credit
+activate Account
+Account --> AccountService
+deactivate Account
+AccountService -> TransactionService : registerCashTransfer
+activate TransactionService
+TransactionService -> Account : checkAccountType
+activate Account
+Account --> TransactionService
+deactivate Account
+TransactionService -> Account : checkAccountType
+activate Account
+Account --> TransactionService
+deactivate Account
+TransactionService -> CashAccount : registerTransaction
+activate CashAccount
+CashAccount -> AccountData : registerCashTransaction
+activate AccountData
+AccountData -> CashTransaction : new
+activate CashTransaction
+CashTransaction --> AccountData
+deactivate CashTransaction
+AccountData --> CashAccount
+deactivate AccountData
+CashAccount --> TransactionService
+deactivate CashAccount
+TransactionService -> CashAccount : registerTransaction
+activate CashAccount
+CashAccount -> AccountData : registerCashTransaction
+activate AccountData
+AccountData -> CashTransaction : new
+activate CashTransaction
+CashTransaction --> AccountData
+deactivate CashTransaction
+AccountData --> CashAccount
+deactivate AccountData
+CashAccount --> TransactionService
+deactivate CashAccount
+TransactionService --> AccountService
+deactivate TransactionService
+AccountService --> TransferCashFromFamilyAccountToPersonalAccountController
+deactivate AccountService
+return
+@enduml
 ````
