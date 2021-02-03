@@ -3,11 +3,8 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -59,7 +56,8 @@ class GetAccountBalanceControllerTest {
         addFamilyAdministratorController.addFamilyAdministrator(addFamilyMemberDTO);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(bankAccBalance, currentAccName, cc, 1, CurrencyEnum.EURO);
         addBankAccountController.addBankAccount(addBankAccountDTO);
-        addBankSavingsAccountController.addBankSavingsAccount(1, cc, savingsAccName, savingsAccBalance, interestRate);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(savingsAccBalance, interestRate, savingsAccName, cc, 1, CurrencyEnum.EURO);
+        addBankSavingsAccountController.addBankSavingsAccount(addBankSavingsAccountDTO);
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 1, creditCardAccName, 5000.00, 100.0, 20.0, CurrencyEnum.EURO);
         addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO);
         AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(cashAccBalance, cashAccName, cc, 1,CurrencyEnum.EURO);

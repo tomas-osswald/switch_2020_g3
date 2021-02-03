@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -84,12 +83,12 @@ public class AccountService {
     }
 
 
-    public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
+    public boolean addBankSavingsAccount(FamilyMember targetMember, AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
         if (targetMember == null) {
             return false;
         }
         int accountID = generateID(targetMember);
-        Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
+        Account bankSavingsAccount = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         targetMember.addAccount(bankSavingsAccount);
         return true;
     }
