@@ -662,4 +662,5 @@ class AccountServiceTest {
 
         assertThrows(Exception.class, () -> accountService.getFamilyMemberCashAccountBalance(familyMember, 1));
     }
+
 }
