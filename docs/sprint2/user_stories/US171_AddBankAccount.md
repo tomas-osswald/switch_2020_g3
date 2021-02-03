@@ -139,11 +139,8 @@ deactivate actor
 
 
 ## 3.1. Functionality Use
-The AddBankAccountController will invoke the Application object, which returns the Family Service.
-The Family Service will get the Family, which in turn will return the Family Member.
-The Account Service will now be called to add the bank account to the family member in question. The Bank Account. First, there will be an email validation inside the Application to ensure that is unique, then the same will be done to the vatNumber inside the Family object because we are assuming that the same Person can be part of different Families. If any of those validations turn to be true the method fails, otherwise the method is executed by calling the FamilyMember constructor, creating a new Person and storing it inside the Family object. 
-To finish this process, the Application return a confirmation message to the controller that will inform the UI, and therefore the user, that the method succeeded. 
 
+The AddBankAccountController will invoke the Application object, which stores AccountService and FamilyService objects. The Application will return both Services. The FamilyService will be used to retrieve the FamilyMember object of the actor, using the FamilyID and FamilyMemberCC. The FamilyMember object will then be passed, along with the AccountName and InitialBalance to the AccountService, which will prompt the FamilyMember to create the BankAccount after having generated the accountID. The BankAccount will validate its name and balance upon creation. Finally, the BankAccount object will be added to the FamilyMember's Account List and a success response will be returned.
 
 
 ## 3.2. Class Diagram
