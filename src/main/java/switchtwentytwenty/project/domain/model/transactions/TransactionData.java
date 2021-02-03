@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.sandbox;
+package switchtwentytwenty.project.domain.model.transactions;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
@@ -14,13 +14,14 @@ public class TransactionData {
     private MoneyValue remainingBalance = new MoneyValue(0.0, null);
     private boolean credit;
 
-    public TransactionData(String designation, MoneyValue ammount,boolean credit, Date transactionDate, Category category) {
+    public TransactionData(String designation, MoneyValue ammount, boolean credit, MoneyValue remainingbalance, Date transactionDate, Category category) {
         this.transactionDate = (Date) transactionDate.clone();
         this.registrationDate = new Date();
         this.ammount = ammount;
         this.category = category;
         this.designation = designation;
         this.credit = credit;
+        this.remainingBalance = remainingbalance;
     }
 
     public Date getTransactionDate() {
@@ -47,7 +48,11 @@ public class TransactionData {
         return this.remainingBalance;
     }
 
-    public boolean isCredit() {return this.credit;}
+    public boolean isCredit() {
+        return this.credit;
+    }
 
-    public boolean isDebit() {return !this.credit;}
+    public boolean isDebit() {
+        return !this.credit;
+    }
 }

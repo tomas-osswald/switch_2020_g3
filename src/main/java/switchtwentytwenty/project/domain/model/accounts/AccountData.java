@@ -2,8 +2,8 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.sandbox.CashTransaction;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -111,8 +111,8 @@ public class AccountData {
     }
 
 
-    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, familyCashTransferDTO);
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category,MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }
