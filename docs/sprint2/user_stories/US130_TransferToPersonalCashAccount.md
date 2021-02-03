@@ -47,10 +47,8 @@ In order to fulfill this requirement we need information from the family adminis
 7. TransactionDate - the date of the transaction, if the information is not given the current system date will be used
 
 If the family member doesn't have a cash account a new cash account will be created
-The money transfer must be a positive value and of the same currency as the 
-family and destination cash account.
-The money transfer will only occur if the family has a cash account and if
- that cash account has enough money for the transaction.
+The money transfer must be a positive value and of the same currency as the family and destination cash account.
+The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
 
 # 3. Design
 
@@ -272,3 +270,19 @@ deactivate personalCashAccount
 deactivate TransactionService
 
 ````
+
+
+# 4. Implementation
+
+In order to implement this user story we had several steps that required some extra attention in particular the large number of verifications that had to be performed before the transfer was allowed.
+This requirement was verified by creating unitary tests for the conditions where the transfer should not occur. The data involved in the transfer was also recorded in the form of a Transaction allowing other US to interact with that data.
+
+# 5. Integration
+ 
+This user story depends on the US170 - CreatePersonalCashAccount as it uses the Cash Account class created during that user story. It also interacts with elements developed in the US185 - GetAccountBalance and with US186 - GetListOfMovementsBetweenTwoDates.
+It also relates to the US001, US010, US101 and US120 from previous sprints.
+
+#6. Observations
+
+Although this user story had an increased complexity in regard to its interaction with other parts of the system we believe we achieved a working solution.
+The challenges presented, also allowed us to check the integrity of the other parts of our system and to try to improve upon them.
