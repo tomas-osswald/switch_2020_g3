@@ -132,7 +132,6 @@ class MoneyValueTest {
 
     @Test
     void testEqualsNull() {
-        Family family = new Family("lol",2);
         assertFalse(moneyValueEuro.equals(moneyValueNull));
     }
 

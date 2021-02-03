@@ -7,10 +7,6 @@ import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.user_data.*;
-import switchtwentytwenty.project.domain.model.user_data.Address;
-import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
-import switchtwentytwenty.project.domain.model.user_data.PhoneNumber;
-import switchtwentytwenty.project.domain.model.user_data.VatNumber;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -68,6 +64,7 @@ class FamilyMemberTest {
     //Setup for FamilyMemberDTO
 
     FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    //FamilyMember diogoClone = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
     FamilyMember jorge = new FamilyMember(id2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
     FamilyMember diogoNoAdmin = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
     FamilyMember newMember = new FamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2);
@@ -277,6 +274,7 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
+
     @Test
     void getMemberProfileTest3_AdministratorTrueObjectsAreEqual() {
 
@@ -302,6 +300,7 @@ class FamilyMemberTest {
 
         assertNotEquals(expected, result);
     }
+
     @Test
     void getMemberProfileTest5_objectsAreEqualInvalidEmail() {
         phoneNumbers.add(phoneNumber);
@@ -406,9 +405,9 @@ class FamilyMemberTest {
     @Test
     void testEquals_differentObjects() {
         FamilyMember person = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-        Family notPerson = new Family("testFamily",0);
+        Family notPerson = new Family("testFamily", 0);
 
-        Assertions.assertNotEquals(person,notPerson);
+        Assertions.assertNotEquals(person, notPerson);
     }
 
     @Test
@@ -416,15 +415,16 @@ class FamilyMemberTest {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
         FamilyMember personTwo = new FamilyMember(id2, name, date, numero, email, nif, rua, codPostal, local, city, admin);
 
-        Assertions.assertNotEquals(personOne,personTwo);
+        Assertions.assertNotEquals(personOne, personTwo);
     }
+
     @Test
     void testEquals_samePerson() {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
         FamilyMember personTwo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
 
-        Assertions.assertEquals(personOne,personTwo);
-        Assertions.assertNotSame(personOne,personTwo);
+        Assertions.assertEquals(personOne, personTwo);
+        Assertions.assertNotSame(personOne, personTwo);
     }
 
     @Test
@@ -432,7 +432,22 @@ class FamilyMemberTest {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
 
         boolean result = personOne.addAccount(null);
-        
+
         Assertions.assertFalse(result);
+    }
+
+    @Test
+    void testHashCodeNotEquals() {
+        int hash1 = diogo.hashCode();
+        int hash2 = jorge.hashCode();
+        assertNotEquals(hash1, hash2);
+    }
+
+
+    @Test
+    void testHashCodeNotZero() {
+        int hash1 = diogo.hashCode();
+        int hash2 = 0;
+        assertNotEquals(hash1, hash2);
     }
 }

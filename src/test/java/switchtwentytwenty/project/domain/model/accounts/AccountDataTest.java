@@ -8,7 +8,6 @@ import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
-import javax.smartcardio.CardTerminal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
