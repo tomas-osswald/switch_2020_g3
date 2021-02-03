@@ -64,8 +64,29 @@ class CCNumberTest {
     @Test
     void CreateValidCCNumberBC() {
         String testCCNumber = "000000000BC4";
+        String test2 = "134295072ZW0";
+        String test3 = "180925580ZY9";
+        String test4 = "164143653ZX6";
+        String test5 = "147563216ZX8";
+        String test6 = "163047960ZZ0";
+        String test7 = "164275746ZZ4";
+        String test8 = "127123911ZY7";
+        String test9 = "162241135ZZ5";
+        String test10 = "155301527ZX8";
+        String test11 = "121713253ZW7";
+
         try {
             CCNumber test = new CCNumber(testCCNumber);
+            CCNumber cc2 = new CCNumber(test2);
+            CCNumber cc3 = new CCNumber(test3);
+            CCNumber cc4 = new CCNumber(test4);
+            CCNumber cc5 = new CCNumber(test5);
+            CCNumber cc6 = new CCNumber(test6);
+            CCNumber cc7 = new CCNumber(test7);
+            CCNumber cc8 = new CCNumber(test8);
+            CCNumber cc9 = new CCNumber(test9);
+            CCNumber cc10 = new CCNumber(test10);
+            CCNumber cc11 = new CCNumber(test11);
         } catch (Exception e) {
             fail("Invalid CC Number");
         }

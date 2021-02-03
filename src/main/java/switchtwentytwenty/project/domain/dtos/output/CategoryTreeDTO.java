@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CategoryTreeDTO {
@@ -27,8 +28,12 @@ public class CategoryTreeDTO {
     public CategoryTreeDTO(CategoryService categoryService, FamilyService familyService, int familyID) {
         this.categories.addAll(categoryService.getStandardCategories());
         this.categories.addAll(familyService.getCustomCategories(familyID));
+        this.customCategories.addAll(familyService.getCustomCategories(familyID));
     }
 
+    public List<CustomCategory> getCustomCategories() {
+        return Collections.unmodifiableList(this.customCategories);
+    }
 
     /**
      * Method to return an Array of all the StandardCategories' Names
