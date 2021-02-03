@@ -52,16 +52,15 @@ This user story is dependent on the following:
 - US011_Add Family Administrator: to add an Administrator, that he is allowed to add a Family Member;
 - US101_Add Family Members: to add a Personal Cash Account
 - US170_Create Family Member Cash Account: to create a cash account from where money will be transferred or received.  
-- US120_Create Family Cash Account: to create a cash account to transfer money to family members in the first time. Only family cash account can transfer money to the family members after the creation of the family member´s personal cash account.
 
 # 2. Analysis
 
 For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
 
-- Other ID (User who will receive the money to his cash account);
 - Family ID (User's Family);
-- Card description (Card Description);
-- Withdrawal limit (Card usage limit).
+- Origin ID (User who will send the money from his cash account);
+- Destination ID (User who will receive the money to his cash account);
+- Ammount transfered;
 
 ##2.1. Domain Model Diagram
 
@@ -121,7 +120,8 @@ CashAccount <-- FamilyMember : has
 # 3. Design
 
 The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
-To execute the transfer
+To execute the transfer the controller will first invoke the FamilyService to get the respective Family
+
 
 The controller will return:
 - True, 
