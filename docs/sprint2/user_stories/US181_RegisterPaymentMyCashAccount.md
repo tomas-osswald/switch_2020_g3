@@ -117,10 +117,9 @@ participant ": UI" as UI
 participant ": addBankAccountController" as controller
 participant ": FFM Application" as app
 participant "famServ : FamilyService" as famService
+participant "catServ : CategoryService" as catService
 participant "accServ : AccountService" as accService
-participant "tranServ : TransactionService" as tranService
 participant "aFamilyMember : FamilyMember" as familyMember
-participant "aCashTran : CashTransaction" as cashTrans
 
 activate actor
 actor -> UI: registerPaymentInCashAccount(familyID,selfCC,accountID,paymentDate,ammount,categoryID)
@@ -133,11 +132,22 @@ app -> famService: getCashAccount(familyID,selfCC,accountID)
 activate famService
 famService -> familyMember: getCashAccount(familyID,selfCC,accountID)
 activate familyMember
+familyMember -> familyMember : getAccount(accountID)
 familyMember -> famService: ok
 deactivate familyMember
 famService -> app: ok
 deactivate famService
 app -> controller: ok
+deactivate app
+
+controller -> app : getCategory(categoryID)
+activate app
+app -> catService : getCategory(categoryID)
+activate catService
+catService -> catService : getCategory(categoryID)
+catService -> app : getCategory(categoryID)
+deactivate catService
+app -> controller : getCategory(categoryID)
 deactivate app
 
 controller -> app : verifyCashAccount(Account)
@@ -157,17 +167,8 @@ end
 
 controller -> app: registerPaymentInCashAccount(cashAccount,category,transactionDTO)
 activate app
-app -> tranService: registerPaymentInCashAccount(cashAccount,category,transactionDTO)
-activate tranService
-tranService -> tranService: checkIfBalanceIsEnough()
-alt Balance is not enough - FALSE
-  tranService -> tranService: fail
-else Balance is enough - TRUE
-  tranService -> cashTrans **: createCashTransaction(cashAccount,category,transactionDTO)
-  tranService -> tranService: addTransaction(aCashTransaction)
-end
-tranService -> app: ok
-deactivate tranService
+app -> : registerPaymentInCashAccount(cashAccount,category,transactionDTO)
+app <- : ok
 app -> controller: ok
 deactivate app
 controller -> UI: ok
@@ -175,6 +176,29 @@ deactivate controller
 UI -> actor: succeed
 deactivate UI
 deactivate actor
+
+@enduml
+````
+
+
+````puml
+@startuml
+autonumber
+title registerPaymentMyCashAccount
+
+participant "tranServ : TransactionService" as tranService
+participant "aCashTran : CashTransaction" as cashTrans
+
+-> tranService: registerPaymentInCashAccount(cashAccount,category,transactionDTO)
+activate tranService
+tranService -> tranService: hasEnoughMoneyForTransaction()
+alt Balance is not enough - FALSE
+  tranService -> tranService: fail
+else Balance is enough - TRUE
+  tranService -> cashTrans **: createCashTransaction(cashAccount,category,transactionDTO)
+  tranService -> tranService: addTransaction(aCashTransaction)
+end
+<- tranService : ok
 
 @enduml
 ````
