@@ -538,6 +538,6 @@ As previously referred this US has dependencies and integration with [US010_AddF
 
 
 # 6. Observations
-In the future the need for many of the validations will be made through the UI, when the user completes the Log In.
+In the future the need for many of the validations will be made through the UI, when the user completes the Login.
 This will allow the user to only have access to the features which he is permitted to access. Also, the user will only have access
 inside his own family, suppressing the necessity for familyID, familyMemberID and accountID.
