@@ -36,9 +36,21 @@ deactivate System
 
 # 2. Analysis
 
+In order to fulfill this requirement we need information from the family administrator. Those are:
+
+1. FamilyID - the identifier of the current family
+2. FamilyMemberCC - the CCNumber used to identify the family member that will receive the transaction
+3. AccountID - the identifier of the cash account
+4. TransferAmount and its Currency - the amount to be transferred, and the currency type of the transaction
+5. CategoryID - the identifier of the category for the transaction
+6. TransactionDesignation - a designation for the transaction
+7. TransactionDate - the date of the transaction, if the information is not given the current system date will be used
+
 If the family member doesn't have a cash account a new cash account will be created
-The money transfer must be a positive value and of the same currency as the family and destination cash account.
-The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
+The money transfer must be a positive value and of the same currency as the 
+family and destination cash account.
+The money transfer will only occur if the family has a cash account and if
+ that cash account has enough money for the transaction.
 
 # 3. Design
 
@@ -105,7 +117,7 @@ activate App
 App --> controller : AccountService
 deactivate App
 
-controller -> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, category, familyCashTransferDTO)
+controller -> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, familyCashTransferDTO)
 activate AccountService
 
 ref over AccountService
@@ -116,6 +128,13 @@ Family To Family Member
 end ref
 
 AccountService --> controller : success
+deactivate AccountService
+
+controller -> AccountService : getAccount(familyMember,AccountID)
+activate AccountService
+AccountService --> controller : personalCashAccount
+controller -> AccountService : getFamilyCashAccount(family)
+AccountService --> controller : familyCashAccount
 deactivate AccountService
 
 controller -> App : getTransactionService()
@@ -157,7 +176,7 @@ Participant "aFamilyMember\n : FamilyMember" as FamilyMember
 Participant "personalCashAccount\n : CashAccount" as personalCashAccount
 
 
--> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, category,\n familyCashTransferDTO)
+-> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember,\n familyCashTransferDTO)
 activate AccountService
 
 AccountService -> Family : getFamilyCashAccount()
@@ -200,6 +219,16 @@ opt if (personalCashAccount == null)
 AccountService -> personalCashAccount ** : create
 end
 
+AccountService -> personalCashAccount : checkCurrency(currency)
+activate personalCashAccount
+
+opt different currency
+personalCashAccount --> AccountService : false
+<-- AccountService : failure
+deactivate personalCashAccount
+end
+
+
 AccountService -> familyCashAccount : debit(transferAmount)
 
 AccountService -> personalCashAccount : credit(transferAmount)
@@ -236,7 +265,7 @@ deactivate personalCashAccount
 
 TransactionService -> personalCashAccount : registerTransaction(familyCashAccount, category, isCredit,\n remainingBalanceDestination, familyCashTransferDTO)
 activate personalCashAccount
-personalCashAccount --> TransactionService : remainingBalanceDestination
+personalCashAccount --> TransactionService : true
 deactivate personalCashAccount
 
 <-- TransactionService : success
