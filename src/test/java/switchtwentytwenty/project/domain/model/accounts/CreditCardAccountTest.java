@@ -3,7 +3,9 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.sandbox.Result;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -541,5 +543,31 @@ class CreditCardAccountTest {
         int resultTwo = creditCardAccountTwo.hashCode();
         int resultOne = creditCardAccount.hashCode();
         assertNotEquals(resultOne, resultTwo);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTO() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(1, cardDescriptionOne);
+
+        AccountIDAndDescriptionDTO result = creditCardAccount.getAccountIDAndDescriptionDTO();
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTONotEquals() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(2, cardDescriptionOne);
+
+        AccountIDAndDescriptionDTO result = creditCardAccount.getAccountIDAndDescriptionDTO();
+
+        assertNotEquals(expected, result);
+        assertNotNull(result);
     }
 }

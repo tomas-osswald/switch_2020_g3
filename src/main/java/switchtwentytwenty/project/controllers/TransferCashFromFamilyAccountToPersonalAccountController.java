@@ -38,7 +38,7 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
             if (category==null) return false;
 
             AccountService accountService = ffmApplication.getAccountService();
-            accountService.transferCashFromFamilyToFamilyMember(family, familyMember, category, familyCashTransferDTO);
+            if(!accountService.transferCashFromFamilyToFamilyMember(family, familyMember, familyCashTransferDTO)) return false;
 
             TransactionService transactionService = ffmApplication.getTransactionService();
             Account familyAccount = accountService.getAccount(familyMember, familyCashTransferDTO.getAccountID());

@@ -3,6 +3,8 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -356,5 +358,31 @@ class BankSavingsAccountTest {
 
         assertNotNull(bankSavingsAccount.getDescription());
         assertNotEquals(bankSavingsAccount.getDescription(), notExpected);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTO() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(1, "Conta");
+
+        AccountIDAndDescriptionDTO result = bankSavingsAccount.getAccountIDAndDescriptionDTO();
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTONotEquals() {
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(2, "Conta");
+
+
+        AccountIDAndDescriptionDTO result = bankSavingsAccount.getAccountIDAndDescriptionDTO();
+
+
+        assertNotEquals(expected, result);
+        assertNotNull(result);
     }
 }

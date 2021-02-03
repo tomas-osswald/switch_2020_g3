@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
+import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
@@ -30,6 +31,7 @@ class AddBankAccountControllerTest {
     String city = "Porto";
     String relacao = "filho";
 
+    String cc2 = "137843828ZX3";
 
     double balance = 0.6;
     double negativeBalance = -2;
@@ -44,8 +46,8 @@ class AddBankAccountControllerTest {
         addFamilyController.addFamily("Ribeiro");
         addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
 
-
     }
+
     @Test
     void addBankAccountTest1_Success() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
@@ -53,8 +55,14 @@ class AddBankAccountControllerTest {
     }
 
     @Test
-    void addBankAccountTest1_Fail() {
+    void addBankAccountTest1_Fail_NoFamily() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 100, CurrencyEnum.EURO);//familyID doesn't exists'
+        assertFalse(addBankAccountController.addBankAccount(addBankAccountDTO));
+    }
+
+    @Test
+    void addBankAccountTest1_Fail_NoFamilyMember() {
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc2, 1, CurrencyEnum.EURO);//familyMemberID doesn't exists'
         assertFalse(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
 

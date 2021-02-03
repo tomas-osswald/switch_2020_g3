@@ -174,7 +174,7 @@ class CheckCashAccountBalanceControllerTest {
 
     @Test
     void checkFamilyCashAccountBalanceFamilyWithOutCashAccount() {
-        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-2.00, null);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(cc, familyOneID);
 
@@ -186,7 +186,7 @@ class CheckCashAccountBalanceControllerTest {
         CreateFamilyCashAccountController createFamilyCashAccountController = new CreateFamilyCashAccountController(application);
         createFamilyCashAccountController.createFamilyCashAccount(familyOneID, accountDescriptionOne, valueOne, cc);
 
-        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-1.00, null);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(id2, familyOneID);
 
@@ -195,7 +195,7 @@ class CheckCashAccountBalanceControllerTest {
 
     @Test
     void checkFamilyCashAccountBalanceFamilyWithCashAccountFamilyDoesNotExist() {
-        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-2.00, null);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyCashAccountBalance(cc, familyIDDoesNotExist);
 
@@ -221,7 +221,7 @@ class CheckCashAccountBalanceControllerTest {
         AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(valueOne, accountDescriptionOne, id2, familyOneID,currency);
         createPersonalCashAccountController.createPersonalCashAccount(addCashAccountDTO);
 
-        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-1.00, null);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(id2, cc, accountIDOne, familyOneID);
 
@@ -230,7 +230,7 @@ class CheckCashAccountBalanceControllerTest {
 
     @Test
     void checkFamilyMemberCashAccountBalanceNoCashAccount() {
-        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-2.00, null);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(cc, id2, accountIDOne, familyOneID);
 
@@ -239,7 +239,7 @@ class CheckCashAccountBalanceControllerTest {
 
     @Test
     void checkFamilyMemberCashAccountBalanceFamilyMemberDoesNotExist() {
-        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-2.00, null);
 
         MoneyValue result = checkCashAccountBalanceController.checkFamilyMemberCashAccountBalance(cc, familyMemberIDDoesNotExist, accountIDOne, familyOneID);
 
