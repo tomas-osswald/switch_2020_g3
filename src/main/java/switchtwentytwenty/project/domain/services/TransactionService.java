@@ -77,17 +77,12 @@ public class TransactionService {
         return isBetweenDates;
     }
 
-    public boolean registerCashTransfer(Account originAccount, Account destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        if (!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
-            throw new IllegalArgumentException("Invalid AccountType");
-        if (!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
-            throw new IllegalArgumentException("Invalid AccountType");
-        CashAccount originCashAccount = (CashAccount) originAccount;
-        CashAccount destinationCashAccount = (CashAccount) destinationAccount;
+    public boolean registerCashTransfer(CashAccount originAccount, CashAccount destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+
         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originCashAccount.registerTransaction(destinationCashAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
-        destinationCashAccount.registerTransaction(originCashAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
         return true;
     }
 

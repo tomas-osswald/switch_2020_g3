@@ -21,8 +21,8 @@ public class GetListOfMovementsBetweenDatesController {
     }
 
     public List<TransactionDataDTO> getListOfMovementsBetweenDates(int familyID, String ccNumber, int accountID, Date startDate, Date endDate) {
-        AccountService accountService = new AccountService();
-        TransactionService transactionService = new TransactionService();
+        AccountService accountService = ffmApplication.getAccountService();
+        TransactionService transactionService = ffmApplication.getTransactionService();
         List<TransactionDataDTO> exceptionList = null;
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
