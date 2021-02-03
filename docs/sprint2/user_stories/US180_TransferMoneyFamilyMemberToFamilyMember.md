@@ -10,10 +10,6 @@ As a family member, I want to add to transfer money from my cash account to anot
 
 - 1.1. transfer money from my cash account to another family member’s cash account:
  
-**Extracted from communications with the Product Owner**
-
-- >*"lorem ipsum"*;
-- >*" "*;
 
 We interpreted this requirement as the function of a family member to transfer money from his cash account to another family member’s cash account.
 
@@ -51,16 +47,17 @@ This user story is dependent on the following:
 - US010_Add Family: to create a family;
 - US011_Add Family Administrator: to add an Administrator, that he is allowed to add a Family Member;
 - US101_Add Family Members: to add a Personal Cash Account
-- US170_Create Family Member Cash Account: to create a cash account from where money will be transferred or received.  
+- US170_Create Family Member Cash Account: to create a cash account from where money will be transferred or received.
 
 # 2. Analysis
 
-For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
+To  meet the requirements of this particular US we need at this stage the input of the following necessary data:
 
 - Family ID (User's Family);
-- Origin ID (User who will send the money from his cash account);
-- Destination ID (User who will receive the money to his cash account);
+- Origin FamilyMember ID (User who will send the money from his cash account);
+- Destination Family Member ID (User who will receive the money to his cash account);
 - Ammount transfered;
+- Category
 
 ##2.1. Domain Model Diagram
 ```puml
@@ -81,20 +78,6 @@ Name
 BirthDate
 }
 
-
-
-class Address {
-Street
-Postal Code
-Local
-City
-}
-
-class CashAccount {
-UniqueID
-Balance
-}
-
 class Relation {
 Designation
 }
@@ -106,17 +89,11 @@ Name
 
 Family "*" -- "*" Category : \n\nhas standard >
 Family "1" -- "0..*" Category : \n\nhas custom >
-Family "1" -- "1" CashAccount : has >
 Family "1" -- "1" FamilyMember : has administrator >
 Family "1" -- "1..*" FamilyMember : has members >
 FamilyMember "1" -- "0..1" Relation : has >
 
-
 ````
-
-## 2.2. Teste diagrama
-
-
 
 # 3. Design
 
