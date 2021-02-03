@@ -66,6 +66,11 @@ public class IBAN {
         return Objects.equals(ibanNumber, that.ibanNumber);
     }
 
+    @Override
+    public int hashCode(){
+        return Objects.hash(ibanNumber);
+    }
+
     /**
      * Method to translate characters to its value
      * Adaptado de https://www.autenticacao.gov.pt/documents/

@@ -143,4 +143,9 @@ public class CCNumber {
         CCNumber that = (CCNumber) o;
         return Objects.equals(ccNumber, that.ccNumber);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ccNumber);
+    }
 }

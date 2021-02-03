@@ -111,8 +111,8 @@ public class AccountData {
     }
 
 
-    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, familyCashTransferDTO);
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category,MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }

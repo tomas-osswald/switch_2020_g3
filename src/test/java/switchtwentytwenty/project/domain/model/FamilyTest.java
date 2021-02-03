@@ -443,6 +443,8 @@ class FamilyTest {
         Assertions.assertEquals(customCategory, result);
     }
 
+
+
     @Test
     void getCustomCategoryByID_IDoutOfBounds() {
         int customCategoryID = -1;

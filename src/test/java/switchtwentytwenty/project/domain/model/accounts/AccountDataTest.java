@@ -9,11 +9,11 @@ import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
-import javax.smartcardio.CardTerminal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class AccountDataTest {
 
@@ -21,6 +21,7 @@ class AccountDataTest {
     String designation = "Cash Account";
     int accountID = 1001;
     AccountData accountData = new AccountData(balance, designation, accountID);
+    MoneyValue remainingBalance = new MoneyValue(200.0,CurrencyEnum.EURO);
 
     @Test
     void isIDOfThisAccount_sameIDTrue() {
@@ -71,8 +72,13 @@ class AccountDataTest {
     }
 
     @Test
-    void getListOfMovements() {
+    void hasEnoughMoneyForTransaction_NegativeValue() {
+        MoneyValue valueSpent = new MoneyValue(-200.0, CurrencyEnum.EURO);
+        assertThrows(IllegalArgumentException.class,()->{
+            accountData.hasEnoughMoneyForTransaction(valueSpent);
+        });
     }
+
 
     @Test
     void constructorForAccountData_UsingMoneyValue() {
@@ -162,13 +168,12 @@ class AccountDataTest {
     void registerCashTransaction_TestSuccess() {
         //Arrange
         CashAccount cashAccount = null;
-        Category category = new StandardCategory("Testing",null,0);
+        Category category = new StandardCategory("Testing", null, 0);
         Date date = new Date();
-        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1,"",1,25.00,CurrencyEnum.EURO,1,"Transferencia de Teste",date);
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "", 1, 25.00, CurrencyEnum.EURO, 1, "Transferencia de Teste", date);
         boolean credit = true;
-
         //Act
-        boolean result = accountData.registerCashTransaction(cashAccount,category,familyCashTransferDTO,credit);
+        boolean result = accountData.registerCashTransaction(cashAccount,category,remainingBalance,familyCashTransferDTO,credit);
 
         //Assert
         Assertions.assertTrue(result);
@@ -178,16 +183,16 @@ class AccountDataTest {
     void registerCashTransaction_TestAccountList() {
         //Arrange
         CashAccount cashAccount = null;
-        Category category = new StandardCategory("Testing",null,0);
+        Category category = new StandardCategory("Testing", null, 0);
         Date date = new Date();
-        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1,"",1,25.00,CurrencyEnum.EURO,1,"Transferencia de Teste",date);
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "", 1, 25.00, CurrencyEnum.EURO, 1, "Transferencia de Teste", date);
         boolean credit = true;
         int expected = 1;
         //Act
-        accountData.registerCashTransaction(cashAccount,category,familyCashTransferDTO,credit);
+        accountData.registerCashTransaction(cashAccount,category,remainingBalance,familyCashTransferDTO,credit);
         int result = accountData.getListOfMovements().size();
         //Assert
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -196,6 +201,13 @@ class AccountDataTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 accountData.hasEnoughMoneyForTransaction(negativeValue));
+    }
+
+    @Test
+    void hasEnoughMoneyForTransaction_TestBoundaryNotThrow() {
+        MoneyValue zeroValue = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        assertDoesNotThrow(() -> accountData.hasEnoughMoneyForTransaction(zeroValue));
     }
 
     @Test

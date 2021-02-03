@@ -19,7 +19,6 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
 
     public boolean transferCashFromFamilyToFamilyMember(FamilyCashTransferDTO familyCashTransferDTO) {
         FamilyService familyService = this.ffmApplication.getFamilyService();
-        CategoryService categoryService = this.ffmApplication.getCategoryService();
         int familyID = familyCashTransferDTO.getFamilyID();
         String familyMemberCC = familyCashTransferDTO.getFamilyMemberCC();
         int categoryID = familyCashTransferDTO.getCategoryID();
@@ -29,7 +28,10 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
             Family family = familyService.getFamily(familyID);
             FamilyMember familyMember = familyService.getFamily(familyID).getFamilyMember(familyMemberCC);
 
-            if (categoryID>=0) category = categoryService.getStandardCategoryByID(categoryID);
+            if (categoryID>=0) {
+                CategoryService categoryService = this.ffmApplication.getCategoryService();
+                category = categoryService.getStandardCategoryByID(categoryID);
+            }
             else category = family.getCustomCategoryByID(categoryID);
             if (category==null) return false;
 
