@@ -150,7 +150,8 @@ class AccountServiceTest {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
         AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
+        accountService.addBankAccount(addBankAccountDTO, diogo);
+        assertTrue(accountService.addBankAccount(addBankAccountDTO2, diogo));
     }
 
     @Test

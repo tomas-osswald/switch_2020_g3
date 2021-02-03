@@ -115,7 +115,7 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, Category category, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
@@ -158,7 +158,7 @@ public class AccountService {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
             if (account.checkAccountType(CASHACCOUNT)) {
-                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = account.getAccountIDAndDescriptionDTO();
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
         }
