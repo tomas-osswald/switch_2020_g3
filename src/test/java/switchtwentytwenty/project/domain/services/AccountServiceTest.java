@@ -585,9 +585,9 @@ class AccountServiceTest {
 
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
-        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(), categoryID, transactionDesignation, transactionDate);
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(),transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
 
-        boolean result = accountService.transferCashBetweenFamilyMembersCashAccounts(simpsonFamily, mary, tony, category, transferDTO);
+        boolean result = accountService.transferCashBetweenFamilyMembersCashAccounts( mary, tony, transferDTO);
 
         assertTrue(result);
     }
@@ -627,9 +627,9 @@ class AccountServiceTest {
 
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
-        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(), categoryID, transactionDesignation, transactionDate);
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(),transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
         Assertions.assertThrows(NullPointerException.class, () -> {
-            accountService.transferCashBetweenFamilyMembersCashAccounts(simpsonFamily, mary, tony, category, transferDTO);
+            accountService.transferCashBetweenFamilyMembersCashAccounts( mary, tony,  transferDTO);
         });
     }
 

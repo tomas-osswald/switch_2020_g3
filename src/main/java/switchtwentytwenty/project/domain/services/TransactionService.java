@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
@@ -82,6 +83,14 @@ public class TransactionService {
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
         originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
         destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        return true;
+    }
+
+    public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
+         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+        MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
+        originAccount.registerTransactionOther(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransactionOther(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

@@ -229,7 +229,7 @@ public class Family {
 
     @Override
     public int hashCode() {
-        return Objects.hash(familyID, familyName, registrationDate, familyMembers, relationDesignations, familyCashAccount, familyCustomCategories, familyRelations);
+        return Objects.hash(familyID, familyName, familyMembers, relationDesignations, familyCashAccount, familyCustomCategories, familyRelations);
     }
 
 

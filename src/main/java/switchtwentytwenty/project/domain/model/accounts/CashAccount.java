@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
@@ -108,6 +109,11 @@ public class CashAccount implements Account {
 
     public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, FamilyCashTransferDTO familyCashTransferDTO) {
         accountData.registerCashTransaction(targetAccount, category,remainingbalance, familyCashTransferDTO, credit);
+        return true;
+    }
+
+    public boolean registerTransactionOther(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, CashTransferDTO cashTransferDTO) {
+        accountData.registerCashTransaction(targetAccount, category,remainingbalance, cashTransferDTO, credit);
         return true;
     }
 
