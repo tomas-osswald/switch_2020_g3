@@ -4,7 +4,7 @@
 
 # 1. Requirements
 
-*As a family administrator, I want to transfer money from the family cash account to another family's member cash account*
+*As a family administrator, I want to transfer money from the family cash account to any family's member cash account*
 
 
 **1** As a family administrator, I want to transfer money from the family cash account to...
@@ -51,6 +51,13 @@ The money transfer must be a positive value and of the same currency as the fami
 The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
 
 # 3. Design
+
+This functionality allows the family administrator to make a cash transfer between its family cash account and the cash account of one of the family's members.
+The transfer is done by first removing the value from the family account (after checking if the transaction can occur) and then adding that money to the personal cash account.
+We decided that if the family member had no cash account, a new cash account should be created for him.
+After the transfer is done the data is recorded in each of the accounts as a new transaction.
+
+## 3.1. Functionality Use
 
 ````puml
 @startuml
@@ -270,6 +277,32 @@ deactivate personalCashAccount
 deactivate TransactionService
 
 ````
+
+## 3.2. Class Diagram
+
+## 3.3. Applied Patterns
+
+We applied the following principles:
+
+- GRASP:
+    - Information expert:
+        - This pattern was used in classes that implemented the Account interface, as well as the CashTransactions;
+        
+    - Controller:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use a case controller.
+        
+    - Pure Fabrication:
+        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsabilities of the other classes (Family and FamilyMember for example)
+        
+    - High cohesion and Low Coupling:
+        - The creation of the Service classes provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+                    
+- SOLID:
+    - Single-responsibility principle:
+        - this pattern was used in the AccountService class, in which it the only responsibility is manage account operations while all the transaction registration responsibilities were delegated to the TransactionService.
+
+## 3.4. Tests
+
 
 
 # 4. Implementation
