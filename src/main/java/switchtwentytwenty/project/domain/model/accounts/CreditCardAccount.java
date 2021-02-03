@@ -233,8 +233,7 @@ public class CreditCardAccount implements Account {
      * @return AccountIDAndDescriptionDTO
      */
     public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO() {
-        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
-        return accountIDAndDescriptionDTO;
+        return new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
     }
 
     /**

@@ -13,9 +13,11 @@ As a family member, I want to add to a credit card account I have:
 **Extracted from communications with the Product Owner**
 
 - >*"A card does not have to be associated with a bank account."*;
-- >*" "*;
+- >*"Balance of a credit card account is the amount due at that moment"*;
+- >*"Must have interest (which maybe just a fraction of the total amount in debt due to the fractioning of payments into the future)"*.
 
 We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio.
+The Credit Card Account must have a Balance, which is the value due to the moment, and from that total the amount that is due in interest.
 
 ## 1.2. System Sequence Diagram
 
@@ -59,7 +61,12 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 - Self ID (User who wants to add a credit card account);
 - Family ID (User's Family);
 - Card description (Card Description);
-- Withdrawal limit (Card usage limit).
+- Withdrawal limit (Card usage limit);
+- Total Debt (Total debt owned at the moment);
+- Interest Debt (Fraction of Total Debt, which is due to interest);
+- Currency (Currency of the Credit Card).
+
+The account will be stored inside the Family Member. The Family and Family Member IDs will be used to identify the correct user where to add the account.
 
 ##2.1. Domain Model Diagram
 
@@ -68,33 +75,72 @@ hide empty members
 hide circle
 title Domain Model Diagram US173
 
-class Family {
-- Name
-- UniqueID
-- RegistrationDate
+class AddCreditCardAccountDTO{
+  - familyMemberID
+  - familyID
+  - description
+  - withdrawalLimit
+  - totalDebt
+  - interestDebt
+  - currency
+}
+class AddCreditCardAccountController {
+  + addBankAccount()
+}
 
+class Application {
+  + getFamilyService() 
+  + getAccountService()
+}
+
+class FamilyService {
+  + getFamily()
+}
+
+class Family {
+  - getFamilyMemberByID() 
 }
 
 class FamilyMember {
-- Name
-- BirthDate
+  # compareID()
+  + addBankAccount()
+  
 }
 
-class Account {
-
+class AccountService {
+  + addBankAccount()
+  + createBankAccount()
+}
+class BankAccount {
+  - accountType
+  + create()
 }
 
-class CreditCardAccount{
-- ID
-- IBAN
-- Limit
-- Balance
-- AssociatedBankAccount
+interface Account{
+}
+class AccountData {
+  - balance
+  - description
+  - accountID
+  - creationDate
+}
+class MoneyValue {
+  - value
+  - currency
 }
 
-Family -down-> FamilyMember : has Family members
-FamilyMember -down-> Account  : has List of Accounts
-CreditCardAccount -> Account : Is a
+AddCreditCardAccountController -> Application: has
+AddCreditCardAccountController <-- AddCreditCardAccountDTO: accepts
+AddCreditCardAccountController -> FamilyService: calls
+FamilyService -> Family: has list
+Family --> FamilyMember: has list
+AddCreditCardAccountController --> AccountService: calls
+AccountService --> BankAccount: creates
+BankAccount -|> Account: implements
+BankAccount <-- AddCreditCardAccountDTO: accepts
+FamilyMember --> BankAccount: adds
+BankAccount --* AccountData: contains
+AccountData --> MoneyValue: has
 ```
 
 # 3. Design
@@ -215,6 +261,17 @@ Account  <-- CreditCardAccount : Is a
 
 ## 3.3. Applied Patterns
 
+We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
+used the SOLID SRP principle.
+
+Since Account type Classes would be coupled with Family and Family Member, this would result in high Coupling and Low
+Cohesion between these Classes.
+
+Besides, the Information Expert and the Creator patterns would be divided by two Classes: Family and Family Member.
+Following that, we decided to apply the Pure Fabrication Principle and created an Account Service Class.
+
+This Class is responsible for all operations regarding Account type Classes, thus providing low Coupling and high
+Cohesion, keeping one Class as the Information Expert and applying the Single Responsibility Principle.
 
 ## 3.4. Tests
 
@@ -224,6 +281,12 @@ Account  <-- CreditCardAccount : Is a
 
 # 5. Integration/Demonstration
 
+The development of this US will have an impact on the development of the US185 (Get Account Balance), as it was returning the balance of an Account of a Family Member. So, the [US185](US185_GetAccountBalance.md) uses the implementation of this US.
 
 # 6. Observations
 
+In the future we're thinking about implementing a forecast feature to calculate expected interest debt based on the past data.
+
+Also in the future, the two issues we have to deal with are the following:
+- The familyID and FamilyMemberID will be solved when the UI and login layer are set up,
+- The IBAN will be implemented when the App requires it.
