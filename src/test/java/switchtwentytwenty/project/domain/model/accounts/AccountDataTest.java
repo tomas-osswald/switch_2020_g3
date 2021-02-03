@@ -11,11 +11,8 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-<<<<<<< HEAD
-import static org.junit.jupiter.api.Assertions.assertThrows;
-=======
 import static org.junit.jupiter.api.Assertions.*;
->>>>>>> master
+
 
 class AccountDataTest {
 
