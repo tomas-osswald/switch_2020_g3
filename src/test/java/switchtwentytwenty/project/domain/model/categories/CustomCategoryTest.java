@@ -7,6 +7,7 @@ class CustomCategoryTest {
     StandardCategory parentCategory = new StandardCategory("Others", null, 10);
     CustomCategory testCategory1 = new CustomCategory("Video Games", parentCategory, -12);
     CustomCategory testCategory2 = new CustomCategory("WOW Subscription", testCategory1, -13);
+    CustomCategory testCategoryRoot = new CustomCategory("OnlyFans", -5);
 
     @Test
     void getCategoryName() {
@@ -58,18 +59,27 @@ class CustomCategoryTest {
     }
 
     @Test
-    void createCustomCategoryWithoutParent(){
-        CustomCategory testCategory3 = new CustomCategory("Educação",-100);
+    void createCustomCategoryWithoutParent() {
+        CustomCategory testCategory3 = new CustomCategory("Educação", -100);
 
         Assertions.assertNotNull(testCategory3);
     }
+
     @Test
     void createCustomcategoryWithoutParentsInvalidName() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            CustomCategory testCategory3 = new CustomCategory("",-100);
+            CustomCategory testCategory3 = new CustomCategory("", -100);
         });
     }
 
 
+    @Test
+    void isRootCategoryTrue() {
+        Assertions.assertTrue(testCategoryRoot.isRootCategory());
+    }
 
+    @Test
+    void isRootCategoryFalse() {
+        Assertions.assertFalse(testCategory2.isRootCategory());
+    }
 }

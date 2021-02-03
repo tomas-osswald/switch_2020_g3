@@ -4,22 +4,19 @@ import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.user_data.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 public class FamilyMember {
 
+    private final Date birthDate;
+    private final VatNumber vatNumber;
+    private final Address address;
     // Attributes
     private CCNumber ccNumber;
     private String name;
-    private final Date birthDate;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
     private List<EmailAddress> emails = new ArrayList<>();
-    private final VatNumber vatNumber;
-    private final Address address;
     private boolean administrator;
     private List<Account> accounts = new ArrayList<>();
 
@@ -164,11 +161,11 @@ public class FamilyMember {
      * @return True if the EmailAddress object is successfully created and added to the EmailAddress ArrayList
      */
     public boolean addEmail(String emailToAdd) {
-        try{
+        try {
             EmailAddress newEmail = new EmailAddress(emailToAdd);
             emails.add(newEmail);
             return true;
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return false;
         }
 
@@ -229,6 +226,11 @@ public class FamilyMember {
             if (account.isIDOfThisAccount(accountID)) return account;
         }
         return null;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ccNumber, name, birthDate, phoneNumbers, emails, vatNumber, address, administrator, accounts);
     }
 
 }

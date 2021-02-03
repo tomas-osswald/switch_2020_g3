@@ -19,6 +19,13 @@ public class CustomCategory implements Category {
         this.categoryID = categoryID;
     }
 
+    public boolean isRootCategory() {
+        if (parentCategory == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public String getCategoryName() {
         return categoryName;
@@ -33,7 +40,7 @@ public class CustomCategory implements Category {
     }
 
     private boolean isNameValid(String categoryName) {
-        if (categoryName == null || categoryName.isEmpty() || categoryName.trim().length()==0) return false;
+        if (categoryName == null || categoryName.isEmpty() || categoryName.trim().length() == 0) return false;
         return true;
     }
 }
