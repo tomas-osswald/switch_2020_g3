@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;

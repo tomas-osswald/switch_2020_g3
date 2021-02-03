@@ -9,9 +9,9 @@ public class Application {
     private EmailService emailService = new EmailService();
     private CategoryService categoryService = new CategoryService();
     private FamilyService familyService = new FamilyService();
-    private AccountService accountService = new AccountService();
-    private RelationService relationService = new RelationService();
-    private TransactionService transactionService = new TransactionService();
+    //private AccountService accountService = new AccountService();
+    //private RelationService relationService = new RelationService();
+    //private TransactionService transactionService = new TransactionService();
 
     // Constructors
     public Application() {
@@ -22,7 +22,7 @@ public class Application {
     }
 
     public AccountService getAccountService() {
-        return this.accountService;
+        return new AccountService();
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -40,9 +40,11 @@ public class Application {
     }
 
     public RelationService getRelationService() {
-        return this.relationService;
+        return new RelationService();
     }
 
-    public TransactionService getTransactionService(){ return this.transactionService; }
+    public TransactionService getTransactionService() {
+        return new TransactionService();
+    }
 
 }
