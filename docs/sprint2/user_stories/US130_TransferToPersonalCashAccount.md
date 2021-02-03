@@ -289,7 +289,7 @@ We applied the following principles:
         - This pattern was used in classes that implemented the Account interface, as well as the CashTransactions;
         
     - Controller:
-        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use a case controller.
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use-case controller.
         
     - Pure Fabrication:
         - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsabilities of the other classes (Family and FamilyMember for example)
@@ -299,7 +299,7 @@ We applied the following principles:
                     
 - SOLID:
     - Single-responsibility principle:
-        - this pattern was used in the AccountService class, in which it the only responsibility is manage account operations while all the transaction registration responsibilities were delegated to the TransactionService.
+        - this pattern was used in the AccountService class, in which the only responsibility is to manage account operations while all the transaction registration responsibilities were delegated to the TransactionService.
 
 ## 3.4. Tests
 
