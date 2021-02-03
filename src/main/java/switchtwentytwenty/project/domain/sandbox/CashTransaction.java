@@ -12,12 +12,12 @@ public class CashTransaction implements Transaction {
     private TransactionData transactionData;
     private Account otherAccount;
 
-    public CashTransaction(Account targetAccount, Category category,boolean credit, FamilyCashTransferDTO familyCashTransferDTO) {
+    public CashTransaction(Account targetAccount, Category category,boolean credit, MoneyValue remainingBalance, FamilyCashTransferDTO familyCashTransferDTO) {
         this.otherAccount = targetAccount;
         String designation = familyCashTransferDTO.getTransactionDesignation();
         MoneyValue transferedValue = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
         Date transactionDate = familyCashTransferDTO.getTransactionDate();
-        this.transactionData = new TransactionData(designation, transferedValue,credit, transactionDate, category);
+        this.transactionData = new TransactionData(designation, transferedValue,credit,remainingBalance, transactionDate, category);
     }
 
     /**

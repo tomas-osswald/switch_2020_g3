@@ -2,6 +2,7 @@ package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
@@ -64,6 +65,7 @@ class GetListOfMovementsBetweenDatesControllerTest {
 
     double transferAmount = 200.0;
     CurrencyEnum currency = CurrencyEnum.EURO;
+    MoneyValue remainingBalance = new MoneyValue(100.0,currency);
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDateOne = new Date(2021, 0, 21);
@@ -92,7 +94,7 @@ class GetListOfMovementsBetweenDatesControllerTest {
 
     @Test
     void checkIfListObtainedFromCashAccount() {
-        cashAccount.registerTransaction(cashAccount, categoria1,true, transacaoDTO1);
+        cashAccount.registerTransaction(cashAccount, categoria1,true,remainingBalance, transacaoDTO1);
         int expected = 1;
 
         List<TransactionDataDTO> result = controller.getListOfMovementsBetweenDates(testFamilyID, cc, cashAccountID, startDateOne, endDateThree);
