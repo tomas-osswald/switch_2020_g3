@@ -1,7 +1,11 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+
 import switchtwentytwenty.project.domain.model.transactions.Transaction;
+
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
+
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
@@ -104,6 +108,11 @@ public class BankSavingsAccount implements Account {
      */
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
+    }
+
+    public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO(){
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
+        return accountIDAndDescriptionDTO;
     }
 
     public void debit(MoneyValue value) { //expense

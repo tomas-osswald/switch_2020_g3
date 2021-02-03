@@ -33,7 +33,7 @@ public class CheckCashAccountBalanceController {
         if (familyService.verifyAdministratorPermission(familyID, selfID)) {
             Family family = familyService.getFamily(familyID);
             FamilyMember familyMember = family.getFamilyMember(otherID);
-            AccountService accountService = new AccountService();
+            AccountService accountService = ffmapplication.getAccountService();
             return accountService.getListOfCashAccountsOfAFamilyMember(familyMember);
 
         } else {
@@ -54,13 +54,13 @@ public class CheckCashAccountBalanceController {
         try {
             if (familyService.verifyAdministratorPermission(familyID, selfID)) { // verify if is Administrator
                 Family family = familyService.getFamily(familyID);
-                AccountService accountService = new AccountService();
+                AccountService accountService = ffmapplication.getAccountService();
                 moneyValue = accountService.getFamilyCashAccountBalance(family);
             } else { // Not an Administrator
-                moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
+                moneyValue = new MoneyValue(-1.00, null); //empty money value, isto tem que ser melhorado!!!!!
             }
         } catch (Exception e) { // Family Does Not Exist
-            moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
+            moneyValue = new MoneyValue(-2.00, null); //empty money value, isto tem que ser melhorado!!!!!
 
         }
         return moneyValue;
@@ -82,13 +82,13 @@ public class CheckCashAccountBalanceController {
             if (familyService.verifyAdministratorPermission(familyID, selfID)) { // verify if is Administrator
                 Family family = familyService.getFamily(familyID);
                 FamilyMember familyMember = family.getFamilyMember(otherID);
-                AccountService accountService = new AccountService();
+                AccountService accountService = ffmapplication.getAccountService();
                 moneyValue = accountService.getFamilyMemberCashAccountBalance(familyMember, accountID);
             } else {
-                moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
+                moneyValue = new MoneyValue(-1.00, null); //empty money value, isto tem que ser melhorado!!!!!
             }
         } catch (Exception e) {
-            moneyValue = new MoneyValue(0.00, CurrencyEnum.EURO); //empty money value, isto tem que ser melhorado!!!!!
+            moneyValue = new MoneyValue(-2.00, null); //empty money value, isto tem que ser melhorado!!!!!
         }
         return moneyValue;
     }
