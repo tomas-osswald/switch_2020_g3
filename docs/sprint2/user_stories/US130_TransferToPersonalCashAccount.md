@@ -1,77 +1,28 @@
+# US130 Transfer Money from Family Cash Account To a Personal Cash Account
+==========================================================================
+
+
+# 1. Requirements
+
+*As a family administrator, I want to transfer money from the family cash account to another family's member cash account*
+
+
+**1** As a family administrator, I want to transfer money from the family cash account to...
+
+- 1.1. The already existing cash account of a family member;
+
+- 1.2. A new cash account of a family member;
+
+We interpreted this requirement as a function for the family administrator to transfer money from the family cash account
+to the cash account of any family member. If the family member doesn't have a cash account a new cash account will be created
+The money transfer must be a positive value and of the same currency as the family and destination cash account.
+The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
+
+# 2. Analysis
+
+
+
 # 3. Design
-
-
-```` puml
-
-   autonumber
-   title Transfer Money From Family Cash Account To a Personal Cash Account
-   actor "Family Administrator" as famAdmin
-   participant ": UI" as UI
-   participant ": TransferToPersonalCashAccountController" as controller
-   participant ": FFMApplication" as application
-   
-   
-   participant ": AccountService" as accServ
-   participant ": FamilyService" as famServ
-   participant "aFamily : Family" as fam
-   participant "aFamilyMember : FamilyMember" as famMemb
-   
-
-
-   participant "newCashAccount : Account" as cashacc
-   participant "newAccountData : AccountData" as data
-    
-   
-   activate member
-   member -> UI: create a Personal Cash Account
-   activate UI
-   UI --> member: ask for Account name
-   deactivate UI
-   member -> UI: input Account name
-   activate UI
-   UI -> controller: createPersonalCashAccount(name,familyID, familyMemberCC,initialBalance)
-   activate controller
-   controller -> application: getAccountService()
-   activate application
-   application --> controller: AccountService
-   controller -> application: getFamilyService()
-   application --> controller: FamilyService
-   deactivate application
-   controller -> famServ:getFamilyMember(familyID, familyMemberCC)
-   activate famServ
-   famServ-> fam: getFamilyMember(familyMemberCC)
-   activate fam
-   fam --> famServ: FamilyMember
-   deactivate fam
-   famServ --> controller: FamilyMember
-   deactivate famServ 
-   controller -> accServ: createPersonalCashAccount(FamilyMember, name, initialBalance)
-   activate accServ
-   accServ -> accServ: generateAccountID()
-   accServ -> cashacc**: newCashAccount(name, initialBalance, accountID)
-   activate cashacc
-   cashacc -> cashacc: validateName(name)
-   cashacc->cashacc: validateBalance(balance)
-   cashacc->data**: createAccountData(name, initialBalance, accountID)
-   activate data
-   data-->cashacc: becomes CashAccount.AccountData
-   deactivate data
-   cashacc-->accServ: Success
-   deactivate cashacc
-   accServ->fammemb: addAccount(newCashAccount)
-   activate fammemb
-   fammemb-->accServ: Success
-   deactivate fammemb
-   accServ-->controller: Success
-   deactivate accServ
-   controller --> UI: Success
-   deactivate controller
-   UI --> member: Inform Success
-   deactivate UI
-   deactivate member
-
-@endpuml
-````
 
 ````puml
 @startuml
@@ -79,53 +30,62 @@
 autonumber
 
 Actor "FamilyAdmin" as Actor
-Participant "TransferCashFromFamilyAccount\nToPersonalAccountController" as TransferCashFromFamilyAccountToPersonalAccountController
-Participant "Application" as App
-Participant "FamilyService" as FamilyService
+Participant ": TransferCashFromFamilyAccount\nToPersonalAccountController" as controller
+Participant ": Application" as App
+Participant ": FamilyService" as FamilyService
 Participant "aFamily\n : Family" as Family
+Participant ": CategoryService" as CategoryService
+Participant ": AccountService" as AccountService
 Participant "aFamilyMember\n : FamilyMember" as FamilyMember
 
+Actor -> controller : Transfer Money to Family Member
+controller -> Actor : ask for required data
 
-Actor -> TransferCashFromFamilyAccountToPersonalAccountController : transferCashFrom\nFamilyToFamilyMember\n(FamilyCashTransferDTO)
-activate TransferCashFromFamilyAccountToPersonalAccountController
-TransferCashFromFamilyAccountToPersonalAccountController -> App : getFamilyService()
+Actor -> controller : transferCashFrom\nFamilyToFamilyMember\n(FamilyCashTransferDTO)
+activate controller
+controller -> App : getFamilyService()
 activate App
-App --> TransferCashFromFamilyAccountToPersonalAccountController : FamilyService
+App --> controller : FamilyService
 deactivate App
 
-TransferCashFromFamilyAccountToPersonalAccountController -> FamilyService : getFamily(familyID)
+controller -> FamilyService : getFamily(familyID)
 activate FamilyService
-FamilyService --> TransferCashFromFamilyAccountToPersonalAccountController : aFamily
+FamilyService --> controller : aFamily
 deactivate FamilyService
 
-TransferCashFromFamilyAccountToPersonalAccountController -> Family : getFamilyMember(familyMemberCC)
+controller -> Family : getFamilyMember(familyMemberCC)
 activate Family
-Family --> TransferCashFromFamilyAccountToPersonalAccountController : aFamilyMember
+Family --> controller : aFamilyMember
 deactivate Family
 
-TransferCashFromFamilyAccountToPersonalAccountController -> App : getCategoryService()
-activate App
-App --> TransferCashFromFamilyAccountToPersonalAccountController : CategoryService
-deactivate App
+
 
 alt categoryID >= 0
-
-TransferCashFromFamilyAccountToPersonalAccountController -> CategoryService : getStandardCategoryByID(categoryID)
+controller -> App : getCategoryService()
+activate App
+App --> controller : CategoryService
+deactivate App
+controller -> CategoryService : getStandardCategoryByID(categoryID)
 activate CategoryService
-CategoryService --> TransferCashFromFamilyAccountToPersonalAccountController : category
+CategoryService --> controller : aCategory
 deactivate CategoryService
 
 else categoryID < 0
 
-TransferCashFromFamilyAccountToPersonalAccountController -> Family : getCustomCategoryByID(categoryID)
+controller -> Family : getCustomCategoryByID(categoryID)
 activate Family
-Family --> TransferCashFromFamilyAccountToPersonalAccountController : category
+Family --> controller : aCategory
 deactivate Family
 
 end
 
-TransferCashFromFamilyAccountToPersonalAccountController -> AccountService : transferCashFromFamilyToFamilyMember(aFamily, aFamilyMember, category, familyCashTransferDTO)
+controller -> AccountService : transferCashFromFamilyToFamilyMember(aFamily, aFamilyMember, category, familyCashTransferDTO)
 activate AccountService
+
+AccountService -> Family : getFamilyCashAccount()
+activate Family
+Family --> AccountService : familyCashAccount
+deactivate Family
 
 AccountService -> FamilyMember : getAccount
 activate FamilyMember
@@ -241,7 +201,7 @@ CashAccount --> TransactionService
 deactivate CashAccount
 TransactionService --> AccountService
 deactivate TransactionService
-AccountService --> TransferCashFromFamilyAccountToPersonalAccountController
+AccountService --> controller
 deactivate AccountService
 return
 @enduml
