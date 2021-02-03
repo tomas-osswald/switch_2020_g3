@@ -94,10 +94,9 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, FamilyCashTransferDTO familyCashTransferDTO) {
+        if (!family.hasCashAccount()) throw new IllegalArgumentException("Family has no account");
         Account familyAccount = family.getFamilyCashAccount();
-        if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         double transferValue = familyCashTransferDTO.getTransferAmount();
         CurrencyEnum currency = familyCashTransferDTO.getCurrency();
         MoneyValue transferAmount = new MoneyValue(transferValue, currency);

@@ -405,7 +405,7 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
-        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
 
         Assertions.assertTrue(result);
     }
@@ -431,7 +431,7 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
-        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
 
         Assertions.assertFalse(result);
     }
@@ -457,7 +457,7 @@ class AccountServiceTest {
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+            accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         });
     }
 
@@ -482,7 +482,7 @@ class AccountServiceTest {
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+            accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         });
     }
 
@@ -509,7 +509,7 @@ class AccountServiceTest {
         //Expected
         MoneyValue expected = new MoneyValue(325.0,CurrencyEnum.EURO);
 
-        accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         Account familyAccount = ribeiro.getFamilyCashAccount();
         MoneyValue result = familyAccount.getMoneyBalance();
 
@@ -539,7 +539,7 @@ class AccountServiceTest {
         //Expected
         MoneyValue expected = new MoneyValue(1200.00,CurrencyEnum.EURO);
 
-        accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         Account personalAccount = diogo.getAccount(1);
         MoneyValue result = personalAccount.getMoneyBalance();
 
@@ -649,7 +649,7 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
-        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, transactionCategory, familyCashTransferDTO);
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
 
         Assertions.assertTrue(result);
     }

@@ -14,10 +14,7 @@
 - 1.2. A new cash account of a family member;
 
 We interpreted this requirement as a function for the family administrator to transfer money from the family cash account
-to the cash account of any family member. If the family member doesn't have a cash account a new cash account will be created
-The money transfer must be a positive value and of the same currency as the family and destination cash account.
-The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
-
+to the cash account of any family member.
 
 ## System Sequence Diagram
 
@@ -33,14 +30,15 @@ Actor -> System : Transfer Money \nto Family Member
 activate System
 System --> Actor : ask for required data
 Actor -> System : required data
-System --> Actor : Success
+System --> Actor : inform success
 deactivate System
 ````
 
 # 2. Analysis
 
-
-
+If the family member doesn't have a cash account a new cash account will be created
+The money transfer must be a positive value and of the same currency as the family and destination cash account.
+The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
 
 # 3. Design
 
@@ -62,9 +60,10 @@ Participant ": AccountService" as AccountService
 Actor -> UI : Transfer Money \nto Family Member
 activate UI
 UI --> Actor : ask for required data
+deactivate UI
 
-Actor -> UI : required data
-
+Actor -> UI : input required data
+activate UI
 UI -> controller : transferCashFrom\nFamilyToFamilyMember\n(FamilyCashTransferDTO)
 activate controller
 controller -> App : getFamilyService()
@@ -82,7 +81,7 @@ activate Family
 Family --> controller : aFamilyMember
 deactivate Family
 
-alt categoryID >= 0
+alt StandardCategory
 controller -> App : getCategoryService()
 activate App
 App --> controller : CategoryService
@@ -92,7 +91,7 @@ activate CategoryService
 CategoryService --> controller : aCategory
 deactivate CategoryService
 
-else categoryID < 0
+else CustomCategory
 
 controller -> Family : getCustomCategoryByID(categoryID)
 activate Family
@@ -101,7 +100,10 @@ deactivate Family
 
 end
 
-controller -> AccountService ** : create
+controller -> App : getAccountService()
+activate App
+App --> controller : AccountService
+deactivate App
 
 controller -> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, category, familyCashTransferDTO)
 activate AccountService
@@ -116,10 +118,27 @@ end ref
 AccountService --> controller : success
 deactivate AccountService
 
+controller -> App : getTransactionService()
+activate App
+App --> controller : TransactionService
+deactivate App
+
+controller -> TransactionService : registerCashTransfer\n(familyCashAccount, personalCashAccount, familyCashTransferDTO)
+activate TransactionService
+
+ref over TransactionService
+
+Register Cash Transfer
+
+end ref
+
+TransactionService --> controller : success
+deactivate TransactionService
+
 controller --> UI : success
 deactivate controller
 
-UI --> Actor : Success
+UI --> Actor : inform success
 deactivate UI
 
 @enduml
@@ -136,7 +155,6 @@ Participant "transferAmount\n : MoneyValue" as transferMoneyValue
 Participant "familyCashAccount\n : CashAccount" as familyCashAccount
 Participant "aFamilyMember\n : FamilyMember" as FamilyMember
 Participant "personalCashAccount\n : CashAccount" as personalCashAccount
-Participant ": TransactionService" as TransactionService
 
 
 -> AccountService : transferCashFromFamilyToFamilyMember\n(aFamily, aFamilyMember, category,\n familyCashTransferDTO)
@@ -185,20 +203,6 @@ end
 AccountService -> familyCashAccount : debit(transferAmount)
 
 AccountService -> personalCashAccount : credit(transferAmount)
-
-AccountService -> TransactionService ** : create
-AccountService -> TransactionService : registerCashTransfer\n(familyCashAccount, personalCashAccount, familyCashTransferDTO)
-activate TransactionService
-
-ref over TransactionService
-
-Register Cash Transfer
-
-end ref
-
-TransactionService --> AccountService : success
-deactivate TransactionService
-
 <-- AccountService : success
 deactivate AccountService
 

@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.model;
 
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
+import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
 import switchtwentytwenty.project.domain.model.user_data.*;
 
 import java.util.*;
@@ -231,6 +232,14 @@ public class FamilyMember {
     @Override
     public int hashCode() {
         return Objects.hash(ccNumber, name, birthDate, phoneNumbers, emails, vatNumber, address, administrator, accounts);
+    }
+
+    public boolean hasCashAccount() {
+        boolean hasAccount = false;
+        for (Account account : accounts) {
+            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) hasAccount = true;
+        }
+        return hasAccount;
     }
 
 }
