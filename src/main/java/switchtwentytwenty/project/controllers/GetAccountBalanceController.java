@@ -22,9 +22,9 @@ public class GetAccountBalanceController {
         FamilyMember familyMember = family.getFamilyMember(CCNumber);
 
         //account
-        AccountService accountService = new AccountService();
-        Account account = accountService.getAccount(familyMember, accountID);
+        AccountService accountService = this.fmmApplication.getAccountService();
+        MoneyValue currentBalance = accountService.getAccountBalance(familyMember, accountID);
 
-        return account.getMoneyBalance();
+        return currentBalance;
     }
 }

@@ -169,6 +169,16 @@ public class AccountService {
     }
 
     /**
+     *
+     * @param familyMember Target Family Member
+     * @param accountID    Account ID to get balance
+     * @return MoneyValue with Balance and Currency of a Family Member Account
+     */
+    public MoneyValue getAccountBalance(FamilyMember familyMember, int accountID) {
+        Account account = getAccount(familyMember, accountID);
+        return account.getMoneyBalance();
+    }
+    /**
      * Method to get a Family Cash Account Balance
      *
      * @param family Target Family
