@@ -184,8 +184,7 @@ public class FamilyMember {
 
 
     public List<Account> getAccounts() {
-        List<Account> accountsClone = this.accounts;
-        return accountsClone;
+        return Collections.unmodifiableList(this.accounts);
     }
 
     protected boolean compareID(String ccNumber) {
