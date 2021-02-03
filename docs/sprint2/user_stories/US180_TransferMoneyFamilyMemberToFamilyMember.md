@@ -63,6 +63,164 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 - Ammount transfered;
 
 ##2.1. Domain Model Diagram
+```puml
+skinparam linetype ortho
+hide empty members
+hide circles
+top to bottom direction
+title Domain Model Diagram - US180
+
+class Family {
+UniqueID
+Name
+RegistrationDate
+}
+
+class FamilyMember {
+Name
+BirthDate
+}
+
+class CCnumber {
+}
+
+class PhoneNumber {
+}
+
+class EmailAddress {
+}
+
+class VatNumber {
+}
+
+class Address {
+Street
+Postal Code
+Local
+City
+}
+
+class CashAccount {
+UniqueID
+Balance
+}
+
+class Relation {
+Designation
+}
+
+class Category {
+UniqueID
+Name
+}
+
+Family "*" -- "*" Category : \n\nhas standard >
+Family "1" -- "0..*" Category : \n\nhas custom >
+Family "1" -- "1" CashAccount : has >
+Family "1" -- "1" FamilyMember : has administrator >
+Family "1" -- "1..*" FamilyMember : has members >
+FamilyMember "1" -- "0..1" Relation : has >
+FamilyMember "1" -- "1" CCnumber : has >
+FamilyMember "1" -- "0..*" PhoneNumber : has >
+FamilyMember "1" -- "0..*" EmailAddress : has >
+FamilyMember "1" -- "1" VatNumber : has >
+FamilyMember "1" -- "1" Address : has >
+
+````
+
+## 2.2. Teste diagrama
+
+
+
+# 3. Design
+
+The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
+To execute the transfer the controller will first invoke the FamilyService to get the respective Family
+
+
+The controller will return:
+- True, 
+- False, 
+
+## 3.1. Functionality Use
+
+````puml
+
+autonumber
+title Transfer Money From Personal Cash Account To another Personal Cash Account
+actor "Family Member" as actor
+participant ": UI" as UI
+participant ": TransferCashBetweenFamilyMembers \n CashAccountsController" as controller
+participant ": FFMApplication" as application
+participant ": AccountService" as aServ
+participant ": FamilyService" as fServ
+participant ": Transactionservice" as tServ
+participant "aFamily : Family" as fam
+participant "aFamilyMember : FamilyMember" as fMember
+participant "aList<CashAccounts> : FamilyMemberAccounts" as cashAccounts
+participant "oneCashTransferDTO : CashtransferDTO" as DTO
+
+activate actor
+actor -> UI: input destination data
+activate UI
+UI -> controller : transferCash(FamilyID, OriginFamilyMemberID, \n DestinationFamilyMemberID, ammount, category)
+activate controller
+
+controller -> application: getAccountService()
+activate application
+application --> controller: AccountService
+controller -> application: getFamilyService()
+application --> controller: FamilyService
+deactivate application
+controller -> fServ : getFamily(familyID)
+activate fServ
+fServ -> controller : Family
+deactivate fServ
+
+controller -> fServ:getFamilyMember(familyID, familyMemberCC)
+
+activate fServ
+fServ-> fam: getOriginFamilyMember(originFamilyMemberCC)
+activate fam
+fam --> fServ: OriginFamilyMember
+fServ-> fam: getDestinationFamilyMember(destinationFamilyMemberCC)
+fam -> fServ : DestinationFamilyMember
+deactivate fam
+fServ -> controller : sucess
+deactivate fServ
+controller -> aServ : getFamilyMemberCashAccount(FamilyID,FamilyMemberID, AccountID)
+activate aServ
+aServ ->fMember : getOriginFamilyMemberCashAccount(FamilyMemberID, AccountID)
+activate fMember
+fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
+activate cashAccounts
+cashAccounts -> fMember : CashAccount
+deactivate cashAccounts
+fMember -> aServ : sucess
+deactivate fMember
+aServ -> 
+aServ ->fMember : getDestinationFamilyMemberCashAccount(FamilyMemberID, AccountID)
+activate fMember
+fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
+activate cashAccounts
+cashAccounts -> fMember : CashAccount
+deactivate cashAccounts
+fMember -> aServ : sucess
+deactivate fMember
+controller --> UI: Success
+deactivate controller
+UI --> fMember: Inform Success
+deactivate UI
+deactivate fMember
+
+````
+
+
+# 3. Design
+
+
+
+## 3.2. Class Diagram
 
 ```puml
 
@@ -112,99 +270,6 @@ CashAccount -* AccountData : contains
 CashAccount <-- FamilyMember : has
 
 ```
-
-## 2.2. Teste diagrama
-
-
-
-# 3. Design
-
-The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
-To execute the transfer the controller will first invoke the FamilyService to get the respective Family
-
-
-The controller will return:
-- True, 
-- False, 
-
-## 3.1. Functionality Use
-
-````puml
-
-autonumber
-title Transfer Money From Personal Cash Account To another Personal Cash Account
-actor "Family Member" as actor
-participant ": UI" as UI
-participant ": TransferCashBetweenFamilyMembers \n CashAccountsController" as controller
-participant ": FFMApplication" as application
-participant ": AccountService" as aServ
-participant ": FamilyService" as fServ
-participant "aFamily : Family" as fam
-participant "aFamilyMember : FamilyMember" as fMember
-participant "aList<CashAccounts> : FamilyMemberAccounts" as cashAccounts
-participant "oneCashTransferDTO : CashtransferDTO" as DTO
-
-activate actor
-actor -> UI: input destination data
-activate UI
-UI -> controller : transferCash(FamilyID, OriginFamilyMemberID, \n DestinationFamilyMemberID, ammount, category)
-activate controller
-
-controller -> application: getAccountService()
-activate application
-application --> controller: AccountService
-controller -> application: getFamilyService()
-application --> controller: FamilyService
-deactivate application
-controller -> fServ : getFamily(familyID)
-activate fServ
-fServ -> controller : Family
-deactivate fServ
-
-controller -> fServ:getFamilyMember(familyID, familyMemberCC)
-
-activate fServ
-fServ-> fam: getOriginFamilyMember(originFamilyMemberCC)
-activate fam
-fam --> fServ: OriginFamilyMember
-fServ-> fam: getDestinationFamilyMember(destinationFamilyMemberCC)
-fam -> fServ : DestinationFamilyMember
-deactivate fam
-fServ -> controller : sucess
-deactivate fServ
-controller -> aServ : getFamilyMemberCashAccount(FamilyID,FamilyMemberID, AccountID)
-activate aServ
-aServ ->fMember : getOriginFamilyMemberCashAccount(FamilyMemberID, AccountID)
-activate fMember
-fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
-activate cashAccounts
-cashAccounts -> fMember : CashAccount
-deactivate cashAccounts
-fMember -> aServ : sucess
-deactivate fMember
-aServ ->fMember : getDestinationFamilyMemberCashAccount(FamilyMemberID, AccountID)
-activate fMember
-fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
-activate cashAccounts
-cashAccounts -> fMember : CashAccount
-deactivate cashAccounts
-fMember -> aServ : sucess
-deactivate fMember
-controller --> UI: Success
-deactivate controller
-UI --> fMember: Inform Success
-deactivate UI
-deactivate fMember
-
-````
-
-
-# 3. Design
-
-
-
-## 3.2. Class Diagram
-
 
 ## 3.3. Applied Patterns
 

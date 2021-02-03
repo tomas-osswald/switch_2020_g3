@@ -4,6 +4,7 @@ import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
@@ -30,7 +31,7 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             Family family = familyService.getFamily(familyID);
             FamilyMember originFamilyMember = familyService.getFamily(familyID).getFamilyMember(originFamilyMemberCC);
             FamilyMember destinationFamilyMember = familyService.getFamily(familyID).getFamilyMember(destinationFamilyMemberCC);
-            StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
+            Category category = categoryService.getStandardCategoryByID(categoryID);
             AccountService accountService = new AccountService();
             accountService.transferCashBetweenFamilyMembersCashAccounts(family, originFamilyMember, destinationFamilyMember, category, cashTransferDTO);
             return true;
