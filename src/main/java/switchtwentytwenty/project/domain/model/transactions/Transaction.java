@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.sandbox;
+package switchtwentytwenty.project.domain.model.transactions;
 
 import java.util.Date;
 

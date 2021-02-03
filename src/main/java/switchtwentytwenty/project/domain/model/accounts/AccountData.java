@@ -1,9 +1,10 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.sandbox.CashTransaction;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -35,7 +36,6 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
-
         if(currencyEnum != null)
             this.currentBalance = new MoneyValue(balance, currencyEnum);
         else
@@ -113,6 +113,12 @@ public class AccountData {
 
     public boolean registerCashTransaction(CashAccount targetAccount, Category category,MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, familyCashTransferDTO);
+        transactions.add(cashTransaction);
+        return true;
+    }
+
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category, MoneyValue currentBalance, CashTransferDTO cashTransferDTO, boolean credit) {
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, cashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }

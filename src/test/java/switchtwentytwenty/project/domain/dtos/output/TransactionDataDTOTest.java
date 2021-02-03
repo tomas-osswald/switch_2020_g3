@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.sandbox.TransactionData;
+import switchtwentytwenty.project.domain.model.transactions.TransactionData;
 import switchtwentytwenty.project.domain.services.AccountService;
 
 import java.util.Date;

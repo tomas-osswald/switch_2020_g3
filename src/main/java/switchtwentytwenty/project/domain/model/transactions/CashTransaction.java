@@ -1,6 +1,7 @@
-package switchtwentytwenty.project.domain.sandbox;
+package switchtwentytwenty.project.domain.model.transactions;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
@@ -17,6 +18,14 @@ public class CashTransaction implements Transaction {
         String designation = familyCashTransferDTO.getTransactionDesignation();
         MoneyValue transferedValue = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
         Date transactionDate = familyCashTransferDTO.getTransactionDate();
+        this.transactionData = new TransactionData(designation, transferedValue,credit,remainingBalance, transactionDate, category);
+    }
+
+    public CashTransaction(Account targetAccount, Category category, boolean credit, MoneyValue remainingBalance, CashTransferDTO cashTransferDTO) {
+        this.otherAccount = targetAccount;
+        String designation = cashTransferDTO.getTransactionDesignation();
+        MoneyValue transferedValue = new MoneyValue(cashTransferDTO.getTransferAmount(),cashTransferDTO.getCurrency());
+        Date transactionDate = cashTransferDTO.getTransactionDate();
         this.transactionData = new TransactionData(designation, transferedValue,credit,remainingBalance, transactionDate, category);
     }
 

@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.sandbox;
+package switchtwentytwenty.project.domain.model.transactions;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
@@ -11,7 +11,7 @@ public class TransactionData {
     private MoneyValue ammount;
     private Category category;
     private String designation;
-    private MoneyValue remainingBalance = new MoneyValue(0.0, null);
+    private MoneyValue remainingBalance;
     private boolean credit;
 
     public TransactionData(String designation, MoneyValue ammount, boolean credit, MoneyValue remainingbalance, Date transactionDate, Category category) {

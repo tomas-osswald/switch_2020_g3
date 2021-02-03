@@ -1,7 +1,12 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+
+import switchtwentytwenty.project.domain.dtos.input.AddBankSavingsAccountDTO;
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
+
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
+
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
@@ -18,21 +23,26 @@ public class BankSavingsAccount implements Account {
 
 
     // Constructors
-    public BankSavingsAccount(int accountID, String name, Double balance, Double interestRate) {
+    public BankSavingsAccount(int accountID, AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
+        CurrencyEnum currencyEnum = addBankSavingsAccountDTO.getCurrency();
+        Double balance = addBankSavingsAccountDTO.getBalance();
+        if (!validateBalance(balance)) {
+            balance = 0.00;
+        }
+
         try {
-            if (!validateBalance(balance)) {
-                balance = 0.00;
-            }
+            String name = addBankSavingsAccountDTO.getDescription();
             this.accountData = new AccountData(balance, name, accountID);
         } catch (InvalidAccountDesignationException exception) {
             String defaultDesignation = "Bank Savings Account with ID" + " " + accountID;
-            this.accountData = new AccountData(balance, defaultDesignation, accountID);
+            this.accountData = new AccountData(balance, defaultDesignation, accountID, currencyEnum);
         }
 
-        if (!validateInterestRate(interestRate)) {
-            interestRate = 0.00;
+        Double rate = addBankSavingsAccountDTO.getInterestRate();
+        if (!validateInterestRate(rate)) {
+            rate = 0.00;
         }
-        this.interestRate = interestRate;
+        this.interestRate = rate;
     }
 
 
@@ -104,6 +114,10 @@ public class BankSavingsAccount implements Account {
      */
     public List<Transaction> getListOfMovements() {
         return this.accountData.getListOfMovements();
+    }
+
+    public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO(){
+        return new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
     }
 
     public void debit(MoneyValue value) { //expense

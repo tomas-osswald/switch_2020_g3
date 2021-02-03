@@ -1,14 +1,14 @@
 package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class TransactionService {
 
-    public boolean registerPaymentMyCashAccount(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
+    public boolean registerPaymentMyCashAccount(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
         MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(), familyCashTransferDTO.getCurrency());
@@ -77,17 +77,20 @@ public class TransactionService {
         return isBetweenDates;
     }
 
-    public boolean registerCashTransfer(Account originAccount, Account destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-        if (!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
-            throw new IllegalArgumentException("Invalid AccountType");
-        if (!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
-            throw new IllegalArgumentException("Invalid AccountType");
-        CashAccount originCashAccount = (CashAccount) originAccount;
-        CashAccount destinationCashAccount = (CashAccount) destinationAccount;
+    public boolean registerCashTransfer(CashAccount originAccount, CashAccount destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+
         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originCashAccount.registerTransaction(destinationCashAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
-        destinationCashAccount.registerTransaction(originCashAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        return true;
+    }
+
+    public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
+         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+        MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
+        originAccount.registerTransactionOther(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransactionOther(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

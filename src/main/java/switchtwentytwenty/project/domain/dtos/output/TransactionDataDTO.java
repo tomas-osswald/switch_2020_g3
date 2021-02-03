@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.dtos.output;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.sandbox.TransactionData;
+import switchtwentytwenty.project.domain.model.transactions.TransactionData;
 
 import java.util.Date;
 import java.util.Objects;

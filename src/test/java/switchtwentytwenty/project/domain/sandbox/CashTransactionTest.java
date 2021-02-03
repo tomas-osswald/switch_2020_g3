@@ -8,6 +8,8 @@ import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
+import switchtwentytwenty.project.domain.model.transactions.TransactionData;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;

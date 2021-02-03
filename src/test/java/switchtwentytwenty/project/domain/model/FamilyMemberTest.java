@@ -6,6 +6,7 @@ import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
+import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.user_data.*;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -450,4 +451,36 @@ class FamilyMemberTest {
         int hash2 = 0;
         assertNotEquals(hash1, hash2);
     }
+
+    @Test
+    void hasCashAccount_FalseNoAccount() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+
+        boolean result = personOne.hasCashAccount();
+
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void hasCashAccount_FalseOtherAccount() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+        BankAccount bankAccount = new BankAccount(addBankAccountDTO, 1);
+        personOne.addAccount(bankAccount);
+        boolean result = personOne.hasCashAccount();
+
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void hasCashAccount_True() {
+        FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+        CashAccount cashAccount = new CashAccount("CashAccount",200.0,1,CurrencyEnum.EURO);
+        personOne.addAccount(cashAccount);
+        boolean result = personOne.hasCashAccount();
+
+        Assertions.assertTrue(result);
+    }
+
+
 }

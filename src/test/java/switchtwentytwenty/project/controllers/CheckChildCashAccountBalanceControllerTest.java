@@ -2,6 +2,7 @@ package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankSavingsAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -78,7 +79,8 @@ class CheckChildCashAccountBalanceControllerTest {
     CashAccount cashAccount = new CashAccount(accountDTO, accountIDOne);
 
     // Different Account - not Cash
-    BankSavingsAccount savingsAccount = new BankSavingsAccount(accountIDOne, "savings", 100.00, 1.00);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(100.00, 1.00,"savings",cc,family.getFamilyID(), CurrencyEnum.EURO);
+    BankSavingsAccount savingsAccount = new BankSavingsAccount(accountIDOne, addBankSavingsAccountDTO);
 
 
     @Test
@@ -199,7 +201,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int savingsAccountID = savingsAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.addBankSavingsAccount(jorge, savingsAccount.getDescription(), savingsAccount.getMoneyBalance().getValue(), savingsAccount.getInterestRate());
+        accountService.addBankSavingsAccount(jorge, addBankSavingsAccountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 

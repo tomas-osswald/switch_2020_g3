@@ -1,7 +1,11 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
+
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
+
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;
@@ -27,5 +31,7 @@ public interface Account {
     public void debit(MoneyValue value);
 
     public void credit(MoneyValue value);
+
+    public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO();
 
 }

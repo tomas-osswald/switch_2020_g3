@@ -3,7 +3,11 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
+
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
+
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;
@@ -27,7 +31,6 @@ public class BankAccount implements Account {
             description = "BankAccount" + " " + bankAccountID;
         }
         this.accountData = new AccountData(balance, description, bankAccountID, addBankAccountDTO.getCurrency());
-
     }
 
     /***** METHODS ******/
@@ -109,5 +112,8 @@ public class BankAccount implements Account {
         return accountData.checkCurrency(currency);
     }
 
-
+    public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO(){
+        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
+        return accountIDAndDescriptionDTO;
+    }
 }

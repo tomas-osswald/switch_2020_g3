@@ -10,7 +10,7 @@ import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-import switchtwentytwenty.project.domain.sandbox.CashTransaction;
+import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -251,28 +251,6 @@ class TransactionServiceTest {
         boolean result = service.registerCashTransfer(contaCash, contaCash, categoria1, transacaoDTO1);
 
         Assertions.assertTrue(result);
-    }
-
-    @Test
-    void registerCashTransfer_TestDifferentCurrenciesOriginAccount() {
-        TransactionService service = new TransactionService();
-        AddBankAccountDTO bankAccountDTO = new AddBankAccountDTO(balance, "TestAccount", selfCC, familyID, CurrencyEnum.EURO);
-        BankAccount notCashAccount = new BankAccount(bankAccountDTO, 100);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            service.registerCashTransfer(notCashAccount, contaCash, categoria1, transacaoDTO1);
-        });
-    }
-
-    @Test
-    void registerCashTransfer_TestDifferentCurrenciesDestinationAccount() {
-        TransactionService service = new TransactionService();
-        AddBankAccountDTO bankAccountDTO = new AddBankAccountDTO(balance, "TestAccount", selfCC, familyID, CurrencyEnum.EURO);
-        BankAccount notCashAccount = new BankAccount(bankAccountDTO, 100);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            service.registerCashTransfer(contaCash, notCashAccount, categoria1, transacaoDTO1);
-        });
     }
 
 }

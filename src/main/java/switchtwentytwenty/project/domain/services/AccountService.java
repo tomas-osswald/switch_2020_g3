@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -84,20 +83,19 @@ public class AccountService {
     }
 
 
-    public boolean addBankSavingsAccount(FamilyMember targetMember, String accountName, Double balance, Double interestRate) {
+    public boolean addBankSavingsAccount(FamilyMember targetMember, AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
         if (targetMember == null) {
             return false;
         }
         int accountID = generateID(targetMember);
-        Account bankSavingsAccount = new BankSavingsAccount(accountID, accountName, balance, interestRate);
+        Account bankSavingsAccount = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         targetMember.addAccount(bankSavingsAccount);
         return true;
     }
 
-    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
-
+    public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, FamilyCashTransferDTO familyCashTransferDTO) {
+        if (!family.hasCashAccount()) throw new IllegalArgumentException("Family has no account");
         Account familyAccount = family.getFamilyCashAccount();
-        if (familyAccount == null) throw new IllegalArgumentException("Family has no account");
         double transferValue = familyCashTransferDTO.getTransferAmount();
         CurrencyEnum currency = familyCashTransferDTO.getCurrency();
         MoneyValue transferAmount = new MoneyValue(transferValue, currency);
@@ -111,22 +109,23 @@ public class AccountService {
             String accountDesignation = "Cash account for " + familyMember.getName();
             targetCashAccount = new CashAccount(accountDesignation, initialBalance, familyMemberAccountID, currency);
         }
+        if (!targetCashAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
         familyAccount.debit(transferAmount);
         targetCashAccount.credit(transferAmount);
-
-        TransactionService transactionService = new TransactionService();
-        transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+    public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
-
-        double transferredValue = cashTransferDTO.getTransferedValue();
-        MoneyValue transferAmmount = new MoneyValue(transferredValue, null);
+        CurrencyEnum currency = cashTransferDTO.getCurrency();
+        double transferredValue = cashTransferDTO.getTransferAmount();
+        MoneyValue transferAmmount = new MoneyValue(transferredValue, currency);
+        if(!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
+        if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+        if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
         originFamilyMemberAccount.debit(transferAmmount);
         destinationFamilyMemberAccount.credit(transferAmmount);
         return true;
@@ -162,7 +161,7 @@ public class AccountService {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
             if (account.checkAccountType(CASHACCOUNT)) {
-                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = account.getAccountIDAndDescriptionDTO();
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
         }
@@ -230,5 +229,9 @@ public class AccountService {
         }
         currentBalance = targetAccount.getMoneyBalance();
         return currentBalance;
+    }
+
+    public Account getFamilyCashAccount(Family family) {
+        return family.getFamilyCashAccount();
     }
 }

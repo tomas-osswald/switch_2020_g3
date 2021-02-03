@@ -52,67 +52,67 @@ This user story is dependent on the following:
 - US011_Add Family Administrator: to add an Administrator, that he is allowed to add a Family Member;
 - US101_Add Family Members: to add a Personal Cash Account
 - US170_Create Family Member Cash Account: to create a cash account from where money will be transferred or received.  
-- US120_Create Family Cash Account: to create a cash account to transfer money to family members in the first time. Only family cash account can transfer money to the family members after the creation of the family member´s personal cash account.
 
 # 2. Analysis
 
 For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
 
-- Other ID (User who will receive the money to his cash account);
 - Family ID (User's Family);
-- Card description (Card Description);
-- Withdrawal limit (Card usage limit).
+- Origin ID (User who will send the money from his cash account);
+- Destination ID (User who will receive the money to his cash account);
+- Ammount transfered;
 
 ##2.1. Domain Model Diagram
-
 ```puml
-
-title Class Diagram
+skinparam linetype ortho
 hide empty members
+hide circles
+top to bottom direction
+title Domain Model Diagram - US180
 
-class TransferMoneyFromCashAccountController {
-+ transferMoneyFromCashAccount()
+class Family {
+UniqueID
+Name
+RegistrationDate
+}
+
+class FamilyMember {
+Name
+BirthDate
+}
+
+
+
+class Address {
+Street
+Postal Code
+Local
+City
 }
 
 class CashAccount {
+UniqueID
+Balance
 }
 
-class Application {
-+ getFamilyService()
+class Relation {
+Designation
 }
 
-class FamilyService {
-+ getFamily()
+class Category {
+UniqueID
+Name
 }
 
-class Family {
-+ getFamilyMember()
-}
+Family "*" -- "*" Category : \n\nhas standard >
+Family "1" -- "0..*" Category : \n\nhas custom >
+Family "1" -- "1" CashAccount : has >
+Family "1" -- "1" FamilyMember : has administrator >
+Family "1" -- "1..*" FamilyMember : has members >
+FamilyMember "1" -- "0..1" Relation : has >
 
-class AccountService {
-+ changeBalance()
-}
 
-class AccountData {
-- double balance
-- String description
-- int accountID
-- List<Transaction> transactions
-}
-
-interface Account {}
-
-TransferMoneyFromCashAccountController --> Application : has
-Application --> FamilyService : has
-FamilyService --> Family : has list
-Family --> FamilyMember : has list
-TransferMoneyFromCashAccountController --> AccountService : has
-AccountService --> CashAccount : change
-CashAccount --|> Account : implements
-CashAccount -* AccountData : contains
-CashAccount <-- FamilyMember : has
-
-```
+````
 
 ## 2.2. Teste diagrama
 
@@ -121,7 +121,8 @@ CashAccount <-- FamilyMember : has
 # 3. Design
 
 The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
-To execute the transfer
+To execute the transfer the controller will first invoke the FamilyService to get the respective Family
+
 
 The controller will return:
 - True, 
@@ -139,6 +140,7 @@ participant ": TransferCashBetweenFamilyMembers \n CashAccountsController" as co
 participant ": FFMApplication" as application
 participant ": AccountService" as aServ
 participant ": FamilyService" as fServ
+participant ": Transactionservice" as tServ
 participant "aFamily : Family" as fam
 participant "aFamilyMember : FamilyMember" as fMember
 participant "aList<CashAccounts> : FamilyMemberAccounts" as cashAccounts
@@ -182,6 +184,7 @@ cashAccounts -> fMember : CashAccount
 deactivate cashAccounts
 fMember -> aServ : sucess
 deactivate fMember
+aServ -> 
 aServ ->fMember : getDestinationFamilyMemberCashAccount(FamilyMemberID, AccountID)
 activate fMember
 fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
@@ -198,46 +201,110 @@ deactivate fMember
 
 ````
 
-
 # 3. Design
 
 
 
 ## 3.2. Class Diagram
 
+```puml
 
+title Class Diagram
+hide empty members
+
+class TransferMoneyFromCashAccountController {
++ transferMoneyFromCashAccount()
+}
+
+class CashAccount {
+}
+
+class Application {
++ getFamilyService()
+}
+
+class FamilyService {
++ getFamily()
+}
+
+class Family {
++ getFamilyMember()
+}
+
+class AccountService {
++ changeBalance()
+}
+
+class AccountData {
+- double balance
+- String description
+- int accountID
+- List<Transaction> transactions
+}
+
+interface Account {}
+
+TransferMoneyFromCashAccountController --> Application : has
+Application --> FamilyService : has
+Application --> AccountService : has
+FamilyService --> Family : has list
+Family --> FamilyMember : has list
+AccountService --> CashAccount : change
+CashAccount --|> Account : implements
+CashAccount -* AccountData : contains
+CashAccount <-- FamilyMember : has
+
+```
 ## 3.3. Applied Patterns
 
+We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
+used the SOLID SRP principle.
 
 ## 3.4. Tests
 
-**Test 1:** Controller: 
+Tests:
+
+**Tests :** Controller: 
+
+**Test 1** : Both Family Members are valid, Family is known and valid and all transfer details are valid
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsTrueWithSufficientFunds() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, categoryID, transactionDesignation, transactionDate);
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, currency,categoryID, transactionDesignation, transactionDate);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
-        boolean result = controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
 
         Assertions.assertTrue(result);
     }
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersOfUnknownFamily() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 1, "Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency, 1,"Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-
-        Assertions.assertThrows(Exception.class, () -> controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        assertFalse(result);
     }
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 9, "Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1 ,"Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
-        Assertions.assertThrows(Exception.class, () -> controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        assertFalse(result);
     }
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+        assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+
+    }
+
+**Tests :** Controller:
+
 
 ## 4. Implementation
 

@@ -3,6 +3,9 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddBankSavingsAccountDTO;
+import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
@@ -13,20 +16,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankSavingsAccountTest {
 
     //Accounts with positive balance and positive interestRate
+    int testFamilyID = 1;
+    String cc = "110142608ZZ0";
+
     int accountID = 1;
     String name = "Savings Account";
     Double balance = 1.23;
     Double interestRate = 3.00;
-    BankSavingsAccount accountPositive = new BankSavingsAccount(accountID, name, balance, interestRate);
-    BankSavingsAccount accountPositiveTwo = new BankSavingsAccount(accountID, name, balance, interestRate);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, name, cc, testFamilyID, CurrencyEnum.EURO);
+    BankSavingsAccount accountPositive = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
+    BankSavingsAccount accountPositiveTwo = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
 
     //Accounts with negative balance and negative interestRate
     int accountIDTwo = 2;
     String nameTwo = "Savings Account";
     Double balanceTwo = -1.23;
     Double interestRateTwo = -3.00;
-    BankSavingsAccount accountNegative = new BankSavingsAccount(accountIDTwo, nameTwo, balanceTwo, interestRateTwo);
-    BankSavingsAccount accountNegativeTwo = new BankSavingsAccount(accountIDTwo, nameTwo, balanceTwo, interestRateTwo);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTONegative = new AddBankSavingsAccountDTO(balanceTwo, interestRateTwo, nameTwo, cc, testFamilyID, CurrencyEnum.EURO);
+    BankSavingsAccount accountNegative = new BankSavingsAccount(accountIDTwo, addBankSavingsAccountDTONegative);
+    BankSavingsAccount accountNegativeTwo = new BankSavingsAccount(accountIDTwo, addBankSavingsAccountDTONegative);
 
     //Generic name 1 and 2
     String generic = "Bank Savings Account with ID 1";
@@ -36,10 +44,15 @@ class BankSavingsAccountTest {
     String invalidName = null;
     Double invalidInterestRate = null;
     Double invalidBalance = null;
-    BankSavingsAccount invalidNameAccount = new BankSavingsAccount(accountID, invalidName, balance, interestRate);
-    BankSavingsAccount invalidNameAccountTwo = new BankSavingsAccount(accountIDTwo, invalidName, balanceTwo, interestRateTwo);
-    BankSavingsAccount invalidInterestRateAccount = new BankSavingsAccount(accountIDTwo, invalidName, balanceTwo, invalidInterestRate);
-    BankSavingsAccount invalidBalanceAccount = new BankSavingsAccount(accountIDTwo, invalidName, invalidBalance, invalidInterestRate);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTOInvalidName = new AddBankSavingsAccountDTO(balance, interestRate, invalidName, cc, testFamilyID, CurrencyEnum.EURO);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTOInvalidNameTwo = new AddBankSavingsAccountDTO(balanceTwo, interestRateTwo, invalidName, cc, testFamilyID, CurrencyEnum.EURO);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTOInvalidInterestRate = new AddBankSavingsAccountDTO(balanceTwo, invalidInterestRate, invalidName, cc, testFamilyID, CurrencyEnum.EURO);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTOInvalidBalance = new AddBankSavingsAccountDTO(invalidBalance, interestRate, invalidName, cc, testFamilyID, CurrencyEnum.EURO);
+
+    BankSavingsAccount invalidNameAccount = new BankSavingsAccount(accountID, addBankSavingsAccountDTOInvalidName);
+    BankSavingsAccount invalidNameAccountTwo = new BankSavingsAccount(accountIDTwo, addBankSavingsAccountDTOInvalidNameTwo);
+    BankSavingsAccount invalidInterestRateAccount = new BankSavingsAccount(accountIDTwo, addBankSavingsAccountDTOInvalidInterestRate);
+    BankSavingsAccount invalidBalanceAccount = new BankSavingsAccount(accountIDTwo, addBankSavingsAccountDTOInvalidInterestRate);
     MoneyValue expectedPositiveMoneyValue = new MoneyValue(1.23, CurrencyEnum.EURO);
     MoneyValue expectedNegativeMoneyValue = new MoneyValue(-1.23, CurrencyEnum.EURO);
     MoneyValue zeroMoneyValue = new MoneyValue(0.00, CurrencyEnum.EURO);
@@ -68,8 +81,8 @@ class BankSavingsAccountTest {
 
     @Test
     void ConstructorInvalidNameChangedToDefaultTwo() {
-        BankSavingsAccount expected = new BankSavingsAccount(1,
-                generic, 1.23, 3.00);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, generic, cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount expected = new BankSavingsAccount(1, addBankSavingsAccountDTO);
 
         BankSavingsAccount result = invalidNameAccount;
 
@@ -79,10 +92,10 @@ class BankSavingsAccountTest {
 
     @Test
     void ConstructorInvalidInterestRateChangedToDefault() {
-        BankSavingsAccount expected = new BankSavingsAccount(1,
-                generic, 1.23, 0.00);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, 0.00, generic, cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount expected = new BankSavingsAccount(1, addBankSavingsAccountDTO);
 
-        BankSavingsAccount result = new BankSavingsAccount(accountID, generic, balance, invalidInterestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, addBankSavingsAccountDTOInvalidInterestRate);
 
         assertEquals(expected.getInterestRate(), result.getInterestRate());
         assertNotSame(expected, result);
@@ -90,11 +103,11 @@ class BankSavingsAccountTest {
 
     @Test
     void ConstructorInvalidBalanceChangedToDefault() {
-        BankSavingsAccount expected = new BankSavingsAccount(1,
-                "Bank Savings Account with ID 1", 0.00, 3.00);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(0.00, 3.00, generic, cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount expected = new BankSavingsAccount(1, addBankSavingsAccountDTO);
         Double NullInterestRate = null;
 
-        BankSavingsAccount result = new BankSavingsAccount(accountID, generic, invalidBalance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, addBankSavingsAccountDTOInvalidBalance);
 
         assertEquals(expected.getInterestRate(), result.getInterestRate());
         assertNotSame(expected, result);
@@ -107,7 +120,8 @@ class BankSavingsAccountTest {
         String name = "Savings Account";
         Double balance = 1.23;
         Double interestRate = 3.00;
-        BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, name, cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount account = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         Double expected = 3.00;
 
         Double result = account.getInterestRate();
@@ -128,7 +142,8 @@ class BankSavingsAccountTest {
     @Test
     void getInterestRateZeroInterestRate() {
         Double expected = 0.00;
-        BankSavingsAccount expectedAccount = new BankSavingsAccount(accountID, name, balance, expected);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, expected, name, cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount expectedAccount = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
 
         Double result = expectedAccount.getInterestRate();
 
@@ -297,15 +312,15 @@ class BankSavingsAccountTest {
 
     @Test
     void testHashCode_DifferentObjects() {
-        BankSavingsAccount expected = new BankSavingsAccount(accountID, name, balance, interestRate);
-        BankSavingsAccount result = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount expected = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         assertEquals(expected.hashCode(), result.hashCode());
     }
 
     @Test
     void testHashCode_DifferentObjects_TestZeroAccountID() {
         int notExpected = 0;
-        BankSavingsAccount resultAccount = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount resultAccount = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         int result = resultAccount.hashCode();
 
         assertNotEquals(notExpected, result);
@@ -313,7 +328,7 @@ class BankSavingsAccountTest {
 
     @Test
     void testHashCode1() {
-        BankSavingsAccount result = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount result = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
 
         int expected = 0;
 
@@ -323,7 +338,7 @@ class BankSavingsAccountTest {
     @Test
     void checkCurrency() {
 
-        BankSavingsAccount account = new BankSavingsAccount(accountID, name, balance, interestRate);
+        BankSavingsAccount account = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         boolean result = account.checkCurrency(CurrencyEnum.EURO);
 
         Assertions.assertTrue(result);
@@ -331,13 +346,13 @@ class BankSavingsAccountTest {
 
     @Test
     void checkCurrencyEuro() {
-        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, addBankSavingsAccountDTO);
         assertTrue(bankSavingsAccount.checkCurrency(CurrencyEnum.EURO));
     }
 
     @Test
     void checkCurrencyFalse() {
-        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, addBankSavingsAccountDTO);
 
         assertFalse(bankSavingsAccount.checkCurrency(CurrencyEnum.YEN));
     }
@@ -345,16 +360,45 @@ class BankSavingsAccountTest {
 
     @Test
     void getDescriptionNotNull() {
-        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "Conta", 20.00, 1.00);
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, addBankSavingsAccountDTO);
         assertNotNull(bankSavingsAccount.getDescription());
     }
 
     @Test
     void getDescriptionEmpty() {
-        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, "", 20.00, 1.00);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, "", cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, addBankSavingsAccountDTO);
         String notExpected = "";
 
         assertNotNull(bankSavingsAccount.getDescription());
         assertNotEquals(bankSavingsAccount.getDescription(), notExpected);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTO() {
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(20.00, 1.00, "Conta", cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, addBankSavingsAccountDTO);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(1, "Conta");
+
+        AccountIDAndDescriptionDTO result = bankSavingsAccount.getAccountIDAndDescriptionDTO();
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getAccountIDAndDescriptionDTONotEquals() {
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(20.00, 1.00, "Conta", cc, testFamilyID, CurrencyEnum.EURO);
+        BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(1, addBankSavingsAccountDTO);
+
+        AccountIDAndDescriptionDTO expected = new AccountIDAndDescriptionDTO(2, "Conta");
+
+
+        AccountIDAndDescriptionDTO result = bankSavingsAccount.getAccountIDAndDescriptionDTO();
+
+
+        assertNotEquals(expected, result);
+        assertNotNull(result);
     }
 }
