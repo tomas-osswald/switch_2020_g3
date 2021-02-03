@@ -4,7 +4,6 @@ import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
-import switchtwentytwenty.project.domain.model.transactions.CashTransactionOther;
 import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
@@ -119,7 +118,7 @@ public class AccountData {
     }
 
     public boolean registerCashTransactionOther(CashAccount targetAccount, Category category, MoneyValue currentBalance, CashTransferDTO cashTransferDTO, boolean credit) {
-        CashTransactionOther cashTransaction = new CashTransactionOther(targetAccount, category, credit,currentBalance, cashTransferDTO);
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, cashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }

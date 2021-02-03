@@ -115,14 +115,17 @@ public class AccountService {
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, Category category, CashTransferDTO cashTransferDTO) {
+    public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
-
+        CurrencyEnum currency = cashTransferDTO.getCurrency();
         double transferredValue = cashTransferDTO.getTransferAmount();
-        MoneyValue transferAmmount = new MoneyValue(transferredValue, null);
+        MoneyValue transferAmmount = new MoneyValue(transferredValue, currency);
+        if(!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
+        if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+        if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
         originFamilyMemberAccount.debit(transferAmmount);
         destinationFamilyMemberAccount.credit(transferAmmount);
         return true;

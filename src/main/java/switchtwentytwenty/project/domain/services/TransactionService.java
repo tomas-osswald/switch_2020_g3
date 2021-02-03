@@ -91,17 +91,11 @@ public class TransactionService {
         return true;
     }
 
-    public boolean registerCashTransferOther(Account originAccount, Account destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
-        if (!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
-            throw new IllegalArgumentException("Invalid AccountType");
-        if (!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
-            throw new IllegalArgumentException("Invalid AccountType");
-        CashAccount originCashAccount = (CashAccount) originAccount;
-        CashAccount destinationCashAccount = (CashAccount) destinationAccount;
-        MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+    public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
+         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originCashAccount.registerTransactionOther(destinationCashAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
-        destinationCashAccount.registerTransactionOther(originCashAccount, category, true,remainingBalanceDestination, cashTransferDTO);
+        originAccount.registerTransactionOther(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransactionOther(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

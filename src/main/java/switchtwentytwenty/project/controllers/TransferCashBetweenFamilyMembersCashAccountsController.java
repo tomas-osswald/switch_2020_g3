@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
+import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
@@ -30,8 +31,10 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
 
         try {
             Family family = familyService.getFamily(familyID);
-            FamilyMember originFamilyMember = familyService.getFamily(familyID).getFamilyMember(originFamilyMemberCC);
-            FamilyMember destinationFamilyMember = familyService.getFamily(familyID).getFamilyMember(destinationFamilyMemberCC);
+            FamilyMember originFamilyMember = family.getFamilyMember(originFamilyMemberCC);
+            FamilyMember destinationFamilyMember = family.getFamilyMember(destinationFamilyMemberCC);
+            Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
+            Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
             if(categoryID>=0) {
                 CategoryService categoryService = this.app.getCategoryService();
                 category = categoryService.getStandardCategoryByID(categoryID);
@@ -39,12 +42,12 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             else category = family.getCustomCategoryByID(categoryID);
             if (category==null) return false;
 
-            TransactionService transactionService = app.getTransactionService();
             AccountService accountService = app.getAccountService();
-            accountService.transferCashBetweenFamilyMembersCashAccounts(family,originFamilyMember,destinationFamilyMember,category,cashTransferDTO);
-            Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
-            Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
-            transactionService.registerCashTransferOther(originAccount,destinationAccount, category , cashTransferDTO);
+            if(!accountService.transferCashBetweenFamilyMembersCashAccounts(originFamilyMember, destinationFamilyMember, cashTransferDTO)) return false;
+            TransactionService transactionService = app.getTransactionService();
+            accountService.transferCashBetweenFamilyMembersCashAccounts(originFamilyMember,destinationFamilyMember,cashTransferDTO);
+
+            transactionService.registerCashTransferOther((CashAccount)originAccount,(CashAccount) destinationAccount, category , cashTransferDTO);
             return true;
         } catch (IllegalArgumentException exception) {
             return false;

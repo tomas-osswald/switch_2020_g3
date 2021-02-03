@@ -81,17 +81,7 @@ Name
 BirthDate
 }
 
-class CCnumber {
-}
 
-class PhoneNumber {
-}
-
-class EmailAddress {
-}
-
-class VatNumber {
-}
 
 class Address {
 Street
@@ -120,11 +110,7 @@ Family "1" -- "1" CashAccount : has >
 Family "1" -- "1" FamilyMember : has administrator >
 Family "1" -- "1..*" FamilyMember : has members >
 FamilyMember "1" -- "0..1" Relation : has >
-FamilyMember "1" -- "1" CCnumber : has >
-FamilyMember "1" -- "0..*" PhoneNumber : has >
-FamilyMember "1" -- "0..*" EmailAddress : has >
-FamilyMember "1" -- "1" VatNumber : has >
-FamilyMember "1" -- "1" Address : has >
+
 
 ````
 
@@ -215,7 +201,6 @@ deactivate fMember
 
 ````
 
-
 # 3. Design
 
 
@@ -261,48 +246,65 @@ interface Account {}
 
 TransferMoneyFromCashAccountController --> Application : has
 Application --> FamilyService : has
+Application --> AccountService : has
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
-TransferMoneyFromCashAccountController --> AccountService : has
 AccountService --> CashAccount : change
 CashAccount --|> Account : implements
 CashAccount -* AccountData : contains
 CashAccount <-- FamilyMember : has
 
 ```
-
 ## 3.3. Applied Patterns
 
+We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
+used the SOLID SRP principle.
 
 ## 3.4. Tests
 
-**Test 1:** Controller: 
+Tests:
+
+**Tests :** Controller: 
+
+**Test 1** : Both Family Members are valid, Family is known and valid and all transfer details are valid
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsTrueWithSufficientFunds() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, categoryID, transactionDesignation, transactionDate);
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, currency,categoryID, transactionDesignation, transactionDate);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
-        boolean result = controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
 
         Assertions.assertTrue(result);
     }
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersOfUnknownFamily() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 1, "Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency, 1,"Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-
-        Assertions.assertThrows(Exception.class, () -> controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        assertFalse(result);
     }
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, 9, "Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1 ,"Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
-        Assertions.assertThrows(Exception.class, () -> controller.TransferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        assertFalse(result);
     }
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+        assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
+
+    }
+
+**Tests :** Controller:
+
 
 ## 4. Implementation
 
