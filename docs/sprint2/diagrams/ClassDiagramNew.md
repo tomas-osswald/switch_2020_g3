@@ -89,7 +89,7 @@ RelationService --> Relation : handles
 Transaction <|-left- CashTransaction : implements
 TransactionService --> Transaction: handles
 Account --> Transaction: has list
-Account -* MoneyValue : contains
+AccountData -* MoneyValue : contains
 Transaction -* MoneyValue : contains
 
 ```
@@ -185,7 +185,7 @@ RelationService --> Relation : handles
 Transaction <|-left- CashTransaction : implements
 TransactionService --> Transaction: handles
 Account --> Transaction: has list
-Account -* MoneyValue : contains
+AccountData -* MoneyValue : contains
 Transaction -* MoneyValue : contains
 
 ```

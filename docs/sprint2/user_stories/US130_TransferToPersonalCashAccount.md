@@ -4,7 +4,7 @@
 
 # 1. Requirements
 
-*As a family administrator, I want to transfer money from the family cash account to another family's member cash account*
+*As a family administrator, I want to transfer money from the family cash account to any family's member cash account*
 
 
 **1** As a family administrator, I want to transfer money from the family cash account to...
@@ -47,12 +47,17 @@ In order to fulfill this requirement we need information from the family adminis
 7. TransactionDate - the date of the transaction, if the information is not given the current system date will be used
 
 If the family member doesn't have a cash account a new cash account will be created
-The money transfer must be a positive value and of the same currency as the 
-family and destination cash account.
-The money transfer will only occur if the family has a cash account and if
- that cash account has enough money for the transaction.
+The money transfer must be a positive value and of the same currency as the family and destination cash account.
+The money transfer will only occur if the family has a cash account and if that cash account has enough money for the transaction.
 
 # 3. Design
+
+This functionality allows the family administrator to make a cash transfer between its family cash account and the cash account of one of the family's members.
+The transfer is done by first removing the value from the family account (after checking if the transaction can occur) and then adding that money to the personal cash account.
+We decided that if the family member had no cash account, a new cash account should be created for him.
+After the transfer is done the data is recorded in each of the accounts as a new transaction.
+
+## 3.1. Functionality Use
 
 ````puml
 @startuml
@@ -272,3 +277,162 @@ deactivate personalCashAccount
 deactivate TransactionService
 
 ````
+
+## 3.2. Class Diagram
+
+
+```puml
+left to right direction
+title Class Diagram - US130
+skinparam linetype ortho
+
+hide empty members
+
+class TransferCashFromFamilyAccountTo\nPersonalAccountController {
++ transferCashFromFamilytoFamilyMember()
+}
+
+class Application {
++ getFamilyService()
++ getCategoryService()
++ getAccountService()
++ getTransactionService()
+}
+
+class FamilyService {
++ getFamily()
+}
+
+
+class Family {
++ getFamilyMember()
++ getFamilyCashAccount()
++ getCustomCategoryByID()
+}
+
+class FamilyMember {
++ hasCashAccount()
++ getAccount()
+}
+
+
+class CategoryService {
++ getStandardCategoryByID()
+}
+
+class AccountService {
++ verifyAccountType()
++ transferCashFromFamilyToFamilyMember()
+}
+
+class TransactionService {
++ registerCashTransfer()
+}
+
+
+interface Category{
+}
+
+class StandardCategory {
+}
+
+class CustomCategory {
+}
+
+interface Account {
+}
+
+class CashAccount {
++ debit()
++ credit()
++ hasEnoughMoneyForTransaction()
++ checkCurrency()
++ registerTransaction()
+}
+
+
+class MoneyValue {
++ debit()
++ credit()
+}
+
+
+class CashTransaction {
+}
+
+class TransactionData {
+}
+
+
+
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> Application : has
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> FamilyService : calls
+TransferCashFromFamilyAccountTo\nPersonalAccountController -right-> CategoryService : calls
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> AccountService : calls
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> TransactionService : calls
+
+CategoryService --> StandardCategory
+'CategoryService -left-> CategoryTreeDTO : creates
+'FamilyService -right-> FamilyWithoutAdministratorDTO : creates
+FamilyService --> Family : has list
+Family --> CashAccount : has
+Family --> CustomCategory : \n\n has
+Family --> FamilyMember : has list
+
+Category <|- StandardCategory : implements
+Category <|-- CustomCategory : implements
+FamilyMember --> Account : has list
+
+Account <|-- CashAccount : implements
+
+Account -* AccountData : contains
+
+AccountService --> Account: handles
+
+TransactionService --> CashTransaction: handles
+CashAccount --> CashTransaction: has list
+AccountData ---* MoneyValue : contains
+CashTransaction -* TransactionData : contains
+
+```
+
+
+## 3.3. Applied Patterns
+
+We applied the following principles:
+
+- GRASP:
+    - Information expert:
+        - This pattern was used in classes that implemented the Account interface, as well as the CashTransactions;
+        
+    - Controller:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use-case controller.
+        
+    - Pure Fabrication:
+        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsabilities of the other classes (Family and FamilyMember for example)
+        
+    - High cohesion and Low Coupling:
+        - The creation of the Service classes provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+                    
+- SOLID:
+    - Single-responsibility principle:
+        - this pattern was used in the AccountService class, in which the only responsibility is to manage account operations while all the transaction registration responsibilities were delegated to the TransactionService.
+
+## 3.4. Tests
+
+
+
+# 4. Implementation
+
+In order to implement this user story we had several steps that required some extra attention in particular the large number of verifications that had to be performed before the transfer was allowed.
+This requirement was verified by creating unitary tests for the conditions where the transfer should not occur. The data involved in the transfer was also recorded in the form of a Transaction allowing other US to interact with that data.
+
+# 5. Integration
+ 
+This user story depends on the US170 - CreatePersonalCashAccount as it uses the Cash Account class created during that user story. It also interacts with elements developed in the US185 - GetAccountBalance and with US186 - GetListOfMovementsBetweenTwoDates.
+It also relates to the US001, US010, US101 and US120 from previous sprints.
+
+#6. Observations
+
+Although this user story had an increased complexity in regard to its interaction with other parts of the system we believe we achieved a working solution.
+The challenges presented, also allowed us to check the integrity of the other parts of our system and to try to improve upon them.
