@@ -35,7 +35,6 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
-
         if(currencyEnum != null)
             this.currentBalance = new MoneyValue(balance, currencyEnum);
         else

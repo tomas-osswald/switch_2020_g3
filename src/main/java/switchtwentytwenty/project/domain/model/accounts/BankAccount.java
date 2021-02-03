@@ -31,7 +31,6 @@ public class BankAccount implements Account {
             description = "BankAccount" + " " + bankAccountID;
         }
         this.accountData = new AccountData(balance, description, bankAccountID, addBankAccountDTO.getCurrency());
-
     }
 
     /***** METHODS ******/
