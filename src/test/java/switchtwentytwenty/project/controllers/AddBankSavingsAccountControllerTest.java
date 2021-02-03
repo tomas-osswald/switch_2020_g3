@@ -1,9 +1,11 @@
 package switchtwentytwenty.project.controllers;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddBankSavingsAccountDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -66,9 +68,11 @@ class AddBankSavingsAccountControllerTest {
         String accountName = "Savings Account";
         Double balance = 1.23;
         Double interestRate = 3.00;
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, testFamilyID, CurrencyEnum.EURO);
+
 
         testFamily.addFamilyMember(familyMember1);
-        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+        assertTrue(controller.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
@@ -76,9 +80,10 @@ class AddBankSavingsAccountControllerTest {
         String accountName = "Savings Account";
         Double balance = 1.23;
         Double interestRate = 3.00;
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, testFamilyID, CurrencyEnum.EURO);
 
         testFamily.addFamilyMember(familyMember2);
-        assertFalse(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+        assertFalse(controller.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
 
@@ -87,20 +92,23 @@ class AddBankSavingsAccountControllerTest {
         String accountName = " ";
         Double balance = null;
         Double interestRate = null;
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, testFamilyID, CurrencyEnum.EURO);
 
         testFamily.addFamilyMember(familyMember1);
-        assertTrue(controller.addBankSavingsAccount(testFamilyID, cc, accountName, balance, interestRate));
+        assertTrue(controller.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
     public void checkIfThrowsWhenNoSuchMemberID() {
-        assertFalse(controller.addBankSavingsAccount(10, "110142608ZZ1", "Savings 3", 1.00,5.21));
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(1.00, 5.21, "Savings 3", "110142608ZZ1", testFamilyID, CurrencyEnum.EURO);
+        assertFalse(controller.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
     public void checkIfThrowsWhenNoSuchFamilyID() {
         testFamily.addFamilyMember(familyMember3);
-        assertFalse(controller.addBankSavingsAccount(11, "110142608ZZ0", "Savings 3", 1.00,5.21));
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(1.00, 5.21, "Savings 3", "110142608ZZ0", 11, CurrencyEnum.EURO);
+        assertFalse(controller.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
