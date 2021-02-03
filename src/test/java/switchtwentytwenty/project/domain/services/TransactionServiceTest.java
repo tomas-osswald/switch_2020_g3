@@ -253,26 +253,4 @@ class TransactionServiceTest {
         Assertions.assertTrue(result);
     }
 
-    @Test
-    void registerCashTransfer_TestDifferentCurrenciesOriginAccount() {
-        TransactionService service = new TransactionService();
-        AddBankAccountDTO bankAccountDTO = new AddBankAccountDTO(balance, "TestAccount", selfCC, familyID, CurrencyEnum.EURO);
-        BankAccount notCashAccount = new BankAccount(bankAccountDTO, 100);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            service.registerCashTransfer(notCashAccount, contaCash, categoria1, transacaoDTO1);
-        });
-    }
-
-    @Test
-    void registerCashTransfer_TestDifferentCurrenciesDestinationAccount() {
-        TransactionService service = new TransactionService();
-        AddBankAccountDTO bankAccountDTO = new AddBankAccountDTO(balance, "TestAccount", selfCC, familyID, CurrencyEnum.EURO);
-        BankAccount notCashAccount = new BankAccount(bankAccountDTO, 100);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            service.registerCashTransfer(contaCash, notCashAccount, categoria1, transacaoDTO1);
-        });
-    }
-
 }

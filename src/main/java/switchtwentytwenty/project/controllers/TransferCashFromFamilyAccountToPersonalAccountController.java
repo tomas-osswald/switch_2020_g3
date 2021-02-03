@@ -4,6 +4,7 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
+import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
@@ -28,7 +29,7 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
 
         try {
             Family family = familyService.getFamily(familyID);
-            FamilyMember familyMember = familyService.getFamily(familyID).getFamilyMember(familyMemberCC);
+            FamilyMember familyMember = family.getFamilyMember(familyMemberCC);
 
             if (categoryID>=0) {
                 CategoryService categoryService = this.ffmApplication.getCategoryService();
@@ -43,7 +44,7 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
             TransactionService transactionService = ffmApplication.getTransactionService();
             Account familyAccount = accountService.getAccount(familyMember, familyCashTransferDTO.getAccountID());
             Account targetCashAccount = accountService.getFamilyCashAccount(family);
-            transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
+            transactionService.registerCashTransfer((CashAccount) familyAccount,(CashAccount) targetCashAccount, category, familyCashTransferDTO);
             return true;
         } catch (IllegalArgumentException exception) {
             return false;

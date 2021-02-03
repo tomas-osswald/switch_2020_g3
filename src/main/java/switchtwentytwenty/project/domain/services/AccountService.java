@@ -110,6 +110,7 @@ public class AccountService {
             String accountDesignation = "Cash account for " + familyMember.getName();
             targetCashAccount = new CashAccount(accountDesignation, initialBalance, familyMemberAccountID, currency);
         }
+        if (!targetCashAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
         familyAccount.debit(transferAmount);
         targetCashAccount.credit(transferAmount);
         return true;
