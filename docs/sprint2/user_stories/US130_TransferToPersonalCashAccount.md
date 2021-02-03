@@ -280,6 +280,123 @@ deactivate TransactionService
 
 ## 3.2. Class Diagram
 
+
+```puml
+left to right direction
+title Class Diagram - US130
+skinparam linetype ortho
+
+hide empty members
+
+class TransferCashFromFamilyAccountTo\nPersonalAccountController {
++ transferCashFromFamilytoFamilyMember()
+}
+
+class Application {
++ getFamilyService()
++ getCategoryService()
++ getAccountService()
++ getTransactionService()
+}
+
+class FamilyService {
++ getFamily()
+}
+
+
+class Family {
++ getFamilyMember()
++ getFamilyCashAccount()
++ getCustomCategoryByID()
+}
+
+class FamilyMember {
++ hasCashAccount()
++ getAccount()
+}
+
+
+class CategoryService {
++ getStandardCategoryByID()
+}
+
+class AccountService {
++ verifyAccountType()
++ transferCashFromFamilyToFamilyMember()
+}
+
+class TransactionService {
++ registerCashTransfer()
+}
+
+
+interface Category{
+}
+
+class StandardCategory {
+}
+
+class CustomCategory {
+}
+
+interface Account {
+}
+
+class CashAccount {
++ debit()
++ credit()
++ hasEnoughMoneyForTransaction()
++ checkCurrency()
++ registerTransaction()
+}
+
+
+class MoneyValue {
++ debit()
++ credit()
+}
+
+
+class CashTransaction {
+}
+
+class TransactionData {
+}
+
+
+
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> Application : has
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> FamilyService : calls
+TransferCashFromFamilyAccountTo\nPersonalAccountController -right-> CategoryService : calls
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> AccountService : calls
+TransferCashFromFamilyAccountTo\nPersonalAccountController --> TransactionService : calls
+
+CategoryService --> StandardCategory
+'CategoryService -left-> CategoryTreeDTO : creates
+'FamilyService -right-> FamilyWithoutAdministratorDTO : creates
+FamilyService --> Family : has list
+Family --> CashAccount : has
+Family --> CustomCategory : \n\n has
+Family --> FamilyMember : has list
+
+Category <|- StandardCategory : implements
+Category <|-- CustomCategory : implements
+FamilyMember --> Account : has list
+
+Account <|-- CashAccount : implements
+
+Account -* AccountData : contains
+
+AccountService --> Account: handles
+
+TransactionService --> CashTransaction: handles
+CashAccount --> CashTransaction: has list
+AccountData ---* MoneyValue : contains
+CashTransaction -* TransactionData : contains
+
+```
+
+
 ## 3.3. Applied Patterns
 
 We applied the following principles:
