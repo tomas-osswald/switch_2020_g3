@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
@@ -8,7 +9,6 @@ import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.Transaction;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,11 +19,12 @@ public class TransactionService {
     public boolean registerPaymentMyCashAccount(Account targetAccount, StandardCategory category, FamilyCashTransferDTO familyCashTransferDTO) { // TODO: ALTERAR PARA GENERAL CATEGORY
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
-        MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(),familyCashTransferDTO.getCurrency());
+        MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(), familyCashTransferDTO.getCurrency());
         if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
             //TODO: alterar targetCashAccount para null. BT
-            targetCashAccount.registerTransaction(null, category,credit, familyCashTransferDTO);
             targetCashAccount.debit(transferAmount);
+            MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
+            targetCashAccount.registerTransaction(null, category, credit, remainingBalance, familyCashTransferDTO);
             return true;
         } else {
             throw new IllegalArgumentException("Not enough balance");
@@ -77,14 +78,17 @@ public class TransactionService {
         return isBetweenDates;
     }
 
-    public boolean registerCashTransfer(Account originAccount, Account destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO){
-        if(!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid AccountType");
-        if(!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT)) throw new IllegalArgumentException("Invalid AccountType");
+    public boolean registerCashTransfer(Account originAccount, Account destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
+        if (!originAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
+            throw new IllegalArgumentException("Invalid AccountType");
+        if (!destinationAccount.checkAccountType(AccountTypeEnum.CASHACCOUNT))
+            throw new IllegalArgumentException("Invalid AccountType");
         CashAccount originCashAccount = (CashAccount) originAccount;
         CashAccount destinationCashAccount = (CashAccount) destinationAccount;
-
-        originCashAccount.registerTransaction(destinationCashAccount, category,false, familyCashTransferDTO);
-        destinationCashAccount.registerTransaction(originCashAccount, category,true, familyCashTransferDTO);
+        MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+        MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
+        originCashAccount.registerTransaction(destinationCashAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
+        destinationCashAccount.registerTransaction(originCashAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
         return true;
     }
 

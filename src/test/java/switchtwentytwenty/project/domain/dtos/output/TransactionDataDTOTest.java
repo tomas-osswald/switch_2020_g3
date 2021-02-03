@@ -3,7 +3,6 @@ package switchtwentytwenty.project.domain.dtos.output;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.model.accounts.BankSavingsAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.sandbox.TransactionData;
@@ -27,8 +26,9 @@ class TransactionDataDTOTest {
     Date transactionDateTwo = new Date(2021, 2, 21);
     StandardCategory categoryTwo = new StandardCategory("Serviços", parentStandard, 2);
     boolean credit = true;
-    TransactionData transactionDataOne = new TransactionData(designationOne, amountOne, credit, transactionDateOne, categoryOne);
-    TransactionData transactionDataTwo = new TransactionData(designationTwo, amountTwo, credit, transactionDateTwo, categoryTwo);
+    MoneyValue remainingBalance = new MoneyValue(400.00, null);
+    TransactionData transactionDataOne = new TransactionData(designationOne, amountOne, credit, remainingBalance, transactionDateOne, categoryOne);
+    TransactionData transactionDataTwo = new TransactionData(designationTwo, amountTwo, credit, remainingBalance, transactionDateTwo, categoryTwo);
 
     switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDataDTOOne = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionDataOne);
     switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDataDTOTwo = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionDataTwo);
@@ -41,7 +41,7 @@ class TransactionDataDTOTest {
         MoneyValue ammount = new MoneyValue(50.0, null);
         Date transactionDate = new Date();
         Category category = new StandardCategory("TestCategory", null, 1);
-        TransactionData transactionData = new TransactionData(designation, ammount, credit, transactionDate, category);
+        TransactionData transactionData = new TransactionData(designation, ammount, credit, remainingBalance, transactionDate, category);
 
         //Act
         switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO transactionDTO = new switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO(transactionData);

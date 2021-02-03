@@ -339,8 +339,9 @@ class CashAccountTest {
         CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
         CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "cc", 1, 2.00, CurrencyEnum.EURO, 1, "Shopping", new Date());
+        MoneyValue remainingBalance = new MoneyValue(10.0,CurrencyEnum.EURO);
 
-        assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, familyCashTransferDTO));
+        assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, familyCashTransferDTO));
     }
 
     @Test

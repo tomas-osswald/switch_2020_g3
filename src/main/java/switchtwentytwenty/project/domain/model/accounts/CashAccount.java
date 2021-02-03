@@ -100,8 +100,8 @@ public class CashAccount implements Account {
         return this.accountData.getMoneyValue().debit(value).getValue() >= 0;
     }
 
-    public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, FamilyCashTransferDTO familyCashTransferDTO) {
-        accountData.registerCashTransaction(targetAccount, category, familyCashTransferDTO, credit);
+    public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, FamilyCashTransferDTO familyCashTransferDTO) {
+        accountData.registerCashTransaction(targetAccount, category,remainingbalance, familyCashTransferDTO, credit);
         return true;
     }
 
