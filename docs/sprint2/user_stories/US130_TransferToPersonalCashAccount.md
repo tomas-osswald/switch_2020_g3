@@ -1,3 +1,13 @@
+# US130 Transfer Cash From Family Account To Personal Cash Account
+=======================================
+
+
+# 1. Requirements
+
+### System Sequence Diagram
+
+# 2. Analysis
+
 # 3. Design
 
 
@@ -247,3 +257,29 @@ return
 @enduml
 
 ````
+
+## 3.1. Functionality Use
+
+## 3.2. Class Diagram
+
+## 3.3. Applied Patterns
+
+## 3.4. Tests
+
+**Test 1:** 
+
+**Test 2:** 
+
+**Test 3:** 
+
+**Test 4:** 
+
+**Test 5:** 
+
+# 4. Implementation
+
+
+# 5. Integration
+
+
+#6. Observations
