@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
+import switchtwentytwenty.project.domain.sandbox.Result;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.lang.reflect.Executable;
@@ -507,5 +508,38 @@ class CreditCardAccountTest {
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
 
         assertFalse(creditCardAccount.checkCurrency(CurrencyEnum.YEN));
+    }
+
+    @Test
+    void testHashCodeNotEquals() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+
+        int notExpected = 0;
+        int resultOne = creditCardAccount.hashCode();
+        assertNotEquals(notExpected, resultOne);
+    }
+
+    @Test
+    void testHashCodeEquals() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        CreditCardAccount creditCardAccountTwo = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+
+        int resultTwo = creditCardAccountTwo.hashCode();
+        int resultOne = creditCardAccount.hashCode();
+        assertEquals(resultOne, resultTwo);
+    }
+
+    @Test
+    void testHashCodeNotEqualsTwo() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        CreditCardAccount creditCardAccountTwo = new CreditCardAccount(addCreditCardAccountDTO, idTwo);
+
+        int resultTwo = creditCardAccountTwo.hashCode();
+        int resultOne = creditCardAccount.hashCode();
+        assertNotEquals(resultOne, resultTwo);
     }
 }

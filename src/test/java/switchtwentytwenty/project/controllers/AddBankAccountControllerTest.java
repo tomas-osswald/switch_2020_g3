@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -47,42 +48,47 @@ class AddBankAccountControllerTest {
     }
     @Test
     void addBankAccountTest1_Success() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
 
     @Test
     void addBankAccountTest1_Fail() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 100);//familyID doesn't exists'
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 100, CurrencyEnum.EURO);//familyID doesn't exists'
         assertFalse(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
 
     @Test
     void addBankAccountTest2_NullNameSuccess() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, cc, 1);//no accountName is given
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, cc, 1, CurrencyEnum.EURO);//no accountName is given
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
     @Test
     void addBankAccountTest3_BlankNameSuccess() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "  ", cc, 1);//accountName is blank
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "  ", cc, 1, CurrencyEnum.EURO);//accountName is blank
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
     @Test
     void addBankAccountTest4_NegativeBalanceSuccess() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
     @Test
     void addBankAccountTest5_AddTwoBankAccountsSuccess() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1);
-        AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1, CurrencyEnum.EURO);
         addBankAccountController.addBankAccount(addBankAccountDTO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO2));
     }
     //TODO test for null balance - needed changes by Diogo to transform Null into 0
-    /*@Test
+    @Test
     void addBankAccountTest6_NullBalanceSuccess() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
-    }*/
+    }
+    @Test
+    void addBankAccountTest7_YenCurrencySuccess() {
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.YEN);
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
+    }
 }

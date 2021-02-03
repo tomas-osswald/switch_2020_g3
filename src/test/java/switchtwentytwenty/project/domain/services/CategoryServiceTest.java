@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
 import java.util.ArrayList;
@@ -132,6 +133,15 @@ class CategoryServiceTest {
         //Asserts
         assertEquals(expectedList.size(),resultList.size());
         assertEquals(expectedList,resultList);
+    }
+
+    @Test
+    void getStandardCategoryTree() {
+        StandardCategory categoryOne = new StandardCategory("Home", null, 1);
+
+        CategoryTreeDTO result = categoryService.getStandardCategoryTree();
+
+        assertNotNull(result);
     }
 
 

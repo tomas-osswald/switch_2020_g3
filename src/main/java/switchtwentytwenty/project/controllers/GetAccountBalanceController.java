@@ -25,9 +25,6 @@ public class GetAccountBalanceController {
         AccountService accountService = new AccountService();
         Account account = accountService.getAccount(familyMember, accountID);
 
-        //double accountBalance = account.getBalance();
-        MoneyValue accountBalance = account.getMoneyBalance();
-
-        return accountBalance;
+        return account.getMoneyBalance();
     }
 }

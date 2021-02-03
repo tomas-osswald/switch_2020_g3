@@ -55,8 +55,9 @@ class GetAccountBalanceControllerTest {
     void setUp() {
 
         addFamilyController.addFamily("Ribeiro");
-        addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(bankAccBalance, currentAccName, cc, 1);
+        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+        addFamilyAdministratorController.addFamilyAdministrator(addFamilyMemberDTO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(bankAccBalance, currentAccName, cc, 1, CurrencyEnum.EURO);
         addBankAccountController.addBankAccount(addBankAccountDTO);
         addBankSavingsAccountController.addBankSavingsAccount(1, cc, savingsAccName, savingsAccBalance, interestRate);
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 1, creditCardAccName, 5000.00, 100.0, 20.0, CurrencyEnum.EURO);

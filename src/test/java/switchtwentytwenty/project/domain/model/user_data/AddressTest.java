@@ -125,4 +125,21 @@ class AddressTest {
 
         assertNotSame(address2, address);
     }
+    @Test
+    void testHashCodeEquals() {
+        String cidade = "Lisboa";
+        Address address = new Address(street, postalCode, local, cidade);
+        Address address2 = new Address(street, postalCode, local, cidade);
+
+        assertEquals(address2.hashCode(), address.hashCode());
+        assertNotSame(address2, address);
+    }
+    @Test
+    void testHashCodeNotEquals() {
+        String cidade = "Lisboa";
+        Address address = new Address(street, postalCode, local, cidade);
+        Address address2 = new Address(street, postalCode, local, "Porto");
+
+        assertNotEquals(address2.hashCode(), address.hashCode());
+    }
 }

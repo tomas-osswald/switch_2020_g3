@@ -1,13 +1,15 @@
 package switchtwentytwenty.project.domain.sandbox;
 
 
+import java.util.Objects;
+
 public class Result<T> {
 
-    private boolean result;
-    private T content;
+    private final boolean aBoolean;
+    private final T content;
 
     public Result(boolean result, T content) {
-        this.result = result;
+        this.aBoolean = result;
         this.content = content;
     }
 
@@ -20,7 +22,7 @@ public class Result<T> {
     }
 
     public boolean isSuccess() {
-        return result;
+        return aBoolean;
     }
 
     @Override
@@ -28,9 +30,14 @@ public class Result<T> {
         if (this == o) return true;
         if (!(o instanceof Result)) return false;
 
-        Result<T> result = (Result<T>) o;
+        Result<T> otherResult = (Result<T>) o;
 
-        return this.result == result.result && this.content.equals(result.content);
+        return this.aBoolean == otherResult.aBoolean && this.content.equals(otherResult.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(aBoolean, content);
     }
 }
 

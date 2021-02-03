@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CreditCardAccount implements Account {
 
@@ -159,6 +160,11 @@ public class CreditCardAccount implements Account {
         return this.accountData.equals(otherAccount.accountData);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountData.getAccountID(), accountData.getDescription(), accountData.getListOfMovements(), accountData.getCurrentBalance().getValue(),
+                accountData.getCurrentBalance().getCurrency(), interestDebt);
+    }
     /**
      * Method to get Description of Account
      *

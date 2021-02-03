@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.sandbox;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorDTO;
 import switchtwentytwenty.project.domain.model.Family;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,6 +73,35 @@ class ResultTest {
         Result<String> resultOne = Result.failure("failure");
         Result<String> resultTwo = Result.failure("falhanço");
 
+        assertNotEquals(resultOne, resultTwo);
+    }
+
+    @Test
+    void testHashCodeNotEquals() {
+        Result<String> result = Result.failure("");
+
+        int notExpected = 0;
+        int resultOne = result.hashCode();
+        assertNotEquals(notExpected, resultOne);
+    }
+
+    @Test
+    void testHashCodeEquals() {
+        Result<String> resultOneResult = Result.success();
+        Result<String> resultTwoResult = Result.success();
+
+        int resultOne = resultTwoResult.hashCode();
+        int resultTwo = resultOneResult.hashCode();
+        assertEquals(resultOne, resultTwo);
+    }
+
+    @Test
+    void testHashCodeNotEqualsTwo() {
+        Result<String> resultOneResult = Result.failure("Failure");
+        Result<String> resultTwoResult = Result.failure("failure");
+
+        int resultOne = resultTwoResult.hashCode();
+        int resultTwo = resultOneResult.hashCode();
         assertNotEquals(resultOne, resultTwo);
     }
 }

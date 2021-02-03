@@ -17,36 +17,17 @@ public class BankAccount implements Account {
     /***** CONSTRUCTORS ******/
 
     public BankAccount(AddBankAccountDTO addBankAccountDTO, Integer bankAccountID) {
-        double balance = addBankAccountDTO.getBalance();
+        Double balance = addBankAccountDTO.getBalance();
 
-        if (!validateBalance(balance)) {
+        if (!validateBalance(addBankAccountDTO.getBalance())) {
             balance = 0.00;
         }
         String description = addBankAccountDTO.getDescription();
         if (!validateDescription(description)){
             description = "BankAccount" + " " + bankAccountID;
         }
-        this.accountData = new AccountData(balance, description, bankAccountID);
+        this.accountData = new AccountData(balance, description, bankAccountID, addBankAccountDTO.getCurrency());
 
-    }
-    public BankAccount(String description, Double balance, Integer bankAccountID) {
-        if (!validateDescription(description)) {
-            description = "BankAccount" + " " + bankAccountID;
-        }
-        if (!validateBalance(balance)) {
-            balance = 0.00;
-        }
-        this.accountData = new AccountData(balance, description, bankAccountID);
-    }
-
-    public BankAccount(String description, Double balance, Integer bankAccountID, CurrencyEnum currencyEnum) {
-        if (!validateDescription(description)) {
-            description = "BankAccount" + " " + bankAccountID;
-        }
-        if (!validateBalance(balance)) {
-            balance = 0.00;
-        }
-        this.accountData = new AccountData(balance, description, bankAccountID, currencyEnum);
     }
 
     /***** METHODS ******/

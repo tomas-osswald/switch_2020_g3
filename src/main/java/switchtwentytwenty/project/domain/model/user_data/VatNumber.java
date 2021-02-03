@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.user_data;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class VatNumber {
@@ -37,9 +38,8 @@ public class VatNumber {
         return vatNumber == vatNumber1.vatNumber;
     }
 
-    /*
     @Override
     public int hashCode() {
         return Objects.hash(vatNumber);
-    }*/
+    }
 }

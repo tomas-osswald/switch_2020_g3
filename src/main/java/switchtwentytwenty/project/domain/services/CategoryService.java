@@ -169,15 +169,18 @@ public class CategoryService {
             StandardCategory parent = getStandardCategoryByID(parentID);
             checkIfParentNull(parent);
             CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            return targetFamily.addCategory(newCustomCategory);
+            targetFamily.addCategory(newCustomCategory);
+            return true;
         } else if (parentID < 0) {
             CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
             checkIfParentNull(parent);
             CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            return targetFamily.addCategory(newCustomCategory);
+            targetFamily.addCategory(newCustomCategory);
+            return true;
         } else {
             CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
-            return targetFamily.addCategory(newCustomCategory);
+            targetFamily.addCategory(newCustomCategory);
+            return true;
         }
     }
 

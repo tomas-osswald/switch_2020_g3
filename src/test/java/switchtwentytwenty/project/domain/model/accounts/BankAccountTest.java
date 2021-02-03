@@ -18,13 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
 
-    // BankAccount
-    String description = "BankAccount do Ze Manel";
-    Double balance = 500.00;
-    int bankID = 1;
-    CurrencyEnum currency = CurrencyEnum.EURO;
-    BankAccount accountTest = new BankAccount(description, balance, bankID, currency);
-
     // FamilyMember
     int familyID = 1;
     String selfCC = "0000000000ZZ4";
@@ -33,42 +26,50 @@ class BankAccountTest {
     StandardCategory parentStandard = new StandardCategory("root", null, 1);
 
     // CashTransaction
+    int bankID = 1;
+    CurrencyEnum currency = CurrencyEnum.EURO;
     double transferAmount = 200.0;
     int categoryID = 2;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021, 1, 21);
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID, selfCC, bankID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
+    // BankAccount
+    String description = "BankAccount do Ze Manel";
+    Double balance = 500.00;
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount accountTest = new BankAccount(addBankAccountDTO, 1);
+
     /**
      * CONSTRUCTOR
      **/
     @Test
     void createBankAccount_SameObject() {
-        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 1, currency);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         assertTrue(account.equals(account));
     }
 
     @Test
     void createBankAccount_DifferentObjects() {
-        BankAccount account = new BankAccount("BankAccount do Ze Manel", 500.00, 2, currency);
+        BankAccount account = new BankAccount(addBankAccountDTO, 2);
         assertFalse(accountTest.equals(account));
     }
 
     @Test
     void createBankAccount_DifferentObject() {
-        BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         assertNotSame(accountTest, account);
     }
 
     @Test
     void createBankAccount_SameObjectData() {
-        BankAccount account = new BankAccount(description, balance, bankID, currency);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         assertTrue(accountTest.equals(account));
     }
 
     @Test
     void createBankAccount_NotSameObjectData() {
-        BankAccount account = new BankAccount(description, balance, 2, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 2);
         assertFalse(accountTest.equals(account));
     }
 
@@ -77,21 +78,24 @@ class BankAccountTest {
      **/
     @Test
     void CreateBankAccount_NullDescription() {
-        BankAccount account = new BankAccount(null, 100.0, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         String desc = "BankAccount 1";
         assertEquals(account.getDescription(), desc);
     }
 
     @Test
     void CreateBankAccount_EmptyDescription() {
-        BankAccount account = new BankAccount("", 100.0, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "", selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         String desc = "BankAccount 1";
         assertEquals(account.getDescription(), desc);
     }
 
     @Test
     void CreateBankAccount_BlankDescription() {
-        BankAccount account = new BankAccount("         ", 100.0, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "       ", selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         String desc = "BankAccount 1";
         assertEquals(account.getDescription(), desc);
     }
@@ -101,14 +105,16 @@ class BankAccountTest {
      **/
     @Test
     void CreateBankAccount_NullBalance() {
-        BankAccount account = new BankAccount("Conta do Bito", null, 2, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         Double expected = 0.00;
         assertEquals(expected, account.getMoneyBalance().getValue());
     }
 
     @Test
     void CreateBankAccount_NegativeBalance() {
-        BankAccount account = new BankAccount("Conta do Bito", -10.00, 2, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(-10.0, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         Double expected = -10.00;
         assertEquals(expected, account.getMoneyBalance().getValue());
     }
@@ -118,15 +124,17 @@ class BankAccountTest {
      **/
     @Test
     void getBalance() {
-        BankAccount account = new BankAccount(description, 500.00, bankID, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(400.00, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         Double result = account.getMoneyBalance().getValue();
-        Double expected = 500.00;
+        Double expected = 400.00;
         assertEquals(result, expected);
     }
 
     @Test
     void getDescription() {
-        BankAccount account = new BankAccount("Conta do Bitó", balance, bankID, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "Conta do Bitó", selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         String result = account.getDescription();
         String expected = "Conta do Bitó";
         assertEquals(result, expected);
@@ -134,7 +142,8 @@ class BankAccountTest {
 
     @Test
     void getBankID() {
-        BankAccount account = new BankAccount(description, balance, 2, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "Conta do Bitó", selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 2);
         Integer result = account.getAccountID();
         Integer expected = 2;
         assertEquals(result, expected);
@@ -142,7 +151,7 @@ class BankAccountTest {
 
     @Test
     void changeBalance() {
-        BankAccount account = new BankAccount(description, balance, bankID, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(addBankAccountDTO, 1);
         account.changeBalance(30.00);
         Double result = account.getMoneyBalance().getValue();
         Double expected = 530.0;
@@ -163,6 +172,13 @@ class BankAccountTest {
     void NotEnoughMoneyForTransaction_NegaticeAmmount() {
         assertThrows(IllegalArgumentException.class, () -> {
             accountTest.hasEnoughMoneyForTransaction(new MoneyValue(-200.0, CurrencyEnum.EURO));
+        });
+    }
+
+    @Test
+    void NotEnoughMoneyForTransaction_BoundaryAmmount() {
+        assertDoesNotThrow( () -> {
+            accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.0, CurrencyEnum.EURO));
         });
     }
 
@@ -206,13 +222,14 @@ class BankAccountTest {
     // TODO: Encontrar o porquê de os hashCodes não serem iguais
     @Test
     void HashCode_SameContent() {
-        BankAccount newAccount = new BankAccount(description, balance, bankID, currency);
+        BankAccount newAccount = new BankAccount(addBankAccountDTO, 1);
         assertTrue(newAccount.hashCode() == accountTest.hashCode());
     }
 
     @Test
     void HashCode_DifferentContent() {
-        BankAccount newAccount = new BankAccount("Xpto", 0.0, 2, CurrencyEnum.DOLLAR);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "Conta do Bitó", selfCC, 1, CurrencyEnum.EURO);
+        BankAccount newAccount = new BankAccount(addBankAccountDTO, 1);
         assertNotEquals(newAccount.hashCode(), accountTest.hashCode());
     }
 
@@ -298,12 +315,12 @@ class BankAccountTest {
 
     @Test
     void createBankAccount_NegativeBalance() {
-        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00, description, "0000000000ZZ4", 1);
+        AddBankAccountDTO dto = new AddBankAccountDTO(-100.00, description, selfCC, 1, CurrencyEnum.EURO);
         BankAccount account = new BankAccount(dto, 1);
         assertTrue(account.equals(account));
     }
 
-    @Test
+    /*@Test
     void createBankAccount_constructorWithNoCurrency() {
         BankAccount account = new BankAccount(description, 500.00, 1);
         assertTrue(account.equals(account));
@@ -319,30 +336,34 @@ class BankAccountTest {
     void createBankAccount_constructorWithNoCurrencyNoDescription() {
         BankAccount account = new BankAccount("", -12.50, 1);
         assertTrue(account.equals(account));
-    }
+    }*/
 
     @Test
     void checkCurrencyYen() {
-        BankAccount bankAccount = new BankAccount("Bank", 20.00, 1, CurrencyEnum.YEN);
-        assertTrue(bankAccount.checkCurrency(CurrencyEnum.YEN));
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.YEN);
+        BankAccount account = new BankAccount(dto, 1);
+        assertTrue(account.checkCurrency(CurrencyEnum.YEN));
     }
 
     @Test
     void checkCurrencyFalse() {
-        BankAccount bankAccount = new BankAccount("Bank", 20.00, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
 
-        assertFalse(bankAccount.checkCurrency(CurrencyEnum.YEN));
+        assertFalse(account.checkCurrency(CurrencyEnum.YEN));
     }
 
     @Test
     void getDescriptionNotNull() {
-        BankAccount account = new BankAccount("Conta do Bitó", balance, bankID, CurrencyEnum.EURO);
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
         assertNotNull(account.getDescription());
     }
 
     @Test
     void getDescriptionEmpty() {
-        BankAccount account = new BankAccount("", balance, bankID, CurrencyEnum.EURO);
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
         String notExpected = "";
 
         assertNotNull(account.getDescription());

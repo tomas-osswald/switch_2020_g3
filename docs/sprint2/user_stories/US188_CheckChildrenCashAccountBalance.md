@@ -43,7 +43,7 @@ This user story has a dependency with these user stories:
 - **[US010](US010_AddFamily.md)** *(As a system manager, I want to create a family)*
    - In order to be added a family member, the system needs to have a family;
 
-- **[US011](US010_AddFamilyAdministrator.md)** *(As a system manager, I want to add a family administrator)*
+- **[US011](US011_AddFamilyAdministrator.md)** *(As a system manager, I want to add a family administrator)*
    - In order to be added a family member, the family needs to have a family administrator;
 
 - **[US101](US101_AddFamilyMember.md)** *(As a family Administrator, I want to add a familyMember to a family)*
@@ -68,9 +68,12 @@ To check the balance of a child's cash account we need to know:
 3. The Account ID
 
 As the accounts are stored within the FamilyMembers Class, we will need to know the target
-FamilyMember. This will be obtained through the ID. As it is a requirement that the actor
-is a parent or has parental permissions over the child, we will also have to verify the parental relation
-between both members. That is one of the reasons we will need both FamilyMembers ID.
+FamilyMember. This will be obtained through the ID.  
+
+As it is a requirement that the actor is a parent or has parental permissions over the child, we will also have to verify the parental relation
+between both members.  
+That is one of the reasons we will need both FamilyMembers ID.
+
 As a FamilyMember can have multiple accounts, we will also need the AccountID which is unique
 for each account in each FamilyMember.
 
@@ -105,8 +108,8 @@ participant ": FamilyService" as FamilyService
 participant ": RelationService" as Relation
 participant "aFamily : \nFamily" as Family
 participant ": AccountService" as AccountService
-participant "aCashAccount : CashAccount" as account
 participant "child : \nFamilyMember" as aFamilyMember
+participant "aCashAccount : \nCashAccount" as account
 
 
 activate FamilyMember
@@ -125,45 +128,40 @@ FamilyService --> Controller : aFamily
 deactivate FamilyService
 Controller -> Family : getFamilyMember(parentID)
 Activate Family
-Family -> Family : getFamilyMember(ParentID)
-Family --> Controller : FamilyMemberA
+Family -> Family : getFamilyMember(parentID)
+Family --> Controller : familyMemberA
 Controller -> Family : getFamilyMember(childID)
 Family -> Family : getFamilyMember(childID)
-Family --> Controller : FamilyMemberB
+Family --> Controller : familyMemberB
 Controller -> Relation **: createRelationService
-Relation -> Family : verifyParenthood(aFamily, \nFamilyMemberA, FamilyMemberB)
+Relation -> Family : verifyParenthood(aFamily, \nfamilyMemberA,\n familyMemberB)
 activate Relation
-alt false : A is not parent of B
-Family --> Relation : Failure
-Relation --> Controller : Failure
-Controller --> UI : Failure
-UI --> FamilyMember : You don't have permission \nto do this operation
-else success : A is parent of B
+ref over Relation, Family
+CheckChildCashAccountBalance 2
+end ref
 Family --> Relation : True
 Relation --> Controller : True
-end
+
+
 Deactivate Family
 deactivate Relation
 
 
 Controller -> AccountService ** : createAccountService()
-Controller -> AccountService : checkCashAccountBalance(accountID, familyMemberB)
+Controller -> AccountService : checkCashAccountBalance\n(accountID, familyMemberB)
 activate AccountService
+ref over AccountService, aFamilyMember, account
+CheckChildCashAccountBalance 3
+end
 AccountService -> aFamilyMember : getAccount(accountID)
 activate aFamilyMember
 aFamilyMember  --> AccountService : anAccount
 deactivate aFamilyMember
-AccountService -> AccountService : verifyAccountType(accountID, accountType)
-alt false : Account is not CashAccount
-AccountService --> Controller : failure
-Controller --> UI : failure
-UI --> FamilyMember : Not a cash account
-else success
 
-AccountService -> aCashAccount : getBalance()
-activate aCashAccount
-aCashAccount --> AccountService : cashAccountBalance
-deactivate aCashAccount
+AccountService -> account : getBalance()
+activate account
+account --> AccountService : cashAccountBalance
+deactivate account
 AccountService --> Controller : cashAccountBalance
 deactivate AccountService
 Controller --> UI : cashAccountBalance
@@ -171,134 +169,74 @@ Deactivate Controller
 UI --> FamilyMember : Child's Cash Account Balance
 Deactivate UI
 Deactivate FamilyMember
-end
-````
-
-
-
-
-
-ref over AccountService
-AddBankSavingsAccount 2
-end ref
-
-
-
-
-````puml
-autonumber 1
-title getListOfCashAccountsOfAFamilyMember( )
-actor "Actor" as actor
-participant ": UI" as UI
-participant ": CheckCashAccountBalance\n Controller" as controller
-participant ": Application" as app
-participant "aAccountService : AccountService" as aserv
-participant "aFamilyService : FamilyService" as fserv
-participant "aFamily : Family" as family
-participant "aFamilyMember : FamilyMember" as familyMember
-
-activate actor
-actor -> UI : inputs required data
-activate UI
-UI -> controller : getListOfCashAccountsOfAFamilyMember(selfID, otherID, familyID)
-
-activate controller
-controller -> app : getFamilyService()
-activate app
-app -> controller : aFamilyService
-deactivate app
-
-controller -> fserv : verifyAdministratorPermission(selfID, familyID)
-activate fserv
-fserv -> controller : inform success
-deactivate fserv
-
-controller -> fserv : getFamily(familyID)
-activate fserv
-fserv -> controller : aFamily
-deactivate fserv
-
-controller -> family : getFamilyMember(otherID)
-activate family
-family -> controller : aFamilyMember
-deactivate family
-
-controller -> app : getAccountService()
-activate app
-controller <- app : aAccountService
-deactivate app
-
-controller -> aserv : getListOfCashAccountsOfAFamilyMember(aFamilyMember)
-activate aserv
-aserv -> familyMember : getListOfCashAccountsOfAFamilyMember( )
-
-activate familyMember
-
-
-familyMember -> aserv : listOfCashAccounts
-deactivate familyMember
-deactivate familyMember
-aserv -> controller : listOfCashAccounts
-deactivate aserv
-
-controller -> UI : listOfCashAccounts
-deactivate controller
-
-UI -> actor : listOfCashAccounts
+deactivate Controller
 deactivate UI
-deactivate actor
-````
 
+````
 
 
 
 ````puml
 autonumber
 
-title AddBankSavingsAccount 2
+title CheckChildrenCashAccountBalance 2
 
-participant ": AccountService" as accountservice
-participant "aBankSavingsAccount: \nBankSavingsAccount" as account
-participant "anAccountData : \nAccountData" as data
-participant "aFamilyMember : \nFamilyMember" as FamilyMember
+participant "CheckChildrenCash\nAccountBalanceController" as controller
+participant ": RelationService" as relation
+participant "aFamily: Family" as family
+
+activate controller
+controller -> relation **: createRelationService()
+activate relation 
+relation -> family : verifyParenthood(aFamily, familyMemberA, familyMemberB)
+activate family
+alt false : A is not parent of B
+family --> relation : Failure
+controller <-- relation : Failure 
+else success : A is parent of B
+family --> relation : True
+deactivate family
+relation --> controller : True
+deactivate relation
+deactivate controller
+end
+````
 
 
--> accountservice : addBankSavingsAccount(balance, name, \ninterestRate, aFamilyMember)
-activate accountservice
-accountservice -> accountservice : generateID(aFamilyMember)
-accountservice -> account ** : BankSavingsAccount(balance, name, \ninterestRate, aFamilyMember, accountID)
+````puml
+autonumber
+
+title CheckChildrenCashAccountBalance 3
+
+participant "CheckChildrenCash\nAccountBalanceController" as controller
+participant "AccountService" as account
+participant "child : \nFamilyMember" as child
+participant "aCashAccount : CashAccount" as cash
+
+activate controller
+controller -> account **: createAccountService()
 activate account
-
-account -> account: validateBalance(balance)
-alt failure : balance is null, empty or blank
-account -> account : balance = 0
-else success : balance = balance
-end
-
-account -> data ** : AccountData(name, balance, \naccountID)
-activate data
-data -> data : validateName(name)
-alt failure : Name is null, empty or blank
-data -> data : name = "Bank Savings Account"
-else success : Name = Name
-end
-
-data -> account : anAccountData
-
-
-note left : anAccountData is aBankSavingsAccount attribute
-deactivate data
-account -> account : validateInterestRate
-alt failure : interestRate is null, empty or blank
-account -> account : interestRate = 0
-else success : interestRate = interestRate
-end
-accountservice -> FamilyMember : addAccount (aBankSavingsAccount)
-activate FamilyMember
-FamilyMember --> accountservice : Success
+account -> child : getAccount(accountID)
+activate child
+account <-- child : anAccount
+deactivate child
+account -> account : verifyAccountType(accountID, accountType)
+alt false : Account is not CashAccount
+account --> controller : failure
+else success : Is a Cash Account
+account -> cash : getBalance()
+activate cash
+cash --> account : cashAccountBalance
+deactivate cash
+account --> controller : cashAccountBalance
 deactivate account
-deactivate FamilyMember
-<-- accountservice : Success
+deactivate controller
+
+end
+
+
+deactivate controller
+
 ````
 
 ## 3.1. Functionality Use
@@ -595,7 +533,11 @@ only have success if the account is of the correct type.
 
 # 5. Integration
 
-EDIT EDIT EDIT EDIT EDIT EDIT EDIT
+As previously referred this US has dependencies and integration with [US010_AddFamily], [US011_AddFamilyAdministrator],
+[US101_AddFamilyMember], [US170_CreatePersonalCashAccount], [US105_AddRelation].
 
 
 # 6. Observations
+In the future the need for many of the validations will be made through the UI, when the user completes the Log In.
+This will allow the user to only have access to the features which he is permitted to access. Also, the user will only have access
+inside his own family, suppressing the necessity for familyID, familyMemberID and accountID.

@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.model.user_data;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class PhoneNumber {
@@ -33,8 +34,8 @@ public class PhoneNumber {
         return this.phoneNumber == that.phoneNumber;
     }
 
-    /*@Override
+    @Override
     public int hashCode() {
         return Objects.hash(phoneNumber);
-    }*/
+    }
 }
