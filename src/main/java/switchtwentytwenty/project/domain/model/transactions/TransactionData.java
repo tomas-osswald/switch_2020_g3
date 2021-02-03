@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.sandbox;
+package switchtwentytwenty.project.domain.model.transactions;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
