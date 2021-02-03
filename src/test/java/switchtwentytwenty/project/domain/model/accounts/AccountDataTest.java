@@ -3,12 +3,16 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.categories.Category;
+import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class AccountDataTest {
 
@@ -16,6 +20,7 @@ class AccountDataTest {
     String designation = "Cash Account";
     int accountID = 1001;
     AccountData accountData = new AccountData(balance, designation, accountID);
+    MoneyValue remainingBalance = new MoneyValue(200.0,CurrencyEnum.EURO);
 
     @Test
     void isIDOfThisAccount_sameIDTrue() {
@@ -66,8 +71,13 @@ class AccountDataTest {
     }
 
     @Test
-    void getListOfMovements() {
+    void hasEnoughMoneyForTransaction_NegativeValue() {
+        MoneyValue valueSpent = new MoneyValue(-200.0, CurrencyEnum.EURO);
+        assertThrows(IllegalArgumentException.class,()->{
+            accountData.hasEnoughMoneyForTransaction(valueSpent);
+        });
     }
+
 
     @Test
     void constructorForAccountData_UsingMoneyValue() {
@@ -152,4 +162,101 @@ class AccountDataTest {
         AccountData result = accountData;
         assertNotEquals(result.hashCode(), expected.hashCode());
     }
+
+    @Test
+    void registerCashTransaction_TestSuccess() {
+        //Arrange
+        CashAccount cashAccount = null;
+        Category category = new StandardCategory("Testing", null, 0);
+        Date date = new Date();
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "", 1, 25.00, CurrencyEnum.EURO, 1, "Transferencia de Teste", date);
+        boolean credit = true;
+        //Act
+        boolean result = accountData.registerCashTransaction(cashAccount,category,remainingBalance,familyCashTransferDTO,credit);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void registerCashTransaction_TestAccountList() {
+        //Arrange
+        CashAccount cashAccount = null;
+        Category category = new StandardCategory("Testing", null, 0);
+        Date date = new Date();
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "", 1, 25.00, CurrencyEnum.EURO, 1, "Transferencia de Teste", date);
+        boolean credit = true;
+        int expected = 1;
+        //Act
+        accountData.registerCashTransaction(cashAccount,category,remainingBalance,familyCashTransferDTO,credit);
+        int result = accountData.getListOfMovements().size();
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void hasEnoughMoneyForTransaction_TestThrow() {
+        MoneyValue negativeValue = new MoneyValue(-200.00, CurrencyEnum.EURO);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                accountData.hasEnoughMoneyForTransaction(negativeValue));
+    }
+
+    @Test
+    void hasEnoughMoneyForTransaction_TestBoundaryNotThrow() {
+        MoneyValue zeroValue = new MoneyValue(0.00, CurrencyEnum.EURO);
+
+        assertDoesNotThrow(() -> accountData.hasEnoughMoneyForTransaction(zeroValue));
+    }
+
+    @Test
+    void getMoneyValue_TestLimitCondition() {
+        //Arrange
+        AccountData accountDataEUR = new AccountData(0.00, designation, accountID, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        //Act
+        MoneyValue result = accountDataEUR.getMoneyValue();
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void getMoneyValue_TestLimitCondition_Negative() {
+        //Arrange
+        AccountData accountDataEUR = new AccountData(-10.00, designation, accountID, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-10.00, CurrencyEnum.EURO);
+        //Act
+        MoneyValue result = accountDataEUR.getMoneyValue();
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void testEquals_sameObject() {
+        AccountData expected = accountData;
+        AccountData result = accountData;
+
+        assertSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testEquals_sameInfoDifferentObjects() {
+        AccountData expected = accountData;
+        AccountData result = new AccountData(balance, designation, accountID);
+
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testEquals_sameInfoDifferentObjects_NotEquals() {
+        AccountData expected = accountData;
+        AccountData result = new AccountData(1.00, designation, accountID);
+
+        assertNotSame(expected, result);
+        assertNotEquals(expected, result);
+    }
+
+
 }

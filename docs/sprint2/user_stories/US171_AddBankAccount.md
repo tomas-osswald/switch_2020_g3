@@ -21,7 +21,6 @@ We interpreted this requirement as the function of a FamilyMember to add a Bank 
 The same Bank Account can be added to more than one Family Member;
 The account balance can be negative;
 
-  
 
 ### 1.2 System Sequence Diagram
 
@@ -49,11 +48,11 @@ The account balance can be negative;
 
 This user story has a dependency with these **2** user stories:
 
-- **[US010](US101_AddFamily.md)** *(As a system manager, I want to create a family.)*
+- **US101_AddFamily.md** *(As a system manager, I want to create a family.)*
   - In order to have a Family Administrator and Family Member, the system needs to have that Family.
-- **[US011](US101_AddFamilyAdministrator.md)** *(As a system manager, I want to add a family administrator)*
+- **US101_AddFamilyAdministrator.md** *(As a system manager, I want to add a family administrator)*
   - The Family Administrator, being a Family Member, can have bank accounts, but is also required to create further Family Members where accounts are created.
-- **[US101](US101_AddFamilyMember.md)** *(As a family Administrator, I want to add a familyMember to a family)*
+- **US101_AddFamilyMember.md** *(As a family Administrator, I want to add a familyMember to a family)*
   - In order to add a bank account, the system needs to have a Family Member.
   
 # 2. Analysis
@@ -85,23 +84,24 @@ participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
 participant "aBankAccount : BankAccount" as bankAcc
-participant "aIban : Iban" as iban
+participant "aMoneyValue : MoneyValue" as moneyV
 
 activate actor
-actor -> UI: addBankAccount(iban,balance)
+actor -> UI: addBankAccount(addBankAccountDTO)
 activate UI
 UI -> actor: ask data
 deactivate UI
 actor -> UI: inputs required data
 activate UI
-UI -> controller: addBankAccount(familyID,familyMemberID,iban,balance)
+UI -> controller: addBankAccount(addBankAccountDTO)
 activate controller
-controller -> app: getFamilyMemberId(familyID,familyMemberID)
+controller -> app: getFamilyMember(addBankAccountDTO)
 activate app
-app -> famService: getFamilyMemberId(familyID,familyMemberID)
+app -> famService: getFamilyMember(addBankAccountDTO)
 activate famService
-famService -> family: getFamilyMemberId(familyID,familyMemberID)
+famService -> family: getFamilyMember(addBankAccountDTO)
 activate family
+family -> family : getFamilyMember(FamilyMemberID)
 family -> famService: ok
 deactivate family
 famService -> app: ok
@@ -109,29 +109,18 @@ deactivate famService
 app -> controller: ok
 deactivate app
 
-controller -> app: addBankAccount(familyID,familyMemberID,iban,balance)
+controller -> app: addBankAccount(addBankAccountDTO)
 activate app
-app -> accServ: addBankAccount(familyID,familyMemberID,iban,balance)
+app -> accServ: addBankAccount(addBankAccountDTO)
 activate accServ
-
-accServ -> bankAcc **: create(id,iban,balance)
-activate bankAcc
-bankAcc -> iban **: create(iban)
-deactivate bankAcc
+accServ -> accServ : generateID(FamilyMember)
+accServ -> bankAcc **: create(id,description,balance,currency)
+bankAcc -> moneyV **: create(balance,currency)
 
 accServ -> person: addAccount(aBankAccount)
 activate person
 
-alt vat exists - TRUE
-  person -> person: checkIfAccountAlreadyPresent()
-  person -> accServ: fail
-  accServ -> app: fail
-  app -> controller: fail
-  controller -> UI: fail
-  UI -> actor: failure
-else email does not exists - FALSE
 person -> person: addAccount(aBankAccount)
-end
 
 person -> accServ: ok
 deactivate person
@@ -250,248 +239,100 @@ We also used the SOLID SRP principle.
 
 ## 3.4. Domain Tests 
 
-###Test 1: Verify that a vatNumber is accepted -> Class VatNumber
-- **1.1.** VatNumber is not created, and an error is thrown because **vatNumber** is null
+###Test 1: BankAccount tests
 
-- **1.2.** VatNumber is not created, and an error is thrown because **vatNumber** is incorrect
+####Test 1.1: Verify description 
 
-- **1.3.** VatNumber is created because **vatNumber** is correct
-    
-###Test 2: Verify that an address is accepted -> Class Address
-- **2.1.** Address is not created, and an error is thrown because **street** is null
-  
-- **2.2.** Address is not created, and an error is thrown because **street** is empty
-  
-- **2.3.** Address is not created, and an error is thrown because **street** is blank
-  
-- **2.4.** Address is created because **street** is correct
-  
-- **2.5.** Address is not created, and an error is thrown because **postalCode** is null
-  
-- **2.6.** Address is not created, and an error is thrown because **postalCode** is empty
-  
-- **2.7.** Address is not created, and an error is thrown because **postalCode** is blank
-  
-- **2.8.** Address is not created, and an error is thrown because **postalCode** is incorrect
+- **1.1.1** If the description is **null**, the BankAccount is created with a standard name **"BankAccount + ID"** 
 
-- **2.9.** Address is created because **postalCode** is correct
+- **1.1.2** If the description is **empty**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
-- **2.10.** Address is not created, and an error is thrown because **local** is null
+- **1.1.3** If the description is **blank**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
-- **2.11.** Address is not created, and an error is thrown because **local** is empty
+- **1.1.4** If the description is compliant with the criteria, the BankAccount is created with the inserted data
 
-- **2.12.** Address is not created, and an error is thrown because **local** is blank
+####Test 1.2: Verify balance
 
-- **2.13.** Address is created because **local** is correct
+- **1.2.1** If the balance is **null**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **2.14.** Address is not created, and an error is thrown because **city** is null
+- **1.2.2** If the balance is **empty**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **2.15.** Address is not created, and an error is thrown because **city** is empty
+- **1.2.3** If the balance is **blank**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **2.16.** Address is not created, and an error is thrown because **city** is blank
+- **1.2.4** If the balance is a **negative value**, the BankAccount is created with the inserted data
 
-- **2.17.** Address is created because **city** is correct
+- **1.2.5** If the balance is a **positive value**, the BankAccount is created with the inserted data
 
-###Test 3: Verify that a phone is accepted -> Class PhoneNumber and FamilyMember
-- **3.1.** Phone is not created, and an error is thrown because **phoneNumber** is null
-  
-- **3.2.** Phone is not created, and an error is thrown because **phoneNumber** is incorrect
-  
-- **3.3.** Phone is created because **phoneNumber** is correct
-  
-- **3.4.** With FamilyMember constructor from **FamilyAdministrator**, the constructor is executed without phone being created when **phone** is null
-````
+
+####Test 1.3: Account Type
+
+- **1.3.1** The account Type **BANKACCOUNT** is automatically attributed and the account created
+
+
+####Test 1.4: Verify MoneyValue 
+
+- **1.4.1** If the currency is **null**, the account currency is automatically assigned to **EURO** and creates the account
+
+- **1.4.2** If the currency is correctly inserted, the account assigns that currency and creates the account
+
+
+###Test 2: AccountService tests
+
+- **2.1** The accountService adds the account to the FamilyMember accountList and returns **true**
+
+###Test 3: Controller tests
+
+- **3.1** If the **Family doesn't exist**, the controller catches the exception and returns **false**
+
+```
 @Test
-    void CreateMember_PhoneNull_NoAdmin() {
-        Integer phone = null;
-        FamilyMember person = new FamilyMember(cc, name, date, phone, email, nif, rua, codPostal, local, city);
-        assertFalse(person.validatePhone(phone));
-    }
-````
-
-###Test 4: Verify that an email is accepted -> Class Email and FamilyMember
-- **4.1.** All email tests are in **[US151]**
-  
-- **4.2.** With FamilyMember constructor from **FamilyAdministrator**, the constructor is executed without email being created when **email** is null
-````
-@Test
-void CreateMember_EmailNull_NoAdmin() {
-    String emailx = null;
-    FamilyMember person = new FamilyMember(cc, name, date, numero, emailx, nif, rua, codPostal, local, city);
-    assertFalse(person.validateEmail(emailx));
+void addBankAccountTest_Fail_NoFamily() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 100, CurrencyEnum.EURO);//familyID doesn't exists'
+    assertFalse(addBankAccountController.addBankAccount(addBankAccountDTO));
 }
-````
+```
 
-###Test 5: Verify that a birthDate is accepted -> Class FamilyMember
-- **5.1.** With FamilyMember constructor from **FamilyAdministrator**, BirthDate is not created, and an error is thrown because **birthDate** is null
+- **3.2** If the **FamilyMember doesn't exist**, the controller catches the exception and returns **false**
 
-- **5.2.** With FamilyMember constructor from **FamilyAdministrator**, BirthDate is created because **birthDate** is correct
-
-###Test 6: Verify that a Name is accepted -> Class FamilyMember
-- **6.1.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is null
-
-- **6.2.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is empty
-
-- **6.3.** With FamilyMember constructor from **FamilyAdministrator**, name is not created, and an error is thrown because **name** is blank
-
-- **6.4.** With FamilyMember constructor from **FamilyAdministrator**, name is created because **name** is correct
-
-###Test 7: Verify if the VatNumber already belongs to a familyMember from user's family -> Class Family
-- **7.1** FamilyMember is not created and not added to the family, and an error is thrown because the **vatNumber** already exists in this family
-````
+```
 @Test
-void NotAddFamilyMember_VatExists() {
-    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-    String familyName = "Moreira";
-    int familyID = 1;
-    Family familia = new Family(familyName, familyID);
-    familia.addFamilyMember(pessoa1);
-    assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif, rua2, codPostal2, local2, city2));
+void addBankAccountTest_Fail_NoFamilyMember() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc2, 1, CurrencyEnum.EURO);//familyMemberID doesn't exists'
+    assertFalse(addBankAccountController.addBankAccount(addBankAccountDTO));
 }
-````
-- **7.2** FamilyMember is created and added to the family because the **vatNumber** does not exists in this family
-````
-@Test
-void AddFamilyMember_VatNotExists() {
-    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-    String familyName = "Moreira";
-    int familyID = 1;
-    Family familia = new Family(familyName, familyID);
-    familia.addFamilyMember(pessoa1);
-    assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
-}
-````
+```
 
-###Test 8: Verify if the ccNumber already belongs to a familyMember from user's family -> Class Family
-- **8.1** FamilyMember is not created and not added to the family, and an error is thrown because the **ccNumber** already exists in this family
-````
-@Test
-void NotAddFamilyMember_CCExists() {
-    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-    String familyName = "Moreira";
-    int familyID = 1;
-    Family familia = new Family(familyName, familyID);
-    familia.addFamilyMember(pessoa1);
-    assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(cc, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
-}
-````
+- **3.3** If every piece of data is complaint, the controller executes correctly and returns **true**
 
-- **8.2** FamilyMember is created and added to the family because the **ccNumber** does not exists in this family
-````
+```
 @Test
-void AddFamilyMember_CCNotExists() {
-    FamilyMember pessoa1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-    String familyName = "Moreira";
-    int familyID = 1;
-    Family familia = new Family(familyName, familyID);
-    familia.addFamilyMember(pessoa1);
-    assertTrue(familia.addFamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2));
+void addBankAccountTest_Success() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
+    assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
 }
-````
+```
 
-###Test 9: Verify if the email already exists in the system -> Class FamilyService
-- **9.1** FamilyMember is not created and not added to the family, and an error is thrown because the **email** already exists in the Application
-````
-@Test
-void NotAddFamilyMember_EmailPresent() {
-
-    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-    int familyID = 1;
-    String familyName = "Ribeiro";
-    Family ribeiro = new Family(familyName, familyID);
-    ribeiro.addFamilyMember(diogo);
-    FamilyService familias = new FamilyService(ribeiro);
-    assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, "abc@gmail.com", nif2, rua2, codPostal2, local2, city2, 1));
-}
-````
-- **9.2** FamilyMember is created and added to the family because the **email** does not exists in the Application
-````
-@Test
-void AddFamilyMember_EmailNotPresent() {
-  FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-  int familyID = 1;
-  String familyName = "Ribeiro";
-  Family ribeiro = new Family(familyName, familyID);
-  ribeiro.addFamilyMember(diogo);
-  FamilyService familias = new FamilyService(ribeiro);
-  assertTrue(familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
-}
-````
-###Test 10: Verify if the Family exists in the system -> Class FamilyService
-- **10.1** FamilyMember is not created and not added to the family, and an error is thrown because the **Family** does not exists in the Application
-````
-@Test
-void NotAddFamilyMember_FamilyNotExists() {
-    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-    int familyID = 1;
-    String familyName = "Ribeiro";
-    Family ribeiro = new Family(familyName, familyID);
-    FamilyService familias = new FamilyService(ribeiro);
-    assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 2));
-}
-````
-- **10.2** FamilyMember is created and added to the family because the **Family** exists in the Application
-````
-@Test
-void AddFamilyMember_FamilyExists() {
-    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-    int familyID = 1;
-    String familyName = "Ribeiro";
-    Family ribeiro = new Family(familyName, familyID);
-    ribeiro.addFamilyMember(diogo);
-    FamilyService familias = new FamilyService(ribeiro);
-    assertTrue(familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
-}
-````
-###Test 11: Verify if the User is Admin -> Class FamilyService
-- **11.1** FamilyMember is not created and not added to the family, and an error is thrown because the user is not **admin**
-````
-@Test
-void NotAddFamilyMember_NotAdmin() {
-    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-    int familyID = 1;
-    String familyName = "Ribeiro";
-    Family ribeiro = new Family(familyName, familyID);
-    ribeiro.addFamilyMember(diogo);
-    FamilyService familias = new FamilyService(ribeiro);
-    assertThrows(IllegalArgumentException.class, () -> familias.addFamilyMember(cc, cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, 1));
-}
-````
-- **11.2** FamilyMember is created and added to the family because the user is **admin**
-````
-@Test
-void AddFamilyMember_isAdmin() {
-    FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, true);
-    int familyID = 1;
-    String familyName = "Ribeiro";
-    Family ribeiro = new Family(familyName, familyID);
-    ribeiro.addFamilyMember(diogo);
-    FamilyService familias = new FamilyService(ribeiro);
-    assertTrue(familias.addFamilyMember(cc, cc2, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, 1));
-}
-````
 
 # 4. Implementation
 
-During this feature implementation extra code was added to avoid the UI limitation. These scenarios were the following:
+This Account type implements data that is also present in all other account types. 
+Since this account will have future integration with a Banking System, it needs simple information and validation to be created because most restrictions are assured by the Bank.
 
-- ####Verify if the user is a FamilyAdmin
+As it was referred in other user stories, the UI will give the FamilyID and FamilyMemberID so the controller can execute its function.
 
-With the UI and login layer implemented, this info is already defined and the controller doesn't need to ask the Family his selfCCNumber to assure the user is Admin.
-
-- ####Get the FamilyID 
-
-With the UI and login layer implemented, it is not necessary to ask which family this user belongs to.
+During this feature implementation we thought about implementing IBAN class and assign it as a BankAccount attribute.
+After talking with Product Owner we realized that it is not necessary at this moment, so we decided to postpone this implementation.
 
 # 5. Integration/Demonstration
 
-As it was said before, this UserStory dependes on both **[US010 - Add Family]** and **[US011 - Add Family Administrator]**.
+As it was said before, this UserStory dependes on both **[US010 - Add Family]** and **[US101 - Add Family Member]**.
 
 # 6. Observations
 
-In the future, both issues presented in implementation section will be solved when the UI, and login layer are set up.
-With the login layer, the user ID will be already available before the UserStory gets executed, avoiding the method *getFamily(familyID)* execution. 
-A similar scenario will happen with *selfCCNumber*, because the UI will already know which user is executing this UserStory and therefore don't need confirm if he has permissions to do it.
+In the future, the two issues we have to deal with are the following:
+- The familyID and FamilyMemberID will be solved when the UI and login layer are set up,
+- The IBAN will be implemented when the App requires it.
+
 
 
 

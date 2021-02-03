@@ -2,8 +2,8 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.sandbox.CashTransaction;
-import switchtwentytwenty.project.domain.sandbox.Transaction;
+import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
@@ -35,7 +35,6 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
-
         if(currencyEnum != null)
             this.currentBalance = new MoneyValue(balance, currencyEnum);
         else
@@ -103,7 +102,7 @@ public class AccountData {
         return Objects.hash(description, accountID);
     }
 
-    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) { // TODO: Alterar "transferenceAmount" para formato MoneyValue
+    public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) {
         if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
@@ -111,8 +110,8 @@ public class AccountData {
     }
 
 
-    public boolean registerCashTransaction(CashAccount targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, familyCashTransferDTO);
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category,MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }

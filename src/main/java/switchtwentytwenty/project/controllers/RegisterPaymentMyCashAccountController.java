@@ -4,6 +4,7 @@ import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
@@ -26,11 +27,16 @@ public class RegisterPaymentMyCashAccountController {
         Account cashAccount = myself.getAccount(familyCashTransferDTO.getAccountID());
 
         // Category Service
-        CategoryService categoryService = new CategoryService();
-        StandardCategory category = categoryService.getStandardCategoryByID(familyCashTransferDTO.getCategoryID()); // TODO: ALTERAR PARA GENERAL CATEGORY
+        CategoryService categoryService = this.ffmApplication.getCategoryService();
+        Category category;
+        if (familyCashTransferDTO.getCategoryID() > 0) {
+            category = categoryService.getStandardCategoryByID(familyCashTransferDTO.getCategoryID());
+        } else {
+            category = famService.getFamily(familyCashTransferDTO.getFamilyID()).getCustomCategoryByID(familyCashTransferDTO.getCategoryID());
+        }
 
         // AccountService
-        AccountService accountService = new AccountService();
+        AccountService accountService = this.ffmApplication.getAccountService();
         accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT);
 
         // TransactionService

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
+import switchtwentytwenty.project.domain.model.transactions.TransactionData;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
@@ -12,10 +13,9 @@ import java.util.Date;
 class TransactionDataTest {
 
     Date date = new Date();
-    MoneyValue ammount = new MoneyValue(22.2, null);
+    MoneyValue remainingAmount = new MoneyValue(22.2, null);
     Category category = new StandardCategory("cat", null, 2);
-    TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO),true, date, category);
-
+    TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO), true, remainingAmount, date, category);
 
     @Test
     void getTransactionDate() {
@@ -47,26 +47,40 @@ class TransactionDataTest {
 
     @Test
     void getAmmount() {
-        MoneyValue expected = new MoneyValue(22.2,null);
+        MoneyValue expected = new MoneyValue(22.2, null);
         MoneyValue result = transactionData.getAmmount();
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void getRemainingBalance() {
-        MoneyValue expected = new MoneyValue(0.0, null);
+        MoneyValue expected = new MoneyValue(22.2, null);
         MoneyValue result = transactionData.getRemainingBalance();
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
-    void isCredit() {
+    void isCredit_True() {
         boolean result = transactionData.isCredit();
         Assertions.assertTrue(result);
     }
 
     @Test
-    void isDebit() {
+    void isCredit_False() {
+        TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO), false, remainingAmount, date, category);
+        boolean result = transactionData.isCredit();
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void isDebit_True() {
+        TransactionData transactionData = new TransactionData("test", new MoneyValue(22.2, CurrencyEnum.EURO), false, remainingAmount, date, category);
+        boolean result = transactionData.isDebit();
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void isDebit_False() {
         boolean result = transactionData.isDebit();
         Assertions.assertFalse(result);
     }

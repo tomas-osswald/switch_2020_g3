@@ -102,6 +102,7 @@ Family -> Family : getFamilyMember\n(familyMemberID)
 Family --> Controller : aFamilyMember
 Deactivate Family
 
+Controller -> AccountService ** : createAccountService
 Controller -> AccountService : getAccount(aFamilyMember, accountID)
 activate AccountService
 
@@ -137,7 +138,7 @@ participant "anAccount\n: Account" as Account
 participant "aTransaction\n: Transaction" as Transaction
 participant "aTransactionDataDTO\n: TransactionDataDTO" as TransactionDataDTO
 
--> TransactionService ** : createMovementService()
+-> TransactionService ** : createTransactionService()
 -> TransactionService : createListOfMovementsBetweenDates\n(anAccount, startDate, endDate)
 activate TransactionService
 

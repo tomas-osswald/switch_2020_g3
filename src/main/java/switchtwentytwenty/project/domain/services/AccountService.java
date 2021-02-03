@@ -1,15 +1,13 @@
 package switchtwentytwenty.project.domain.services;
 
-import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
-
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
-
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -23,9 +21,9 @@ public class AccountService {
         int accountID = generateID(targetMember);
         try {
             Account cashAccount = new CashAccount(addCashAccountDTO, accountID);
-            return targetMember.addAccount(cashAccount);
+            targetMember.addAccount(cashAccount);
+            return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -66,7 +64,8 @@ public class AccountService {
         int accountID = generateID(targetMember);
 
         Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
-        return targetMember.addAccount(bankAccount);
+        targetMember.addAccount(bankAccount);
+        return true;
     }
 
     /**
@@ -114,13 +113,10 @@ public class AccountService {
         }
         familyAccount.debit(transferAmount);
         targetCashAccount.credit(transferAmount);
-
-        TransactionService transactionService = new TransactionService();
-        transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
         return true;
     }
 
-    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, StandardCategory category, CashTransferDTO cashTransferDTO) {
+    public boolean transferCashBetweenFamilyMembersCashAccounts(Family family, FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, Category category, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
         Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
@@ -163,7 +159,7 @@ public class AccountService {
         List<AccountIDAndDescriptionDTO> accountIDAndDescriptionDTOS = new ArrayList<>();
         for (Account account : listOfAccounts) {
             if (account.checkAccountType(CASHACCOUNT)) {
-                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(account.getAccountID(), account.getDescription());
+                AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = account.getAccountIDAndDescriptionDTO();
                 accountIDAndDescriptionDTOS.add(accountIDAndDescriptionDTO);
             }
         }
@@ -231,5 +227,9 @@ public class AccountService {
         }
         currentBalance = targetAccount.getMoneyBalance();
         return currentBalance;
+    }
+
+    public Account getFamilyCashAccount(Family family) {
+        return family.getFamilyCashAccount();
     }
 }
