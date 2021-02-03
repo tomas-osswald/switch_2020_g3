@@ -113,9 +113,6 @@ public class AccountService {
         }
         familyAccount.debit(transferAmount);
         targetCashAccount.credit(transferAmount);
-
-        TransactionService transactionService = new TransactionService();
-        transactionService.registerCashTransfer(familyAccount, targetCashAccount, category, familyCashTransferDTO);
         return true;
     }
 
@@ -230,5 +227,9 @@ public class AccountService {
         }
         currentBalance = targetAccount.getMoneyBalance();
         return currentBalance;
+    }
+
+    public Account getFamilyCashAccount(Family family) {
+        return family.getFamilyCashAccount();
     }
 }
