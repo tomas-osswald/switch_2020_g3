@@ -144,10 +144,10 @@ public class FamilyService {
      */
     public Family getFamily(int familyID) {
         if (!checkIfFamilyExists(familyID)) throw new IllegalArgumentException("No family with such ID");
-        Family selectedFamily=null;
+        Family selectedFamily = null;
         for (Family family : families) {
-                if (family.getFamilyID() == familyID)
-                    selectedFamily = family;
+            if (family.getFamilyID() == familyID)
+                selectedFamily = family;
         }
         return selectedFamily;
     }
@@ -199,13 +199,8 @@ public class FamilyService {
 
 
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
-        try {
-            Family family = getFamily(familyID);
-            return family.verifyAdministrator(ccNumber);
-        } catch (Exception e) {
-            return false;
-        }
-
+        Family family = getFamily(familyID);
+        return family.verifyAdministrator(ccNumber);
     }
 
     /**
