@@ -22,8 +22,8 @@ The distribution of requirements/functionalities throughout the project's develo
 |------------|----------|----------|
 | [**1181945**](../docs/students/1181945.md)| [US002](../docs/sprint1/user_stories/US002_GetStandardCategories.md)| 
 | [**1201762**](../docs/students/1201762.md)| [US001](../docs/sprint1/user_stories/US001_CreateStandardCategory.md) / [US010](../docs/sprint1/user_stories/US010_AddFamily.md)|
-| [**1201765**](../docs/students/1201765.md)| [US105](../docs/sprint1/user_stories/US105_AddRelation.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)|
-| [**1201768**](../docs/students/1201768.md)| [US101](../docs/sprint1/user_stories/US101_AddFamilyMembers.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)| 
+| [**1201765**](../docs/students/1201765.md)| [US105](../docs/sprint1/user_stories/US105_AddRelation.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)| [US135](../docs/sprint2/user_stories/US135_CheckFamilyOrFamilyMemberCashAccountBalance.md) / [US173](../docs/sprint2/user_stories/US173_AddCreditCardAccount.md)|
+| [**1201768**](../docs/students/1201768.md)| [US101](../docs/sprint1/user_stories/US101_AddFamilyMembers.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)|
 | [**1201770**](../docs/students/1201770.md)| [US150](../docs/sprint1/user_stories/US150 GetMemberProfileInfo.md)| 
 | [**1201778**](../docs/students/1201778.md)| [US104](../docs/sprint1/user_stories/US104_GetFamilyMembersAndRelation.md)| [US172](../docs/sprint2/user_stories/US172_AddBankSavingsAccount.md) / [US172](../docs/sprint2/user_stories/US188_CheckChildrenCashAccountBalance.md)|
 | [**1201780**](../docs/students/1201780.md)| [US151](../docs/sprint1/user_stories/US151_AddEmail.md) / [US110](../docs/sprint1/user_stories/US110_GetCategoryTree.md)| [US111](../docs/sprint2/user_stories/US111_AddCategoryToFamilyTree.md) / [US106](../docs/sprint2/user_stories/US106_ChangeRelation.md) / [US170](../docs/sprint2/user_stories/US170_CreatePersonalCashAccount.md) 

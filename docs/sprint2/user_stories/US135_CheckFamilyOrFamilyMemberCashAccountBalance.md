@@ -102,9 +102,9 @@ class CashAccount {
 - description
 }
 
-Family -down-> FamilyMember : has Family members
-FamilyMember -down-> CashAccount  : has
-Family -> CashAccount : has
+Family "1" -down-> "1..* " FamilyMember : has Family members
+FamilyMember "1" -> "0..* " CashAccount  : has
+Family "1" -> "0..1 " CashAccount : has
 ```
 
 # 3. Design
@@ -190,6 +190,7 @@ app -> controller : aFamilyService
 deactivate app
 
 controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+alt isAdministrator
 activate fserv
 fserv -> controller : inform success
 deactivate fserv
@@ -220,12 +221,22 @@ deactivate cash
 aserv -> controller : balance
 deactivate aserv
 
+
 controller -> UI : balance
-deactivate controller
+
 
 UI -> actor : balance
+
+
+else !isAdministrator
+controller -> UI : Value with error code (-1.00)
+deactivate controller
+
+UI -> actor : Value with error code (-1.00)
 deactivate UI
 deactivate actor
+
+end
 ```
 **checkCashAccountBalance( ).3**
 ```puml
@@ -260,6 +271,7 @@ app -> controller : aFamilyService
 deactivate app
 
 controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+alt isAdministrator
 activate fserv
 fserv -> controller : inform success
 deactivate fserv
@@ -294,12 +306,22 @@ deactivate cash
 aserv -> controller : balance
 deactivate aserv
 
+
 controller -> UI : balance
-deactivate controller
+
 
 UI -> actor : balance
+
+
+else !isAdministrator
+controller -> UI : Value with error code (-1.00)
+deactivate controller
+
+UI -> actor : Value with error code (-1.00)
 deactivate UI
 deactivate actor
+
+end
 ```
 
 **checkCashAccountBalance( ).4**
@@ -327,6 +349,7 @@ app -> controller : aFamilyService
 deactivate app
 
 controller -> fserv : verifyAdministratorPermission(selfID, familyID)
+alt isAdministrator
 activate fserv
 fserv -> controller : inform success
 deactivate fserv
@@ -359,11 +382,17 @@ aserv -> controller : listOfCashAccounts
 deactivate aserv
 
 controller -> UI : listOfCashAccounts
+UI -> actor : listOfCashAccounts
+else !isAdiministrator
+
+controller -> UI : emptyList
 deactivate controller
 
-UI -> actor : listOfCashAccounts
+UI -> actor : emptyList
 deactivate UI
 deactivate actor
+
+end
 ```
 
 ## 3.2. Class Diagram
@@ -413,8 +442,8 @@ interface Account {}
 
 CheckCashAccountBalanceController --> Application : has
 
-CheckCashAccountBalanceController -----> AccountService : creates
-Application --> FamilyService : has
+CheckCashAccountBalanceController -----> AccountService : calls
+CheckCashAccountBalanceController --> FamilyService : calls
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
 FamilyMember -> CashAccount : has
@@ -450,9 +479,9 @@ We applied the following principles:
 
 ## 3.4. Tests
 
-Several cases where analyzed by funcionality:
+Several cases where analyzed by functionality:
 
-### checkFamilyCashAccountBalance( ):
+### getListOfCashAccountsOfAFamilyMember( ):
 
 **Test 1:** List of Cash Accounts of a Family Member with just one Cash Account
     
@@ -514,7 +543,7 @@ Several cases where analyzed by funcionality:
         assertEquals(expected, result);
     } 
 
-### checkFamilyMemberCashAccountBalance( ):
+### checkFamilyCashAccountBalance( ):
 
 **Test 5:** Check Family Cash Account Success
 
@@ -566,7 +595,7 @@ Several cases where analyzed by funcionality:
         assertEquals(expected, result);
     }  
     
-### getListOfCashAccountsOfAFamilyMember( )
+### checkFamilyMemberCashAccountBalance( ):
 
 **Test 7:** Check Family Cash Account Success
 
@@ -632,7 +661,7 @@ Several cases where analyzed by funcionality:
         return false;
     }
     
-**Instatiation of AccountIDAndDescriptionDTO in Cash Account**
+**Instancing of AccountIDAndDescriptionDTO in Cash Account**
     
     public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO(){
         AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
