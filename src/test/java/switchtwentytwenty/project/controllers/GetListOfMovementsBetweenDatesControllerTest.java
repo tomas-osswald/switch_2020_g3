@@ -3,10 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -51,13 +48,15 @@ class GetListOfMovementsBetweenDatesControllerTest {
     int bankAccountID = 2;
     int bankSavingsAccountID = 3;
     int creditCardAccountID = 4;
+    Double interestRate = 0.01;
     AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
     AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, testFamilyID, "Credit Card", 200.00, 1.00, 0.50, CurrencyEnum.EURO);
     AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "bank", cc, testFamilyID, CurrencyEnum.EURO);
+    AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, testFamilyID, CurrencyEnum.EURO);
 
     CashAccount cashAccount = new CashAccount(addCashAccountDTO, cashAccountID);
     BankAccount bankAccount = new BankAccount(addBankAccountDTO, bankAccountID);
-    BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(bankSavingsAccountID, "savings", 20.00, 0.01);
+    BankSavingsAccount bankSavingsAccount = new BankSavingsAccount(bankSavingsAccountID, addBankSavingsAccountDTO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, creditCardAccountID);
 
     Date startDateOne = new Date(2021, 0, 19);
