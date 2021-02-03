@@ -238,23 +238,23 @@ AccountData --> MoneyValue: has
 
 - GRASP:
     - Information expert:
-        - This pattern was used in classes that implemented the Account interface, like in this case CashAccount class, for returning a DTO with the account id and description without removing information outside the class;
+        - This pattern was used in classes that implemented the Account interface, like in this case BankAccount class. The BankAccount concentrate the responsibility of managing all procedures about itself;
 
     - Controller:
         - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
 
     - Pure Fabrication:
-        - In this user story the Application and AccountService class was used, which does not represent a business domain concept. It was created to be responsible for all operations regarding Account type Classes.
+        - In this user story the Application, FamilyService and AccountService class was used, which does not represent a business domain concept. It was created to be responsible for all operations regarding Account type Classes.
 
     - High cohesion and Low Coupling:
         - The creation of the AccountService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
 
     - Protected Variation:
-        - An Account interface was used in which the polymorphism was used to be implemented in several classes, each representative of a type of Account.
+        - An Account interface applies the polymorphism concept by being implemented in several classes, each representing an Account type.
 
 - SOLID:
     - Single-responsibility principle:
-        - this pattern was used in the AccountService class, in which it the only responsibility is manage account operations.
+        - this pattern was used in the AccountService class, in which the only responsibility is managing account operations.
 
 
 ## 3.4. Domain Tests 
@@ -263,46 +263,65 @@ AccountData --> MoneyValue: has
 
 ####Test 1.1: Verify description 
 
-- **1.1.1** If the description is **null**, the BankAccount is created with a standard name **"BankAccount + ID"** 
+- **1.1.1** - If the description is **null**, the BankAccount is created with a standard name **"BankAccount + ID"** 
 
-- **1.1.2** If the description is **empty**, the BankAccount is created with a standard name **"BankAccount + ID"**
+- **1.1.2** - If the description is **empty**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
-- **1.1.3** If the description is **blank**, the BankAccount is created with a standard name **"BankAccount + ID"**
+- **1.1.3** - If the description is **blank**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
-- **1.1.4** If the description is compliant with the criteria, the BankAccount is created with the inserted data
+- **1.1.4** - If the description is compliant with the criteria, the BankAccount is created with the inserted data
 
 ####Test 1.2: Verify balance
 
-- **1.2.1** If the balance is **null**, the BankAccount is created with **0.00 (zero)** value by default
+- **1.2.1** - If the balance is **null**, the BankAccount is created with **0.00 (zero)** value by default
+```
+@Test
+void CreateBankAccount_NullBalance() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, description, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount account = new BankAccount(addBankAccountDTO, 1);
+    Double expected = 0.00;
+    assertEquals(expected, account.getMoneyBalance().getValue());
+}
+```
 
-- **1.2.2** If the balance is **empty**, the BankAccount is created with **0.00 (zero)** value by default
+- **1.2.2** - If the balance is **empty**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **1.2.3** If the balance is **blank**, the BankAccount is created with **0.00 (zero)** value by default
+- **1.2.3** - If the balance is **blank**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **1.2.4** If the balance is a **negative value**, the BankAccount is created with the inserted data
+- **1.2.4** - If the balance is a **negative value**, the BankAccount is created with the inserted data
 
-- **1.2.5** If the balance is a **positive value**, the BankAccount is created with the inserted data
+```
+@Test
+void CreateBankAccount_NegativeBalance() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(-10.0, description, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount account = new BankAccount(addBankAccountDTO, 1);
+    Double expected = -10.00;
+    assertEquals(expected, account.getMoneyBalance().getValue());
+}
+```
+
+- **1.2.5** - If the balance is a **positive value**, the BankAccount is created with the inserted data
 
 
 ####Test 1.3: Account Type
 
-- **1.3.1** The account Type **BANKACCOUNT** is automatically attributed and the account created
+- **1.3.1** - The account Type **BANKACCOUNT** is automatically attributed and the account created
 
 
 ####Test 1.4: Verify MoneyValue 
 
-- **1.4.1** If the currency is **null**, the account currency is automatically assigned to **EURO** and creates the account
+- **1.4.1** - If the currency is **null**, the account currency is automatically assigned to **EURO** and creates the account
 
-- **1.4.2** If the currency is correctly inserted, the account assigns that currency and creates the account
+- **1.4.2** - If the currency is correctly inserted, the account assigns that currency and creates the account
 
 
 ###Test 2: AccountService tests
 
-- **2.1** The accountService adds the account to the FamilyMember accountList and returns **true**
+- **2.1** - The accountService adds the account to the FamilyMember accountList and returns **true**
 
 ###Test 3: Controller tests
 
-- **3.1** If the **Family doesn't exist**, the controller catches the exception and returns **false**
+- **3.1** - If the **Family doesn't exist**, the controller catches the exception and returns **false**
 
 ```
 @Test
@@ -345,7 +364,7 @@ After talking with Product Owner we realized that it is not necessary at this mo
 
 # 5. Integration/Demonstration
 
-As it was said before, this UserStory dependes on both **[US010 - Add Family]** and **[US101 - Add Family Member]**.
+As it was said before, this UserStory dependes on both **[US010 - AddFamily]**, **[US011 - AddFamilyAdministrator]** and **[US101 - AddFamilyMember]**.
 
 # 6. Observations
 
