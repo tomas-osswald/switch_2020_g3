@@ -43,6 +43,8 @@ class Account {
 class FamilyMember {
 }
 
+class MoneyValue {
+}
 
 class Relation {
 }
@@ -84,9 +86,11 @@ Account -* AccountData : contains
 AccountService --> Account: handles
 Family --> Relation : has list
 RelationService --> Relation : handles
-Transaction <|-- CashTransaction : implements
+Transaction <|-left- CashTransaction : implements
 TransactionService --> Transaction: handles
 Account --> Transaction: has list
+Account -* MoneyValue : contains
+Transaction -* MoneyValue : contains
 
 ```
 
@@ -135,6 +139,8 @@ class Account {
 class FamilyMember {
 }
 
+class MoneyValue {
+}
 
 class Relation {
 }
@@ -176,8 +182,12 @@ Account -* AccountData : contains
 AccountService --> Account: handles
 Family --> Relation : has list
 RelationService --> Relation : handles
-Transaction <|-- CashTransaction : implements
+Transaction <|-left- CashTransaction : implements
 TransactionService --> Transaction: handles
 Account --> Transaction: has list
+Account -* MoneyValue : contains
+Transaction -* MoneyValue : contains
+
 ```
+
 
