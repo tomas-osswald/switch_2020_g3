@@ -12,8 +12,7 @@ import javax.smartcardio.CardTerminal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AccountDataTest {
 
@@ -189,5 +188,63 @@ class AccountDataTest {
         //Assert
         Assertions.assertEquals(expected,result);
     }
+
+    @Test
+    void hasEnoughMoneyForTransaction_TestThrow() {
+        MoneyValue negativeValue = new MoneyValue(-200.00, CurrencyEnum.EURO);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                accountData.hasEnoughMoneyForTransaction(negativeValue));
+    }
+
+    @Test
+    void getMoneyValue_TestLimitCondition() {
+        //Arrange
+        AccountData accountDataEUR = new AccountData(0.00, designation, accountID, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(0.00, CurrencyEnum.EURO);
+        //Act
+        MoneyValue result = accountDataEUR.getMoneyValue();
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void getMoneyValue_TestLimitCondition_Negative() {
+        //Arrange
+        AccountData accountDataEUR = new AccountData(-10.00, designation, accountID, CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(-10.00, CurrencyEnum.EURO);
+        //Act
+        MoneyValue result = accountDataEUR.getMoneyValue();
+        //Assert
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void testEquals_sameObject() {
+        AccountData expected = accountData;
+        AccountData result = accountData;
+
+        assertSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testEquals_sameInfoDifferentObjects() {
+        AccountData expected = accountData;
+        AccountData result = new AccountData(balance, designation, accountID);
+
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testEquals_sameInfoDifferentObjects_NotEquals() {
+        AccountData expected = accountData;
+        AccountData result = new AccountData(1.00, designation, accountID);
+
+        assertNotSame(expected, result);
+        assertNotEquals(expected, result);
+    }
+
 
 }

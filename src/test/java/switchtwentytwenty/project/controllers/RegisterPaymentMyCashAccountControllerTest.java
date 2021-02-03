@@ -76,10 +76,11 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
-        controller.registerPaymentMyCashAccount(transacaoDTO1);
+        boolean successTransaction = controller.registerPaymentMyCashAccount(transacaoDTO1);
         MoneyValue expected = new MoneyValue(250.00,CurrencyEnum.EURO);
         MoneyValue result = contaCash.getMoneyBalance();
         assertEquals(expected,result);
+        assertTrue(successTransaction);
     }
 
     @Test
