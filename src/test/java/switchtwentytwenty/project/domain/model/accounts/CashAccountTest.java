@@ -420,7 +420,7 @@ class CashAccountTest {
         assertNotEquals(cashAccountOne.getDescription(), notExpected);
     }
 
-    @Test
+   @Test
     void registerTransactionTwo() {
         AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
         CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
@@ -429,5 +429,6 @@ class CashAccountTest {
         MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
 
         assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, cashTransferDTO));
+
     }
 }
