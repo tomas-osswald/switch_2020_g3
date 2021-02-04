@@ -7,13 +7,13 @@ import java.util.Date;
 
 public class FamilyCashTransferDTO {
 
-    private int familyID;
-    private String familyMemberCC;
-    private int accountID;
-    private double transferAmount;
-    private CurrencyEnum currency;
-    private int categoryID;
-    private String transactionDesignation;
+    private final int familyID;
+    private final String familyMemberCC;
+    private final int accountID;
+    private final double transferAmount;
+    private final CurrencyEnum currency;
+    private final int categoryID;
+    private final String transactionDesignation;
     private Date transactionDate;
 
     public FamilyCashTransferDTO(int familyID, String familyMemberCC, int accountID, double transferAmount, CurrencyEnum currency, int categoryID, String transactionDesignation, Date transactionDate) {

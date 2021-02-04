@@ -206,7 +206,7 @@ Application --> FamilyService: gets
 FamilyService --> Family: gets
 Family --> FamilyMember: gets
 Application --> AccountService: gets
-AccountService --> Account: gets
+AccountService --|> Account: gets
 Account --> AccountData: has
 
 

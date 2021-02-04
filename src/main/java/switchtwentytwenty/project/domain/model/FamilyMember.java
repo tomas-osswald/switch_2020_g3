@@ -14,8 +14,8 @@ public class FamilyMember {
     private final VatNumber vatNumber;
     private final Address address;
 
-    private CCNumber ccNumber;
-    private String name;
+    private final CCNumber ccNumber;
+    private final String name;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
     private List<EmailAddress> emails = new ArrayList<>();
     private boolean administrator;
@@ -169,7 +169,7 @@ public class FamilyMember {
         }
 
     }
-    
+
     /**
      * method that uses the attributes from the family member
      * to create and return a MemberProfileDTO
