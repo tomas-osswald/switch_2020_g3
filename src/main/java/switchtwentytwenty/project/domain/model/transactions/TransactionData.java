@@ -6,13 +6,13 @@ import switchtwentytwenty.project.domain.model.categories.Category;
 import java.util.Date;
 
 public class TransactionData {
-    private Date transactionDate;
-    private Date registrationDate;
-    private MoneyValue ammount;
+    private final Date transactionDate;
+    private final Date registrationDate;
+    private final MoneyValue ammount;
     private Category category;
-    private String designation;
+    private final String designation;
     private MoneyValue remainingBalance;
-    private boolean credit;
+    private final boolean credit;
 
     public TransactionData(String designation, MoneyValue ammount, boolean credit, MoneyValue remainingbalance, Date transactionDate, Category category) {
         this.transactionDate = (Date) transactionDate.clone();
