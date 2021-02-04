@@ -20,6 +20,13 @@ public class RegisterPaymentMyCashAccountController {
         this.ffmApplication = ffmApplication;
     }
 
+    /** Register Payment in 1 CashAccount
+     *
+     * @param familyCashTransferDTO
+     *
+     * @return - true if the Payment is registed | false if the account Type is not correct or if the payment registratio fails
+     */
+
     public boolean registerPaymentMyCashAccount(FamilyCashTransferDTO familyCashTransferDTO) {
         // FamilyService
         FamilyService famService = this.ffmApplication.getFamilyService();
@@ -37,14 +44,15 @@ public class RegisterPaymentMyCashAccountController {
 
         // AccountService
         AccountService accountService = this.ffmApplication.getAccountService();
-        accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT);
 
         // TransactionService
         TransactionService transactionService = this.ffmApplication.getTransactionService();
-
         try {
-            transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
-            return true;
+            if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
+                return transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+            } else {
+                return false;
+            }
         }  catch (Exception e) {
             return false;
         }

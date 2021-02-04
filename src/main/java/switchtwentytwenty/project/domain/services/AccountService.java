@@ -66,7 +66,6 @@ public class AccountService {
      */
     public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
-
         Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
         targetMember.addAccount(bankAccount);
         return true;

@@ -112,6 +112,7 @@ public class CashAccount implements Account {
     }
 
     /**
+<<<<<<< HEAD
      * Method that registers a transaction in an account
      * @param targetAccount the otherAccount related to this transaction if it involves two accounts
      * @param category the category of the Transaction
@@ -120,7 +121,6 @@ public class CashAccount implements Account {
      * @param familyCashTransferDTO
      * @return
      */
-
     public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, FamilyCashTransferDTO familyCashTransferDTO) {
         accountData.registerCashTransaction(targetAccount, category,remainingbalance, familyCashTransferDTO, credit);
         return true;

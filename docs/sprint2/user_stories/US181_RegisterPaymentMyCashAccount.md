@@ -44,7 +44,10 @@ This user story has a dependency with these **3** user stories:
 
 - **[US010](US101_AddFamily.md)** *(As a system manager, I want to create a family.)*
     - In order to have a FamilyMember, the system needs to have that Family.
-  
+
+- **[US011](US101_AddFamilyAdministrator.md)** *(As a system manager, I want to add a familyAdministrator to a family)*
+  - In order to have a FamilyMember, the system needs to have that FamilyAdministrator.  
+
 - **[US101](US101_AddFamilyMember.md)** *(As a family Administrator, I want to add a familyMember to a family)*
     - In order to create a Cash account, the system needs to have that Family Member.
   
@@ -222,40 +225,72 @@ The controller will return:
 title Class Diagram - US181
 
 class RegisterPaymentInCashAccount {
-- getFamilyService
-- getTransactionService
-- registerPaymentMyCashAccount    // ACRESCENTAR accountService
+- ffmApplication
 }
 
 class Application {
-}
-
-class TransactionService {
-checkIfBalanceIsEnough()
+getFamilyService()
+getCategoryService()
+getAccountService()
+getTransactionService()
 }
 
 class FamilyService {
+getFamily()
+}
+
+class Family {
+getFamilyMember()
+getCustomCategoryByID()
 }
    
 class FamilyMember {
 }
 
-class Account{
-setBalance()
+class CategoryService {
+getStandardCategoryByID()
+}
+
+class AccountService {
+verifyAccountType()
+}
+
+class TransactionService {
+registerPaymentMyCashAccount()
+}
+
+class CashAccount{
+hasEnoughMoneyForTransaction()
+registerTransaction()
+debit()
+getMoneyBalance()
 }
 
 class Transaction {
+transactionDate
+registrationDate
+ammount
+category
+designation
+remainingBalance
+credit
 }
 
 class CashTransaction {
+- transactionData
+- otherAccount
 }
 
 RegisterPaymentInCashAccount  -> Application
 RegisterPaymentInCashAccount  -down-> FamilyService
 RegisterPaymentInCashAccount  -down-> TransactionService
+RegisterPaymentInCashAccount --> CategoryService
+RegisterPaymentInCashAccount --> AccountService
 TransactionService -down-> CashTransaction : create a
-FamilyService --> FamilyMember : has List<FamilyMember>
-FamilyMember --> Account : has List<Account>
+FamilyService --> Family : has List<Families>
+Family --> FamilyMember : has List<FamilyMember>
+FamilyMember --> CashAccount : has List<Account>
+CashAccount --> Account : is a
 Account -left-> Transaction : has List<Transaction>
 CashTransaction -down-> Transaction : is a
 ```
@@ -266,12 +301,147 @@ We also used the SOLID SRP principle.
 
 ## 3.4. Tests
 
+###Test 1: CashTransaction tests
+
+####Test 1.1: Constructor
+
+- **3.4.1.1** - All verification are made by other classes so when this constructor is called, it gets executed successfully.
+```
+@Test
+void cashTransactionConstructorTest_debit() {
+    boolean credit = false;
+    CashTransaction cashTransaction = new CashTransaction(cashAccount, category, credit, remainingBalance, dto);
+    Assertions.assertNotNull(cashTransaction);
+}
+```
+
+
+###Test 2: AccountService tests
+
+####Test 2.1: Verify Account type
+
+- **3.4.2.1.1** - If the account is **BankAccount**, the verification is **false** 
+
+- **3.4.2.1.2** - If the account is **BankSavingAccount**, the verification is **false**
+
+- **3.4.2.1.3** - If the account is **CreditCardAccount**, the verification is **false**
+
+- **3.4.2.1.4** - If the account is **CashAccount**, the verification is **true**
+
+
+###Test 3: TransactionService tests
+
+####Test 3.1: Verify if the Account has enough money
+
+- **3.4.3.1** - If the account doesn't have **enough money**, it **throws an error**.
+```
+@Test
+void NoRegisterPaymentMyCashAccount_NotEnoughMoney() {
+    TransactionService service = new TransactionService();
+    assertThrows(IllegalArgumentException.class, () -> {
+        service.registerPaymentMyCashAccount(contaCash, categoria1, transacaoDTO2);
+    });
+}
+```
+####Test 3.2: Verify a positive amount
+
+- **3.4.3.2** - If the amount inserted has a **negative value**, it **throws an error**.
+```
+@Test
+void NoRegisterPaymentMyCashAccount_NegativeAmmount() {
+    TransactionService service = new TransactionService();
+    assertThrows(IllegalArgumentException.class, () -> {
+        service.registerPaymentMyCashAccount(contaCash, categoria1, transacaoDTO3);
+    });
+}
+```
+
+
+####Test 3.3: Verify same Currency
+
+- **3.4.3.3** - If the inserted amount is not from the same **currency type** of the account, it **throws an error**.
+```
+@Test
+void NoRegisterPaymentMyCashAccount_DifferentMoneyValue() {
+    TransactionService service = new TransactionService();
+    assertThrows(IllegalArgumentException.class,()->{
+        service.registerPaymentMyCashAccount(contaCash, categoria1, transacaoDTO4);
+    });
+}
+```
+
+
+####Test 3.4: Successful Transaction
+
+- **3.4.3.4** If all data meets the criteria, the transaction is registed.
+```
+@Test
+void RegisterPaymentMyCashAccount_SameMoneyValue() {
+    TransactionService service = new TransactionService();
+    boolean successTransaction = service.registerPaymentMyCashAccount(contaCash, categoria1, transacaoDTO1);
+    MoneyValue expected = new MoneyValue(250.00, CurrencyEnum.EURO);
+    MoneyValue result = contaCash.getMoneyBalance();
+    assertEquals(expected, result);
+    assertTrue(successTransaction);
+}
+```
+
+###Test 4: Controller tests
+
+####Test 4.1: Controller fails
+- **3.4.4.1** - If any **previous validation fails**, the controller doesn't get executed and returns **false**.
+```
+@Test
+void NotRegisterPaymentMyCashAccount_NotEnoughBalance() {
+    Application ffmApp = new Application();
+    RegisterPaymentMyCashAccountController controller = new RegisterPaymentMyCashAccountController(ffmApp);
+    // FamilyService
+    FamilyService familyService = ffmApp.getFamilyService();
+    Family family = new Family("Ribeiros",familyID);
+    familyService.addFamily(family);
+    FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
+    family.addFamilyMember(zeManel);
+    zeManel.addAccount(contaCash);
+    assertFalse(controller.registerPaymentMyCashAccount(transacaoDTO3));
+}
+```
+
+####Test 4.1: Controller success
+- **3.4.4.2** - If all **previous validation succeed**, the controller gets executed and returns **true**.
+
+```
+@Test
+void registerPaymentMyCashAccount_SameMoneyValue() {
+    Application ffmApp = new Application();
+    RegisterPaymentMyCashAccountController controller = new RegisterPaymentMyCashAccountController(ffmApp);
+    // FamilyService
+    FamilyService familyService = ffmApp.getFamilyService();
+    Family family = new Family("Ribeiros",familyID);
+    familyService.addFamily(family);
+    FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
+    family.addFamilyMember(zeManel);
+    zeManel.addAccount(contaCash);
+    boolean successTransaction = controller.registerPaymentMyCashAccount(transacaoDTO1);
+    MoneyValue expected = new MoneyValue(250.00,CurrencyEnum.EURO);
+    MoneyValue result = contaCash.getMoneyBalance();
+    assertEquals(expected,result);
+    assertTrue(successTransaction);
+}
+```
 
 # 4. Implementation
 
+Once again the FamilyID and FamilyMemberID will also be automatically assigned by the UI.
+
+Some validation that were created will not have any meaning when the UI gets implemented. That will go for the Account Type validation.
+Both category and currency will be shown in the future UI with a dropdown too, so it's easier for the user and avoids any kind of mistake and therefore validation.
 
 # 5. Integration/Demonstration
 
+As it was said before, this UserStory dependes on both **[US010 - AddFamily]**, **[US011 - AddFamilyAdministrator]**, **[US101 - AddFamilyMember]** and **[US170 - CreatePersonalCashAccount]**.
 
 # 6. Observations
 
+In the future, the two issues we have to deal with are the following:
+- The familyID and FamilyMemberID will be solved when the UI and login layer are set up,
+- The Account list that will be presented to the user will be already filtered and so will be only displayed the CashAccounts

@@ -51,6 +51,8 @@ class TransactionServiceTest {
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID, selfCC, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDateOne);
     FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID, selfCC, accountID, 600.0, currency, categoryID, transactionDesignation, transactionDateTwo);
     FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID, selfCC, accountID, -100.0, currency, categoryID, transactionDesignation, transactionDateThree);
+    FamilyCashTransferDTO transacaoDTO4 = new FamilyCashTransferDTO(familyID, selfCC, accountID, 100.0, CurrencyEnum.DOLLAR, categoryID, transactionDesignation, transactionDateThree);
+
     CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO1);
     CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO2);
     CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO3);
@@ -76,6 +78,14 @@ class TransactionServiceTest {
         MoneyValue result = contaCash.getMoneyBalance();
         assertEquals(expected, result);
         assertTrue(successTransaction);
+    }
+
+    @Test
+    void NoRegisterPaymentMyCashAccount_DifferentMoneyValue() {
+        TransactionService service = new TransactionService();
+        assertThrows(IllegalArgumentException.class,()->{
+            service.registerPaymentMyCashAccount(contaCash, categoria1, transacaoDTO4);
+        });
     }
 
     @Test
