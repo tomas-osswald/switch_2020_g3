@@ -142,4 +142,15 @@ class AddressTest {
 
         assertNotEquals(address2.hashCode(), address.hashCode());
     }
+
+    @Test
+    void compareWithAnotherClass() {
+        String compare = "adress";
+
+        Address address = new Address(street, postalCode, local, "Porto");
+
+        assertNotEquals(address, compare);
+
+        assertFalse(address.equals(compare));
+    }
 }
