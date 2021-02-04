@@ -3,9 +3,7 @@ package switchtwentytwenty.project.controllers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
-import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
-import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -142,12 +140,23 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         assertFalse(result);
     }
 
-    @Test
+    /*@Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
         transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
         assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
 
+    }*/
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccounts_validCustomCategory() {
+        int categoryID = -1;
+        transferenceDTO = new CashTransferDTO(familyID,originFamilyMemberCC,originAccountID,destinationFamilyMemberCC, destinationAccountID,2,currency,categoryID,transactionDesignation,transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+
+        Assertions.assertTrue(result);
     }
 
 
