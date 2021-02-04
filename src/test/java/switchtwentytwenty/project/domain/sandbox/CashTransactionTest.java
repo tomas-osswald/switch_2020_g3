@@ -35,10 +35,16 @@ class CashTransactionTest {
 
 
     @Test
-    void cashTransactionConstructorTest() {
+    void cashTransactionConstructorTest_credit() {
         boolean credit = true;
         CashTransaction cashTransaction = new CashTransaction(cashAccount, category, credit, remainingBalance, dto);
+        Assertions.assertNotNull(cashTransaction);
+    }
 
+    @Test
+    void cashTransactionConstructorTest_debit() {
+        boolean credit = false;
+        CashTransaction cashTransaction = new CashTransaction(cashAccount, category, credit, remainingBalance, dto);
         Assertions.assertNotNull(cashTransaction);
     }
 

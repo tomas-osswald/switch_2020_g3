@@ -19,14 +19,19 @@ public class TransactionService {
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
         MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(), familyCashTransferDTO.getCurrency());
-        if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
-            targetCashAccount.debit(transferAmount);
-            MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
-            targetCashAccount.registerTransaction(null, category, credit, remainingBalance, familyCashTransferDTO);
-            return true;
+        if (transferAmount.getCurrencyType() == targetCashAccount.getMoneyBalance().getCurrencyType()){
+            if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
+                targetCashAccount.debit(transferAmount);
+                MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
+                targetCashAccount.registerTransaction(null, category, credit, remainingBalance, familyCashTransferDTO);
+                return true;
+            } else {
+                throw new IllegalArgumentException("Not enough balance");
+            }
         } else {
-            throw new IllegalArgumentException("Not enough balance");
+            throw new IllegalArgumentException("Insert same currency of this account");
         }
+
     }
 
     /**

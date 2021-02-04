@@ -37,13 +37,16 @@ public class RegisterPaymentMyCashAccountController {
 
         // AccountService
         AccountService accountService = this.ffmApplication.getAccountService();
-        accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT);
 
         // TransactionService
         TransactionService transactionService = this.ffmApplication.getTransactionService();
 
         try {
-            return transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+            if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
+                return transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+            } else {
+                return false;
+            }
         }  catch (Exception e) {
             return false;
         }

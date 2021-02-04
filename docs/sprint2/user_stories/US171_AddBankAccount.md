@@ -264,6 +264,16 @@ AccountData --> MoneyValue: has
 ####Test 1.1: Verify description 
 
 - **1.1.1** - If the description is **null**, the BankAccount is created with a standard name **"BankAccount + ID"** 
+```
+@Test
+void CreateBankAccount_NullDescription() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount account = new BankAccount(addBankAccountDTO, 1);
+    String desc = "BankAccount 1";
+    assertEquals(account.getDescription(), desc);
+}
+```
+
 
 - **1.1.2** - If the description is **empty**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
