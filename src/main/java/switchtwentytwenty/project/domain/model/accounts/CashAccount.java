@@ -99,12 +99,27 @@ public class CashAccount implements Account {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
+    /**
+     * Method to determine if an account has enough moeny for a transaction
+     * @param value monetary value - ammount and currency type
+     * @return true if account has enough money, false otherwise
+     */
     public boolean hasEnoughMoneyForTransaction(MoneyValue value) {
         if (value.getValue() < 0){
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
         }
         return this.accountData.getMoneyValue().debit(value).getValue() >= 0;
     }
+
+    /**
+     * Method that registers a transaction in an account
+     * @param targetAccount the otherAccount related to this transaction if it involves two accounts
+     * @param category the category of the Transaction
+     * @param credit boolean that determines if the transfer is a credit transfer (when true) or a debit transfer (when false
+     * @param remainingbalance the balance remaining in the account after the transaction
+     * @param familyCashTransferDTO
+     * @return
+     */
 
     public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, FamilyCashTransferDTO familyCashTransferDTO) {
         accountData.registerCashTransaction(targetAccount, category,remainingbalance, familyCashTransferDTO, credit);
@@ -148,6 +163,11 @@ public class CashAccount implements Account {
     }
 
 
+    /**
+     * Method to determine if the account is in a given currency type.
+     * @param currency the currency type to compare
+     * @return true if the same currency otherwise false
+     */
     public boolean checkCurrency(CurrencyEnum currency){
         return accountData.checkCurrency(currency);
     }
