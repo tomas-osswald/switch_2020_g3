@@ -40,6 +40,8 @@ public class RegisterPaymentMyCashAccountController {
         } else {
             category = famService.getFamily(familyCashTransferDTO.getFamilyID()).getCustomCategoryByID(familyCashTransferDTO.getCategoryID());
         }
+        if (category == null) return false;
+        
         // AccountService
         AccountService accountService = this.ffmApplication.getAccountService();
         // TransactionService

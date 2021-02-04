@@ -48,6 +48,7 @@ class RegisterPaymentMyCashAccountControllerTest {
     CurrencyEnum currency = CurrencyEnum.EURO;
     int categoryID = 1;
     int categoryID2 = -1;
+    int categoryID3 = 0;
     String transactionDesignation = "Luz Novembro";
     Date transactionDate = new Date(2021,1,21);
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
@@ -55,6 +56,7 @@ class RegisterPaymentMyCashAccountControllerTest {
     FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,700.0,currency,categoryID,transactionDesignation,transactionDate);
     FamilyCashTransferDTO transacaoDTO4 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID2,transactionDesignation,transactionDate);
     FamilyCashTransferDTO transacaoDTO5 = new FamilyCashTransferDTO(familyID,selfCC,accountID2,transferAmount,currency,categoryID2,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO6 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID3,transactionDesignation,transactionDate);
 
     @Test
     void registerPaymentMyCashAccount_StandardCategory_SameBalance() {
@@ -85,6 +87,23 @@ class RegisterPaymentMyCashAccountControllerTest {
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
         controller.registerPaymentMyCashAccount(transacaoDTO4);
+        double expected = 250.00;
+        double result = contaCash.getMoneyBalance().getValue();
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void registerPaymentMyCashAccount_SameBalance_boundoryTest() {
+        Application ffmApp = new Application();
+        RegisterPaymentMyCashAccountController controller = new RegisterPaymentMyCashAccountController(ffmApp);
+        // FamilyService
+        FamilyService familyService = ffmApp.getFamilyService();
+        Family family = new Family("Ribeiros",familyID);
+        familyService.addFamily(family);
+        FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
+        family.addFamilyMember(zeManel);
+        zeManel.addAccount(contaCash);
+        controller.registerPaymentMyCashAccount(transacaoDTO6);
         double expected = 250.00;
         double result = contaCash.getMoneyBalance().getValue();
         assertEquals(expected,result);
