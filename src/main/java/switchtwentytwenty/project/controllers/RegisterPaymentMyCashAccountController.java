@@ -49,8 +49,7 @@ public class RegisterPaymentMyCashAccountController {
             if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
                 transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
                 return true;
-            } else {
-                return false;
+            } else { return false;
             }
         }  catch (Exception e) {
             return false;
