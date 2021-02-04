@@ -157,9 +157,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         int categoryID = -1;
         transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 2, currency, categoryID, transactionDesignation, transactionDate);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-
         boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
-
         Assertions.assertTrue(result);
     }
 
@@ -168,9 +166,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         int categoryID = -3;
         transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 2, currency, categoryID, transactionDesignation, transactionDate);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-
         boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
-
         Assertions.assertFalse(result);
     }
 
@@ -179,9 +175,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
     void transferCashBetweenFamilyMembersCashAccountsInsufficientFunds() {
         transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 100000000, currency,categoryID, transactionDesignation, transactionDate);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-
         boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
-
         Assertions.assertFalse(result);
     }
 }
