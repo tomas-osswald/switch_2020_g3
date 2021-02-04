@@ -5,6 +5,7 @@ hide circles
 left to right direction
 title Domain Model Diagram - SP02
 
+
 class Family {
 UniqueID
 Name

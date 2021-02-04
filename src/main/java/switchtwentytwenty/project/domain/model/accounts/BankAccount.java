@@ -34,8 +34,6 @@ public class BankAccount implements Account {
     }
 
     /***** METHODS ******/
-    // VALIDATORS
-
     /**
      * Validate description
      * @param description
@@ -88,7 +86,7 @@ public class BankAccount implements Account {
      * @param value
      */
     public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
-        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO); //this.accountData.getBalance() + value;
+        MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO);
         this.accountData.setBalance(newBalance);
     }
 

@@ -96,16 +96,13 @@ class Transaction {
 - designation
 - remainingBalance
 - currency
-}
-
-class CashTransaction {
 - recipient
 }
 
-Family -down-> FamilyMember : has Family Members
-FamilyMember -down-> Account  : has List of 
-Account -> Transaction : has a List of
-CashTransaction -down-> Transaction : is a
+
+Family "1" -down-> "0..*" FamilyMember : has Family Members
+FamilyMember "1" -down-> "0..*" Account  : has List of 
+Account "1" -> "0..*" Transaction : has a List of
 ```
 
 # 3. Design

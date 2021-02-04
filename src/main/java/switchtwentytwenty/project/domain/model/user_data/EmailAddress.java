@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class EmailAddress {
 
     // Attributes
-    private String email;
+    private final String email;
 
     // Constructors
     public EmailAddress(String email) {
