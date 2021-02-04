@@ -17,7 +17,6 @@ Name
 BirthDate
 }
 
-
 class Address {
 Street
 Postal Code

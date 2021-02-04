@@ -21,6 +21,11 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
         this.app = app;
     }
 
+    /**
+     *
+     * @param cashTransferDTO
+     * @return
+     */
     public boolean transferCashBetweenFamilyMembersCashAccounts(CashTransferDTO cashTransferDTO) {
         FamilyService familyService = this.app.getFamilyService();
         int familyID = cashTransferDTO.getFamilyID();

@@ -3,13 +3,9 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
-import switchtwentytwenty.project.domain.sandbox.Result;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-
-import java.lang.reflect.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 

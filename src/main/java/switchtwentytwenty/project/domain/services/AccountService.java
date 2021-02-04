@@ -93,6 +93,13 @@ public class AccountService {
         return true;
     }
 
+    /**
+     *
+     * @param family
+     * @param familyMember
+     * @param familyCashTransferDTO
+     * @return
+     */
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, FamilyCashTransferDTO familyCashTransferDTO) {
         if (!family.hasCashAccount()) throw new IllegalArgumentException("Family has no account");
         Account familyAccount = family.getFamilyCashAccount();
@@ -115,6 +122,13 @@ public class AccountService {
         return true;
     }
 
+    /**
+     *
+     * @param originFamilyMember
+     * @param destinationFamilyMember
+     * @param cashTransferDTO
+     * @return
+     */
     public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, CashTransferDTO cashTransferDTO) {
         int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
         int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
@@ -168,6 +182,16 @@ public class AccountService {
         return accountIDAndDescriptionDTOS;
     }
 
+    /**
+     *
+     * @param familyMember Target Family Member
+     * @param accountID    Account ID to get balance
+     * @return MoneyValue with Balance and Currency of a Family Member Account
+     */
+    public MoneyValue getAccountBalance(FamilyMember familyMember, int accountID) {
+        Account account = getAccount(familyMember, accountID);
+        return account.getMoneyBalance();
+    }
     /**
      * Method to get a Family Cash Account Balance
      *
