@@ -13,8 +13,8 @@ public class Family {
 
     // Attributes
 
-    private int familyID;
-    private String familyName;
+    private final int familyID;
+    private final String familyName;
     private Date registrationDate;
     //private FamilyMember familyAdministrator;
     private List<FamilyMember> familyMembers;
@@ -344,37 +344,6 @@ public class Family {
         return familyMember.createProfile();
     }
 
-    /*
-    //Custom parent
-    public boolean addCustomCategory(String designation, int parentID) {
-        int categoryID = generateCustomCategoryID();
-        CustomCategory parent = getCustomCategoryByID(parentID);
-        if (parent == null) {
-            throw new IllegalArgumentException("Expected CustomCategoryParent but was null");
-        }
-        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
-        familyCustomCategories.add(newCategory);
-        return true;
-    }
-
-    //Standard parent
-    public boolean addCustomCategory(String designation, StandardCategory parent) {
-        int categoryID = generateCustomCategoryID();
-        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
-        familyCustomCategories.add(newCategory);
-        return true;
-    }
-
-    //No parent
-    public boolean addCustomCategory(String designation) {
-        int categoryID = generateCustomCategoryID();
-        StandardCategory parent = null;
-        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
-        familyCustomCategories.add(newCategory);
-        return true;
-    }
-*/
-
     /**
      * This method returns a CustomCategory of a given ID
      *
@@ -453,8 +422,5 @@ public class Family {
         return this.familyCashAccount;
     }
 
-//    public String getFamilyName() {
-//        return familyName;
-//    }
 
 }
