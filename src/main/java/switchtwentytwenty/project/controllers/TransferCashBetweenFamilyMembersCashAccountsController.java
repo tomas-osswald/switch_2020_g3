@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -40,7 +39,7 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             FamilyMember destinationFamilyMember = family.getFamilyMember(destinationFamilyMemberCC);
             Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
             Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
-            if(categoryID>=0) {
+            if (categoryID>=0) {
                 CategoryService categoryService = this.app.getCategoryService();
                 category = categoryService.getStandardCategoryByID(categoryID);
             }

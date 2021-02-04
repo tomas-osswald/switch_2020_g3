@@ -164,27 +164,6 @@ class BankAccountTest {
     }
 
     @Test
-    void NotEnoughMoneyForTransaction() {
-        assertFalse(accountTest.hasEnoughMoneyForTransaction(new MoneyValue(2000.0, CurrencyEnum.EURO)));
-    }
-
-    @Test
-    void NotEnoughMoneyForTransaction_NegaticeAmmount() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            accountTest.hasEnoughMoneyForTransaction(new MoneyValue(-200.0, CurrencyEnum.EURO));
-        });
-    }
-
-    @Test
-    void NotEnoughMoneyForTransaction_BoundaryAmmount() {
-        assertDoesNotThrow( () -> {
-            accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.0, CurrencyEnum.EURO));
-        });
-        assertTrue(accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.0,CurrencyEnum.EURO)));
-        assertFalse(accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.01,CurrencyEnum.EURO)));
-    }
-
-    @Test
     void checkAccountType_isBankAccount() {
         assertTrue(accountTest.checkAccountType(AccountTypeEnum.BANKACCOUNT));
     }
@@ -396,5 +375,17 @@ class BankAccountTest {
 
         assertNotEquals(expected, result);
         assertNotNull(result);
+    }
+
+    @Test
+    void compareWithAnotherClass() {
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
+
+        String compare = "account";
+
+        assertNotEquals(account, compare);
+
+        assertFalse(account.equals(compare));
     }
 }

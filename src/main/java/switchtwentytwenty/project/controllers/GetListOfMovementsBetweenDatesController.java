@@ -20,6 +20,17 @@ public class GetListOfMovementsBetweenDatesController {
         this.ffmApplication = ffmApplication;
     }
 
+    /**
+     * Obtains a list of movements of a given account between two given dates.
+     * If the given account does not exist, a null list will be returned.
+     * If the account does not have any movements or there are no movements between the given dates, an empty list is returned.
+     * @param familyID family to which the family member belongs
+     * @param ccNumber family member to which the account belongs
+     * @param accountID account unique identifier
+     * @param startDate first date
+     * @param endDate last date
+     * @return list of movements
+     */
     public List<TransactionDataDTO> getListOfMovementsBetweenDates(int familyID, String ccNumber, int accountID, Date startDate, Date endDate) {
         AccountService accountService = ffmApplication.getAccountService();
         TransactionService transactionService = ffmApplication.getTransactionService();

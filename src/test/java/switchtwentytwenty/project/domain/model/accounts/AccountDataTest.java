@@ -258,5 +258,11 @@ class AccountDataTest {
         assertNotEquals(expected, result);
     }
 
+    @Test
+    void compareWithAnotherClass() {
+        String compare = "account";
 
+        assertFalse(accountData.equals(compare));
+        assertNotEquals(accountData, compare);
+    }
 }

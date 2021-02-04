@@ -136,7 +136,18 @@ class MemberProfileDTOTest {
         assertNotEquals(dto1, dto2);
     }
     @Test
-    void getMemberProfileTest7_hashCodesAreEqual() {
+    void getMemberProfileTest7_objectsAreNotEqualAdminTrue() {
+        emails.add(emailAddress);
+        phoneNumbers.add(phoneNumber);
+
+        MemberProfileDTO dto1 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, true);
+
+        MemberProfileDTO dto2 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
+
+        assertNotEquals(dto1, dto2);
+    }
+    @Test
+    void getMemberProfileTest8_hashCodesAreEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
         MemberProfileDTO dto1 = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
@@ -147,7 +158,7 @@ class MemberProfileDTOTest {
         assertNotSame(dto1, dto2);
     }
     @Test
-    void getMemberProfileTest8_hashCodesAreNotEqual() {
+    void getMemberProfileTest9_hashCodesAreNotEqual() {
         emails.add(emailAddress);
         phoneNumbers.add(phoneNumber);
         MemberProfileDTO dto1 = new MemberProfileDTO(ccNumber, "passaros", date, phoneNumbers, emails, vatNumber, address, admin);
