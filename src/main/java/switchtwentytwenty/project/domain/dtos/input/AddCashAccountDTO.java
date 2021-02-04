@@ -9,6 +9,14 @@ public class AddCashAccountDTO {
     private int familyID;
     private final CurrencyEnum currency;
 
+    /**
+     * Data Transfer Object to input the necessary data for a new cash account
+     * @param balance Initial balance of the cash account
+     * @param description Name of the cash account
+     * @param familyMemberID ID of the family member to add the account to
+     * @param familyID ID of the family of the target member
+     * @param currency Currency type of the account
+     */
     public AddCashAccountDTO(Double balance, String description,String familyMemberID,int familyID,CurrencyEnum currency) {
         this.balance = balance;
         this.description = description;
