@@ -668,4 +668,22 @@ class AccountServiceTest {
         assertThrows(Exception.class, () -> accountService.getFamilyMemberCashAccountBalance(familyMember, 1));
     }
 
+    @Test
+    void validateChangesInBalanceAfterTransferCashBetweenFamilyMembers() {
+        AccountService accountService = new AccountService();
+        diogo.addAccount(cashAccount);
+        jorge.addAccount(zeroCashAccount);
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(1, cc, 1, id, generatedID, 5.00, CurrencyEnum.EURO, 0, "Divida", new Date());
+
+        accountService.transferCashBetweenFamilyMembersCashAccounts(diogo, jorge, cashTransferDTO);
+
+        MoneyValue expectedDebit = new MoneyValue(95.00, CurrencyEnum.EURO);
+        MoneyValue expectedCredit = new MoneyValue(5.00, CurrencyEnum.EURO);
+
+        MoneyValue resultDebit = cashAccount.getMoneyBalance();
+        MoneyValue resultCredit = zeroCashAccount.getMoneyBalance();
+
+        assertEquals(resultCredit, expectedCredit);
+        assertEquals(resultDebit, expectedDebit);
+    }
 }
