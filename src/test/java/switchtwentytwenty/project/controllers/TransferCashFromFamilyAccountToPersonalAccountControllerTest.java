@@ -119,7 +119,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
     }
 
     @Test
-    void transferCashFromFamilyToFamilyMember_categorynull() {
+    void transferCashFromFamilyToFamilyMember_invalidCategory() {
         int categoryID = 100;
         familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
         TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
