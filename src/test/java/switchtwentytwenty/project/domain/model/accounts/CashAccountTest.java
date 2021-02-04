@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
@@ -339,7 +340,7 @@ class CashAccountTest {
         CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
         CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "cc", 1, 2.00, CurrencyEnum.EURO, 1, "Shopping", new Date());
-        MoneyValue remainingBalance = new MoneyValue(10.0,CurrencyEnum.EURO);
+        MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
 
         assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, familyCashTransferDTO));
     }
@@ -420,6 +421,7 @@ class CashAccountTest {
     }
 
     @Test
+
     void checkIfCreditIsMadeInCashAccount() {
         double expected = 2.00;
         double balance = 1.00;
@@ -436,12 +438,24 @@ class CashAccountTest {
     void checkIfDebitIsMadeInCashAccount() {
         double expected = 2.00;
         double balance = 5.00;
-        MoneyValue money = new MoneyValue(3.00,currency);
+        MoneyValue money = new MoneyValue(3.00, currency);
         String designation = "Saco azul";
         int cashAccountID = 2;
-        CashAccount cashAccount = new CashAccount(designation, balance,cashAccountID,currency );
+        CashAccount cashAccount = new CashAccount(designation, balance, cashAccountID, currency);
         cashAccount.debit(money);
         double result = cashAccount.getMoneyBalance().getValue();
         assertEquals(expected, result);
+    }
+
+     @Test
+    void registerTransactionTwo() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(1, "0000000000ZY4", 1, "0000000000ZY4", 1, 5.00, CurrencyEnum.EURO, 0, "Divida", new Date());
+        MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
+
+        assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, cashTransferDTO));
+
     }
 }

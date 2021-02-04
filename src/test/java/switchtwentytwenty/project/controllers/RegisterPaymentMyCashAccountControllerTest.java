@@ -10,6 +10,7 @@ import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
+import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -55,7 +56,7 @@ class RegisterPaymentMyCashAccountControllerTest {
     FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID,selfCC,accountID,-200.0,currency,categoryID,transactionDesignation,transactionDate);
     FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID,selfCC,accountID,700.0,currency,categoryID,transactionDesignation,transactionDate);
     FamilyCashTransferDTO transacaoDTO4 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID2,transactionDesignation,transactionDate);
-    FamilyCashTransferDTO transacaoDTO5 = new FamilyCashTransferDTO(familyID,selfCC,accountID2,transferAmount,currency,categoryID2,transactionDesignation,transactionDate);
+    FamilyCashTransferDTO transacaoDTO5 = new FamilyCashTransferDTO(familyID,selfCC,accountID2,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
     FamilyCashTransferDTO transacaoDTO6 = new FamilyCashTransferDTO(familyID,selfCC,accountID,transferAmount,currency,categoryID3,transactionDesignation,transactionDate);
 
     @Test
@@ -69,6 +70,10 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
+
+        AddStandardCategoryController controllerCat = new AddStandardCategoryController(ffmApp);
+        controllerCat.addStandardCategory("Fruta",0);
+
         controller.registerPaymentMyCashAccount(transacaoDTO1);
         double expected = 250.00;
         double result = contaCash.getMoneyBalance().getValue();
@@ -83,9 +88,13 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyService familyService = ffmApp.getFamilyService();
         Family family = new Family("Ribeiros",familyID);
         familyService.addFamily(family);
-        FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
+        FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city,true);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
+
+        AddCategoryToFamilyTreeController controllerCat = new AddCategoryToFamilyTreeController(ffmApp);
+        controllerCat.addCategoryToFamilyTree(selfCC,familyID,"Fruta",0);
+
         controller.registerPaymentMyCashAccount(transacaoDTO4);
         double expected = 250.00;
         double result = contaCash.getMoneyBalance().getValue();
@@ -103,6 +112,10 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
+
+        AddStandardCategoryController controllerCat = new AddStandardCategoryController(ffmApp);
+        controllerCat.addStandardCategory("Fruta",0);
+
         controller.registerPaymentMyCashAccount(transacaoDTO6);
         double expected = 250.00;
         double result = contaCash.getMoneyBalance().getValue();
@@ -120,6 +133,10 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
+
+        AddStandardCategoryController controllerCat = new AddStandardCategoryController(ffmApp);
+        controllerCat.addStandardCategory("Fruta",0);
+
         boolean successTransaction = controller.registerPaymentMyCashAccount(transacaoDTO1);
         MoneyValue expected = new MoneyValue(250.00,CurrencyEnum.EURO);
         MoneyValue result = contaCash.getMoneyBalance();
@@ -138,6 +155,10 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaCash);
+
+        AddStandardCategoryController controllerCat = new AddStandardCategoryController(ffmApp);
+        controllerCat.addStandardCategory("Fruta",0);
+
         assertFalse(controller.registerPaymentMyCashAccount(transacaoDTO2));
     }
 
@@ -166,6 +187,10 @@ class RegisterPaymentMyCashAccountControllerTest {
         FamilyMember zeManel = new FamilyMember(selfCC,name,date,numero,email,nif,rua,codPostal,local,city);
         family.addFamilyMember(zeManel);
         zeManel.addAccount(contaBank);
+
+        AddStandardCategoryController controllerCat = new AddStandardCategoryController(ffmApp);
+        controllerCat.addStandardCategory("Fruta",0);
+
         assertFalse(controller.registerPaymentMyCashAccount(transacaoDTO5));
     }
 

@@ -41,7 +41,6 @@ public class RegisterPaymentMyCashAccountController {
             category = famService.getFamily(familyCashTransferDTO.getFamilyID()).getCustomCategoryByID(familyCashTransferDTO.getCategoryID());
         }
         if (category == null) return false;
-        
         // AccountService
         AccountService accountService = this.ffmApplication.getAccountService();
         // TransactionService
@@ -50,8 +49,7 @@ public class RegisterPaymentMyCashAccountController {
             if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
                 transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
                 return true;
-            } else {
-                return false;
+            } else { return false;
             }
         }  catch (Exception e) {
             return false;
