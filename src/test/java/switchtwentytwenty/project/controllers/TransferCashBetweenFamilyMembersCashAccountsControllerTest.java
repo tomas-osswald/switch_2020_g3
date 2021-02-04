@@ -140,13 +140,16 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         assertFalse(result);
     }
 
-    /*@Test
-    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
+    @Test
+    void transferCashBetweenFamilyMembersCashAccounts_categoryIDzero() {
+        int categoryID = 0;
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency, 1,"Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-        assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
 
-    }*/
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+
+        Assertions.assertFalse(result);
+    }
 
     @Test
     void transferCashBetweenFamilyMembersCashAccounts_validCustomCategory() {
