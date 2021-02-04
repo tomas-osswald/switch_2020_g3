@@ -37,4 +37,31 @@
 | relationDesignation| Attribute of Relation Class |String|
 | street|Attribute of Street class |String|
 | vatNumber|Attribute of the VatNumber class |Integer|
-
+| MoneyValue | Object that contains value and currency | Class |
+| Account | Interface that all Accounts implement | Interface |
+| CreditCardAccount | Credit Card Account | Class |
+| BankAccount | Bank Account | Class |
+| BankSavingsAccount | Bank Savings Account | Class |
+| Category | Interface that all Categories implement | Interface |
+| Transaction | Interface that all Transactions implement | Interface |
+| CurrencyEnum | Enum of Currencies | Enum |
+| AccountTypeEnum | Enum of AccountTypes | Enum |
+| AddBankAccountDTO | Input DTO with information to create a Bank Account | Class |
+| AddBankSavingsDTO | Input DTO with information to create a Bank Savings Account | Class |
+| AddCashAccountDTO | Input DTO with information to create a Cash Account | Class |
+| AddCreditCardAccountDTO | Input DTO with information to create a Credit Card Account | Class |
+| AddFamilyMemberDTO | Input DTO with information to create a Family Member | Class |
+| CashTransferDTO | Input DTO with information to execute a cash transfer | Class |
+| FamilyCashTransferDTO | Input DTO with information to execute a cash transfer | Class |
+| AccountIDAndDescriptionDTO | Output DTO with ID and Description of a given Account | Class |
+| TransactionDataDTO | Output DTO with information about a transaction | Class |
+| AccountData | Storage object to hold account data | Class |
+| TransactionData | Storage object to hold transaction data | Class |
+| CashTransaction | Transaction that represents physical currency | Class |
+| AccountService | Service that manages all Accounts | Class |
+| EmailService | Service that manages all Emails | Class |
+| RelationService | Service that manages all Relations | Class |
+| TransactionService | Service that manages all Transactions | Class |
+| InvalidAccountDesignationException | Exception to be thrown when the Account Designation is invalid | Exception |
+| NoParentalPermissionException | Exception to be thrown when there is no parental permission | Exception |
+| NotSameCurrencyException | Exception to be thrown when there is currency incompatibility | Exception |
