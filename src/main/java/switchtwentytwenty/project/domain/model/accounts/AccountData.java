@@ -2,15 +2,18 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
 import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class AccountData {
 
@@ -36,7 +39,7 @@ public class AccountData {
         this.accountID = accountID;
         this.transactions = new ArrayList<>();
         this.creationDate = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
-        if(currencyEnum != null)
+        if (currencyEnum != null)
             this.currentBalance = new MoneyValue(balance, currencyEnum);
         else
             this.currentBalance = new MoneyValue(balance, CurrencyEnum.EURO);
@@ -58,11 +61,11 @@ public class AccountData {
         return this.currentBalance;
     }
 
-    public void credit(MoneyValue moneyValue){
+    public void credit(MoneyValue moneyValue) {
         this.currentBalance = this.currentBalance.credit(moneyValue);
     }
 
-    public void debit(MoneyValue moneyValue){
+    public void debit(MoneyValue moneyValue) {
         this.currentBalance = this.currentBalance.debit(moneyValue);
     }
 
@@ -105,6 +108,7 @@ public class AccountData {
 
     /**
      * Check if it has enough balance
+     *
      * @param moneyValue
      * @return true if the account has enough balance | false if the account doesn't have enough balance
      */
@@ -117,6 +121,7 @@ public class AccountData {
 
     /**
      * Register CashTransaction
+     *
      * @param targetAccount
      * @param category
      * @param currentBalance
@@ -125,14 +130,14 @@ public class AccountData {
      * @return true if the transaction is added to the transaction List
      */
 
-    public boolean registerCashTransaction(CashAccount targetAccount, Category category,MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, familyCashTransferDTO);
+    public boolean registerCashTransaction(CashAccount targetAccount, Category category, MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO, boolean credit) {
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, currentBalance, familyCashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }
 
     public boolean registerCashTransaction(CashAccount targetAccount, Category category, MoneyValue currentBalance, CashTransferDTO cashTransferDTO, boolean credit) {
-        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, cashTransferDTO);
+        CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit, currentBalance, cashTransferDTO);
         transactions.add(cashTransaction);
         return true;
     }
@@ -150,7 +155,7 @@ public class AccountData {
         return Collections.unmodifiableList(this.transactions);
     }
 
-    public boolean checkCurrency(CurrencyEnum currency){
+    public boolean checkCurrency(CurrencyEnum currency) {
         return this.currentBalance.getCurrencyType().equals(currency);
     }
 }

@@ -25,11 +25,10 @@ participant ": System" as system
 activate familyMember
 familyMember-> system : transfer money
 activate system
-familyMember -> system : inputs required data
-
+system -> familyMember: requests required data
+familyMember-> system : send required data
 alt failure
-system -> familyMember : Inform Failure
-
+system -> familyMember: Inform Failure
 else sucess
 system -> familyMember : Inform Sucess
 
@@ -139,7 +138,7 @@ Participant ": FamilyService" as FamilyService
 Participant "aFamily\n : Family" as Family
 Participant ": CategoryService" as CategoryService
 Participant ": AccountService" as AccountService
-
+Participant ": aFamilyMember\n : FamilyMember" as FamilyMember
 
 Actor -> UI : Transfer Money \nto Family Member
 activate UI
@@ -263,11 +262,11 @@ AccountService -> transferMoneyValue ** : create(transferValue, currency)
 AccountService -> familyMemberCashAccount : hasEnoughMoneyForTransaction(transferAmount)
 activate familyMemberCashAccount
 
-opt not enough money for transaction
+opt true
 familyMemberCashAccountt --> AccountService : false
 <-- AccountService : failure
 
-else enough money for transaction
+else false
 familyMemberCashAccount --> AccountService : true
 deactivate familyMemberCashAccount
 end

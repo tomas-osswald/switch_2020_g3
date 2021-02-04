@@ -64,9 +64,39 @@ In order to fulfill this requirement, we need three main data pieces:
 - Currency;
 - Bank Account Description;
 
-The account will be stored inside the Family Member. The Family and Family Member IDs will be used to identify the correct user where to add the account. The basic information required for the account creation is the description, the current balance and the currency of the account.
+The account will be stored inside the Family Member.
+We decided to implement 
+The Family and Family Member IDs will be used to identify the correct user where to add the account. 
+The basic information required for the account creation is the description, the current balance and the currency of the account.
 
 At a later iteration, the family member's ID would be acquired through the Log In information. For this sprint, the ID will have to be inputted along with the Bank Account information.
+
+##2.1. Domain Model Diagram
+
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US173
+
+class Family {
+- FamilyID
+}
+
+class FamilyMember {
+- FamilyMemberID
+}
+
+class BankAccount {
+- Balance
+- Description
+- Currency
+- AccountID 
+}
+
+Family "1" -down-> "0..*" FamilyMember : has list of 
+FamilyMember "1" -down-> "0..*" BankAccount  : has 
+```
+
 
 # 3. Design
 
@@ -155,7 +185,6 @@ The main Classes involved are:
 - AccountData
 - MoneyValue
 
-**AddBankAccount()**
 ```puml
 @startuml
 skinparam linetype ortho
@@ -226,7 +255,6 @@ BankAccount --> AddBankAccountDTO: accepts
 FamilyMember --> BankAccount: has
 BankAccount --* AccountData: contains
 AccountData --> MoneyValue: has
-
 
 @enduml
 ```

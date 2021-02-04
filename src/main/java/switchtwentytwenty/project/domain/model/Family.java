@@ -406,7 +406,13 @@ public class Family {
         return selectedRelation;
     }
 
-
+    /**
+     * Method to find a relation that has Two family members and check parental permissions
+     *
+     * @param memberA Member to check if its the parent
+     * @param memberB Member to check if its the child
+     * @return True if A is parent of B
+     */
     public boolean verifyParenthood(FamilyMember memberA, FamilyMember memberB) {
         boolean parenthood = false;
         for (Relation relation : familyRelations) {
