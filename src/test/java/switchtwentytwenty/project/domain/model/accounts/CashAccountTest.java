@@ -418,4 +418,30 @@ class CashAccountTest {
         assertNotNull(cashAccountOne.getDescription());
         assertNotEquals(cashAccountOne.getDescription(), notExpected);
     }
+
+    @Test
+    void checkIfCreditIsMadeInCashAccount() {
+        double expected = 2.00;
+        double balance = 1.00;
+        MoneyValue money = new MoneyValue(1.00,currency);
+        String designation = "Saco azul";
+        int cashAccountID = 2;
+        CashAccount cashAccount = new CashAccount(designation, balance,cashAccountID,currency );
+        cashAccount.credit(money);
+        double result = cashAccount.getMoneyBalance().getValue();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void checkIfDebitIsMadeInCashAccount() {
+        double expected = 2.00;
+        double balance = 5.00;
+        MoneyValue money = new MoneyValue(3.00,currency);
+        String designation = "Saco azul";
+        int cashAccountID = 2;
+        CashAccount cashAccount = new CashAccount(designation, balance,cashAccountID,currency );
+        cashAccount.debit(money);
+        double result = cashAccount.getMoneyBalance().getValue();
+        assertEquals(expected, result);
+    }
 }
