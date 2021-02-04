@@ -163,6 +163,13 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
     }
 
 
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsInsufficientFunds() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 100000000, currency,categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
 
+        Assertions.assertFalse(result);
+    }
 }
