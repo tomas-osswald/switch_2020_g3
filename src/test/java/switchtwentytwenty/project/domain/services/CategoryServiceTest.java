@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.services;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
+import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ class CategoryServiceTest {
     void getCategories() {
         //Arrange
         List<StandardCategory> expectedList = new ArrayList<>();
-        StandardCategory categoryOther = new StandardCategory("other",null,0);
+        StandardCategory categoryOther = new StandardCategory("other", null, 0);
         StandardCategory categoryOne = new StandardCategory("Home", null, 1);
         StandardCategory categoryTwo = new StandardCategory("Education", null, 2);
         StandardCategory categoryThree = new StandardCategory("Food", categoryOne, 3);
@@ -125,14 +125,14 @@ class CategoryServiceTest {
         expectedList.add(categoryOne);
         expectedList.add(categoryTwo);
         expectedList.add(categoryThree);
-        categoryService.addStandardCategory("Home",0);
-        categoryService.addStandardCategory("Education",0);
-        categoryService.addStandardCategory("Food",1);
+        categoryService.addStandardCategory("Home", 0);
+        categoryService.addStandardCategory("Education", 0);
+        categoryService.addStandardCategory("Food", 1);
         //Act
         List<StandardCategory> resultList = categoryService.getCategories();
         //Asserts
-        assertEquals(expectedList.size(),resultList.size());
-        assertEquals(expectedList,resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
     }
 
     @Test
@@ -145,4 +145,28 @@ class CategoryServiceTest {
     }
 
 
+    @Test
+    void addCategoryToFamilyTreeAssertTrueStandardParent() {
+        String categoryName = "Habitação";
+        int parentID = 0;
+        categoryService.addStandardCategory(categoryName, parentID);
+        Family family = new Family("testFamily", 1);
+        assertTrue(categoryService.addCategoryToFamilyTree(family, "test", 1));
+    }
+
+    @Test
+    void addCategoryToFamilyTreeAssertTrueCustomParent() {
+        String categoryName = "Habitação";
+        int parentID = 0;
+        categoryService.addStandardCategory(categoryName, parentID);
+        Family family = new Family("testFamily", 1);
+        categoryService.addCategoryToFamilyTree(family, "test", 1);
+        assertTrue(categoryService.addCategoryToFamilyTree(family, "test2", -1));
+    }
+
+    @Test
+    void addCategoryToFamilyTreeAssertTrueNoParent() {
+        Family family = new Family("testFamily", 1);
+        assertTrue(categoryService.addCategoryToFamilyTree(family, "test2", 0));
+    }
 }
