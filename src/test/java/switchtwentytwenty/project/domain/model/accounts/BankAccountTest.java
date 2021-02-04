@@ -164,15 +164,6 @@ class BankAccountTest {
     }
 
     @Test
-    void NotEnoughMoneyForTransaction_BoundaryAmmount() {
-        assertDoesNotThrow( () -> {
-            accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.0, CurrencyEnum.EURO));
-        });
-        assertTrue(accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.0,CurrencyEnum.EURO)));
-        assertFalse(accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.01,CurrencyEnum.EURO)));
-    }
-
-    @Test
     void checkAccountType_isBankAccount() {
         assertTrue(accountTest.checkAccountType(AccountTypeEnum.BANKACCOUNT));
     }
