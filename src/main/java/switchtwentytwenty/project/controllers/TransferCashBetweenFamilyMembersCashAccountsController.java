@@ -37,8 +37,8 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             Family family = familyService.getFamily(familyID);
             FamilyMember originFamilyMember = family.getFamilyMember(originFamilyMemberCC);
             FamilyMember destinationFamilyMember = family.getFamilyMember(destinationFamilyMemberCC);
-            Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
-            Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
+
+
             if (categoryID>=0) {
                 CategoryService categoryService = this.app.getCategoryService();
                 category = categoryService.getStandardCategoryByID(categoryID);
@@ -48,8 +48,10 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
 
             AccountService accountService = app.getAccountService();
             if(!accountService.transferCashBetweenFamilyMembersCashAccounts(originFamilyMember, destinationFamilyMember, cashTransferDTO)) return false;
+
             TransactionService transactionService = app.getTransactionService();
-            accountService.transferCashBetweenFamilyMembersCashAccounts(originFamilyMember,destinationFamilyMember,cashTransferDTO);
+            Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
+            Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
 
             transactionService.registerCashTransferOther((CashAccount)originAccount,(CashAccount) destinationAccount, category , cashTransferDTO);
             return true;
