@@ -265,7 +265,7 @@ public class Family {
     public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
         boolean administrator = true;
         if (!checkIfVatExists(familyMemberDTO.getVat())) {
-            FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(),familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity(), administrator);
+            FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(), familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity(), administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -407,6 +407,12 @@ public class Family {
         this.familyCashAccount = newCashAccount;
     }
 
+    /**
+     * Method to add a Custom Category object to the family's category list
+     *
+     * @param newCustomCategory CustomCategory object to add
+     * @return true if successfuly added
+     */
     public boolean addCategory(CustomCategory newCustomCategory) {
         this.familyCustomCategories.add(newCustomCategory);
         return true;
@@ -433,7 +439,7 @@ public class Family {
 
 
     public boolean verifyParenthood(FamilyMember memberA, FamilyMember memberB) {
-        boolean parenthood=false;
+        boolean parenthood = false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
                 parenthood = relation.isAParentOfB();

@@ -163,7 +163,13 @@ public class CategoryService {
     }
 
 
-    //No Parent
+    /**
+     *  Method to add a new CustomCategory to a Family's Category List
+     * @param targetFamily Family object to add the new category
+     * @param categoryDesignation Label/Description to assign to the category
+     * @param parentID ID of the Standard or Custom category to be the parent. 0 for root
+     * @return True if the category is successfuly added to the family's category tree.
+     */
     public boolean addCategoryToFamilyTree(Family targetFamily, String categoryDesignation, int parentID) {
         if (parentID > 0) {
             StandardCategory parent = getStandardCategoryByID(parentID);

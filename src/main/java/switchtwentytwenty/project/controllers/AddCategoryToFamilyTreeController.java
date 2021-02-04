@@ -13,6 +13,15 @@ public class AddCategoryToFamilyTreeController {
         this.ffmApplication = ffmApplication;
     }
 
+    /**
+     * Controller method to add a new Custom category to a specific family
+     *
+     * @param adminCC             ID number of the family admin
+     * @param familyID            ID of the target family
+     * @param categoryDesignation Label/Description to assign to the category
+     * @param parentID            ID of the Standard or Custom category to be the parent. 0 for root
+     * @return True if the category successfully added to the family's category tree.
+     */
     public boolean addCategoryToFamilyTree(String adminCC, int familyID, String categoryDesignation, int parentID) {
         CategoryService categoryService = this.ffmApplication.getCategoryService();
         FamilyService familyService = this.ffmApplication.getFamilyService();
