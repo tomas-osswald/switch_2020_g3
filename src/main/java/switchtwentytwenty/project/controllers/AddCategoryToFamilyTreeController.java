@@ -19,7 +19,8 @@ public class AddCategoryToFamilyTreeController {
         try {
             if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
                 Family targetFamily = familyService.getFamily(familyID);
-                return categoryService.addCategoryToFamilyTree(targetFamily, categoryDesignation, parentID);
+                categoryService.addCategoryToFamilyTree(targetFamily, categoryDesignation, parentID);
+                return true;
             }
 
         } catch (Exception e) {

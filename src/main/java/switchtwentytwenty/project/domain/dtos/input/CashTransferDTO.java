@@ -28,23 +28,32 @@ public class CashTransferDTO {
         this.currency = currency;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;
-        if (transactionDate ==null) {
+        if (transactionDate == null) {
             this.transactionDate = new Date();
         } else {
             this.transactionDate = (Date) transactionDate.clone();
         }
     }
 
-    public int getFamilyID() {
-        return familyID;
-    }
 
     public String getOriginFamilyMemberCC() {
         return originFamilyMemberCC;
     }
 
+    public String getTransactionDesignation() {
+        return transactionDesignation;
+    }
+
     public int getOriginAccountID() {
         return originAccountID;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public int getFamilyID() {
+        return familyID;
     }
 
     public String getDestinationFamilyMemberCC() {
@@ -55,26 +64,19 @@ public class CashTransferDTO {
         return destinationAccountID;
     }
 
-    public double getTransferAmount() {
-        return transferAmount;
-    }
 
-    public CurrencyEnum getCurrency(){
+    public CurrencyEnum getCurrency() {
         return currency;
-    }
-
-    public int getCategoryID() {
-        return categoryID;
-    }
-
-    public String getTransactionDesignation() {
-        return transactionDesignation;
     }
 
     public Date getTransactionDate() {
         return (Date) transactionDate.clone();
     }
 
+    public double getTransferAmount() {
+        return transferAmount;
+    }
 }
+
 
 

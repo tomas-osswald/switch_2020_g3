@@ -13,7 +13,8 @@ public class RelationService {
 
     public boolean addRelation(Family targetFamily, FamilyMember memberA, FamilyMember memberB, String relationDesignation, boolean aIsParentOfB) {
         Relation newRelation = new Relation(relationDesignation, memberA, memberB, aIsParentOfB);
-        return targetFamily.addRelation(newRelation);
+        targetFamily.addRelation(newRelation);
+        return true;
     }
 
     public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(Family targetFamily) {

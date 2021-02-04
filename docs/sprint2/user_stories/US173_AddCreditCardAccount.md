@@ -78,72 +78,25 @@ hide empty members
 hide circle
 title Domain Model Diagram US173
 
-class AddCreditCardAccountDTO{
-  - familyMemberID
-  - familyID
-  - description
-  - withdrawalLimit
-  - totalDebt
-  - interestDebt
-  - currency
-}
-class AddCreditCardAccountController {
-  + addBankAccount()
-}
-
-class Application {
-  + getFamilyService() 
-  + getAccountService()
-}
-
-class FamilyService {
-  + getFamily()
-}
-
 class Family {
-  - getFamilyMemberByID() 
+- Name
+- UniqueID
+- RegistrationDate
+
 }
 
 class FamilyMember {
-  # compareID()
-  + addBankAccount()
-  
+- Name
+- BirthDate
 }
 
-class AccountService {
-  + addBankAccount()
-  + createBankAccount()
-}
-class BankAccount {
-  - accountType
-  + create()
+class CreditCardAccount {
+- balance
+- description
 }
 
-interface Account{
-}
-class AccountData {
-  - balance
-  - description
-  - accountID
-  - creationDate
-}
-class MoneyValue {
-  - value
-  - currency
-}
-
-AddCreditCardAccountController -> Application: has
-AddCreditCardAccountController <-- AddCreditCardAccountDTO: accepts
-AddCreditCardAccountController -> FamilyService: calls
-FamilyService -> Family: has list
-Family --> FamilyMember: has list
-AddCreditCardAccountController --> AccountService: calls
-AccountService --> BankAccount: creates
-BankAccount -|> Account: implements
-BankAccount <-- AddCreditCardAccountDTO: accepts
-FamilyMember --> BankAccount: adds
-BankAccount --* AccountData: contains
-AccountData --> MoneyValue: has
+Family "1" -down-> "1..* " FamilyMember : has Family members
+FamilyMember "1" -> "0..* " CreditCardAccount  : has
 ```
 
 # 3. Design
@@ -232,36 +185,72 @@ deactivate actor
 
 title Class Diagram - US173
 
-class AddCreditCardAcccountController {
+class AddCreditCardAccountDTO{
+  - familyMemberID
+  - familyID
+  - description
+  - withdrawalLimit
+  - totalDebt
+  - interestDebt
+  - currency
+}
+class AddCreditCardAccountController {
+  + addBankAccount()
 }
 
 class Application {
-}
-
-class AccountService {
-+ addCreditCardAccount()
+  + getFamilyService() 
+  + getAccountService()
 }
 
 class FamilyService {
-   }
-   
+  + getFamily()
+}
+
+class Family {
+  - getFamilyMemberByID() 
+}
+
 class FamilyMember {
-    + addAccount()
+  # compareID()
+  + addBankAccount()
+  
 }
 
-class Account {
+class AccountService {
+  + addBankAccount()
+  + createBankAccount()
+}
+class BankAccount {
+  - accountType
+  + create()
 }
 
-class CreditCardAccount {
+interface Account{
+}
+class AccountData {
+  - balance
+  - description
+  - accountID
+  - creationDate
+}
+class MoneyValue {
+  - value
+  - currency
 }
 
-AddCreditCardAcccountController  -> Application
-AddCreditCardAcccountController  -down-> AccountService
-(AccountService, FamilyMember) -> CreditCardAccount : add credit card account to member
-Application --> FamilyService : has
-FamilyService --> FamilyMember : has
-FamilyMember --> Account : has List<Account>
-Account  <-- CreditCardAccount : Is a
+AddCreditCardAccountController -> Application: has
+AddCreditCardAccountController <-- AddCreditCardAccountDTO: accepts
+AddCreditCardAccountController -> FamilyService: calls
+FamilyService -> Family: has list
+Family --> FamilyMember: has list
+AddCreditCardAccountController --> AccountService: calls
+AccountService --> BankAccount: creates
+BankAccount -|> Account: implements
+BankAccount <-- AddCreditCardAccountDTO: accepts
+FamilyMember --> BankAccount: adds
+BankAccount --* AccountData: contains
+AccountData --> MoneyValue: has
 ```
 
 ## 3.3. Applied Patterns

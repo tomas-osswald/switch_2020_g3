@@ -420,7 +420,92 @@ We applied the following principles:
 
 ## 3.4. Tests
 
+In order to test the possible cases of success and failure we developed tests that simulated those situations
 
+**Test 1: Success**
+    
+```    @Test
+    void transferCashFromFamilyToFamilyMember_validTransference() {
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
+
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
+
+        Assertions.assertTrue(result);
+    }
+  ```
+We tested the success if we selected a Standard or a Custom Category, and if the target family member didn't have a cash account.
+  
+The cases of failure we tested included the family not having a cash account, any of the cash accounts involved having a different currency,
+selecting a category that doesn't exist, and if the family account lacks enough money for the transaction. A few examples are shown bellow.
+
+**Test 2: Invalid Category**
+
+    @Test
+    void transferCashFromFamilyToFamilyMember_invalidCategory() {
+        int categoryID = 100;
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,transferAmount,currency,categoryID,transactionDesignation,transactionDate);
+        TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
+
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
+
+        Assertions.assertFalse(result);
+    }
+    
+**Test 3: Insufficient Funds**
+
+    @Test
+    void transferCashFromFamilyToFamilyMember_NotEnoughMoneyInvalid() {
+        //Common Data
+        int familyID = 1;
+        int accountID = 1;
+        int categoryID = 1;
+        StandardCategory transactionCategory = new StandardCategory("Apostas", null, 100);
+        String transactionDesignation = "Lost Bet";
+        Date transactionDate = new Date();
+        //Account Data
+        double initialBalance = 100.0;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
+        Family ribeiro = familyService.getFamily(familyID);
+        FamilyMember diogo = ribeiro.getFamilyMember(id);
+        accountService.createFamilyCashAccount(ribeiro, "Familia Ribeiro's Wallet", 100);
+        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        //Transference Data
+        double transferAmount = 200.0;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
+
+        boolean result = accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
+
+        Assertions.assertFalse(result);
+    }
+    
+**Test 4: Invalid Currency**
+
+    @Test
+    void transferCashFromFamilyToFamilyMember_DifferentCurrency() {
+        //Common Data
+        int familyID = 1;
+        int accountID = 1;
+        int categoryID = 1;
+        StandardCategory transactionCategory = new StandardCategory("Apostas", null, 100);
+        String transactionDesignation = "Lost Bet";
+        Date transactionDate = new Date();
+        //Account Data
+        double initialBalance = 100.0;
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1,CurrencyEnum.DOLLAR);
+        Family ribeiro = familyService.getFamily(familyID);
+        FamilyMember diogo = ribeiro.getFamilyMember(id);
+        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        //Transference Data
+        double transferAmount = 200.0;
+        CurrencyEnum currency = CurrencyEnum.EURO;
+        FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
+        });
+    }
 
 # 4. Implementation
 
