@@ -177,6 +177,7 @@ class CategoryServiceTest {
     void addCategoryToFamilyTreeCheckCategoryIDs() {
         Family family = new Family("testFamily", 1);
         familyService.addFamily(family);
+        family.addCategory(new CustomCategory("test",0));
         categoryService.addCategoryToFamilyTree(family, "test1", 0);
         categoryService.addCategoryToFamilyTree(family, "test2", 0);
         categoryService.addCategoryToFamilyTree(family, "test3", 0);
@@ -186,8 +187,9 @@ class CategoryServiceTest {
         List<CustomCategory> catList = dto.getCustomCategories();
         int id = 0;
         for (CustomCategory cat : catList) {
-            id--;
+
             assertEquals(id, cat.getCategoryID());
+            id--;
         }
     }
 
