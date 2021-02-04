@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
@@ -164,7 +165,7 @@ class AccountDataTest {
     }
 
     @Test
-    void registerCashTransaction_TestSuccess() {
+    void registerCashTransaction_FamilyCashTransferDTOTestSuccess() {
         //Arrange
         CashAccount cashAccount = null;
         Category category = new StandardCategory("Testing", null, 0);
@@ -173,6 +174,20 @@ class AccountDataTest {
         boolean credit = true;
         //Act
         boolean result = accountData.registerCashTransaction(cashAccount,category,remainingBalance,familyCashTransferDTO,credit);
+
+        //Assert
+        Assertions.assertTrue(result);
+    }
+    @Test
+    void registerCashTransaction_CashTransferDTOTestSuccess() {
+        //Arrange
+        CashAccount cashAccount = null;
+        Category category = new StandardCategory("Testing", null, 0);
+        Date date = new Date();
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(1, "", 1, "  ", 1, 25.00, CurrencyEnum.EURO, 1, "Transferencia de Teste", date);
+        boolean credit = true;
+        //Act
+        boolean result = accountData.registerCashTransaction(cashAccount,category,remainingBalance,cashTransferDTO,credit);
 
         //Assert
         Assertions.assertTrue(result);
