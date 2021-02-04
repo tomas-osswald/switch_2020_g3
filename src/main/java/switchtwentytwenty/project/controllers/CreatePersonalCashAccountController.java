@@ -14,6 +14,12 @@ public class CreatePersonalCashAccountController {
         this.ffmApplication = ffmApplication;
     }
 
+    /**
+     * Controller-level method to create a personal cash account
+     *
+     * @param addCashAccountDTO DTO that contains the necessary data for a cash account creation
+     * @return True if Cash Account sucessfuly created
+     */
     public boolean createPersonalCashAccount(AddCashAccountDTO addCashAccountDTO) {
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
