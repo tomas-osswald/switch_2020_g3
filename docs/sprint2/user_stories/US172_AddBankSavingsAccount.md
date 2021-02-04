@@ -14,17 +14,6 @@ We interpreted this requirement as the function of adding a Bank Savings Account
 ````puml
 autonumber
 
-skinparam sequence {
-ArrowColor black
-LifeLineBorderColor black
-LifeLineBackgroundColor white
-ParticipantBorderColor black
-ParticipantBackgroundColor white
-ParticipantFontColor black
-ActorBorderColor black
-ActorBackgroundColor white
-}
-
 title AddBankSavingsAccount
 actor "Family Member" as FamilyMember
 participant "System" as System
@@ -86,6 +75,7 @@ This functionality allows the actor to add a Bank Savings Account to the given F
 Since we don't have an existing UI at the moment, all the necessary data will have to be manually inserted by the user.
 
 The actor will need to insert the following data: familyID, familyMemberID, balance, accountName and interestRate.
+This data will be kept in a AddBankSavingsAccountDTO.
 
 ````puml
 autonumber
@@ -98,48 +88,54 @@ participant ": AddSavings\nAccountController" as Controller
 participant ": Application" as App
 participant ": FamilyService" as FamilyService
 participant "aFamily : \nFamily" as Family
-participant "aFamilyMember : \nFamilyMember" as aFamilyMember
 participant ": AccountService" as AccountService
-participant "aBankSavingsAccount : \nBankSavingsAccount" as BankAccount
 
 activate FamilyMember
 FamilyMember -> UI: I want to add a \nBank Savings Account
 activate UI
-UI -> Controller : addBankSavingsAccount(familyID, \nfamilyMemberID, balance, \nname, interestRate)
+UI -> Controller : addBankSavingsAccount\n(AddBankSavingsAccountDTO)
 activate Controller
+
 Controller -> App : getFamilyService()
 activate App
 App --> Controller : familyService
 deactivate App
+
 Controller -> FamilyService : getFamily(familyID)
 activate FamilyService
 FamilyService -> FamilyService : getFamily(familyID)
 FamilyService --> Controller : Family
 deactivate FamilyService
+
 Controller -> Family : getFamilyMember\n(familyMemberID)
 Activate Family
 Family -> Family : getFamilyMember\n(familyMemberID)
 Family --> Controller : aFamilyMember
 Deactivate Family
-Controller -> AccountService ** : createAccountService()
-Controller -> AccountService : addBankSavingsAccount(balance, \nname, InterestRate, aFamilyMember)
+
+Controller -> App : getAccountService()
+activate App
+App --> Controller : AccountService
+deactivate App
+
+Controller -> AccountService : addBankSavingsAccount\n(AddBankSavingsAccountDTO)
 activate AccountService
-AccountService -> AccountService : generateID(aFamilyMember)
-AccountService -> BankAccount ** : createBankSavingsAccount\n(balance, name, InterestRate)
+
 ref over AccountService
+
 AddBankSavingsAccount 2
+
 end ref
-AccountService -> aFamilyMember : addAccount\n(aBankSavingsAccount) 
-activate aFamilyMember
-aFamilyMember --> AccountService : Success
-deactivate aFamilyMember
+
 AccountService --> Controller : Success
 deactivate AccountService
+
 Controller --> UI : Success
 deactivate Controller
+
 UI --> FamilyMember : Success
 deactivate UI
-deactivate FamilyMember
+
 ````
 
 ````puml
@@ -153,13 +149,14 @@ participant "anAccountData : \nAccountData" as data
 participant "aFamilyMember : \nFamilyMember" as FamilyMember
 
 
--> accountservice : addBankSavingsAccount(balance, name, \ninterestRate, aFamilyMember)
+-> accountservice : addBankSavingsAccount\n(AddBankSavingsAccountDTO)
 activate accountservice
 accountservice -> accountservice : generateID(aFamilyMember)
-accountservice -> account ** : BankSavingsAccount(balance, name, \ninterestRate, aFamilyMember, accountID)
+accountservice -> account ** : BankSavingsAccount\n(accountID, AddBankSavingsAccountDTO)
 activate account
 
 account -> account: validateBalance(balance)
+
 alt failure : balance is null, empty or blank
 account -> account : balance = 0
 else success : balance = balance
@@ -168,6 +165,7 @@ end
 account -> data ** : AccountData(name, balance, \naccountID)
 activate data
 data -> data : validateName(name)
+
 alt failure : Name is null, empty or blank
 data -> data : name = "Bank Savings Account"
 else success : Name = Name
@@ -176,19 +174,23 @@ end
 data -> account : anAccountData
 
 
-note left : anAccountData is aBankSavingsAccount attribute
+note left : anAccountData is \naBankSavingsAccount attribute
 deactivate data
 account -> account : validateInterestRate
+
 alt failure : interestRate is null, empty or blank
 account -> account : interestRate = 0
 else success : interestRate = interestRate
 end
+
+deactivate account
 accountservice -> FamilyMember : addAccount (aBankSavingsAccount)
 activate FamilyMember
 FamilyMember --> accountservice : Success
-deactivate account
 deactivate FamilyMember
+
 <-- accountservice : Success
+deactivate accountservice
 ````
 
 ## 3.1. Functionality Use
@@ -199,8 +201,8 @@ has the Family Service), and will obtain Family Service.
 Family Service will provide the family associated with the given ID (familyID). Afterwards it will look for the given
 Family Member stored in such Family.
 
-The next step is going to be the creation of the Account Service. This Account Service will only exist during the scope
-of the functionality as it holds no relevant data.
+The next step is obtaining the Account Service from the Application. This Account Service will only exist during the 
+scope of the functionality as it holds no relevant data.
 
 Then, the Controller will invoke the addBankSavingsAccount method from the Account Service. This will generate an unique
 accountID associated with the previously obtained FamilyMember. It will use the former inserted data to create a Bank
@@ -265,7 +267,7 @@ interface Account {}
 
 AddBankSavingsAccountController --> Application : has
 Application --> FamilyService : has
-AddBankSavingsAccountController --> AccountService : creates
+Application --> AccountService : creates
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
 AccountService --> BankSavingsAccount : creates

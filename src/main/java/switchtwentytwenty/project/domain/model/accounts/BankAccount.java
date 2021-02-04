@@ -113,7 +113,6 @@ public class BankAccount implements Account {
     }
 
     public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO(){
-        AccountIDAndDescriptionDTO accountIDAndDescriptionDTO = new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
-        return accountIDAndDescriptionDTO;
+        return new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
     }
 }

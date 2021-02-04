@@ -102,7 +102,11 @@ Family -> Family : getFamilyMember\n(familyMemberID)
 Family --> Controller : aFamilyMember
 Deactivate Family
 
-Controller -> AccountService ** : createAccountService
+Controller -> App : getAccountService()
+activate App
+App --> Controller : AccountService
+deactivate App
+
 Controller -> AccountService : getAccount(aFamilyMember, accountID)
 activate AccountService
 
@@ -133,13 +137,20 @@ autonumber
 
 title GetListOfMovementsBetweenDates(getList)
 
+participant ": GetListOfMovements\nBetweenDatesController" as Controller
+participant ": Application" as App
 participant ": TransactionService" as TransactionService
 participant "anAccount\n: Account" as Account
 participant "aTransaction\n: Transaction" as Transaction
 participant "aTransactionDataDTO\n: TransactionDataDTO" as TransactionDataDTO
 
--> TransactionService ** : createTransactionService()
--> TransactionService : createListOfMovementsBetweenDates\n(anAccount, startDate, endDate)
+activate Controller
+Controller -> App : getTransactionService()
+activate App
+App --> Controller : TransactionService
+deactivate App
+
+Controller -> TransactionService : createListOfMovementsBetweenDates\n(anAccount, startDate, endDate)
 activate TransactionService
 
 TransactionService -> Account : getListOfMovements()
@@ -160,7 +171,7 @@ TransactionService --> TransactionService : addMovementDTOToList\n(aMovementDTO)
 end
 end
 
-<-- TransactionService : ListOfMovementsBetweenDates
+TransactionService --> Controller : ListOfMovementsBetweenDates
 deactivate TransactionService
 ````
 
@@ -168,12 +179,15 @@ deactivate TransactionService
 
 The controller will initiate a sequence to acquire the Account with the given accountID. First he will access the
 FamilyService, where he will obtain the Family with the given ID. Then he will access the said Family to obtain the
-FamilyMember with the givenID. Lastly he will obtain the Account by accessing said FamilyMember.
+FamilyMember with the givenID. 
 
-The next step is going to be the creation of the MovementService. This MovementService will only exist during the
-scope of the functionality as it holds no relevant data.
+The AccountService will be obtained from the Application. This AccountService will in turn get the Account object to be
+consulted.
 
-Then, the Controller will invoke the createListOfMovementsBetweenDates method from the MovementService. This method
+Then a TransactionService will be obtained from the Application. Like the AccountService, this TransactionService will 
+only exist during the scope of the functionality as it holds no relevant data.
+
+Then, the Controller will invoke the createListOfMovementsBetweenDates method from the TransactionService. This method
 will first get a ListOfMovements from the Account. For every movement registered in this List, the method will first 
 check if they occurred between the given dates, then create a DTO with the movement data and finally add said DTO to 
 a list.
@@ -213,7 +227,7 @@ class AccountService {
 }
 
 class TransactionService {
-+ createListOfMovementsBetweenDates()
++ createListOfMovements\nBetweenDates()
 }
 
 class TransactionDataDTO {
@@ -223,8 +237,8 @@ interface Account {}
 
 GetListOfMovements\nBetweenDatesController --> Application : has
 Application --> FamilyService : has
-GetListOfMovements\nBetweenDatesController --> AccountService : creates
-GetListOfMovements\nBetweenDatesController --> TransactionService : creates
+Application --> AccountService : has
+Application --> TransactionService : has
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
 FamilyMember --> Account : has list
