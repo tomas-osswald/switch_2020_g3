@@ -203,6 +203,11 @@ public class FamilyMember {
     }
      */
 
+    /**
+     * A method that adds a given account to the list of accounts this FamilyMember holds
+     * @param account given account
+     * @return true if account was added, false if given account is null
+     */
     public boolean addAccount(Account account) {
         if (account == null) {
             return false;
@@ -222,6 +227,11 @@ public class FamilyMember {
         return (this.ccNumber.equals(otherMember.ccNumber) && this.administrator == otherMember.administrator && this.accounts.equals(otherMember.accounts) && this.name.equals(otherMember.name) && this.birthDate.equals(otherMember.birthDate) && this.phoneNumbers.equals(otherMember.phoneNumbers) && this.emails.equals(otherMember.emails) && this.vatNumber.equals(otherMember.vatNumber) && this.address.equals(otherMember.address));
     }
 
+    /**
+     * A method that goes through all accounts this FamilyMember holds and returns the one with an ID equal to the given ID.
+     * @param accountID given account ID
+     * @return null if no account with given ID is found, else the account with given ID.
+     */
     public Account getAccount(int accountID) {
         for (Account account : accounts) {
             if (account.isIDOfThisAccount(accountID)) return account;

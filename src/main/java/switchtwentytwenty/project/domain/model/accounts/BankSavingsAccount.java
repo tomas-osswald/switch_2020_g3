@@ -70,14 +70,26 @@ public class BankSavingsAccount implements Account {
                 accountData.getCurrentBalance().getCurrency(), interestRate);
     }
 
+    /**
+     * Returns the ID of this account.
+     * @return account ID
+     */
     public int getAccountID() {
         return this.accountData.getAccountID();
     }
 
+    /**
+     * Returns the interestRate of this account.
+     * @return interestRate
+     */
     public double getInterestRate() {
         return this.interestRate;
     }
 
+    /**
+     * Returns the AccountData of this account.
+     * @return accountData
+     */
     public AccountData getAccountData() {
         return accountData;
     }
@@ -90,26 +102,42 @@ public class BankSavingsAccount implements Account {
         return Double.compare(that.interestRate, interestRate) == 0 && accountData.equals(that.accountData);
     }
 
+    /**
+     * A method that returns true if the ID of this account is equal to a given ID.
+     * @param accountID given ID
+     * @return true if equal, false if different.
+     */
     public boolean isIDOfThisAccount(int accountID) {
         return this.accountData.isIDOfThisAccount(accountID);
     }
 
-
+    /**
+     * Returns this accounts description
+     * @return description
+     */
     public String getDescription() {
         return accountData.getDescription();
     }
 
+    /**
+     * A method that checks if this account type is the same as a given AccountTypeEnum.
+     * @param accountTypeEnum given AccountTypeEnum
+     * @return true if equal, false if different
+     */
     public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
         return this.accountType.getAccountType().equals(accountTypeEnum);
     }
 
+    /**
+     * A method that returns this accounts balance in a MoneyValue object
+     * @return this accounts balance
+     */
     public MoneyValue getMoneyBalance() {
         return this.accountData.getCurrentBalance();
     }
 
     /**
      * A method that returns the list of movements stored in this account's AccountData attribute
-     *
      * @return List of movements
      */
     public List<Transaction> getListOfMovements() {
@@ -120,21 +148,33 @@ public class BankSavingsAccount implements Account {
         return new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
     }
 
+    /**
+     * A method that subtracts a given MoneyValue to this Accounts MoneyValue
+     * @param value given MoneyValue
+     */
     public void debit(MoneyValue value) { //expense
         accountData.debit(value);
     }
 
+    /**
+     * A method that adds a given MoneyValue to this Accounts MoneyValue
+     * @param value given MoneyValue
+     */
     public void credit(MoneyValue value) { //expense
         accountData.credit(value);
     }
 
+    /**
+     * A method that checks if the currency of this account is equal to a given CurrencyEnum
+     * @param currency given CurrencyEnum
+     * @return true if equal, false if different
+     */
     public boolean checkCurrency(CurrencyEnum currency) {
         return accountData.checkCurrency(currency);
     }
 
     /**
      * A method that always returns true, because there has no restrictions for this account type
-     *
      * @param value
      * @return
      */

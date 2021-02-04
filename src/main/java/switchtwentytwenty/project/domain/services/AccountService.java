@@ -87,7 +87,13 @@ public class AccountService {
         return true;
     }
 
-
+    /**
+     * A method that calls a method to generate a unique ID for the account to be created and calls the BankSavingsAccount constructor.
+     * Lastly, it adds the account to a given FamilyMember.
+     * @param targetMember FamilyMember to add the account to.
+     * @param addBankSavingsAccountDTO DTO that holds all necessary information for the creation of a BankSavingsAccount
+     * @return true if account created, null if the given FamilyMember is null.
+     */
     public boolean addBankSavingsAccount(FamilyMember targetMember, AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
         if (targetMember == null) {
             return false;
@@ -98,12 +104,12 @@ public class AccountService {
         return true;
     }
 
-    /**
+    /** Method that transfers money from a family account to any members family account.
      *
-     * @param family
-     * @param familyMember
-     * @param familyCashTransferDTO
-     * @return
+     * @param family family whose cashAccount is the source of the transfer
+     * @param familyMember familyMember whose cashAccount is the destination of the transfer
+     * @param familyCashTransferDTO dto containing the relevant information for the transaction including transferred amount and its currency
+     * @return true if the money transfer can occur, false if there's not enough money for the transaction
      */
     public boolean transferCashFromFamilyToFamilyMember(Family family, FamilyMember familyMember, FamilyCashTransferDTO familyCashTransferDTO) {
         if (!family.hasCashAccount()) throw new IllegalArgumentException("Family has no account");

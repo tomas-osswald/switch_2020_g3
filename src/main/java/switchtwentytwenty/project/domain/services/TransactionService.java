@@ -51,8 +51,8 @@ public class TransactionService {
     }
 
     /**
-     * A method that returns true if a given transaction occurred between two given dates
-     *
+     * A method that returns true if a given transaction occurred between two given dates.
+     * If the dates are switched, the method will switch them back around.
      * @param aTransaction given transaction
      * @param startDate    first date
      * @param endDate      last date
