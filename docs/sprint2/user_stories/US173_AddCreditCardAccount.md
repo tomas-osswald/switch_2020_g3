@@ -269,9 +269,11 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
 
 ## 3.4. Tests
 
-#### Test 1 : CreditCardAccount tests
+### Test 1 : CreditCardAccount tests
 
-##### Test 1.1 : verify constructor
+#### Test 1.1 : verify constructor
+
+###### Success cases: 
 
 - **1.1.1** If the object is **valid**, a new instance is created
 
@@ -307,8 +309,19 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
       assertEquals(creditCardAccount.getDescription(), expected);
       }
 
+###### Failure cases:
+
+- **1.1.4** If the family does **not exist** no new instance of CreditCardAccount is created
+  
+      @Test
+      void addCreditCardAccountToFamilyMemberFalseFamilyDoesNotExist() {
+          AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, 2, "MasterCard do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+          assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
+      }
 
 ##### Test 1.2 : verify balance
+
+###### Success cases: 
 
 - **1.2.1** If the balance is a **positive value**, the CreditCardAccount is created with the inserted data
 
@@ -322,6 +335,8 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
       MoneyValue result = creditCardAccount.getMoneyBalance();
       assertEquals(expected, result);
       }
+
+###### Failure cases: 
   
 - **1.2.2** If the balance is **not a valid type**, an exception is thrown
 
@@ -329,8 +344,6 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
       void changeBalanceDoubleFail() {
       AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
       CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
-      //MoneyValue balanceChange = new MoneyValue(1000000.0, CurrencyEnum.EURO);
-
       assertThrows(IllegalArgumentException.class, () -> {
       creditCardAccount.credit(new MoneyValue(10000000.0, CurrencyEnum.EURO));
       });
@@ -347,6 +360,8 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
         }
 
 ##### Test 1.3 : verify withdrawal limit
+
+###### Failure cases:
 
 - **1.3.1** If the withdrawal limit is **< 0** an exception is thrown
 
@@ -368,7 +383,9 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
 
 #### Test 2 : AccountService tests
 
-- **2.1** The accountService adds the account to the FamilyMember accounts list and returns **true**
+###### Success cases:
+
+- **2.1** The AccountService adds the account to the FamilyMember accounts list and returns **true**
 
       @Test
       void createPersonalCreditCardAccountTrue() {
@@ -377,9 +394,30 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
       assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
       }
 
+##### Failure cases:
+
+- **2.2** The AccountService does not add the account to the FamilyMember accounts
+
+      @Test
+      void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {       
+      FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00, 100.00, 50.00, CurrencyEnum.EURO);
+      assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
+      }
+
 #### Test 3 : Controller tests
 
-- **3.1** If the **Family doesn't exist**, the controller catches the exception and returns **false**
+###### Success cases: 
+
+- **3.1** If **all** the required data is valid, a Credit Card Account is added to the Family Member                    
+ 
+        @Test
+        void addCreditCardAccountToFamilyMemberTrue() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+        assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));##### Failure cases:
+        }
+
+- **3.2** If the **Family doesn't exist**, the controller catches the exception and returns **false**
 
       @Test
       void addCreditCardAccountToFamilyMemberFalseFamilyDoesNotExist() {
@@ -387,14 +425,13 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
       assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
       }
 
-- **3.2** If the **FamilyMember doesn't exist**, the controller catches the exception and returns **false**
+- **3.3** If the **FamilyMember doesn't exist**, the controller catches the exception and returns **false**
 
       @Test
       void addCreditCardAccountToFamilyMemberFalseFamilyMemberDoesNotExist() {
       AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO("3", family1ID, "MasterCard do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
       assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
       }
-
 
 ## 4. Implementation
 
@@ -403,16 +440,12 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
 The method in the AccountService will generate an unique ID and associate it with the given FamilyMember. Then it will
 instantiate a new CreditCardAccount Object and add it to the target FamilyMember.
 
-r
-
-      public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, 
-                                                    FamilyMember targetMember) {
+      public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO,FamilyMember targetMember) {
       int accountID = generateID(targetMember);
-
-        Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        targetMember.addAccount(creditCardAccount);
-        return true;
-    }
+      Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
+      targetMember.addAccount(creditCardAccount);
+      return true;
+      }
 
 #### 4.2.Generate a new Credit Card Account
 
@@ -431,9 +464,9 @@ a new object of such type.
       this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID, addCreditCardAccountDTO.getCurrency());
       }
 
-        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
+       this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
 
-        if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
+      if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
             validateTotalDebt(addCreditCardAccountDTO.getTotalDebt());
             interestDebtLessThanTotalDebt(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getTotalDebt());
 
