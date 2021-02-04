@@ -98,4 +98,18 @@ class AddCategoryToFamilyTreeControllerTest {
         Assertions.assertFalse(addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC, 5, "Rent", 1));
 
     }
+
+    @Test
+    void addCategoryToFamilyTree3Categories() {
+        addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC, 1, "Boat", 0);
+        addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC, 1, "Car", 0);
+        addCategoryToFamilyTreeController.addCategoryToFamilyTree(adminCC, 1, "House", 0);
+        CategoryService catService = ffmApp.getCategoryService();
+        FamilyService famService = ffmApp.getFamilyService();
+        CategoryTreeDTO dto = catService.getCategoryTree(1, famService);
+        int expected = -3;
+        int result = dto.getCustomCategories().get(2).getCategoryID();
+        Assertions.assertEquals(expected, result);
+
+    }
 }
