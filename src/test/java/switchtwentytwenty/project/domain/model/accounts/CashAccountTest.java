@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.AddBankSavingsAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
@@ -398,5 +399,26 @@ class CashAccountTest {
 
         assertNotEquals(expected, result);
         assertNotNull(result);
+    }
+
+    @Test
+    void getDescriptionNotNull() {
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
+        assertNotNull(cashAccountOne.getDescription());
+    }
+
+    @Test
+    void getDescriptionEmpty() {
+        double balance = 1.00;
+        String designation = "";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
+        String notExpected = "";
+
+        assertNotNull(cashAccountOne.getDescription());
+        assertNotEquals(cashAccountOne.getDescription(), notExpected);
     }
 }

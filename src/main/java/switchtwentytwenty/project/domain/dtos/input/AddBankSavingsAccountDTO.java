@@ -20,16 +20,40 @@ public class AddBankSavingsAccountDTO {
         this.currency = currency;
     }
 
+    /**
+     * Returns the balance
+     * @return balance
+     */
     public Double getBalance() {return balance;}
 
+    /**
+     * Returns the interest rate
+     * @return interest rate
+     */
     public Double getInterestRate() {return interestRate;}
 
+    /**
+     * Returns the description
+     * @return description
+     */
     public String getDescription(){return description;}
 
+    /**
+     * Returns the familyMemberID
+     * @return familyMemberID
+     */
     public String getFamilyMemberID(){return familyMemberID;}
 
+    /**
+     * Returns the familyID
+     * @return familyID
+     */
     public int getFamilyID(){return familyID;}
 
+    /**
+     * Returns the currency
+     * @return currency
+     */
     public CurrencyEnum getCurrency(){
         return this.currency;
     }
