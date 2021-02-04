@@ -4,14 +4,14 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class VatNumber {
-    private int vatNumber;
+    private final int vat;
 
     /********************** CONSTRUCTORS **********************/
 
-    public VatNumber(Integer vatNumber){
-        if(!validateVatNumber(vatNumber))
+    public VatNumber(Integer vat){
+        if(!validateVatNumber(vat))
             throw new IllegalArgumentException("Inserir o numero de valores do vatNumber correctamente.");
-        this.vatNumber = vatNumber;
+        this.vat = vat;
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -26,8 +26,8 @@ public class VatNumber {
         } else return test;
     }
 
-    public int getVatNumber(){
-        return this.vatNumber;
+    public int getVat(){
+        return this.vat;
     }
 
     @Override
@@ -35,11 +35,11 @@ public class VatNumber {
         if (this == o) return true;
         if (!(o instanceof VatNumber)) return false;
         VatNumber vatNumber1 = (VatNumber) o;
-        return vatNumber == vatNumber1.vatNumber;
+        return vat == vatNumber1.vat;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vatNumber);
+        return Objects.hash(vat);
     }
 }

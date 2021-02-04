@@ -5,7 +5,6 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -36,20 +35,19 @@ public class RegisterPaymentMyCashAccountController {
         // Category Service
         CategoryService categoryService = this.ffmApplication.getCategoryService();
         Category category;
-        if (familyCashTransferDTO.getCategoryID() > 0) {
+        if (familyCashTransferDTO.getCategoryID() >= 0) {
             category = categoryService.getStandardCategoryByID(familyCashTransferDTO.getCategoryID());
         } else {
             category = famService.getFamily(familyCashTransferDTO.getFamilyID()).getCustomCategoryByID(familyCashTransferDTO.getCategoryID());
         }
-
         // AccountService
         AccountService accountService = this.ffmApplication.getAccountService();
-
         // TransactionService
         TransactionService transactionService = this.ffmApplication.getTransactionService();
         try {
             if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
-                return transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+                transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+                return true;
             } else {
                 return false;
             }

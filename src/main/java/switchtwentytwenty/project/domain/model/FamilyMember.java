@@ -13,7 +13,7 @@ public class FamilyMember {
     private final Date birthDate;
     private final VatNumber vatNumber;
     private final Address address;
-    // Attributes
+
     private CCNumber ccNumber;
     private String name;
     private List<PhoneNumber> phoneNumbers = new ArrayList();
@@ -24,7 +24,6 @@ public class FamilyMember {
 
     /********************** CONSTRUCTORS **********************/
 
-    //Constructor that uses a CCNumber as ID
     public FamilyMember(String ccNumber, String name, Date birthDate, Integer phone, String email, int vat, String street, String codPostal, String local, String city, boolean administrator) {
 
         this.ccNumber = new CCNumber(ccNumber);
@@ -110,7 +109,7 @@ public class FamilyMember {
 
 
     public int getVatNumber() {
-        return this.vatNumber.getVatNumber();
+        return this.vatNumber.getVat();
     }
 
     /**
@@ -150,7 +149,6 @@ public class FamilyMember {
      * @return Family Member ID
      */
 
-    // Importado do Head
     protected String getFamilyMemberID() {
         return this.ccNumber.getCcNumber();
     }
@@ -172,7 +170,6 @@ public class FamilyMember {
 
     }
 
-
     /**
      * method that uses the attributes from the family member
      * to create and return a MemberProfileDTO
@@ -191,17 +188,6 @@ public class FamilyMember {
     protected boolean compareID(String ccNumber) {
         return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
     }
-
-    // Adicionar este metodo ao addAccount() -> verificar se sao o mesmo tipo de Conta e se o IBAN é igual
-    /*
-    public boolean checkIfAccountAlreadyPresent(Account account){
-        for (Account accountTest : this.accounts) {
-            if( account.getIban() == accountTest.getIban() && account.getClass() == accountTest.getClass());
-                return true;
-        }
-        return false;
-    }
-     */
 
     /**
      * A method that adds a given account to the list of accounts this FamilyMember holds
