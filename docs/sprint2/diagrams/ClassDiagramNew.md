@@ -1,7 +1,7 @@
 ```puml
 left to right direction
 title Class Diagram - SP02 CLASS DIAGRAM
-'skinparam linetype ortho
+
 
 hide empty members
 
@@ -75,23 +75,24 @@ FamilyService --> Family : has list
 Family --> CashAccount : has
 Family --> CustomCategory : \n\n has
 Family --> FamilyMember : has list
-Category <|-- StandardCategory : implements
-Category <|-- CustomCategory : implements
+
+class StandardCategory implements Category
+class CustomCategory implements Category
 FamilyMember --> Account : has list
-Account <|-- CashAccount : implements
-Account <|-- CreditCardAccount : implements
-Account <|-- BankSavingsAccount : implements
-Account <|-- BankAccount: implements
+class CashAccount implements Account
+class BankAccount implements Account
+class BankSavingsAccount implements Account
+class CreditCardAccount implements Account
+
 Account -* AccountData : contains
 AccountService --> Account: handles
 Family --> Relation : has list
 RelationService --> Relation : handles
-Transaction <|-left- CashTransaction : implements
+class CashTransaction implements Transaction
 TransactionService --> Transaction: handles
 Account --> Transaction: has list
-Account -* MoneyValue : contains
+AccountData -* MoneyValue : contains
 Transaction -* MoneyValue : contains
-
 ```
 
 ```puml
@@ -171,21 +172,23 @@ FamilyService --> Family : has list
 Family --> CashAccount : has
 Family --> CustomCategory : \n\n has
 Family --> FamilyMember : has list
-Category <|-- StandardCategory : implements
-Category <|-- CustomCategory : implements
+
+class StandardCategory implements Category
+class CustomCategory implements Category
 FamilyMember --> Account : has list
-Account <|-- CashAccount : implements
-Account <|-- CreditCardAccount : implements
-Account <|-- BankSavingsAccount : implements
-Account <|-- BankAccount: implements
+class CashAccount implements Account
+class BankAccount implements Account
+class BankSavingsAccount implements Account
+class CreditCardAccount implements Account
+
 Account -* AccountData : contains
 AccountService --> Account: handles
 Family --> Relation : has list
 RelationService --> Relation : handles
-Transaction <|-left- CashTransaction : implements
+class CashTransaction implements Transaction
 TransactionService --> Transaction: handles
 Account --> Transaction: has list
-Account -* MoneyValue : contains
+AccountData -* MoneyValue : contains
 Transaction -* MoneyValue : contains
 
 ```

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
@@ -36,8 +37,10 @@ class TransactionServiceTest {
     String description = "Cash Account do Ze Manel";
     Double balance = 450.00;
     int accountID = 1;
+    int accountID2 = 2;
     AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, description, selfCC, familyID, CurrencyEnum.EURO);
     CashAccount contaCash = new CashAccount(cashAccountDTO, accountID);
+    CashAccount contaCash2 = new CashAccount(cashAccountDTO, accountID2);
 
     // CashTransaction
     double transferAmount = 200.0;
@@ -51,6 +54,8 @@ class TransactionServiceTest {
     FamilyCashTransferDTO transacaoDTO1 = new FamilyCashTransferDTO(familyID, selfCC, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDateOne);
     FamilyCashTransferDTO transacaoDTO2 = new FamilyCashTransferDTO(familyID, selfCC, accountID, 600.0, currency, categoryID, transactionDesignation, transactionDateTwo);
     FamilyCashTransferDTO transacaoDTO3 = new FamilyCashTransferDTO(familyID, selfCC, accountID, -100.0, currency, categoryID, transactionDesignation, transactionDateThree);
+    FamilyCashTransferDTO transacaoDTO4 = new FamilyCashTransferDTO(familyID, selfCC, accountID, 100.0, CurrencyEnum.DOLLAR, categoryID, transactionDesignation, transactionDateThree);
+
     CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO1);
     CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO2);
     CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO3);
@@ -76,6 +81,14 @@ class TransactionServiceTest {
         MoneyValue result = contaCash.getMoneyBalance();
         assertEquals(expected, result);
         assertTrue(successTransaction);
+    }
+
+    @Test
+    void NoRegisterPaymentMyCashAccount_DifferentMoneyValue() {
+        TransactionService service = new TransactionService();
+        assertThrows(IllegalArgumentException.class,()->{
+            service.registerPaymentMyCashAccount(contaCash, categoria1, transacaoDTO4);
+        });
     }
 
     @Test
@@ -253,4 +266,11 @@ class TransactionServiceTest {
         Assertions.assertTrue(result);
     }
 
+    @Test
+    void registerCashTransferOther() {
+        TransactionService service = new TransactionService();
+        CashTransferDTO dto = new CashTransferDTO(familyID,selfCC,accountID,selfCC,accountID,0,CurrencyEnum.EURO,0,"test",transactionDateOne);
+        boolean result = service.registerCashTransferOther(contaCash,contaCash2,categoria1,dto);
+        assertTrue(result);
+    }
 }

@@ -5,7 +5,6 @@ import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
-import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.transactions.Transaction;
@@ -16,18 +15,31 @@ import java.util.List;
 
 public class TransactionService {
 
+    /**
+     * Register Payment in 1 CashAccount
+     * @param targetAccount
+     * @param category
+     * @param familyCashTransferDTO
+     * @return true if the payment is registered | false if the payment is not registed | throws error if there is not enough balance or different currency type
+     */
+
     public boolean registerPaymentMyCashAccount(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
         MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(), familyCashTransferDTO.getCurrency());
-        if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
-            targetCashAccount.debit(transferAmount);
-            MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
-            targetCashAccount.registerTransaction(null, category, credit, remainingBalance, familyCashTransferDTO);
-            return true;
+        if (transferAmount.getCurrencyType() == targetCashAccount.getMoneyBalance().getCurrencyType()){
+            if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
+                targetCashAccount.debit(transferAmount);
+                MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
+                targetCashAccount.registerTransaction(null, category, credit, remainingBalance, familyCashTransferDTO);
+                return true;
+            } else {
+                throw new IllegalArgumentException("Not enough balance");
+            }
         } else {
-            throw new IllegalArgumentException("Not enough balance");
+            throw new IllegalArgumentException("Insert same currency of this account");
         }
+
     }
 
     /**
@@ -52,8 +64,8 @@ public class TransactionService {
     }
 
     /**
-     * A method that returns true if a given transaction occurred between two given dates
-     *
+     * A method that returns true if a given transaction occurred between two given dates.
+     * If the dates are switched, the method will switch them back around.
      * @param aTransaction given transaction
      * @param startDate    first date
      * @param endDate      last date
@@ -89,8 +101,8 @@ public class TransactionService {
     public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
          MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originAccount.registerTransactionOther(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
-        destinationAccount.registerTransactionOther(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

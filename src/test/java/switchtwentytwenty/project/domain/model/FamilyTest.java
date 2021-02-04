@@ -240,7 +240,7 @@ class FamilyTest {
         int familyID = 1;
         Family familia = new Family(familyName, familyID);
         familia.addFamilyMember(pessoa1);
-        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(familyMemberDTO3));
+        assertThrows(IllegalArgumentException.class, () -> familia.addFamilyMember(familyMemberDTO21));
     }
 
     @Test

@@ -5,6 +5,7 @@ hide circles
 left to right direction
 title Domain Model Diagram - SP02
 
+
 class Family {
 UniqueID
 Name
@@ -90,6 +91,5 @@ CashAccount "1" -- "0..*" Transaction : has >
 CreditCardAccount "1" -- "0..*" Transaction : has >
 BankAccount "1" -- "0..*" Transaction : has >
 BankSavingsAccount "1" -- "0..*" Transaction : has >
-
 
 @enduml

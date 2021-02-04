@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RelationServiceTest {
     //Family Member Diogo
@@ -137,5 +138,11 @@ class RelationServiceTest {
         family.addRelation(relation);
         RelationService relationService = new RelationService();
         assertThrows(NoParentalPermissionException.class, () -> {relationService.verifyParenthood(family, diogo, jorge);});
+    }
+
+    @Test
+    void addRelationTrue() {
+        RelationService relationService = new RelationService();
+        assertTrue(relationService.addRelation(family, diogo, jorge, "Father", true));
     }
 }

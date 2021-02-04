@@ -14,9 +14,15 @@ public class AddBankAccountController {
         this.ffmApplication = ffmApplication;
     }
 
+    /**
+     * Method to add a Credit Card Account to a given Family Member
+     *
+     * @param addBankAccountDTO DTO containing the required information(e.g. description, balance...) to create a bank account
+     * @return confirmation of status, true for account created and false for failure to create
+     */
     public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO) {
-        AccountService accountService = new AccountService();
         try {
+            AccountService accountService = this.ffmApplication.getAccountService();
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(addBankAccountDTO.getFamilyID()).getFamilyMember(addBankAccountDTO.getFamilyMemberID());
             accountService.addBankAccount(addBankAccountDTO, targetMember);

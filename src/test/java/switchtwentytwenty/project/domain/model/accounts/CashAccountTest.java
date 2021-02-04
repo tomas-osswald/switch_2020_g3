@@ -3,11 +3,10 @@ package switchtwentytwenty.project.domain.model.accounts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
-import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.FamilyService;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -341,7 +340,7 @@ class CashAccountTest {
         CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
         CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "cc", 1, 2.00, CurrencyEnum.EURO, 1, "Shopping", new Date());
-        MoneyValue remainingBalance = new MoneyValue(10.0,CurrencyEnum.EURO);
+        MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
 
         assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, familyCashTransferDTO));
     }
@@ -398,5 +397,38 @@ class CashAccountTest {
 
         assertNotEquals(expected, result);
         assertNotNull(result);
+    }
+
+    @Test
+    void getDescriptionNotNull() {
+        double balance = 1.00;
+        String designation = "My Cash Account";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
+        assertNotNull(cashAccountOne.getDescription());
+    }
+
+    @Test
+    void getDescriptionEmpty() {
+        double balance = 1.00;
+        String designation = "";
+        int cashAccountID = 1001;
+        CashAccount cashAccountOne = new CashAccount(designation, balance, cashAccountID, currency);
+        String notExpected = "";
+
+        assertNotNull(cashAccountOne.getDescription());
+        assertNotEquals(cashAccountOne.getDescription(), notExpected);
+    }
+
+   @Test
+    void registerTransactionTwo() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(1, "0000000000ZY4", 1, "0000000000ZY4", 1, 5.00, CurrencyEnum.EURO, 0, "Divida", new Date());
+        MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
+
+        assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, cashTransferDTO));
+
     }
 }

@@ -5,7 +5,6 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
 import switchtwentytwenty.project.domain.model.categories.Category;
-import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -20,6 +19,13 @@ public class RegisterPaymentMyCashAccountController {
         this.ffmApplication = ffmApplication;
     }
 
+    /** Register Payment in 1 CashAccount
+     *
+     * @param familyCashTransferDTO
+     *
+     * @return - true if the Payment is registed | false if the account Type is not correct or if the payment registratio fails
+     */
+
     public boolean registerPaymentMyCashAccount(FamilyCashTransferDTO familyCashTransferDTO) {
         // FamilyService
         FamilyService famService = this.ffmApplication.getFamilyService();
@@ -29,21 +35,22 @@ public class RegisterPaymentMyCashAccountController {
         // Category Service
         CategoryService categoryService = this.ffmApplication.getCategoryService();
         Category category;
-        if (familyCashTransferDTO.getCategoryID() > 0) {
+        if (familyCashTransferDTO.getCategoryID() >= 0) {
             category = categoryService.getStandardCategoryByID(familyCashTransferDTO.getCategoryID());
         } else {
             category = famService.getFamily(familyCashTransferDTO.getFamilyID()).getCustomCategoryByID(familyCashTransferDTO.getCategoryID());
         }
-
+        if (category == null) return false;
         // AccountService
         AccountService accountService = this.ffmApplication.getAccountService();
-        accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT);
-
         // TransactionService
         TransactionService transactionService = this.ffmApplication.getTransactionService();
-
         try {
-            return transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+            if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
+                transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
+                return true;
+            } else { return false;
+            }
         }  catch (Exception e) {
             return false;
         }

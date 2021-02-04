@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 
 public class PhoneNumber {
 
-    private final int phoneNumber;
+    private final int phone;
 
     /********************** CONSTRUCTORS **********************/
 
-    public PhoneNumber(Integer phoneNumber) {
-        if (!validate(phoneNumber))
+    public PhoneNumber(Integer phone) {
+        if (!validate(phone))
             throw new IllegalArgumentException("Invalid Phone Number.");
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -31,11 +31,11 @@ public class PhoneNumber {
         if (this == o) return true;
         if (!(o instanceof PhoneNumber)) return false;
         PhoneNumber that = (PhoneNumber) o;
-        return this.phoneNumber == that.phoneNumber;
+        return this.phone == that.phone;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phoneNumber);
+        return Objects.hash(phone);
     }
 }

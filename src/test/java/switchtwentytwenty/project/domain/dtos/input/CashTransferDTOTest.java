@@ -1,7 +1,8 @@
-package switchtwentytwenty.project.domain.utils;
+package switchtwentytwenty.project.domain.dtos.input;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
+import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
@@ -22,6 +23,14 @@ class CashTransferDTOTest {
     @Test
     void getTransactionDate() {
         Date expected = date;
+        Date result = cashTransferDTO.getTransactionDate();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getTransactionDateIfDateNull() {
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(2,"175345988ZX8",1,"000000000ZZ4",1,2.3,currency,1,"Test",null);
+        Date expected = new Date();
         Date result = cashTransferDTO.getTransactionDate();
         assertEquals(expected, result);
     }

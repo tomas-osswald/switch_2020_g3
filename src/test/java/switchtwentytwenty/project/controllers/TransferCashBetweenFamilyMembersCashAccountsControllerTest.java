@@ -9,16 +9,15 @@ import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
@@ -117,7 +116,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsTrueWithSufficientFunds() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, currency,categoryID, transactionDesignation, transactionDate);
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, currency, categoryID, transactionDesignation, transactionDate);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
         boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
@@ -127,7 +126,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersOfUnknownFamily() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency, 1,"Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000", 1, 2, currency, 1, "Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
         boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
         assertFalse(result);
@@ -135,7 +134,7 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1 ,"Beer", date1);
+        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000", 1, 2, currency, 1, "Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
         boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
@@ -143,14 +142,40 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
     }
 
     @Test
-    void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
+    void transferCashBetweenFamilyMembersCashAccounts_categoryIDzero() {
+        int categoryID = 0;
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 2, currency, categoryID, "Beer", date1);
         TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-        assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
 
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccounts_validCustomCategory() {
+        int categoryID = -1;
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 2, currency, categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccounts_invalidCustomCategory() {
+        int categoryID = -3;
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 2, currency, categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        Assertions.assertFalse(result);
     }
 
 
-
-
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsInsufficientFunds() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 100000000, currency,categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+        Assertions.assertFalse(result);
+    }
 }

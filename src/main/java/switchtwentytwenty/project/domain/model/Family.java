@@ -13,8 +13,8 @@ public class Family {
 
     // Attributes
 
-    private int familyID;
-    private String familyName;
+    private final int familyID;
+    private final String familyName;
     private Date registrationDate;
     //private FamilyMember familyAdministrator;
     private List<FamilyMember> familyMembers;
@@ -265,7 +265,7 @@ public class Family {
     public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
         boolean administrator = true;
         if (!checkIfVatExists(familyMemberDTO.getVat())) {
-            FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(),familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity(), administrator);
+            FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(), familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity(), administrator);
             familyMembers.add(newFamilyMember);
             return true;
         } else {
@@ -344,37 +344,6 @@ public class Family {
         return familyMember.createProfile();
     }
 
-    /*
-    //Custom parent
-    public boolean addCustomCategory(String designation, int parentID) {
-        int categoryID = generateCustomCategoryID();
-        CustomCategory parent = getCustomCategoryByID(parentID);
-        if (parent == null) {
-            throw new IllegalArgumentException("Expected CustomCategoryParent but was null");
-        }
-        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
-        familyCustomCategories.add(newCategory);
-        return true;
-    }
-
-    //Standard parent
-    public boolean addCustomCategory(String designation, StandardCategory parent) {
-        int categoryID = generateCustomCategoryID();
-        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
-        familyCustomCategories.add(newCategory);
-        return true;
-    }
-
-    //No parent
-    public boolean addCustomCategory(String designation) {
-        int categoryID = generateCustomCategoryID();
-        StandardCategory parent = null;
-        CustomCategory newCategory = new CustomCategory(designation, parent, categoryID);
-        familyCustomCategories.add(newCategory);
-        return true;
-    }
-*/
-
     /**
      * This method returns a CustomCategory of a given ID
      *
@@ -407,6 +376,12 @@ public class Family {
         this.familyCashAccount = newCashAccount;
     }
 
+    /**
+     * Method to add a Custom Category object to the family's category list
+     *
+     * @param newCustomCategory CustomCategory object to add
+     * @return true if successfuly added
+     */
     public boolean addCategory(CustomCategory newCustomCategory) {
         this.familyCustomCategories.add(newCustomCategory);
         return true;
@@ -431,9 +406,15 @@ public class Family {
         return selectedRelation;
     }
 
-
+    /**
+     * Method to find a relation that has Two family members and check parental permissions
+     *
+     * @param memberA Member to check if its the parent
+     * @param memberB Member to check if its the child
+     * @return True if A is parent of B
+     */
     public boolean verifyParenthood(FamilyMember memberA, FamilyMember memberB) {
-        boolean parenthood=false;
+        boolean parenthood = false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
                 parenthood = relation.isAParentOfB();
@@ -447,8 +428,5 @@ public class Family {
         return this.familyCashAccount;
     }
 
-//    public String getFamilyName() {
-//        return familyName;
-//    }
 
 }

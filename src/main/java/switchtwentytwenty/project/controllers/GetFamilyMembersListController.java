@@ -24,7 +24,6 @@ public class GetFamilyMembersListController {
      * @param familyID representing the unique ID given to each family
      * @return DTOList with members name and the relation they have towards the Family Administrator
      */
-    //TODO: Confirmar testes de sucesso (Verificar nos builds anteriores se existia)
     public boolean getFamilyMembersAndRelation(int familyID, String adminCCNumber) {
         boolean controllerSuccess;
         try {

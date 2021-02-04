@@ -64,9 +64,39 @@ In order to fulfill this requirement, we need three main data pieces:
 - Currency;
 - Bank Account Description;
 
-The account will be stored inside the Family Member. The Family and Family Member IDs will be used to identify the correct user where to add the account. The basic information required for the account creation is the description, the current balance and the currency of the account.
+The account will be stored inside the Family Member.
+We decided to implement 
+The Family and Family Member IDs will be used to identify the correct user where to add the account. 
+The basic information required for the account creation is the description, the current balance and the currency of the account.
 
 At a later iteration, the family member's ID would be acquired through the Log In information. For this sprint, the ID will have to be inputted along with the Bank Account information.
+
+##2.1. Domain Model Diagram
+
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US173
+
+class Family {
+- FamilyID
+}
+
+class FamilyMember {
+- FamilyMemberID
+}
+
+class BankAccount {
+- Balance
+- Description
+- Currency
+- AccountID 
+}
+
+Family "1" -down-> "0..*" FamilyMember : has list of 
+FamilyMember "1" -down-> "0..*" BankAccount  : has 
+```
+
 
 # 3. Design
 
@@ -155,9 +185,9 @@ The main Classes involved are:
 - AccountData
 - MoneyValue
 
-**AddBankAccount()**
 ```puml
 @startuml
+skinparam linetype ortho
 
 title AddBankAccount()
 hide empty members
@@ -175,6 +205,7 @@ class AddBankAccountController {
 
 class Application {
   + getFamilyService()
+  + getAccountService()
 }
 
 class FamilyService {
@@ -203,7 +234,6 @@ class BankAccount {
 interface Account{
 }
 class AccountData {
-  - balance
   - description
   - accountID
   - creationDate
@@ -213,26 +243,44 @@ class MoneyValue {
   - currency
 }
 
-AddBankAccountController -> Application: has
-AddBankAccountController --> AddBankAccountDTO: accepts
-Application -> FamilyService: has
-FamilyService -> Family: has list
+AddBankAccountController --> Application: has
+AddBankAccountController -left-> AddBankAccountDTO: accepts
+AddBankAccountController --> FamilyService: calls
+FamilyService --> Family: has list
 Family --> FamilyMember: has list
-AddBankAccountController --> AccountService: creates
+AddBankAccountController --> AccountService: calls
 AccountService --> BankAccount: creates
 BankAccount -|> Account: implements
 BankAccount --> AddBankAccountDTO: accepts
-FamilyMember --> BankAccount: adds
+FamilyMember --> BankAccount: has
 BankAccount --* AccountData: contains
 AccountData --> MoneyValue: has
-
 
 @enduml
 ```
 
 ## 3.3. Applied Patterns
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern.
-We also used the SOLID SRP principle.
+
+- GRASP:
+    - Information expert:
+        - This pattern was used in classes that implemented the Account interface, like in this case BankAccount class. The BankAccount concentrate the responsibility of managing all procedures about itself;
+
+    - Controller:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
+
+    - Pure Fabrication:
+        - In this user story the Application, FamilyService and AccountService class was used, which does not represent a business domain concept. It was created to be responsible for all operations regarding Account type Classes.
+
+    - High cohesion and Low Coupling:
+        - The creation of the AccountService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+
+    - Protected Variation:
+        - An Account interface applies the polymorphism concept by being implemented in several classes, each representing an Account type.
+
+- SOLID:
+    - Single-responsibility principle:
+        - this pattern was used in the AccountService class, in which the only responsibility is managing account operations.
+
 
 ## 3.4. Domain Tests 
 
@@ -240,46 +288,75 @@ We also used the SOLID SRP principle.
 
 ####Test 1.1: Verify description 
 
-- **1.1.1** If the description is **null**, the BankAccount is created with a standard name **"BankAccount + ID"** 
+- **1.1.1** - If the description is **null**, the BankAccount is created with a standard name **"BankAccount + ID"** 
+```
+@Test
+void CreateBankAccount_NullDescription() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount account = new BankAccount(addBankAccountDTO, 1);
+    String desc = "BankAccount 1";
+    assertEquals(account.getDescription(), desc);
+}
+```
 
-- **1.1.2** If the description is **empty**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
-- **1.1.3** If the description is **blank**, the BankAccount is created with a standard name **"BankAccount + ID"**
+- **1.1.2** - If the description is **empty**, the BankAccount is created with a standard name **"BankAccount + ID"**
 
-- **1.1.4** If the description is compliant with the criteria, the BankAccount is created with the inserted data
+- **1.1.3** - If the description is **blank**, the BankAccount is created with a standard name **"BankAccount + ID"**
+
+- **1.1.4** - If the description is compliant with the criteria, the BankAccount is created with the inserted data
 
 ####Test 1.2: Verify balance
 
-- **1.2.1** If the balance is **null**, the BankAccount is created with **0.00 (zero)** value by default
+- **1.2.1** - If the balance is **null**, the BankAccount is created with **0.00 (zero)** value by default
+```
+@Test
+void CreateBankAccount_NullBalance() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, description, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount account = new BankAccount(addBankAccountDTO, 1);
+    Double expected = 0.00;
+    assertEquals(expected, account.getMoneyBalance().getValue());
+}
+```
 
-- **1.2.2** If the balance is **empty**, the BankAccount is created with **0.00 (zero)** value by default
+- **1.2.2** - If the balance is **empty**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **1.2.3** If the balance is **blank**, the BankAccount is created with **0.00 (zero)** value by default
+- **1.2.3** - If the balance is **blank**, the BankAccount is created with **0.00 (zero)** value by default
 
-- **1.2.4** If the balance is a **negative value**, the BankAccount is created with the inserted data
+- **1.2.4** - If the balance is a **negative value**, the BankAccount is created with the inserted data
 
-- **1.2.5** If the balance is a **positive value**, the BankAccount is created with the inserted data
+```
+@Test
+void CreateBankAccount_NegativeBalance() {
+    AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(-10.0, description, selfCC, 1, CurrencyEnum.EURO);
+    BankAccount account = new BankAccount(addBankAccountDTO, 1);
+    Double expected = -10.00;
+    assertEquals(expected, account.getMoneyBalance().getValue());
+}
+```
+
+- **1.2.5** - If the balance is a **positive value**, the BankAccount is created with the inserted data
 
 
 ####Test 1.3: Account Type
 
-- **1.3.1** The account Type **BANKACCOUNT** is automatically attributed and the account created
+- **1.3.1** - The account Type **BANKACCOUNT** is automatically attributed and the account created
 
 
 ####Test 1.4: Verify MoneyValue 
 
-- **1.4.1** If the currency is **null**, the account currency is automatically assigned to **EURO** and creates the account
+- **1.4.1** - If the currency is **null**, the account currency is automatically assigned to **EURO** and creates the account
 
-- **1.4.2** If the currency is correctly inserted, the account assigns that currency and creates the account
+- **1.4.2** - If the currency is correctly inserted, the account assigns that currency and creates the account
 
 
 ###Test 2: AccountService tests
 
-- **2.1** The accountService adds the account to the FamilyMember accountList and returns **true**
+- **2.1** - The accountService adds the account to the FamilyMember accountList and returns **true**
 
 ###Test 3: Controller tests
 
-- **3.1** If the **Family doesn't exist**, the controller catches the exception and returns **false**
+- **3.1** - If the **Family doesn't exist**, the controller catches the exception and returns **false**
 
 ```
 @Test
@@ -322,7 +399,7 @@ After talking with Product Owner we realized that it is not necessary at this mo
 
 # 5. Integration/Demonstration
 
-As it was said before, this UserStory dependes on both **[US010 - Add Family]** and **[US101 - Add Family Member]**.
+As it was said before, this UserStory dependes on both **[US010 - AddFamily]**, **[US011 - AddFamilyAdministrator]** and **[US101 - AddFamilyMember]**.
 
 # 6. Observations
 
