@@ -169,7 +169,7 @@ public class FamilyMember {
         }
 
     }
-    
+
     /**
      * method that uses the attributes from the family member
      * to create and return a MemberProfileDTO
