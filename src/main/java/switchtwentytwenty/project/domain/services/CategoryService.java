@@ -224,7 +224,7 @@ public class CategoryService {
     private int generateCustomCategoryID(Family targetFamily) {
         int minID = 0;
         for (CustomCategory category : targetFamily.getFamilyCustomCategories()) {
-            if (minID > category.getCategoryID()) minID = category.getCategoryID();
+            if (minID >= category.getCategoryID()) minID = category.getCategoryID();
         }
         return minID - 1;
     }

@@ -2,7 +2,9 @@ package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
+import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
+import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
 import java.util.ArrayList;
@@ -11,8 +13,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryServiceTest {
-
-    CategoryService categoryService = new CategoryService();
+    Application app = new Application();
+    CategoryService categoryService = app.getCategoryService();
+    FamilyService familyService = app.getFamilyService();
 
     @Test
     void addStandardCategory_Test1Success() {
@@ -169,4 +172,24 @@ class CategoryServiceTest {
         Family family = new Family("testFamily", 1);
         assertTrue(categoryService.addCategoryToFamilyTree(family, "test2", 0));
     }
+
+    @Test
+    void addCategoryToFamilyTreeCheckCategoryIDs() {
+        Family family = new Family("testFamily", 1);
+        familyService.addFamily(family);
+        categoryService.addCategoryToFamilyTree(family, "test1", 0);
+        categoryService.addCategoryToFamilyTree(family, "test2", 0);
+        categoryService.addCategoryToFamilyTree(family, "test3", 0);
+        categoryService.addCategoryToFamilyTree(family, "test4", 0);
+        categoryService.addCategoryToFamilyTree(family, "test5", 0);
+        CategoryTreeDTO dto = categoryService.getCategoryTree(1, familyService);
+        List<CustomCategory> catList = dto.getCustomCategories();
+        int id = 0;
+        for (CustomCategory cat : catList) {
+            id--;
+            assertEquals(id, cat.getCategoryID());
+        }
+    }
+
+
 }
