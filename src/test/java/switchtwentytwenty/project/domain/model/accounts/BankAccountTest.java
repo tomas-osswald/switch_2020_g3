@@ -164,18 +164,6 @@ class BankAccountTest {
     }
 
     @Test
-    void NotEnoughMoneyForTransaction() {
-        assertFalse(accountTest.hasEnoughMoneyForTransaction(new MoneyValue(2000.0, CurrencyEnum.EURO)));
-    }
-
-    @Test
-    void NotEnoughMoneyForTransaction_NegaticeAmmount() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            accountTest.hasEnoughMoneyForTransaction(new MoneyValue(-200.0, CurrencyEnum.EURO));
-        });
-    }
-
-    @Test
     void NotEnoughMoneyForTransaction_BoundaryAmmount() {
         assertDoesNotThrow( () -> {
             accountTest.hasEnoughMoneyForTransaction(new MoneyValue(500.0, CurrencyEnum.EURO));

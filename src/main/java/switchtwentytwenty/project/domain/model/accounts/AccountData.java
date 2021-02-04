@@ -102,6 +102,11 @@ public class AccountData {
         return Objects.hash(description, accountID);
     }
 
+    /**
+     * Check if it has enough balance
+     * @param moneyValue
+     * @return true if the account has enough balance | false if the account doesn't have enough balance
+     */
     public boolean hasEnoughMoneyForTransaction(MoneyValue moneyValue) {
         if (moneyValue.getValue() < 0) {
             throw new IllegalArgumentException("The transaction ammount needs to be a positive value");
@@ -109,6 +114,15 @@ public class AccountData {
         return ((this.currentBalance.getValue() - moneyValue.getValue()) >= 0);
     }
 
+    /**
+     * Register CashTransaction
+     * @param targetAccount
+     * @param category
+     * @param currentBalance
+     * @param familyCashTransferDTO
+     * @param credit
+     * @return true if the transaction is added to the transaction List
+     */
 
     public boolean registerCashTransaction(CashAccount targetAccount, Category category,MoneyValue currentBalance, FamilyCashTransferDTO familyCashTransferDTO,boolean credit) {
         CashTransaction cashTransaction = new CashTransaction(targetAccount, category, credit,currentBalance, familyCashTransferDTO);

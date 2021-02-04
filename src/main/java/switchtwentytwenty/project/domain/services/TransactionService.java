@@ -15,6 +15,14 @@ import java.util.List;
 
 public class TransactionService {
 
+    /**
+     * Register Payment in 1 CashAccount
+     * @param targetAccount
+     * @param category
+     * @param familyCashTransferDTO
+     * @return true if the payment is registered | false if the payment is not registed | throws error if there is not enough balance or different currency type
+     */
+
     public boolean registerPaymentMyCashAccount(Account targetAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
