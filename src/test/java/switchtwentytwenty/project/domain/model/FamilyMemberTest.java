@@ -482,5 +482,11 @@ class FamilyMemberTest {
         Assertions.assertTrue(result);
     }
 
+    @Test
+    void addAnAccountTrue() {
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, "description", "selfCC", 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
 
+        assertTrue(diogo.addAccount(account));
+    }
 }

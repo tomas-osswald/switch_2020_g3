@@ -126,7 +126,7 @@ public class CashAccount implements Account {
         return true;
     }
 
-    public boolean registerTransactionOther(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, CashTransferDTO cashTransferDTO) {
+    public boolean registerTransaction(CashAccount targetAccount, Category category,boolean credit, MoneyValue remainingbalance, CashTransferDTO cashTransferDTO) {
         accountData.registerCashTransaction(targetAccount, category,remainingbalance, cashTransferDTO, credit);
         return true;
     }

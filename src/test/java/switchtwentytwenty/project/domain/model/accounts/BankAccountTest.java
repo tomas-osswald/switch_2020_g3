@@ -397,4 +397,16 @@ class BankAccountTest {
         assertNotEquals(expected, result);
         assertNotNull(result);
     }
+
+    @Test
+    void compareWithAnotherClass() {
+        AddBankAccountDTO dto = new AddBankAccountDTO(balance, description, selfCC, 1, CurrencyEnum.EURO);
+        BankAccount account = new BankAccount(dto, 1);
+
+        String compare = "account";
+
+        assertNotEquals(account, compare);
+
+        assertFalse(account.equals(compare));
+    }
 }

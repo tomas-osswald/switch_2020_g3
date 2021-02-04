@@ -88,8 +88,8 @@ public class TransactionService {
     public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
          MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originAccount.registerTransactionOther(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
-        destinationAccount.registerTransactionOther(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

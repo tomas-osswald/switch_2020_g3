@@ -40,7 +40,7 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             FamilyMember destinationFamilyMember = family.getFamilyMember(destinationFamilyMemberCC);
             Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
             Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
-            if(categoryID>=0) {
+            if (categoryID>=0) {
                 CategoryService categoryService = this.app.getCategoryService();
                 category = categoryService.getStandardCategoryByID(categoryID);
             }
