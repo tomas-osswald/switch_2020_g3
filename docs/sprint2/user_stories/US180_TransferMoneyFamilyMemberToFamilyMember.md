@@ -448,12 +448,27 @@ CashTransaction -* TransactionData : contains
 
 ## 3.3. Applied Patterns
 
-We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
-used the SOLID SRP principle.
+###We applied the following principles:
+
+- **GRASP**:
+    - Information expert:
+        - This pattern was used in classes that implemented the Account interface, as well as the CashTransactions;
+
+    - **Controller**:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use-case controller.
+
+    - **Pure Fabrication**:
+        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsabilities of the other classes (Family and FamilyMember for example)
+
+    - **High cohesion and Low Coupling**:
+        - The creation of the Service classes provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+
+- **SOLID**:
+    - Single-responsibility principle:
+        - this pattern was used in the AccountService class, in which the only responsibility is to manage account operations while all the transaction registration responsibilities were delegated to the TransactionService.
+
 
 ## 3.4. Tests
-
-Tests:
 
 **Tests :** Controller: 
 
@@ -494,14 +509,46 @@ Tests:
 
     }
 
-**Tests :** Controller:
-
 
 ## 4. Implementation
+
+### 4.1.Transfer money from one family member to other family member both of the same family
+
+- The method in the AccountService will make the transference of money
+  between the origin and destination accounts respective ID that are given in new CashTransferDTO object
+  and then changes the balance in the originAccount (debit) and in the destinationAccount (credit).
+  
+This method has three important verifications that are simple attributes validations, the fisrt two refer
+to validate the ammount transfered , the second and third validations are relative to the currecy type of both 
+the origin account, and the destination account.
+
+        public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, CashTransferDTO cashTransferDTO) {
+        int originFamilyMemberAccountID = cashTransferDTO.getOriginAccountID();
+        int destinationFamilyMemberAccountID = cashTransferDTO.getDestinationAccountID();
+        Account originFamilyMemberAccount = originFamilyMember.getAccount(originFamilyMemberAccountID);
+        Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
+        CurrencyEnum currency = cashTransferDTO.getCurrency();
+        double transferredValue = cashTransferDTO.getTransferAmount();
+
+        MoneyValue transferAmmount = new MoneyValue(transferredValue, currency);
+
+        if(!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
+
+        if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+
+        if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+
+        originFamilyMemberAccount.debit(transferAmmount);
+        destinationFamilyMemberAccount.credit(transferAmmount);
+        return true;
+        }
 
 
 # 5. Integration/Demonstration
 
+-  This User Story depends on the [US185] - GetAccountBalance because it uses methods created in that US.
 
 # 6. Observations
+
+In the future I think the problems are only going to be about the User Interface.
 

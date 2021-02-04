@@ -12,12 +12,13 @@ As a family member, I want to add to a credit card account I have:
 
 **Extracted from communications with the Product Owner**
 
-- >*"A card does not have to be associated with a bank account."*;
-- >*"Balance of a credit card account is the amount due at that moment"*;
-- >*"Must have interest (which maybe just a fraction of the total amount in debt due to the fractioning of payments into the future)"*.
+- > *"A card does not have to be associated with a bank account."*;
+- > *"Balance of a credit card account is the amount due at that moment"*;
+- > *"Must have interest (which maybe just a fraction of the total amount in debt due to the fractioning of payments into the future)"*.
 
-We interpreted this requirement as the function of a family member to add a new credit card account to his account portfolio.
-The Credit Card Account must have a Balance, which is the value due to the moment, and from that total the amount that is due in interest.
+We interpreted this requirement as the function of a family member to add a new credit card account to his account
+portfolio. The Credit Card Account must have a Balance, which is the value due to the moment, and from that total the
+amount that is due in interest.
 
 ## 1.2. System Sequence Diagram
 
@@ -56,7 +57,8 @@ This user story is dependent on the following:
 
 # 2. Analysis
 
-For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this moment, the input of the family administrator of the following data:
+For the fulfillment of the raised requirements, we analyze that for the accomplishment of the US we need, at this
+moment, the input of the family administrator of the following data:
 
 - Self ID (User who wants to add a credit card account);
 - Family ID (User's Family);
@@ -66,9 +68,10 @@ For the fulfillment of the raised requirements, we analyze that for the accompli
 - Interest Debt (Fraction of Total Debt, which is due to interest);
 - Currency (Currency of the Credit Card).
 
-The account will be stored inside the Family Member. The Family and Family Member IDs will be used to identify the correct user where to add the account.
+The account will be stored inside the Family Member. The Family and Family Member IDs will be used to identify the
+correct user where to add the account.
 
-##2.1. Domain Model Diagram
+## 2.1. Domain Model Diagram
 
 ```puml
 hide empty members
@@ -145,13 +148,15 @@ AccountData --> MoneyValue: has
 
 # 3. Design
 
-The process to fulfill the requirement we need the input of data from a UI to create a CreditCardAccount object and add it to a specific FamilyMember(familyMemberID) in a given Family(familyID).
-To create a valid CreditCardAccount object the constructor must acept an id, that is generated in AccountService.
-A default Card Description is generated if has been inputed a invalid Card Description (null, empty or blank).
+The process to fulfill the requirement we need the input of data from a UI to create a CreditCardAccount object and add
+it to a specific FamilyMember(familyMemberID) in a given Family(familyID). To create a valid CreditCardAccount object
+the constructor must acept an id, that is generated in AccountService. A default Card Description is generated if has
+been inputed a invalid Card Description (null, empty or blank).
 
 The controller will return:
-- True, if a CreditCardAccount as been successfull created and assign.
-- False, if catches on of the following throws ("Family don't exist", "Family Member don't exist") 
+
+- True, if a CreditCardAccount as been successfully created and assigned.
+- False, if catches on of the following throws ("Family don't exist", "Family Member don't exist")
 
 ## 3.1. Functionality Use
 
@@ -275,18 +280,192 @@ Cohesion, keeping one Class as the Information Expert and applying the Single Re
 
 ## 3.4. Tests
 
+#### Test 1 : CreditCardAccount tests
+
+##### Test 1.1 : verify constructor
+
+- **1.1.1** If the object is **valid**, a new instance is created
+
+      @Test
+      void aValidInstanceOfCreditCardAccount() {
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID,
+      cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne); CreditCardAccount
+      creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+      assertNotNull(creditCardAccount);
+      }
+  
+- **1.1.2** If the description is **null**, a valid instance of CreditCardAccount is created with a standard name **"Credit Card Account#" + "ID"**
+
+      @Test
+      void aValidInstanceOfCreditCardAccountWithNullDescription() {
+      String cardDescriptionNull = null;
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionNull, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+      CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+      String expected = "Credit Card Account - Account #1";
+      assertNotNull(creditCardAccount);
+      assertEquals(creditCardAccount.getDescription(), expected);
+      }
+
+- **1.1.3** If the description is **empty**, a valid instance of CreditCardAccount is created with a standard name **"Credit Card Account#" + "ID"**
+
+      @Test
+      void aValidInstanceOfCreditCardAccountWithEmptyDescription() {
+      String cardDescriptionEmpty = "";
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionEmpty, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+      CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+      String expected = "Credit Card Account - Account #1";
+      assertNotNull(creditCardAccount);
+      assertEquals(creditCardAccount.getDescription(), expected);
+      }
+
+
+##### Test 1.2 : verify balance
+
+- **1.2.1** If the balance is a **positive value**, the CreditCardAccount is created with the inserted data
+
+      @Test
+      void changeBalanceMoneyValueSuccess() {
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+      CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+      MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
+      creditCardAccount.debit(balanceChange);
+      MoneyValue expected = new MoneyValue(101.0, CurrencyEnum.EURO);
+      MoneyValue result = creditCardAccount.getMoneyBalance();
+      assertEquals(expected, result);
+      }
+  
+- **1.2.2** If the balance is **not a valid type**, an exception is thrown
+
+      @Test
+      void changeBalanceDoubleFail() {
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+      CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+      //MoneyValue balanceChange = new MoneyValue(1000000.0, CurrencyEnum.EURO);
+
+      assertThrows(IllegalArgumentException.class, () -> {
+      creditCardAccount.credit(new MoneyValue(10000000.0, CurrencyEnum.EURO));
+      });
+      }
+
+- **1.2.3** If the balance is **equal or greater than** the withdrawal limit an exception is thrown
+
+       @Test
+        void changeBalanceMoneyValueInsuccess() {
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+        CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
+        MoneyValue balanceChange = new MoneyValue(10000.0, CurrencyEnum.EURO);
+        assertThrows(IllegalArgumentException.class, () -> creditCardAccount.debit(balanceChange));
+        }
+
+##### Test 1.3 : verify withdrawal limit
+
+- **1.3.1** If the withdrawal limit is **< 0** an exception is thrown
+
+      @Test
+      void assertThrowWithdrawLimitInvalidLessThanZero() {
+      double invalidWithdrawLimit = -1;
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, invalidWithdrawLimit, totalDebtOne, interestDebtOne, currencyEnumOne);
+      assertThrows(Exception.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
+    }
+
+- **1.3.2** If the withdrawal limit is **null** an exception is thrown
+
+      @Test
+      void creditCardAccountNullWithdrawalLimit() {
+      Double nullWithdrawlLimitOne = null;
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, nullWithdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
+      assertThrows(IllegalArgumentException.class, () -> new CreditCardAccount(addCreditCardAccountDTO, idOne));
+      }
+
+#### Test 2 : AccountService tests
+
+- **2.1** The accountService adds the account to the FamilyMember accounts list and returns **true**
+
+      @Test
+      void createPersonalCreditCardAccountTrue() {
+      FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+      assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
+      }
+
+#### Test 3 : Controller tests
+
+- **3.1** If the **Family doesn't exist**, the controller catches the exception and returns **false**
+
+      @Test
+      void addCreditCardAccountToFamilyMemberFalseFamilyDoesNotExist() {
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, 2, "MasterCard do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+      assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
+      }
+
+- **3.2** If the **FamilyMember doesn't exist**, the controller catches the exception and returns **false**
+
+      @Test
+      void addCreditCardAccountToFamilyMemberFalseFamilyMemberDoesNotExist() {
+      AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO("3", family1ID, "MasterCard do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+      assertFalse(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
+      }
+
 
 ## 4. Implementation
 
+#### 4.1.Add a Credit Card Account to a Family Member
+
+The method in the AccountService will generate an unique ID and associate it with the given FamilyMember. Then it will
+instantiate a new CreditCardAccount Object and add it to the target FamilyMember.
+
+r
+
+      public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, 
+                                                    FamilyMember targetMember) {
+      int accountID = generateID(targetMember);
+
+        Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
+        targetMember.addAccount(creditCardAccount);
+        return true;
+    }
+
+#### 4.2.Generate a new Credit Card Account
+
+The Credit Card Account Class will have three crucial methods, the first two refer to
+attribute validation of withdrawal limit and  interestRate so that these attributes are
+valid according to the business rules.
+The constructor will apply such validations when instantiating
+a new object of such type.
+
+      public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
+      validateWithrawalLimit(addCreditCardAccountDTO.getWithdrawalLimit());
+      try {
+      this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), addCreditCardAccountDTO.getCardDescription(), accountID, addCreditCardAccountDTO.getCurrency());
+      } catch (InvalidAccountDesignationException exception) {
+      String cardDescriptionDefault = "Credit Card Account " + "-" + " Account #" + accountID;
+      this.accountData = new AccountData(addCreditCardAccountDTO.getTotalDebt(), cardDescriptionDefault, accountID, addCreditCardAccountDTO.getCurrency());
+      }
+
+        this.withdrawalLimit = new MoneyValue(addCreditCardAccountDTO.getWithdrawalLimit(), addCreditCardAccountDTO.getCurrency());
+
+        if (validateInterestDebt(addCreditCardAccountDTO.getInterestDebt())) {
+            validateTotalDebt(addCreditCardAccountDTO.getTotalDebt());
+            interestDebtLessThanTotalDebt(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getTotalDebt());
+
+            this.interestDebt = new MoneyValue(addCreditCardAccountDTO.getInterestDebt(), addCreditCardAccountDTO.getCurrency());
+        } else {
+            this.interestDebt = new MoneyValue(0.00, addCreditCardAccountDTO.getCurrency());
+        }
+    }
 
 # 5. Integration/Demonstration
 
-The development of this US will have an impact on the development of the US185 (Get Account Balance), as it was returning the balance of an Account of a Family Member. So, the [US185](US185_GetAccountBalance.md) uses the implementation of this US.
+The development of this US will have an impact on the development of the US185 (Get Account Balance), as it was
+returning the balance of an Account of a Family Member. So, the [US185](US185_GetAccountBalance.md) uses the
+implementation of this US.
 
 # 6. Observations
 
-In the future we're thinking about implementing a forecast feature to calculate expected interest debt based on the past data.
+In the future we're thinking about implementing a forecast feature to calculate expected interest debt based on the past
+data.
 
 Also in the future, the two issues we have to deal with are the following:
+
 - The familyID and FamilyMemberID will be solved when the UI and login layer are set up,
 - The IBAN will be implemented when the App requires it.
