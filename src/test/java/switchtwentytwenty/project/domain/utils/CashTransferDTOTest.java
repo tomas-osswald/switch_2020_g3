@@ -27,6 +27,14 @@ class CashTransferDTOTest {
     }
 
     @Test
+    void getTransactionDateIfDateNull() {
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(2,"175345988ZX8",1,"000000000ZZ4",1,2.3,currency,1,"Test",null);
+        Date expected = new Date();
+        Date result = cashTransferDTO.getTransactionDate();
+        assertEquals(expected, result);
+    }
+
+    @Test
     void getTransferedValue() {
         double expected = 2.3;
         double result = cashTransferDTO.getTransferAmount();
