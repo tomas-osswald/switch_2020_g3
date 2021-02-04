@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.services.CategoryService;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetStandardCategoriesTreeControllerTest {
@@ -17,7 +16,7 @@ class GetStandardCategoriesTreeControllerTest {
     @Test
     void getStandardCategoriesTreeReturnListOneCategory() {
         addStandardCategoryController.addStandardCategory("House", 0);//id 1
-        boolean result = standardCategoriesTreeController.getStandardCategoriesTree();
+        boolean result = standardCategoriesTreeController.getStandardCategoriesTree().isSuccess();
         assertTrue(result);
     }
 
@@ -29,7 +28,7 @@ class GetStandardCategoriesTreeControllerTest {
         addStandardCategoryController.addStandardCategory("Transport", 0);//id 4
         addStandardCategoryController.addStandardCategory("Car", 4);//id 5
         addStandardCategoryController.addStandardCategory("Public TraNsport", 4);//id 6
-        boolean result = standardCategoriesTreeController.getStandardCategoriesTree();
+        boolean result = standardCategoriesTreeController.getStandardCategoriesTree().isSuccess();
         assertTrue(result);
     }
 

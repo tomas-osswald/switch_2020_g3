@@ -43,6 +43,8 @@ public class MoneyValue {
 
     private String getCurrencySymbol() {
         switch (this.currency.name()) {
+            default:
+                return "?";
             case "EURO":
                 return "€";
             case "YEN":
@@ -50,7 +52,6 @@ public class MoneyValue {
             case "DOLLAR":
                 return "$";
         }
-        return "?";
     }
 
     @Override

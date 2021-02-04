@@ -15,7 +15,7 @@ import java.util.List;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
 
 public class AccountService {
-
+    private final String INVALID_CURRENCY = "Invalid currency";
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
@@ -117,7 +117,7 @@ public class AccountService {
         CurrencyEnum currency = familyCashTransferDTO.getCurrency();
         MoneyValue transferAmount = new MoneyValue(transferValue, currency);
         if (!familyAccount.hasEnoughMoneyForTransaction(transferAmount)) return false;
-        if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+        if (!familyAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
         int memberAccountID = familyCashTransferDTO.getAccountID();
         Account targetCashAccount = familyMember.getAccount(memberAccountID);
         if (targetCashAccount == null) {
@@ -126,7 +126,7 @@ public class AccountService {
             String accountDesignation = "Cash account for " + familyMember.getName();
             targetCashAccount = new CashAccount(accountDesignation, initialBalance, familyMemberAccountID, currency);
         }
-        if (!targetCashAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+        if (!targetCashAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
         familyAccount.debit(transferAmount);
         targetCashAccount.credit(transferAmount);
         return true;
@@ -148,8 +148,8 @@ public class AccountService {
         double transferredValue = cashTransferDTO.getTransferAmount();
         MoneyValue transferAmmount = new MoneyValue(transferredValue, currency);
         if(!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
-        if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
-        if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
+        if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
+        if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
         originFamilyMemberAccount.debit(transferAmmount);
         destinationFamilyMemberAccount.credit(transferAmmount);
         return true;
