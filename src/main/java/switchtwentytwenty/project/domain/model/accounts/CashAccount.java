@@ -112,7 +112,7 @@ public class CashAccount implements Account {
     }
 
     /**
-<<<<<<< HEAD
+
      * Method that registers a transaction in an account
      * @param targetAccount the otherAccount related to this transaction if it involves two accounts
      * @param category the category of the Transaction
