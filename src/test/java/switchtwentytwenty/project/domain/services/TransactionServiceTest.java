@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
 import switchtwentytwenty.project.domain.model.accounts.BankAccount;
@@ -36,8 +37,10 @@ class TransactionServiceTest {
     String description = "Cash Account do Ze Manel";
     Double balance = 450.00;
     int accountID = 1;
+    int accountID2 = 2;
     AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, description, selfCC, familyID, CurrencyEnum.EURO);
     CashAccount contaCash = new CashAccount(cashAccountDTO, accountID);
+    CashAccount contaCash2 = new CashAccount(cashAccountDTO, accountID2);
 
     // CashTransaction
     double transferAmount = 200.0;
@@ -263,4 +266,11 @@ class TransactionServiceTest {
         Assertions.assertTrue(result);
     }
 
+    @Test
+    void registerCashTransferOther() {
+        TransactionService service = new TransactionService();
+        CashTransferDTO dto = new CashTransferDTO(familyID,selfCC,accountID,selfCC,accountID,0,CurrencyEnum.EURO,0,"test",transactionDateOne);
+        boolean result = service.registerCashTransferOther(contaCash,contaCash2,categoria1,dto);
+        assertTrue(result);
+    }
 }
