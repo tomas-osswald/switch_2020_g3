@@ -58,7 +58,12 @@ public class AccountService {
         }
     }
 
-
+    /**
+     * Method to add a Bank Account to a specific Family Member
+     * @param addBankAccountDTO DTO containing the required information(e.g. description, balance...) to create a bank account
+     * @param targetMember Family member where the account will be added to
+     * @return return true if nothing was throw
+     */
     public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
 
