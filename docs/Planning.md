@@ -20,7 +20,7 @@ The distribution of requirements/functionalities throughout the project's develo
 
 | Student No.	| Sprint 1 | Sprint 2|
 |------------|----------|----------|
-| [**1181945**](../docs/students/1181945.md)| [US002](../docs/sprint1/user_stories/US002_GetStandardCategories.md)| 
+| [**1181945**](../docs/students/1181945.md)| [US002](../docs/sprint1/user_stories/US002_GetStandardCategories.md) [US180](../docs/sprint2/user_stories/US173_AddCreditCardAccount.md)| [US180](../docs/sprint2/user_stories/US180_TransferMoneyFamilyMemberToFamilyMember.md)
 | [**1201762**](../docs/students/1201762.md)| [US001](../docs/sprint1/user_stories/US001_CreateStandardCategory.md) / [US010](../docs/sprint1/user_stories/US010_AddFamily.md)|
 | [**1201765**](../docs/students/1201765.md)| [US105](../docs/sprint1/user_stories/US105_AddRelation.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)|
 | [**1201768**](../docs/students/1201768.md)| [US101](../docs/sprint1/user_stories/US101_AddFamilyMembers.md) / [US011](../docs/sprint1/user_stories/US011_AddFamilyAdministrator.md)| 

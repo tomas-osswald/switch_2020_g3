@@ -91,5 +91,4 @@ CreditCardAccount "1" -- "0..*" Transaction : has >
 BankAccount "1" -- "0..*" Transaction : has >
 BankSavingsAccount "1" -- "0..*" Transaction : has >
 
-
 @enduml

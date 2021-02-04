@@ -61,10 +61,9 @@ To  meet the requirements of this particular US we need at this stage the input 
 
 ##2.1. Domain Model Diagram
 ```puml
-skinparam linetype ortho
 hide empty members
 hide circles
-top to bottom direction
+left to right direction
 title Domain Model Diagram - US180
 
 class Family {
@@ -76,30 +75,48 @@ RegistrationDate
 class FamilyMember {
 Name
 BirthDate
+Address
+Vat number
+Email
+Telephone
+CCnumber
 }
 
-class Relation {
-Designation
+class CashAccount {
+UniqueID
+Balance
+Transactions
+Description
 }
 
 class Category {
 UniqueID
 Name
+ParentCategory
 }
 
-Family "*" -- "*" Category : \n\nhas standard >
-Family "1" -- "0..*" Category : \n\nhas custom >
-Family "1" -- "1" FamilyMember : has administrator >
+class Transaction {
+targetAccount
+Date
+Amount
+Category
+Designation
+Credit/Debit
+}
+
+Family "*" -- "*" Category : has standard >
+Family "1" -- "0..*" Category : has custom >
+Family "1" -- "0..1" CashAccount : has >
+Family "1" -- "0..1" FamilyMember : has administrator >
 Family "1" -- "1..*" FamilyMember : has members >
-FamilyMember "1" -- "0..1" Relation : has >
-
+Family "1" -- "0..*" Relations : has >
+FamilyMember "1" -- "0..*" CashAccount : has >
+CashAccount "1" -- "0..*" Transaction : has >
 ````
-
 # 3. Design
 
 The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
 To execute the transfer the controller will first invoke the FamilyService to get the respective Family
-
 
 The controller will return:
 - True, 
@@ -107,131 +124,328 @@ The controller will return:
 
 ## 3.1. Functionality Use
 
+### Sequence diagram
+
 ````puml
-
+@startuml
+title US180 - Transfer Money from One Family Member Cash Account To a Personal Cash Account - SequenceDiagram
 autonumber
-title Transfer Money From Personal Cash Account To another Personal Cash Account
-actor "Family Member" as actor
-participant ": UI" as UI
-participant ": TransferCashBetweenFamilyMembers \n CashAccountsController" as controller
-participant ": FFMApplication" as application
-participant ": AccountService" as aServ
-participant ": FamilyService" as fServ
-participant ": Transactionservice" as tServ
-participant "aFamily : Family" as fam
-participant "aFamilyMember : FamilyMember" as fMember
-participant "aList<CashAccounts> : FamilyMemberAccounts" as cashAccounts
-participant "oneCashTransferDTO : CashtransferDTO" as DTO
 
-activate actor
-actor -> UI: input destination data
+Actor "FamilyAdmin" as Actor
+Participant "UI" as UI
+Participant ": TransferCashBetweenFamilyMembers\nCashAccountsController" as controller
+Participant ": Application" as App
+Participant ": FamilyService" as FamilyService
+Participant "aFamily\n : Family" as Family
+Participant ": CategoryService" as CategoryService
+Participant ": AccountService" as AccountService
+
+
+Actor -> UI : Transfer Money \nto Family Member
 activate UI
-UI -> controller : transferCash(FamilyID, OriginFamilyMemberID, \n DestinationFamilyMemberID, ammount, category)
-activate controller
-
-controller -> application: getAccountService()
-activate application
-application --> controller: AccountService
-controller -> application: getFamilyService()
-application --> controller: FamilyService
-deactivate application
-controller -> fServ : getFamily(familyID)
-activate fServ
-fServ -> controller : Family
-deactivate fServ
-
-controller -> fServ:getFamilyMember(familyID, familyMemberCC)
-
-activate fServ
-fServ-> fam: getOriginFamilyMember(originFamilyMemberCC)
-activate fam
-fam --> fServ: OriginFamilyMember
-fServ-> fam: getDestinationFamilyMember(destinationFamilyMemberCC)
-fam -> fServ : DestinationFamilyMember
-deactivate fam
-fServ -> controller : sucess
-deactivate fServ
-controller -> aServ : getFamilyMemberCashAccount(FamilyID,FamilyMemberID, AccountID)
-activate aServ
-aServ ->fMember : getOriginFamilyMemberCashAccount(FamilyMemberID, AccountID)
-activate fMember
-fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
-activate cashAccounts
-cashAccounts -> fMember : CashAccount
-deactivate cashAccounts
-fMember -> aServ : sucess
-deactivate fMember
-aServ -> 
-aServ ->fMember : getDestinationFamilyMemberCashAccount(FamilyMemberID, AccountID)
-activate fMember
-fMember -> cashAccounts : getFamilyMemberCashAccount(AccountID)
-activate cashAccounts
-cashAccounts -> fMember : CashAccount
-deactivate cashAccounts
-fMember -> aServ : sucess
-deactivate fMember
-controller --> UI: Success
-deactivate controller
-UI --> fMember: Inform Success
+UI --> Actor : ask for required data
 deactivate UI
-deactivate fMember
+
+Actor -> UI : input required data
+activate UI
+UI -> controller : TransferCash\nBetweenFamilyMembers\nCashAccounts(CashTransferDTO)
+activate controller
+controller -> App : getFamilyService()
+activate App
+App --> controller : FamilyService
+deactivate App
+
+controller -> FamilyService : getFamily(familyID)
+activate FamilyService
+FamilyService --> controller : aFamily
+deactivate FamilyService
+
+controller -> Family : getOriginFamilyMember(familyMemberCC)
+activate Family
+Family --> controller : aFamilyMember
+controller -> Family : getDestinationFamilyMember(familyMemberCC)
+Family --> controller : aFamilyMember
+deactivate Family
+
+alt StandardCategory
+controller -> App : getCategoryService()
+activate App
+App --> controller : CategoryService
+deactivate App
+controller -> CategoryService : getStandardCategoryByID(categoryID)
+activate CategoryService
+CategoryService --> controller : aCategory
+deactivate CategoryService
+
+else CustomCategory
+
+controller -> Family : getCustomCategoryByID(categoryID)
+activate Family
+Family --> controller : aCategory
+deactivate Family
+
+end
+
+controller -> App : getAccountService()
+activate App
+App --> controller : AccountService
+deactivate App
+
+controller -> AccountService : transferCashBetweenFamilyMembers\nCashAccounts(originFamilyMember,destinationFamilyMember,cashTransferDTO)
+activate AccountService
+
+ref over AccountService
+
+Transfer Cash From One Family Member
+ To Family Member
+
+end ref
+
+AccountService --> controller : success
+deactivate AccountService
+
+controller -> AccountService : getOriginAccount(originFamilyMember,originAccountID)
+activate AccountService
+AccountService --> controller : originCashAccount
+controller -> AccountService : getDestinationAccount(destinationFamilyMember,destinationAccountID)
+AccountService --> controller : destinationCashAccount
+deactivate AccountService
+
+controller -> App : getTransactionService()
+activate App
+App --> controller : TransactionService
+deactivate App
+
+controller -> TransactionService : registerCashTransferOther\n(originCashAccount, destinationCashAccount, cashTransferDTO)
+activate TransactionService
+
+ref over TransactionService
+
+Register Cash Transfer
+
+end ref
+
+TransactionService --> controller : success
+deactivate TransactionService
+
+controller --> UI : success
+deactivate controller
+
+UI --> Actor : inform success
+deactivate UI
+
+@enduml
 
 ````
 
-# 3. Design
+````puml
+title Transfer Cash From One Family Member To Family Member
+autonumber
+
+Participant ": AccountService" as AccountService
+Participant "aFamily\n : Family" as Family
+Participant "transferAmount\n : MoneyValue" as transferMoneyValue
+Participant "aFamilyMember\n : FamilyMember" as FamilyMember
+Participant "aFamilyMemberCashAccount\n : CashAccount" as familyMemberCashAccount
+
+-> AccountService : transferCashBetweenFamily\nMembersCashAccounts\n(aFamilyMember, aFamilyMember, \n cashTransferDTO)
+activate AccountService
+
+AccountService -> Family : getOriginFamilyMemberCashAccount()
+activate Family
+Family --> AccountService : originFamilyMemberCashAccount
+AccountService -> Family : getDestinationFamilyMemberCashAccount()
+Family --> AccountService : destinationFamilyMemberCashAccount
+deactivate Family
+
+AccountService -> transferMoneyValue ** : create(transferValue, currency)
+
+AccountService -> familyMemberCashAccount : hasEnoughMoneyForTransaction(transferAmount)
+activate familyMemberCashAccount
+
+opt not enough money for transaction
+familyMemberCashAccountt --> AccountService : false
+<-- AccountService : failure
+
+else enough money for transaction
+familyMemberCashAccount --> AccountService : true
+deactivate familyMemberCashAccount
+end
+
+AccountService -> familyMemberCashAccount : checkCurrency(currency)
+activate familyMemberCashAccount
+
+opt different currency
+familyMemberCashAccount --> AccountService : false
+<-- AccountService : failure
+
+else same currency
+familyMemberCashAccount --> AccountService : true
+deactivate familyMemberCashAccount
+end opt
+
+AccountService -> FamilyMember : getOriginAccount(originFamilyAccountID)
+activate FamilyMember
+FamilyMember --> AccountService : originCashAccount
+AccountService -> FamilyMember : getOriginAccount(originFamilyAccountID)
+FamilyMember --> AccountService : originCashAccount
+deactivate FamilyMember
 
 
+AccountService -> familyMemberCashAccount : debit(transferAmount)
+activate familyMemberCashAccount
+AccountService -> familyMemberCashAccount : credit(transferAmount)
+deactivate familyMemberCashAccount
+<-- AccountService : success
+deactivate AccountService
+
+````
+
+````puml
+autonumber
+title Register Cash Transfer
+
+Participant ": TransactionService" as TransactionService
+Participant "originCashAccount\n : CashAccount" as originCashAccount
+Participant "destinationCashAccount\n : CashAccount" as destinationCashAccount
+
+-> TransactionService : registerCashTransferOther\n(originCashAccount, destinationCashAccount, cashTransferDTO)
+activate TransactionService
+
+TransactionService -> originCashAccount : getMoneyBalance()
+activate originCashAccount
+originCashAccount --> TransactionService : remainingBalanceOrigin
+deactivate originCashAccount
+
+TransactionService -> originCashAccount : registerTransaction(originCashAccount, category,\n isCredit, remainingBalanceOrigin, cashTransferDTO)
+activate originCashAccount
+originCashAccount --> TransactionService : true
+deactivate originCashAccount
+
+TransactionService -> destinationCashAccount : getMoneyBalance()
+activate destinationCashAccount
+destinationCashAccount --> TransactionService : remainingBalanceDestination
+deactivate destinationCashAccount
+
+TransactionService -> destinationCashAccount : registerTransaction(destinationCashAccount, category, isCredit,\n remainingBalanceDestination, cashTransferDTO)
+activate destinationCashAccount
+destinationCashAccount --> TransactionService : true
+deactivate destinationCashAccount
+
+<-- TransactionService : success
+deactivate TransactionService
+
+````
 
 ## 3.2. Class Diagram
 
 ```puml
+left to right direction
+title Class Diagram - US180
+skinparam linetype ortho
 
-title Class Diagram
 hide empty members
 
-class TransferMoneyFromCashAccountController {
-+ transferMoneyFromCashAccount()
-}
-
-class CashAccount {
+class TransferCashBetweenFamily\nMembersCashAccountsController {
++transferCashBetweenFamilyMembersCashAccountsController
 }
 
 class Application {
-+ getFamilyService()
++getFamilyService()
++getCategoryService()
++getAccountService()
+}
+
+class CategoryService {
++getStandardCategoryByID()
+}
+interface Category{
+}
+
+class StandardCategory {
+}
+
+class CustomCategory {
 }
 
 class FamilyService {
-+ getFamily()
++getFamily()
 }
 
 class Family {
-+ getFamilyMember()
++getFamilyMember()
++getFamilyMemberCashAccount()
++getCustomCategoryById()
+}
+
+class FamilyMember {
++hasCashAccount()
++getAccount()
 }
 
 class AccountService {
-+ changeBalance()
++verifyAccountType()
++transferCashBetweenFamilyMembers()
 }
 
-class AccountData {
-- double balance
-- String description
-- int accountID
-- List<Transaction> transactions
+class TransactionService {
++registerCashTransfer()
 }
 
-interface Account {}
+class CashAccount {
++debit()
++credit()
++hasEnoughMoneyForTransaction()
++checkCurrency()
++registerTransactionOther()
+}
 
-TransferMoneyFromCashAccountController --> Application : has
-Application --> FamilyService : has
-Application --> AccountService : has
+class Account {
+}
+
+class MoneyValue {
++debit()
++credit()
+}
+
+class CashTransaction {
+}
+
+class TransactionData {
+
+}
+
+interface Account {
+}
+
+TransferCashBetweenFamily\nMembersCashAccountsController --> Application : has
+TransferCashBetweenFamily\nMembersCashAccountsController--> FamilyService : calls
+TransferCashBetweenFamily\nMembersCashAccountsController --> CategoryService : calls
+TransferCashBetweenFamily\nMembersCashAccountsController --> AccountService : calls
+TransferCashBetweenFamily\nMembersCashAccountsController --> TransactionService : calls
+CategoryService --> StandardCategory
+'CategoryService -left-> CategoryTreeDTO : creates
+'FamilyService -right-> FamilyWithoutAdministratorDTO : creates
 FamilyService --> Family : has list
+Family --> CashAccount : has
+Family --> CustomCategory : \n\n has
 Family --> FamilyMember : has list
-AccountService --> CashAccount : change
-CashAccount --|> Account : implements
-CashAccount -* AccountData : contains
-CashAccount <-- FamilyMember : has
+Category <|-- StandardCategory : implements
+Category <|-right- CustomCategory : implements
+FamilyMember --> Account : has list
+Account <|-- CashAccount : implements
+Account -* AccountData : contains
+AccountService --> Account: handles
+
+TransactionService --> CashTransaction: handles
+Account --> Transaction: has list
+
+AccountData -* MoneyValue : contains
+
+CashTransaction -* TransactionData : contains
 
 ```
+
 ## 3.3. Applied Patterns
 
 We applied the principles of Controller, Information Expert, Creator e PureFabrication from the GRASP pattern. We also
