@@ -38,7 +38,6 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             FamilyMember originFamilyMember = family.getFamilyMember(originFamilyMemberCC);
             FamilyMember destinationFamilyMember = family.getFamilyMember(destinationFamilyMemberCC);
 
-
             if (categoryID>=0) {
                 CategoryService categoryService = this.app.getCategoryService();
                 category = categoryService.getStandardCategoryByID(categoryID);
@@ -52,7 +51,6 @@ public class TransferCashBetweenFamilyMembersCashAccountsController {
             TransactionService transactionService = app.getTransactionService();
             Account originAccount = originFamilyMember.getAccount(cashTransferDTO.getOriginAccountID());
             Account destinationAccount = destinationFamilyMember.getAccount(cashTransferDTO.getDestinationAccountID());
-
             transactionService.registerCashTransferOther((CashAccount)originAccount,(CashAccount) destinationAccount, category , cashTransferDTO);
             return true;
         } catch (IllegalArgumentException exception) {

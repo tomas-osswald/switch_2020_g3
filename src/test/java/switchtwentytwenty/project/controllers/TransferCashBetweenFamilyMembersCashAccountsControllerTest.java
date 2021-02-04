@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
@@ -162,5 +163,25 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         Assertions.assertTrue(result);
     }
 
+    @Test
+    void transferCashBetweenFamilyMembersCashAccounts_invalidCustomCategory() {
+        int categoryID = -3;
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 2, currency, categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
 
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+
+        Assertions.assertFalse(result);
+    }
+
+
+    @Test
+    void transferCashBetweenFamilyMembersCashAccountsInsufficientFunds() {
+        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, 100000000, currency,categoryID, transactionDesignation, transactionDate);
+        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+
+        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+
+        Assertions.assertFalse(result);
+    }
 }
