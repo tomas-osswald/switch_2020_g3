@@ -207,7 +207,8 @@ public class FamilyMember {
         if (account == null) {
             return false;
         }
-        return this.accounts.add(account);
+        this.accounts.add(account);
+        return true;
     }
 
     @Override
