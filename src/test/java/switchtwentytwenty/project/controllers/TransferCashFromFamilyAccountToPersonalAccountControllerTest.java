@@ -129,4 +129,13 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
         Assertions.assertFalse(result);
     }
 
+    @Test
+    void transferCashFromFamilyToFamilyMember_InvalidTransferenceNoFunds() {
+        familyCashTransferDTO = new FamilyCashTransferDTO(familyID,familyMemberCC,accountID,100000000,currency,categoryID,transactionDesignation,transactionDate);
+        TransferCashFromFamilyAccountToPersonalAccountController controller = new TransferCashFromFamilyAccountToPersonalAccountController(ffmApplication);
+
+        boolean result = controller.transferCashFromFamilyToFamilyMember(familyCashTransferDTO);
+
+        Assertions.assertFalse(result);
+    }
 }
