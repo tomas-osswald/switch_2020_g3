@@ -14,7 +14,8 @@ import java.util.List;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
 
 public class AccountService {
-    private final String INVALID_CURRENCY = "Invalid currency";
+    private final static String INVALID_CURRENCY = "Invalid currency";
+
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
         try {
@@ -47,7 +48,6 @@ public class AccountService {
      */
 
     public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialBalance) {
-        //if (accountDesignation==null||accountDesignation.trim().length()==0||accountDesignation.isEmpty()) accountDesignation = ("Conta da familia " + targetFamily.getFamilyName());
         Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0, CurrencyEnum.EURO);
         if (!targetFamily.hasCashAccount()) {
             targetFamily.addCashAccount(newCashAccount);
@@ -59,8 +59,9 @@ public class AccountService {
 
     /**
      * Method to add a Bank Account to a specific Family Member
+     *
      * @param addBankAccountDTO DTO containing the required information(e.g. description, balance...) to create a bank account
-     * @param targetMember Family member where the account will be added to
+     * @param targetMember      Family member where the account will be added to
      * @return return true if nothing was throw
      */
     public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO, FamilyMember targetMember) {
@@ -88,7 +89,8 @@ public class AccountService {
     /**
      * A method that calls a method to generate a unique ID for the account to be created and calls the BankSavingsAccount constructor.
      * Lastly, it adds the account to a given FamilyMember.
-     * @param targetMember FamilyMember to add the account to.
+     *
+     * @param targetMember             FamilyMember to add the account to.
      * @param addBankSavingsAccountDTO DTO that holds all necessary information for the creation of a BankSavingsAccount
      * @return true if account created, null if the given FamilyMember is null.
      */
@@ -102,10 +104,11 @@ public class AccountService {
         return true;
     }
 
-    /** Method that transfers money from a family account to any members family account.
+    /**
+     * Method that transfers money from a family account to any members family account.
      *
-     * @param family family whose cashAccount is the source of the transfer
-     * @param familyMember familyMember whose cashAccount is the destination of the transfer
+     * @param family                family whose cashAccount is the source of the transfer
+     * @param familyMember          familyMember whose cashAccount is the destination of the transfer
      * @param familyCashTransferDTO dto containing the relevant information for the transaction including transferred amount and its currency
      * @return true if the money transfer can occur, false if there's not enough money for the transaction
      */
@@ -132,7 +135,6 @@ public class AccountService {
     }
 
     /**
-     *
      * @param originFamilyMember
      * @param destinationFamilyMember
      * @param cashTransferDTO
@@ -146,9 +148,10 @@ public class AccountService {
         CurrencyEnum currency = cashTransferDTO.getCurrency();
         double transferredValue = cashTransferDTO.getTransferAmount();
         MoneyValue transferAmmount = new MoneyValue(transferredValue, currency);
-        if(!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
-        if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
-        if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
+        if (!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
+        if (!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException(INVALID_CURRENCY);
+        if (!destinationFamilyMemberAccount.checkCurrency(currency))
+            throw new IllegalArgumentException(INVALID_CURRENCY);
         originFamilyMemberAccount.debit(transferAmmount);
         destinationFamilyMemberAccount.credit(transferAmmount);
         return true;
@@ -192,7 +195,6 @@ public class AccountService {
     }
 
     /**
-     *
      * @param familyMember Target Family Member
      * @param accountID    Account ID to get balance
      * @return MoneyValue with Balance and Currency of a Family Member Account
@@ -201,6 +203,7 @@ public class AccountService {
         Account account = getAccount(familyMember, accountID);
         return account.getMoneyBalance();
     }
+
     /**
      * Method to get a Family Cash Account Balance
      *
@@ -246,8 +249,9 @@ public class AccountService {
      * Method to check the Balance of a Child Cash Account.
      * Verifies existence of given account. If not, throws exception.
      * Verifies type of the account. If it's not CashAccount throws exception
+     *
      * @param accountID identifier of the target account
-     * @param member child to whom the account pertains
+     * @param member    child to whom the account pertains
      * @return If both validations are true, returns the current Balance.
      */
 
