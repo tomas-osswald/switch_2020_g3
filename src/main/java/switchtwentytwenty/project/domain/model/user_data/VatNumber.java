@@ -19,8 +19,8 @@ public class VatNumber {
 
     public boolean validateVatNumber(Integer vatNumber){
         String regex = "\\d{9}";
-        String vat = String.valueOf(vatNumber);
-        boolean test = Pattern.matches(regex,vat);
+        String vatNum = String.valueOf(vatNumber);
+        boolean test = Pattern.matches(regex,vatNum);
         if (vatNumber == null ) {
             return false;
         } else return test;

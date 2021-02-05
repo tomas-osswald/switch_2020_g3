@@ -9,9 +9,9 @@ public class TransactionData {
     private final Date transactionDate;
     private final Date registrationDate;
     private final MoneyValue ammount;
-    private Category category;
+    private final Category category;
     private final String designation;
-    private MoneyValue remainingBalance;
+    private final MoneyValue remainingBalance;
     private final boolean credit;
 
     public TransactionData(String designation, MoneyValue ammount, boolean credit, MoneyValue remainingbalance, Date transactionDate, Category category) {

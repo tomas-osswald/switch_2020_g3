@@ -4,19 +4,19 @@ import java.util.Objects;
 
 public class CCNumber {
 
-    private String ccNumber;
+    private final String ccNumberString;
 
-    public CCNumber(String ccNumber) {
+    public CCNumber(String ccNumberString) {
 
-        if (!validateNumber(ccNumber)) {
+        if (!validateNumber(ccNumberString)) {
             throw new IllegalArgumentException("Invalid CC Number");
         }
-        this.ccNumber = ccNumber.toUpperCase();
+        this.ccNumberString = ccNumberString.toUpperCase();
 
     }
 
-    public String getCcNumber() {
-        return ccNumber;
+    public String getCcNumberString() {
+        return ccNumberString;
     }
 
     /**
@@ -79,48 +79,6 @@ public class CCNumber {
                 return 8;
             case '9':
                 return 9;
-            /*case 'A':
-                return 10;*/
-            case 'B':
-                return 11;
-            case 'C':
-                return 12;
-            /*case 'D':
-                return 13;
-            case 'E':
-                return 14;
-            case 'F':
-                return 15;
-            case 'G':
-                return 16;
-            case 'H':
-                return 17;
-            case 'I':
-                return 18;
-            case 'J':
-                return 19;
-            case 'K':
-                return 20;
-            case 'L':
-                return 21;
-            case 'M':
-                return 22;
-            case 'N':
-                return 23;
-            case 'O':
-                return 24;
-            case 'P':
-                return 25;
-            case 'Q':
-                return 26;
-            case 'R':
-                return 27;
-            case 'S':
-                return 28;
-            case 'T':
-                return 29;
-            case 'U':
-                return 30;*/
             case 'V':
                 return 31;
             case 'W':
@@ -141,11 +99,11 @@ public class CCNumber {
         if (this == o) return true;
         if (!(o instanceof CCNumber)) return false;
         CCNumber that = (CCNumber) o;
-        return Objects.equals(ccNumber, that.ccNumber);
+        return Objects.equals(ccNumberString, that.ccNumberString);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ccNumber);
+        return Objects.hash(ccNumberString);
     }
 }
