@@ -16,10 +16,10 @@ public class FamilyMember {
 
     private final CCNumber ccNumber;
     private final String name;
-    private List<PhoneNumber> phoneNumbers = new ArrayList();
-    private List<EmailAddress> emails = new ArrayList<>();
+    private final List<PhoneNumber> phoneNumbers = new ArrayList();
+    private final List<EmailAddress> emails = new ArrayList<>();
+    private final List<Account> accounts = new ArrayList<>();
     private boolean administrator;
-    private List<Account> accounts = new ArrayList<>();
 
 
     /********************** CONSTRUCTORS **********************/
@@ -191,6 +191,7 @@ public class FamilyMember {
 
     /**
      * A method that adds a given account to the list of accounts this FamilyMember holds
+     *
      * @param account given account
      * @return true if account was added, false if given account is null
      */
@@ -215,6 +216,7 @@ public class FamilyMember {
 
     /**
      * A method that goes through all accounts this FamilyMember holds and returns the one with an ID equal to the given ID.
+     *
      * @param accountID given account ID
      * @return null if no account with given ID is found, else the account with given ID.
      */

@@ -9,7 +9,7 @@ public class FamilyMemberRelationDTO {
     // Attributes
 
     private final String relationDesignation;
-    private boolean parentalPermission;
+    private final boolean parentalPermission;
 
     // Constructors
     public FamilyMemberRelationDTO(Relation relation) {

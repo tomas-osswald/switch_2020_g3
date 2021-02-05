@@ -6,12 +6,10 @@ public class Application {
 
     // Attributes
 
-    private EmailService emailService = new EmailService();
-    private CategoryService categoryService = new CategoryService();
-    private FamilyService familyService = new FamilyService();
-    //private AccountService accountService = new AccountService();
-    //private RelationService relationService = new RelationService();
-    //private TransactionService transactionService = new TransactionService();
+    private final EmailService emailService = new EmailService();
+    private final CategoryService categoryService = new CategoryService();
+    private final FamilyService familyService = new FamilyService();
+
 
     // Constructors
     public Application() {

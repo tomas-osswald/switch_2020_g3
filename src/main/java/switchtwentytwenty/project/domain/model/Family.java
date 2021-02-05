@@ -15,13 +15,12 @@ public class Family {
 
     private final int familyID;
     private final String familyName;
-    private Date registrationDate;
-    //private FamilyMember familyAdministrator;
-    private List<FamilyMember> familyMembers;
-    private List<String> relationDesignations = new ArrayList<>();
+    private final Date registrationDate;
+    private final List<FamilyMember> familyMembers;
+    private final List<String> relationDesignations = new ArrayList<>();
+    private final List<CustomCategory> familyCustomCategories = new ArrayList<>();
+    private final List<Relation> familyRelations = new ArrayList<>();
     private Account familyCashAccount = null;
-    private List<CustomCategory> familyCustomCategories = new ArrayList<>();
-    private List<Relation> familyRelations = new ArrayList<>();
 
     /********************** CONSTRUCTORS ***************/
     //Constructors
@@ -38,27 +37,11 @@ public class Family {
         this.familyName = familyName;
         this.familyID = familyID;
     }
-/*
-    /**
-     * Constructor for an empty family for registrations requiring a different registration date
-     * @param familyName String with the name of the family to be created
-     * @param registrationDate Date of the registration of the given family
 
-    public Family(String familyName, Date registrationDate, int familyID) {
-        if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
-        if (!isDateValid(registrationDate)) throw new IllegalArgumentException("Invalid Registration Date");
-        this.familyMembers = new ArrayList<>();
-        this.registrationDate = registrationDate;
-        this.familyName = familyName;
-        this.familyID = familyID;
-    }
-*/
     // Validations
 
     private boolean isNameValid(String familyName) {
-        if (familyName == null || familyName.trim().length() == 0 || familyName.isEmpty()) return false;
-
-        return true;
+        return familyName != null && familyName.trim().length() != 0 && !familyName.isEmpty();
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -85,16 +68,6 @@ public class Family {
 
     // Business methods
 
-    /*
-     * Method that compares a given ID is equal to the ID of this family
-     *
-     * @param familyID int the familyID you wish to compare
-     * @return true if the IDs match, otherwise false
-     *
-    public boolean isIDOfThisFamily(int familyID) {
-        return familyID == this.familyID;
-    }
-    */
 
     /**
      * Method to verify if a given Family Member is Administrator
@@ -298,12 +271,12 @@ public class Family {
      */
     // Changes to method IOT get a DTO directly from the FamilyMember
     public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList() {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        List<FamilyMemberRelationDTO> dtoList = new ArrayList<>();
         for (Relation relation : familyRelations) {
             FamilyMemberRelationDTO relationDTO = new FamilyMemberRelationDTO(relation);
-            DTOList.add(relationDTO);
+            dtoList.add(relationDTO);
         }
-        return DTOList;
+        return dtoList;
     }
 
 
@@ -357,8 +330,8 @@ public class Family {
         for (int index = 0; index < size; index++) {
             if (this.familyCustomCategories.get(index).getCategoryID() == categoryID) {
                 selectedCategory = this.familyCustomCategories.get(index);
-                index = size;
             }
+            index = size;
         }
         return selectedCategory;
     }

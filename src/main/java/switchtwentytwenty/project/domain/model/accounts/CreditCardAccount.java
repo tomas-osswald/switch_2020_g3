@@ -2,12 +2,8 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCreditCardAccountDTO;
-
-import switchtwentytwenty.project.domain.model.transactions.Transaction;
-
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
-
-
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import switchtwentytwenty.project.domain.utils.exceptions.InvalidAccountDesignationException;
 
@@ -16,11 +12,11 @@ import java.util.Objects;
 
 public class CreditCardAccount implements Account {
 
+    private final MoneyValue withdrawalLimit;
+    private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
     // Attributes
     private AccountData accountData;
-    private MoneyValue withdrawalLimit;
     private MoneyValue interestDebt;
-    private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
 
     // Constructors
     public CreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, int accountID) {
@@ -140,20 +136,6 @@ public class CreditCardAccount implements Account {
         this.accountData.debit(value);
     }
 
-
-    /*
-    //while
-    //25 the balance of a credit card account is the amount due at that moment
-
-    public void changeBalance(MoneyValue value) { //expense
-        // validar se mesma moeda
-        if ((this.accountData.getBalance() + Math.abs(value.getValue())) > withdrawalLimit.getValue())
-            throw new IllegalArgumentException("ultrapassa credito");
-
-        this.accountData.setBalance(this.accountData.getCurrentBalance().getValue() + Math.abs(value.getValue()));
-
-    }
-     */
 
     @Override
     public boolean equals(Object other) {
