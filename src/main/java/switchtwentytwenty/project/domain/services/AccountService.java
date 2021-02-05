@@ -244,14 +244,14 @@ public class AccountService {
     }
 
     /**
-     * Method to check the Balance of a Cash Account.
-     *
-     * @param accountID
-     * @param member
-     * @return
+     * Method to check the Balance of a Child Cash Account.
+     * Verifies existence of given account. If not, throws exception.
+     * Verifies type of the account. If it's not CashAccount throws exception
+     * @param accountID identifier of the target account
+     * @param member child to whom the account pertains
+     * @return If both validations are true, returns the current Balance.
      */
 
-    //TODO: Verificar origem da não-cobertura do NullPointer (Teste de throw está a passar)
     public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member) {
         MoneyValue currentBalance;
         Account targetAccount = member.getAccount(accountID);

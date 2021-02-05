@@ -188,16 +188,13 @@ public class FamilyService {
         throw new IllegalArgumentException("Family does not exist");
     }
 
-   /* //Temporariamente comentado para não ter conflito até se decidir se retorna null ou exception
-    private Family getFamily(int familyID){
-        for (Family familia : families ) {
-            if(familyID == familia.getFamilyID())
-                return familia;
-        }
-        return null;
-    } */
 
-
+    /**
+     * Method to verify if a given FamilyMember is the Administrator of the given Family.
+     * @param familyID representing the Id of the family to find.
+     * @param ccNumber representing the userID.
+     * @return true if it's Administrator, if not, false.
+     */
     public boolean verifyAdministratorPermission(int familyID, String ccNumber) {
         Family family = getFamily(familyID);
         return family.verifyAdministrator(ccNumber);
@@ -207,7 +204,6 @@ public class FamilyService {
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
      * With the familyID the method delegates to the Family Class the responsibility of returning a List of DTOs from
      * the Family's Family Members. If the User isn't the Family Administrator the return is an Empty List.
-     *
      * @param familyID      representing the Id of the family to find.
      * @param adminCCNumber representing the userID. Has to be verified in order to provide access to the information
      * @return DTOList containing Family Members' name and the relationDesignation.

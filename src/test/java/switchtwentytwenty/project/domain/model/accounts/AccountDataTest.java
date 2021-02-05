@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
+import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -276,8 +277,19 @@ class AccountDataTest {
     @Test
     void compareWithAnotherClass() {
         String compare = "account";
-
         assertFalse(accountData.equals(compare));
         assertNotEquals(accountData, compare);
     }
+
+
+    @Test
+    void testEquals_verifyInstanceOf() {
+        AccountData expected = accountData;
+        boolean result = (expected instanceof AccountData);
+
+        assertTrue(result);
+    }
+
+
+
 }
