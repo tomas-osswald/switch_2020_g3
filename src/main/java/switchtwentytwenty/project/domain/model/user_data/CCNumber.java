@@ -79,6 +79,10 @@ public class CCNumber {
                 return 8;
             case '9':
                 return 9;
+            case 'B':
+                return 11;
+            case 'C':
+                return 12;
             case 'V':
                 return 31;
             case 'W':
