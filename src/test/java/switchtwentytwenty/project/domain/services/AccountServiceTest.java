@@ -13,6 +13,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
+import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyException;
 
 import java.util.Date;
 
@@ -102,10 +103,10 @@ class AccountServiceTest {
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, addBankSavingsAccountDTO);
     AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00, 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
-    CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID,CurrencyEnum.EURO);
-    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID,CurrencyEnum.EURO);
+    CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID, CurrencyEnum.EURO);
+    CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID, CurrencyEnum.EURO);
 
-    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id,id, name, date, numero, email, nif, rua, codPostal, local, city, 1);
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 1);
 
     @BeforeEach
     void setup() {
@@ -271,6 +272,7 @@ class AccountServiceTest {
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }
+
     @Test
     void getAccountFailureTypeBankAccount() {
         Account expected = new BankAccount(addBankAccountDTO, 1);
@@ -452,7 +454,7 @@ class AccountServiceTest {
         Date transactionDate = new Date();
         //Account Data
         double initialBalance = 100.0;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1,CurrencyEnum.EURO);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createPersonalCashAccount(diogo, cashAccountDTO);
@@ -477,7 +479,7 @@ class AccountServiceTest {
         Date transactionDate = new Date();
         //Account Data
         double initialBalance = 100.0;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1,CurrencyEnum.DOLLAR);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.DOLLAR);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createPersonalCashAccount(diogo, cashAccountDTO);
@@ -512,13 +514,13 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
         //Expected
-        MoneyValue expected = new MoneyValue(325.0,CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(325.0, CurrencyEnum.EURO);
 
         accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         Account familyAccount = ribeiro.getFamilyCashAccount();
         MoneyValue result = familyAccount.getMoneyBalance();
 
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -542,13 +544,13 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
         //Expected
-        MoneyValue expected = new MoneyValue(1200.00,CurrencyEnum.EURO);
+        MoneyValue expected = new MoneyValue(1200.00, CurrencyEnum.EURO);
 
         accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         Account personalAccount = diogo.getAccount(1);
         MoneyValue result = personalAccount.getMoneyBalance();
 
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -585,9 +587,9 @@ class AccountServiceTest {
 
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
-        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(),transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(), transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
 
-        boolean result = accountService.transferCashBetweenFamilyMembersCashAccounts( mary, tony, transferDTO);
+        boolean result = accountService.transferCashBetweenFamilyMembersCashAccounts(mary, tony, transferDTO);
 
         assertTrue(result);
     }
@@ -627,9 +629,9 @@ class AccountServiceTest {
 
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
-        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(),transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
+        CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(), transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
         Assertions.assertThrows(NullPointerException.class, () -> {
-            accountService.transferCashBetweenFamilyMembersCashAccounts( mary, tony,  transferDTO);
+            accountService.transferCashBetweenFamilyMembersCashAccounts(mary, tony, transferDTO);
         });
     }
 
@@ -685,5 +687,15 @@ class AccountServiceTest {
 
         assertEquals(resultCredit, expectedCredit);
         assertEquals(resultDebit, expectedDebit);
+    }
+
+    @Test
+    void transferCashFromFamilyToFamilyMember() {
+        AccountService accountService = new AccountService();
+        diogo.addAccount(cashAccount);
+        jorge.addAccount(zeroCashAccount);
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(1, cc, 1, id, generatedID, 5.00, CurrencyEnum.YEN, 0, "Divida", new Date());
+
+        Assertions.assertThrows(NotSameCurrencyException.class, ()-> accountService.transferCashBetweenFamilyMembersCashAccounts(diogo, jorge, cashTransferDTO));
     }
 }
