@@ -15,7 +15,7 @@ import java.util.List;
 public class FamilyService {
 
     // Attributes
-    private List<Family> families = new ArrayList<>();
+    private final List<Family> families = new ArrayList<>();
 
     // Constructors
     public FamilyService() {
@@ -50,42 +50,6 @@ public class FamilyService {
         Family family = getFamily(familyID);
         return family.getFamilyCustomCategories();
     }
-
-    /**
-     * Method to add an EmailAddress object with the passed email address string to the FamilyMember with the passed ID
-     *
-     * @param emailToAdd String of the email address to add
-     * @param familyID   Integer representing the family's ID
-     * @param ccNumber   Integer representing the family member's ID
-     * @return True if email successfully added to the Family Member with the passed ID
-
-    public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
-    if (!checkIfEmailPresent(emailToAdd)) {
-    Family targetFamily = this.families.get(findFamilyIndexByID(familyID));
-    return targetFamily.addEmail(emailToAdd, ccNumber);
-    }
-    throw new IllegalArgumentException("This email is already present");
-    }
-     */
-
-    /*
-     * Method to find the index of a family with a specific ID in the Families ArrayList
-     *
-     * @param familyID Integer representing the ID to find
-     * @return Int corresponding to the index of the family  that has the passed ID
-     * @throws IllegalArgumentException if there is no family with the passed ID
-
-    private int findFamilyIndexByID(int familyID) {
-        int index = 0;
-        for (Family family : this.families) {
-            if (family.isIDOfThisFamily(familyID)) {
-                return index;
-            }
-            index++;
-        }
-        throw new IllegalArgumentException("No family with that ID was found");
-    }
-     */
 
     /**
      * Method to check if a given email address is already present in the ArrayList of EmailAddress objects
@@ -268,26 +232,6 @@ public class FamilyService {
         }
         return false;
     }
-
-    /*
-    //Custom Parent
-    public boolean addCategory(int familyID, String designation, int parentID) {
-        return getFamily(familyID).addCustomCategory(designation, parentID);
-    }
-
-    //Standard Parent
-    public boolean addCategory(int familyID, String designation, StandardCategory parent) {
-        if(parent==null){
-            throw new IllegalArgumentException("Expected StandardCategory parent but is null");
-        }
-        return getFamily(familyID).addCustomCategory(designation, parent);
-    }
-    //No Parent
-    public boolean addCategory(int familyID, String designation) {
-        return getFamily(familyID).addCustomCategory(designation);
-    }
-
- */
 
 }
 
