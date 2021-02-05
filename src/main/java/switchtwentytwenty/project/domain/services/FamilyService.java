@@ -210,12 +210,12 @@ public class FamilyService {
      */
 
     public List<FamilyMemberRelationDTO> getFamilyMembersRelationDTOList(int familyID, String adminCCNumber) {
-        List<FamilyMemberRelationDTO> DTOList = new ArrayList<>();
+        List<FamilyMemberRelationDTO> familyMembersRelation = new ArrayList<>();
         Family family = getFamily(familyID);
         if (family.verifyAdministrator(adminCCNumber)) {
-            DTOList = family.getFamilyMembersRelationDTOList();
+            familyMembersRelation = family.getFamilyMembersRelationDTOList();
         }
-        return DTOList;
+        return familyMembersRelation;
     }
 
 
