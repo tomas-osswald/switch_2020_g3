@@ -330,8 +330,9 @@ public class Family {
         for (int index = 0; index < size; index++) {
             if (this.familyCustomCategories.get(index).getCategoryID() == categoryID) {
                 selectedCategory = this.familyCustomCategories.get(index);
+                index = size;
             }
-            index = size;
+
         }
         return selectedCategory;
     }
