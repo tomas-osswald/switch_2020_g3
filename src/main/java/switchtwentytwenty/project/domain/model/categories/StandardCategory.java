@@ -5,9 +5,9 @@ import java.util.Objects;
 public class StandardCategory implements Category {
 
     //Attributes
-    private int categoryID;
-    private String categoryName;
-    private StandardCategory parentCategory;
+    private final int categoryID;
+    private final String categoryName;
+    private final StandardCategory parentCategory;
 
     //Constructor
 

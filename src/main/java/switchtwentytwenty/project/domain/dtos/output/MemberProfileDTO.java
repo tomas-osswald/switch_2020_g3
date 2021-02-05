@@ -20,7 +20,7 @@ public class MemberProfileDTO {
 
 
     public MemberProfileDTO(CCNumber ccNumber, String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
-        this.ccNumber = ccNumber.getCcNumber();
+        this.ccNumber = ccNumber.getCcNumberString();
         this.name = name;
         this.birthDate = (Date) birthDate.clone();
         List<PhoneNumber> phoneNumbersClone = new ArrayList<>();

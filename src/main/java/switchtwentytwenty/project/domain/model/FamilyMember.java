@@ -116,7 +116,7 @@ public class FamilyMember {
      * @return String representing the FamilyMember's ID.
      */
     public String getID() {
-        return this.ccNumber.getCcNumber();
+        return this.ccNumber.getCcNumberString();
     }
 
     public String getName() {
@@ -150,7 +150,7 @@ public class FamilyMember {
      */
 
     protected String getFamilyMemberID() {
-        return this.ccNumber.getCcNumber();
+        return this.ccNumber.getCcNumberString();
     }
 
     /**
@@ -186,7 +186,7 @@ public class FamilyMember {
     }
 
     protected boolean compareID(String ccNumber) {
-        return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
+        return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumberString());
     }
 
     /**

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CategoryService {
 
-    private List<StandardCategory> categories;
+    private final List<StandardCategory> categories;
 
     /*@Override
     public boolean equals(Object o) {
@@ -82,10 +82,9 @@ public class CategoryService {
     private boolean isCategoryWithSameNameAlreadyPresent(String categoryName) {
         int size = this.categories.size();
         boolean categoryPresent = false;
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index < size && !categoryPresent; index++) {
             if (this.categories.get(index).isDesignationOfThisCategory(categoryName)) {
                 categoryPresent = true;
-                index = size;
             }
         }
         return categoryPresent;
@@ -101,10 +100,9 @@ public class CategoryService {
         if (parentID == 0) return true;
         boolean idPresent = false;
         int size = this.categories.size();
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index < size && !idPresent; index++) {
             if (this.categories.get(index).isIDOfThisCategory(parentID)) {
                 idPresent = true;
-                index = size;
             }
         }
         return idPresent;
