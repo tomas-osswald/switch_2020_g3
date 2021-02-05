@@ -16,7 +16,7 @@ public class GetStandardCategoriesTreeController {
     public Result<CategoryTreeDTO> getStandardCategoriesTree() {
         CategoryService categoryService = this.ffmApplication.getCategoryService();
         CategoryTreeDTO standardCategoryTree = categoryService.getStandardCategoryTree();
-        return new Result<CategoryTreeDTO>(true,standardCategoryTree);
+        return new Result<>(true, standardCategoryTree);
 
     }
 }

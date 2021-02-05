@@ -17,7 +17,11 @@ public class CheckChildCashAccountBalanceController {
     }
 
     /**
-     *
+     * Method to obtain the Cash Account Balance of a Child.
+     * First finds the family through the familyID, then, will find the FamilyMembers.
+     * It will verify in both moments if Family and both FamilyMembers do exist in the respective Service and Family.
+     * Verifies the Relation between both FamilyMembers looking for parental permission.
+     * Looks for respective account and verifies if it is a CashAccount.
      * @param familyID
      * @param parentID
      * @param childID
@@ -29,13 +33,13 @@ public class CheckChildCashAccountBalanceController {
     public Double checkChildCashAccountBalance (int familyID, String parentID, String childID, int accountID){
         Double currentBalance;
         FamilyService familyService = ffmAplication.getFamilyService();
+        RelationService relationService = ffmAplication.getRelationService();
+        AccountService accountService = ffmAplication.getAccountService();
         try {
            Family targetFamily = familyService.getFamily(familyID);
            FamilyMember parent = targetFamily.getFamilyMemberByID(parentID);
            FamilyMember child = targetFamily.getFamilyMemberByID(childID);
-           RelationService relationService = new RelationService();
            relationService.verifyParenthood(targetFamily, parent, child);
-           AccountService accountService = new AccountService();
            MoneyValue accountValue = accountService.checkChildCashAccountBalance(accountID, child);
            currentBalance = accountValue.getValue();
         } catch (Exception exception) {
