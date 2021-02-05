@@ -17,10 +17,10 @@ import java.util.Objects;
 
 public class AccountData {
 
+    private final int accountID;
+    private final List<Transaction> transactions;
+    private final SimpleDateFormat creationDate;
     private String description;
-    private int accountID;
-    private List<Transaction> transactions;
-    private SimpleDateFormat creationDate;
     private MoneyValue currentBalance;
 
     public AccountData(Double balance, String designation, int accountID) {

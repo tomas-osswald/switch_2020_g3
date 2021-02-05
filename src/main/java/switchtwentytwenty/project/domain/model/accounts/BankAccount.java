@@ -3,11 +3,8 @@ package switchtwentytwenty.project.domain.model.accounts;
 
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
-
-import switchtwentytwenty.project.domain.model.transactions.Transaction;
-
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
-
+import switchtwentytwenty.project.domain.model.transactions.Transaction;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.List;
@@ -16,7 +13,7 @@ import java.util.Objects;
 public class BankAccount implements Account {
 
     private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
-    private AccountData accountData;
+    private final AccountData accountData;
 
     /***** CONSTRUCTORS ******/
 
@@ -27,7 +24,7 @@ public class BankAccount implements Account {
             balance = 0.00;
         }
         String description = addBankAccountDTO.getDescription();
-        if (!validateDescription(description)){
+        if (!validateDescription(description)) {
             description = "BankAccount" + " " + bankAccountID;
         }
         this.accountData = new AccountData(balance, description, bankAccountID, addBankAccountDTO.getCurrency());
@@ -36,6 +33,7 @@ public class BankAccount implements Account {
     /***** METHODS ******/
     /**
      * Validate description
+     *
      * @param description
      * @return true if it is in correct format | false if it is null, empty or blank
      */
@@ -45,6 +43,7 @@ public class BankAccount implements Account {
 
     /**
      * Validate balance
+     *
      * @param balance
      * @return true if it is in correct format | false if it is null, empty or blank
      */
@@ -54,7 +53,7 @@ public class BankAccount implements Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountData.getMoneyValue().getValue(),accountData.getAccountID(),accountData.getDescription(),accountData.getListOfMovements());
+        return Objects.hash(accountData.getMoneyValue().getValue(), accountData.getAccountID(), accountData.getDescription(), accountData.getListOfMovements());
     }
 
     @Override
@@ -67,6 +66,7 @@ public class BankAccount implements Account {
 
     /**
      * Gets description
+     *
      * @return Gets description
      */
     public String getDescription() {
@@ -75,6 +75,7 @@ public class BankAccount implements Account {
 
     /**
      * Get account ID
+     *
      * @return accountID
      */
     public int getAccountID() {
@@ -83,15 +84,17 @@ public class BankAccount implements Account {
 
     /**
      * Change balance
+     *
      * @param value
      */
-    public void changeBalance(double value) { // TODO: adicionar CurrencyEnum como argumento
+    public void changeBalance(double value) {
         MoneyValue newBalance = new MoneyValue(this.accountData.getMoneyValue().getValue() + value, CurrencyEnum.EURO);
         this.accountData.setBalance(newBalance);
     }
 
     /**
      * Verify if the account exists
+     *
      * @param accountID
      * @return true if the is the account | false if it doesn't exists
      */
@@ -101,6 +104,7 @@ public class BankAccount implements Account {
 
     /**
      * Check if it has enough balance
+     *
      * @param transferenceAmount
      * @return true if the account has enough balance | false if the account doesn't have enough balance
      */
@@ -110,6 +114,7 @@ public class BankAccount implements Account {
 
     /**
      * check the account type
+     *
      * @param accountTypeEnum
      * @return
      */
@@ -119,6 +124,7 @@ public class BankAccount implements Account {
 
     /**
      * get Money Value balance
+     *
      * @return balance
      */
     public MoneyValue getMoneyBalance() {
@@ -136,38 +142,42 @@ public class BankAccount implements Account {
 
     /**
      * Debit amount from the account
+     *
      * @param value
      */
     public void debit(MoneyValue value) {
         double saldo = this.accountData.getCurrentBalance().getValue();
         double cashout = Math.abs(value.getValue());
-        this.accountData.setBalance(saldo-cashout);
+        this.accountData.setBalance(saldo - cashout);
     }
 
     /**
      * credit amount from the account
+     *
      * @param value
      */
     public void credit(MoneyValue value) {
         double saldo = this.accountData.getCurrentBalance().getValue();
         double cashin = Math.abs(value.getValue());
-        this.accountData.setBalance(saldo+cashin);
+        this.accountData.setBalance(saldo + cashin);
     }
 
     /**
      * check the currency type
+     *
      * @param currency
      * @return
      */
-    public boolean checkCurrency(CurrencyEnum currency){
+    public boolean checkCurrency(CurrencyEnum currency) {
         return accountData.checkCurrency(currency);
     }
 
     /**
      * get the Account ID and description DTO
+     *
      * @return the DTO
      */
-    public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO(){
+    public AccountIDAndDescriptionDTO getAccountIDAndDescriptionDTO() {
         return new AccountIDAndDescriptionDTO(this.accountData.getAccountID(), accountData.getDescription());
     }
 }

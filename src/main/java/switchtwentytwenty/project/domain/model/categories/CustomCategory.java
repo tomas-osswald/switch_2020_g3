@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.model.categories;
 
 public class CustomCategory implements Category {
-    private int categoryID;
-    private String categoryName;
+    private final int categoryID;
+    private final String categoryName;
     private Category parentCategory;
 
 
@@ -20,11 +20,7 @@ public class CustomCategory implements Category {
     }
 
     public boolean isRootCategory() {
-        if (parentCategory == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return parentCategory == null;
     }
 
     public String getCategoryName() {
@@ -40,7 +36,6 @@ public class CustomCategory implements Category {
     }
 
     private boolean isNameValid(String categoryName) {
-        if (categoryName == null || categoryName.isEmpty() || categoryName.trim().length() == 0) return false;
-        return true;
+        return categoryName != null && !categoryName.isEmpty() && categoryName.trim().length() != 0;
     }
 }
