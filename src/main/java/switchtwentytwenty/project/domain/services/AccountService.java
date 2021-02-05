@@ -14,7 +14,7 @@ import java.util.List;
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
 
 public class AccountService {
-    private final static String INVALID_CURRENCY = "Invalid currency";
+    private static final String INVALID_CURRENCY = "Invalid currency";
 
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);
