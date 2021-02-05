@@ -690,12 +690,20 @@ class AccountServiceTest {
     }
 
     @Test
-    void transferCashFromFamilyToFamilyMember() {
+    void transferCashFromFamilyMemberToFamilyMemberWrongCurrency() {
         AccountService accountService = new AccountService();
         diogo.addAccount(cashAccount);
         jorge.addAccount(zeroCashAccount);
         CashTransferDTO cashTransferDTO = new CashTransferDTO(1, cc, 1, id, generatedID, 5.00, CurrencyEnum.YEN, 0, "Divida", new Date());
 
-        Assertions.assertThrows(NotSameCurrencyException.class, ()-> accountService.transferCashBetweenFamilyMembersCashAccounts(diogo, jorge, cashTransferDTO));
+        Assertions.assertThrows(NotSameCurrencyException.class, () -> accountService.transferCashBetweenFamilyMembersCashAccounts(diogo, jorge, cashTransferDTO));
+    }
+
+    @Test
+    void transferCashFromFamilyToFamilyMemberWrongCurrency() {
+        AccountService accountService = new AccountService();
+        diogo.addAccount(cashAccount);
+        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(1, cc, 1, 3.0, CurrencyEnum.DOLLAR, 0, "jj", date);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.transferCashFromFamilyToFamilyMember(silva, jorge, dto));
     }
 }
