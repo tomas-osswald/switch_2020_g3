@@ -105,6 +105,7 @@ class AccountServiceTest {
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID, CurrencyEnum.EURO);
     CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID, CurrencyEnum.EURO);
+    CashAccount cashAccountYen = new CashAccount("Cash", 100.00, generatedID, CurrencyEnum.YEN);
 
     AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 1);
 
@@ -690,7 +691,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void transferCashFromFamilyMemberToFamilyMemberWrongCurrency() {
+    void transferCashFromFamilyMemberToFamilyMemberWrongCurrencyFamily() {
         AccountService accountService = new AccountService();
         diogo.addAccount(cashAccount);
         jorge.addAccount(zeroCashAccount);
@@ -700,10 +701,10 @@ class AccountServiceTest {
     }
 
     @Test
-    void transferCashFromFamilyToFamilyMemberWrongCurrency() {
+    void transferCashFromFamilyToFamilyMemberWrongCurrencyMember() {
         AccountService accountService = new AccountService();
-        diogo.addAccount(cashAccount);
-        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(1, cc, 1, 3.0, CurrencyEnum.DOLLAR, 0, "jj", date);
+        diogo.addAccount(cashAccountYen);
+        FamilyCashTransferDTO dto = new FamilyCashTransferDTO(1, cc, 1, 3.0, CurrencyEnum.EURO, 0, "jj", date);
         Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.transferCashFromFamilyToFamilyMember(silva, jorge, dto));
     }
 }
