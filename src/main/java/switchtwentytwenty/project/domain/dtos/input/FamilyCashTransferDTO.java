@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.domain.dtos.input;
 
-import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
@@ -24,7 +23,7 @@ public class FamilyCashTransferDTO {
         this.currency = currency;
         this.categoryID = categoryID;
         this.transactionDesignation = transactionDesignation;
-        if (transactionDate ==null) {
+        if (transactionDate == null) {
             this.transactionDate = new Date();
         } else {
             this.transactionDate = (Date) transactionDate.clone();
@@ -47,7 +46,7 @@ public class FamilyCashTransferDTO {
         return transferAmount;
     }
 
-    public CurrencyEnum getCurrency(){
+    public CurrencyEnum getCurrency() {
         return currency;
     }
 

@@ -3,10 +3,10 @@ package switchtwentytwenty.project.domain.dtos.input;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 public class AddCashAccountDTO {
-    private Double balance = 0.00;
-    private String description;
-    private String familyMemberID;
-    private int familyID;
+    private final Double balance;
+    private final String description;
+    private final String familyMemberID;
+    private final int familyID;
     private final CurrencyEnum currency;
 
     /**
