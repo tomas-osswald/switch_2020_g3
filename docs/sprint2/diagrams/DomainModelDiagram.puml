@@ -91,5 +91,6 @@ CashAccount "1" -- "0..*" Transaction : has >
 CreditCardAccount "1" -- "0..*" Transaction : has >
 BankAccount "1" -- "0..*" Transaction : has >
 BankSavingsAccount "1" -- "0..*" Transaction : has >
+Category "1  " -- " 0..1   " Category : has parent
 
 @enduml
