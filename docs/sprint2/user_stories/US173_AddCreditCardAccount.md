@@ -249,8 +249,8 @@ AccountService --> BankAccount: creates
 BankAccount -|> Account: implements
 BankAccount <-- AddCreditCardAccountDTO: accepts
 FamilyMember --> BankAccount: adds
-BankAccount --* AccountData: contains
-AccountData --> MoneyValue: has
+BankAccount *-- AccountData: contains
+AccountData *-- MoneyValue: contains
 ```
 
 ## 3.3. Applied Patterns
