@@ -30,9 +30,14 @@ actor "Family Member" as familyMember
 participant ": System" as system
 
 activate familyMember
-familyMember-> system : add Credit Card Account
+familyMember-> system : add Credit Card Account    
 activate system
+
+system -> familyMember : ask data                
+deactivate system 
+
 familyMember -> system : inputs required data
+activate system
 
 alt failure
 system -> familyMember : Inform Failure

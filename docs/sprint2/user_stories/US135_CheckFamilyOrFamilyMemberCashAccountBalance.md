@@ -27,10 +27,19 @@ actor "Family Member" as familyMember
 participant ": System" as system
 
 activate familyMember
-familyMember-> system : check balance of Family or Family Member Cash Account
+
+familyMember -> system : check balance of Family or Family Member Cash Account
 activate system
+system -> familyMember : ask: choose Family or Family Member
+deactivate system
+
 familyMember -> system : chooses Family or Family Member
+activate system
+system -> familyMember : ask data
+deactivate system
+
 familyMember -> system : inputs required data
+activate system
 alt failure
 system -> familyMember : Inform Failure
 
