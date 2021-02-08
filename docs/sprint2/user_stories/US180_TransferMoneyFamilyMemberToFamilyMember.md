@@ -55,7 +55,7 @@ To  meet the requirements of this particular US we need at this stage the input 
 - Family ID (User's Family);
 - Origin FamilyMember ID (User who will send the money from his cash account);
 - Destination Family Member ID (User who will receive the money to his cash account);
-- Ammount transfered;
+- Amount transferred;
 - Category
 
 ##2.1. Domain Model Diagram
@@ -108,13 +108,13 @@ Family "1" -- "0..*" Category : has custom >
 Family "1" -- "0..1" CashAccount : has >
 Family "1" -- "0..1" FamilyMember : has administrator >
 Family "1" -- "1..*" FamilyMember : has members >
-Family "1" -- "0..*" Relations : has >
+Category "1" -- "0..1" Category : has parent
 FamilyMember "1" -- "0..*" CashAccount : has >
 CashAccount "1" -- "0..*" Transaction : has >
 ````
 # 3. Design
 
-The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
+The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members, and the amount to be transferred.
 To execute the transfer the controller will first invoke the FamilyService to get the respective Family
 
 The controller will return:
@@ -457,7 +457,7 @@ CashTransaction -* TransactionData : contains
         - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use-case controller.
 
     - **Pure Fabrication**:
-        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsabilities of the other classes (Family and FamilyMember for example)
+        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsibilities of the other classes (Family and FamilyMember for example)
 
     - **High cohesion and Low Coupling**:
         - The creation of the Service classes provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
