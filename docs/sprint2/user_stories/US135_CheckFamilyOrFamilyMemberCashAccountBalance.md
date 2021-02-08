@@ -403,11 +403,14 @@ title US135 Class Diagram
 hide empty members
 
 class CheckCashAccountBalanceController {
-+ checkChildrenCashAccountBalance()
++ getListOfCashAccountsOfAFamilyMember()
++ checkFamilyCashAccountBalance()
++ checkFamilyMemberCashAccountBalance()
 }
 
 class Application {
 + getFamilyService()
++ getAccountService()
 }
 
 class CashAccount {
@@ -415,7 +418,6 @@ class CashAccount {
 }
 
 class AccountData {
-- MoneyValue currentBalance
 - String description
 - int accountID
 - List<Transaction> transactions
@@ -423,7 +425,8 @@ class AccountData {
 
 
 class AccountService {
-+ checkChildCashBalance()
++ getFamilyMemberCashAccountBalance()
++ getFamilyCashAccountBalance()
 }
 
 class FamilyService {
@@ -432,13 +435,31 @@ class FamilyService {
 
 class Family {
 + getFamilyMember()
++ getFamilyCashAccount()
 }
 
 class FamilyMember {
 + getAccount()
 }
 
-interface Account {}
+interface Account {
++ getAccountID()
++ isIDOfThisAccount(int accountID)
++ hasEnoughMoneyForTransaction(MoneyValue value )
++ checkAccountType(AccountTypeEnum accountTypeEnum)
++ String getDescription()
++ MoneyValue getMoneyBalance()
++ checkCurrency(CurrencyEnum currency)
++ getListOfMovements()
++ debit(MoneyValue value)
++ credit(MoneyValue value)
++ getAccountIDAndDescriptionDTO()
+}
+
+class MoneyValue {
+- amount
+- currency
+}
 
 CheckCashAccountBalanceController --> Application : has
 
@@ -446,10 +467,11 @@ CheckCashAccountBalanceController -----> AccountService : calls
 CheckCashAccountBalanceController --> FamilyService : calls
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
+Family --> CashAccount : has
 FamilyMember -> CashAccount : has
 CashAccount --|> Account : implements
-CashAccount -* AccountData : contains
-
+CashAccount *- AccountData : contains
+AccountData *- MoneyValue : contains
 AccountService --> CashAccount : verifies account type and retrieves balance
 ```
 
