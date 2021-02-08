@@ -57,7 +57,7 @@ public class TransactionService {
         for (Transaction transaction : listOfMovements)
             if (checkIfMovementBetweenDates(transaction, startDate, endDate)) {
                 TransactionDataDTO transactionDTO = new TransactionDataDTO(transaction.getTransactionData());
-                listOfMovementsBetweenDates.add(transactionDTO);
+                listOfMovementsBetweenDates.add(transactionDTO);//TODO: cenas
             }
 
         return listOfMovementsBetweenDates;
