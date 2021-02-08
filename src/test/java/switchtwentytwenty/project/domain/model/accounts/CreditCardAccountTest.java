@@ -185,7 +185,7 @@ class CreditCardAccountTest {
     }
 
     @Test
-    void changeBalanceMoneyValueSuccess() {
+    void debitSuccess() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         MoneyValue balanceChange = new MoneyValue(1.0, CurrencyEnum.EURO);
@@ -208,7 +208,7 @@ class CreditCardAccountTest {
     }
 
     @Test
-    void debitMoneyValueFail() {
+    void debitFailure() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(familyMemberID, familyID, cardDescriptionOne, withdrawlLimitOne, totalDebtOne, interestDebtOne, currencyEnumOne);
         CreditCardAccount creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, idOne);
         MoneyValue balanceChange = new MoneyValue(1000000.0, CurrencyEnum.EURO);

@@ -23,7 +23,7 @@ We interpreted this requirement as the function of a family administrator wants 
 autonumber
 title System Sequence Diagram - US135
 
-actor "Family Member" as familyMember
+actor "Family Administrator" as familyMember
 participant ": System" as system
 
 activate familyMember
