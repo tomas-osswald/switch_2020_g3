@@ -86,15 +86,20 @@ hide circle
 title Domain Model Diagram US135
 
 class Family {
-- Name
-- UniqueID
-- RegistrationDate
+- name
+- uniqueID
+- registrationDate
 
 }
 
 class FamilyMember {
-- Name
-- BirthDate
+- name
+- birthDate
+- address
+- vatNumber
+- email
+- telephone
+- CCnumber
 }
 
 class CashAccount {
@@ -418,8 +423,8 @@ class CashAccount {
 }
 
 class AccountData {
-- String description
-- int accountID
+- description
+- accountID
 - List<Transaction> transactions
 }
 
