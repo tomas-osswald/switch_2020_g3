@@ -1,10 +1,12 @@
 package switchtwentytwenty.project.domain.model.transactions;
 
+import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
+
 import java.util.Date;
 
 public interface Transaction {
 
-    public Date getTransactionDate();
+    TransactionDataDTO createTransactionDataDTO();
 
-    TransactionData getTransactionData();
+    public boolean checkIfMovementBetweenDates(Date startDate, Date endDate);
 }
