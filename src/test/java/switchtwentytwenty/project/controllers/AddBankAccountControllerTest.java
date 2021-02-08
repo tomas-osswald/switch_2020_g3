@@ -71,16 +71,26 @@ class AddBankAccountControllerTest {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, null, cc, 1, CurrencyEnum.EURO);//no accountName is given
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
+
     @Test
     void addBankAccountTest3_BlankNameSuccess() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, "  ", cc, 1, CurrencyEnum.EURO);//accountName is blank
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
+
     @Test
     void addBankAccountTest4_NegativeBalanceSuccess() {
-        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);//negative balance
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
+
+    @Test
+    void addBankAccountTest4_NullBalanceSuccess() {
+        AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1, CurrencyEnum.EURO);//null balance
+        assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
+    }
+
+
     @Test
     void addBankAccountTest5_AddTwoBankAccountsSuccess() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
@@ -88,12 +98,14 @@ class AddBankAccountControllerTest {
         addBankAccountController.addBankAccount(addBankAccountDTO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO2));
     }
+
     //TODO test for null balance - needed changes by Diogo to transform Null into 0
     @Test
     void addBankAccountTest6_NullBalanceSuccess() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1, CurrencyEnum.EURO);
         assertTrue(addBankAccountController.addBankAccount(addBankAccountDTO));
     }
+
     @Test
     void addBankAccountTest7_YenCurrencySuccess() {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.YEN);

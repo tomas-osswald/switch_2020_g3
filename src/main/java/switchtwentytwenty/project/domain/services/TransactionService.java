@@ -55,38 +55,12 @@ public class TransactionService {
         List<TransactionDataDTO> listOfMovementsBetweenDates = new ArrayList<>();
 
         for (Transaction transaction : listOfMovements)
-            if (checkIfMovementBetweenDates(transaction, startDate, endDate)) {
-                TransactionDataDTO transactionDTO = new TransactionDataDTO(transaction.getTransactionData());
-                listOfMovementsBetweenDates.add(transactionDTO);//TODO: cenas
+            if (transaction.checkIfMovementBetweenDates(startDate, endDate)) {
+                TransactionDataDTO transactionDataDTO = transaction.createTransactionDataDTO();
+                listOfMovementsBetweenDates.add(transactionDataDTO);
             }
 
         return listOfMovementsBetweenDates;
-    }
-
-    /**
-     * A method that returns true if a given transaction occurred between two given dates.
-     * If the dates are switched, the method will switch them back around.
-     * @param aTransaction given transaction
-     * @param startDate    first date
-     * @param endDate      last date
-     * @return true if between given dates, else false
-     */
-    private boolean checkIfMovementBetweenDates(Transaction aTransaction, Date startDate, Date endDate) {
-
-        // Switch dates if endDate is earlier than startDate
-        if (startDate.after(endDate)) {
-            Date temp = (Date) startDate.clone();
-            startDate = endDate;
-            endDate = temp;
-        }
-
-        boolean isBetweenDates = false;
-        Date transactionDate = aTransaction.getTransactionDate();
-
-        if (transactionDate.after(startDate) && transactionDate.before(endDate)) {
-            isBetweenDates = true;
-        }
-        return isBetweenDates;
     }
 
     public boolean registerCashTransfer(CashAccount originAccount, CashAccount destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
