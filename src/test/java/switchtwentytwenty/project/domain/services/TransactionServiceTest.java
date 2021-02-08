@@ -3,12 +3,10 @@ package switchtwentytwenty.project.domain.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
-import switchtwentytwenty.project.domain.dtos.input.AddBankAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
 import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.TransactionDataDTO;
-import switchtwentytwenty.project.domain.model.accounts.BankAccount;
 import switchtwentytwenty.project.domain.model.accounts.CashAccount;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.model.transactions.CashTransaction;
@@ -59,9 +57,9 @@ class TransactionServiceTest {
     CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO1);
     CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO2);
     CashTransaction cashTransactionThree = new CashTransaction(contaCash, categoria1, credit, remainingAmount, transacaoDTO3);
-    TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(cashTransactionOne.getTransactionData());
-    TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(cashTransactionTwo.getTransactionData());
-    TransactionDataDTO transactionDataDTOThree = new TransactionDataDTO(cashTransactionThree.getTransactionData());
+    TransactionDataDTO transactionDataDTOOne = cashTransactionOne.createTransactionDataDTO();
+    TransactionDataDTO transactionDataDTOTwo = cashTransactionTwo.createTransactionDataDTO();
+    TransactionDataDTO transactionDataDTOThree = cashTransactionThree.createTransactionDataDTO();
 
 
     @Test
@@ -152,7 +150,7 @@ class TransactionServiceTest {
         Date endDate = new Date(2021, Calendar.JANUARY, 30);
         MoneyValue remainingAmountOne = new MoneyValue(250.00, CurrencyEnum.EURO);
         CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, credit, remainingAmountOne, transacaoDTO1);
-        TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(cashTransactionOne.getTransactionData());
+        TransactionDataDTO transactionDataDTOOne = cashTransactionOne.createTransactionDataDTO();
         List<TransactionDataDTO> expected = new ArrayList<>();
         expected.add(transactionDataDTOOne);
         int expectedSize = 1;
@@ -183,8 +181,8 @@ class TransactionServiceTest {
         CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, credit, remainingAmountOne, transacaoDTO1);
         MoneyValue remainingAmountTwo = new MoneyValue(9200.00, CurrencyEnum.EURO);
         CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, credit, remainingAmountTwo, transacaoDTO2);
-        TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(cashTransactionOne.getTransactionData());
-        TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(cashTransactionTwo.getTransactionData());
+        TransactionDataDTO transactionDataDTOOne = cashTransactionOne.createTransactionDataDTO();
+        TransactionDataDTO transactionDataDTOTwo = cashTransactionTwo.createTransactionDataDTO();
         expected.add(transactionDataDTOOne);
         expected.add(transactionDataDTOTwo);
         int expectedSize = 2;
@@ -215,8 +213,8 @@ class TransactionServiceTest {
         CashTransaction cashTransactionOne = new CashTransaction(contaCash, categoria1, credit, remainingAmountOne, transacaoDTO1);
         MoneyValue remainingAmountTwo = new MoneyValue(9200.00, CurrencyEnum.EURO);
         CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, credit, remainingAmountTwo, transacaoDTO2);
-        TransactionDataDTO transactionDataDTOOne = new TransactionDataDTO(cashTransactionOne.getTransactionData());
-        TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(cashTransactionTwo.getTransactionData());
+        TransactionDataDTO transactionDataDTOOne = cashTransactionOne.createTransactionDataDTO();
+        TransactionDataDTO transactionDataDTOTwo = cashTransactionTwo.createTransactionDataDTO();
         expected.add(transactionDataDTOOne);
         expected.add(transactionDataDTOTwo);
         int expectedSize = 2;
@@ -245,7 +243,7 @@ class TransactionServiceTest {
         List<TransactionDataDTO> expected = new ArrayList<>();
         MoneyValue remainingAmountTwo = new MoneyValue(9200.00, CurrencyEnum.EURO);
         CashTransaction cashTransactionTwo = new CashTransaction(contaCash, categoria1, credit, remainingAmountTwo, transacaoDTO2);
-        TransactionDataDTO transactionDataDTOTwo = new TransactionDataDTO(cashTransactionTwo.getTransactionData());
+        TransactionDataDTO transactionDataDTOTwo = cashTransactionTwo.createTransactionDataDTO();
         expected.add(transactionDataDTOTwo);
         int expectedSize = 1;
 

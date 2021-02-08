@@ -55,4 +55,27 @@ public class TransactionData {
     public boolean isDebit() {
         return !this.credit;
     }
+
+    /**
+     * A method that returns true if a given transaction occurred between two given dates.
+     * If the dates are switched, the method will switch them back around.
+     * @param startDate    first date
+     * @param endDate      last date
+     * @return true if between given dates, else false
+     */
+    public boolean checkIfMovementBetweenDates(Date startDate, Date endDate) {
+
+        // Switch dates if endDate is earlier than startDate
+        if (startDate.after(endDate)) {
+            Date temp = (Date) startDate.clone();
+            startDate = endDate;
+            endDate = temp;
+        }
+
+        boolean isBetweenDates = false;
+        if (transactionDate.after(startDate) && transactionDate.before(endDate)) {
+            isBetweenDates = true;
+        }
+        return isBetweenDates;
+    }
 }

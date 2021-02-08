@@ -80,6 +80,37 @@ for each account in each FamilyMember.
 In the future the ID's necessity will be overcome by the Log In information, along with the respective
 permissions, or lack of them.
 
+# 2.1 Domain Model
+
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US188
+
+class Family {
+- Name
+- UniqueID
+- RegistrationDate
+
+}
+
+class FamilyMember {
+- Name
+- BirthDate
+- CCnumber
+}
+
+class CashAccount {
+- balance
+- description
+}
+
+Family "1" -down-> "1..* " FamilyMember : has Family members
+FamilyMember "1 " ---> "0..* " CashAccount  : has
+FamilyMember "1" --> "0..*     " FamilyMember : parenthoodRelation 
+```
+
+
 
 # 3. Design
 
@@ -310,20 +341,9 @@ class CheckChildrenCashAccountBalanceController {
 
 class Application {
 + getFamilyService()
++ getAccountService()
++ getRelationService()
 }
-
-class CashAccount {
-- accountType
-}
-
-class AccountData {
-- MoneyValue currentBalance
-- String description
-- int accountID
-- List<Transaction> transactions
-}
-
-
 
 class RelationService {
 + verifyParenthood()
@@ -337,6 +357,7 @@ class FamilyService {
 + getFamily()
 }
 
+
 class Family {
 + getFamilyMember()
 }
@@ -345,11 +366,22 @@ class FamilyMember {
 + getAccount()
 }
 
+
 interface Account {}
+
+class CashAccount {
+- accountType
+}
+
+class AccountData {
+- MoneyValue currentBalance
+- String description
+- int accountID
+- List<Transaction> transactions
+}
 
 
 CheckChildrenCashAccountBalanceController ---> Application : has
-note left: Application has all\nthe Controllers
 CheckChildrenCashAccountBalanceController --> FamilyService : calls
 CheckChildrenCashAccountBalanceController ----> AccountService : calls
 CheckChildrenCashAccountBalanceController ----> RelationService : calls
