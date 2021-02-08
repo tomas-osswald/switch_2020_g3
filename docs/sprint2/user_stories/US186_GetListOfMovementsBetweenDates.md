@@ -159,15 +159,20 @@ Account --> TransactionService : aListOfMovements
 deactivate Account
 
 loop for every movement in aListOfMovements
-TransactionService --> Transaction : isMovementBetweenDates\n(aMovement, startDate, endDate)
+TransactionService -> Transaction : isMovementBetweenDates\n(startDate, endDate)
 activate Transaction
 alt false
 Transaction --> TransactionService : false
 else true
 Transaction --> TransactionService : true
+
+TransactionService -> Transaction : createTransactionDataDTO()
+Transaction -> TransactionDataDTO ** : create
+Transaction --> TransactionService : aTransactionDataDTO
+
 deactivate Transaction
-TransactionService --> TransactionDataDTO ** : createMovementDTO(aMovement)
-TransactionService --> TransactionService : addMovementDTOToList\n(aMovementDTO)
+
+TransactionService --> TransactionService : addTransactionDataDTOToList\n(aTransactionDataDTO)
 end
 end
 
@@ -230,6 +235,9 @@ class TransactionService {
 + createListOfMovements\nBetweenDates()
 }
 
+interface Transaction {
+}
+
 class TransactionDataDTO {
 }
 
@@ -242,7 +250,8 @@ Application --> TransactionService : has
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
 FamilyMember --> Account : has list
-TransactionService --> TransactionDataDTO : creates list
+TransactionService --> Transaction : handles
+Transaction --> TransactionDataDTO : creates
 
 
 ```
