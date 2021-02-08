@@ -80,7 +80,6 @@ public class AccountService {
      */
     public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
         int accountID = generateID(targetMember);
-
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
         targetMember.addAccount(creditCardAccount);
         return true;
