@@ -58,6 +58,30 @@ This functionality will only fail if the Family, FamilyMember or Account do not 
 should always be returned. If the account does not have any movements registered, an empty list will be returned. If the
 account does not have any movements between given dates registered, an empty list will be returned.
 
+## 2.1 Domain Model Diagram
+
+````puml
+hide empty members
+hide circle
+title Domain Model Diagram
+
+class Account {
+- accountID
+- name
+- balance
+}
+
+class Transaction {
+- description
+- category
+- date
+- amount
+- remainingBalance
+}
+
+Account "1" -down- "0..* " Transaction : has list of >
+````
+
 # 3. Design
 
 This functionality allows the actor to access a list to see all movements in a given account between two dates.
