@@ -178,9 +178,9 @@ participant "anAccountData : \nAccountData" as data
 participant "aMoneyValue : MoneyValue" as moneyV
 
 activate accServ
-accServ -> bankAcc **: create(id,description,balance,currency)
+accServ -> bankAcc **: create(addBankAccountDTO, targetMember)
 activate bankAcc
-bankAcc -> data **: create(name, balance, \naccountID)
+bankAcc -> data **: create(balance, description, bankAccountID, addBankAccountDTO.getCurrency())
 activate data
 data -> moneyV **: create(balance,currency)
 activate moneyV
