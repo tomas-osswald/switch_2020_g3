@@ -50,8 +50,7 @@ This user story has a dependency with these **2** user stories:
 
 - **US101_AddFamily.md** *(As a system manager, I want to create a family.)*
   - In order to have a Family Administrator and Family Member, the system needs to have that Family.
-- **US101_AddFamilyAdministrator.md** *(As a system manager, I want to add a family administrator)*
-  - The Family Administrator, being a Family Member, can have bank accounts, but is also required to create further Family Members where accounts are created.
+
 - **US101_AddFamilyMember.md** *(As a family Administrator, I want to add a familyMember to a family)*
   - In order to add a bank account, the system needs to have a Family Member.
   
