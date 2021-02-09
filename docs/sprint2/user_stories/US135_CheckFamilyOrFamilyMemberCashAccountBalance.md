@@ -481,9 +481,9 @@ CheckCashAccountBalanceController -----> AccountService : calls
 CheckCashAccountBalanceController --> FamilyService : calls
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
-Family --> CashAccount : has
+Family --> CashAccount : has list
 FamilyMember -> CashAccount : has
-CashAccount --|> Account : implements
+CashAccount .--|> Account : implements
 CashAccount *- AccountData : contains
 AccountData *- MoneyValue : contains
 AccountService --> CashAccount : verifies account type and retrieves balance
