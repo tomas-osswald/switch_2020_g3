@@ -201,7 +201,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int savingsAccountID = savingsAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.addBankSavingsAccount(jorge, addBankSavingsAccountDTO);
+        accountService.addBankSavingsAccount(addBankSavingsAccountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 

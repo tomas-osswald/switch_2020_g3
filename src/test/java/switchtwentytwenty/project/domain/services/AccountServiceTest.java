@@ -92,6 +92,7 @@ class AccountServiceTest {
     int family1ID = 5;
     String family1Name = "Silva";
     Family silva = new Family(family1Name, family1ID);
+    Family silva2 = new Family("Silva",6);
     int generatedID = 1;
 
     //Account Types Test setup
@@ -123,9 +124,11 @@ class AccountServiceTest {
         String accountName = "Savings Account";
         Double balance = null;
         Double interestRate = null;
-        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, family1ID, CurrencyEnum.EURO);
-
-        assertTrue(accountService.addBankSavingsAccount(diogo, addBankSavingsAccountDTO));
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, 6, CurrencyEnum.EURO);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id,id,name,date,numero,email,nif,rua,codPostal,local,city,6);
+        silva2.addFamilyMember(memberDTO);
+        familyService.addFamily(silva2);
+        assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
@@ -133,9 +136,11 @@ class AccountServiceTest {
         String accountName = "Savings Account";
         Double balance = 1.01;
         Double interestRate = -4.21;
-        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, family1ID, CurrencyEnum.EURO);
-
-        assertTrue(accountService.addBankSavingsAccount(diogo, addBankSavingsAccountDTO));
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, 6, CurrencyEnum.EURO);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id,id,name,date,numero,email,nif,rua,codPostal,local,city,6);
+        silva2.addFamilyMember(memberDTO);
+        familyService.addFamily(silva2);
+        assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
 
@@ -299,11 +304,14 @@ class AccountServiceTest {
         Double balance = null;
         Double interestRate = null;
         int accountID = 1;
-        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, family1ID, CurrencyEnum.EURO);
+        AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, id, 6, CurrencyEnum.EURO);
         Account expected = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
-
-        accountService.addBankSavingsAccount(diogo, addBankSavingsAccountDTO);
-        Account result = accountService.getAccount(diogo, accountID);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id,id,name,date,numero,email,nif,rua,codPostal,local,city,6);
+        silva2.addFamilyMember(memberDTO);
+        familyService.addFamily(silva2);
+        FamilyMember diogo2 = silva2.getFamilyMember(id);
+        accountService.addBankSavingsAccount(addBankSavingsAccountDTO);
+        Account result = accountService.getAccount(diogo2, accountID);
 
         assertEquals(expected, result);
     }

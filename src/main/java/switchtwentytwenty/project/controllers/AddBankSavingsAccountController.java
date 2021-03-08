@@ -25,10 +25,7 @@ public class AddBankSavingsAccountController {
     public boolean addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
         AccountService accountService = this.ffmApplication.getAccountService();
         try {
-            FamilyService familyService = this.ffmApplication.getFamilyService();
-            Family targetFamily = familyService.getFamily(addBankSavingsAccountDTO.getFamilyID());
-            FamilyMember targetMember = targetFamily.getFamilyMember(addBankSavingsAccountDTO.getFamilyMemberID());
-            return accountService.addBankSavingsAccount(targetMember, addBankSavingsAccountDTO);
+            return accountService.addBankSavingsAccount(addBankSavingsAccountDTO);
         } catch (Exception exception) {
             return false;
         }

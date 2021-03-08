@@ -100,11 +100,12 @@ public class AccountService {
      * A method that calls a method to generate a unique ID for the account to be created and calls the BankSavingsAccount constructor.
      * Lastly, it adds the account to a given FamilyMember.
      *
-     * @param targetMember             FamilyMember to add the account to.
      * @param addBankSavingsAccountDTO DTO that holds all necessary information for the creation of a BankSavingsAccount
      * @return true if account created, null if the given FamilyMember is null.
      */
-    public boolean addBankSavingsAccount(FamilyMember targetMember, AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
+    public boolean addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
+        Family targetFamily = this.familyService.getFamily(addBankSavingsAccountDTO.getFamilyID());
+        FamilyMember targetMember = targetFamily.getFamilyMember(addBankSavingsAccountDTO.getFamilyMemberID());
         if (targetMember == null) {
             return false;
         }
