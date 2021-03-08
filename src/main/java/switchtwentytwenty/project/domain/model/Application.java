@@ -6,9 +6,11 @@ public class Application {
 
     // Attributes
 
-    private final CategoryService categoryService = new CategoryService();
     private final FamilyService familyService = new FamilyService();
-    private final AccountService accountService = new AccountService(this.familyService);
+    private final CategoryService categoryService = new CategoryService(this.familyService);
+    private final RelationService relationService = new RelationService(this.familyService);
+    private final TransactionService transactionService = new TransactionService(this.categoryService);
+    private final AccountService accountService = new AccountService(this.familyService, this.transactionService);
 
 
     // Constructors
@@ -38,11 +40,11 @@ public class Application {
     }
 
     public RelationService getRelationService() {
-        return new RelationService();
+        return this.relationService;
     }
 
     public TransactionService getTransactionService() {
-        return new TransactionService();
+        return this.transactionService;
     }
 
 }

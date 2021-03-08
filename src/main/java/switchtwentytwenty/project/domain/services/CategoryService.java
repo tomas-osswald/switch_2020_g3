@@ -12,7 +12,15 @@ import java.util.List;
 public class CategoryService {
 
     private final List<StandardCategory> categories;
+    private FamilyService familyService;
 
+
+    public CategoryService(FamilyService familyService) {
+        this.familyService = familyService;
+        this.categories = new ArrayList<>();
+        StandardCategory other = new StandardCategory("OTHER", null, 0);
+        categories.add(other);
+    }
 
     public CategoryService() {
         this.categories = new ArrayList<>();

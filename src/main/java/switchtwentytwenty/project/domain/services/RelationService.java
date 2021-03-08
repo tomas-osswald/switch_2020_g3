@@ -9,6 +9,15 @@ import switchtwentytwenty.project.domain.utils.exceptions.NoParentalPermissionEx
 import java.util.List;
 
 public class RelationService {
+    private FamilyService familyService;
+
+    public RelationService(FamilyService familyService) {
+        this.familyService = familyService;
+    }
+
+    public RelationService() {
+
+    }
 
     /**
      * Method to add a relation to a family.

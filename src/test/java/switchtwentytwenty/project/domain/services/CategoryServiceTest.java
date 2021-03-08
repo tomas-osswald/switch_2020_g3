@@ -81,7 +81,7 @@ class CategoryServiceTest {
     @Test
     void getStandardCategories_Test6_FromValidList() {
         //arrange
-        CategoryService serv = new CategoryService();
+        CategoryService serv = new CategoryService(this.familyService);
         List<StandardCategory> totalList = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home", null, 1);
         StandardCategory cat2 = new StandardCategory("Education", null, 2);

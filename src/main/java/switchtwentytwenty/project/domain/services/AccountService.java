@@ -16,9 +16,11 @@ import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.C
 public class AccountService {
     private static final String INVALID_CURRENCY = "Invalid currency";
     private FamilyService familyService;
+    private TransactionService transactionService;
 
-    public AccountService(FamilyService familyService) {
+    public AccountService(FamilyService familyService, TransactionService transactionService) {
         this.familyService = familyService;
+        this.transactionService = transactionService;
     }
 
     public AccountService() {

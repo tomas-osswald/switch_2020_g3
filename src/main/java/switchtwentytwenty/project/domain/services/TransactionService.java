@@ -14,9 +14,19 @@ import java.util.Date;
 import java.util.List;
 
 public class TransactionService {
+    private CategoryService categoryService;
+
+    public TransactionService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public TransactionService() {
+
+    }
 
     /**
      * Register Payment in 1 CashAccount
+     *
      * @param targetAccount
      * @param category
      * @param familyCashTransferDTO
@@ -27,7 +37,7 @@ public class TransactionService {
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
         MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(), familyCashTransferDTO.getCurrency());
-        if (transferAmount.getCurrencyType() == targetCashAccount.getMoneyBalance().getCurrencyType()){
+        if (transferAmount.getCurrencyType() == targetCashAccount.getMoneyBalance().getCurrencyType()) {
             if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
                 targetCashAccount.debit(transferAmount);
                 MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
@@ -67,16 +77,16 @@ public class TransactionService {
 
         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
-        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false, remainingBalanceOrigin, familyCashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true, remainingBalanceDestination, familyCashTransferDTO);
         return true;
     }
 
     public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
-         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+        MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
-        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false, remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true, remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 
