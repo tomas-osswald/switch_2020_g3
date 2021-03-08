@@ -130,7 +130,7 @@ The controller will return:
 title US180 - Transfer Money from One Family Member Cash Account To a Personal Cash Account - SequenceDiagram
 autonumber
 
-Actor "FamilyAdmin" as Actor
+Actor "FamilyMember" as Actor
 Participant "UI" as UI
 Participant ": TransferCashBetweenFamilyMembers\nCashAccountsController" as controller
 Participant ": Application" as App
@@ -391,7 +391,7 @@ class TransactionService {
 +registerCashTransfer()
 }
 
-class CashAccount {
+class CashAccount implements Account {
 +debit()
 +credit()
 +hasEnoughMoneyForTransaction()
@@ -432,16 +432,16 @@ Family --> FamilyMember : has list
 Category <|-- StandardCategory : implements
 Category <|-right- CustomCategory : implements
 FamilyMember --> Account : has list
-Account <|-- CashAccount : implements
-Account -* AccountData : contains
+'Account <|-- CashAccount : implements
+CashAccount - AccountData : contains
 AccountService --> Account: handles
 
 TransactionService --> CashTransaction: handles
 Account --> Transaction: has list
 
-AccountData -* MoneyValue : contains
+AccountData o- MoneyValue : contains
 
-CashTransaction -* TransactionData : contains
+CashTransaction  o- TransactionData : contains
 
 ```
 
