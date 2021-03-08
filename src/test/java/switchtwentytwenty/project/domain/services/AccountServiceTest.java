@@ -97,6 +97,8 @@ class AccountServiceTest {
     //Account Types Test setup
     AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
     AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(balance, accountName2, cc, 1, CurrencyEnum.EURO);
+    AddBankAccountDTO addBankAccountDTO3 = new AddBankAccountDTO(balance, accountName, cc, 2, CurrencyEnum.EURO);
+    AddBankAccountDTO addBankAccountDTO4 = new AddBankAccountDTO(balance, accountName2, cc, 2, CurrencyEnum.EURO);
     BankAccount bankAccount = new BankAccount(addBankAccountDTO, 1);
     BankAccount bankAccount2 = new BankAccount(addBankAccountDTO2, 2);
     AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, "Savings", cc, family1ID, CurrencyEnum.EURO);
@@ -112,6 +114,7 @@ class AccountServiceTest {
     @BeforeEach
     void setup() {
         addFamilyController.addFamily("Ribeiro");
+        addFamilyController.addFamily("Sousa");
         addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
     }
 
@@ -140,14 +143,14 @@ class AccountServiceTest {
     void addBankAccountTest1_Success() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
+        assertTrue(accountService.addBankAccount(addBankAccountDTO));
     }
 
     @Test
     void addBankAccountTest2_NullBalanceSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1, CurrencyEnum.EURO);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO, diogo));
+        assertTrue(accountService.addBankAccount(addBankAccountDTO));
     }
 
     @Test
@@ -155,8 +158,8 @@ class AccountServiceTest {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
         AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
-        accountService.addBankAccount(addBankAccountDTO, diogo);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO2, diogo));
+        accountService.addBankAccount(addBankAccountDTO);
+        assertTrue(accountService.addBankAccount(addBankAccountDTO2));
     }
 
     @Test
@@ -265,10 +268,12 @@ class AccountServiceTest {
 
     @Test
     void getAccountSuccessTypeBankAccount() {
-        Account expected = new BankAccount(addBankAccountDTO, 1);
-
-        accountService.addBankAccount(addBankAccountDTO, diogo);
-        Account result = accountService.getAccount(diogo, 1);
+        Account expected = new BankAccount(addBankAccountDTO3, 1);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id,id,"diogo",date,222222222,"email@email.com",nif,rua,codPostal,local,city,2);
+        familyService.addFamilyAdministrator(familyMemberDTO);
+        FamilyMember diogo2 = familyService.getFamily(2).getFamilyMember(id);
+        accountService.addBankAccount(addBankAccountDTO3);
+        Account result = accountService.getAccount(diogo2, 1);
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -276,10 +281,13 @@ class AccountServiceTest {
 
     @Test
     void getAccountFailureTypeBankAccount() {
-        Account expected = new BankAccount(addBankAccountDTO, 1);
+        Account expected = new BankAccount(addBankAccountDTO3, 1);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id,id,"diogo",date,222222222,"email@email.com",nif,rua,codPostal,local,city,2);
+        familyService.addFamilyAdministrator(familyMemberDTO);
+        FamilyMember diogo2 = familyService.getFamily(2).getFamilyMember(id);
 
-        accountService.addBankAccount(addBankAccountDTO2, diogo);
-        Account result = accountService.getAccount(diogo, 1);
+        accountService.addBankAccount(addBankAccountDTO4);
+        Account result = accountService.getAccount(diogo2, 1);
 
         assertNotEquals(expected, result);
         assertNotSame(expected, result);
