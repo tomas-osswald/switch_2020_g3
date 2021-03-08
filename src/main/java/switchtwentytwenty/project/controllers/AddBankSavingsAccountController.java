@@ -23,7 +23,7 @@ public class AddBankSavingsAccountController {
      * @return true if account was created, else false.
      */
     public boolean addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
-        AccountService accountService = new AccountService();
+        AccountService accountService = this.ffmApplication.getAccountService();
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             Family targetFamily = familyService.getFamily(addBankSavingsAccountDTO.getFamilyID());

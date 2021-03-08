@@ -31,7 +31,7 @@ class AccountServiceTest {
     Application ffmApp = new Application();
     AddFamilyController addFamilyController = new AddFamilyController(ffmApp);
     AddFamilyAdministratorController addFamilyAdministratorController = new AddFamilyAdministratorController(ffmApp);
-    AccountService accountService = new AccountService();
+    AccountService accountService = ffmApp.getAccountService();
     FamilyService familyService = ffmApp.getFamilyService();
 
     String cc = "000000000ZZ4";
@@ -673,7 +673,7 @@ class AccountServiceTest {
 
     @Test
     void validateChangesInBalanceAfterTransferCashBetweenFamilyMembers() {
-        AccountService accountService = new AccountService();
+        AccountService accountService = ffmApp.getAccountService();
         diogo.addAccount(cashAccount);
         jorge.addAccount(zeroCashAccount);
         CashTransferDTO cashTransferDTO = new CashTransferDTO(1, cc, 1, id, generatedID, 5.00, CurrencyEnum.EURO, 0, "Divida", new Date());
@@ -692,7 +692,7 @@ class AccountServiceTest {
 
     @Test
     void transferCashFromFamilyMemberToFamilyMemberWrongCurrencyFamily() {
-        AccountService accountService = new AccountService();
+        AccountService accountService = ffmApp.getAccountService();
         diogo.addAccount(cashAccount);
         jorge.addAccount(zeroCashAccount);
         CashTransferDTO cashTransferDTO = new CashTransferDTO(1, cc, 1, id, generatedID, 5.00, CurrencyEnum.YEN, 0, "Divida", new Date());
@@ -702,7 +702,7 @@ class AccountServiceTest {
 
     @Test
     void transferCashFromFamilyToFamilyMemberWrongCurrencyMember() {
-        AccountService accountService = new AccountService();
+        AccountService accountService = ffmApp.getAccountService();
         diogo.addAccount(cashAccountYen);
         FamilyCashTransferDTO dto = new FamilyCashTransferDTO(1, cc, 1, 3.0, CurrencyEnum.EURO, 0, "jj", date);
         Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.transferCashFromFamilyToFamilyMember(silva, jorge, dto));

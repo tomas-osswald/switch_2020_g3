@@ -6,9 +6,9 @@ public class Application {
 
     // Attributes
 
-    private final EmailService emailService = new EmailService();
     private final CategoryService categoryService = new CategoryService();
     private final FamilyService familyService = new FamilyService();
+    private final AccountService accountService = new AccountService(this.familyService);
 
 
     // Constructors
@@ -20,7 +20,7 @@ public class Application {
     }
 
     public AccountService getAccountService() {
-        return new AccountService();
+        return this.accountService;
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -34,7 +34,7 @@ public class Application {
     }
 
     public EmailService getEmailService() {
-        return this.emailService;
+        return new EmailService();
     }
 
     public RelationService getRelationService() {

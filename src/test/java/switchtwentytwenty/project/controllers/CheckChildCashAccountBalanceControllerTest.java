@@ -25,7 +25,7 @@ class CheckChildCashAccountBalanceControllerTest {
     Application application = new Application();
     FamilyService familyService = application.getFamilyService();
     RelationService relationService = new RelationService();
-    AccountService accountService = new AccountService();
+    AccountService accountService = application.getAccountService();
     CheckChildCashAccountBalanceController childCashController = new CheckChildCashAccountBalanceController(application);
 
 

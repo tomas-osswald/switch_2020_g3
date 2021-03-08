@@ -7,8 +7,6 @@ public class AddRelationBaseController {
     private final Application ffmApplication;
 
 
-
-
     public AddRelationBaseController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
     }

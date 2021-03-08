@@ -15,6 +15,15 @@ import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.C
 
 public class AccountService {
     private static final String INVALID_CURRENCY = "Invalid currency";
+    private FamilyService familyService;
+
+    public AccountService(FamilyService familyService) {
+        this.familyService = familyService;
+    }
+
+    public AccountService() {
+
+    }
 
     public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
         int accountID = generateID(targetMember);

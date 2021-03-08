@@ -23,7 +23,7 @@ public class AddCreditCardAccountController {
         try {
             FamilyService familyService = this.ffmApplication.getFamilyService();
             FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
-            AccountService accountService = new AccountService();
+            AccountService accountService = this.ffmApplication.getAccountService();
             accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, targetMember);
             return true;
         } catch (Exception exception) {
