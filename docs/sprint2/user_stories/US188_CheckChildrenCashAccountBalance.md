@@ -389,9 +389,9 @@ CheckChildrenCashAccountBalanceController ----> RelationService : calls
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
 
-FamilyMember -> CashAccount : has
-CashAccount --|> Account : implements
-CashAccount -* AccountData : contains
+FamilyMember -> CashAccount : has list
+CashAccount .--|> Account
+CashAccount *- AccountData : contains
 RelationService -> Family : verifies relation
 
 AccountService --> CashAccount : verifies account type and retrieves balance
