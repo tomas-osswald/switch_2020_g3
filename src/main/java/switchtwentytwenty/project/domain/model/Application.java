@@ -9,8 +9,8 @@ public class Application {
     private final FamilyService familyService = new FamilyService();
     private final CategoryService categoryService = new CategoryService(this.familyService);
     private final RelationService relationService = new RelationService(this.familyService);
-    private final TransactionService transactionService = new TransactionService(this.categoryService);
-    private final AccountService accountService = new AccountService(this.familyService, this.transactionService);
+    private final AccountService accountService = new AccountService(this.familyService);
+    private final TransactionService transactionService = new TransactionService(this.categoryService, this.accountService);
 
 
     // Constructors

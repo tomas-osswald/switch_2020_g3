@@ -15,9 +15,11 @@ import java.util.List;
 
 public class TransactionService {
     private CategoryService categoryService;
+    private AccountService accountService;
 
-    public TransactionService(CategoryService categoryService) {
+    public TransactionService(CategoryService categoryService, AccountService accountService) {
         this.categoryService = categoryService;
+        this.accountService = accountService;
     }
 
     public TransactionService() {
