@@ -217,7 +217,7 @@ public class FamilyService {
         return listOfFamiliesWithoutAdministrator;
     }
 
-    public boolean checkIfEmailAlreadyRegisteredInApp(String emailToAdd) {
+    public void checkIfEmailAlreadyRegisteredInApp(String emailToAdd) {
         List<EmailAddress> allEmails = new ArrayList<>();
         for (Family family : families) {
             List<FamilyMember> members = family.getFamilyMembers();
@@ -227,10 +227,10 @@ public class FamilyService {
         }
         for (EmailAddress email : allEmails) {
             if (emailToAdd.equalsIgnoreCase(email.getEmail())) {
-                return true;
+                throw new IllegalArgumentException("Email Already Present");
             }
         }
-        return false;
+
     }
 
 }

@@ -11,7 +11,7 @@ public class Application {
     private final RelationService relationService = new RelationService(this.familyService);
     private final AccountService accountService = new AccountService(this.familyService);
     private final TransactionService transactionService = new TransactionService(this.categoryService, this.accountService);
-
+    private final EmailService emailService = new EmailService(this.familyService);
 
     // Constructors
     public Application() {
@@ -36,7 +36,7 @@ public class Application {
     }
 
     public EmailService getEmailService() {
-        return new EmailService();
+        return this.emailService;
     }
 
     public RelationService getRelationService() {
