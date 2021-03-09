@@ -48,7 +48,7 @@ public class RelationService {
      * @return True if A is parent of B
      */
     public boolean checkIfMemberAisParentOfB(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        return targetFamily.verifyParenthood(memberA, memberB);
+        return targetFamily.isAParentofB(memberA, memberB);
     }
 
     /**
@@ -60,7 +60,7 @@ public class RelationService {
      * @return If the parental permission exists, returns true. Else, throws an exception.
      */
     public boolean verifyParenthood(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        if (!targetFamily.verifyParenthood(memberA, memberB)) {
+        if (!targetFamily.isAParentofB(memberA, memberB)) {
             throw new NoParentalPermissionException("No parental permission");
         }
         return true;

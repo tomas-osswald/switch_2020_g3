@@ -387,7 +387,7 @@ public class Family {
      * @param memberB Member to check if its the child
      * @return True if A is parent of B
      */
-    public boolean verifyParenthood(FamilyMember memberA, FamilyMember memberB) {
+    public boolean isAParentofB(FamilyMember memberA, FamilyMember memberB) {
         boolean parenthood = false;
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
@@ -395,6 +395,16 @@ public class Family {
             }
         }
         return parenthood;
+    }
+
+    public void verifyParenthood(FamilyMember memberA, FamilyMember memberB){
+        for (Relation relation : familyRelations) {
+            if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
+                if(!relation.isAParentOfB()){
+                    throw new IllegalArgumentException("A is not parent of B");
+                }
+            }
+        }
     }
 
 

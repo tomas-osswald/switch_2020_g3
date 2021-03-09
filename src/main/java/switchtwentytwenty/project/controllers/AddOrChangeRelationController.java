@@ -22,7 +22,6 @@ public class AddOrChangeRelationController {
 
     public boolean addOrChangeRelation(Application ffmApplication, String adminCC, String memberACCNumber, String memberBCCNumber, int familyID, String relationDesignation, boolean aIsParentOfB) {
         try {
-
             FamilyService familyService = ffmApplication.getFamilyService();
             RelationService relationService = ffmApplication.getRelationService();
             Family targetFamily = familyService.getFamily(familyID);

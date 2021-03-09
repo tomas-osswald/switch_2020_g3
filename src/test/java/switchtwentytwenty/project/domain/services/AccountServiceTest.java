@@ -10,6 +10,7 @@ import switchtwentytwenty.project.domain.dtos.input.*;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.model.Relation;
 import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
@@ -117,6 +118,7 @@ class AccountServiceTest {
         addFamilyController.addFamily("Ribeiro");
         addFamilyController.addFamily("Sousa");
         addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
+
     }
 
     @Test
@@ -326,11 +328,16 @@ class AccountServiceTest {
     @Test
     void checkChildCashAccountBalance_ExpectingCorrectValue() {
         MoneyValue expected = new MoneyValue(100.00, CurrencyEnum.EURO);
-
-        diogo.addAccount(cashAccount);
-        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
-
-        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id, id, "diogo", date, 222222222, "email@email.com", nif, rua, codPostal, local, city, 5);
+        AddFamilyMemberDTO familyMemberDTOfilho = new AddFamilyMemberDTO(id, id2, "diogo", date, 222222222, "email22222@email.com", nif2, rua, codPostal, local, city, 5);
+        familyService.addFamily(silva);
+        familyService.addFamilyAdministrator(familyMemberDTO);
+        familyService.addFamilyMember(familyMemberDTOfilho);
+        FamilyMember pai = silva.getFamilyMember(id);
+        FamilyMember filho = silva.getFamilyMember(id2);
+        silva.addRelation(new Relation("filho",pai,filho,true));
+        filho.addAccount(cashAccount);
+        MoneyValue result = accountService.checkChildCashAccountBalance(generatedID,5,id,id2);
 
         assertEquals(expected, result);
 
@@ -338,11 +345,18 @@ class AccountServiceTest {
 
     @Test
     void checkChildCashAccountBalance_ZeroBalance_ExpectingCorrectValue() {
-        diogo.addAccount(zeroCashAccount);
-        Account expectedAccount = diogo.getAccount(cashAccount.getAccountID());
-
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id, id, "diogo", date, 222222222, "email@email.com", nif, rua, codPostal, local, city, 5);
+        AddFamilyMemberDTO familyMemberDTOfilho = new AddFamilyMemberDTO(id, id2, "diogo", date, 222222222, "email22222@email.com", nif2, rua, codPostal, local, city, 5);
+        familyService.addFamily(silva);
+        familyService.addFamilyAdministrator(familyMemberDTO);
+        familyService.addFamilyMember(familyMemberDTOfilho);
+        FamilyMember pai = silva.getFamilyMember(id);
+        FamilyMember filho = silva.getFamilyMember(id2);
+        silva.addRelation(new Relation("filho",pai,filho,true));
+        filho.addAccount(cashAccount);
+        Account expectedAccount = filho.getAccount(cashAccount.getAccountID());
         MoneyValue expected = expectedAccount.getMoneyBalance();
-        MoneyValue result = accountService.checkChildCashAccountBalance(expectedAccount.getAccountID(), diogo);
+        MoneyValue result = accountService.checkChildCashAccountBalance(generatedID,5,id,id2);
 
         assertEquals(expected, result);
     }
@@ -356,7 +370,7 @@ class AccountServiceTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             accountService.checkChildCashAccountBalance
-                    (invalidID, diogo);
+                    (invalidID,5,id,id2);
         });
     }
 
@@ -367,7 +381,7 @@ class AccountServiceTest {
         int bankSavingsID = bankSavings.getAccountID();
 
         assertThrows(IllegalArgumentException.class, () -> {
-            accountService.checkChildCashAccountBalance(bankSavingsID, diogo);
+            accountService.checkChildCashAccountBalance(bankSavingsID,5,id,id2);
         });
     }
 

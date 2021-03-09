@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.model.accounts.*;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
@@ -172,12 +173,16 @@ public class AccountService {
     /**
      * Method to return a List of Cash Account of a given Family Member
      *
-     * @param familyMember Given Family Member
      * @return List of Cash Accounts (AccountIDAndDescriptionDTO)
      */
-    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
-        List<Account> accounts = familyMember.getAccounts();
-        return createListOfCashAccounts(accounts);
+    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(int familyID, String selfID, String otherID) {
+        if (familyService.verifyAdministratorPermission(familyID, selfID)) {
+            FamilyMember familyMember = familyService.getFamilyMember(familyID, otherID);
+            List<Account> accounts = familyMember.getAccounts();
+            return createListOfCashAccounts(accounts);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
 
@@ -263,13 +268,16 @@ public class AccountService {
      * Verifies type of the account. If it's not CashAccount throws exception
      *
      * @param accountID identifier of the target account
-     * @param member    child to whom the account pertains
      * @return If both validations are true, returns the current Balance.
      */
 
-    public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member) {
+    public MoneyValue checkChildCashAccountBalance(int accountID, int familyID, String parentID, String childID) {
         MoneyValue currentBalance;
-        Account targetAccount = member.getAccount(accountID);
+        Family targetFamily = familyService.getFamily(familyID);
+        FamilyMember parent = targetFamily.getFamilyMemberByID(parentID);
+        FamilyMember child = targetFamily.getFamilyMemberByID(childID);
+        targetFamily.verifyParenthood(parent, child);
+        Account targetAccount = child.getAccount(accountID);
         if (targetAccount == null) {
             throw new IllegalArgumentException("No account with such ID");
         }

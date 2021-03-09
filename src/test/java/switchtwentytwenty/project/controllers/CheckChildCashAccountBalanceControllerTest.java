@@ -174,11 +174,12 @@ class CheckChildCashAccountBalanceControllerTest {
     @Test
     void checkChildCashAccountBalance_ExpectingNegativeBalance_NotParent() {
         int familyID = family.getFamilyID();
+        familyService.addFamily(family);
         family.addFamilyMember(diogo);
         family.addFamilyMember(jorge);
         jorge.addAccount(cashAccount);
         int cashAccountID = cashAccount.getAccountID();
-        familyService.addFamily(family);
+
         relationService.addRelation(family, diogo, jorge, "Pai", false);
         accountService.createPersonalCashAccount(jorge, accountDTO);
         String parentID = diogo.getID();
@@ -196,10 +197,10 @@ class CheckChildCashAccountBalanceControllerTest {
     void checkChildCashAccountBalance_NoCashAccount() {
         int familyID = family.getFamilyID();
         family.addFamilyMember(diogo);
+        familyService.addFamily(family);
         family.addFamilyMember(jorge);
         jorge.addAccount(savingsAccount);
         int savingsAccountID = savingsAccount.getAccountID();
-        familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
         accountService.addBankSavingsAccount(addBankSavingsAccountDTO);
         String parentID = diogo.getID();

@@ -233,5 +233,9 @@ public class FamilyService {
 
     }
 
+    public FamilyMember getFamilyMember(int familyID, String otherID) {
+        Family family = getFamily(familyID);
+        return family.getFamilyMember(otherID);
+    }
 }
 
