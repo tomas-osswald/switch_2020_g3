@@ -159,29 +159,35 @@ public class CategoryService {
     /**
      * Method to add a new CustomCategory to a Family's Category List
      *
-     * @param targetFamily        Family object to add the new category
      * @param categoryDesignation Label/Description to assign to the category
      * @param parentID            ID of the Standard or Custom category to be the parent. 0 for root
      * @return True if the category is successfuly added to the family's category tree.
      */
-    public boolean addCategoryToFamilyTree(Family targetFamily, String categoryDesignation, int parentID) {
-        if (parentID > 0) {
-            StandardCategory parent = getStandardCategoryByID(parentID);
-            checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
-        } else if (parentID < 0) {
-            CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
-            checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
-        } else {
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
+    public boolean addCategoryToFamilyTree(int familyID, String categoryDesignation, int parentID, String adminCC) {
+        Family targetFamily = familyService.getFamily(familyID);
+        boolean result = false;
+        if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
+            if (parentID > 0) {
+                StandardCategory parent = getStandardCategoryByID(parentID);
+                checkIfParentNull(parent);
+                CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+                targetFamily.addCategory(newCustomCategory);
+                result = true;
+            } else if (parentID < 0) {
+                CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
+                checkIfParentNull(parent);
+                CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+                targetFamily.addCategory(newCustomCategory);
+                result = true;
+            } else {
+                CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
+                targetFamily.addCategory(newCustomCategory);
+                result = true;
+            }
+        }else{
+            result = false;
         }
+        return result;
     }
 
     /**
