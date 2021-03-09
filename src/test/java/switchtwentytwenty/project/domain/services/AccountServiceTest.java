@@ -92,7 +92,7 @@ class AccountServiceTest {
     int family1ID = 5;
     String family1Name = "Silva";
     Family silva = new Family(family1Name, family1ID);
-    Family silva2 = new Family("Silva",6);
+    Family silva2 = new Family("Silva", 6);
     int generatedID = 1;
 
     //Account Types Test setup
@@ -125,7 +125,7 @@ class AccountServiceTest {
         Double balance = null;
         Double interestRate = null;
         AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, 6, CurrencyEnum.EURO);
-        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id,id,name,date,numero,email,nif,rua,codPostal,local,city,6);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
         assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
@@ -137,7 +137,7 @@ class AccountServiceTest {
         Double balance = 1.01;
         Double interestRate = -4.21;
         AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, cc, 6, CurrencyEnum.EURO);
-        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id,id,name,date,numero,email,nif,rua,codPostal,local,city,6);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
         assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
@@ -169,16 +169,22 @@ class AccountServiceTest {
 
     @Test
     void createPersonalCreditCardAccountTrue() {
-        FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
-        assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 2);
+        Family testFamily = new Family("Silva", 2);
+        testFamily.addFamilyAdministrator(memberDTO);
+        familyService.addFamily(testFamily);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 2, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+        assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO));
     }
 
     @Test
     void createPersonalCreditCardAccountAssertThrowInvalidWithrawalLimit() {
-        FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Conta da Maria", -100.00, 100.00, 50.00, CurrencyEnum.EURO);
-        assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember));
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 2);
+        Family testFamily = new Family("Silva", 2);
+        testFamily.addFamilyAdministrator(memberDTO);
+        familyService.addFamily(testFamily);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 2, "Conta da Maria", -100.00, 100.00, 50.00, CurrencyEnum.EURO);
+        assertThrows(IllegalArgumentException.class, () -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO));
     }
 
     @Test
@@ -274,7 +280,7 @@ class AccountServiceTest {
     @Test
     void getAccountSuccessTypeBankAccount() {
         Account expected = new BankAccount(addBankAccountDTO3, 1);
-        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id,id,"diogo",date,222222222,"email@email.com",nif,rua,codPostal,local,city,2);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id, id, "diogo", date, 222222222, "email@email.com", nif, rua, codPostal, local, city, 2);
         familyService.addFamilyAdministrator(familyMemberDTO);
         FamilyMember diogo2 = familyService.getFamily(2).getFamilyMember(id);
         accountService.addBankAccount(addBankAccountDTO3);
@@ -287,7 +293,7 @@ class AccountServiceTest {
     @Test
     void getAccountFailureTypeBankAccount() {
         Account expected = new BankAccount(addBankAccountDTO3, 1);
-        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id,id,"diogo",date,222222222,"email@email.com",nif,rua,codPostal,local,city,2);
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO(id, id, "diogo", date, 222222222, "email@email.com", nif, rua, codPostal, local, city, 2);
         familyService.addFamilyAdministrator(familyMemberDTO);
         FamilyMember diogo2 = familyService.getFamily(2).getFamilyMember(id);
 
@@ -306,7 +312,7 @@ class AccountServiceTest {
         int accountID = 1;
         AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, accountName, id, 6, CurrencyEnum.EURO);
         Account expected = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
-        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id,id,name,date,numero,email,nif,rua,codPostal,local,city,6);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
         FamilyMember diogo2 = silva2.getFamilyMember(id);
@@ -681,8 +687,12 @@ class AccountServiceTest {
     @Test
     void name() {
         FamilyMember familyMember = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
-        accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO, familyMember);
+        AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, 2);
+        Family testFamily = new Family("Silva", 2);
+        testFamily.addFamilyAdministrator(memberDTO);
+        familyService.addFamily(testFamily);
+        AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 2, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
+        accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO);
 
         assertThrows(Exception.class, () -> accountService.getFamilyMemberCashAccountBalance(familyMember, 1));
     }

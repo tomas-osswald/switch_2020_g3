@@ -86,14 +86,15 @@ public class AccountService {
      * Method to create a Personal Credit Card Account
      *
      * @param addCreditCardAccountDTO DTO with information to create a Credit Card Account instance
-     * @param targetMember            Target Member to add a Credit Card Account
      * @return return true if nothing was throw
      */
-    public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
+    public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO) {
+        boolean result = false;
+        FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        targetMember.addAccount(creditCardAccount);
-        return true;
+        result = targetMember.addAccount(creditCardAccount);
+        return result;
     }
 
     /**
