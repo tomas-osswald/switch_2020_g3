@@ -94,6 +94,7 @@ class AccountServiceTest {
     String family1Name = "Silva";
     Family silva = new Family(family1Name, family1ID);
     Family silva2 = new Family("Silva", 6);
+    Family famCashAccountTest = new Family("Test",77);
     int generatedID = 1;
 
     //Account Types Test setup
@@ -118,6 +119,8 @@ class AccountServiceTest {
         addFamilyController.addFamily("Ribeiro");
         addFamilyController.addFamily("Sousa");
         addFamilyAdministratorController.addFamilyAdministrator(familyMemberDTO);
+        famCashAccountTest.addFamilyAdministrator(familyMemberDTO);
+        familyService.addFamily(famCashAccountTest);
 
     }
 
@@ -390,9 +393,9 @@ class AccountServiceTest {
     void createPersonalCashAccount_validInputValues() {
         String cashAccount = "Wallet";
         double balance = 0.23;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, family1ID, CurrencyEnum.EURO);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, 77, CurrencyEnum.EURO);
 
-        boolean result = accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        boolean result = accountService.createPersonalCashAccount(cashAccountDTO);
 
         Assertions.assertTrue(result);
     }
@@ -401,9 +404,10 @@ class AccountServiceTest {
     void createPersonalCashAccount_invalidInputValues() {
         String cashAccount = "Wallet";
         double balance = -1000;
-        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, family1ID, CurrencyEnum.EURO);
 
-        boolean result = accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(balance, cashAccount, id, 77, CurrencyEnum.EURO);
+
+        boolean result = accountService.createPersonalCashAccount(cashAccountDTO);
 
         Assertions.assertFalse(result);
     }
@@ -450,7 +454,7 @@ class AccountServiceTest {
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(familyID, id, "Familia Ribeiro's Wallet", 525);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
@@ -476,7 +480,7 @@ class AccountServiceTest {
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(familyID, id, "Familia Ribeiro's Wallet", 100);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
@@ -501,7 +505,7 @@ class AccountServiceTest {
         AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.EURO);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
@@ -526,7 +530,7 @@ class AccountServiceTest {
         AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(initialBalance, "Diogo's Wallet", id, 1, CurrencyEnum.DOLLAR);
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
@@ -552,7 +556,7 @@ class AccountServiceTest {
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(familyID,id, "Familia Ribeiro's Wallet", 525.0);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;
@@ -582,7 +586,7 @@ class AccountServiceTest {
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(familyID,id, "Familia Ribeiro's Wallet", 525.0);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.00;
         CurrencyEnum currency = CurrencyEnum.EURO;
@@ -626,8 +630,8 @@ class AccountServiceTest {
         familyService.addFamilyMember(familyMemberDTO3);
         FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
 
-        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
-        accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+        accountService.createPersonalCashAccount(mCashAccountDTO);
+        accountService.createPersonalCashAccount(tCashAccountDTO);
 
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
@@ -668,7 +672,7 @@ class AccountServiceTest {
         familyService.addFamilyMember(familyMemberDTO3);
         FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
 
-        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
+        accountService.createPersonalCashAccount(mCashAccountDTO);
         //accountService.createPersonalCashAccount(tony, tCashAccountDTO);
 
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
@@ -694,7 +698,7 @@ class AccountServiceTest {
         Family ribeiro = familyService.getFamily(familyID);
         FamilyMember diogo = ribeiro.getFamilyMember(id);
         accountService.createFamilyCashAccount(familyID,id, "Familia Ribeiro's Wallet", 525);
-        accountService.createPersonalCashAccount(diogo, cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
         //Transference Data
         double transferAmount = 200.0;
         CurrencyEnum currency = CurrencyEnum.EURO;

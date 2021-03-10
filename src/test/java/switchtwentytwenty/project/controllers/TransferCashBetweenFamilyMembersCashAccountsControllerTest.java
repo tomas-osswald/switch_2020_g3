@@ -109,8 +109,8 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1, CurrencyEnum.EURO);
         AccountService accountService = ffmApplication.getAccountService();
 
-        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
-        accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+        accountService.createPersonalCashAccount(mCashAccountDTO);
+        accountService.createPersonalCashAccount(tCashAccountDTO);
 
     }
 

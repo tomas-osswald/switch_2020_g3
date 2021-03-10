@@ -28,7 +28,8 @@ public class AccountService {
 
     }
 
-    public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
+    public boolean createPersonalCashAccount(AddCashAccountDTO addCashAccountDTO) {
+        FamilyMember targetMember = familyService.getFamily(addCashAccountDTO.getFamilyID()).getFamilyMember(addCashAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         try {
             Account cashAccount = new CashAccount(addCashAccountDTO, accountID);

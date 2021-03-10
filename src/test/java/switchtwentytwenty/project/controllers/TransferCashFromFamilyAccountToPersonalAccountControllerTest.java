@@ -69,7 +69,7 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
 
         AccountService accountService = ffmApplication.getAccountService();
         accountService.createFamilyCashAccount(1,familyMemberCC, "Simpson's Wallet", 12.75);
-        accountService.createPersonalCashAccount(homer,cashAccountDTO);
+        accountService.createPersonalCashAccount(cashAccountDTO);
     }
 
     @Test

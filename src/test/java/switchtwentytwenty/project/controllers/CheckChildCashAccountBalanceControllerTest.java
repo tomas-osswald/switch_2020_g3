@@ -93,7 +93,7 @@ class CheckChildCashAccountBalanceControllerTest {
         Relation parent = new Relation("Pai", diogo, jorge, true);
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", true);
-        accountService.createPersonalCashAccount(jorge, accountDTO);
+        accountService.createPersonalCashAccount(accountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
@@ -116,7 +116,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int cashAccountID = cashAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", true);
-        accountService.createPersonalCashAccount(jorge, accountDTO);
+        accountService.createPersonalCashAccount(accountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
@@ -137,7 +137,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int cashAccountID = cashAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.createPersonalCashAccount(jorge, accountDTO);
+        accountService.createPersonalCashAccount(accountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
@@ -158,7 +158,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int cashAccountID = cashAccount.getAccountID();
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.createPersonalCashAccount(jorge, accountDTO);
+        accountService.createPersonalCashAccount(accountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
@@ -181,7 +181,7 @@ class CheckChildCashAccountBalanceControllerTest {
         int cashAccountID = cashAccount.getAccountID();
 
         relationService.addRelation(family, diogo, jorge, "Pai", false);
-        accountService.createPersonalCashAccount(jorge, accountDTO);
+        accountService.createPersonalCashAccount(accountDTO);
         String parentID = diogo.getID();
         String childID = jorge.getID();
 
