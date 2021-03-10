@@ -53,18 +53,24 @@ public class AccountService {
     /**
      * Method to create a family cash account for a family object
      *
-     * @param targetFamily       identifier of the family object
      * @param accountDesignation designation for the family cash account
      * @param initialBalance     initial balance for the account
      * @return returns true if an account was created and stored by the family object
      */
 
-    public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialBalance) {
+    public boolean createFamilyCashAccount(int familyID, String ccNumber, String accountDesignation, double initialBalance) {
         Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0, CurrencyEnum.EURO);
-        if (!targetFamily.hasCashAccount()) {
-            targetFamily.addCashAccount(newCashAccount);
-            return true;
-        } else {
+        Family targetFamily = this.familyService.getFamily(familyID);
+        createFamilyCashAccountValidation(targetFamily,ccNumber);
+        targetFamily.addCashAccount(newCashAccount);
+        return true;
+
+    }
+
+    private void createFamilyCashAccountValidation(Family targetFamily, String ccNumber) {
+        if(!targetFamily.verifyAdministrator(ccNumber)){
+            throw new IllegalArgumentException("CC Number does not have Administrator permission");
+        }else if(targetFamily.hasCashAccount()){
             throw new IllegalArgumentException("This Family already has a Cash Account");
         }
     }

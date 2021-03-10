@@ -29,9 +29,7 @@ public class CheckChildCashAccountBalanceController {
      */
     public Double checkChildCashAccountBalance(int familyID, String parentID, String childID, int accountID) {
         Double currentBalance;
-        FamilyService familyService = ffmAplication.getFamilyService();
         try {
-
             AccountService accountService = ffmAplication.getAccountService();
             MoneyValue accountValue = accountService.checkChildCashAccountBalance(accountID, familyID, parentID, childID);
             currentBalance = accountValue.getValue();
