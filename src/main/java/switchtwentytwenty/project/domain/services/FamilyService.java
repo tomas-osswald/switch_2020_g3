@@ -58,24 +58,14 @@ public class FamilyService {
      * @return True if the passed email address is already present
      */
     private boolean checkIfEmailPresent(String emailToCheck) {
-        List<FamilyMember> allFamilyMembers = new ArrayList();
-        List<EmailAddress> allEmails = new ArrayList();
+        boolean result = false;
+        EmailAddress newEmail = new EmailAddress(emailToCheck);
         for (Family family : this.families) {
-            allFamilyMembers.addAll(family.getFamilyMembers());
-
-        }
-        for (FamilyMember familyMember : allFamilyMembers) {
-            allEmails.addAll(familyMember.getEmails());
-
-        }
-
-        for (EmailAddress email : allEmails) {
-            if (email.getEmail().equalsIgnoreCase(emailToCheck)) {
-                return true;
+            if(family.isEmailPresent(newEmail)){
+                result = true;
             }
         }
-        return false;
-
+        return result;
     }
 
     /**
@@ -110,7 +100,7 @@ public class FamilyService {
         if (!checkIfFamilyExists(familyID)) throw new IllegalArgumentException("No family with such ID");
         Family selectedFamily = null;
         for (Family family : families) {
-            if (family.getFamilyID() == familyID)
+            if (family.isIDofThisFamily(familyID))
                 selectedFamily = family;
         }
         return selectedFamily;
@@ -118,7 +108,7 @@ public class FamilyService {
 
     private boolean checkIfFamilyExists(int familyID) {
         for (Family family : families) {
-            if (familyID == family.getFamilyID()) {
+            if (family.isIDofThisFamily(familyID)) {
                 return true;
             }
         }
@@ -155,6 +145,7 @@ public class FamilyService {
 
     /**
      * Method to verify if a given FamilyMember is the Administrator of the given Family.
+     *
      * @param familyID representing the Id of the family to find.
      * @param ccNumber representing the userID.
      * @return true if it's Administrator, if not, false.
@@ -168,6 +159,7 @@ public class FamilyService {
      * Method to convert the FamilyMembers of a determined family previously obtained by the familyID.
      * With the familyID the method delegates to the Family Class the responsibility of returning a List of DTOs from
      * the Family's Family Members. If the User isn't the Family Administrator the return is an Empty List.
+     *
      * @param familyID      representing the Id of the family to find.
      * @param adminCCNumber representing the userID. Has to be verified in order to provide access to the information
      * @return DTOList containing Family Members' name and the relationDesignation.

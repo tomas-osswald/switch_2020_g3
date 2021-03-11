@@ -240,6 +240,15 @@ public class FamilyMember {
         return hasAccount;
     }
 
+    public boolean isEmailRegistered(EmailAddress emailToCheck) {
+        boolean result = false;
+        for (EmailAddress email : emails) {
+            if(email.equals(emailToCheck)){
+                result = true;
+            }
+        }
+        return result;
+    }
 }
 
 

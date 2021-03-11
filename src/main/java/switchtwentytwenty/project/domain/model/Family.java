@@ -6,6 +6,7 @@ import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorD
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
+import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
 import java.util.*;
 
@@ -397,10 +398,10 @@ public class Family {
         return parenthood;
     }
 
-    public void verifyParenthood(FamilyMember memberA, FamilyMember memberB){
+    public void verifyParenthood(FamilyMember memberA, FamilyMember memberB) {
         for (Relation relation : familyRelations) {
             if (relation.getMemberA().equals(memberA) && relation.getMemberB().equals(memberB)) {
-                if(!relation.isAParentOfB()){
+                if (!relation.isAParentOfB()) {
                     throw new IllegalArgumentException("A is not parent of B");
                 }
             }
@@ -413,4 +414,17 @@ public class Family {
     }
 
 
+    public boolean isIDofThisFamily(int familyID) {
+        return this.familyID == familyID;
+    }
+
+    public boolean isEmailPresent(EmailAddress emailToCheck) {
+        boolean result = false;
+        for (FamilyMember member : familyMembers) {
+            if(member.isEmailRegistered(emailToCheck)){
+                result = true;
+            }
+        }
+        return result;
+    }
 }
