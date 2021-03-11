@@ -94,7 +94,7 @@ class RelationServiceTest {
         Relation relation = new Relation("Filho", diogo, jorge, true);
         family.addRelation(relation);
         RelationService relationService = new RelationService();
-        boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
+        boolean result = relationService.verifyParenthood(family, diogo, jorge);
         Assertions.assertTrue(result);
     }
 
@@ -105,8 +105,8 @@ class RelationServiceTest {
         Relation relation = new Relation("Filho", diogo, jorge, false);
         family.addRelation(relation);
         RelationService relationService = new RelationService();
-        boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
-        Assertions.assertFalse(result);
+        assertThrows(NoParentalPermissionException.class, ()-> relationService.verifyParenthood(family, diogo, jorge));
+
     }
 
     @Test
@@ -114,8 +114,8 @@ class RelationServiceTest {
         family.addFamilyMember(diogo);
         family.addFamilyMember(jorge);
         RelationService relationService = new RelationService();
-        boolean result = relationService.checkIfMemberAisParentOfB(family, diogo, jorge);
-        Assertions.assertFalse(result);
+        assertThrows(NoParentalPermissionException.class, ()-> relationService.verifyParenthood(family, diogo, jorge));
+
     }
 
 

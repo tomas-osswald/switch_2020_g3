@@ -39,17 +39,6 @@ public class RelationService {
         return targetFamily.getFamilyMembersRelationDTOList();
     }
 
-    /**
-     * Method to verify the parenthood permission of two family members
-     *
-     * @param targetFamily Family of the two members
-     * @param memberA      Member to check if parent
-     * @param memberB      Member to check if child
-     * @return True if A is parent of B
-     */
-    public boolean checkIfMemberAisParentOfB(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        return targetFamily.isAParentofB(memberA, memberB);
-    }
 
     /**
      * Method to verify parental permission of a member relating another member of the same Family
