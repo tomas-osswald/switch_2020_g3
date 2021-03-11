@@ -568,9 +568,9 @@ This method verifies the type of account. As this US is related to cash Accounts
 only have success if the account is of the correct type.
 
 
-      public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+      public boolean verifyAccountType(Account account, AccountTypeEnum accountType) {
         boolean isSameType = false;
-        if (account.checkAccountType(accountTypeEnum)) {
+        if (account.checkAccountType(accountType)) {
             isSameType = true;
         }
         return isSameType;

@@ -16,7 +16,7 @@ import java.util.Objects;
 public class BankSavingsAccount implements Account {
 
 
-    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKSAVINGSACCOUNT);
+    private final AccountType accountType = AccountType.BANKSAVINGSACCOUNT;
     // Attributes
     private AccountData accountData;
     private final double interestRate;
@@ -121,11 +121,11 @@ public class BankSavingsAccount implements Account {
 
     /**
      * A method that checks if this account type is the same as a given AccountTypeEnum.
-     * @param accountTypeEnum given AccountTypeEnum
+     * @param accountType given AccountTypeEnum
      * @return true if equal, false if different
      */
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
-        return this.accountType.getAccountType().equals(accountTypeEnum);
+    public boolean checkAccountType(AccountType accountType) {
+        return this.accountType.equals(accountType);
     }
 
     /**

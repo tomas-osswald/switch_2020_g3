@@ -3,7 +3,7 @@ package switchtwentytwenty.project.controllers;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.Account;
-import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
+import switchtwentytwenty.project.domain.model.accounts.AccountType;
 import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
@@ -46,7 +46,7 @@ public class RegisterPaymentMyCashAccountController {
         // TransactionService
         TransactionService transactionService = this.ffmApplication.getTransactionService();
         try {
-            if (accountService.verifyAccountType(cashAccount, AccountTypeEnum.CASHACCOUNT) ){
+            if (accountService.verifyAccountType(cashAccount, AccountType.CASHACCOUNT) ){
                 transactionService.registerPaymentMyCashAccount(cashAccount,category, familyCashTransferDTO);
                 return true;
             } else { return false;

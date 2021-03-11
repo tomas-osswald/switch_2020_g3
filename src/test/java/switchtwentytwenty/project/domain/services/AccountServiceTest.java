@@ -19,7 +19,7 @@ import switchtwentytwenty.project.domain.utils.exceptions.NotSameCurrencyExcepti
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.*;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.*;
 
 class AccountServiceTest {
 
@@ -195,7 +195,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_BankSavings_ExpectingTrue() {
         //Arrange
-        AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
+        AccountType expectedType = BANKSAVINGSACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
@@ -206,7 +206,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_BankSavings_ExpectingFalse() {
         //Arrange
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(bankSavings, expectedType);
         //Assert
@@ -216,7 +216,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_CreditCardAccount_ExpectingTrue() {
         //Arrange
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
@@ -226,7 +226,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_CreditCardAccount_ExpectingFalse() {
         //Arrange
-        AccountTypeEnum expectedType = BANKSAVINGSACCOUNT;
+        AccountType expectedType = BANKSAVINGSACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(creditCardAccount, expectedType);
         //Assert
@@ -236,7 +236,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_BankAccount_ExpectingTrue() {
         //Arrange
-        AccountTypeEnum expectedType = BANKACCOUNT;
+        AccountType expectedType = BANKACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
@@ -246,7 +246,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_BankAccount_ExpectingFalse() {
         //Arrange
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(bankAccount, expectedType);
         //Assert
@@ -256,7 +256,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_CashAccount_ExpectingTrue() {
         //Arrange
-        AccountTypeEnum expectedType = CASHACCOUNT;
+        AccountType expectedType = CASHACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert
@@ -266,7 +266,7 @@ class AccountServiceTest {
     @Test
     void verifyAccountType_CashAccount_ExpectingFalse() {
         //Arrange
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = accountService.verifyAccountType(cashAccount, expectedType);
         //Assert

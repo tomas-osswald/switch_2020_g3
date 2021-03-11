@@ -14,8 +14,8 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CREDITCARDACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.CASHACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.CREDITCARDACCOUNT;
 
 class CashAccountTest {
 
@@ -230,7 +230,7 @@ class CashAccountTest {
     void checkAccountType_CashAccount_ExpectingTrue() {
         //Arrange
         CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
-        AccountTypeEnum expectedType = CASHACCOUNT;
+        AccountType expectedType = CASHACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
         //Assert
@@ -241,7 +241,7 @@ class CashAccountTest {
     void checkAccountType_CashAccount_ExpectingFalse() {
         //Arrange
         CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
         //Assert
@@ -252,7 +252,7 @@ class CashAccountTest {
     void checkAccountType_CashAccount_ExpectingFalseWithOtherType() {
         //Arrange
         CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
         //Assert

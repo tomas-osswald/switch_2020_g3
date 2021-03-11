@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class BankAccount implements Account {
 
-    private final AccountType accountType = new AccountType(AccountTypeEnum.BANKACCOUNT);
+    private final AccountType accountType = AccountType.BANKACCOUNT;
     private final AccountData accountData;
 
     /***** CONSTRUCTORS ******/
@@ -115,11 +115,11 @@ public class BankAccount implements Account {
     /**
      * check the account type
      *
-     * @param accountTypeEnum
+     * @param accountType
      * @return
      */
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
-        return this.accountType.getAccountType().equals(accountTypeEnum);
+    public boolean checkAccountType(AccountType accountType) {
+        return this.accountType.equals(accountType);
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.CASHACCOUNT;
 
 public class AccountService {
     private static final String INVALID_CURRENCY = "Invalid currency";
@@ -193,9 +193,9 @@ public class AccountService {
     }
 
 
-    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+    public boolean verifyAccountType(Account account, AccountType accountType) {
         boolean isSameType = false;
-        if (account.checkAccountType(accountTypeEnum)) {
+        if (account.checkAccountType(accountType)) {
             isSameType = true;
         }
         return isSameType;
