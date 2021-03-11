@@ -106,7 +106,7 @@ class AccountServiceTest {
     BankAccount bankAccount2 = new BankAccount(addBankAccountDTO2, 2);
     AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(balance, interestRate, "Savings", cc, family1ID, CurrencyEnum.EURO);
     BankSavingsAccount bankSavings = new BankSavingsAccount(generatedID, addBankSavingsAccountDTO);
-    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getID(), silva.getFamilyID(), "card", 200.00, 100.00, 50.00, CurrencyEnum.EURO);
+    AddCreditCardAccountDTO creditDTO = new AddCreditCardAccountDTO(diogo.getCCNumberString(), silva.getFamilyID(), "card", 200.00, 100.00, 50.00, CurrencyEnum.EURO);
     CreditCardAccount creditCardAccount = new CreditCardAccount(creditDTO, 12);
     CashAccount cashAccount = new CashAccount("Cash", 100.00, generatedID, CurrencyEnum.EURO);
     CashAccount zeroCashAccount = new CashAccount("Cash", 0.00, generatedID, CurrencyEnum.EURO);

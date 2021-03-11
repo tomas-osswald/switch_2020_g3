@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
+import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class FamilyService {
     public void checkIfEmailIsUnique(String emailToCheck) {
         EmailAddress newEmail = new EmailAddress(emailToCheck);
         for (Family family : this.families) {
-            if (family.isEmailPresent(newEmail)) {
+            if (family.isEmailPresentInFamily(newEmail)) {
                 throw new IllegalArgumentException("Email already registered in App");
             }
         }
@@ -176,9 +177,9 @@ public class FamilyService {
      * @return MemberProfileDTO with member's attributes
      */
     public MemberProfileDTO getFamilyMemberProfile(int familyId, String ccNumber) {
-
+        CCNumber cc = new CCNumber(ccNumber);
         Family family = getFamily(familyId);
-        return family.getFamilyMemberProfile(ccNumber);
+        return family.getFamilyMemberProfile(cc);
     }
 
     /**

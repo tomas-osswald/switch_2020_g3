@@ -76,7 +76,7 @@ class GetFamilyMemberProfileControllerTest {
         app.getFamilyService().getFamily(familyOneID).addFamilyMember(diogo);
         MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getID());
+        MemberProfileDTO result = controller.getMemberProfile(familyOneID, diogo.getCCNumberString());
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -91,7 +91,7 @@ class GetFamilyMemberProfileControllerTest {
 
         MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO result = controller.getMemberProfile(familyOneID, jorge.getID());
+        MemberProfileDTO result = controller.getMemberProfile(familyOneID, jorge.getCCNumberString());
 
         assertNotEquals(expected, result);
     }

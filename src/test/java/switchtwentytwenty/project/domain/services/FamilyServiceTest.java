@@ -293,7 +293,7 @@ class FamilyServiceTest {
         FamilyService family = new FamilyService(ribeiro);
         diogo.makeAdmin();
         boolean expected = true;
-        boolean result = family.verifyAdministratorPermission(ribeiro.getFamilyID(), diogo.getID());
+        boolean result = family.verifyAdministratorPermission(ribeiro.getFamilyID(), diogo.getCCNumberString());
         assertTrue(result);
     }
 
@@ -317,7 +317,7 @@ class FamilyServiceTest {
         //Arrange
         FamilyService familyService = new FamilyService(family);
         //Assert
-        assertThrows(IllegalArgumentException.class, () -> familyService.getFamilyMembersRelationDTOList(8898, manuelAdmin.getID()));
+        assertThrows(IllegalArgumentException.class, () -> familyService.getFamilyMembersRelationDTOList(8898, manuelAdmin.getCCNumberString()));
     }
 
 
@@ -329,7 +329,7 @@ class FamilyServiceTest {
         family.addFamilyMember(diogo);
         MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getID());
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, diogo.getCCNumberString());
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -344,7 +344,7 @@ class FamilyServiceTest {
         family.addFamilyMember(jorge);
         MemberProfileDTO expected = new MemberProfileDTO(ccNumber, name, date, phoneNumbers, emails, vatNumber, address, admin);
 
-        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, jorge.getID());
+        MemberProfileDTO result = familyService.getFamilyMemberProfile(familyOneID, jorge.getCCNumberString());
 
         assertNotEquals(expected, result);
     }

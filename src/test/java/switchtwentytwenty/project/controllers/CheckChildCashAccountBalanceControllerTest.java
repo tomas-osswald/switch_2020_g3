@@ -94,8 +94,8 @@ class CheckChildCashAccountBalanceControllerTest {
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", true);
         accountService.createPersonalCashAccount(accountDTO);
-        String parentID = diogo.getID();
-        String childID = jorge.getID();
+        String parentID = diogo.getCCNumberString();
+        String childID = jorge.getCCNumberString();
 
 
         double expected = cashAccount.getMoneyBalance().getValue();
@@ -117,8 +117,8 @@ class CheckChildCashAccountBalanceControllerTest {
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", true);
         accountService.createPersonalCashAccount(accountDTO);
-        String parentID = diogo.getID();
-        String childID = jorge.getID();
+        String parentID = diogo.getCCNumberString();
+        String childID = jorge.getCCNumberString();
 
 
         cashAccount.debit(new MoneyValue(10.0, CurrencyEnum.EURO));
@@ -138,8 +138,8 @@ class CheckChildCashAccountBalanceControllerTest {
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
         accountService.createPersonalCashAccount(accountDTO);
-        String parentID = diogo.getID();
-        String childID = jorge.getID();
+        String parentID = diogo.getCCNumberString();
+        String childID = jorge.getCCNumberString();
 
 
         Double expected = -1.00;
@@ -159,8 +159,8 @@ class CheckChildCashAccountBalanceControllerTest {
         familyService.addFamily(family);
         relationService.addRelation(family, diogo, jorge, "Pai", false);
         accountService.createPersonalCashAccount(accountDTO);
-        String parentID = diogo.getID();
-        String childID = jorge.getID();
+        String parentID = diogo.getCCNumberString();
+        String childID = jorge.getCCNumberString();
 
 
         Double expected = -1.00;
@@ -182,8 +182,8 @@ class CheckChildCashAccountBalanceControllerTest {
 
         relationService.addRelation(family, diogo, jorge, "Pai", false);
         accountService.createPersonalCashAccount(accountDTO);
-        String parentID = diogo.getID();
-        String childID = jorge.getID();
+        String parentID = diogo.getCCNumberString();
+        String childID = jorge.getCCNumberString();
 
 
         Double expected = -1.00;
@@ -203,8 +203,8 @@ class CheckChildCashAccountBalanceControllerTest {
         int savingsAccountID = savingsAccount.getAccountID();
         relationService.addRelation(family, diogo, jorge, "Pai", false);
         accountService.addBankSavingsAccount(addBankSavingsAccountDTO);
-        String parentID = diogo.getID();
-        String childID = jorge.getID();
+        String parentID = diogo.getCCNumberString();
+        String childID = jorge.getCCNumberString();
 
 
         Double expected = -1.00;

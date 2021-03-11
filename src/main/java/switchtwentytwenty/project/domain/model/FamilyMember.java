@@ -115,8 +115,8 @@ public class FamilyMember {
     /**
      * @return String representing the FamilyMember's ID.
      */
-    public String getID() {
-        return this.ccNumber.getCcNumberString();
+    public CCNumber getID() {
+        return this.ccNumber;
     }
 
     public String getName() {
@@ -256,6 +256,10 @@ public class FamilyMember {
 
     public boolean compareCC(CCNumber cc) {
         return this.ccNumber.equals(cc);
+    }
+
+    public String getCCNumberString() {
+        return this.ccNumber.getCcNumberString();
     }
 }
 

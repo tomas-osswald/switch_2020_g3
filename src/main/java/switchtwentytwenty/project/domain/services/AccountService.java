@@ -6,6 +6,7 @@ import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
@@ -281,8 +282,10 @@ public class AccountService {
     public MoneyValue checkChildCashAccountBalance(int accountID, int familyID, String parentID, String childID) {
         MoneyValue currentBalance;
         Family targetFamily = familyService.getFamily(familyID);
-        FamilyMember parent = targetFamily.getFamilyMemberByID(parentID);
-        FamilyMember child = targetFamily.getFamilyMemberByID(childID);
+        CCNumber parentCC = new CCNumber(parentID);
+        CCNumber childCC = new CCNumber(childID);
+        FamilyMember parent = targetFamily.getFamilyMemberByID(parentCC);
+        FamilyMember child = targetFamily.getFamilyMemberByID(childCC);
         targetFamily.verifyParenthood(parent, child);
         Account targetAccount = child.getAccount(accountID);
         if (targetAccount == null) {

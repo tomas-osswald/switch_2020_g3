@@ -18,7 +18,6 @@ public class Family {
 
     private final int familyID;
     private final String familyName;
-    private final Date registrationDate;
     private final List<FamilyMember> familyMembers;
     private final List<String> relationDesignations = new ArrayList<>();
     private final List<CustomCategory> familyCustomCategories = new ArrayList<>();
@@ -36,7 +35,6 @@ public class Family {
     public Family(String familyName, int familyID) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
         this.familyMembers = new ArrayList<>();
-        this.registrationDate = new Date();
         this.familyName = familyName;
         this.familyID = familyID;
     }
@@ -113,7 +111,7 @@ public class Family {
         return result;
     }
 
-    private boolean checkIfCCNumberIsUniqueInApp(CCNumber cc) {
+    private boolean checkIfCCNumberIsRegisteredInApp(CCNumber cc) {
         boolean result = false;
         for (FamilyMember member : familyMembers) {
             if (member.compareCC(cc)) {
@@ -141,12 +139,11 @@ public class Family {
      * @return FamilyMember with given ID
      */
 
-    public FamilyMember getFamilyMemberByID(String ccNumber) {
-        CCNumber cc = new CCNumber(ccNumber);
-        if (!checkIfCCNumberIsUniqueInApp(cc)) throw new IllegalArgumentException("No family member with such ID");
+    public FamilyMember getFamilyMemberByID(CCNumber ccNumber) {
+        if (!checkIfCCNumberIsRegisteredInApp(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
         FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.compareID(cc))
+            if (familyMember.compareID(ccNumber))
                 selectedFamilyMember = familyMember;
         }
         return selectedFamilyMember;
@@ -216,7 +213,7 @@ public class Family {
         VatNumber vat = new VatNumber(familyMemberDTO.getVat());
         CCNumber cc = new CCNumber(familyMemberDTO.getCc());
         if (!checkIfVATisUniqueInApp(vat)) {
-            if (!checkIfCCNumberIsUniqueInApp(cc)) {
+            if (!checkIfCCNumberIsRegisteredInApp(cc)) {
                 FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(), familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity());
                 familyMembers.add(newFamilyMember);
                 return true;
@@ -305,7 +302,7 @@ public class Family {
      * @param ccNumber representing the unique ID from each family member
      * @return MemberProfileDTO with member's attributes
      */
-    public MemberProfileDTO getFamilyMemberProfile(String ccNumber) {
+    public MemberProfileDTO getFamilyMemberProfile(CCNumber ccNumber) {
 
         FamilyMember familyMember = getFamilyMemberByID(ccNumber);
         return familyMember.createProfile();
@@ -412,7 +409,7 @@ public class Family {
         return this.familyID == familyID;
     }
 
-    public boolean isEmailPresent(EmailAddress emailToCheck) {
+    public boolean isEmailPresentInFamily(EmailAddress emailToCheck) {
         boolean result = false;
         for (FamilyMember member : familyMembers) {
             if (member.isEmailRegistered(emailToCheck)) {
