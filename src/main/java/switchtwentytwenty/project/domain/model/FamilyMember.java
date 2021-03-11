@@ -156,12 +156,11 @@ public class FamilyMember {
     /**
      * Method to create an EmailAddress object and add it to the ArrayList of EmailAddress objects
      *
-     * @param emailToAdd String of the email address to add
+     * @param newEmail EmailAddress of the email address to add
      * @return True if the EmailAddress object is successfully created and added to the EmailAddress ArrayList
      */
-    public boolean addEmail(String emailToAdd) {
+    public boolean addEmail(EmailAddress newEmail) {
         try {
-            EmailAddress newEmail = new EmailAddress(emailToAdd);
             emails.add(newEmail);
             return true;
         } catch (IllegalArgumentException e) {
