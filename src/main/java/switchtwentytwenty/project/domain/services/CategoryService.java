@@ -87,7 +87,7 @@ public class CategoryService {
     }
 
     /**
-     * Method to determine if a standard category with a given name already exists
+     * Method to determine if there is a Standard Category matching the inputted parentID
      *
      * @param parentID int representing the categoryID of the parent category
      * @return true if the ID exists in the list of Standard Categories, false otherwise

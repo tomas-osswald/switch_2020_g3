@@ -116,28 +116,20 @@ public class FamilyService {
     }
 
     public boolean addFamilyMember(AddFamilyMemberDTO familyMemberDTO) {
-        if (checkIfFamilyExists(familyMemberDTO.getFamilyID())) {
-            int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
-            if (this.families.get(posicaoFamilia).verifyAdministrator(familyMemberDTO.getSelfCCNumber())) {
-                checkIfEmailIsUnique(familyMemberDTO.getEmail());
-                this.families.get(posicaoFamilia).addFamilyMember(familyMemberDTO);
-                return true;
-
-            }
-            throw new IllegalArgumentException("This user is not Administrator");
+        Family family = getFamily(familyMemberDTO.getFamilyID());
+        if (family.verifyAdministrator(familyMemberDTO.getSelfCCNumber())) {
+            checkIfEmailIsUnique(familyMemberDTO.getEmail());
+            family.addFamilyMember(familyMemberDTO);
+            return true;
         }
-        throw new IllegalArgumentException("Family does not exist");
+        throw new IllegalArgumentException("This user is not Administrator");
     }
 
     public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
-        if (checkIfFamilyExists(familyMemberDTO.getFamilyID())) {
-            checkIfEmailIsUnique(familyMemberDTO.getEmail());
-            int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
-            this.families.get(posicaoFamilia).addFamilyAdministrator(familyMemberDTO);
-            return true;
-
-        }
-        throw new IllegalArgumentException("Family does not exist");
+        checkIfEmailIsUnique(familyMemberDTO.getEmail());
+        Family family = getFamily(familyMemberDTO.getFamilyID());
+        family.addFamilyAdministrator(familyMemberDTO);
+        return true;
     }
 
 

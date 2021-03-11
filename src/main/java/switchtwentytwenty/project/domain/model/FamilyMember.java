@@ -185,8 +185,8 @@ public class FamilyMember {
         return Collections.unmodifiableList(this.accounts);
     }
 
-    protected boolean compareID(String ccNumber) {
-        return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumberString());
+    protected boolean compareID(CCNumber ccNumber) {
+        return this.ccNumber.equals(ccNumber);
     }
 
     /**
@@ -248,6 +248,14 @@ public class FamilyMember {
             }
         }
         return result;
+    }
+
+    public boolean compareVat(VatNumber vat) {
+        return this.vatNumber.equals(vat);
+    }
+
+    public boolean compareCC(CCNumber cc) {
+        return this.ccNumber.equals(cc);
     }
 }
 

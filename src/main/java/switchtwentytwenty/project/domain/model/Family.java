@@ -6,7 +6,9 @@ import switchtwentytwenty.project.domain.dtos.output.FamilyWithoutAdministratorD
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
 import switchtwentytwenty.project.domain.model.categories.CustomCategory;
+import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.model.user_data.EmailAddress;
+import switchtwentytwenty.project.domain.model.user_data.VatNumber;
 
 import java.util.*;
 
@@ -77,11 +79,13 @@ public class Family {
      * @return boolean
      */
     public boolean verifyAdministrator(String ccNumber) {
+        CCNumber cc = new CCNumber(ccNumber);
+        boolean result = false;
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.compareID(ccNumber))
-                return familyMember.isAdministrator();
+            if (familyMember.compareID(cc))
+                result = familyMember.isAdministrator();
         }
-        return false;
+        return result;
     }
 
     /**
@@ -99,30 +103,24 @@ public class Family {
         return false;
     }
 
-    private boolean checkIfVatExists(int vat) {
-        ArrayList<Integer> vatList = new ArrayList();
+    private boolean checkIfVATisUniqueInApp(VatNumber vat) {
+        boolean result = false;
         for (FamilyMember member : familyMembers) {
-            vatList.add(member.getVatNumber());
-        }
-        for (Integer nif : vatList) {
-            if (nif == vat) {
-                return true;
+            if (member.compareVat(vat)) {
+                result = true;
             }
         }
-        return false;
+        return result;
     }
 
-    private boolean checkIfCCNumberExists(String cc) {
-        ArrayList<String> ccList = new ArrayList();
+    private boolean checkIfCCNumberIsUniqueInApp(CCNumber cc) {
+        boolean result = false;
         for (FamilyMember member : familyMembers) {
-            ccList.add(member.getFamilyMemberID());
-        }
-        for (String ccNumber : ccList) {
-            if (ccNumber.equals(cc)) {
-                return true;
+            if (member.compareCC(cc)) {
+                result = true;
             }
         }
-        return false;
+        return result;
     }
 
     /**
@@ -137,15 +135,6 @@ public class Family {
     }
 
     /**
-     * Method to add a Relation to A family Member
-     *
-     * @param ccNumber            FamilyMemberID of the member to be added a Relation
-     * @param relationDesignation Relation Designation to be added
-     * @return boolean
-     */
-
-
-    /**
      * Method to get a Family Member by ID
      *
      * @param ccNumber FamilyMemberID to search
@@ -153,10 +142,11 @@ public class Family {
      */
 
     public FamilyMember getFamilyMemberByID(String ccNumber) {
-        if (!checkIfCCNumberExists(ccNumber)) throw new IllegalArgumentException("No family member with such ID");
+        CCNumber cc = new CCNumber(ccNumber);
+        if (!checkIfCCNumberIsUniqueInApp(cc)) throw new IllegalArgumentException("No family member with such ID");
         FamilyMember selectedFamilyMember = null;
         for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.compareID(ccNumber))
+            if (familyMember.compareID(cc))
                 selectedFamilyMember = familyMember;
         }
         return selectedFamilyMember;
@@ -223,8 +213,10 @@ public class Family {
      */
 
     public boolean addFamilyMember(AddFamilyMemberDTO familyMemberDTO) {
-        if (!checkIfVatExists(familyMemberDTO.getVat())) {
-            if (!checkIfCCNumberExists(familyMemberDTO.getCc())) {
+        VatNumber vat = new VatNumber(familyMemberDTO.getVat());
+        CCNumber cc = new CCNumber(familyMemberDTO.getCc());
+        if (!checkIfVATisUniqueInApp(vat)) {
+            if (!checkIfCCNumberIsUniqueInApp(cc)) {
                 FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(), familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity());
                 familyMembers.add(newFamilyMember);
                 return true;
@@ -238,7 +230,8 @@ public class Family {
 
     public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
         boolean administrator = true;
-        if (!checkIfVatExists(familyMemberDTO.getVat())) {
+        VatNumber vat = new VatNumber(familyMemberDTO.getVat());
+        if (!checkIfVATisUniqueInApp(vat)) {
             FamilyMember newFamilyMember = new FamilyMember(familyMemberDTO.getCc(), familyMemberDTO.getName(), familyMemberDTO.getBirthDate(), familyMemberDTO.getPhone(), familyMemberDTO.getEmail(), familyMemberDTO.getVat(), familyMemberDTO.getStreet(), familyMemberDTO.getCodPostal(), familyMemberDTO.getLocal(), familyMemberDTO.getCity(), administrator);
             familyMembers.add(newFamilyMember);
             return true;
@@ -339,8 +332,9 @@ public class Family {
     }
 
     public FamilyMember getFamilyMember(String ccNumber) {
+        CCNumber cc = new CCNumber(ccNumber);
         for (FamilyMember member : this.familyMembers) {
-            if (member.compareID(ccNumber)) {
+            if (member.compareID(cc)) {
                 return member;
             }
         }
@@ -421,7 +415,7 @@ public class Family {
     public boolean isEmailPresent(EmailAddress emailToCheck) {
         boolean result = false;
         for (FamilyMember member : familyMembers) {
-            if(member.isEmailRegistered(emailToCheck)){
+            if (member.isEmailRegistered(emailToCheck)) {
                 result = true;
             }
         }
