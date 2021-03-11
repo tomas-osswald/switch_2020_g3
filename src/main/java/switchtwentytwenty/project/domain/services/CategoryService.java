@@ -165,29 +165,44 @@ public class CategoryService {
      */
     public boolean addCategoryToFamilyTree(int familyID, String categoryDesignation, int parentID, String adminCC) {
         Family targetFamily = familyService.getFamily(familyID);
-        boolean result = false;
+        boolean result;
         if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
-            if (parentID > 0) {
-                StandardCategory parent = getStandardCategoryByID(parentID);
-                checkIfParentNull(parent);
-                CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-                targetFamily.addCategory(newCustomCategory);
-                result = true;
-            } else if (parentID < 0) {
-                CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
-                checkIfParentNull(parent);
-                CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-                targetFamily.addCategory(newCustomCategory);
-                result = true;
-            } else {
-                CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
-                targetFamily.addCategory(newCustomCategory);
-                result = true;
-            }
-        }else{
+            result = createAndAddCustomCategory(categoryDesignation, parentID, targetFamily);
+        } else {
             result = false;
         }
         return result;
+    }
+
+    private boolean createAndAddCustomCategory(String categoryDesignation, int parentID, Family targetFamily) {
+        CustomCategory newCustomCategory;
+        boolean result;
+        if (parentID > 0) {
+            result = addNewCustomCategoryWithStandardParent(categoryDesignation, parentID, targetFamily);
+        } else if (parentID < 0) {
+            result = addCustomCategoryWithCustomParent(categoryDesignation, parentID, targetFamily);
+        } else {
+            newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
+            targetFamily.addCategory(newCustomCategory);
+            result = true;
+        }
+        return result;
+    }
+
+    private boolean addCustomCategoryWithCustomParent(String categoryDesignation, int parentID, Family targetFamily) {
+        CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
+        checkIfParentNull(parent);
+        CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+        targetFamily.addCategory(newCustomCategory);
+        return true;
+    }
+
+    private boolean addNewCustomCategoryWithStandardParent(String categoryDesignation, int parentID, Family targetFamily) {
+        StandardCategory parent = getStandardCategoryByID(parentID);
+        checkIfParentNull(parent);
+        CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+        targetFamily.addCategory(newCustomCategory);
+        return true;
     }
 
     /**
