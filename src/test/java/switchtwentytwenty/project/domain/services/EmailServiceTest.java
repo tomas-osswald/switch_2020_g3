@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EmailServiceTest {
@@ -30,14 +29,15 @@ class EmailServiceTest {
     Application ffmApp = new Application();
     EmailService emailService = ffmApp.getEmailService();
     FamilyService familyService = ffmApp.getFamilyService();
-    AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(cc,cc,name,date,numero,email,nif,rua,codPostal,local,city, familyID);
-    Family family = new Family("Silva",familyID);
+    AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, familyID);
+    Family family = new Family("Silva", familyID);
 
     @BeforeEach
-    void setup(){
+    void setup() {
         family.addFamilyAdministrator(memberDTO);
         familyService.addFamily(family);
     }
+
     @Test
     void emailServiceConstructor() {
         EmailService emailService = new EmailService();
@@ -49,7 +49,7 @@ class EmailServiceTest {
     void addEmail_ValidEmail() {
         String newEmail = "1120717@isep.ipp.pt";
 
-        boolean result = emailService.addEmail(newEmail,familyID,cc);
+        boolean result = emailService.addEmail(newEmail, familyID, cc);
 
         assertTrue(result);
     }
@@ -58,7 +58,7 @@ class EmailServiceTest {
     void addEmail_InvalidEmail() {
         String newEmail = "1120717@pt";
 
-        assertFalse(emailService.addEmail(newEmail, familyID,cc));
+        assertThrows(IllegalArgumentException.class, () -> emailService.addEmail(newEmail, familyID, cc));
 
     }
 

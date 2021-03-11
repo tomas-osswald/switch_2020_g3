@@ -57,15 +57,14 @@ public class FamilyService {
      * @param emailToCheck String representing the email address to check if present
      * @return True if the passed email address is already present
      */
-    private boolean checkIfEmailPresent(String emailToCheck) {
-        boolean result = false;
+    public void checkIfEmailIsUnique(String emailToCheck) {
         EmailAddress newEmail = new EmailAddress(emailToCheck);
         for (Family family : this.families) {
-            if(family.isEmailPresent(newEmail)){
-                result = true;
+            if (family.isEmailPresent(newEmail)) {
+                throw new IllegalArgumentException("Email already registered in App");
             }
         }
-        return result;
+
     }
 
     /**
@@ -73,10 +72,11 @@ public class FamilyService {
      *
      * @param family Family to add
      */
-
+    @Deprecated
     public void addFamily(Family family) {
         this.families.add(family);
     }
+
 
     public boolean addFamily(String familyName) {
         try {
@@ -119,11 +119,10 @@ public class FamilyService {
         if (checkIfFamilyExists(familyMemberDTO.getFamilyID())) {
             int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
             if (this.families.get(posicaoFamilia).verifyAdministrator(familyMemberDTO.getSelfCCNumber())) {
-                if (!checkIfEmailPresent(familyMemberDTO.getEmail())) {
-                    this.families.get(posicaoFamilia).addFamilyMember(familyMemberDTO);
-                    return true;
-                }
-                throw new IllegalArgumentException("This email already exists");
+                checkIfEmailIsUnique(familyMemberDTO.getEmail());
+                this.families.get(posicaoFamilia).addFamilyMember(familyMemberDTO);
+                return true;
+
             }
             throw new IllegalArgumentException("This user is not Administrator");
         }
@@ -132,12 +131,11 @@ public class FamilyService {
 
     public boolean addFamilyAdministrator(AddFamilyMemberDTO familyMemberDTO) {
         if (checkIfFamilyExists(familyMemberDTO.getFamilyID())) {
-            if (!checkIfEmailPresent(familyMemberDTO.getEmail())) {
-                int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
-                this.families.get(posicaoFamilia).addFamilyAdministrator(familyMemberDTO);
-                return true;
-            }
-            throw new IllegalArgumentException("This email already exists");
+            checkIfEmailIsUnique(familyMemberDTO.getEmail());
+            int posicaoFamilia = this.families.indexOf(getFamily(familyMemberDTO.getFamilyID()));
+            this.families.get(posicaoFamilia).addFamilyAdministrator(familyMemberDTO);
+            return true;
+
         }
         throw new IllegalArgumentException("Family does not exist");
     }
@@ -209,21 +207,6 @@ public class FamilyService {
         return listOfFamiliesWithoutAdministrator;
     }
 
-    public void checkIfEmailAlreadyRegisteredInApp(String emailToAdd) {
-        List<EmailAddress> allEmails = new ArrayList<>();
-        for (Family family : families) {
-            List<FamilyMember> members = family.getFamilyMembers();
-            for (FamilyMember member : members) {
-                allEmails.addAll(member.getEmails());
-            }
-        }
-        for (EmailAddress email : allEmails) {
-            if (emailToAdd.equalsIgnoreCase(email.getEmail())) {
-                throw new IllegalArgumentException("Email Already Present");
-            }
-        }
-
-    }
 
     public FamilyMember getFamilyMember(int familyID, String otherID) {
         Family family = getFamily(familyID);

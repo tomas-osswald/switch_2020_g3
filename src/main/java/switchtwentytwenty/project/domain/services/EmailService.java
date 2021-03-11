@@ -15,7 +15,7 @@ public class EmailService {
 
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(ccNumber);
-        familyService.checkIfEmailAlreadyRegisteredInApp(emailToAdd);
+        familyService.checkIfEmailIsUnique(emailToAdd);
         return targetMember.addEmail(emailToAdd);
     }
 
