@@ -475,7 +475,7 @@ class MoneyValue {
 - currency
 }
 
-CheckCashAccountBalanceController --> Application : has
+CheckCashAccountBalanceController -- Application : ffmapplication
 
 CheckCashAccountBalanceController -----> AccountService : calls
 CheckCashAccountBalanceController --> FamilyService : calls
