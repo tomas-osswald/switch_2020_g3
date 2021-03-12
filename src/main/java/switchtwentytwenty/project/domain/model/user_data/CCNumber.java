@@ -11,7 +11,7 @@ public class CCNumber {
         if (!validateNumber(ccNumberString)) {
             throw new IllegalArgumentException("Invalid CC Number");
         }
-        this.ccNumberString = ccNumberString.toUpperCase();
+        this.ccNumberString = ccNumberString.trim().toUpperCase();
 
     }
 

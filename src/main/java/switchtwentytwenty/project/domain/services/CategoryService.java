@@ -12,7 +12,15 @@ import java.util.List;
 public class CategoryService {
 
     private final List<StandardCategory> categories;
+    private FamilyService familyService;
 
+
+    public CategoryService(FamilyService familyService) {
+        this.familyService = familyService;
+        this.categories = new ArrayList<>();
+        StandardCategory other = new StandardCategory("OTHER", null, 0);
+        categories.add(other);
+    }
 
     public CategoryService() {
         this.categories = new ArrayList<>();
@@ -79,7 +87,7 @@ public class CategoryService {
     }
 
     /**
-     * Method to determine if a standard category with a given name already exists
+     * Method to determine if there is a Standard Category matching the inputted parentID
      *
      * @param parentID int representing the categoryID of the parent category
      * @return true if the ID exists in the list of Standard Categories, false otherwise
@@ -151,29 +159,50 @@ public class CategoryService {
     /**
      * Method to add a new CustomCategory to a Family's Category List
      *
-     * @param targetFamily        Family object to add the new category
      * @param categoryDesignation Label/Description to assign to the category
      * @param parentID            ID of the Standard or Custom category to be the parent. 0 for root
      * @return True if the category is successfuly added to the family's category tree.
      */
-    public boolean addCategoryToFamilyTree(Family targetFamily, String categoryDesignation, int parentID) {
-        if (parentID > 0) {
-            StandardCategory parent = getStandardCategoryByID(parentID);
-            checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
-        } else if (parentID < 0) {
-            CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
-            checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
+    public boolean addCategoryToFamilyTree(int familyID, String categoryDesignation, int parentID, String adminCC) {
+        Family targetFamily = familyService.getFamily(familyID);
+        boolean result;
+        if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
+            result = createAndAddCustomCategory(categoryDesignation, parentID, targetFamily);
         } else {
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
+            result = false;
         }
+        return result;
+    }
+
+    private boolean createAndAddCustomCategory(String categoryDesignation, int parentID, Family targetFamily) {
+        CustomCategory newCustomCategory;
+        boolean result;
+        if (parentID > 0) {
+            result = addNewCustomCategoryWithStandardParent(categoryDesignation, parentID, targetFamily);
+        } else if (parentID < 0) {
+            result = addCustomCategoryWithCustomParent(categoryDesignation, parentID, targetFamily);
+        } else {
+            newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
+            targetFamily.addCategory(newCustomCategory);
+            result = true;
+        }
+        return result;
+    }
+
+    private boolean addCustomCategoryWithCustomParent(String categoryDesignation, int parentID, Family targetFamily) {
+        CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
+        checkIfParentNull(parent);
+        CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+        targetFamily.addCategory(newCustomCategory);
+        return true;
+    }
+
+    private boolean addNewCustomCategoryWithStandardParent(String categoryDesignation, int parentID, Family targetFamily) {
+        StandardCategory parent = getStandardCategoryByID(parentID);
+        checkIfParentNull(parent);
+        CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+        targetFamily.addCategory(newCustomCategory);
+        return true;
     }
 
     /**

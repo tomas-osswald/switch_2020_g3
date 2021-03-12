@@ -63,13 +63,13 @@ class TransferCashFromFamilyAccountToPersonalAccountControllerTest {
 
         Family simpsonFamily = familyService.getFamily(1);
         FamilyMember homer = simpsonFamily.getFamilyMember(familyMemberCC);
-        categoryService.addCategoryToFamilyTree(simpsonFamily,"Donuts",1);
-
+        categoryService.addCategoryToFamilyTree(1,"Donuts",1,familyMemberCC);
+        familyService.addFamily(simpsonFamily);
         AddCashAccountDTO cashAccountDTO = new AddCashAccountDTO(0.23,"Homer's Wallet",familyMemberCC,1, currency);
 
-        AccountService accountService = new AccountService();
-        accountService.createFamilyCashAccount(simpsonFamily, "Simpson's Wallet", 12.75);
-        accountService.createPersonalCashAccount(homer,cashAccountDTO);
+        AccountService accountService = ffmApplication.getAccountService();
+        accountService.createFamilyCashAccount(1,familyMemberCC, "Simpson's Wallet", 12.75);
+        accountService.createPersonalCashAccount(cashAccountDTO);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
 import switchtwentytwenty.project.domain.dtos.output.CategoryTreeDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
@@ -8,6 +9,7 @@ import switchtwentytwenty.project.domain.model.categories.CustomCategory;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,6 +18,19 @@ class CategoryServiceTest {
     Application app = new Application();
     CategoryService categoryService = app.getCategoryService();
     FamilyService familyService = app.getFamilyService();
+    String ccNumber = "000000000ZZ4";
+    String name = "Homer";
+    Date birthDate = new Date(1990, 8, 26);
+    int phone = 919999999;
+    String email = "homerSimpson@gmail.com";
+    int vat = 212122233;
+    String street = "Rua Nossa";
+    String postalCode = "4444-555";
+    String local = "Zinde";
+    String city = "Porto";
+    int familyID = 1;
+    AddFamilyMemberDTO familyMemberDTO0 = new AddFamilyMemberDTO(ccNumber, ccNumber, name, birthDate, phone, email, vat, street, postalCode, local, city, familyID);
+
 
     @Test
     void addStandardCategory_Test1Success() {
@@ -81,7 +96,7 @@ class CategoryServiceTest {
     @Test
     void getStandardCategories_Test6_FromValidList() {
         //arrange
-        CategoryService serv = new CategoryService();
+        CategoryService serv = new CategoryService(this.familyService);
         List<StandardCategory> totalList = new ArrayList<>();
         StandardCategory cat1 = new StandardCategory("Home", null, 1);
         StandardCategory cat2 = new StandardCategory("Education", null, 2);
@@ -154,7 +169,9 @@ class CategoryServiceTest {
         int parentID = 0;
         categoryService.addStandardCategory(categoryName, parentID);
         Family family = new Family("testFamily", 1);
-        assertTrue(categoryService.addCategoryToFamilyTree(family, "test", 1));
+        familyService.addFamily(family);
+        familyService.addFamilyAdministrator(familyMemberDTO0);
+        assertTrue(categoryService.addCategoryToFamilyTree(1, "test", 1, ccNumber));
     }
 
     @Test
@@ -163,26 +180,31 @@ class CategoryServiceTest {
         int parentID = 0;
         categoryService.addStandardCategory(categoryName, parentID);
         Family family = new Family("testFamily", 1);
-        categoryService.addCategoryToFamilyTree(family, "test", 1);
-        assertTrue(categoryService.addCategoryToFamilyTree(family, "test2", -1));
+        familyService.addFamily(family);
+        familyService.addFamilyAdministrator(familyMemberDTO0);
+        categoryService.addCategoryToFamilyTree(1, "test", 1, ccNumber);
+        assertTrue(categoryService.addCategoryToFamilyTree(1, "test2", -1, ccNumber));
     }
 
     @Test
     void addCategoryToFamilyTreeAssertTrueNoParent() {
         Family family = new Family("testFamily", 1);
-        assertTrue(categoryService.addCategoryToFamilyTree(family, "test2", 0));
+        familyService.addFamily(family);
+        familyService.addFamilyAdministrator(familyMemberDTO0);
+        assertTrue(categoryService.addCategoryToFamilyTree(1, "test2", 0, ccNumber));
     }
 
     @Test
     void addCategoryToFamilyTreeCheckCategoryIDs() {
         Family family = new Family("testFamily", 1);
         familyService.addFamily(family);
-        family.addCategory(new CustomCategory("test",0));
-        categoryService.addCategoryToFamilyTree(family, "test1", 0);
-        categoryService.addCategoryToFamilyTree(family, "test2", 0);
-        categoryService.addCategoryToFamilyTree(family, "test3", 0);
-        categoryService.addCategoryToFamilyTree(family, "test4", 0);
-        categoryService.addCategoryToFamilyTree(family, "test5", 0);
+        familyService.addFamilyAdministrator(familyMemberDTO0);
+        family.addCategory(new CustomCategory("test", 0));
+        categoryService.addCategoryToFamilyTree(1, "test1", 0, ccNumber);
+        categoryService.addCategoryToFamilyTree(1, "test2", 0, ccNumber);
+        categoryService.addCategoryToFamilyTree(1, "test3", 0, ccNumber);
+        categoryService.addCategoryToFamilyTree(1, "test4", 0, ccNumber);
+        categoryService.addCategoryToFamilyTree(1, "test5", 0, ccNumber);
         CategoryTreeDTO dto = categoryService.getCategoryTree(1, familyService);
         List<CustomCategory> catList = dto.getCustomCategories();
         int id = 0;

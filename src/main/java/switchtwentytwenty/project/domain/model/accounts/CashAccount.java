@@ -16,7 +16,7 @@ import java.util.Objects;
 public class CashAccount implements Account {
 
 
-    private final AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
+    private final AccountType accountType = AccountType.CASHACCOUNT;
     // Attributes
     private AccountData accountData;
 
@@ -131,8 +131,8 @@ public class CashAccount implements Account {
         return true;
     }
 
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
-        return this.accountType.getAccountType().equals(accountTypeEnum);
+    public boolean checkAccountType(AccountType accountType) {
+        return this.accountType.equals(accountType);
     }
 
     public String getDescription() {

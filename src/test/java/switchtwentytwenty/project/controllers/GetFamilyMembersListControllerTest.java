@@ -87,7 +87,7 @@ class GetFamilyMembersListControllerTest {
         app.getFamilyService().addFamily(family);
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
-        boolean result = controller.getFamilyMembersAndRelation(3, diogo.getID());
+        boolean result = controller.getFamilyMembersAndRelation(3, diogo.getCCNumberString());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
         assertFalse(result);
@@ -106,7 +106,7 @@ class GetFamilyMembersListControllerTest {
         app.getFamilyService().addFamily(family);
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
-        boolean result = controller.getFamilyMembersAndRelation(2, diogo.getID());
+        boolean result = controller.getFamilyMembersAndRelation(2, diogo.getCCNumberString());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
         assertFalse(result);
@@ -125,7 +125,7 @@ class GetFamilyMembersListControllerTest {
         app.getFamilyService().addFamily(family);
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
-        boolean result = controller.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getID());
+        boolean result = controller.getFamilyMembersAndRelation(family.getFamilyID(), manuelAdmin.getCCNumberString());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
         assertTrue(result);
@@ -145,8 +145,8 @@ class GetFamilyMembersListControllerTest {
         app.getFamilyService().addFamily(family);
         GetFamilyMembersListController controller = new GetFamilyMembersListController(app);
         //Act
-        boolean noAdmin = family.verifyAdministrator(diogo.getID());
-        boolean resultTwo = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getID());
+        boolean noAdmin = family.verifyAdministrator(diogo.getCCNumberString());
+        boolean resultTwo = controller.getFamilyMembersAndRelation(family.getFamilyID(), diogo.getCCNumberString());
         //Assert
         //As nothing has been added to expected both lists are Empty, as predicted
 

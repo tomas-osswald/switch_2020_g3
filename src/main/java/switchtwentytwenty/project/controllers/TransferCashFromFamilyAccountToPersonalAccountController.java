@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.controllers;
 
+import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.model.Application;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
@@ -9,7 +10,6 @@ import switchtwentytwenty.project.domain.model.categories.Category;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.CategoryService;
 import switchtwentytwenty.project.domain.services.FamilyService;
-import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.services.TransactionService;
 
 public class TransferCashFromFamilyAccountToPersonalAccountController {
@@ -31,20 +31,20 @@ public class TransferCashFromFamilyAccountToPersonalAccountController {
             Family family = familyService.getFamily(familyID);
             FamilyMember familyMember = family.getFamilyMember(familyMemberCC);
 
-            if (categoryID>=0) {
+            if (categoryID >= 0) {
                 CategoryService categoryService = this.ffmApplication.getCategoryService();
                 category = categoryService.getStandardCategoryByID(categoryID);
-            }
-            else category = family.getCustomCategoryByID(categoryID);
-            if (category==null) return false;
+            } else category = family.getCustomCategoryByID(categoryID);
+            if (category == null) return false;
 
             AccountService accountService = ffmApplication.getAccountService();
-            if(!accountService.transferCashFromFamilyToFamilyMember(family, familyMember, familyCashTransferDTO)) return false;
+            if (!accountService.transferCashFromFamilyToFamilyMember(family, familyMember, familyCashTransferDTO))
+                return false;
 
             TransactionService transactionService = ffmApplication.getTransactionService();
             Account familyAccount = accountService.getAccount(familyMember, familyCashTransferDTO.getAccountID());
             Account targetCashAccount = accountService.getFamilyCashAccount(family);
-            transactionService.registerCashTransfer((CashAccount) familyAccount,(CashAccount) targetCashAccount, category, familyCashTransferDTO);
+            transactionService.registerCashTransfer((CashAccount) familyAccount, (CashAccount) targetCashAccount, category, familyCashTransferDTO);
             return true;
         } catch (IllegalArgumentException exception) {
             return false;

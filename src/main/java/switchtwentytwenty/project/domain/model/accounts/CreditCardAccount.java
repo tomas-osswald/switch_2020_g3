@@ -13,7 +13,7 @@ import java.util.Objects;
 public class CreditCardAccount implements Account {
 
     private final MoneyValue withdrawalLimit;
-    private final AccountType accountType = new AccountType(AccountTypeEnum.CREDITCARDACCOUNT);
+    private final AccountType accountType = AccountType.CREDITCARDACCOUNT;
     // Attributes
     private AccountData accountData;
     private MoneyValue interestDebt;
@@ -184,11 +184,11 @@ public class CreditCardAccount implements Account {
     /**
      * Method to check AccountType
      *
-     * @param accountTypeEnum AccountType to compare
+     * @param accountType AccountType to compare
      * @return true if are equals, else return false
      */
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum) {
-        return this.accountType.getAccountType().equals(accountTypeEnum);
+    public boolean checkAccountType(AccountType accountType) {
+        return this.accountType.equals(accountType);
     }
 
     /**

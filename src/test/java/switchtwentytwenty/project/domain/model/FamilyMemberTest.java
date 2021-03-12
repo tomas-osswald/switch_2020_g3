@@ -77,6 +77,7 @@ class FamilyMemberTest {
     String accountName = "Current Account";
     String accountName2 = "Other Current Account";
 
+
     /**
      * Name Validation
      **/
@@ -388,7 +389,7 @@ class FamilyMemberTest {
 
     @Test
     void addEmail_ValidEmail() {
-        String newEmail = "1120717@isep.ipp.pt";
+        EmailAddress newEmail = new EmailAddress("1120717@isep.ipp.pt");
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
         boolean result = diogo.addEmail(newEmail);
@@ -396,12 +397,6 @@ class FamilyMemberTest {
         assertTrue(result);
     }
 
-    @Test
-    void addEmail_InvalidEmail() {
-        String newEmail = "1120717@pt";
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        assertFalse(diogo.addEmail(newEmail));
-    }
 
     @Test
     void testEquals_differentObjects() {
@@ -475,7 +470,7 @@ class FamilyMemberTest {
     @Test
     void hasCashAccount_True() {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-        CashAccount cashAccount = new CashAccount("CashAccount",200.0,1,CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount("CashAccount", 200.0, 1, CurrencyEnum.EURO);
         personOne.addAccount(cashAccount);
         boolean result = personOne.hasCashAccount();
 

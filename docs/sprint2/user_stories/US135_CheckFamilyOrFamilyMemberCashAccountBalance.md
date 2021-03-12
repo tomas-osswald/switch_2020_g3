@@ -460,7 +460,7 @@ interface Account {
 + getAccountID()
 + isIDOfThisAccount(int accountID)
 + hasEnoughMoneyForTransaction(MoneyValue value )
-+ checkAccountType(AccountTypeEnum accountTypeEnum)
++ checkAccountType(AccountTypeEnum accountType)
 + String getDescription()
 + MoneyValue getMoneyBalance()
 + checkCurrency(CurrencyEnum currency)

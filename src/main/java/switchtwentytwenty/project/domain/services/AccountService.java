@@ -6,17 +6,31 @@ import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.model.accounts.*;
+import switchtwentytwenty.project.domain.model.user_data.CCNumber;
 import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.CASHACCOUNT;
 
 public class AccountService {
     private static final String INVALID_CURRENCY = "Invalid currency";
+    private FamilyService familyService;
 
-    public boolean createPersonalCashAccount(FamilyMember targetMember, AddCashAccountDTO addCashAccountDTO) {
+
+    public AccountService(FamilyService familyService) {
+        this.familyService = familyService;
+
+    }
+
+    public AccountService() {
+
+    }
+
+    public boolean createPersonalCashAccount(AddCashAccountDTO addCashAccountDTO) {
+        FamilyMember targetMember = familyService.getFamily(addCashAccountDTO.getFamilyID()).getFamilyMember(addCashAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         try {
             Account cashAccount = new CashAccount(addCashAccountDTO, accountID);
@@ -41,18 +55,24 @@ public class AccountService {
     /**
      * Method to create a family cash account for a family object
      *
-     * @param targetFamily       identifier of the family object
      * @param accountDesignation designation for the family cash account
      * @param initialBalance     initial balance for the account
      * @return returns true if an account was created and stored by the family object
      */
 
-    public boolean createFamilyCashAccount(Family targetFamily, String accountDesignation, double initialBalance) {
+    public boolean createFamilyCashAccount(int familyID, String ccNumber, String accountDesignation, double initialBalance) {
         Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0, CurrencyEnum.EURO);
-        if (!targetFamily.hasCashAccount()) {
-            targetFamily.addCashAccount(newCashAccount);
-            return true;
-        } else {
+        Family targetFamily = this.familyService.getFamily(familyID);
+        createFamilyCashAccountValidation(targetFamily,ccNumber);
+        targetFamily.addCashAccount(newCashAccount);
+        return true;
+
+    }
+
+    private void createFamilyCashAccountValidation(Family targetFamily, String ccNumber) {
+        if(!targetFamily.verifyAdministrator(ccNumber)){
+            throw new IllegalArgumentException("CC Number does not have Administrator permission");
+        }else if(targetFamily.hasCashAccount()){
             throw new IllegalArgumentException("This Family already has a Cash Account");
         }
     }
@@ -61,10 +81,10 @@ public class AccountService {
      * Method to add a Bank Account to a specific Family Member
      *
      * @param addBankAccountDTO DTO containing the required information(e.g. description, balance...) to create a bank account
-     * @param targetMember      Family member where the account will be added to
      * @return return true if nothing was throw
      */
-    public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO, FamilyMember targetMember) {
+    public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO) {
+        FamilyMember targetMember = this.familyService.getFamily(addBankAccountDTO.getFamilyID()).getFamilyMember(addBankAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
         targetMember.addAccount(bankAccount);
@@ -75,25 +95,27 @@ public class AccountService {
      * Method to create a Personal Credit Card Account
      *
      * @param addCreditCardAccountDTO DTO with information to create a Credit Card Account instance
-     * @param targetMember            Target Member to add a Credit Card Account
      * @return return true if nothing was throw
      */
-    public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO, FamilyMember targetMember) {
+    public boolean createPersonalCreditCardAccount(AddCreditCardAccountDTO addCreditCardAccountDTO) {
+        boolean result = false;
+        FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        targetMember.addAccount(creditCardAccount);
-        return true;
+        result = targetMember.addAccount(creditCardAccount);
+        return result;
     }
 
     /**
      * A method that calls a method to generate a unique ID for the account to be created and calls the BankSavingsAccount constructor.
      * Lastly, it adds the account to a given FamilyMember.
      *
-     * @param targetMember             FamilyMember to add the account to.
      * @param addBankSavingsAccountDTO DTO that holds all necessary information for the creation of a BankSavingsAccount
      * @return true if account created, null if the given FamilyMember is null.
      */
-    public boolean addBankSavingsAccount(FamilyMember targetMember, AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
+    public boolean addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
+        Family targetFamily = this.familyService.getFamily(addBankSavingsAccountDTO.getFamilyID());
+        FamilyMember targetMember = targetFamily.getFamilyMember(addBankSavingsAccountDTO.getFamilyMemberID());
         if (targetMember == null) {
             return false;
         }
@@ -159,18 +181,22 @@ public class AccountService {
     /**
      * Method to return a List of Cash Account of a given Family Member
      *
-     * @param familyMember Given Family Member
      * @return List of Cash Accounts (AccountIDAndDescriptionDTO)
      */
-    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(FamilyMember familyMember) {
-        List<Account> accounts = familyMember.getAccounts();
-        return createListOfCashAccounts(accounts);
+    public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(int familyID, String selfID, String otherID) {
+        if (familyService.verifyAdministratorPermission(familyID, selfID)) {
+            FamilyMember familyMember = familyService.getFamilyMember(familyID, otherID);
+            List<Account> accounts = familyMember.getAccounts();
+            return createListOfCashAccounts(accounts);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
 
-    public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+    public boolean verifyAccountType(Account account, AccountType accountType) {
         boolean isSameType = false;
-        if (account.checkAccountType(accountTypeEnum)) {
+        if (account.checkAccountType(accountType)) {
             isSameType = true;
         }
         return isSameType;
@@ -250,13 +276,18 @@ public class AccountService {
      * Verifies type of the account. If it's not CashAccount throws exception
      *
      * @param accountID identifier of the target account
-     * @param member    child to whom the account pertains
      * @return If both validations are true, returns the current Balance.
      */
 
-    public MoneyValue checkChildCashAccountBalance(int accountID, FamilyMember member) {
+    public MoneyValue checkChildCashAccountBalance(int accountID, int familyID, String parentID, String childID) {
         MoneyValue currentBalance;
-        Account targetAccount = member.getAccount(accountID);
+        Family targetFamily = familyService.getFamily(familyID);
+        CCNumber parentCC = new CCNumber(parentID);
+        CCNumber childCC = new CCNumber(childID);
+        FamilyMember parent = targetFamily.getFamilyMemberByID(parentCC);
+        FamilyMember child = targetFamily.getFamilyMemberByID(childCC);
+        targetFamily.verifyParenthood(parent, child);
+        Account targetAccount = child.getAccount(accountID);
         if (targetAccount == null) {
             throw new IllegalArgumentException("No account with such ID");
         }
