@@ -194,13 +194,12 @@ public class FamilyMember {
      * @param account given account
      * @return true if account was added, false if given account is null
      */
-    public boolean addAccount(Account account) {
+    public void addAccount(Account account) {
         if (account == null) {
-            return false;
-        }
+            throw new IllegalStateException(" Invalid state. Account can't be null.");
+        } else {
         this.accounts.add(account);
-        return true;
-    }
+    } }
 
     @Override
     public boolean equals(Object o) {

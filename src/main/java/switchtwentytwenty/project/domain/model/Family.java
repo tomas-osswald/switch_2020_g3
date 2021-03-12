@@ -151,20 +151,21 @@ public class Family {
 
     /**
      * Method to add a Family Member to list of FamilyMembers
-     *
+     * @Deprecated Used only to simplify the testing process (aka lazyness). Doesn't have validations.
      * @param familyMember FamilyMember to add to list
      */
-
+    @Deprecated
     public void addFamilyMember(FamilyMember familyMember) {
         this.familyMembers.add(familyMember);
     }
 
     /**
      * Method to add a Family Member Array to list of FamilyMembers
-     *
+     * @Deprecated Used only to simplify the testing process (aka lazyness). Doesn't have validations.
+     * No need of this functionality for the Application purposes.
      * @param familyMembers FamilyMember arry to add to list
      */
-
+    @Deprecated
     public void addFamilyMemberArray(List<FamilyMember> familyMembers) {
         this.familyMembers.addAll(familyMembers);
     }

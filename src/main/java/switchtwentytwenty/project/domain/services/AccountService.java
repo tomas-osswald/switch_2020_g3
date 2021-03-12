@@ -81,14 +81,13 @@ public class AccountService {
      * Method to add a Bank Account to a specific Family Member
      *
      * @param addBankAccountDTO DTO containing the required information(e.g. description, balance...) to create a bank account
-     * @return return true if nothing was throw
+     * Changed to void (previously boolean)
      */
-    public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO) {
-        FamilyMember targetMember = this.familyService.getFamily(addBankAccountDTO.getFamilyID()).getFamilyMember(addBankAccountDTO.getFamilyMemberID());
+    public void addBankAccount(AddBankAccountDTO addBankAccountDTO) {
+        FamilyMember targetMember = this.familyService.getFamilyMember(addBankAccountDTO.getFamilyID(), addBankAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
         targetMember.addAccount(bankAccount);
-        return true;
     }
 
     /**
@@ -102,7 +101,7 @@ public class AccountService {
         FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        result = targetMember.addAccount(creditCardAccount);
+        targetMember.addAccount(creditCardAccount);
         return result;
     }
 
