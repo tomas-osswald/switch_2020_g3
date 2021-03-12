@@ -133,7 +133,7 @@ class AccountServiceTest {
         AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
-        assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
+        assertDoesNotThrow(() -> accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
@@ -145,9 +145,8 @@ class AccountServiceTest {
         AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
-        assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
+        assertDoesNotThrow(() -> accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
-
 
     @Test
     void addBankAccountTest1_Success() {

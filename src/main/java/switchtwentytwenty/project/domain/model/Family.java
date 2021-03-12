@@ -329,6 +329,13 @@ public class Family {
         return selectedCategory;
     }
 
+    /**
+     * Deprecated method. Does not throw anything.
+     * @param ccNumber
+     * @return
+     */
+    @Deprecated
+    //TODO: Verificar se está a ser usado nos testes.
     public FamilyMember getFamilyMember(String ccNumber) {
         CCNumber cc = new CCNumber(ccNumber);
         for (FamilyMember member : this.familyMembers) {

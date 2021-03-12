@@ -216,9 +216,10 @@ public class FamilyService {
     }
 
 
-    public FamilyMember getFamilyMember(int familyID, String familyMemberID) {
+    public FamilyMember getFamilyMemberByFamilyAndMemberId(int familyID, String familyMemberID) {
         Family family = getFamily(familyID);
-        return family.getFamilyMember(familyMemberID);
+        CCNumber cc = new CCNumber(familyMemberID);
+        return family.getFamilyMemberByID(cc);
     }
 }
 
