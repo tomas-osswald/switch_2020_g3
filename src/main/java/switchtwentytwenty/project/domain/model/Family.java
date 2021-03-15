@@ -12,13 +12,14 @@ import switchtwentytwenty.project.domain.model.user_data.VatNumber;
 
 import java.util.*;
 
+
 public class Family {
 
     // Attributes
 
     private final int familyID;
     private final String familyName;
-    private final List<FamilyMember> familyMembers;
+    private final FamilyMemberList familyMembers = new FamilyMemberList();
     private final List<String> relationDesignations = new ArrayList<>();
     private final List<CustomCategory> familyCustomCategories = new ArrayList<>();
     private final List<Relation> familyRelations = new ArrayList<>();
@@ -34,7 +35,6 @@ public class Family {
      */
     public Family(String familyName, int familyID) {
         if (!isNameValid(familyName)) throw new IllegalArgumentException("Invalid Name");
-        this.familyMembers = new ArrayList<>();
         this.familyName = familyName;
         this.familyID = familyID;
     }
@@ -47,10 +47,6 @@ public class Family {
 
     /********************** GETTERS AND SETTERS **********************/
 
-    public List<FamilyMember> getFamilyMembers() {
-
-        return Collections.unmodifiableList(familyMembers);
-    }
 
     /**
      * Method to return family ID
@@ -190,7 +186,7 @@ public class Family {
 
     @Override
     public int hashCode() {
-        return Objects.hash(familyID, familyName, familyMembers, relationDesignations, familyCashAccount, familyCustomCategories, familyRelations);
+        return Objects.hash(familyID, familyName, relationDesignations, familyCashAccount, familyCustomCategories, familyRelations);
     }
 
 
@@ -417,5 +413,39 @@ public class Family {
             }
         }
         return result;
+    }
+
+    //TODO: Mostrar ao Nuno Bettencourt
+    private class FamilyMemberList implements Iterable<FamilyMember> {
+
+        private List<FamilyMember> familyMembers;
+
+        private FamilyMemberList(){
+            this.familyMembers = new ArrayList<>();
+        }
+
+        private void add(FamilyMember familyMemberToAdd) {
+            familyMembers.add(familyMemberToAdd);
+        }
+
+        private int size(){
+            return this.familyMembers.size();
+        }
+
+        @Override
+        public Iterator iterator() {
+            return this.familyMembers.iterator();
+        }
+
+        @Deprecated
+        private void addAll(List<FamilyMember> familyMembers) {
+            this.familyMembers.addAll(familyMembers);
+        }
+
+        private void addAll(FamilyMemberList familyMembers) {
+            for (FamilyMember familyMember: familyMembers) {
+                this.familyMembers.add(familyMember);
+            }
+        }
     }
 }

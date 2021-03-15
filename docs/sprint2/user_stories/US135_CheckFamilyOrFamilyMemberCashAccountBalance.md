@@ -412,7 +412,7 @@ end
 ## 3.2. Class Diagram
 
 ```puml
-
+skinparam linetype ortho
 title US135 Class Diagram
 hide empty members
 
@@ -427,15 +427,15 @@ class Application {
 + getAccountService()
 }
 
-class CashAccount {
-- accountType
-}
+'class CashAccount {
+'- accountType
+'}
 
-class AccountData {
-- description
-- accountID
-- List<Transaction> transactions
-}
+'class AccountData {
+'- description
+'- accountID
+'- List<Transaction> transactions
+'}
 
 
 class AccountService {
@@ -445,6 +445,7 @@ class AccountService {
 
 class FamilyService {
 + getFamily()
++ verifyAdministratorPermission()
 }
 
 class Family {
@@ -456,37 +457,39 @@ class FamilyMember {
 + getAccount()
 }
 
-interface Account {
-+ getAccountID()
-+ isIDOfThisAccount(int accountID)
-+ hasEnoughMoneyForTransaction(MoneyValue value )
-+ checkAccountType(AccountTypeEnum accountType)
-+ String getDescription()
-+ MoneyValue getMoneyBalance()
-+ checkCurrency(CurrencyEnum currency)
-+ getListOfMovements()
-+ debit(MoneyValue value)
-+ credit(MoneyValue value)
-+ getAccountIDAndDescriptionDTO()
-}
+'interface Account {
+'+ getAccountID()
+'+ isIDOfThisAccount(int accountID)
+'+ hasEnoughMoneyForTransaction(MoneyValue value )
+'+ checkAccountType(AccountTypeEnum accountType)
+'+ String getDescription()
+'+ MoneyValue getMoneyBalance()
+'+ checkCurrency(CurrencyEnum currency)
+'+ getListOfMovements()
+'+ debit(MoneyValue value)
+'+ credit(MoneyValue value)
+'+ getAccountIDAndDescriptionDTO()
+'}
 
 class MoneyValue {
 - amount
 - currency
 }
 
-CheckCashAccountBalanceController -- Application : ffmapplication
+CheckCashAccountBalanceController -up-> Application : ffmapplication 
+'AccountService <---* Application : accountService
+'FamilyService <---* Application : familyService
 
-CheckCashAccountBalanceController -----> AccountService : calls
-CheckCashAccountBalanceController --> FamilyService : calls
-FamilyService --> Family : has list
-Family --> FamilyMember : has list
-Family --> CashAccount : has list
-FamilyMember -> CashAccount : has
-CashAccount .--|> Account : implements
-CashAccount *- AccountData : contains
-AccountData *- MoneyValue : contains
-AccountService --> CashAccount : verifies account type and retrieves balance
+CheckCashAccountBalanceController -.> AccountService
+CheckCashAccountBalanceController -.> FamilyService
+CheckCashAccountBalanceController -.>  Family
+CheckCashAccountBalanceController -.> FamilyMember
+'Family *--> "0..1" CashAccount : familyCashAccount
+'FamilyMember *-> "0..*" Account  : accountList
+'CashAccount .--|> Account
+'CashAccount *-> AccountData : accountData
+CheckCashAccountBalanceController -.> MoneyValue
+'AccountService .-> Account 
 ```
 
 ## 3.3. Applied Patterns
