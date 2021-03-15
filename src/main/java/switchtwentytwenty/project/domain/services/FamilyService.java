@@ -52,6 +52,13 @@ public class FamilyService {
         return family.getFamilyCustomCategories();
     }
 
+
+
+
+
+    /*Methods de teste a manter um method público para ser
+    invocado e um method private para processamento/lógica de negócio*/
+
     /**
      * Method to check if a given email address is already present in the ArrayList of EmailAddress objects
      *
@@ -60,13 +67,21 @@ public class FamilyService {
      */
     public void checkIfEmailIsUnique(String emailToCheck) {
         EmailAddress newEmail = new EmailAddress(emailToCheck);
+        checkIfEmailIsUnique(newEmail);
+    }
+
+     /*Methods de teste a manter um method público para ser
+    invocado e um method private para processamento/lógica de negócio*/
+
+    //TODO: Confirmar junto do prof. se a lógica está bem aplicada (um public e um private)
+    private void checkIfEmailIsUnique(EmailAddress newEmail) {
         for (Family family : this.families) {
             if (family.isEmailPresentInFamily(newEmail)) {
                 throw new IllegalArgumentException("Email already registered in App");
             }
         }
-
     }
+
 
     /**
      * Method to add a Family to Families List -> families
@@ -201,9 +216,10 @@ public class FamilyService {
     }
 
 
-    public FamilyMember getFamilyMember(int familyID, String otherID) {
+    public FamilyMember getFamilyMemberByFamilyAndMemberId(int familyID, String familyMemberID) {
         Family family = getFamily(familyID);
-        return family.getFamilyMember(otherID);
+        CCNumber cc = new CCNumber(familyMemberID);
+        return family.getFamilyMemberByID(cc);
     }
 }
 

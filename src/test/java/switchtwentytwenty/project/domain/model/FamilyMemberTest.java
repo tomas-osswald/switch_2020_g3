@@ -426,10 +426,7 @@ class FamilyMemberTest {
     @Test
     void addAccount_failureAccountIsNull() {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-
-        boolean result = personOne.addAccount(null);
-
-        Assertions.assertFalse(result);
+        assertThrows(IllegalStateException.class, () -> personOne.addAccount(null));
     }
 
     @Test
@@ -481,7 +478,6 @@ class FamilyMemberTest {
     void addAnAccountTrue() {
         AddBankAccountDTO dto = new AddBankAccountDTO(balance, "description", "selfCC", 1, CurrencyEnum.EURO);
         BankAccount account = new BankAccount(dto, 1);
-
-        assertTrue(diogo.addAccount(account));
+        assertDoesNotThrow(() -> diogo.addAccount(account));
     }
 }

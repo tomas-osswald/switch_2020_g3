@@ -133,7 +133,7 @@ class AccountServiceTest {
         AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
-        assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
+        assertDoesNotThrow(() -> accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
     @Test
@@ -145,22 +145,26 @@ class AccountServiceTest {
         AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(id, id, name, date, numero, email, nif, rua, codPostal, local, city, 6);
         silva2.addFamilyMember(memberDTO);
         familyService.addFamily(silva2);
-        assertTrue(accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
+        assertDoesNotThrow(() -> accountService.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
-
 
     @Test
     void addBankAccountTest1_Success() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
+        Family myFamily = new Family("BTC", 1);
+        myFamily.addFamilyMember(diogo);
+        familyService.addFamily(myFamily);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO));
+        assertDoesNotThrow(() -> accountService.addBankAccount(addBankAccountDTO));
+        assertNotNull(diogo.getAccount(1));
     }
+
 
     @Test
     void addBankAccountTest2_NullBalanceSuccess() {
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(null, accountName, cc, 1, CurrencyEnum.EURO);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO));
+        assertDoesNotThrow(() -> accountService.addBankAccount(addBankAccountDTO));
     }
 
     @Test
@@ -169,7 +173,7 @@ class AccountServiceTest {
         AddBankAccountDTO addBankAccountDTO = new AddBankAccountDTO(balance, accountName, cc, 1, CurrencyEnum.EURO);
         AddBankAccountDTO addBankAccountDTO2 = new AddBankAccountDTO(negativeBalance, accountName, cc, 1, CurrencyEnum.EURO);
         accountService.addBankAccount(addBankAccountDTO);
-        assertTrue(accountService.addBankAccount(addBankAccountDTO2));
+        assertDoesNotThrow(() -> accountService.addBankAccount(addBankAccountDTO2));
     }
 
     @Test
@@ -179,7 +183,7 @@ class AccountServiceTest {
         testFamily.addFamilyAdministrator(memberDTO);
         familyService.addFamily(testFamily);
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(cc, 2, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
-        assertTrue(accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO));
+        assertDoesNotThrow(() -> accountService.createPersonalCreditCardAccount(addCreditCardAccountDTO));
     }
 
     @Test
@@ -433,7 +437,7 @@ class AccountServiceTest {
         Family testFamily = new Family("Silva", 5);
         testFamily.addFamilyAdministrator(familyMemberDTO);
         familyService.addFamily(testFamily);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             accountService.createFamilyCashAccount(5, id, designation, initialBalance);
         });
     }
@@ -511,7 +515,7 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         });
     }
@@ -536,7 +540,7 @@ class AccountServiceTest {
         CurrencyEnum currency = CurrencyEnum.EURO;
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(familyID, id, accountID, transferAmount, currency, categoryID, transactionDesignation, transactionDate);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             accountService.transferCashFromFamilyToFamilyMember(ribeiro, diogo, familyCashTransferDTO);
         });
     }
@@ -678,7 +682,7 @@ class AccountServiceTest {
         StandardCategory category = categoryService.getStandardCategoryByID(categoryID);
 
         CashTransferDTO transferDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue.getValue(), transferedValue.getCurrencyType(), categoryID, transactionDesignation, transactionDate);
-        Assertions.assertThrows(NullPointerException.class, () -> {
+        assertThrows(NullPointerException.class, () -> {
             accountService.transferCashBetweenFamilyMembersCashAccounts(mary, tony, transferDTO);
         });
     }
@@ -748,7 +752,7 @@ class AccountServiceTest {
         jorge.addAccount(zeroCashAccount);
         CashTransferDTO cashTransferDTO = new CashTransferDTO(1, cc, 1, id, generatedID, 5.00, CurrencyEnum.YEN, 0, "Divida", new Date());
 
-        Assertions.assertThrows(NotSameCurrencyException.class, () -> accountService.transferCashBetweenFamilyMembersCashAccounts(diogo, jorge, cashTransferDTO));
+        assertThrows(NotSameCurrencyException.class, () -> accountService.transferCashBetweenFamilyMembersCashAccounts(diogo, jorge, cashTransferDTO));
     }
 
     @Test
@@ -756,6 +760,6 @@ class AccountServiceTest {
         AccountService accountService = ffmApp.getAccountService();
         diogo.addAccount(cashAccountYen);
         FamilyCashTransferDTO dto = new FamilyCashTransferDTO(1, cc, 1, 3.0, CurrencyEnum.EURO, 0, "jj", date);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.transferCashFromFamilyToFamilyMember(silva, jorge, dto));
+        assertThrows(IllegalArgumentException.class, () -> accountService.transferCashFromFamilyToFamilyMember(silva, jorge, dto));
     }
 }

@@ -63,16 +63,16 @@ public class AccountService {
     public boolean createFamilyCashAccount(int familyID, String ccNumber, String accountDesignation, double initialBalance) {
         Account newCashAccount = new CashAccount(accountDesignation, initialBalance, 0, CurrencyEnum.EURO);
         Family targetFamily = this.familyService.getFamily(familyID);
-        createFamilyCashAccountValidation(targetFamily,ccNumber);
+        createFamilyCashAccountValidation(targetFamily, ccNumber);
         targetFamily.addCashAccount(newCashAccount);
         return true;
 
     }
 
     private void createFamilyCashAccountValidation(Family targetFamily, String ccNumber) {
-        if(!targetFamily.verifyAdministrator(ccNumber)){
+        if (!targetFamily.verifyAdministrator(ccNumber)) {
             throw new IllegalArgumentException("CC Number does not have Administrator permission");
-        }else if(targetFamily.hasCashAccount()){
+        } else if (targetFamily.hasCashAccount()) {
             throw new IllegalArgumentException("This Family already has a Cash Account");
         }
     }
@@ -81,14 +81,13 @@ public class AccountService {
      * Method to add a Bank Account to a specific Family Member
      *
      * @param addBankAccountDTO DTO containing the required information(e.g. description, balance...) to create a bank account
-     * @return return true if nothing was throw
+     *                          Changed to void (previously boolean)
      */
-    public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO) {
-        FamilyMember targetMember = this.familyService.getFamily(addBankAccountDTO.getFamilyID()).getFamilyMember(addBankAccountDTO.getFamilyMemberID());
+    public void addBankAccount(AddBankAccountDTO addBankAccountDTO) {
+        FamilyMember targetMember = this.familyService.getFamilyMemberByFamilyAndMemberId(addBankAccountDTO.getFamilyID(), addBankAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account bankAccount = new BankAccount(addBankAccountDTO, accountID);
         targetMember.addAccount(bankAccount);
-        return true;
     }
 
     /**
@@ -102,7 +101,7 @@ public class AccountService {
         FamilyMember targetMember = familyService.getFamily(addCreditCardAccountDTO.getFamilyID()).getFamilyMember(addCreditCardAccountDTO.getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account creditCardAccount = new CreditCardAccount(addCreditCardAccountDTO, accountID);
-        result = targetMember.addAccount(creditCardAccount);
+        targetMember.addAccount(creditCardAccount);
         return result;
     }
 
@@ -113,16 +112,18 @@ public class AccountService {
      * @param addBankSavingsAccountDTO DTO that holds all necessary information for the creation of a BankSavingsAccount
      * @return true if account created, null if the given FamilyMember is null.
      */
-    public boolean addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
-        Family targetFamily = this.familyService.getFamily(addBankSavingsAccountDTO.getFamilyID());
-        FamilyMember targetMember = targetFamily.getFamilyMember(addBankSavingsAccountDTO.getFamilyMemberID());
-        if (targetMember == null) {
-            return false;
-        }
+    public void addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
+        FamilyMember targetMember = this.
+                familyService.
+                getFamilyMemberByFamilyAndMemberId(
+                        addBankSavingsAccountDTO.
+                                getFamilyID
+                                        (),
+                        addBankSavingsAccountDTO.
+                                getFamilyMemberID());
         int accountID = generateID(targetMember);
         Account bankSavingsAccount = new BankSavingsAccount(accountID, addBankSavingsAccountDTO);
         targetMember.addAccount(bankSavingsAccount);
-        return true;
     }
 
     /**
@@ -185,7 +186,7 @@ public class AccountService {
      */
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(int familyID, String selfID, String otherID) {
         if (familyService.verifyAdministratorPermission(familyID, selfID)) {
-            FamilyMember familyMember = familyService.getFamilyMember(familyID, otherID);
+            FamilyMember familyMember = familyService.getFamilyMemberByFamilyAndMemberId(familyID, otherID);
             List<Account> accounts = familyMember.getAccounts();
             return createListOfCashAccounts(accounts);
         } else {

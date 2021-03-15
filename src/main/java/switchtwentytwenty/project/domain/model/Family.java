@@ -147,20 +147,21 @@ public class Family {
 
     /**
      * Method to add a Family Member to list of FamilyMembers
-     *
+     * @Deprecated Used only to simplify the testing process (aka lazyness). Doesn't have validations.
      * @param familyMember FamilyMember to add to list
      */
-
+    @Deprecated
     public void addFamilyMember(FamilyMember familyMember) {
         this.familyMembers.add(familyMember);
     }
 
     /**
      * Method to add a Family Member Array to list of FamilyMembers
-     *
+     * @Deprecated Used only to simplify the testing process (aka lazyness). Doesn't have validations.
+     * No need of this functionality for the Application purposes.
      * @param familyMembers FamilyMember arry to add to list
      */
-
+    @Deprecated
     public void addFamilyMemberArray(List<FamilyMember> familyMembers) {
         this.familyMembers.addAll(familyMembers);
     }
@@ -324,6 +325,13 @@ public class Family {
         return selectedCategory;
     }
 
+    /**
+     * Deprecated method. Does not throw anything.
+     * @param ccNumber
+     * @return
+     */
+    @Deprecated
+    //TODO: Verificar se está a ser usado nos testes.
     public FamilyMember getFamilyMember(String ccNumber) {
         CCNumber cc = new CCNumber(ccNumber);
         for (FamilyMember member : this.familyMembers) {
