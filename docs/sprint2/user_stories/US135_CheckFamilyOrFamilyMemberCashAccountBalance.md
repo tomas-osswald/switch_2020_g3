@@ -429,6 +429,7 @@ class Application {
 
 'class CashAccount {
 '- accountType
+'+ checkAccountType()
 '}
 
 'class AccountData {
@@ -457,19 +458,19 @@ class FamilyMember {
 + getAccount()
 }
 
-'interface Account {
+interface Account {
 '+ getAccountID()
 '+ isIDOfThisAccount(int accountID)
 '+ hasEnoughMoneyForTransaction(MoneyValue value )
-'+ checkAccountType(AccountTypeEnum accountType)
++ checkAccountType(AccountTypeEnum accountType)
 '+ String getDescription()
-'+ MoneyValue getMoneyBalance()
++ MoneyValue getMoneyBalance()
 '+ checkCurrency(CurrencyEnum currency)
 '+ getListOfMovements()
 '+ debit(MoneyValue value)
 '+ credit(MoneyValue value)
 '+ getAccountIDAndDescriptionDTO()
-'}
+}
 
 class MoneyValue {
 - amount
@@ -481,15 +482,19 @@ CheckCashAccountBalanceController -up-> Application : ffmapplication
 'FamilyService <---* Application : familyService
 
 CheckCashAccountBalanceController -.> AccountService
-CheckCashAccountBalanceController -.> FamilyService
-CheckCashAccountBalanceController -.>  Family
-CheckCashAccountBalanceController -.> FamilyMember
+CheckCashAccountBalanceController ---.> FamilyService
+CheckCashAccountBalanceController ---.>  Family
+CheckCashAccountBalanceController ---.> FamilyMember
 'Family *--> "0..1" CashAccount : familyCashAccount
 'FamilyMember *-> "0..*" Account  : accountList
 'CashAccount .--|> Account
 'CashAccount *-> AccountData : accountData
 CheckCashAccountBalanceController -.> MoneyValue
-'AccountService .-> Account 
+AccountService .-> Account
+'AccountService .-> CashAccount 
+AccountService .-> MoneyValue
+AccountService .-> Family
+AccountService .-> FamilyMember
 ```
 
 ## 3.3. Applied Patterns
