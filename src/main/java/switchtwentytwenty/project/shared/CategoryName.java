@@ -3,10 +3,10 @@ package switchtwentytwenty.project.shared;
 import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
-public class categoryName implements ValueObject {
+public class CategoryName implements ValueObject {
     private String name;
 
-    public categoryName(String name) {
+    public CategoryName(String name) {
         this.name = name;
         validation();
     }
