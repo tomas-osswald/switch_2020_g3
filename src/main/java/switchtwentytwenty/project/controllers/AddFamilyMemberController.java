@@ -1,12 +1,8 @@
 package switchtwentytwenty.project.controllers;
 
-import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
-import switchtwentytwenty.project.domain.model.Application;
-import switchtwentytwenty.project.domain.services.FamilyService;
-
 public class AddFamilyMemberController {
 
-    private final Application ffmApplication;
+   /* private final Application ffmApplication;
 
     public AddFamilyMemberController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
@@ -20,5 +16,5 @@ public class AddFamilyMemberController {
         } catch (IllegalArgumentException e) {
         }
         return result;
-    }
+    }*/
 }
