@@ -24,13 +24,13 @@ public class categoryName implements ValueObject {
     }
 
     private void checkIfNotBlank(){
-        if (this.name == ""){
+        if (this.name.isEmpty()){
             throw new InvalidNameException("Name cannot be blank");
         }
     }
 
     private void checkIfNotEmpty(){
-        if (this.name == ""){
+        if (this.name.trim().length() == 0){
             throw new InvalidNameException("Name cannot be empty");
         }
     }
