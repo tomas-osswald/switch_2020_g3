@@ -15,5 +15,4 @@ public class AddStandardCategoryController {
         CategoryService categoryService = this.ffmApplication.getCategoryService();
         return categoryService.addStandardCategory(categoryName, parentID);
     }
-
 }

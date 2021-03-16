@@ -6,7 +6,6 @@ public class AddRelationBaseController {
 
     private final Application ffmApplication;
 
-
     public AddRelationBaseController(Application ffmApplication) {
         this.ffmApplication = ffmApplication;
     }
@@ -24,5 +23,4 @@ public class AddRelationBaseController {
         AddOrChangeRelationController addRelationController = new AddOrChangeRelationController();
         return addRelationController.addOrChangeRelation(ffmApplication, adminCC, memberACCNumber, memberBCCNumber, familyID, relationDesignation, aIsParentOfB);
     }
-
 }

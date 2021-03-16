@@ -15,5 +15,4 @@ public class AddFamilyController {
         FamilyService familyService = ffmApplication.getFamilyService();
         return familyService.addFamily(familyName);
     }
-
 }
