@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.Category;
 
 import switchtwentytwenty.project.AggregateRoot;
-import switchtwentytwenty.project.Person.Person;
 
 public class Category implements AggregateRoot{
 
