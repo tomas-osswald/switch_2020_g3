@@ -1,13 +1,15 @@
-package switchtwentytwenty.project.Category.shared;
+package switchtwentytwenty.project.shared;
 
 import switchtwentytwenty.project.ID;
 import switchtwentytwenty.project.ValueObject;
 
-public class CategoryID implements ID, ValueObject {
+public class CategoryID implements ValueObject, ID {
+
     private int categoryID;
 
-    public CategoryID() {
+    public CategoryID(int categoryID) {
         this.categoryID = categoryID;
+        validateID();
     }
 
     private void validateID(){
@@ -19,4 +21,5 @@ public class CategoryID implements ID, ValueObject {
     private boolean isIDValid(){
         return this.categoryID<1;
     }
+
 }

@@ -1,5 +1,7 @@
 package switchtwentytwenty.project.person;
 
+import switchtwentytwenty.project.Person.Person;
+
 public class Relation {
 
     private Person memberA;
