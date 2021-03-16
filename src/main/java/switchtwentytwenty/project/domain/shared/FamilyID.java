@@ -12,9 +12,13 @@ public class FamilyID implements ID {
     }
 
     private void validateID(){
-        if(this.familyID<=0){
+        if(!isIDValid()){
             throw new IllegalArgumentException("Invalid ID");
         }
+    }
+
+    private boolean isIDValid(){
+        return this.familyID>0;
     }
 
 }
