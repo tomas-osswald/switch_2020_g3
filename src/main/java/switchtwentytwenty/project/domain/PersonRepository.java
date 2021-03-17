@@ -1,7 +1,10 @@
 package switchtwentytwenty.project.domain;
 
-import switchtwentytwenty.project.Person.Person;
-import java.time.LocalDate;
+
+import switchtwentytwenty.project.domain.person.Person;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
+import switchtwentytwenty.project.shared.EmailAddress;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,17 +13,44 @@ public class PersonRepository {
     private final List<Person> people;
 
 
-    public PersonRepository(){
+    public PersonRepository() {
         this.people = new ArrayList<>();
     }
 
-    public void addPerson(Person person){
+    public void addPerson(Person person) {
         this.people.add(person);
     }
 
 
-    public void createPerson(){
+    public void createPerson() {
         //DTO unpacked aqui ou antes?
+    }
+
+    public Person getPersonByEmail(EmailAddress email) {
+        checkIfEmailIsRegistered(email);
+        return retrievePersonFromList(email);
+    }
+
+    private void checkIfEmailIsRegistered(EmailAddress email) {
+        boolean result = false;
+        for (Person person : people) {
+            if(person.isSameEmail(email)){
+                result = true;
+            }
+        }
+        if(!result){
+            throw new EmailNotRegisteredException();
+        }
+    }
+
+    private Person retrievePersonFromList(EmailAddress email) {
+        Person result = null;
+        for (Person person : people) {
+            if(person.isSameEmail(email)){
+               result = person;
+            }
+        }
+        return result;
     }
 
 

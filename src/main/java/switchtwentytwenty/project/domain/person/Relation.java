@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.domain.person;
 
-import switchtwentytwenty.project.Person.Person;
 
 public class Relation {
 
