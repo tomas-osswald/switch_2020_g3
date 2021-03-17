@@ -2,6 +2,7 @@ package switchtwentytwenty.project.shared;
 
 import switchtwentytwenty.project.ID;
 
+
 public class FamilyID implements ID {
 
     private final int familyID;
@@ -20,5 +21,7 @@ public class FamilyID implements ID {
     private boolean isIDValid(){
         return this.familyID>0;
     }
+
+
 
 }
