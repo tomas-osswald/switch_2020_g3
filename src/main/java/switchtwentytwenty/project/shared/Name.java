@@ -24,7 +24,7 @@ public class Name implements ValueObject {
 
     // Falta Verificação com regras de negócio
     private boolean isValidName() {
-        return true;
+        return name != null && name.trim().length() != 0 && !name.isEmpty();
     }
 
 }

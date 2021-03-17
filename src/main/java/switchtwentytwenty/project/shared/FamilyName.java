@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.shared;
 
 import switchtwentytwenty.project.ValueObject;
+import java.util.Objects;
 
 public class FamilyName implements ValueObject {
 
@@ -35,4 +36,16 @@ public class FamilyName implements ValueObject {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FamilyName)) return false;
+        FamilyName that = (FamilyName) o;
+        return familyName.equals(that.familyName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(familyName);
+    }
 }
