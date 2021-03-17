@@ -1,30 +1,34 @@
 package switchtwentytwenty.project.domain.family;
 
 import switchtwentytwenty.project.AggregateRoot;
+import switchtwentytwenty.project.shared.EmailAddress;
 import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
+import switchtwentytwenty.project.shared.RegistrationDate;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 public class Family implements AggregateRoot {
 
-    //private final FamilyID id;
-    //private final FamilyName name;
-    //private final LocalDate registrationDate; //Verificar classe a ser usada para representar a data
-    //private Email adminEmail;
+    private final FamilyID id;
+    private final FamilyName name;
+    private final RegistrationDate registrationDate;
+    private EmailAddress adminEmail;
 
-    public Family(FamilyName familyName, LocalDate registrationDate, FamilyID familyID) {
+    public Family(FamilyID familyID,FamilyName familyName, RegistrationDate registrationDate) {
+        this.id = familyID;
+        this.name = familyName;
+        this.registrationDate = registrationDate;
+    }
 
+    public boolean isIDofThisFamily(FamilyID familyID) {
+        return this.id.equals(familyID);
     }
 
 
 /*
     public int getFamilyID() {
         return familyID;
-    }
-
-    public boolean isIDofThisFamily(int familyID) {
-        return this.familyID == familyID;
     }
 
     // Business methods
@@ -36,11 +40,7 @@ public class Family implements AggregateRoot {
      */
 /*
     public boolean hasAdministrator() {
-        for (FamilyMember familyMember : familyMembers) {
-            if (familyMember.isAdministrator())
-                return true;
-        }
-        return false;
+        return this.adminEmail.notNull()
     }
 */
     /**
@@ -82,18 +82,20 @@ public class Family implements AggregateRoot {
     public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
         return new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
     }
+*/
+
+
 
     @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof Family)) return false;
-        Family otherFamily = (Family) other;
-        return (this.familyID == otherFamily.familyID && this.familyName.equals(otherFamily.familyName));
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Family)) return false;
+        Family family = (Family) o;
+        return id.equals(family.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(familyID, familyName, relationDesignations, familyCashAccount, familyCustomCategories, familyRelations);
+        return Objects.hash(id);
     }
-*/
 }
