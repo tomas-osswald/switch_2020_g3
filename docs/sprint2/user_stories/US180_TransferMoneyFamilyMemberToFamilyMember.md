@@ -55,7 +55,7 @@ To  meet the requirements of this particular US we need at this stage the input 
 - Family ID (User's Family);
 - Origin FamilyMember ID (User who will send the money from his cash account);
 - Destination Family Member ID (User who will receive the money to his cash account);
-- Ammount transfered;
+- Amount transferred;
 - Category
 
 ##2.1. Domain Model Diagram
@@ -108,13 +108,13 @@ Family "1" -- "0..*" Category : has custom >
 Family "1" -- "0..1" CashAccount : has >
 Family "1" -- "0..1" FamilyMember : has administrator >
 Family "1" -- "1..*" FamilyMember : has members >
-Family "1" -- "0..*" Relations : has >
+Category "1" -- "0..1" Category : has parent
 FamilyMember "1" -- "0..*" CashAccount : has >
 CashAccount "1" -- "0..*" Transaction : has >
 ````
 # 3. Design
 
-The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members and the ammout to be transfered.
+The process to fulfill the requirement we need the input of data from a UI to determine origin and destination accounts inside family members, and the amount to be transferred.
 To execute the transfer the controller will first invoke the FamilyService to get the respective Family
 
 The controller will return:
@@ -130,7 +130,7 @@ The controller will return:
 title US180 - Transfer Money from One Family Member Cash Account To a Personal Cash Account - SequenceDiagram
 autonumber
 
-Actor "FamilyAdmin" as Actor
+Actor "FamilyMember" as Actor
 Participant "UI" as UI
 Participant ": TransferCashBetweenFamilyMembers\nCashAccountsController" as controller
 Participant ": Application" as App
@@ -391,7 +391,7 @@ class TransactionService {
 +registerCashTransfer()
 }
 
-class CashAccount {
+class CashAccount implements Account {
 +debit()
 +credit()
 +hasEnoughMoneyForTransaction()
@@ -432,16 +432,16 @@ Family --> FamilyMember : has list
 Category <|-- StandardCategory : implements
 Category <|-right- CustomCategory : implements
 FamilyMember --> Account : has list
-Account <|-- CashAccount : implements
-Account -* AccountData : contains
+'Account <|-- CashAccount : implements
+CashAccount - AccountData : contains
 AccountService --> Account: handles
 
 TransactionService --> CashTransaction: handles
 Account --> Transaction: has list
 
-AccountData -* MoneyValue : contains
+AccountData o- MoneyValue : contains
 
-CashTransaction -* TransactionData : contains
+CashTransaction  o- TransactionData : contains
 
 ```
 
@@ -457,7 +457,7 @@ CashTransaction -* TransactionData : contains
         - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we implemented a use-case controller.
 
     - **Pure Fabrication**:
-        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsabilities of the other classes (Family and FamilyMember for example)
+        - The creation of classes like AccountService and TransactionService which don't have domain model equivalents allowed to reduce the responsibilities of the other classes (Family and FamilyMember for example)
 
     - **High cohesion and Low Coupling**:
         - The creation of the Service classes provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
@@ -469,45 +469,49 @@ CashTransaction -* TransactionData : contains
 
 ## 3.4. Tests
 
-**Tests :** Controller: 
+**Tests :** Controller:
+
+#### Success cases:
 
 **Test 1** : Both Family Members are valid, Family is known and valid and all transfer details are valid
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsTrueWithSufficientFunds() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, currency,categoryID, transactionDesignation, transactionDate);
-        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+    transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, destinationFamilyMemberCC, destinationAccountID, transferedValue, currency,categoryID, transactionDesignation, transactionDate);
+    transferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+    boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+    Assertions.assertTrue(result);
+    
+#### Failure cases:
 
-        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
-
-        Assertions.assertTrue(result);
-    }
+**Test 2** : **Unknown** Family will not execute the transfer and returns **false**
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersOfUnknownFamily() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency, 1,"Beer", date1);
-        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
-        assertFalse(result);
+    transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency, 1,"Beer", date1);
+    TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+    boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+    assertFalse(result);
     }
+
+**Test 3** : **Unknown** Category will not execute the transfer and returns **false**  
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory() {
-        transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1 ,"Beer", date1);
-        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-
-        boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
-        assertFalse(result);
+    transferenceDTO = new CashTransferDTO(2, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1 ,"Beer", date1);
+    TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+    boolean result = controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO);
+    assertFalse(result);
     }
+
+**Test 3** : **Unknown** Category will not execute the transfer and throws an exception 
 
     @Test
     void transferCashBetweenFamilyMembersCashAccountsFromFamilyMembersWithUnknowCategory2() {
-        transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
-        TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
-        assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
-
+    transferenceDTO = new CashTransferDTO(familyID, originFamilyMemberCC, originAccountID, "000",  1, 2, currency,1, "Beer", date1);
+    TransferCashBetweenFamilyMembersCashAccountsController controller = new TransferCashBetweenFamilyMembersCashAccountsController(ffmApplication);
+    assertThrows(NullPointerException.class, ()-> controller.transferCashBetweenFamilyMembersCashAccounts(transferenceDTO));
     }
-
 
 ## 4. Implementation
 
@@ -517,8 +521,8 @@ CashTransaction -* TransactionData : contains
   between the origin and destination accounts respective ID that are given in new CashTransferDTO object
   and then changes the balance in the originAccount (debit) and in the destinationAccount (credit).
   
-This method has three important verifications that are simple attributes validations, the fisrt two refer
-to validate the ammount transfered , the second and third validations are relative to the currecy type of both 
+This method has three important verifications that are simple attributes validations, the first two refer
+to validate the amount transferred , the second and third validations are relative to the currency type of both 
 the origin account, and the destination account.
 
         public boolean transferCashBetweenFamilyMembersCashAccounts(FamilyMember originFamilyMember, FamilyMember destinationFamilyMember, CashTransferDTO cashTransferDTO) {
@@ -528,26 +532,20 @@ the origin account, and the destination account.
         Account destinationFamilyMemberAccount = destinationFamilyMember.getAccount(destinationFamilyMemberAccountID);
         CurrencyEnum currency = cashTransferDTO.getCurrency();
         double transferredValue = cashTransferDTO.getTransferAmount();
-
         MoneyValue transferAmmount = new MoneyValue(transferredValue, currency);
-
         if(!originFamilyMemberAccount.hasEnoughMoneyForTransaction(transferAmmount)) return false;
-
         if(!originFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
-
         if(!destinationFamilyMemberAccount.checkCurrency(currency)) throw new IllegalArgumentException("Invalid currency");
-
         originFamilyMemberAccount.debit(transferAmmount);
         destinationFamilyMemberAccount.credit(transferAmmount);
         return true;
         }
 
-
-# 5. Integration/Demonstration
+ # 5. Integration/Demonstration
 
 -  This User Story depends on the [US185] - GetAccountBalance because it uses methods created in that US.
 
 # 6. Observations
 
-In the future I think the problems are only going to be about the User Interface.
+In the future I think the problems are only going to be about establishing daily limits or amount limits per cash transfer. 
 

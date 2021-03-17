@@ -1,13 +1,8 @@
 package switchtwentytwenty.project.domain.model.accounts;
 
-public class AccountType {
-    private final AccountTypeEnum accountTypeEnum;
-
-    public AccountType(AccountTypeEnum accountTypeEnum){
-        this.accountTypeEnum = accountTypeEnum;
-    }
-
-    public AccountTypeEnum getAccountType() {
-        return this.accountTypeEnum;
-    }
+public enum AccountType { // ler ficheiro de configuração
+    BANKACCOUNT,
+    BANKSAVINGSACCOUNT,
+    CASHACCOUNT,
+    CREDITCARDACCOUNT
 }

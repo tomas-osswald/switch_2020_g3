@@ -50,4 +50,5 @@ class AddEmailControllerTest {
         addAdminController.addFamilyAdministrator(familyMemberDTO);
         assertFalse(controller.addEmail(newEmail, 1, cc));
     }
+
 }

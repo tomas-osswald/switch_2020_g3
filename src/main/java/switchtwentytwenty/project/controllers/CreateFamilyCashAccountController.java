@@ -1,9 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import switchtwentytwenty.project.domain.model.Application;
-import switchtwentytwenty.project.domain.model.Family;
 import switchtwentytwenty.project.domain.services.AccountService;
-import switchtwentytwenty.project.domain.services.FamilyService;
 
 public class CreateFamilyCashAccountController {
     private final Application ffmApplication;
@@ -22,21 +20,13 @@ public class CreateFamilyCashAccountController {
      * @return returns true if the task was successful
      */
     public boolean createFamilyCashAccount(int familyID, String accountDesignation, double initialBalance, String ccNumber) {
+        boolean result = false;
         try {
-            FamilyService familyService = this.ffmApplication.getFamilyService();
             AccountService accountService = this.ffmApplication.getAccountService();
-            Family targetFamily = familyService.getFamily(familyID);
-            if (targetFamily.verifyAdministrator(ccNumber)) {
-                accountService.createFamilyCashAccount(targetFamily, accountDesignation, initialBalance);
-                return true;
-            } else {
-                throw new IllegalArgumentException("This user does not have admin permissions");
-            }
-
-
+            accountService.createFamilyCashAccount(familyID, ccNumber, accountDesignation, initialBalance);
+            result = true;
         } catch (IllegalArgumentException exception) {
-            return false;
         }
-
+        return result;
     }
 }

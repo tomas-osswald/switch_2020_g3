@@ -6,12 +6,12 @@ public class Application {
 
     // Attributes
 
-    private EmailService emailService = new EmailService();
-    private CategoryService categoryService = new CategoryService();
-    private FamilyService familyService = new FamilyService();
-    //private AccountService accountService = new AccountService();
-    //private RelationService relationService = new RelationService();
-    //private TransactionService transactionService = new TransactionService();
+    private final FamilyService familyService = new FamilyService();
+    private final CategoryService categoryService = new CategoryService(this.familyService);
+    private final RelationService relationService = new RelationService(this.familyService);
+    private final AccountService accountService = new AccountService(this.familyService);
+    private final TransactionService transactionService = new TransactionService(this.categoryService, this.accountService);
+    private final EmailService emailService = new EmailService(this.familyService);
 
     // Constructors
     public Application() {
@@ -22,7 +22,7 @@ public class Application {
     }
 
     public AccountService getAccountService() {
-        return new AccountService();
+        return this.accountService;
     }
 
     /********************** GETTERS AND SETTERS **********************/
@@ -40,11 +40,11 @@ public class Application {
     }
 
     public RelationService getRelationService() {
-        return new RelationService();
+        return this.relationService;
     }
 
     public TransactionService getTransactionService() {
-        return new TransactionService();
+        return this.transactionService;
     }
 
 }

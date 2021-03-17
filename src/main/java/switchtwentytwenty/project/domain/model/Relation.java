@@ -5,14 +5,14 @@ import java.util.Objects;
 public class Relation {
 
     // Attributes
-    private String relationDesignation;
-    private FamilyMember memberA;
-    private FamilyMember memberB;
-    private boolean isAparentOfB = false;
+    private final String relationDesignation;
+    private final FamilyMember memberA;
+    private final FamilyMember memberB;
+    private final boolean isAparentOfB;
 
     // Constructors
     public Relation(String relationDesignation, FamilyMember memberA, FamilyMember memberB, boolean aParentOfB) {
-        isValid(relationDesignation);
+        validateDesignation(relationDesignation);
         this.relationDesignation = relationDesignation;
         this.memberA = memberA;
         this.memberB = memberB;
@@ -39,8 +39,8 @@ public class Relation {
      * @param relationDesignation Relation Designation to instantiate a Relation
      */
 
-    private void isValid(String relationDesignation) {
-        if (relationDesignation == null || relationDesignation.trim().length()==0 || relationDesignation.isEmpty()) {
+    private void validateDesignation(String relationDesignation) {
+        if (relationDesignation == null || relationDesignation.trim().length() == 0 || relationDesignation.isEmpty()) {
             // If is null or empty, a exception is throw
             throw new IllegalArgumentException("Empty or Null relation designation");
         }

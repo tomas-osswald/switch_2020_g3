@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.dtos.MoneyValue;
 import switchtwentytwenty.project.domain.dtos.input.AddCashAccountDTO;
+import switchtwentytwenty.project.domain.dtos.input.CashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.input.FamilyCashTransferDTO;
 import switchtwentytwenty.project.domain.dtos.output.AccountIDAndDescriptionDTO;
 import switchtwentytwenty.project.domain.model.categories.StandardCategory;
@@ -13,8 +14,8 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CASHACCOUNT;
-import static switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum.CREDITCARDACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.CASHACCOUNT;
+import static switchtwentytwenty.project.domain.model.accounts.AccountType.CREDITCARDACCOUNT;
 
 class CashAccountTest {
 
@@ -229,7 +230,7 @@ class CashAccountTest {
     void checkAccountType_CashAccount_ExpectingTrue() {
         //Arrange
         CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
-        AccountTypeEnum expectedType = CASHACCOUNT;
+        AccountType expectedType = CASHACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
         //Assert
@@ -240,7 +241,7 @@ class CashAccountTest {
     void checkAccountType_CashAccount_ExpectingFalse() {
         //Arrange
         CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
         //Assert
@@ -251,7 +252,7 @@ class CashAccountTest {
     void checkAccountType_CashAccount_ExpectingFalseWithOtherType() {
         //Arrange
         CashAccount cashAccount = new CashAccount("cash", 200.00, 1, currency);
-        AccountTypeEnum expectedType = CREDITCARDACCOUNT;
+        AccountType expectedType = CREDITCARDACCOUNT;
         //Act
         boolean result = cashAccount.checkAccountType(expectedType);
         //Assert
@@ -339,7 +340,7 @@ class CashAccountTest {
         CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
         CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
         FamilyCashTransferDTO familyCashTransferDTO = new FamilyCashTransferDTO(1, "cc", 1, 2.00, CurrencyEnum.EURO, 1, "Shopping", new Date());
-        MoneyValue remainingBalance = new MoneyValue(10.0,CurrencyEnum.EURO);
+        MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
 
         assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, familyCashTransferDTO));
     }
@@ -417,5 +418,17 @@ class CashAccountTest {
 
         assertNotNull(cashAccountOne.getDescription());
         assertNotEquals(cashAccountOne.getDescription(), notExpected);
+    }
+
+   @Test
+    void registerTransactionTwo() {
+        AddCashAccountDTO addCashAccountDTO = new AddCashAccountDTO(10.00, "Cash", "0000000000ZY4", 1, CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount(addCashAccountDTO, 1);
+        CashAccount cashAccountTwo = new CashAccount(addCashAccountDTO, 1);
+        CashTransferDTO cashTransferDTO = new CashTransferDTO(1, "0000000000ZY4", 1, "0000000000ZY4", 1, 5.00, CurrencyEnum.EURO, 0, "Divida", new Date());
+        MoneyValue remainingBalance = new MoneyValue(10.0, CurrencyEnum.EURO);
+
+        assertTrue(cashAccount.registerTransaction(cashAccountTwo, new StandardCategory("Shopping", null, 2), true, remainingBalance, cashTransferDTO));
+
     }
 }

@@ -56,7 +56,7 @@ This user story has a dependency with these **2** user stories:
   
 # 2. Analysis
 
-In order to fulfill this requirement, we need three main data pieces:
+In order to fulfill this requirement, we need five main data pieces:
 - Family Member ID;
 - Family ID;
 - Balance;
@@ -74,7 +74,7 @@ At a later iteration, the family member's ID would be acquired through the Log I
 ```puml
 hide empty members
 hide circle
-title Domain Model Diagram US173
+title Domain Model Diagram US171
 
 class Family {
 - FamilyID

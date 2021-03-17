@@ -80,6 +80,37 @@ for each account in each FamilyMember.
 In the future the ID's necessity will be overcome by the Log In information, along with the respective
 permissions, or lack of them.
 
+# 2.1 Domain Model
+
+```puml
+hide empty members
+hide circle
+title Domain Model Diagram US188
+
+class Family {
+- Name
+- UniqueID
+- RegistrationDate
+
+}
+
+class FamilyMember {
+- Name
+- BirthDate
+- CCnumber
+}
+
+class CashAccount {
+- balance
+- description
+}
+
+Family "1" -down-> "1..* " FamilyMember : has Family members
+FamilyMember "1 " ---> "0..* " CashAccount  : has
+FamilyMember "1" --> "0..*     " FamilyMember : parenthoodRelation 
+```
+
+
 
 # 3. Design
 
@@ -103,11 +134,11 @@ title CheckChildrenCashAccountBalance
 actor "Family Member" as FamilyMember
 participant "UI" as UI
 participant ": CheckChildrenCash\nAccountBalanceController" as Controller
-participant ": Application" as App
-participant ": FamilyService" as FamilyService
-participant ": RelationService" as Relation
+participant "ffmApplication:\n Application" as App
+participant "familyService :\n FamilyService" as FamilyService
+participant "relationService: \nRelationService" as Relation
 participant "aFamily : \nFamily" as Family
-participant ": AccountService" as AccountService
+participant "accountService:\n AccountService" as AccountService
 participant "child : \nFamilyMember" as aFamilyMember
 participant "aCashAccount : \nCashAccount" as account
 
@@ -128,14 +159,18 @@ FamilyService --> Controller : aFamily
 deactivate FamilyService
 Controller -> Family : getFamilyMember(parentID)
 Activate Family
-Family -> Family : getFamilyMember(parentID)
+Family -> Family : getFamilyMember\n(parentID)
 Family --> Controller : familyMemberA
 Controller -> Family : getFamilyMember(childID)
-Family -> Family : getFamilyMember(childID)
+Family -> Family : getFamilyMember\n(childID)
 Family --> Controller : familyMemberB
-Controller -> Relation **: createRelationService
-Relation -> Family : verifyParenthood(aFamily, \nfamilyMemberA,\n familyMemberB)
+Controller -> App : getRelationService()
+activate App
+App --> Controller : relationService
+deactivate App
+Controller -> Relation : verifyParenthood(aFamily, \nfamilyMemberA,\n familyMemberB)
 activate Relation
+Relation -> Family : verifyParenthood\n(familyMemberA,\n familyMemberB)
 ref over Relation, Family
 CheckChildCashAccountBalance 2
 end ref
@@ -147,7 +182,10 @@ Deactivate Family
 deactivate Relation
 
 
-Controller -> AccountService ** : createAccountService()
+Controller -> App : getAccountService()
+activate App
+App --> Controller : accountService
+deactivate App
 Controller -> AccountService : checkCashAccountBalance\n(accountID, familyMemberB)
 activate AccountService
 ref over AccountService, aFamilyMember, account
@@ -182,13 +220,19 @@ autonumber
 title CheckChildrenCashAccountBalance 2
 
 participant "CheckChildrenCash\nAccountBalanceController" as controller
-participant ": RelationService" as relation
+participant "ffmApplication: \nApplication" as App
+participant "relationService: \nRelationService" as relation
 participant "aFamily: Family" as family
 
 activate controller
-controller -> relation **: createRelationService()
+controller -> App : getRelationService()
+activate App
+App --> controller : relationService
+deactivate App
+
 activate relation 
-relation -> family : verifyParenthood(aFamily, familyMemberA, familyMemberB)
+controller -> relation : verifyParenthood(aFamily, \nfamilyMemberA, familyMemberB)
+relation -> family : verifyParenthood(familyMemberA,\n familyMemberB)
 activate family
 alt false : A is not parent of B
 family --> relation : Failure
@@ -209,17 +253,29 @@ autonumber
 title CheckChildrenCashAccountBalance 3
 
 participant "CheckChildrenCash\nAccountBalanceController" as controller
-participant "AccountService" as account
+participant "ffmApplication: \nApplication" as App
+participant "accountService: \nAccountService" as account
 participant "child : \nFamilyMember" as child
-participant "aCashAccount : CashAccount" as cash
+participant "aCashAccount :\n CashAccount" as cash
 
 activate controller
-controller -> account **: createAccountService()
+
+activate controller
+controller -> App : getAccountService()
+activate App
+App --> controller : accountService
+deactivate App
+controller -> account : checkChildCashAccountBalance\n(accountID, child)
 activate account
 account -> child : getAccount(accountID)
 activate child
+alt failure : "no account with such id"
+child --> account : failure
+account --> controller : failure
+else success : "anAccount"
 account <-- child : anAccount
 deactivate child
+end
 account -> account : verifyAccountType(accountID, accountType)
 alt false : Account is not CashAccount
 account --> controller : failure
@@ -277,6 +333,7 @@ The main Classes involved are:
 
 title US188 Class Diagram
 hide empty members
+skinparam linetype ortho
 
 class CheckChildrenCashAccountBalanceController {
 + checkChildrenCashAccountBalance()
@@ -284,20 +341,9 @@ class CheckChildrenCashAccountBalanceController {
 
 class Application {
 + getFamilyService()
++ getAccountService()
++ getRelationService()
 }
-
-class CashAccount {
-- accountType
-}
-
-class AccountData {
-- MoneyValue currentBalance
-- String description
-- int accountID
-- List<Transaction> transactions
-}
-
-
 
 class RelationService {
 + verifyParenthood()
@@ -311,6 +357,7 @@ class FamilyService {
 + getFamily()
 }
 
+
 class Family {
 + getFamilyMember()
 }
@@ -319,20 +366,33 @@ class FamilyMember {
 + getAccount()
 }
 
+
 interface Account {}
 
+class CashAccount {
+- accountType
+}
 
-CheckChildrenCashAccountBalanceController --> Application : has
+class AccountData {
+- MoneyValue currentBalance
+- String description
+- int accountID
+- List<Transaction> transactions
+}
 
-CheckChildrenCashAccountBalanceController -----> AccountService : creates
-Application --> FamilyService : has
+
+CheckChildrenCashAccountBalanceController ---> Application : has
+CheckChildrenCashAccountBalanceController --> FamilyService : calls
+CheckChildrenCashAccountBalanceController ----> AccountService : calls
+CheckChildrenCashAccountBalanceController ----> RelationService : calls
+
 FamilyService --> Family : has list
 Family --> FamilyMember : has list
-FamilyMember -> CashAccount : has
-CashAccount --|> Account : implements
-CashAccount -* AccountData : contains
-CheckChildrenCashAccountBalanceController ---> RelationService : creates
-RelationService --> Family : verifies relation
+
+FamilyMember -> CashAccount : has list
+CashAccount .--|> Account
+CashAccount *- AccountData : contains
+RelationService -> Family : verifies relation
 
 AccountService --> CashAccount : verifies account type and retrieves balance
 
@@ -508,9 +568,9 @@ This method verifies the type of account. As this US is related to cash Accounts
 only have success if the account is of the correct type.
 
 
-      public boolean verifyAccountType(Account account, AccountTypeEnum accountTypeEnum) {
+      public boolean verifyAccountType(Account account, AccountTypeEnum accountType) {
         boolean isSameType = false;
-        if (account.checkAccountType(accountTypeEnum)) {
+        if (account.checkAccountType(accountType)) {
             isSameType = true;
         }
         return isSameType;
@@ -538,6 +598,6 @@ As previously referred this US has dependencies and integration with [US010_AddF
 
 
 # 6. Observations
-In the future the need for many of the validations will be made through the UI, when the user completes the Log In.
+In the future the need for many of the validations will be made through the UI, when the user completes the Login.
 This will allow the user to only have access to the features which he is permitted to access. Also, the user will only have access
 inside his own family, suppressing the necessity for familyID, familyMemberID and accountID.

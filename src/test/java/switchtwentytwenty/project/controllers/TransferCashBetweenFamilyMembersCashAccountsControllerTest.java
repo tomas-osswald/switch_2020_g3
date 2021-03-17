@@ -103,14 +103,14 @@ class TransferCashBetweenFamilyMembersCashAccountsControllerTest {
         familyService.addFamilyMember(familyMemberDTO2);
         FamilyMember tony = simpsonFamily.getFamilyMember(destinationFamilyMemberCC);
 
-        categoryService.addCategoryToFamilyTree(simpsonFamily, "Donuts", 1);
+        categoryService.addCategoryToFamilyTree(1, "Donuts", 1,ccNumber);
 
         AddCashAccountDTO mCashAccountDTO = new AddCashAccountDTO(14.50, "Mary's Wallet", originFamilyMemberCC, 1, CurrencyEnum.EURO);
         AddCashAccountDTO tCashAccountDTO = new AddCashAccountDTO(3.80, "Tony's Wallet", destinationFamilyMemberCC, 1, CurrencyEnum.EURO);
-        AccountService accountService = new AccountService();
+        AccountService accountService = ffmApplication.getAccountService();
 
-        accountService.createPersonalCashAccount(mary, mCashAccountDTO);
-        accountService.createPersonalCashAccount(tony, tCashAccountDTO);
+        accountService.createPersonalCashAccount(mCashAccountDTO);
+        accountService.createPersonalCashAccount(tCashAccountDTO);
 
     }
 

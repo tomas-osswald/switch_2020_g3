@@ -23,14 +23,23 @@ We interpreted this requirement as the function of a family administrator wants 
 autonumber
 title System Sequence Diagram - US135
 
-actor "Family Member" as familyMember
+actor "Family Administrator" as familyMember
 participant ": System" as system
 
 activate familyMember
-familyMember-> system : check balance of Family or Family Member Cash Account
+
+familyMember -> system : check balance of Family or Family Member Cash Account
 activate system
+system -> familyMember : ask: choose Family or Family Member
+deactivate system
+
 familyMember -> system : chooses Family or Family Member
+activate system
+system -> familyMember : ask data
+deactivate system
+
 familyMember -> system : inputs required data
+activate system
 alt failure
 system -> familyMember : Inform Failure
 
@@ -86,15 +95,20 @@ hide circle
 title Domain Model Diagram US135
 
 class Family {
-- Name
-- UniqueID
-- RegistrationDate
+- name
+- uniqueID
+- registrationDate
 
 }
 
 class FamilyMember {
-- Name
-- BirthDate
+- name
+- birthDate
+- address
+- vatNumber
+- email
+- telephone
+- CCnumber
 }
 
 class CashAccount {
@@ -398,59 +412,89 @@ end
 ## 3.2. Class Diagram
 
 ```puml
-
+skinparam linetype ortho
 title US135 Class Diagram
 hide empty members
 
 class CheckCashAccountBalanceController {
-+ checkChildrenCashAccountBalance()
++ getListOfCashAccountsOfAFamilyMember()
++ checkFamilyCashAccountBalance()
++ checkFamilyMemberCashAccountBalance()
 }
 
 class Application {
 + getFamilyService()
++ getAccountService()
 }
 
-class CashAccount {
-- accountType
-}
+'class CashAccount {
+'- accountType
+'+ checkAccountType()
+'}
 
-class AccountData {
-- MoneyValue currentBalance
-- String description
-- int accountID
-- List<Transaction> transactions
-}
+'class AccountData {
+'- description
+'- accountID
+'- List<Transaction> transactions
+'}
 
 
 class AccountService {
-+ checkChildCashBalance()
++ getFamilyMemberCashAccountBalance()
++ getFamilyCashAccountBalance()
 }
 
 class FamilyService {
 + getFamily()
++ verifyAdministratorPermission()
 }
 
 class Family {
 + getFamilyMember()
++ getFamilyCashAccount()
 }
 
 class FamilyMember {
 + getAccount()
 }
 
-interface Account {}
+interface Account {
+'+ getAccountID()
+'+ isIDOfThisAccount(int accountID)
+'+ hasEnoughMoneyForTransaction(MoneyValue value )
++ checkAccountType(AccountTypeEnum accountType)
+'+ String getDescription()
++ MoneyValue getMoneyBalance()
+'+ checkCurrency(CurrencyEnum currency)
+'+ getListOfMovements()
+'+ debit(MoneyValue value)
+'+ credit(MoneyValue value)
+'+ getAccountIDAndDescriptionDTO()
+}
 
-CheckCashAccountBalanceController --> Application : has
+class MoneyValue {
+- amount
+- currency
+}
 
-CheckCashAccountBalanceController -----> AccountService : calls
-CheckCashAccountBalanceController --> FamilyService : calls
-FamilyService --> Family : has list
-Family --> FamilyMember : has list
-FamilyMember -> CashAccount : has
-CashAccount --|> Account : implements
-CashAccount -* AccountData : contains
+CheckCashAccountBalanceController -up-> Application : ffmapplication 
+'AccountService <---* Application : accountService
+'FamilyService <---* Application : familyService
 
-AccountService --> CashAccount : verifies account type and retrieves balance
+CheckCashAccountBalanceController -.> AccountService
+CheckCashAccountBalanceController ---.> FamilyService
+CheckCashAccountBalanceController ---.>  Family
+CheckCashAccountBalanceController ---.> FamilyMember
+'Family *--> "0..1" CashAccount : familyCashAccount
+'FamilyMember *-> "0..*" Account  : accountList
+'CashAccount .--|> Account
+'CashAccount *-> AccountData : accountData
+CheckCashAccountBalanceController -.> MoneyValue
+AccountService .-> Account
+'AccountService .-> CashAccount 
+AccountService .-> MoneyValue
+AccountService .-> Family
+AccountService .-> FamilyMember
 ```
 
 ## 3.3. Applied Patterns

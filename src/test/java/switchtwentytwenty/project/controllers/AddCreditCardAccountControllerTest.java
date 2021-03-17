@@ -57,13 +57,13 @@ class AddCreditCardAccountControllerTest {
     @Test
     void addCreditCardAccountToFamilyMemberTrue() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, "Visa do Diogo", 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
-        assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
+        assertDoesNotThrow(() -> addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test
     void addCreditCardAccountToFamilyMemberTrueWithCardDescriptionNull() {
         AddCreditCardAccountDTO addCreditCardAccountDTO = new AddCreditCardAccountDTO(id2, family1ID, null, 5000.00, 100.00, 50.00, CurrencyEnum.EURO);
-        assertTrue(addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
+        assertDoesNotThrow(() -> addCreditCardAccountController.addCreditCardAccountToFamilyMember(addCreditCardAccountDTO));
     }
 
     @Test

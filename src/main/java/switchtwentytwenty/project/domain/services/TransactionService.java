@@ -14,9 +14,21 @@ import java.util.Date;
 import java.util.List;
 
 public class TransactionService {
+    private CategoryService categoryService;
+    private AccountService accountService;
+
+    public TransactionService(CategoryService categoryService, AccountService accountService) {
+        this.categoryService = categoryService;
+        this.accountService = accountService;
+    }
+
+    public TransactionService() {
+
+    }
 
     /**
      * Register Payment in 1 CashAccount
+     *
      * @param targetAccount
      * @param category
      * @param familyCashTransferDTO
@@ -27,7 +39,7 @@ public class TransactionService {
         CashAccount targetCashAccount = (CashAccount) targetAccount;
         boolean credit = false;
         MoneyValue transferAmount = new MoneyValue(familyCashTransferDTO.getTransferAmount(), familyCashTransferDTO.getCurrency());
-        if (transferAmount.getCurrencyType() == targetCashAccount.getMoneyBalance().getCurrencyType()){
+        if (transferAmount.getCurrencyType() == targetCashAccount.getMoneyBalance().getCurrencyType()) {
             if (targetAccount.hasEnoughMoneyForTransaction(transferAmount)) {
                 targetCashAccount.debit(transferAmount);
                 MoneyValue remainingBalance = targetCashAccount.getMoneyBalance();
@@ -55,54 +67,28 @@ public class TransactionService {
         List<TransactionDataDTO> listOfMovementsBetweenDates = new ArrayList<>();
 
         for (Transaction transaction : listOfMovements)
-            if (checkIfMovementBetweenDates(transaction, startDate, endDate)) {
-                TransactionDataDTO transactionDTO = new TransactionDataDTO(transaction.getTransactionData());
-                listOfMovementsBetweenDates.add(transactionDTO);
+            if (transaction.checkIfMovementBetweenDates(startDate, endDate)) {
+                TransactionDataDTO transactionDataDTO = transaction.createTransactionDataDTO();
+                listOfMovementsBetweenDates.add(transactionDataDTO);
             }
 
         return listOfMovementsBetweenDates;
-    }
-
-    /**
-     * A method that returns true if a given transaction occurred between two given dates.
-     * If the dates are switched, the method will switch them back around.
-     * @param aTransaction given transaction
-     * @param startDate    first date
-     * @param endDate      last date
-     * @return true if between given dates, else false
-     */
-    private boolean checkIfMovementBetweenDates(Transaction aTransaction, Date startDate, Date endDate) {
-
-        // Switch dates if endDate is earlier than startDate
-        if (startDate.after(endDate)) {
-            Date temp = (Date) startDate.clone();
-            startDate = endDate;
-            endDate = temp;
-        }
-
-        boolean isBetweenDates = false;
-        Date transactionDate = aTransaction.getTransactionDate();
-
-        if (transactionDate.after(startDate) && transactionDate.before(endDate)) {
-            isBetweenDates = true;
-        }
-        return isBetweenDates;
     }
 
     public boolean registerCashTransfer(CashAccount originAccount, CashAccount destinationAccount, Category category, FamilyCashTransferDTO familyCashTransferDTO) {
 
         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, familyCashTransferDTO);
-        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, familyCashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false, remainingBalanceOrigin, familyCashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true, remainingBalanceDestination, familyCashTransferDTO);
         return true;
     }
 
     public boolean registerCashTransferOther(CashAccount originAccount, CashAccount destinationAccount, Category category, CashTransferDTO cashTransferDTO) {
-         MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
+        MoneyValue remainingBalanceOrigin = originAccount.getMoneyBalance();
         MoneyValue remainingBalanceDestination = destinationAccount.getMoneyBalance();
-        originAccount.registerTransaction(destinationAccount, category, false,remainingBalanceOrigin, cashTransferDTO);
-        destinationAccount.registerTransaction(originAccount, category, true,remainingBalanceDestination, cashTransferDTO);
+        originAccount.registerTransaction(destinationAccount, category, false, remainingBalanceOrigin, cashTransferDTO);
+        destinationAccount.registerTransaction(originAccount, category, true, remainingBalanceDestination, cashTransferDTO);
         return true;
     }
 

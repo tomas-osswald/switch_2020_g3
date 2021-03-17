@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.model;
 
 import switchtwentytwenty.project.domain.dtos.output.MemberProfileDTO;
 import switchtwentytwenty.project.domain.model.accounts.Account;
-import switchtwentytwenty.project.domain.model.accounts.AccountTypeEnum;
+import switchtwentytwenty.project.domain.model.accounts.AccountType;
 import switchtwentytwenty.project.domain.model.user_data.*;
 
 import java.util.*;
@@ -16,10 +16,10 @@ public class FamilyMember {
 
     private final CCNumber ccNumber;
     private final String name;
-    private List<PhoneNumber> phoneNumbers = new ArrayList();
-    private List<EmailAddress> emails = new ArrayList<>();
+    private final List<PhoneNumber> phoneNumbers = new ArrayList();
+    private final List<EmailAddress> emails = new ArrayList<>();
+    private final List<Account> accounts = new ArrayList<>();
     private boolean administrator;
-    private List<Account> accounts = new ArrayList<>();
 
 
     /********************** CONSTRUCTORS **********************/
@@ -115,8 +115,8 @@ public class FamilyMember {
     /**
      * @return String representing the FamilyMember's ID.
      */
-    public String getID() {
-        return this.ccNumber.getCcNumber();
+    public CCNumber getID() {
+        return this.ccNumber;
     }
 
     public String getName() {
@@ -150,18 +150,17 @@ public class FamilyMember {
      */
 
     protected String getFamilyMemberID() {
-        return this.ccNumber.getCcNumber();
+        return this.ccNumber.getCcNumberString();
     }
 
     /**
      * Method to create an EmailAddress object and add it to the ArrayList of EmailAddress objects
      *
-     * @param emailToAdd String of the email address to add
+     * @param newEmail EmailAddress of the email address to add
      * @return True if the EmailAddress object is successfully created and added to the EmailAddress ArrayList
      */
-    public boolean addEmail(String emailToAdd) {
+    public boolean addEmail(EmailAddress newEmail) {
         try {
-            EmailAddress newEmail = new EmailAddress(emailToAdd);
             emails.add(newEmail);
             return true;
         } catch (IllegalArgumentException e) {
@@ -185,22 +184,22 @@ public class FamilyMember {
         return Collections.unmodifiableList(this.accounts);
     }
 
-    protected boolean compareID(String ccNumber) {
-        return ccNumber.equalsIgnoreCase(this.ccNumber.getCcNumber());
+    protected boolean compareID(CCNumber ccNumber) {
+        return this.ccNumber.equals(ccNumber);
     }
 
     /**
      * A method that adds a given account to the list of accounts this FamilyMember holds
+     *
      * @param account given account
      * @return true if account was added, false if given account is null
      */
-    public boolean addAccount(Account account) {
+    public void addAccount(Account account) {
         if (account == null) {
-            return false;
-        }
+            throw new IllegalStateException(" Invalid state. Account can't be null.");
+        } else {
         this.accounts.add(account);
-        return true;
-    }
+    } }
 
     @Override
     public boolean equals(Object o) {
@@ -215,6 +214,7 @@ public class FamilyMember {
 
     /**
      * A method that goes through all accounts this FamilyMember holds and returns the one with an ID equal to the given ID.
+     *
      * @param accountID given account ID
      * @return null if no account with given ID is found, else the account with given ID.
      */
@@ -233,11 +233,32 @@ public class FamilyMember {
     public boolean hasCashAccount() {
         boolean hasAccount = false;
         for (Account account : accounts) {
-            if (account.checkAccountType(AccountTypeEnum.CASHACCOUNT)) hasAccount = true;
+            if (account.checkAccountType(AccountType.CASHACCOUNT)) hasAccount = true;
         }
         return hasAccount;
     }
 
+    public boolean isEmailRegistered(EmailAddress emailToCheck) {
+        boolean result = false;
+        for (EmailAddress email : emails) {
+            if(email.equals(emailToCheck)){
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public boolean compareVat(VatNumber vat) {
+        return this.vatNumber.equals(vat);
+    }
+
+    public boolean compareCC(CCNumber cc) {
+        return this.ccNumber.equals(cc);
+    }
+
+    public String getCCNumberString() {
+        return this.ccNumber.getCcNumberString();
+    }
 }
 
 

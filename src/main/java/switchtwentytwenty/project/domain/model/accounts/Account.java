@@ -18,7 +18,7 @@ public interface Account {
 
     public boolean hasEnoughMoneyForTransaction(MoneyValue value );
 
-    public boolean checkAccountType(AccountTypeEnum accountTypeEnum);
+    public boolean checkAccountType(AccountType accountType);
 
     public String getDescription();
 

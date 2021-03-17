@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddBankSavingsAccountDTOTest {
 
+
     @Test
     void getCurrency() {
         AddBankSavingsAccountDTO addBankSavingsAccountDTO = new AddBankSavingsAccountDTO(20.00, 1.00, "Card", "0000000ZY4", 1, CurrencyEnum.EURO);

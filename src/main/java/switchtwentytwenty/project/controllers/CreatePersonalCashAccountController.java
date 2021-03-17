@@ -21,11 +21,9 @@ public class CreatePersonalCashAccountController {
      * @return True if Cash Account sucessfuly created
      */
     public boolean createPersonalCashAccount(AddCashAccountDTO addCashAccountDTO) {
-        try {
-            FamilyService familyService = this.ffmApplication.getFamilyService();
-            FamilyMember targetMember = familyService.getFamily(addCashAccountDTO.getFamilyID()).getFamilyMember(addCashAccountDTO.getFamilyMemberID());
             AccountService accountService = this.ffmApplication.getAccountService();
-            return accountService.createPersonalCashAccount(targetMember, addCashAccountDTO);
+        try {
+            return accountService.createPersonalCashAccount(addCashAccountDTO);
         } catch (IllegalArgumentException exception) {
             return false;
         }

@@ -77,6 +77,7 @@ class FamilyMemberTest {
     String accountName = "Current Account";
     String accountName2 = "Other Current Account";
 
+
     /**
      * Name Validation
      **/
@@ -388,7 +389,7 @@ class FamilyMemberTest {
 
     @Test
     void addEmail_ValidEmail() {
-        String newEmail = "1120717@isep.ipp.pt";
+        EmailAddress newEmail = new EmailAddress("1120717@isep.ipp.pt");
         FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
 
         boolean result = diogo.addEmail(newEmail);
@@ -396,12 +397,6 @@ class FamilyMemberTest {
         assertTrue(result);
     }
 
-    @Test
-    void addEmail_InvalidEmail() {
-        String newEmail = "1120717@pt";
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        assertFalse(diogo.addEmail(newEmail));
-    }
 
     @Test
     void testEquals_differentObjects() {
@@ -431,10 +426,7 @@ class FamilyMemberTest {
     @Test
     void addAccount_failureAccountIsNull() {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-
-        boolean result = personOne.addAccount(null);
-
-        Assertions.assertFalse(result);
+        assertThrows(IllegalStateException.class, () -> personOne.addAccount(null));
     }
 
     @Test
@@ -475,7 +467,7 @@ class FamilyMemberTest {
     @Test
     void hasCashAccount_True() {
         FamilyMember personOne = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
-        CashAccount cashAccount = new CashAccount("CashAccount",200.0,1,CurrencyEnum.EURO);
+        CashAccount cashAccount = new CashAccount("CashAccount", 200.0, 1, CurrencyEnum.EURO);
         personOne.addAccount(cashAccount);
         boolean result = personOne.hasCashAccount();
 
@@ -486,7 +478,6 @@ class FamilyMemberTest {
     void addAnAccountTrue() {
         AddBankAccountDTO dto = new AddBankAccountDTO(balance, "description", "selfCC", 1, CurrencyEnum.EURO);
         BankAccount account = new BankAccount(dto, 1);
-
-        assertTrue(diogo.addAccount(account));
+        assertDoesNotThrow(() -> diogo.addAccount(account));
     }
 }

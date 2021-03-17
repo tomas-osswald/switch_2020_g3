@@ -11,20 +11,16 @@ import java.util.List;
 
 public class CategoryService {
 
-    private List<StandardCategory> categories;
+    private final List<StandardCategory> categories;
+    private FamilyService familyService;
 
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CategoryService that = (CategoryService) o;
-        return categories.equals(that.categories);
+
+    public CategoryService(FamilyService familyService) {
+        this.familyService = familyService;
+        this.categories = new ArrayList<>();
+        StandardCategory other = new StandardCategory("OTHER", null, 0);
+        categories.add(other);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(categories);
-    }*/
 
     public CategoryService() {
         this.categories = new ArrayList<>();
@@ -82,17 +78,16 @@ public class CategoryService {
     private boolean isCategoryWithSameNameAlreadyPresent(String categoryName) {
         int size = this.categories.size();
         boolean categoryPresent = false;
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index < size && !categoryPresent; index++) {
             if (this.categories.get(index).isDesignationOfThisCategory(categoryName)) {
                 categoryPresent = true;
-                index = size;
             }
         }
         return categoryPresent;
     }
 
     /**
-     * Method to determine if a standard category with a given name already exists
+     * Method to determine if there is a Standard Category matching the inputted parentID
      *
      * @param parentID int representing the categoryID of the parent category
      * @return true if the ID exists in the list of Standard Categories, false otherwise
@@ -101,10 +96,9 @@ public class CategoryService {
         if (parentID == 0) return true;
         boolean idPresent = false;
         int size = this.categories.size();
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index < size && !idPresent; index++) {
             if (this.categories.get(index).isIDOfThisCategory(parentID)) {
                 idPresent = true;
-                index = size;
             }
         }
         return idPresent;
@@ -147,8 +141,7 @@ public class CategoryService {
      * @return CategoryTreeDTO Object
      */
     public CategoryTreeDTO getCategoryTree(int familyID, FamilyService familyService) {
-        CategoryTreeDTO categoryTree = new CategoryTreeDTO(this, familyService, familyID);
-        return categoryTree;
+        return new CategoryTreeDTO(this, familyService, familyID);
     }
 
     /**
@@ -157,37 +150,59 @@ public class CategoryService {
      * @return List
      */
     public List<StandardCategory> getStandardCategories() {
-        List standardCategories = new ArrayList<StandardCategory>();
+        List standardCategories;
         standardCategories = categories;
         return standardCategories;
     }
 
 
     /**
-     *  Method to add a new CustomCategory to a Family's Category List
-     * @param targetFamily Family object to add the new category
+     * Method to add a new CustomCategory to a Family's Category List
+     *
      * @param categoryDesignation Label/Description to assign to the category
-     * @param parentID ID of the Standard or Custom category to be the parent. 0 for root
+     * @param parentID            ID of the Standard or Custom category to be the parent. 0 for root
      * @return True if the category is successfuly added to the family's category tree.
      */
-    public boolean addCategoryToFamilyTree(Family targetFamily, String categoryDesignation, int parentID) {
-        if (parentID > 0) {
-            StandardCategory parent = getStandardCategoryByID(parentID);
-            checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
-        } else if (parentID < 0) {
-            CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
-            checkIfParentNull(parent);
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
+    public boolean addCategoryToFamilyTree(int familyID, String categoryDesignation, int parentID, String adminCC) {
+        Family targetFamily = familyService.getFamily(familyID);
+        boolean result;
+        if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
+            result = createAndAddCustomCategory(categoryDesignation, parentID, targetFamily);
         } else {
-            CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
-            targetFamily.addCategory(newCustomCategory);
-            return true;
+            result = false;
         }
+        return result;
+    }
+
+    private boolean createAndAddCustomCategory(String categoryDesignation, int parentID, Family targetFamily) {
+        CustomCategory newCustomCategory;
+        boolean result;
+        if (parentID > 0) {
+            result = addNewCustomCategoryWithStandardParent(categoryDesignation, parentID, targetFamily);
+        } else if (parentID < 0) {
+            result = addCustomCategoryWithCustomParent(categoryDesignation, parentID, targetFamily);
+        } else {
+            newCustomCategory = new CustomCategory(categoryDesignation, generateCustomCategoryID(targetFamily));
+            targetFamily.addCategory(newCustomCategory);
+            result = true;
+        }
+        return result;
+    }
+
+    private boolean addCustomCategoryWithCustomParent(String categoryDesignation, int parentID, Family targetFamily) {
+        CustomCategory parent = getCustomCategoryByID(parentID, targetFamily);
+        checkIfParentNull(parent);
+        CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+        targetFamily.addCategory(newCustomCategory);
+        return true;
+    }
+
+    private boolean addNewCustomCategoryWithStandardParent(String categoryDesignation, int parentID, Family targetFamily) {
+        StandardCategory parent = getStandardCategoryByID(parentID);
+        checkIfParentNull(parent);
+        CustomCategory newCustomCategory = new CustomCategory(categoryDesignation, parent, generateCustomCategoryID(targetFamily));
+        targetFamily.addCategory(newCustomCategory);
+        return true;
     }
 
     /**
@@ -230,93 +245,4 @@ public class CategoryService {
     }
 
 
-    /**
-     * Method to get the parent name of a passed category name
-     *
-     * @param standardCategories
-     * @return list of parents, i.e., a list of categories that have at least one child
-     */
-    /*private List<StandardCategory> getParents(List<StandardCategory> standardCategories) {
-        List<StandardCategory> parents = new ArrayList<>();
-        for (StandardCategory cat : standardCategories
-        ) {
-            if (cat.getParentName() != null) {
-                parents.add(cat);
-            }
-        }
-        return parents;
-    }*/
-
-    /*private boolean hasParent(){
-
-    }*/
-
-    /*private List<StandardCategory> getParentss(List<StandardCategory> standardCategories) {
-        List<StandardCategory> parents = new ArrayList<>();
-        for (StandardCategory cat : standardCategories
-        ) {
-            if (cat.getParentName() != null) {
-                parents.add(cat);
-            }
-        }
-        return parents;
-    }*/
-
-    /**
-     * Method to get the childs of a passed parent category name
-     *
-     * @param standardCategory
-     * @param standardCategories
-     * @return list of childs
-     */
-   /* private List<StandardCategory> getChilds(StandardCategory standardCategory, List<StandardCategory> standardCategories) {
-        List<StandardCategory> childs = new ArrayList<>();
-        for (StandardCategory cat : standardCategories
-        ) {
-            if (cat.isChildOf(standardCategory)) {
-                childs.add(cat);
-            }
-        }
-        return childs;
-    }*/
-
-    /**
-     * Method to add the childs of a specific category
-     *
-     * @param dto
-     * @param cat
-     * @param categs
-     */
-    /*private void addChildsToDTO(StandardCategoryDTO dto, StandardCategory cat, List<StandardCategory> categs) {
-        List<StandardCategory> stdList = this.getChilds(cat, categs);
-        for (StandardCategory c : stdList) {
-            StandardCategoryDTO dtoChild = new StandardCategoryDTO(c.getName());
-            this.addChildsToDTO(dtoChild, c, categs);
-            dto.addChild(dtoChild);
-        }
-    }*/
-
-    /**
-     * Method to obtain a list of sub-lists that have a parent category and their descendants(childs)
-     *
-     * @param standardCategories
-     * @return list of StandardCategoryDTO
-     */
-    /*private List<StandardCategoryDTO> createStdTree(List<StandardCategory> standardCategories) {
-        List<StandardCategoryDTO> totalStdList = new ArrayList<>();
-
-        List<StandardCategory> stdList = this.getParents(standardCategories);
-        for (StandardCategory cat : stdList
-        ) {
-            StandardCategoryDTO dto = new StandardCategoryDTO(cat.getName());
-            this.addChildsToDTO(dto, cat, standardCategories);
-            totalStdList.add(dto);
-        }
-        return totalStdList;
-    }*/
-
-    /*public List<StandardCategoryDTO> getStandardCategoriesTree() {
-        List<StandardCategory> standardCategories = this.getStandardCategories();
-        return createStdTree(standardCategories);
-    }*/
 }

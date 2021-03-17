@@ -24,17 +24,14 @@ public class AddCategoryToFamilyTreeController {
      */
     public boolean addCategoryToFamilyTree(String adminCC, int familyID, String categoryDesignation, int parentID) {
         CategoryService categoryService = this.ffmApplication.getCategoryService();
-        FamilyService familyService = this.ffmApplication.getFamilyService();
+        boolean result = false;
         try {
-            if (familyService.verifyAdministratorPermission(familyID, adminCC)) {
-                Family targetFamily = familyService.getFamily(familyID);
-                categoryService.addCategoryToFamilyTree(targetFamily, categoryDesignation, parentID);
-                return true;
-            }
+            result = categoryService.addCategoryToFamilyTree(familyID, categoryDesignation, parentID, adminCC);
+
 
         } catch (Exception e) {
-            return false;
+
         }
-        return false;
+        return result;
     }
 }

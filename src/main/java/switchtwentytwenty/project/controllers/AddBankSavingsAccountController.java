@@ -19,18 +19,19 @@ public class AddBankSavingsAccountController {
      * A method that adds a BankSavingsAccount to a given FamilyMember.
      * The method will return false if there is no such Family or FamilyMember.
      * If the input data is empty or null, an account will still be created.
+     *
      * @param addBankSavingsAccountDTO a DTO containing all necessary data.
      * @return true if account was created, else false.
      */
     public boolean addBankSavingsAccount(AddBankSavingsAccountDTO addBankSavingsAccountDTO) {
-        AccountService accountService = new AccountService();
+        boolean result;
+        AccountService accountService = this.ffmApplication.getAccountService();
         try {
-            FamilyService familyService = this.ffmApplication.getFamilyService();
-            Family targetFamily = familyService.getFamily(addBankSavingsAccountDTO.getFamilyID());
-            FamilyMember targetMember = targetFamily.getFamilyMember(addBankSavingsAccountDTO.getFamilyMemberID());
-            return accountService.addBankSavingsAccount(targetMember, addBankSavingsAccountDTO);
+            accountService.addBankSavingsAccount(addBankSavingsAccountDTO);
+            result = true;
         } catch (Exception exception) {
-            return false;
+            result = false;
         }
+        return result;
     }
 }

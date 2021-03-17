@@ -48,12 +48,4 @@ class CashTransactionTest {
         Assertions.assertNotNull(cashTransaction);
     }
 
-
-    @Test
-    void getTransactionData() {
-        boolean credit = true;
-        CashTransaction cashTransaction = new CashTransaction(cashAccount, category, credit, remainingBalance, dto);
-        TransactionData result = cashTransaction.getTransactionData();
-        assertNotNull(result);
-    }
 }

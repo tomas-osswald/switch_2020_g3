@@ -1,12 +1,15 @@
 package switchtwentytwenty.project.domain.services;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.model.FamilyMember;
+import switchtwentytwenty.project.domain.dtos.input.AddFamilyMemberDTO;
+import switchtwentytwenty.project.domain.model.Application;
+import switchtwentytwenty.project.domain.model.Family;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EmailServiceTest {
@@ -21,6 +24,19 @@ class EmailServiceTest {
     String codPostal = "4444-555";
     String local = "Zinde";
     String city = "Porto";
+    int familyID = 1;
+
+    Application ffmApp = new Application();
+    EmailService emailService = ffmApp.getEmailService();
+    FamilyService familyService = ffmApp.getFamilyService();
+    AddFamilyMemberDTO memberDTO = new AddFamilyMemberDTO(cc, cc, name, date, numero, email, nif, rua, codPostal, local, city, familyID);
+    Family family = new Family("Silva", familyID);
+
+    @BeforeEach
+    void setup() {
+        family.addFamilyAdministrator(memberDTO);
+        familyService.addFamily(family);
+    }
 
     @Test
     void emailServiceConstructor() {
@@ -32,10 +48,8 @@ class EmailServiceTest {
     @Test
     void addEmail_ValidEmail() {
         String newEmail = "1120717@isep.ipp.pt";
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        EmailService emailService = new EmailService();
 
-        boolean result = emailService.addEmail(newEmail, diogo);
+        boolean result = emailService.addEmail(newEmail, familyID, cc);
 
         assertTrue(result);
     }
@@ -43,9 +57,8 @@ class EmailServiceTest {
     @Test
     void addEmail_InvalidEmail() {
         String newEmail = "1120717@pt";
-        FamilyMember diogo = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city);
-        EmailService emailService = new EmailService();
-        assertFalse(emailService.addEmail(newEmail, diogo));
+
+        assertThrows(IllegalArgumentException.class, () -> emailService.addEmail(newEmail, familyID, cc));
 
     }
 

@@ -171,7 +171,7 @@ class IBANTest {
         String ibanStringOne = "GB94BARC20201530078456";
         IBAN ibanNumberOne = new IBAN(ibanStringOne);
 
-        assertNotEquals(ibanNumberOne.hashCode(), 0);
+        assertNotEquals(0, ibanNumberOne.hashCode());
 
     }
 }

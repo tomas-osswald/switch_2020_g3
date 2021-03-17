@@ -21,14 +21,14 @@ public class AddBankAccountController {
      * @return confirmation of status, true for account created and false for failure to create
      */
     public boolean addBankAccount(AddBankAccountDTO addBankAccountDTO) {
+        boolean result;
         try {
             AccountService accountService = this.ffmApplication.getAccountService();
-            FamilyService familyService = this.ffmApplication.getFamilyService();
-            FamilyMember targetMember = familyService.getFamily(addBankAccountDTO.getFamilyID()).getFamilyMember(addBankAccountDTO.getFamilyMemberID());
-            accountService.addBankAccount(addBankAccountDTO, targetMember);
-            return true;
+            accountService.addBankAccount(addBankAccountDTO);
+            result = true;
         } catch (Exception e) {
-            return false;
+            result = false;
         }
+        return result;
     }
 }

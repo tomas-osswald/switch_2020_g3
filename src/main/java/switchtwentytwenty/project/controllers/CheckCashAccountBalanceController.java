@@ -8,7 +8,7 @@ import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.AccountService;
 import switchtwentytwenty.project.domain.services.FamilyService;
 
-import java.util.Collections;
+
 import java.util.List;
 
 public class CheckCashAccountBalanceController {
@@ -28,16 +28,11 @@ public class CheckCashAccountBalanceController {
      * @return List of AccountIDAndDescriptionDTO
      */
     public List<AccountIDAndDescriptionDTO> getListOfCashAccountsOfAFamilyMember(String selfID, String otherID, int familyID) {
-        FamilyService familyService = ffmapplication.getFamilyService();
-        if (familyService.verifyAdministratorPermission(familyID, selfID)) {
-            Family family = familyService.getFamily(familyID);
-            FamilyMember familyMember = family.getFamilyMember(otherID);
-            AccountService accountService = ffmapplication.getAccountService();
-            return accountService.getListOfCashAccountsOfAFamilyMember(familyMember);
 
-        } else {
-            return Collections.emptyList();
-        }
+            AccountService accountService = ffmapplication.getAccountService();
+            return accountService.getListOfCashAccountsOfAFamilyMember(familyID,selfID,otherID);
+
+
     }
 
     /**

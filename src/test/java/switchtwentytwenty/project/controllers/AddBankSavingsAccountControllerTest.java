@@ -9,7 +9,8 @@ import switchtwentytwenty.project.domain.utils.CurrencyEnum;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AddBankSavingsAccountControllerTest {
 
@@ -53,9 +54,9 @@ class AddBankSavingsAccountControllerTest {
     String relacao3 = "primo";
     boolean admin3 = true;
 
-    FamilyMember familyMember1 = new FamilyMember(cc,name,date,numero,email,nif,rua,codPostal,local, city, admin);
-    FamilyMember familyMember2 = new FamilyMember(cc2,name2,date2,numero2,email2,nif2,rua2,codPostal2,local2, city2, admin2);
-    FamilyMember familyMember3 = new FamilyMember(cc3,name3,date3,numero3,email3,nif3,rua3,codPostal3,local3, city3, admin3);
+    FamilyMember familyMember1 = new FamilyMember(cc, name, date, numero, email, nif, rua, codPostal, local, city, admin);
+    FamilyMember familyMember2 = new FamilyMember(cc2, name2, date2, numero2, email2, nif2, rua2, codPostal2, local2, city2, admin2);
+    FamilyMember familyMember3 = new FamilyMember(cc3, name3, date3, numero3, email3, nif3, rua3, codPostal3, local3, city3, admin3);
 
     String testFamilyName = "Moura";
     int testFamilyID = 10;
@@ -111,7 +112,4 @@ class AddBankSavingsAccountControllerTest {
         assertFalse(controller.addBankSavingsAccount(addBankSavingsAccountDTO));
     }
 
-    @Test
-    void addBankSavingsAccount() {
-    }
 }

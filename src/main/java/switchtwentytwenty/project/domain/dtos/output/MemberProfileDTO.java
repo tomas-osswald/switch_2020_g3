@@ -12,15 +12,15 @@ public class MemberProfileDTO {
     private final String ccNumber;
     private final String name;
     private final Date birthDate;
-    private List<PhoneNumber> phoneNumbers = new ArrayList();
-    private List<EmailAddress> emails = new ArrayList<>();
+    private final List<PhoneNumber> phoneNumbers;
+    private final List<EmailAddress> emails;
     private final VatNumber vatNumber;
     private final Address address;
     private final boolean administrator;
 
 
     public MemberProfileDTO(CCNumber ccNumber, String name, Date birthDate, List<PhoneNumber> phoneNumbers, List<EmailAddress> emails, VatNumber vatNumber, Address address, boolean administrator) {
-        this.ccNumber = ccNumber.getCcNumber();
+        this.ccNumber = ccNumber.getCcNumberString();
         this.name = name;
         this.birthDate = (Date) birthDate.clone();
         List<PhoneNumber> phoneNumbersClone = new ArrayList<>();

@@ -156,7 +156,7 @@ class CCNumberTest {
     void testHashCodeNotEqualsZero() {
         String testCCNumberOne = "000000000BC4";
         CCNumber testOne = new CCNumber(testCCNumberOne);
-        Assertions.assertNotEquals(testOne.hashCode(), 0);
+        Assertions.assertNotEquals(0, testOne.hashCode());
     }
 
 

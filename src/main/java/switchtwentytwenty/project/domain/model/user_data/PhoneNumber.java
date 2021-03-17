@@ -19,8 +19,8 @@ public class PhoneNumber {
 
     public boolean validate(Integer phoneNumber) {
         String regex = "\\d{9}";
-        String phone = String.valueOf(phoneNumber);
-        boolean test = Pattern.matches(regex,phone);
+        String phoneNumb = String.valueOf(phoneNumber);
+        boolean test = Pattern.matches(regex,phoneNumb);
         if (phoneNumber == null){
             return false;
         } else return test;

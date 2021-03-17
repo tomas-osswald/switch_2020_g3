@@ -1,9 +1,7 @@
 package switchtwentytwenty.project.controllers;
 
 import switchtwentytwenty.project.domain.model.Application;
-import switchtwentytwenty.project.domain.model.FamilyMember;
 import switchtwentytwenty.project.domain.services.EmailService;
-import switchtwentytwenty.project.domain.services.FamilyService;
 
 public class AddEmailController {
     private final Application ffmApplication;
@@ -23,17 +21,12 @@ public class AddEmailController {
      */
     public boolean addEmail(String emailToAdd, int familyID, String ccNumber) {
         EmailService emailService = this.ffmApplication.getEmailService();
+        boolean result = false;
         try {
-            FamilyService familyService = this.ffmApplication.getFamilyService();
-            FamilyMember targetMember = familyService.getFamily(familyID).getFamilyMember(ccNumber);
-            if (familyService.checkIfEmailAlreadyRegisteredInApp(emailToAdd)) {
-                throw new IllegalArgumentException("Email Already Present");
-            }
-            return emailService.addEmail(emailToAdd, targetMember);
-
+            result = emailService.addEmail(emailToAdd, familyID, ccNumber);
         } catch (Exception exception) {
-            return false;
         }
+        return result;
     }
 
 

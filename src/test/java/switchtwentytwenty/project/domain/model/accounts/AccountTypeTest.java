@@ -8,16 +8,11 @@ class AccountTypeTest {
 
     @Test
     void getAccountTypeAssertNotNull() {
-        AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
+        AccountType accountType = AccountType.CASHACCOUNT;
         assertNotNull(accountType);
     }
 
-    @Test
-    void getAccountTypeAssertReturnNotNull() {
-        AccountType accountType = new AccountType(AccountTypeEnum.CASHACCOUNT);
-        AccountTypeEnum accountTypeEnum = accountType.getAccountType();
-        assertNotNull(accountTypeEnum);
-    }
+
 
 
 }

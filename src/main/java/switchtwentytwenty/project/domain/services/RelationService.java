@@ -9,6 +9,15 @@ import switchtwentytwenty.project.domain.utils.exceptions.NoParentalPermissionEx
 import java.util.List;
 
 public class RelationService {
+    private FamilyService familyService;
+
+    public RelationService(FamilyService familyService) {
+        this.familyService = familyService;
+    }
+
+    public RelationService() {
+
+    }
 
     /**
      * Method to add a relation to a family.
@@ -30,21 +39,17 @@ public class RelationService {
         return targetFamily.getFamilyMembersRelationDTOList();
     }
 
-    /**
-     * Method to verify the parenthood permission of two family members
-     *
-     * @param targetFamily Family of the two members
-     * @param memberA      Member to check if parent
-     * @param memberB      Member to check if child
-     * @return True if A is parent of B
-     */
-    public boolean checkIfMemberAisParentOfB(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        return targetFamily.verifyParenthood(memberA, memberB);
-    }
 
+    /**
+     * Method to verify parental permission of a member relating another member of the same Family
+     *
+     * @param targetFamily Family to whom the Family Members belong
+     * @param memberA      Expecting parent
+     * @param memberB      Expecting child
+     * @return If the parental permission exists, returns true. Else, throws an exception.
+     */
     public boolean verifyParenthood(Family targetFamily, FamilyMember memberA, FamilyMember memberB) {
-        boolean parenthood = targetFamily.verifyParenthood(memberA, memberB);
-        if (!targetFamily.verifyParenthood(memberA, memberB)) {
+        if (!targetFamily.isAParentofB(memberA, memberB)) {
             throw new NoParentalPermissionException("No parental permission");
         }
         return true;

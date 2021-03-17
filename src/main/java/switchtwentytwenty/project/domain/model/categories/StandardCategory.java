@@ -5,9 +5,9 @@ import java.util.Objects;
 public class StandardCategory implements Category {
 
     //Attributes
-    private int categoryID;
-    private String categoryName;
-    private StandardCategory parentCategory;
+    private final int categoryID;
+    private final String categoryName;
+    private final StandardCategory parentCategory;
 
     //Constructor
 
@@ -41,15 +41,6 @@ public class StandardCategory implements Category {
         return this.categoryName;
     }
 
-    /*public boolean isChildOf(StandardCategory standardCategory) {
-        if (this.getParentName() != null) {
-            return standardCategory.equals(this.parentCategory);
-        } else return false;
-    }*/
-
-    //Validation Methods
-
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -72,8 +63,7 @@ public class StandardCategory implements Category {
      */
 
     private boolean isNameValid(String categoryName) {
-        if (categoryName == null || categoryName.isEmpty() || categoryName.trim().length()==0) return false;
-        return true;
+        return categoryName != null && !categoryName.isEmpty() && categoryName.trim().length() != 0;
     }
 
     /**

@@ -165,22 +165,22 @@ class BankAccountTest {
 
     @Test
     void checkAccountType_isBankAccount() {
-        assertTrue(accountTest.checkAccountType(AccountTypeEnum.BANKACCOUNT));
+        assertTrue(accountTest.checkAccountType(AccountType.BANKACCOUNT));
     }
 
     @Test
     void checkAccountType_NotCashAccount() {
-        assertFalse(accountTest.checkAccountType(AccountTypeEnum.CASHACCOUNT));
+        assertFalse(accountTest.checkAccountType(AccountType.CASHACCOUNT));
     }
 
     @Test
     void checkAccountType_NotBankSavingsAccount() {
-        assertFalse(accountTest.checkAccountType(AccountTypeEnum.BANKSAVINGSACCOUNT));
+        assertFalse(accountTest.checkAccountType(AccountType.BANKSAVINGSACCOUNT));
     }
 
     @Test
     void checkAccountType_NotCreditCardAccount() {
-        assertFalse(accountTest.checkAccountType(AccountTypeEnum.CREDITCARDACCOUNT));
+        assertFalse(accountTest.checkAccountType(AccountType.CREDITCARDACCOUNT));
     }
 
     @Test
