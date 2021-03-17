@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.domain;
 
-public class CategoryRepository {
+import switchtwentytwenty.project.Repository;
+
+public class CategoryRepository implements Repository {
 
 
 }

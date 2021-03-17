@@ -2,12 +2,13 @@ package switchtwentytwenty.project.domain;
 
 import switchtwentytwenty.project.domain.family.Family;
 import switchtwentytwenty.project.shared.FamilyName;
+import switchtwentytwenty.project.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FamilyRepository {
+public class FamilyRepository implements Repository {
 
     private final List<Family> families;
     //private final Families families = new Families();

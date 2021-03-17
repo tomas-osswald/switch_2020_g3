@@ -2,6 +2,7 @@ package switchtwentytwenty.project.shared;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import switchtwentytwenty.project.exceptions.InvalidCCException;
@@ -24,8 +25,8 @@ class CCnumberTest {
 
     @DisplayName("Test that a blank, null and empty String throw exceptions")
     @ParameterizedTest
-    @ValueSource(strings = {"","  "})
-    @NullSource
+    @ValueSource(strings = {"  "})
+    @NullAndEmptySource
     void shouldThrowNullEmptyBlankCCNumber(String value) {
         assertThrows(InvalidCCException.class, () -> ccnumber = new CCnumber(value));
     }
