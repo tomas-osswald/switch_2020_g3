@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.shared;
+package switchtwentytwenty.project.shared;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.shared.FamilyName;
