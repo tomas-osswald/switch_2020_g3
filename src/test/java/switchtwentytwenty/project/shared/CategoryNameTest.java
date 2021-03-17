@@ -3,40 +3,38 @@ package switchtwentytwenty.project.shared;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CategoryNameTest {
 
-    /*
     @Test
-    void categoryNameConstructor_Valid(){
+    void categoryNameConstructor_Valid() {
         String name = "TonyZe";
-        CategoryName categoryName;
-        assertDoesNotThrow( ()-> categoryName = new CategoryName(name));
+        assertDoesNotThrow(() -> new CategoryName(name));
     }
-     */
 
     @Test
-    void categoryNameConstructor_Invalid_Null(){
+    void categoryNameConstructor_Invalid_Null() {
         String name = null;
-        assertThrows(InvalidNameException.class,()-> {
-            CategoryName categoryName = new CategoryName(name);
+        assertThrows(InvalidNameException.class, () -> {
+            new CategoryName(name);
         });
     }
 
     @Test
-    void categoryNameConstructor_Invalid_Empty(){
+    void categoryNameConstructor_Invalid_Empty() {
         String name = "";
-        assertThrows(InvalidNameException.class,()-> {
-            CategoryName categoryName = new CategoryName(name);
+        assertThrows(InvalidNameException.class, () -> {
+            new CategoryName(name);
         });
     }
 
     @Test
-    void categoryNameConstructor_Invalid_Blank(){
+    void categoryNameConstructor_Invalid_Blank() {
         String name = "      ";
-        assertThrows(InvalidNameException.class,()-> {
-            CategoryName categoryName = new CategoryName(name);
+        assertThrows(InvalidNameException.class, () -> {
+            new CategoryName(name);
         });
     }
 }
