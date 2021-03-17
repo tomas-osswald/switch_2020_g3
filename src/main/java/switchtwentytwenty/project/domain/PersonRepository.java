@@ -27,7 +27,6 @@ public class PersonRepository {
     }
 
     public Person getPersonByEmail(EmailAddress email) {
-        checkIfEmailIsRegistered(email);
         return retrievePersonFromList(email);
     }
 
@@ -44,6 +43,7 @@ public class PersonRepository {
     }
 
     private Person retrievePersonFromList(EmailAddress email) {
+        checkIfEmailIsRegistered(email);
         Person result = null;
         for (Person person : people) {
             if(person.isSameEmail(email)){
