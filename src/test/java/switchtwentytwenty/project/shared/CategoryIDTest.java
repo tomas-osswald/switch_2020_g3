@@ -8,11 +8,13 @@ class CategoryIDTest {
 
     @Test
     void categoryIDConstructor_Valid(){
-
+        assertDoesNotThrow(()-> new CategoryID());
     }
 
     @Test
-    void categoryIDConstructor_Invalid_Null(){
-
+    void categoryIDConstructor_NotEquals(){
+        CategoryID ID1 = new CategoryID();
+        CategoryID ID2 = new CategoryID();
+        assertNotEquals(ID1, ID2);
     }
 }

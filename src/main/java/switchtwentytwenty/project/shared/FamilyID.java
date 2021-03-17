@@ -4,6 +4,7 @@ import switchtwentytwenty.project.ID;
 
 import java.util.Objects;
 
+
 public class FamilyID implements ID {
 
     private final int familyID; //Passar para UUID
@@ -35,4 +36,5 @@ public class FamilyID implements ID {
     public int hashCode() {
         return Objects.hash(familyID);
     }
+
 }

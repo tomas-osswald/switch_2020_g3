@@ -27,16 +27,9 @@ public class PhoneNumber implements ValueObject {
 
     // Definir lógica de negócio
     private boolean isPhoneNumberValid() {
-        boolean result;
         String regex = "\\d{9}";
         String phoneNumb = String.valueOf(number);
-        boolean test = Pattern.matches(regex, phoneNumb);
-        if (phoneNumb.length() == 0) {
-            result = false;
-        } else {
-            result = true;
-        }
-        return result;
+        return Pattern.matches(regex, phoneNumb);
     }
 
 

@@ -9,17 +9,18 @@ import java.util.Objects;
 
 public class CCnumber implements ValueObject {
 
-    private String ccNumber;
     private final static String INVALIDCC = "CC is not valid";
+    private String ccNumber;
 
 
     public CCnumber(String ccNumber) {
-        this.ccNumber = ccNumber;
-        validateData();
+        validateData(ccNumber);
+        String finalCC = ccNumber.toUpperCase().replaceAll("\\s", "");
+        this.ccNumber = finalCC;
     }
 
-    private void validateData() {
-        if (!validateCC()) {
+    private void validateData(String ccNumber) {
+        if (!validateCC(ccNumber)) {
             throw new InvalidCCException(INVALIDCC);
         }
     }
@@ -32,18 +33,17 @@ public class CCnumber implements ValueObject {
      */
 
     //TODO: Modularizar posteriormente.
-    private boolean validateCC() {
+    private boolean validateCC(String ccNumber) {
         int sum = 0;
         int value;
         boolean secondDigit = false;
         if (ccNumber == null || ccNumber.trim().
-
                 length() == 0 || ccNumber.isEmpty()) {
             return false;
         }
-        if (ccNumber.length() != 12)
+        if (ccNumber.replaceAll("\\s", "").length() != 12)
             return false;
-        String ccNumberUpper = ccNumber.toUpperCase();
+        String ccNumberUpper = ccNumber.toUpperCase().replaceAll("\\s", "");
         for (
                 int i = ccNumberUpper.length() - 1;
                 i >= 0; --i) {
