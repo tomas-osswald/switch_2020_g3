@@ -1,8 +1,7 @@
 package switchtwentytwenty.project.domain;
 
 import switchtwentytwenty.project.domain.family.Family;
-import switchtwentytwenty.project.domain.shared.FamilyID;
-import switchtwentytwenty.project.domain.shared.FamilyName;
+import switchtwentytwenty.project.shared.FamilyName;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ public class FamilyRepository {
         //generateID();
         //Family newFamily = new Family(familyName,registrationDate,familyID);
     }
-
-
 
 
  /*   private class Families implements Iterable<Families>{

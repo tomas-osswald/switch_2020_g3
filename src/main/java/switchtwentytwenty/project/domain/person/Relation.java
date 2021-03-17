@@ -1,4 +1,5 @@
-package switchtwentytwenty.project.person;
+package switchtwentytwenty.project.domain.person;
+
 
 public class Relation {
 

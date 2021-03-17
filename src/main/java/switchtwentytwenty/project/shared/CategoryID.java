@@ -9,8 +9,17 @@ public class CategoryID implements ValueObject, ID {
 
     public CategoryID(int categoryID) {
         this.categoryID = categoryID;
+        validateID();
     }
 
-    
+    private void validateID(){
+        if(!isIDValid()){
+            throw new IllegalArgumentException("Invalid ID");
+        }
+    }
+
+    private boolean isIDValid(){
+        return this.categoryID<1;
+    }
 
 }

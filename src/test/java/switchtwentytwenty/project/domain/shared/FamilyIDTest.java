@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.shared;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.shared.FamilyID;
 
 import static org.junit.jupiter.api.Assertions.*;
 

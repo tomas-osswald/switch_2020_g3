@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.shared;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.category.Category;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
 import static org.junit.jupiter.api.Assertions.*;
