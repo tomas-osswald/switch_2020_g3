@@ -3,12 +3,15 @@ package switchtwentytwenty.project.shared;
 import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidPhoneNumberException;
 
+import java.util.Objects;
+import java.util.regex.Pattern;
+
 public class PhoneNumber implements ValueObject {
 
-    private String number;
+    private int number;
     private final static String INVALIDPHONE = "Phone number is not valid";
 
-    public PhoneNumber(String number) {
+    public PhoneNumber(int number) {
         this.number = number;
         validateData();
     }
@@ -24,6 +27,17 @@ public class PhoneNumber implements ValueObject {
 
     // Definir lógica de negócio
     private boolean isPhoneNumberValid() {
-      return true;
+        boolean result;
+        String regex = "\\d{9}";
+        String phoneNumb = String.valueOf(number);
+        boolean test = Pattern.matches(regex, phoneNumb);
+        if (phoneNumb.length() == 0) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
     }
+
+
 }
