@@ -1,14 +1,14 @@
 package switchtwentytwenty.project.Category;
 
 import switchtwentytwenty.project.AggregateRoot;
-import switchtwentytwenty.project.shared.CategoryName;
 import switchtwentytwenty.project.shared.CategoryID;
+import switchtwentytwenty.project.shared.CategoryName;
 
 public class Category implements AggregateRoot{
 
     private CategoryName categoryName;
     private CategoryID categoryID;
-    private int postion;
+    private int position;
 
     public Category(CategoryName categoryName, CategoryID categoryID) {
         this.categoryName = categoryName;
