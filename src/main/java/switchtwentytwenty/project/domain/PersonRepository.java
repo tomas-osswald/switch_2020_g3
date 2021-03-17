@@ -4,11 +4,12 @@ package switchtwentytwenty.project.domain;
 import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.shared.EmailAddress;
+import switchtwentytwenty.project.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonRepository {
+public class PersonRepository implements Repository {
 
     private final List<Person> people;
 
