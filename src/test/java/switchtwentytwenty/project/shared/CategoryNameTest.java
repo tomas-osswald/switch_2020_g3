@@ -5,7 +5,7 @@ import switchtwentytwenty.project.exceptions.InvalidNameException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class categoryNameTest {
+class CategoryNameTest {
 
     /*
     @Test
