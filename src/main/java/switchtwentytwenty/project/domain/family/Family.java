@@ -1,10 +1,6 @@
 package switchtwentytwenty.project.domain.family;
 
 import switchtwentytwenty.project.AggregateRoot;
-import switchtwentytwenty.project.domain.shared.FamilyID;
-import switchtwentytwenty.project.domain.shared.FamilyName;
-
-import java.time.LocalDate;
 
 public class Family implements AggregateRoot {
 
