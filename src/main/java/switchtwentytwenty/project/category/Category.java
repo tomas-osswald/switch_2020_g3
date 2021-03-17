@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.Category;
+package switchtwentytwenty.project.category;
 
 import switchtwentytwenty.project.AggregateRoot;
 import switchtwentytwenty.project.shared.CategoryID;
