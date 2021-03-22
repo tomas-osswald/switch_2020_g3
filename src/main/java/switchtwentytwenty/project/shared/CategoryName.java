@@ -9,6 +9,11 @@ public class CategoryName implements ValueObject {
     public CategoryName(String name) {
         this.name = name;
         validation();
+        trimData();
+    }
+
+    private void trimData() {
+        this.name.trim();
     }
 
     private void validation(){

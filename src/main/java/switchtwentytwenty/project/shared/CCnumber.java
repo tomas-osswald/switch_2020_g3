@@ -16,7 +16,7 @@ public class CCnumber implements ValueObject {
     public CCnumber(String ccNumber) {
         validateData(ccNumber);
         String finalCC = ccNumber.toUpperCase().replaceAll("\\s", "");
-        this.ccNumber = finalCC;
+        this.ccNumber = finalCC.trim();
     }
 
     private void validateData(String ccNumber) {

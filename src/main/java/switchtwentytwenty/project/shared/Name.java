@@ -11,6 +11,11 @@ public class Name implements ValueObject {
     public Name(String name) {
         this.name = name;
         validateData();
+        trimData();
+    }
+
+    private void trimData() {
+        this.name.trim();
     }
 
     private void validateData() {
