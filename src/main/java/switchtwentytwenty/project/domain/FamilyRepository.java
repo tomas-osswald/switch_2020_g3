@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain;
 
 import switchtwentytwenty.project.domain.family.Family;
-import switchtwentytwenty.project.shared.FamilyName;
+import switchtwentytwenty.project.shared.*;
 import switchtwentytwenty.project.Repository;
 
 import java.time.LocalDate;
@@ -27,6 +27,7 @@ public class FamilyRepository implements Repository {
 
     public void createFamily(String name, LocalDate registrationDate){
         FamilyName familyName = new FamilyName(name);
+
         //generateID();
         //Family newFamily = new Family(familyName,registrationDate,familyID);
     }

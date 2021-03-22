@@ -15,10 +15,11 @@ public class Family implements AggregateRoot {
     private final RegistrationDate registrationDate;
     private EmailAddress adminEmail;
 
-    public Family(FamilyID familyID,FamilyName familyName, RegistrationDate registrationDate) {
+    public Family(FamilyID familyID,FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
         this.id = familyID;
         this.name = familyName;
         this.registrationDate = registrationDate;
+        this.adminEmail = adminEmail;
     }
 
     public boolean isIDofThisFamily(FamilyID familyID) {
