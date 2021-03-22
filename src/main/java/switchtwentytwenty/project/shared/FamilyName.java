@@ -10,6 +10,11 @@ public class FamilyName implements ValueObject {
     public FamilyName(String familyName){
         this.familyName = familyName;
         validateName();
+        trimData();
+    }
+
+    private void trimData() {
+        this.familyName.trim();
     }
 
     private void validateName(){

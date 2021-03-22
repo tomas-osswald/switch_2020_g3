@@ -27,6 +27,13 @@ public class Address implements ValueObject {
         this.zipCode = zipCode;
         this.number = number;
         validateData();
+        trimData();
+    }
+
+    private void trimData() {
+        this.street.trim();
+        this.city.trim();
+        this.zipCode.trim();
     }
 
     private void validateData() {
