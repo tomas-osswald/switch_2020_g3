@@ -13,7 +13,7 @@ public class CategoryName implements ValueObject {
     }
 
     private void trimData() {
-        this.name.trim();
+        this.name = this.name.trim();
     }
 
     private void validation(){

@@ -9,15 +9,25 @@ public class RegistrationDate implements ValueObject {
 
     private LocalDate registrationDate;
 
-    public RegistrationDate(LocalDate registrationDate){
+    /**
+     * Constructor for a RegistrationDate Object, if the argument registrationDate is null the registration date will be the current date
+     *
+     * @param registrationDate a LocalDate object that will represent the date of the registration
+     */
+    public RegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
-        if (validateDate()) {
+        if (!validateDate()) {
             this.registrationDate = LocalDate.now();
         }
     }
 
-    private boolean validateDate(){
-        return registrationDate==null;
+    /**
+     * Method to determine if a date is valid, i.e. not null
+     *
+     * @return boolean - returns true if the date is valid, false if it is null
+     */
+    private boolean validateDate() {
+        return registrationDate != null;
     }
 
     @Override

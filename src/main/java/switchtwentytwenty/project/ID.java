@@ -1,7 +1,7 @@
 package switchtwentytwenty.project;
 
 
-public interface ID {
+public interface ID extends ValueObject {
 
 
 

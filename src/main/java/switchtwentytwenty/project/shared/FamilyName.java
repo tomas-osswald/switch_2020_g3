@@ -1,42 +1,55 @@
 package switchtwentytwenty.project.shared;
 
 import switchtwentytwenty.project.ValueObject;
+
 import java.util.Objects;
 
 public class FamilyName implements ValueObject {
 
     private String familyName;
 
-    public FamilyName(String familyName){
+    public FamilyName(String familyName) {
         this.familyName = familyName;
         validateName();
         trimData();
     }
 
     private void trimData() {
-        this.familyName.trim();
+        this.familyName = this.familyName.trim();
     }
 
-    private void validateName(){
+    /**
+     * Method to verify if an input name is valid, verifies that it is not null, empty or blank
+     */
+    private void validateName() {
         checkNull();
         checkEmpty();
         checkBlank();
     }
 
-    private void checkNull(){
-        if (this.familyName==null){
+    /**
+     * Method to verify if the family name is null, throws and exception if the name is null
+     */
+    private void checkNull() {
+        if (this.familyName == null) {
             throw new IllegalArgumentException("Name is Null");
         }
     }
 
-    private void checkEmpty(){
-        if (this.familyName.isEmpty()){
+    /**
+     * Method to verify if the family name is empty, throws and exception if the name is empty
+     */
+    private void checkEmpty() {
+        if (this.familyName.isEmpty()) {
             throw new IllegalArgumentException("Name is Empty");
         }
     }
 
-    private void checkBlank(){
-        if (this.familyName.trim().length()==0){
+    /**
+     * Method to verify if the family name is blank, throws and exception if the name is blank
+     */
+    private void checkBlank() {
+        if (this.familyName.trim().length() == 0) {
             throw new IllegalArgumentException("Name is Blank");
         }
     }

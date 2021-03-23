@@ -6,7 +6,9 @@ import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
 import switchtwentytwenty.project.shared.RegistrationDate;
 
+import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Family implements AggregateRoot {
 
@@ -15,10 +17,22 @@ public class Family implements AggregateRoot {
     private final RegistrationDate registrationDate;
     private EmailAddress adminEmail;
 
-    public Family(FamilyID familyID,FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
+    /*
+    public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
         this.id = familyID;
         this.name = familyName;
         this.registrationDate = registrationDate;
+        this.adminEmail = adminEmail;
+    }
+    */
+
+    public Family(UUID familyID, String familyName, LocalDate registrationDate, EmailAddress adminEmail) {
+        FamilyID newFamilyID = new FamilyID(familyID);
+        this.id = newFamilyID;
+        FamilyName newFamilyName = new FamilyName(familyName);
+        this.name = newFamilyName;
+        RegistrationDate newRegistrationDate = new RegistrationDate(registrationDate);
+        this.registrationDate = newRegistrationDate;
         this.adminEmail = adminEmail;
     }
 
@@ -26,24 +40,6 @@ public class Family implements AggregateRoot {
         return this.id.equals(familyID);
     }
 
-
-/*
-    public int getFamilyID() {
-        return familyID;
-    }
-
-    // Business methods
-
-    /**
-     * Method to verify if a Family has an administrator
-     *
-     * @return boolean
-     */
-/*
-    public boolean hasAdministrator() {
-        return this.adminEmail.notNull()
-    }
-*/
     /**
      * Method to verify if a given Family Member is Administrator
      *
@@ -74,6 +70,7 @@ public class Family implements AggregateRoot {
     }
 */
 // FAMILY TO DTO?
+
     /**
      * Method to create a DTO (familyWithoutAdministratorDTO) with name and id of a Family
      *
@@ -84,9 +81,6 @@ public class Family implements AggregateRoot {
         return new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
     }
 */
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

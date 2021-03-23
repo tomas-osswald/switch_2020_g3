@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import switchtwentytwenty.project.exceptions.InvalidPhoneNumberException;
-import switchtwentytwenty.project.exceptions.InvalidVATException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -3,11 +3,7 @@ package switchtwentytwenty.project.domain.person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import switchtwentytwenty.project.shared.*;
-import switchtwentytwenty.project.exceptions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
