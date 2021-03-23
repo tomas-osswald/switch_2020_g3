@@ -12,9 +12,10 @@ import java.util.List;
 public class PersonRepository implements Repository {
 
     private final List<Person> people;
+    private FamilyRepository familyRepository;
 
-
-    public PersonRepository() {
+    public PersonRepository(FamilyRepository familyRepository) {
+        this.familyRepository = familyRepository;
         this.people = new ArrayList<>();
     }
 
