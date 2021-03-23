@@ -2,7 +2,11 @@ package switchtwentytwenty.project.domain;
 
 import switchtwentytwenty.project.Repository;
 import switchtwentytwenty.project.domain.family.Family;
+import switchtwentytwenty.project.shared.EmailAddress;
+import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
+import switchtwentytwenty.project.shared.RegistrationDate;
+import switchtwentytwenty.project.util.FamilyIDFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +16,7 @@ public class FamilyRepository implements Repository {
 
     private final List<Family> families;
     private CategoryRepository categoryRepository;
+    private FamilyIDFactory familyIDFactory = new FamilyIDFactory();
     //private final Families families = new Families();
 
     public FamilyRepository(CategoryRepository categoryRepository) {
@@ -27,11 +32,18 @@ public class FamilyRepository implements Repository {
 
     //}
 
-    public void createFamily(String name, LocalDate registrationDate) {
+    public void createFamily(String name, LocalDate registrationDate, String adminEmail) {
         FamilyName familyName = new FamilyName(name);
+        FamilyID familyID = generateID();
+        EmailAddress adminEmailAddress = new EmailAddress(adminEmail);
+        RegistrationDate registrationDateObject = new RegistrationDate(registrationDate);
+        Family newFamily = new Family(familyID, familyName, registrationDateObject, adminEmailAddress);
+        this.families.add(newFamily);
+    }
 
-        //generateID();
-        //Family newFamily = new Family(familyName,registrationDate,familyID);
+    private FamilyID generateID() {
+        FamilyID familyID = new FamilyID(this.familyIDFactory.generateFamilyID());
+        return familyID;
     }
 
 

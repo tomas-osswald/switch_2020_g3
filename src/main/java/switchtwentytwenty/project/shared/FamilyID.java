@@ -9,19 +9,19 @@ public class FamilyID implements ID {
 
     private final int familyID; //Passar para UUID
 
-    public FamilyID(int familyID){
-        this.familyID=familyID;
+    public FamilyID(int familyID) {
+        this.familyID = familyID;
         validateID();
     }
 
-    private void validateID(){
-        if(!isIDValid()){
+    private void validateID() {
+        if (!isIDValid()) {
             throw new IllegalArgumentException("Invalid ID");
         }
     }
 
-    private boolean isIDValid(){ //Passar para UUID //quebrar se o ID for nulo?
-        return this.familyID>0;
+    private boolean isIDValid() { //Passar para UUID //quebrar se o ID for nulo?
+        return this.familyID > 0;
     }
 
     @Override

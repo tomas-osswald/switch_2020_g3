@@ -6,6 +6,7 @@ import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
 import switchtwentytwenty.project.shared.RegistrationDate;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Family implements AggregateRoot {
@@ -21,6 +22,8 @@ public class Family implements AggregateRoot {
         this.registrationDate = registrationDate;
         this.adminEmail = adminEmail;
     }
+
+
 
     public boolean isIDofThisFamily(FamilyID familyID) {
         return this.id.equals(familyID);
