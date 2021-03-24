@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.shared.*;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
@@ -29,6 +31,7 @@ class PersonTest {
     PhoneNumber tonyZePhone;
     Address tonyZeAddress;
     CCnumber tonyZeCC;
+    FamilyID familyID;
 
     @BeforeEach
     void createValidPerson() {
@@ -39,7 +42,8 @@ class PersonTest {
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
         CCnumber tonyZeCC = new CCnumber(VALIDCCNUMBER);
-        validPerson = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC);
+        FamilyID familyID = new FamilyID(UUID.randomUUID());
+        validPerson = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID);
     }
 
     @DisplayName("Check if method isSameEmail returns true when email is the same")
@@ -60,7 +64,7 @@ class PersonTest {
     @Test
     void shouldNotThrowValidPersonConstructor() {
         assertNotNull(validPerson);
-        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC));
+        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID ));
     }
 
 
