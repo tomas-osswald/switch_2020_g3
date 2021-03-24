@@ -2,6 +2,8 @@ package switchtwentytwenty.project.dataaccesslayer;
 
 import switchtwentytwenty.project.Repository;
 import switchtwentytwenty.project.domain.family.Family;
+import switchtwentytwenty.project.domain.person.Person;
+import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.shared.EmailAddress;
 import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
@@ -66,6 +68,23 @@ public class FamilyRepository implements Repository<Family> {
             }
         }
         return targetFamily;
+    }
+
+    public void verifyAdmin(Person loggedUser) {
+        boolean result = false;
+        for (Family family : this.families) {
+            if(family.isPersonTheAdmin(loggedUser)){
+                result = true;
+            }
+        }
+        if(!result){
+            throw new UserIsNotAdminException();
+        }
+    }
+
+    @Deprecated
+    public EmailAddress getFirstAdminEmail() {
+        return this.families.get(0).getAdminEmail();
     }
 
     /*

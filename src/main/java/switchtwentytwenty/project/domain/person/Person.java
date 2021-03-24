@@ -29,4 +29,8 @@ public class Person implements AggregateRoot {
     public boolean isSameEmail(EmailAddress email) {
         return this.id.equals(email);
     }
+
+    public FamilyID getFamilyID() {
+        return this.familyID.clone();
+    }
 }
