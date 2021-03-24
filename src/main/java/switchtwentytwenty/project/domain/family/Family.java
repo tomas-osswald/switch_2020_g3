@@ -27,25 +27,16 @@ public class Family implements AggregateRoot {
     */
 
     public Family(UUID familyID, String familyName, LocalDate registrationDate, EmailAddress adminEmail) {
-        FamilyID newFamilyID = new FamilyID(familyID);
-        this.id = newFamilyID;
-        FamilyName newFamilyName = new FamilyName(familyName);
-        this.name = newFamilyName;
-        RegistrationDate newRegistrationDate = new RegistrationDate(registrationDate);
-        this.registrationDate = newRegistrationDate;
+        this.id = new FamilyID(familyID);
+        this.name = new FamilyName(familyName);
+        this.registrationDate = new RegistrationDate(registrationDate);
         this.adminEmail = adminEmail;
     }
 
-    public boolean isIDofThisFamily(FamilyID familyID) {
+    public boolean isIDofThisFamily(FamilyID familyID) { //Implementado do Agregate Root ?
         return this.id.equals(familyID);
     }
 
-    /**
-     * Method to verify if a given Family Member is Administrator
-     *
-     * @param ccNumber Family Member ID to verify
-     * @return boolean
-     */
 /*
     public boolean verifyAdministrator(String ccNumber) {
         CCNumber cc = new CCNumber(ccNumber);
@@ -71,16 +62,6 @@ public class Family implements AggregateRoot {
 */
 // FAMILY TO DTO?
 
-    /**
-     * Method to create a DTO (familyWithoutAdministratorDTO) with name and id of a Family
-     *
-     * @return aFamilyWithoutAdministratorDTO
-     */
-/*
-    public FamilyWithoutAdministratorDTO familyWithoutAdministratorDTO() {
-        return new FamilyWithoutAdministratorDTO(this.familyName, this.familyID);
-    }
-*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

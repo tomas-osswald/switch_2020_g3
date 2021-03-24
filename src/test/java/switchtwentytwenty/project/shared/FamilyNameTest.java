@@ -17,6 +17,18 @@ class FamilyNameTest {
     }
 
     @Test
+    void familyNameConstructorTest_ValidTrimmedString() {
+        //Arrange
+        String familyName = "   Ribeiro   ";
+        String expectedString = "Ribeiro";
+        FamilyName expected = new FamilyName(expectedString);
+        //Act
+        FamilyName result = new FamilyName(familyName);
+        //Assert
+        assertEquals(expected,result);
+    }
+
+    @Test
     void familyNameConstructorTest_InvalidNull() {
         //Arrange
         String familyName = null;
