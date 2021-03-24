@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain;
+package switchtwentytwenty.project.dataaccesslayer;
 
 import switchtwentytwenty.project.Repository;
 import switchtwentytwenty.project.domain.family.Family;
@@ -32,15 +32,33 @@ public class FamilyRepository implements Repository {
         //Family newFamily = new Family(familyName,registrationDate,familyID);
     }
 
+    /*
+    v1
+    EmailAddress;
+    new Family(DTO, EmailAddress);
+    new Admin(DTO, EmailAddress, idfamily);
+    verifyIfPresent;
+    add Admin to repo;
+    add family to repo;
 
- /*   private class Families implements Iterable<Families>{
+    v2
+    EmailAddress;
+    verifyIFPresent;
+    new Admin(DTO1,email);
+    add Admin;
+    new Family(DTO2,email);
+    add Family; or remove Admin;
+    set familyID in Admin;
+    */
+
+ /*   private class Families implements Iterable<Family>{
         private final List<Family> families;
 
         private Families(){
             this.families = new ArrayList<>();
         }
 
-        public Iterator iterator(){
+        public Iterator<Family> iterator(){
             return this.families.iterator();
         }
     }*/

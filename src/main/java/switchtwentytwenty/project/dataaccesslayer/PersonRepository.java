@@ -1,10 +1,10 @@
-package switchtwentytwenty.project.domain;
+package switchtwentytwenty.project.dataaccesslayer;
 
 
+import switchtwentytwenty.project.Repository;
 import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.shared.EmailAddress;
-import switchtwentytwenty.project.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,38 +32,42 @@ public class PersonRepository implements Repository {
         return retrievePersonFromList(email);
     }
 
-    private void checkIfEmailIsRegistered(EmailAddress email) {
+    private boolean isEmailAlreadyRegistered(EmailAddress email) {
         boolean emailIsRegistered = false;
         for (Person person : people) {
-            if(person.isSameEmail(email)){
+            if (person.isSameEmail(email)) {
                 emailIsRegistered = true;
             }
         }
-        if(!emailIsRegistered){
+        return emailIsRegistered;
+    }
+
+    private Person retrievePersonFromList(EmailAddress email) {
+        Person result = null;
+        for (Person person : people) {
+            if (person.isSameEmail(email)) {
+                result = person;
+            }
+        }
+        validatePersonNotNull(result);
+        return result;
+    }
+
+    private void validatePersonNotNull(Person person) {
+        if (person == null) {
             throw new EmailNotRegisteredException();
         }
     }
 
-    private Person retrievePersonFromList(EmailAddress email) {
-        checkIfEmailIsRegistered(email);
-        Person result = null;
-        for (Person person : people) {
-            if(person.isSameEmail(email)){
-               result = person;
-            }
-        }
-        return result;
-    }
 
-
- /*   private class People implements Iterable<People>{
+ /*   private class People implements Iterable<Person>{
         private final List<Person> people;
 
         private People(){
             this.people = new ArrayList<>();
         }
 
-        public Iterator iterator(){
+        public Iterator<Person> iterator(){
             return this.people.iterator();
         }
     }*/

@@ -18,6 +18,17 @@ public class FamilyName implements ValueObject {
         this.familyName = this.familyName.trim();
     }
 
+    //TODO: verificar trimData e final
+    /*
+        private String trimData(String familyName) {
+        try {
+            return familyName.trim();
+        }catch(NullPointerException e){
+            return null;
+        }
+    }
+     */
+
     /**
      * Method to verify if an input name is valid, verifies that it is not null, empty or blank
      */
