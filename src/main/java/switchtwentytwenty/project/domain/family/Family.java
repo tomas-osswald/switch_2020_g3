@@ -79,4 +79,9 @@ public class Family implements AggregateRoot {
     public boolean isPersonTheAdmin(Person loggedUser) {
         return loggedUser.isSameEmail(this.admin);
     }
+
+    @Deprecated
+    public EmailAddress getAdminEmail() {
+        return this.adminEmail;
+    }
 }

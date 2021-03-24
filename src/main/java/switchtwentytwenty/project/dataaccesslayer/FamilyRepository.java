@@ -82,6 +82,11 @@ public class FamilyRepository implements Repository<Family> {
         }
     }
 
+    @Deprecated
+    public EmailAddress getFirstAdminEmail() {
+        return this.families.get(0).getAdminEmail();
+    }
+
     /*
     v1
     EmailAddress;
