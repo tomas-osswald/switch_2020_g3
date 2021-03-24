@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.family;
 
 import switchtwentytwenty.project.AggregateRoot;
+import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.shared.EmailAddress;
 import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
@@ -16,15 +17,6 @@ public class Family implements AggregateRoot {
     private final FamilyName name;
     private final RegistrationDate registrationDate;
     private EmailAddress adminEmail;
-
-    /*
-    public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
-        this.id = familyID;
-        this.name = familyName;
-        this.registrationDate = registrationDate;
-        this.adminEmail = adminEmail;
-    }
-    */
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
         this.id = familyID;
@@ -81,5 +73,9 @@ public class Family implements AggregateRoot {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public boolean isPersonTheAdmin(Person loggedUser) {
+        return loggedUser.isSameEmail(this.adminEmail);
     }
 }

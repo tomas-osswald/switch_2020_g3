@@ -15,6 +15,11 @@ public class FamilyID implements ID<UUID> {
         validateID();
     }
 
+    public FamilyID clone(){
+        FamilyID clone = new FamilyID(this.familyID);
+        return clone;
+    }
+
     /**
      * Method that validates a familyID, throws an exception if the ID isn't valid
      */
