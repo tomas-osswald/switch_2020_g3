@@ -82,6 +82,6 @@ public class Family implements AggregateRoot {
 
     @Deprecated
     public EmailAddress getAdminEmail() {
-        return this.adminEmail;
+        return this.admin;
     }
 }
