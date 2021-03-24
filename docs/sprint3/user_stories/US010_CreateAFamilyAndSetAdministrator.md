@@ -17,8 +17,8 @@ participant "System" as System
 activate Actor
 Actor -> System : Create a family and set administrator
 activate System
-System -> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number and Address)  
-Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number and Address)
+System -> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
+Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
 alt failure
 System -> Actor : Inform Failure
 else success 
@@ -80,6 +80,7 @@ Person "2" -> "1" Relation: has
 
 @enduml
 ```
+
 
 
 
