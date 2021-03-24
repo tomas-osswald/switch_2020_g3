@@ -1,7 +1,6 @@
 # US010 Create a Family and set the Family administrator
 =======================================
 
-
 # 1. Requirements
 
 *As a system administrator, I want to create a family and set a family administrator*
@@ -49,7 +48,6 @@ class Family {
  - registrationDate : RegistrationDate
 }
 
-
 class Person {
  - name : Name
  - cc : CCNumber
@@ -58,7 +56,6 @@ class Person {
  - vatNumber : VatNumber
 }
 
-
 class EmailAddress {
  - email : String
 }
@@ -66,7 +63,6 @@ class EmailAddress {
 class PhoneNumber {
  - phoneNumber : int
 }
-
 
 class Relation {
  - type
@@ -80,8 +76,6 @@ Person "2" -> "1" Relation: has
 
 @enduml
 ```
-
-
 
 # 3. Design
 
@@ -100,6 +94,7 @@ participant "newFamily : Family" as family
 participant "newFamilyName" as familyName
 participant "newRegistrationDate" as registrationDate
 participant "PersonRepository" as prepository
+participant "Admin" as admin
 activate systemManager
 systemManager -> FamAdminService: getFamilyService()
 activate FamAdminService
@@ -112,14 +107,29 @@ family ->  familyName** : create
 family -> registrationDate** : create
 family -> frepository : familyID
 deactivate family
-family -> family : addToRepository
+frepository -> frepository : addToRepository
+
 frepository -> FamAdminService : familyID
 deactivate frepository
-systemManager -> prepository : createPerson()
+FamAdminService -> prepository : createPerson()
 activate prepository
+prepository -> admin** : create
+activate admin
+admin -> prepository : email
+deactivate admin
+alt Success
+prepository -> prepository : verifyEmail
+prepository -> prepository : addToRepository
+prepository --> FamAdminService : adminEMail
+else Fail
 
+FamAdminService -> frepository : removeFamily(FamilyID)
+activate frepository
+frepository --> FamAdminService : ok
+deactivate frepository
+deactivate FamAdminService
+end
 deactivate systemManager
-
 @enduml
 ````
 
