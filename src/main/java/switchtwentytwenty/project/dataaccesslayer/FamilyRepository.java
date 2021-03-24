@@ -2,11 +2,14 @@ package switchtwentytwenty.project.dataaccesslayer;
 
 import switchtwentytwenty.project.Repository;
 import switchtwentytwenty.project.domain.family.Family;
+import switchtwentytwenty.project.shared.EmailAddress;
+import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
+import switchtwentytwenty.project.shared.RegistrationDate;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class FamilyRepository implements Repository {
 
@@ -25,11 +28,44 @@ public class FamilyRepository implements Repository {
 
     //}
 
-    public void createFamily(String name, LocalDate registrationDate) {
-        FamilyName familyName = new FamilyName(name);
+    public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, EmailAddress adminEmail) {
+        Family family = new Family(familyID, familyName, registrationDate, adminEmail);
+        this.families.add(family);
+    }
 
-        //generateID();
-        //Family newFamily = new Family(familyName,registrationDate,familyID);
+    public FamilyID generateAndGetFamilyID() {
+        FamilyID familyID = new FamilyID(UUID.randomUUID());
+        if (checkIfFamilyIDExists(familyID)) {
+            familyID = generateAndGetFamilyID();
+        }
+        return familyID;
+    }
+
+    private boolean checkIfFamilyIDExists(FamilyID familyID) {
+        boolean result = false;
+        for (Family family : this.families) {
+            if (family.isIDofThisFamily(familyID)) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public void removeFamily(FamilyID familyID) {
+        Family family = getFamilyByID(familyID);
+        if (family != null) {
+            this.families.remove(family);
+        }
+    }
+
+    private Family getFamilyByID(FamilyID familyID) {
+        Family targetFamily = null;
+        for (Family family : this.families) {
+            if (family.isIDofThisFamily(familyID)) {
+                targetFamily = family;
+            }
+        }
+        return targetFamily;
     }
 
     /*
@@ -63,3 +99,4 @@ public class FamilyRepository implements Repository {
         }
     }*/
 }
+

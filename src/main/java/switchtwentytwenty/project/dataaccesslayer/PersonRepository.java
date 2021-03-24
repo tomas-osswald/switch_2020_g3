@@ -2,9 +2,11 @@ package switchtwentytwenty.project.dataaccesslayer;
 
 
 import switchtwentytwenty.project.Repository;
+import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.domain.person.Person;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
-import switchtwentytwenty.project.shared.EmailAddress;
+import switchtwentytwenty.project.shared.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,8 @@ import java.util.List;
 public class PersonRepository implements Repository {
 
     private final List<Person> people;
-    private FamilyRepository familyRepository;
 
-    public PersonRepository(FamilyRepository familyRepository) {
-        this.familyRepository = familyRepository;
+    public PersonRepository() {
         this.people = new ArrayList<>();
     }
 
@@ -24,8 +24,13 @@ public class PersonRepository implements Repository {
     }
 
 
-    public void createPerson() {
-        //DTO unpacked aqui ou antes?
+    public void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
+        if (!isEmailAlreadyRegistered(email)) {
+            Person person = new Person(name, birthDate, email, vat, phone, address, cc, familyID);
+            this.people.add(person);
+        } else {
+            throw new EmailAlreadyRegisteredException();
+        }
     }
 
     public Person getPersonByEmail(EmailAddress email) {
