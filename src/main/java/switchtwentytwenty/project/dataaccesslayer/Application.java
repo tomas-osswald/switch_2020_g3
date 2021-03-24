@@ -33,4 +33,14 @@ public class Application {
     public FamilyRepository getFamilyRepository() {
         return familyRepository;
     }
+
+    @Deprecated
+    public void logInAsAdmin() {
+        this.loggedPerson = personRepository.getPersonByEmail(familyRepository.getFirstAdminEmail());
+    }
+
+    @Deprecated
+    public void logInAsNotAdmin() {
+        this.loggedPerson = null;
+    }
 }
