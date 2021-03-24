@@ -18,7 +18,7 @@ public class EmailAddress implements ValueObject, ID {
     }
 
     private void trimData() {
-        this.email.trim();
+        this.email = this.email.trim();
     }
 
     private void validateData() {

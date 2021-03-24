@@ -1,12 +1,13 @@
 package switchtwentytwenty.project.shared;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyNameTest {
 
     @Test
-    void FamilyNameConstructorTest_Valid(){
+    void familyNameConstructorTest_Valid() {
         //Arrange
         String familyName = "Ribeiro";
         //Act
@@ -16,88 +17,88 @@ class FamilyNameTest {
     }
 
     @Test
-    void FamilyNameConstructorTest_InvalidNull(){
+    void familyNameConstructorTest_InvalidNull() {
         //Arrange
         String familyName = null;
         //Act & Assert
-        assertThrows(IllegalArgumentException.class,()->{
-            FamilyName newFamilyName = new FamilyName(familyName);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                new FamilyName(familyName)
+        );
     }
 
     @Test
-    void FamilyNameConstructorTest_InvalidEmpty(){
+    void familyNameConstructorTest_InvalidEmpty() {
         //Arrange
         String familyName = "";
         //Act & Assert
-        assertThrows(IllegalArgumentException.class,()->{
-            FamilyName newFamilyName = new FamilyName(familyName);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                new FamilyName(familyName)
+        );
     }
 
     @Test
-    void FamilyNameConstructorTest_InvalidBlank(){
+    void familyNameConstructorTest_InvalidBlank() {
         //Arrange
         String familyName = "  ";
         //Act & Assert
-        assertThrows(IllegalArgumentException.class,()->{
-            FamilyName newFamilyName = new FamilyName(familyName);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                new FamilyName(familyName)
+        );
     }
 
     @Test
-    void EqualsTest_equalNotSame(){
+    void equalsTest_equalNotSame() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
         FamilyName familyNameTwo = new FamilyName(nameOne);
 
-        assertEquals(familyNameOne,familyNameTwo);
+        assertEquals(familyNameOne, familyNameTwo);
     }
 
     @Test
-    void EqualsTest_equalSame(){
+    void equalsTest_equalSame() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
         FamilyName familyNameTwo = familyNameOne;
 
-        assertEquals(familyNameOne,familyNameTwo);
+        assertEquals(familyNameOne, familyNameTwo);
     }
 
     @Test
-    void EqualsTest_notEqual(){
+    void equalsTest_notEqual() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
         String nameTwo = "Moreira";
         FamilyName familyNameTwo = new FamilyName(nameTwo);
 
-        assertNotEquals(familyNameOne,familyNameTwo);
+        assertNotEquals(familyNameOne, familyNameTwo);
     }
 
     @Test
-    void EqualsTest_notEqualDifferentObject(){
+    void equalsTest_notEqualDifferentObject() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
-        String notFamilyName ="notFamilyName";
+        String notFamilyName = "notFamilyName";
 
-        assertNotEquals(familyNameOne,notFamilyName);
+        assertNotEquals(familyNameOne, notFamilyName);
     }
 
     @Test
-    void HashCodeTest_sameHashCode(){
+    void hashCodeTest_sameHashCode() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
         FamilyName familyNameTwo = new FamilyName(nameOne);
 
-        assertEquals(familyNameOne.hashCode(),familyNameTwo.hashCode());
+        assertEquals(familyNameOne.hashCode(), familyNameTwo.hashCode());
     }
 
     @Test
-    void HashCodeTest_differentHashCode(){
+    void hashCodeTest_differentHashCode() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
         String nameTwo = "Moreira";
         FamilyName familyNameTwo = new FamilyName(nameTwo);
 
-        assertNotEquals(familyNameOne.hashCode(),familyNameTwo.hashCode());
+        assertNotEquals(familyNameOne.hashCode(), familyNameTwo.hashCode());
     }
 }

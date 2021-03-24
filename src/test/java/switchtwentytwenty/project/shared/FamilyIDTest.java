@@ -1,14 +1,17 @@
 package switchtwentytwenty.project.shared;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyIDTest {
 
     @Test
-    void FamilyIDConstructorTest_Valid(){
+    void familyIDConstructorTest_Valid() {
         //Arrange
-        int familyID = 1;
+        UUID familyID = UUID.randomUUID();
         //Act
         FamilyID newFamilyID = new FamilyID(familyID);
         //Assert
@@ -16,80 +19,71 @@ class FamilyIDTest {
     }
 
     @Test
-    void FamilyIDConstructorTest_InvalidZero(){
+    void familyIDConstructorTest_InvalidNull() {
         //Arrange
-        int familyID = 0;
+        UUID familyID = null;
         //Act & Assert
-        assertThrows(IllegalArgumentException.class,()-> {
-            FamilyID newFamilyID = new FamilyID(familyID);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                new FamilyID(familyID)
+        );
     }
 
     @Test
-    void FamilyIDConstructorTest_InvalidNegative(){
-        //Arrange
-        int familyID = -1;
-        //Act & Assert
-        assertThrows(IllegalArgumentException.class,()-> {
-            FamilyID newFamilyID = new FamilyID(familyID);
-        });
-    }
-
-
-    @Test
-    void EqualsTest_equalNotSame(){
-        int idOne = 1;
+    void equalsTest_equalNotSame() {
+        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
         FamilyID familyIDTwo = new FamilyID(idOne);
 
-        assertEquals(familyIDOne,familyIDTwo);
+        assertNotSame(familyIDOne, familyIDTwo);
+        assertEquals(familyIDOne, familyIDTwo);
     }
 
     @Test
-    void EqualsTest_equalSame(){
-        int idOne = 1;
+    void equalsTest_equalSame() {
+        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
         FamilyID familyIDTwo = familyIDOne;
 
-        assertEquals(familyIDOne,familyIDTwo);
+        assertSame(familyIDOne, familyIDTwo);
+        assertEquals(familyIDOne, familyIDTwo);
     }
 
     @Test
-    void EqualsTest_notEqual(){
-        int idOne = 1;
+    void equalsTest_notEqual() {
+        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
-        int idTwo = 2;
+        UUID idTwo = UUID.randomUUID();
         FamilyID familyIDTwo = new FamilyID(idTwo);
 
-        assertNotEquals(familyIDOne,familyIDTwo);
+        assertNotEquals(familyIDOne, familyIDTwo);
     }
 
     @Test
-    void EqualsTest_notEqualDifferentObject(){
-        int idOne = 1;
+    void equalsTest_notEqualDifferentObject() {
+        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
-        String notFamilyID ="notFamilyID";
+        String notFamilyID = "notFamilyID";
 
-        assertNotEquals(familyIDOne,notFamilyID);
+        assertNotEquals(familyIDOne, notFamilyID);
     }
 
     @Test
-    void HashCodeTest_sameHashCode(){
-        int idOne = 1;
+    void hashCodeTest_sameHashCode() {
+        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
         FamilyID familyIDTwo = new FamilyID(idOne);
 
-        assertEquals(familyIDOne.hashCode(),familyIDTwo.hashCode());
+        assertEquals(familyIDOne.hashCode(), familyIDTwo.hashCode());
     }
 
     @Test
-    void HashCodeTest_differentHashCode(){
-        int idOne = 1;
+    void hashCodeTest_differentHashCode() {
+        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
-        int idTwo = 2;
+        UUID idTwo = UUID.randomUUID();
         FamilyID familyIDTwo = new FamilyID(idTwo);
 
-        assertNotEquals(familyIDOne.hashCode(),familyIDTwo.hashCode());
+        assertNotEquals(familyIDOne.hashCode(), familyIDTwo.hashCode());
     }
 
 }

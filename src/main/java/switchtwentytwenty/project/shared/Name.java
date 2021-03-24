@@ -15,7 +15,7 @@ public class Name implements ValueObject {
     }
 
     private void trimData() {
-        this.name.trim();
+        this.name = this.name.trim();
     }
 
     private void validateData() {

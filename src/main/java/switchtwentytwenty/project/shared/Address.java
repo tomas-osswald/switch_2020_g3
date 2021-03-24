@@ -1,25 +1,24 @@
 package switchtwentytwenty.project.shared;
 
 import switchtwentytwenty.project.ValueObject;
+import switchtwentytwenty.project.exceptions.InvalidAddressNumberException;
 import switchtwentytwenty.project.exceptions.InvalidCityException;
 import switchtwentytwenty.project.exceptions.InvalidStreetException;
 import switchtwentytwenty.project.exceptions.InvalidZipCodeException;
-import switchtwentytwenty.project.exceptions.InvalidAddressNumberException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Address implements ValueObject {
 
-    private String street;
-    private String city;
-    private String zipCode;
-    private int number;
-
     private final static String INVALIDSTREET = "Invalid Street Name";
     private final static String INVALIDCITY = "Invalid City Name";
     private final static String INVALIDZIPCODE = "Invalid Zip Code";
     private final static String INVALIDADDRESSNUMBER = "Invalid Address Number";
+    private String street;
+    private String city;
+    private String zipCode;
+    private int number;
 
     public Address(String street, String city, String zipCode, int number) {
         this.street = street;
@@ -31,9 +30,9 @@ public class Address implements ValueObject {
     }
 
     private void trimData() {
-        this.street.trim();
-        this.city.trim();
-        this.zipCode.trim();
+        this.street = this.street.trim();
+        this.city = this.city.trim();
+        this.zipCode = this.zipCode.trim();
     }
 
     private void validateData() {
@@ -68,7 +67,7 @@ public class Address implements ValueObject {
 
     // Verificar com lógica de negócio
     private boolean validateNumber() {
-        return this.number>0;
+        return this.number > 0;
     }
 
     // Verificar com lógica de negócio

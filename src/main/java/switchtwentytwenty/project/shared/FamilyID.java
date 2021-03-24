@@ -3,25 +3,34 @@ package switchtwentytwenty.project.shared;
 import switchtwentytwenty.project.ID;
 
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class FamilyID implements ID {
 
-    private final int familyID; //Passar para UUID
+    private final UUID familyID;
 
-    public FamilyID(int familyID){
-        this.familyID=familyID;
+    public FamilyID(UUID familyID) {
+        this.familyID = familyID;
         validateID();
     }
 
-    private void validateID(){
-        if(!isIDValid()){
+    /**
+     * Method that validates a familyID, throws an exception if the ID isn't valid
+     */
+    private void validateID() {
+        if (!isIDValid()) {
             throw new IllegalArgumentException("Invalid ID");
         }
     }
 
-    private boolean isIDValid(){ //Passar para UUID //quebrar se o ID for nulo?
-        return this.familyID>0;
+    /**
+     * Method to determine if an ID is valid, i.e. not null
+     *
+     * @return boolean, true if ID is valid, false otherwise
+     */
+    private boolean isIDValid() {
+        return this.familyID != null;
     }
 
     @Override
@@ -29,7 +38,7 @@ public class FamilyID implements ID {
         if (this == o) return true;
         if (!(o instanceof FamilyID)) return false;
         FamilyID familyID1 = (FamilyID) o;
-        return familyID == familyID1.familyID;
+        return familyID.equals(familyID1.familyID);
     }
 
     @Override
