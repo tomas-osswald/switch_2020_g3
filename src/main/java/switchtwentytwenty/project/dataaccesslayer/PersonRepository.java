@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain;
+package switchtwentytwenty.project.dataaccesslayer;
 
 
 import switchtwentytwenty.project.domain.person.Person;
