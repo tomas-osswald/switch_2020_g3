@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.shared.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,9 +19,11 @@ class PersonTest {
     final String VALIDCITY = "Ermesinde";
     final String VALIDZIPCODE = "4700-111";
     final int VALIDADDRESSNUMBER = 69;
+    final String VALIDBIRTHDATE = "01/03/1990";
     Person validPerson;
     Person tonyZe;
     Name tonyZeName;
+    BirthDate tonyZeBirthDate;
     EmailAddress tonyZeEmail;
     VATNumber tonyZeVat;
     PhoneNumber tonyZePhone;
@@ -28,14 +31,15 @@ class PersonTest {
     CCnumber tonyZeCC;
 
     @BeforeEach
-    void createValidPerson(){
+    void createValidPerson() {
         Name tonyZeName = new Name(VALIDNAME);
+        BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
         EmailAddress tonyZeEmail = new EmailAddress(VALIDEMAIL);
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
         CCnumber tonyZeCC = new CCnumber(VALIDCCNUMBER);
-        validPerson = new Person(tonyZeName,tonyZeEmail,tonyZeVat,tonyZePhone,tonyZeAddress,tonyZeCC);
+        validPerson = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC);
     }
 
     @DisplayName("Check if method isSameEmail returns true when email is the same")
@@ -54,12 +58,10 @@ class PersonTest {
 
     @DisplayName("Valid Person Constructor Test")
     @Test
-    void shouldNotThrowValidPersonConstructor(){
+    void shouldNotThrowValidPersonConstructor() {
         assertNotNull(validPerson);
-        assertDoesNotThrow (() ->  tonyZe = new Person (tonyZeName, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC ));
+        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC));
     }
-
-
 
 
 }

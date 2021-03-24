@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.shared;
+package switchtwentytwenty.project.deprecated;
 
 import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidCCException;
@@ -6,7 +6,7 @@ import switchtwentytwenty.project.exceptions.InvalidCharException;
 import switchtwentytwenty.project.util.NumberFromCharHelper;
 
 import java.util.Objects;
-
+@Deprecated
 public class CCnumber implements ValueObject {
 
     private final static String INVALIDCC = "CC is not valid";
