@@ -10,11 +10,12 @@ import java.time.LocalDate;
 
 public class CreateFamilyService {
 
-    private Application application = new Application();
+    private Application application;
     private CreateFamilyDTO createFamilyDTO;
 
-    public CreateFamilyService(CreateFamilyDTO createFamilyDTO) {
+    public CreateFamilyService(CreateFamilyDTO createFamilyDTO, Application application) {
         this.createFamilyDTO = createFamilyDTO;
+        this.application = application;
     }
 
     public void createFamilyAndAddAdmin() {
