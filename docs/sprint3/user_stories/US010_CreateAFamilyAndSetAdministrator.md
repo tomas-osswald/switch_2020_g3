@@ -12,14 +12,13 @@
 header SSD
 title Create Family and Set Administrator
 autonumber
-actor "System Manager" as Manager
-participant "Actor" as Actor
+actor "System Manager" as Actor
 participant "System" as System
 activate Actor
 Actor -> System : Create a family and set administrator
 activate System
-System -> Actor : Request Family Name and Administrator email (ID)
-Actor -> System : Input Family Name and Administrator email (ID)
+System -> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number and Address)  
+Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number and Address)
 alt failure
 System -> Actor : Inform Failure
 else success 
@@ -42,28 +41,46 @@ deactivate Actor
 @startuml
 header Domain Model
 hide methods
+hide circle
+skinparam linetype ortho
 
 class Family {
  - familyName : FamilyName
- - registrationDate : LocalDate
+ - registrationDate : RegistrationDate
 }
 
-class FamilyName {
- - name : String
-}
 
 class Person {
- - name : 
- - birthdate : Calendar
+ - name : Name
+ - cc : CCNumber
+ - birthdate : BirthDate
+ - address : Address
+ - vatNumber : VatNumber
 }
 
-class
 
-Team "1" - "*" Person: has
-Person -|> Athlete : is
+class EmailAddress {
+ - email : String
+}
+
+class PhoneNumber {
+ - phoneNumber : int
+}
+
+
+class Relation {
+ - type
+}
+
+Family "1" -> "0..*" Person: has members
+Family "1" -> "1" Person: has admin 
+Person "1" --> "1..*" EmailAddress: has
+Person "1" --> "0..*" PhoneNumber: has
+Person "2" -> "1" Relation: has
 
 @enduml
 ```
+
 
 
 # 3. Design
@@ -79,29 +96,29 @@ title createFamily
 actor "System Manager" as systemManager
 participant ": FamilyAndAdminService" as FamAdminService
 participant "FamilyRepository" as frepository
-participant "newRegistrationDate" as registrationDate
 participant "newFamily : Family" as family
 participant "newFamilyName" as familyName
+participant "newRegistrationDate" as registrationDate
 participant "PersonRepository" as prepository
 activate systemManager
 systemManager -> FamAdminService: getFamilyService()
 activate FamAdminService
 FamAdminService --> frepository: createFamily()
+activate frepository
 frepository -> frepository : generateFamilyID()
-frepository -> family : create(familyID, adminEMail, familyName, localDate)
-family ->  familyName : 
-controller -> famServ: addFamily(name)
-activate famServ
+frepository -> family** : create(familyID, adminEMail, familyName, localDate)
+activate family
+family ->  familyName** : create
+family -> registrationDate** : create
+family -> frepository : familyID
+deactivate family
+family -> family : addToRepository
+frepository -> FamAdminService : familyID
+deactivate frepository
+systemManager -> prepository : createPerson()
+activate prepository
 
-famServ -> family**: create(name)
-famServ -> famServ: addFamily(newFamily)
-famServ --> controller: ok
-deactivate famServ
-controller --> UI: ok
-deactivate controller
-UI --> systemManager: inform success
-deactivate UI
-
+deactivate systemManager
 
 @enduml
 ````
