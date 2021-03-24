@@ -44,4 +44,18 @@ class AddPersonControllerTest {
     }
 
 
+    @DisplayName("Unsuccessfully add a person - email already registered")
+    @Test
+    void mustReturnFalseAddPersonEmailRegistred() {
+        application.logInAsAdmin();
+
+        AddPersonDTO addPersonDTO2 = new AddPersonDTO("email@there.com", "Luis", "28/13/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
+        AddPersonDTO addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
+
+        AddPersonController addPersonController = new AddPersonController(application);
+        addPersonController.addPerson(addPersonDTO2);
+        assertFalse(addPersonController.addPerson(addPersonDTO));
+    }
+
+
 }
