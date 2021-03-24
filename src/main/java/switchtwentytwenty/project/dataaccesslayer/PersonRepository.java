@@ -11,7 +11,7 @@ import switchtwentytwenty.project.shared.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonRepository implements Repository {
+public class PersonRepository implements Repository<Person> {
 
     private final List<Person> people;
 

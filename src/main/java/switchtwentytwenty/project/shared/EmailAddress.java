@@ -6,7 +6,7 @@ import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class EmailAddress implements ValueObject, ID {
+public class EmailAddress implements ID<String> {
 
     private String email;
     private final static String INVALIDEMAIL = "This Email is not valid";

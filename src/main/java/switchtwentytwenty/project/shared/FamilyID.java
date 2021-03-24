@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 
-public class FamilyID implements ID {
+public class FamilyID implements ID<UUID> {
 
     private final UUID familyID;
 
