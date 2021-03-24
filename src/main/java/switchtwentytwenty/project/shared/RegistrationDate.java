@@ -5,7 +5,7 @@ import switchtwentytwenty.project.ValueObject;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class RegistrationDate implements ValueObject {
+public class RegistrationDate implements ValueObject<LocalDate> {
 
     private LocalDate registrationDate;
 

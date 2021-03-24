@@ -13,8 +13,9 @@ public class Person implements AggregateRoot {
     private PhoneNumber phone;
     private Address address;
     private CCnumber cc;
+    private FamilyID familyID;
 
-    public Person(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc) {
+    public Person(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
         this.name = name;
         this.birthdate = birthDate;
         this.id = email;
@@ -22,6 +23,7 @@ public class Person implements AggregateRoot {
         this.phone = phone;
         this.address = address;
         this.cc = cc;
+        this.familyID = familyID;
     }
 
     public boolean isSameEmail(EmailAddress email) {

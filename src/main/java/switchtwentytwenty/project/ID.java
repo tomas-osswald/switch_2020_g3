@@ -1,8 +1,7 @@
 package switchtwentytwenty.project;
 
 
-public interface ID extends ValueObject {
-
+public interface ID<T> extends ValueObject<T> {
 
 
 }

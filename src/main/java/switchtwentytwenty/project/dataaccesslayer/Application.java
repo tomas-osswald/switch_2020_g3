@@ -4,14 +4,14 @@ import switchtwentytwenty.project.domain.person.Person;
 
 public class Application {
     private PersonRepository personRepository;
-    private CategoryRepository categoryRepository;
     private FamilyRepository familyRepository;
+    private CategoryRepository categoryRepository;
     private Person loggedPerson;
 
     public Application() {
-        this.categoryRepository = new CategoryRepository();
+        this.personRepository = new PersonRepository();
         this.familyRepository = new FamilyRepository();
-        this.personRepository = new PersonRepository(this.familyRepository);
+        this.categoryRepository = new CategoryRepository();
     }
 
     public Person getLoggedPerson() {

@@ -26,6 +26,14 @@ public class Family implements AggregateRoot {
     }
     */
 
+    public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
+        this.id = familyID;
+        this.name = familyName;
+        this.registrationDate = registrationDate;
+        this.adminEmail = adminEmail;
+    }
+
+    @Deprecated
     public Family(UUID familyID, String familyName, LocalDate registrationDate, EmailAddress adminEmail) {
         this.id = new FamilyID(familyID);
         this.name = new FamilyName(familyName);

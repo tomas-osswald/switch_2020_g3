@@ -1,4 +1,6 @@
 package switchtwentytwenty.project;
 
-public interface ValueObject {
+public interface ValueObject<T> {
+
+
 }

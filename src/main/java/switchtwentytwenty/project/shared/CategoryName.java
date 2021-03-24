@@ -3,7 +3,7 @@ package switchtwentytwenty.project.shared;
 import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
-public class CategoryName implements ValueObject {
+public class CategoryName implements ValueObject<String> {
     private String name;
 
     public CategoryName(String name) {

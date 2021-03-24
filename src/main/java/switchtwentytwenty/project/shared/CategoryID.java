@@ -6,7 +6,7 @@ import switchtwentytwenty.project.ValueObject;
 import java.util.Objects;
 import java.util.UUID;
 
-public class CategoryID implements ValueObject, ID {
+public class CategoryID implements ID<UUID> {
 
     private UUID categoryID;
 

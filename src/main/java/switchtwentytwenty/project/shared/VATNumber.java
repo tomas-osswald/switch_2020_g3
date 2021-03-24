@@ -6,7 +6,7 @@ import switchtwentytwenty.project.exceptions.InvalidVATException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class VATNumber implements ValueObject {
+public class VATNumber implements ValueObject<Integer> {
 
     private final int vat;
     private final static String INVALIDVAT = "Invalid VAT";

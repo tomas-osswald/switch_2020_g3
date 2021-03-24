@@ -4,7 +4,7 @@ import switchtwentytwenty.project.ValueObject;
 
 import java.util.Objects;
 
-public class FamilyName implements ValueObject {
+public class FamilyName implements ValueObject<String> {
 
     private String familyName;
 

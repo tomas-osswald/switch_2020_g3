@@ -9,7 +9,7 @@ import switchtwentytwenty.project.exceptions.InvalidZipCodeException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Address implements ValueObject {
+public class Address implements ValueObject<String> {
 
     private final static String INVALIDSTREET = "Invalid Street Name";
     private final static String INVALIDCITY = "Invalid City Name";

@@ -1,4 +1,4 @@
 package switchtwentytwenty.project;
 
-public interface Repository {
+public interface Repository<T> {
 }
