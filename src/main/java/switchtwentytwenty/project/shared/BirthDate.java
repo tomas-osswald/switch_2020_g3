@@ -1,11 +1,12 @@
 package switchtwentytwenty.project.shared;
 
+import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.util.DateHelper;
 
 import java.util.Calendar;
 
 
-public class BirthDate {
+public class BirthDate implements ValueObject<Calendar> {
     private final Calendar birthDate;
 
     public BirthDate(String birthDate) {

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FamilyRepository implements Repository {
+public class FamilyRepository implements Repository<Family> {
 
     private final List<Family> families;
     //private final Families families = new Families();

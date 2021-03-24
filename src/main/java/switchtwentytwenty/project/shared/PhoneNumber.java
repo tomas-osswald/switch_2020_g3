@@ -6,7 +6,7 @@ import switchtwentytwenty.project.exceptions.InvalidPhoneNumberException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class PhoneNumber implements ValueObject {
+public class PhoneNumber implements ValueObject<Integer> {
 
     private int number;
     private final static String INVALIDPHONE = "Phone number is not valid";
