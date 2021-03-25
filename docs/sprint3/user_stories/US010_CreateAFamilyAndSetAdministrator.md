@@ -122,13 +122,18 @@ participant "newRegistrationDate : \nRegistrationDate" as registrationDate
 participant ": PersonRepository" as prepository
 participant "administrator : \nPerson" as admin
 activate systemManager
-systemManager -> controller: CreateFamilyController
+systemManager -> controller**: CreateFamilyController
 activate controller
 controller -> FamAdminService : getFamilyService()
 activate FamAdminService
-FamAdminService -> app : getApplication()
+
+FamAdminService -> app : getFamilyRepository()
 activate app
-app -> frepository: createAndAddFamily \n(CreateFamilyDTO, addPersonDTO, Application)
+app -> FamAdminService : FamilyRepository
+FamAdminService -> app : getPersonRepository()
+app -> FamAdminService : PersonRepository
+deactivate app
+FamAdminService -> frepository: createAndAddFamily \n(CreateFamilyDTO, addPersonDTO, Application)
 activate frepository
 frepository -> frepository : generateFamilyID()
 frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
@@ -137,16 +142,18 @@ family ->  familyName** : create
 family -> registrationDate** : create
 family -> frepository : familyID
 deactivate family
-frepository -> frepository : addToRepository
+frepository -> frepository : addToRepository (new Family)
 return familyID
 deactivate app
+
 FamAdminService -> prepository : createPerson()
+alt Success
+
 activate prepository
+prepository -> prepository : verifyEmail
 prepository -> admin** : create
 activate admin
 return email
-prepository -> prepository : verifyEmail
-alt Success
 FamAdminService -> frepository : removeFamily(FamilyID)
 activate frepository
 return ok "Family removed"
@@ -156,7 +163,7 @@ controller -> systemManager : success
 
 else Fail
 
-prepository -> prepository : addToRepository
+prepository -> prepository : addToRepository (new Admistrator)
 prepository --> FamAdminService : success
 deactivate prepository
 
