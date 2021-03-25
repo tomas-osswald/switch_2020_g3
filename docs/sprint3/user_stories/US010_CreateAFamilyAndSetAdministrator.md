@@ -16,12 +16,12 @@ participant "System" as System
 activate Actor
 Actor -> System : Create a family and set administrator
 activate System
-System -> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
+System --> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
 Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
 alt failure
-System -> Actor : Inform Failure
+System --> Actor : Inform Failure
 else success 
-System -> Actor : Inform Success
+System --> Actor : Inform Success
 end
 deactivate System
 deactivate Actor
@@ -34,10 +34,13 @@ deactivate Actor
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
-What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1 administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
+What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
+administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
 
-Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber* will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently.
-Both *EmailAddress* and *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's possible that has **none or multiple** *PhoneNumbers*.
+Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
+will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
+PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
+possible that has **none or multiple** *PhoneNumbers*.
 
 The **Person** must have the following characteristics with the following rules:
 
@@ -57,9 +60,6 @@ The **Family** must have the following characteristics with the following rules:
 | :-------------------------- | :------------------------------------------------------------------------------------- |
 | **Name**                | Required, string                                                                           |
 | **RegistrationDate**    | Required, date(year-month-day)                                                             |
-
-
-During the analysis process we decided to validate the 
 
 ## 2.2. Domain Model Excerpt
 
@@ -98,19 +98,28 @@ Person "1" --> "0..*" PhoneNumber: has
 @enduml
 ```
 
-
 # 3. Design
 
+The process to fulfill this requirement requires the actor to select they want to create a new family, which would
+prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
+2.1. Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
 
-The process to fulfill this requirement requires the actor to select they want to create a new family, 
-which would prompt the input of the designation or name for that family.
-Given the current absence of an UI layer the String *familyName* will be passed directly into the AddFamilyController. 
+During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
+Object.
+
+This decision occurred after discussing the possibility of two emails being registered in the application at the same
+time. If this would happen, as we don't know yet how to deal with locking mechanisms, we could have the problem of both
+emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
+repository but, in the end of the process, two equal emails would be added to the Repository.
+
+In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
+possibility of both emails being added since the verification would occur at the moment of addition to the repository.
 
 ````puml
 @startuml
 autonumber
 header Sequence Diagram
-title US010 CreateAndAddFamilyAndSetFamilyAdministrator
+title createFamily
 actor "System Manager" as systemManager
 participant ": Create\nFamilyController" as controller
 participant ": Create\nFamilyService" as FamAdminService
@@ -147,38 +156,38 @@ activate admin
 return email
 prepository -> prepository : verifyEmail
 alt Success
-FamAdminService -> frepository : removeFamily(FamilyID)
-activate frepository
-return ok "Family removed"
-FamAdminService -> controller : fail
-
-controller -> systemManager : success
-
-else Fail
 
 prepository -> prepository : addToRepository
-prepository --> FamAdminService : success
-deactivate prepository
+return adminEMail
+FamAdminService -> controller : success
+else Fail
 
-
-FamAdminService --> controller : success
+FamAdminService -> frepository : removeFamily(FamilyID)
+activate frepository
+return success
+FamAdminService -> controller 
 deactivate FamAdminService
-controller -> systemManager : success
-deactivate controller
 end
-
+return success
 deactivate systemManager
-
 @enduml
 ````
 
 ## 3.1. Functionality Use
-The CreateFamilyController will invoke the Application object, which stores the repositories
-The Application will return the FamilyService, which contains a list of all Families.
-The FamilyService then creates a new Family Object and adds it to the existing list.
+
+The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
+application. 
+The CreateFamilyService will create all the necessary value objects to create the family and administrator.
+The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
+The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family. 
+The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator, 
+providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
+The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
+of creating the Family and administrator.
 
 
 ## 3.2. Class Diagram
+
 ```puml
 @startuml
 
@@ -283,12 +292,13 @@ Person -up-> "1" VATNumber : vatNumber
 ```
 
 ## 3.3. Applied Patterns
-We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern.
-We also used the SOLID Single Responsibility Principle.
 
-## 3.4. Tests 
-    
-Several cases where analyzed in order to test the creation of a new Family    
+We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
+used the SOLID Single Responsibility Principle.
+
+## 3.4. Tests
+
+Several cases where analyzed in order to test the creation of a new Family
 
 **Test 1:** Test that it is possible to create a new instance of Family with a valid Admin
 
@@ -300,10 +310,11 @@ Several cases where analyzed in order to test the creation of a new Family
 
 **Test 5:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is blank
 
-**Additional Tests** Test that its not possible to create a new instance of Family if any attribure is empty, blank or null
-The whole user story was tested for the case of success and for failure
+**Additional Tests** Test that its not possible to create a new instance of Family if any attribure is empty, blank or
+null The whole user story was tested for the case of success and for failure
 
 **Test 5:** Success
+
 ```` 
 @DisplayName("Test if a family can be successfully created")  
 @Test
@@ -315,8 +326,9 @@ The whole user story was tested for the case of success and for failure
         assertTrue(controller.createFamilyAndAdmin(createFamilyDTO));    
     }
 ````
-  
+
 **Test 6:** Failure
+
 ````
 @DisplayName ("Test if a family isnt created if the admin email is already registered in the app")  
 @Test
@@ -333,25 +345,74 @@ The whole user story was tested for the case of success and for failure
 
 # 4. Implementation
 
-1. All the Value Objects are initially instanced, with respective validations.
+1. All the Value Objects are initially instanced (instantiated), with respective validations.
+
+
+      public boolean createFamilyAndAddAdmin() {
+      boolean result;
+      EmailAddress adminEmail = new EmailAddress(addPersonDTO.unpackEmail());
+      FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
+      Name name = new Name(addPersonDTO.unpackName());
+      BirthDate birthdate = new BirthDate(addPersonDTO.unpackBirthDate());
+      VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
+      PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
+      Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
+      CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
+      RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
 
 2. Family ID is automatically generated by the Family Repository (Information Expert)
 
-3. AdminEmail is added to the Family upon its instantiation. The Family is immediately added to the FamilyRepository (The administrator email validation will come later. 
 
-4. Before creating the Administrator, the email is validated in the Person Repository
-   in order to guarantee that it is Unique
+      public FamilyID generateAndGetFamilyID() {
+      FamilyID familyID = new FamilyID(UUID.randomUUID());
+      if (checkIfFamilyIDExists(familyID)) {
+      familyID = generateAndGetFamilyID();
+      }
+      return familyID;
+      }
+
+3. AdminEmail is added to the Family upon its instantiation. The Family is immediately added to the FamilyRepository (
+   The administrator email validation will come later.)
+
+
+      public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, EmailAddress adminEmail) {
+      Family family = new Family(familyID, familyName, registrationDate, adminEmail);
+      this.families.add(family);
+      }
+
+4. Before creating the Administrator, the email is validated in the Person Repository in order to guarantee that it is
+   Unique
+
+
+      private boolean isEmailAlreadyRegistered(EmailAddress email) {
+      boolean emailIsRegistered = false;
+      for (Person person : people) {
+      if (person.isSameEmail(email)) {
+      emailIsRegistered = true;
+      }
+      }
+      return emailIsRegistered;
+      }
 
 5. If the Email fails verification, the Family is removed from the FamilyRepository and the process fails.
 
+   
+      try {
+      personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
+      result = true;
+      } catch (EmailAlreadyRegisteredException e) {
+      familyRepository.removeFamily(familyID);
+      result = false;
+      }
+      return result;
 
-
-After providing a family name the FamilyService class creates a new Family object.
 
 # 5. Integration
- 
-The development of this user story was the basis for the family structure where the FamilyMembers are stored and was thus crucial for the development of the other User Stories
 
-#6. Observations
+The development of this user story was the basis for the family structure where the FamilyMembers are stored and was
+thus crucial for the development of the other User Stories
 
-As with the Standard Category the family ID will probably need to be reworked in a future sprint to allow for more complex ID information if needed (probably using a UUID)
+# 6. Observations
+
+As with the Standard Category the family ID will probably need to be reworked in a future sprint to allow for more
+complex ID information if needed (probably using a UUID)
