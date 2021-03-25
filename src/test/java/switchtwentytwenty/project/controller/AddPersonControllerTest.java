@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AddPersonControllerTest {
+
     Application application;
     AddPersonDTO addPersonDTO;
     AddPersonController addPersonController;
@@ -20,13 +21,12 @@ class AddPersonControllerTest {
     void setAdmin() {
         application = new Application();
 
-        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@latinlover.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
         CreateFamilyService createFamilyService = new CreateFamilyService(createFamilyDTO, application);
         addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
         addPersonController = new AddPersonController(application);
 
         createFamilyService.createFamilyAndAddAdmin();
-
     }
 
     @DisplayName("Successfully add a person")
