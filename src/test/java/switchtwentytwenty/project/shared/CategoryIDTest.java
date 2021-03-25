@@ -17,5 +17,4 @@ class CategoryIDTest {
         CategoryID ID2 = new CategoryID();
         assertNotEquals(ID1, ID2);
     }
-
 }

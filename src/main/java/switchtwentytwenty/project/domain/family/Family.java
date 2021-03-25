@@ -2,12 +2,11 @@ package switchtwentytwenty.project.domain.family;
 
 import switchtwentytwenty.project.AggregateRoot;
 import switchtwentytwenty.project.domain.person.Person;
-import switchtwentytwenty.project.shared.EmailAddress;
-import switchtwentytwenty.project.shared.FamilyID;
-import switchtwentytwenty.project.shared.FamilyName;
-import switchtwentytwenty.project.shared.RegistrationDate;
+import switchtwentytwenty.project.shared.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,13 +15,15 @@ public class Family implements AggregateRoot {
     private final FamilyID id;
     private final FamilyName name;
     private final RegistrationDate registrationDate;
-    private EmailAddress adminEmail;
+    private EmailAddress admin;
+    private List<Relation> relations = new ArrayList<>();
+    private AccountID cashAccount;
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
         this.id = familyID;
         this.name = familyName;
         this.registrationDate = registrationDate;
-        this.adminEmail = adminEmail;
+        this.admin = adminEmail;
     }
 
     @Deprecated
@@ -30,7 +31,7 @@ public class Family implements AggregateRoot {
         this.id = new FamilyID(familyID);
         this.name = new FamilyName(familyName);
         this.registrationDate = new RegistrationDate(registrationDate);
-        this.adminEmail = adminEmail;
+        this.admin = adminEmail;
     }
 
     public boolean isIDofThisFamily(FamilyID familyID) { //Implementado do Agregate Root ?
@@ -76,11 +77,11 @@ public class Family implements AggregateRoot {
     }
 
     public boolean isPersonTheAdmin(Person loggedUser) {
-        return loggedUser.isSameEmail(this.adminEmail);
+        return loggedUser.isSameEmail(this.admin);
     }
 
     @Deprecated
     public EmailAddress getAdminEmail() {
-        return this.adminEmail;
+        return this.admin;
     }
 }
