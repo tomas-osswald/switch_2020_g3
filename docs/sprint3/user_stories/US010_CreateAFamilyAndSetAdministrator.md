@@ -44,35 +44,34 @@ hide circle
 skinparam linetype ortho
 
 class Family {
- - familyName : FamilyName
- - registrationDate : RegistrationDate
+ - Name
+ - Registration Date
 }
 
 class Person {
- - name : Name
- - cc : CCNumber
- - birthdate : BirthDate
- - address : Address
- - vatNumber : VatNumber
-}
+ - Name
+ - Vat number
+ - Birthdate
+ - Address
+ }
 
 class EmailAddress {
- - email : String
+ - Email
 }
 
 class PhoneNumber {
- - phoneNumber : int
+ - Phone Number
 }
 
 class Relation {
- - type
+ - Type
 }
 
-Family "1" -> "0..*" Person: has members
+Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
-Person "1" --> "1..*" EmailAddress: has
+Person "1" -> "1..*" EmailAddress: has
 Person "1" --> "0..*" PhoneNumber: has
-Person "2" -> "1" Relation: has
+Person "2  " --> "1" Relation: have
 
 @enduml
 ```
@@ -151,36 +150,70 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 ## 3.2. Class Diagram
 ```puml
 @startuml
+hide empty members
 
 title Class Diagram
 
-class AddFamilyController {
-  - Application app
-  + addFamily()
-}
-
 class Application {
-  - FamilyService familyService
   + getFamilyService()
 }
 
-class FamilyService {
-  - List<Family> families
-  - getFamilyByID()
-  - generateFamilyID()
+class AddFamilyController {
   + addFamily()
 }
 
-class Family {
-  - int familyID
-  - String familyName
-  - List<FamilyMember> familyMembers
-  - List<CustomCategory> familyCustomCategories
+class FamilyAndAdminService {
 }
 
-AddFamilyController --> Application
-AddFamilyController --> FamilyService
-FamilyService --> Family
+class FamilyID <<ValueObject>> <<ID>> {
+}
+
+class Email <<ValueObject>> <<ID>> {
+}
+
+class FamilyRepository <<Repository>> {
+  
+}
+
+class PersonRepository <<Repository>> {
+  
+}
+
+class Person <<Entity>> <<Root>> {
+}
+
+class Address <<ValueObject>> {
+}
+
+class BirthDate <<ValueObject>> {
+}
+
+class PhoneNumber <<ValueObject>> {
+}
+
+class Name <<ValueObject>> {
+}
+
+class VATNumber <<ValueObject>> {
+}
+
+class Family <<Entity>> <<Root>> { 
+}
+
+
+AddFamilyController -up-> Application : ffmapplication
+AddFamilyController -.> FamilyAndAdminService
+FamilyAndAdminService -.> FamilyRepository
+FamilyAndAdminService -.> PersonRepository
+FamilyAndAdminService -.> FamilyID
+FamilyAndAdminService -.> Email
+FamilyRepository *-down- Family
+PersonRepository *-down- Person
+Person *-right- "1" Address 
+Person *-- "1" BirthDate
+Person *-down- "0..*" PhoneNumber  
+Person *-- "1" Name
+Person *-left- "1" VATNumber 
 
 @enduml
 ```
