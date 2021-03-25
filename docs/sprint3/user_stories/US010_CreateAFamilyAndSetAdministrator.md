@@ -150,11 +150,12 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 ## 3.2. Class Diagram
 ```puml
 @startuml
-skinparam linetype ortho
-skinparam linetype polyline
-hide empty members
 
-title Class Diagram
+title US010 Create a Family and set the Family administrator
+
+'skinparam linetype ortho
+'skinparam linetype polyline
+hide empty members
 
 class Application {
   + getPersonRepository()
@@ -217,28 +218,29 @@ class RegistrationDate <<ValueObject>> {
 }
 
 
-AddFamilyController -up--> Application : application
-AddFamilyController --> CreateFamilyDTO
+AddFamilyController -left--> Application : application
+AddFamilyController ---> CreateFamilyDTO
 AddFamilyController --> AddPersonDTO
 AddFamilyController --.> CreateFamilyService 
 CreateFamilyService -right--> Application : application
 CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
-CreateFamilyService -right--> AddPersonDTO : addPersonDTO
+CreateFamilyService -l--> AddPersonDTO : addPersonDTO
 CreateFamilyService -up--.> FamilyRepository
-CreateFamilyService -left-.> PersonRepository
-CreateFamilyService -left-.> FamilyID
+CreateFamilyService -d-.> PersonRepository
+CreateFamilyService -d-.> FamilyID
 CreateFamilyService -down-.> Email
 CreateFamilyService -down-.> Address
 CreateFamilyService -left-.> BirthDate
-CreateFamilyService -left-.> PhoneNumber
-CreateFamilyService -left-.> Name
-CreateFamilyService -left-.> VATNumber
-CreateFamilyService -left-.> RegistrationDate
-FamilyRepository *-down- Family
-PersonRepository *-down- Person
+CreateFamilyService -l-.> PhoneNumber
+CreateFamilyService -d-.> Name
+CreateFamilyService -d-.> VATNumber
+CreateFamilyService -d-.> RegistrationDate
+FamilyRepository *-down- "0..*" Family
+PersonRepository *--down-- "0..*" Person
 Family -down-> "1" Email : admin
 Family -down-> "1" RegistrationDate : registrationDate
-Family -down-> "1" FamilyID : id
+Family ---down--> "1" FamilyID : id
+Person -up-> "1" FamilyID : id
 Person -up-> "1" Email : id
 Person -up-> "1" Address : address
 Person -up-> "1" BirthDate : birthDate
