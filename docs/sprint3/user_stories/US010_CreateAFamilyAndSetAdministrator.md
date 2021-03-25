@@ -153,17 +153,17 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 
 title US010 Create a Family and set the Family administrator
 
-'skinparam linetype ortho
-'skinparam linetype polyline
+skinparam linetype ortho
+skinparam linetype polyline
 hide empty members
+
+class AddFamilyController {
+  + createFamilyAndAdmin()
+}
 
 class Application {
   + getPersonRepository()
 + getFamilyRepository()
-}
-
-class AddFamilyController {
-  + createFamilyAndAdmin()
 }
 
 class CreateFamilyService {
@@ -218,35 +218,39 @@ class RegistrationDate <<ValueObject>> {
 }
 
 
-AddFamilyController -left--> Application : application
-AddFamilyController ---> CreateFamilyDTO
-AddFamilyController --> AddPersonDTO
-AddFamilyController --.> CreateFamilyService 
-CreateFamilyService -right--> Application : application
-CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
-CreateFamilyService -l--> AddPersonDTO : addPersonDTO
-CreateFamilyService -up--.> FamilyRepository
-CreateFamilyService -d-.> PersonRepository
+AddFamilyController -d-> Application : application
+AddFamilyController -r-> CreateFamilyDTO
+AddFamilyController -r-> AddPersonDTO
+AddFamilyController -d---.> CreateFamilyService 
+
+CreateFamilyService -u-> Application : application
+CreateFamilyService -u> CreateFamilyDTO : createFamilyDTO
+CreateFamilyService -u> AddPersonDTO : addPersonDTO
+CreateFamilyService --.l--> FamilyRepository
+CreateFamilyService .r> PersonRepository
 CreateFamilyService -d-.> FamilyID
 CreateFamilyService -down-.> Email
 CreateFamilyService -down-.> Address
-CreateFamilyService -left-.> BirthDate
-CreateFamilyService -l-.> PhoneNumber
+CreateFamilyService -d-.> BirthDate
+CreateFamilyService -d-.> PhoneNumber
 CreateFamilyService -d-.> Name
 CreateFamilyService -d-.> VATNumber
 CreateFamilyService -d-.> RegistrationDate
-FamilyRepository *-down- "0..*" Family
-PersonRepository *--down-- "0..*" Person
+
+FamilyRepository *--l-- "0..*" Family
+PersonRepository *--d--- "0..*" Person
+
 Family -down-> "1" Email : admin
 Family -down-> "1" RegistrationDate : registrationDate
-Family ---down--> "1" FamilyID : id
-Person -up-> "1" FamilyID : id
-Person -up-> "1" Email : id
-Person -up-> "1" Address : address
-Person -up-> "1" BirthDate : birthDate
-Person -up-> "0..1" PhoneNumber : phoneNumber
-Person -up-> "1" Name : name
-Person -up-> "1" VATNumber : vatNumber
+Family -down-> "1" FamilyID : id
+
+Person -u--> "1" FamilyID : id
+Person -u--> "1" Email : id
+Person -u--> "1" Address : address
+Person -u--> "1" BirthDate : birthDate
+Person -up--> "0..1" PhoneNumber : phoneNumber
+Person -up--> "1" Name : name
+Person -up--> "1" VATNumber : vatNumber
 
 @enduml
 ```
