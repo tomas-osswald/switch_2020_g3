@@ -14,17 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AddPersonControllerTest {
 
     Application application;
+    AddPersonDTO addAdminPersonDTO;
     AddPersonDTO addPersonDTO;
     AddPersonController addPersonController;
 
     @BeforeEach
     void setAdmin() {
         application = new Application();
-        addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
+        addAdminPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
+        addPersonDTO = new AddPersonDTO("email2@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
         addPersonController = new AddPersonController(application);
 
-        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@latinlover.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        CreateFamilyService createFamilyService = new CreateFamilyService(createFamilyDTO, application);
+        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO( "Silva",null);
+        CreateFamilyService createFamilyService = new CreateFamilyService(createFamilyDTO, addAdminPersonDTO, application);
 
         createFamilyService.createFamilyAndAddAdmin();
     }
