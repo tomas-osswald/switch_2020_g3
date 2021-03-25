@@ -200,7 +200,7 @@ The whole user story was tested for the case of success and for failure
 
 **Test 5:** Success
 ```` 
-@DisplayName("Test if a family can be successfully created)  
+@DisplayName("Test if a family can be successfully created")  
 @Test
  void shouldBeTrueCreateFamily() {
         Application application = new Application();
@@ -213,7 +213,7 @@ The whole user story was tested for the case of success and for failure
   
 **Test 6:** Failure
 ````
-@DisplayName ("Test if a family isnt created if the admin email is already registered in the app)  
+@DisplayName ("Test if a family isnt created if the admin email is already registered in the app")  
 @Test
     void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
         Application application = new Application();

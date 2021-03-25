@@ -40,4 +40,9 @@ public class Person implements AggregateRoot {
     public FamilyID getFamilyID() {
         return this.familyID.clone();
     }
+
+
+    public EmailAddress getID() {
+        return this.id;
+    }
 }
