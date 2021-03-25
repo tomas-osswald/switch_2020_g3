@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreateFamilyControllerTest {
 
-    Application application = new Application();
+    Application application;
     CreateFamilyController controller;
     CreateFamilyDTO VALIDCreateFamilyDTO;
 
