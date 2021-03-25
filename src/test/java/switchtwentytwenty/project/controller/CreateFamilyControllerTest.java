@@ -26,7 +26,7 @@ class CreateFamilyControllerTest {
     void setup(){
         application = new Application();
         controller = new CreateFamilyController(application);
-        VALIDCreateFamilyDTO = new CreateFamilyDTO( "Silva", null );
+        VALIDCreateFamilyDTO = new CreateFamilyDTO( "Silva", LocalDate.of(2021,12,25) );
         addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
     }
 
