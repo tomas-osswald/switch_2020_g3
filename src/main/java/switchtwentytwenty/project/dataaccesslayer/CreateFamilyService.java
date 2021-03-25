@@ -39,6 +39,7 @@ public class CreateFamilyService {
             personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
         }catch (EmailAlreadyRegisteredException e){
             familyRepository.removeFamily(familyID);
+            throw new EmailAlreadyRegisteredException();
         }
 
     }
