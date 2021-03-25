@@ -150,19 +150,29 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 ## 3.2. Class Diagram
 ```puml
 @startuml
+skinparam linetype ortho
+skinparam linetype polyline
 hide empty members
 
 title Class Diagram
 
 class Application {
-  + getFamilyService()
+  + getPersonRepository()
++ getFamilyRepository()
 }
 
 class AddFamilyController {
-  + addFamily()
+  + createFamilyAndAdmin()
 }
 
-class FamilyAndAdminService {
+class CreateFamilyService {
++ createFamilyAndAddAdmin()
+}
+
+class CreateFamilyDTO {
+}
+
+class AddPersonDTO {
 }
 
 class FamilyID <<ValueObject>> <<ID>> {
@@ -172,10 +182,13 @@ class Email <<ValueObject>> <<ID>> {
 }
 
 class FamilyRepository <<Repository>> {
-  
++ generateAndGetFamilyID()
++ createAndAddFamily()
++ removeFamily()
 }
 
 class PersonRepository <<Repository>> {
++ createAndAddPerson()
   
 }
 
@@ -200,20 +213,38 @@ class VATNumber <<ValueObject>> {
 class Family <<Entity>> <<Root>> { 
 }
 
+class RegistrationDate <<ValueObject>> {
+}
 
-AddFamilyController -up-> Application : ffmapplication
-AddFamilyController -.> FamilyAndAdminService
-FamilyAndAdminService -.> FamilyRepository
-FamilyAndAdminService -.> PersonRepository
-FamilyAndAdminService -.> FamilyID
-FamilyAndAdminService -.> Email
+
+AddFamilyController -up--> Application : application
+AddFamilyController --> CreateFamilyDTO
+AddFamilyController --> AddPersonDTO
+AddFamilyController --.> CreateFamilyService 
+CreateFamilyService -right--> Application : application
+CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
+CreateFamilyService -right--> AddPersonDTO : addPersonDTO
+CreateFamilyService -up--.> FamilyRepository
+CreateFamilyService -left-.> PersonRepository
+CreateFamilyService -left-.> "1" FamilyID
+CreateFamilyService -down-.> Email
+CreateFamilyService -down-.> Address
+CreateFamilyService -left-.> BirthDate
+CreateFamilyService -left-.> PhoneNumber
+CreateFamilyService -left-.> Name
+CreateFamilyService -left-.> VATNumber
+CreateFamilyService -left-.> RegistrationDate
 FamilyRepository *-down- Family
 PersonRepository *-down- Person
-Person *-right- "1" Address 
-Person *-- "1" BirthDate
-Person *-down- "0..*" PhoneNumber  
-Person *-- "1" Name
-Person *-left- "1" VATNumber 
+Family -down-> "1" Email : admin
+Family -down-> "1" RegistrationDate : registrationDate
+Family -down-> "1" FamilyID : id
+Person -up-> "1" Email : id
+Person -up-> "1" Address : address
+Person -up-> "1" BirthDate : birthDate
+Person -up-> "0..1" PhoneNumber : phoneNumber
+Person -up-> "1" Name : name
+Person -up-> "1" VATNumber : vatNumber
 
 @enduml
 ```
