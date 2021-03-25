@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AddPersonControllerTest {
     Application application;
+    AddPersonDTO addPersonDTO;
+    AddPersonController addPersonController;
 
     @BeforeEach
     void setAdmin() {
@@ -20,6 +22,8 @@ class AddPersonControllerTest {
 
         CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
         CreateFamilyService createFamilyService = new CreateFamilyService(createFamilyDTO, application);
+        addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
+        addPersonController = new AddPersonController(application);
 
         createFamilyService.createFamilyAndAddAdmin();
 
@@ -29,8 +33,7 @@ class AddPersonControllerTest {
     @Test
     void mustReturnTrueAddPerson() {
         application.logInAsAdmin();
-        AddPersonDTO addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
-        AddPersonController addPersonController = new AddPersonController(application);
+
         assertTrue(addPersonController.addPerson(addPersonDTO));
     }
 
@@ -38,8 +41,7 @@ class AddPersonControllerTest {
     @Test
     void mustReturnFalseAddPersonNotAdmin() {
         application.logInAsNotAdmin();
-        AddPersonDTO addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
-        AddPersonController addPersonController = new AddPersonController(application);
+
         assertFalse(addPersonController.addPerson(addPersonDTO));
     }
 
@@ -50,9 +52,7 @@ class AddPersonControllerTest {
         application.logInAsAdmin();
 
         AddPersonDTO addPersonDTO2 = new AddPersonDTO("email@there.com", "Luis", "28/13/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
-        AddPersonDTO addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
 
-        AddPersonController addPersonController = new AddPersonController(application);
         addPersonController.addPerson(addPersonDTO2);
         assertFalse(addPersonController.addPerson(addPersonDTO));
     }
