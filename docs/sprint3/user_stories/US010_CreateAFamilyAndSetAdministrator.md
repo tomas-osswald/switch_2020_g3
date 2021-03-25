@@ -170,19 +170,30 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 ## 3.2. Class Diagram
 ```puml
 @startuml
+
+title US010 Create a Family and set the Family administrator
+
+'skinparam linetype ortho
+'skinparam linetype polyline
 hide empty members
 
-title Class Diagram
-
 class Application {
-  + getFamilyService()
+  + getPersonRepository()
++ getFamilyRepository()
 }
 
 class AddFamilyController {
-  + addFamily()
+  + createFamilyAndAdmin()
 }
 
-class FamilyAndAdminService {
+class CreateFamilyService {
++ createFamilyAndAddAdmin()
+}
+
+class CreateFamilyDTO {
+}
+
+class AddPersonDTO {
 }
 
 class FamilyID <<ValueObject>> <<ID>> {
@@ -192,10 +203,13 @@ class Email <<ValueObject>> <<ID>> {
 }
 
 class FamilyRepository <<Repository>> {
-  
++ generateAndGetFamilyID()
++ createAndAddFamily()
++ removeFamily()
 }
 
 class PersonRepository <<Repository>> {
++ createAndAddPerson()
   
 }
 
@@ -220,20 +234,39 @@ class VATNumber <<ValueObject>> {
 class Family <<Entity>> <<Root>> { 
 }
 
+class RegistrationDate <<ValueObject>> {
+}
 
-AddFamilyController -up-> Application : ffmapplication
-AddFamilyController -.> FamilyAndAdminService
-FamilyAndAdminService -.> FamilyRepository
-FamilyAndAdminService -.> PersonRepository
-FamilyAndAdminService -.> FamilyID
-FamilyAndAdminService -.> Email
-FamilyRepository *-down- Family
-PersonRepository *-down- Person
-Person *-right- "1" Address 
-Person *-- "1" BirthDate
-Person *-down- "0..*" PhoneNumber  
-Person *-- "1" Name
-Person *-left- "1" VATNumber 
+
+AddFamilyController -left--> Application : application
+AddFamilyController ---> CreateFamilyDTO
+AddFamilyController --> AddPersonDTO
+AddFamilyController --.> CreateFamilyService 
+CreateFamilyService -right--> Application : application
+CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
+CreateFamilyService -l--> AddPersonDTO : addPersonDTO
+CreateFamilyService -up--.> FamilyRepository
+CreateFamilyService -d-.> PersonRepository
+CreateFamilyService -d-.> FamilyID
+CreateFamilyService -down-.> Email
+CreateFamilyService -down-.> Address
+CreateFamilyService -left-.> BirthDate
+CreateFamilyService -l-.> PhoneNumber
+CreateFamilyService -d-.> Name
+CreateFamilyService -d-.> VATNumber
+CreateFamilyService -d-.> RegistrationDate
+FamilyRepository *-down- "0..*" Family
+PersonRepository *--down-- "0..*" Person
+Family -down-> "1" Email : admin
+Family -down-> "1" RegistrationDate : registrationDate
+Family ---down--> "1" FamilyID : id
+Person -up-> "1" FamilyID : id
+Person -up-> "1" Email : id
+Person -up-> "1" Address : address
+Person -up-> "1" BirthDate : birthDate
+Person -up-> "0..1" PhoneNumber : phoneNumber
+Person -up-> "1" Name : name
+Person -up-> "1" VATNumber : vatNumber
 
 @enduml
 ```
