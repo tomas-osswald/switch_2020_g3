@@ -1,5 +1,4 @@
 package switchtwentytwenty.project.dataaccesslayer;
-
 import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.dto.AddPersonDTO;
