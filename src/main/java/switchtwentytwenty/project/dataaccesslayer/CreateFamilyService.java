@@ -2,6 +2,7 @@ package switchtwentytwenty.project.dataaccesslayer;
 
 
 import switchtwentytwenty.project.deprecated.CCnumber;
+import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.shared.*;
@@ -12,23 +13,25 @@ public class CreateFamilyService {
 
     private Application application;
     private CreateFamilyDTO createFamilyDTO;
+    private AddPersonDTO addPersonDTO;
 
-    public CreateFamilyService(CreateFamilyDTO createFamilyDTO, Application application) {
+    public CreateFamilyService(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO, Application application) {
         this.createFamilyDTO = createFamilyDTO;
         this.application = application;
+        this.addPersonDTO = addPersonDTO;
     }
 
     public boolean createFamilyAndAddAdmin() {
         boolean result;
-        EmailAddress adminEmail = new EmailAddress(createFamilyDTO.unpackAdminEmail());
+        EmailAddress adminEmail = new EmailAddress(addPersonDTO.unpackEmail());
         FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
-        Name name = new Name(createFamilyDTO.unpackName());
-        BirthDate birthdate = new BirthDate(createFamilyDTO.unpackBirthDate());
-        VATNumber vat = new VATNumber(createFamilyDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(createFamilyDTO.unpackPhone());
-        Address address = new Address(createFamilyDTO.unpackStreet(), createFamilyDTO.unpackCity(), createFamilyDTO.unpackZipCode(), createFamilyDTO.unpackHouseNumber());
-        CCnumber cc = new CCnumber(createFamilyDTO.unpackCCNumber());
-        RegistrationDate registrationDate = new RegistrationDate(LocalDate.now());
+        Name name = new Name(addPersonDTO.unpackName());
+        BirthDate birthdate = new BirthDate(addPersonDTO.unpackBirthDate());
+        VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
+        PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
+        Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
+        CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
+        RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
 
         PersonRepository personRepository = application.getPersonRepository();
         FamilyRepository familyRepository = application.getFamilyRepository();
