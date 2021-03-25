@@ -32,6 +32,13 @@ deactivate Actor
 
 ## 2.1 Summary
 
+The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
+
+What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1 administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
+
+Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber* will have a **single value** but the *Relation*, *EmailAddress* and *PhoneNumber* will behave differently. 
+The *Relation* is between *two Persons* and has a type attribute that characterizes it.
+Both *EmailAddress* and *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's possible that has **none or multiple** *PhoneNumbers*.
 
 
 ## 2.2. Domain Model Excerpt
