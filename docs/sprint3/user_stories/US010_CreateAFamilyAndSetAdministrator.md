@@ -36,8 +36,7 @@ The following Domain Model is only referring to this user story. The complete mo
 
 What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1 administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
 
-Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber* will have a **single value** but the *Relation*, *EmailAddress* and *PhoneNumber* will behave differently. 
-The *Relation* is between *two Persons* and has a type attribute that characterizes it.
+Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber* will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently.
 Both *EmailAddress* and *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's possible that has **none or multiple** *PhoneNumbers*.
 
 The **Person** must have the following characteristics with the following rules:
@@ -51,7 +50,6 @@ The **Person** must have the following characteristics with the following rules:
 | **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
 | **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
 | **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
-| **Relation**                | Non-Required, string                                                                   |
 
 The **Family** must have the following characteristics with the following rules:
 
@@ -90,15 +88,10 @@ class PhoneNumber {
  - Phone Number
 }
 
-class Relation {
- - Type
-}
-
 Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
 Person "1" -> "1..*" EmailAddress: has
 Person "1" --> "0..*" PhoneNumber: has
-Person "2" -> "0..*" Relation: has
 
 @enduml
 ```
