@@ -112,14 +112,10 @@ time. If this would happen, as we don't know yet how to deal with locking mechan
 emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
 repository but, in the end of the process, two equal emails would be added to the Repository.
 
-<<<<<<< HEAD
+
 In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
 possibility of both emails being added since the verification would occur at the moment of addition to the repository.
-=======
-The process to fulfill this requirement requires the actor to select they want to create a new family, 
-which would prompt the input of the designation or name for that family.
-Given the current absence of an UI layer the String *familyName* will be passed directly into the CreateFamilyController. 
->>>>>>> 4e3e61effbde4f7ea901af0b3ed416e2c7253cb8
+
 
 ````puml
 @startuml
