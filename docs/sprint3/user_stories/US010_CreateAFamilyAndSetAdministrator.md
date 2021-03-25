@@ -192,7 +192,8 @@ return success
 FamAdminService -> controller 
 deactivate FamAdminService
 end
-return success
+controller -> systemManager : success
+deactivate controller
 deactivate systemManager
 @enduml
 ````
