@@ -112,8 +112,14 @@ time. If this would happen, as we don't know yet how to deal with locking mechan
 emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
 repository but, in the end of the process, two equal emails would be added to the Repository.
 
+<<<<<<< HEAD
 In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
 possibility of both emails being added since the verification would occur at the moment of addition to the repository.
+=======
+The process to fulfill this requirement requires the actor to select they want to create a new family, 
+which would prompt the input of the designation or name for that family.
+Given the current absence of an UI layer the String *familyName* will be passed directly into the CreateFamilyController. 
+>>>>>>> 4e3e61effbde4f7ea901af0b3ed416e2c7253cb8
 
 ````puml
 @startuml
@@ -193,17 +199,17 @@ of creating the Family and administrator.
 
 title US010 Create a Family and set the Family administrator
 
-'skinparam linetype ortho
-'skinparam linetype polyline
+skinparam linetype ortho
+skinparam linetype polyline
 hide empty members
+
+class CreateFamilyController {
+  + createFamilyAndAdmin()
+}
 
 class Application {
   + getPersonRepository()
 + getFamilyRepository()
-}
-
-class AddFamilyController {
-  + createFamilyAndAdmin()
 }
 
 class CreateFamilyService {
@@ -258,35 +264,39 @@ class RegistrationDate <<ValueObject>> {
 }
 
 
-AddFamilyController -left--> Application : application
-AddFamilyController ---> CreateFamilyDTO
-AddFamilyController --> AddPersonDTO
-AddFamilyController --.> CreateFamilyService 
-CreateFamilyService -right--> Application : application
-CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
-CreateFamilyService -l--> AddPersonDTO : addPersonDTO
-CreateFamilyService -up--.> FamilyRepository
-CreateFamilyService -d-.> PersonRepository
+CreateFamilyController -d-> Application : application
+CreateFamilyController -r-.> CreateFamilyDTO
+CreateFamilyController -r-.> AddPersonDTO
+CreateFamilyController -d---.> CreateFamilyService 
+
+CreateFamilyService -u-> Application : application
+CreateFamilyService -u> CreateFamilyDTO : createFamilyDTO
+CreateFamilyService -u> AddPersonDTO : addPersonDTO
+CreateFamilyService --.l--> FamilyRepository
+CreateFamilyService .r> PersonRepository
 CreateFamilyService -d-.> FamilyID
 CreateFamilyService -down-.> Email
 CreateFamilyService -down-.> Address
-CreateFamilyService -left-.> BirthDate
-CreateFamilyService -l-.> PhoneNumber
+CreateFamilyService -d-.> BirthDate
+CreateFamilyService -d-.> PhoneNumber
 CreateFamilyService -d-.> Name
 CreateFamilyService -d-.> VATNumber
 CreateFamilyService -d-.> RegistrationDate
-FamilyRepository *-down- "0..*" Family
-PersonRepository *--down-- "0..*" Person
+
+FamilyRepository *--l-- "0..*" Family
+PersonRepository *--d--- "0..*" Person
+
 Family -down-> "1" Email : admin
 Family -down-> "1" RegistrationDate : registrationDate
-Family ---down--> "1" FamilyID : id
-Person -up-> "1" FamilyID : id
-Person -up-> "1" Email : id
-Person -up-> "1" Address : address
-Person -up-> "1" BirthDate : birthDate
-Person -up-> "0..1" PhoneNumber : phoneNumber
-Person -up-> "1" Name : name
-Person -up-> "1" VATNumber : vatNumber
+Family -down-> "1" FamilyID : id
+
+Person -u--> "1" FamilyID : family
+Person -u--> "1" Email : id
+Person -u--> "1" Address : address
+Person -u--> "1" BirthDate : birthDate
+Person -up--> "0..1" PhoneNumber : phoneNumber
+Person -up--> "1" Name : name
+Person -up--> "1" VATNumber : vatNumber
 
 @enduml
 ```
