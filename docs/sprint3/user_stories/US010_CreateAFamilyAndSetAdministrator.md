@@ -44,35 +44,34 @@ hide circle
 skinparam linetype ortho
 
 class Family {
- - familyName : FamilyName
- - registrationDate : RegistrationDate
+ - Name
+ - Registration Date
 }
 
 class Person {
- - name : Name
- - cc : CCNumber
- - birthdate : BirthDate
- - address : Address
- - vatNumber : VatNumber
-}
+ - Name
+ - Vat number
+ - Birthdate
+ - Address
+ }
 
 class EmailAddress {
- - email : String
+ - Email
 }
 
 class PhoneNumber {
- - phoneNumber : int
+ - Phone Number
 }
 
 class Relation {
- - type
+ - Type
 }
 
-Family "1" -> "0..*" Person: has members
+Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
-Person "1" --> "1..*" EmailAddress: has
+Person "1" -> "1..*" EmailAddress: has
 Person "1" --> "0..*" PhoneNumber: has
-Person "2" -> "1" Relation: has
+Person "2  " --> "1" Relation: have
 
 @enduml
 ```
