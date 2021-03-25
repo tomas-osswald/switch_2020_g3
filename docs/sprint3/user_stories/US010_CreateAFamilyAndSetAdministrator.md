@@ -32,6 +32,31 @@ deactivate Actor
 
 ## 2.1 Summary
 
+The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
+
+What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1 administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
+
+Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber* will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently.
+Both *EmailAddress* and *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's possible that has **none or multiple** *PhoneNumbers*.
+
+The **Person** must have the following characteristics with the following rules:
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
+| **Name**                    | Required, string                                                                       |
+| **BirthDate**               | Required, date(year-month-day)                                                         |
+| **Address**                 | Required, string                                                                       |
+| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
+| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
+| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
+
+The **Family** must have the following characteristics with the following rules:
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **Name**                | Required, string                                                                           |
+| **RegistrationDate**    | Required, date(year-month-day)                                                             |
 
 
 ## 2.2. Domain Model Excerpt
@@ -63,15 +88,10 @@ class PhoneNumber {
  - Phone Number
 }
 
-class Relation {
- - Type
-}
-
 Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
 Person "1" -> "1..*" EmailAddress: has
 Person "1" --> "0..*" PhoneNumber: has
-Person "2  " --> "1" Relation: have
 
 @enduml
 ```
@@ -158,11 +178,12 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 ## 3.2. Class Diagram
 ```puml
 @startuml
-skinparam linetype ortho
-skinparam linetype polyline
-hide empty members
 
-title Class Diagram
+title US010 Create a Family and set the Family administrator
+
+'skinparam linetype ortho
+'skinparam linetype polyline
+hide empty members
 
 class Application {
   + getPersonRepository()
@@ -225,28 +246,29 @@ class RegistrationDate <<ValueObject>> {
 }
 
 
-AddFamilyController -up--> Application : application
-AddFamilyController --> CreateFamilyDTO
+AddFamilyController -left--> Application : application
+AddFamilyController ---> CreateFamilyDTO
 AddFamilyController --> AddPersonDTO
 AddFamilyController --.> CreateFamilyService 
 CreateFamilyService -right--> Application : application
 CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
-CreateFamilyService -right--> AddPersonDTO : addPersonDTO
+CreateFamilyService -l--> AddPersonDTO : addPersonDTO
 CreateFamilyService -up--.> FamilyRepository
-CreateFamilyService -left-.> PersonRepository
-CreateFamilyService -left-.> FamilyID
+CreateFamilyService -d-.> PersonRepository
+CreateFamilyService -d-.> FamilyID
 CreateFamilyService -down-.> Email
 CreateFamilyService -down-.> Address
 CreateFamilyService -left-.> BirthDate
-CreateFamilyService -left-.> PhoneNumber
-CreateFamilyService -left-.> Name
-CreateFamilyService -left-.> VATNumber
-CreateFamilyService -left-.> RegistrationDate
-FamilyRepository *-down- Family
-PersonRepository *-down- Person
+CreateFamilyService -l-.> PhoneNumber
+CreateFamilyService -d-.> Name
+CreateFamilyService -d-.> VATNumber
+CreateFamilyService -d-.> RegistrationDate
+FamilyRepository *-down- "0..*" Family
+PersonRepository *--down-- "0..*" Person
 Family -down-> "1" Email : admin
 Family -down-> "1" RegistrationDate : registrationDate
-Family -down-> "1" FamilyID : id
+Family ---down--> "1" FamilyID : id
+Person -up-> "1" FamilyID : id
 Person -up-> "1" Email : id
 Person -up-> "1" Address : address
 Person -up-> "1" BirthDate : birthDate
