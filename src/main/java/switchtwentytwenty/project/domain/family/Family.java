@@ -76,8 +76,8 @@ public class Family implements AggregateRoot {
         return Objects.hash(id);
     }
 
-    public boolean isPersonTheAdmin(Person loggedUser) {
-        return loggedUser.isSameEmail(this.admin);
+    public boolean isPersonTheAdmin(EmailAddress loggedUserID) {
+        return loggedUserID.equals(this.admin);
     }
 
     @Deprecated

@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.dataaccesslayer;
 
 import switchtwentytwenty.project.domain.person.Person;
+import switchtwentytwenty.project.shared.EmailAddress;
+import switchtwentytwenty.project.shared.FamilyID;
 
 public class Application {
     private PersonRepository personRepository;
@@ -14,10 +16,7 @@ public class Application {
         this.categoryRepository = new CategoryRepository();
     }
 
-    public Person getLoggedPerson() {
-        return this.loggedPerson;
-    }
-
+    @Deprecated
     public void setLoggedPerson(Person loggedPerson) {
         this.loggedPerson = loggedPerson;
     }
@@ -42,5 +41,13 @@ public class Application {
     @Deprecated
     public void logInAsNotAdmin() {
         this.loggedPerson = null;
+    }
+
+    public EmailAddress getLoggedPersonID() {
+        return this.loggedPerson.getID();
+    }
+
+    public FamilyID getLoggedPersonFamilyID() {
+        return this.loggedPerson.getFamilyID();
     }
 }

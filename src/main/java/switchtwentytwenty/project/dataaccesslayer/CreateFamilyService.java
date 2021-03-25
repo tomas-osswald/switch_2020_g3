@@ -18,7 +18,8 @@ public class CreateFamilyService {
         this.application = application;
     }
 
-    public void createFamilyAndAddAdmin() {
+    public boolean createFamilyAndAddAdmin() {
+        boolean result;
         EmailAddress adminEmail = new EmailAddress(createFamilyDTO.unpackAdminEmail());
         FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
         Name name = new Name(createFamilyDTO.unpackName());
@@ -37,10 +38,11 @@ public class CreateFamilyService {
 
         try {
             personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
-        }catch (EmailAlreadyRegisteredException e){
+            result = true;
+        } catch (EmailAlreadyRegisteredException e) {
             familyRepository.removeFamily(familyID);
-            throw new EmailAlreadyRegisteredException();
+            result = false;
         }
-
+        return result;
     }
 }

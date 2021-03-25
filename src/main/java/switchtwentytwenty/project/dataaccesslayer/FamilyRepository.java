@@ -70,10 +70,10 @@ public class FamilyRepository implements Repository<Family> {
         return targetFamily;
     }
 
-    public void verifyAdmin(Person loggedUser) {
+    public void verifyAdmin(EmailAddress loggedUserID) {
         boolean result = false;
         for (Family family : this.families) {
-            if(family.isPersonTheAdmin(loggedUser)){
+            if(family.isPersonTheAdmin(loggedUserID)){
                 result = true;
             }
         }
