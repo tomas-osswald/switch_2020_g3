@@ -40,6 +40,26 @@ Each Person will have two types of attributes. The attributes *name*, *CCNumber*
 The *Relation* is between *two Persons* and has a type attribute that characterizes it.
 Both *EmailAddress* and *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's possible that has **none or multiple** *PhoneNumbers*.
 
+The **Person** must have the following characteristics with the following rules:
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
+| **Name**                    | Required, string                                                                       |
+| **BirthDate**               | Required, date(year-month-day)                                                         |
+| **Address**                 | Required, string                                                                       |
+| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
+| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
+| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
+| **Relation**                | Non-Required, string                                                                   |
+
+The **Family** must have the following characteristics with the following rules:
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **Name**                | Required, string                                                                           |
+| **RegistrationDate**    | Required, date(year-month-day)                                                             |
+
 
 ## 2.2. Domain Model Excerpt
 
@@ -79,7 +99,7 @@ Family "1" -> "0..*" Person: has members
 Family "1" -> "1" Person: has admin 
 Person "1" --> "1..*" EmailAddress: has
 Person "1" --> "0..*" PhoneNumber: has
-Person "2" -> "1" Relation: has
+Person "2" -> "0..*" Relation: has
 
 @enduml
 ```
