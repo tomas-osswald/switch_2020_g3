@@ -226,7 +226,7 @@ CreateFamilyService -right--> CreateFamilyDTO : createFamilyDTO
 CreateFamilyService -right--> AddPersonDTO : addPersonDTO
 CreateFamilyService -up--.> FamilyRepository
 CreateFamilyService -left-.> PersonRepository
-CreateFamilyService -left-.> "1" FamilyID
+CreateFamilyService -left-.> FamilyID
 CreateFamilyService -down-.> Email
 CreateFamilyService -down-.> Address
 CreateFamilyService -left-.> BirthDate
