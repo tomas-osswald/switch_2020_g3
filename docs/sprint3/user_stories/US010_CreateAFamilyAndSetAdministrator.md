@@ -110,7 +110,7 @@ Given the current absence of an UI layer the String *familyName* will be passed 
 @startuml
 autonumber
 header Sequence Diagram
-title createFamily
+title US010 CreateAndAddFamilyAndSetFamilyAdministrator
 actor "System Manager" as systemManager
 participant ": Create\nFamilyController" as controller
 participant ": Create\nFamilyService" as FamAdminService
@@ -147,20 +147,28 @@ activate admin
 return email
 prepository -> prepository : verifyEmail
 alt Success
-
-prepository -> prepository : addToRepository
-return adminEMail
-FamAdminService -> controller : success
-else Fail
-
 FamAdminService -> frepository : removeFamily(FamilyID)
 activate frepository
-return success
-FamAdminService -> controller 
+return ok "Family removed"
+FamAdminService -> controller : fail
+
+controller -> systemManager : success
+
+else Fail
+
+prepository -> prepository : addToRepository
+prepository --> FamAdminService : success
+deactivate prepository
+
+
+FamAdminService --> controller : success
 deactivate FamAdminService
+controller -> systemManager : success
+deactivate controller
 end
-return success
+
 deactivate systemManager
+
 @enduml
 ````
 
