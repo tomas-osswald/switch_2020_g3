@@ -104,7 +104,7 @@ Person "1" --> "0..*" PhoneNumber: has
 
 The process to fulfill this requirement requires the actor to select they want to create a new family, 
 which would prompt the input of the designation or name for that family.
-Given the current absence of an UI layer the String *familyName* will be passed directly into the AddFamilyController. 
+Given the current absence of an UI layer the String *familyName* will be passed directly into the CreateFamilyController. 
 
 ````puml
 @startuml
@@ -188,7 +188,7 @@ skinparam linetype ortho
 skinparam linetype polyline
 hide empty members
 
-class AddFamilyController {
+class CreateFamilyController {
   + createFamilyAndAdmin()
 }
 
@@ -249,10 +249,10 @@ class RegistrationDate <<ValueObject>> {
 }
 
 
-AddFamilyController -d-> Application : application
-AddFamilyController -r-> CreateFamilyDTO
-AddFamilyController -r-> AddPersonDTO
-AddFamilyController -d---.> CreateFamilyService 
+CreateFamilyController -d-> Application : application
+CreateFamilyController -r-.> CreateFamilyDTO
+CreateFamilyController -r-.> AddPersonDTO
+CreateFamilyController -d---.> CreateFamilyService 
 
 CreateFamilyService -u-> Application : application
 CreateFamilyService -u> CreateFamilyDTO : createFamilyDTO
@@ -275,7 +275,7 @@ Family -down-> "1" Email : admin
 Family -down-> "1" RegistrationDate : registrationDate
 Family -down-> "1" FamilyID : id
 
-Person -u--> "1" FamilyID : id
+Person -u--> "1" FamilyID : family
 Person -u--> "1" Email : id
 Person -u--> "1" Address : address
 Person -u--> "1" BirthDate : birthDate
