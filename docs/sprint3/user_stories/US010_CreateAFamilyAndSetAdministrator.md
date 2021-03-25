@@ -71,33 +71,32 @@ hide circle
 skinparam linetype ortho
 
 class Family {
- - familyName : FamilyName
- - registrationDate : RegistrationDate
+ - Name
+ - Registration Date
 }
 
 class Person {
- - name : Name
- - cc : CCNumber
- - birthdate : BirthDate
- - address : Address
- - vatNumber : VatNumber
-}
+ - Name
+ - Vat number
+ - Birthdate
+ - Address
+ }
 
 class EmailAddress {
- - email : String
+ - Email
 }
 
 class PhoneNumber {
- - phoneNumber : int
+ - Phone Number
 }
 
 class Relation {
- - type
+ - Type
 }
 
-Family "1" -> "0..*" Person: has members
+Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
-Person "1" --> "1..*" EmailAddress: has
+Person "1" -> "1..*" EmailAddress: has
 Person "1" --> "0..*" PhoneNumber: has
 Person "2" -> "0..*" Relation: has
 
@@ -114,49 +113,57 @@ Given the current absence of an UI layer the String *familyName* will be passed 
 ````puml
 @startuml
 autonumber
+header Sequence Diagram
 title createFamily
 actor "System Manager" as systemManager
-participant ": FamilyAndAdminService" as FamAdminService
-participant "FamilyRepository" as frepository
+participant ": Create\nFamilyController" as controller
+participant ": Create\nFamilyService" as FamAdminService
+participant " anApplication : \nApplication" as app
+participant ": FamilyRepository" as frepository
 participant "newFamily : Family" as family
-participant "newFamilyName" as familyName
-participant "newRegistrationDate" as registrationDate
-participant "PersonRepository" as prepository
-participant "Admin" as admin
+participant "newFamilyName : \nFamilyName" as familyName
+participant "newRegistrationDate : \nRegistrationDate" as registrationDate
+participant ": PersonRepository" as prepository
+participant "administrator : \nPerson" as admin
 activate systemManager
-systemManager -> FamAdminService: getFamilyService()
+systemManager -> controller: CreateFamilyController
+activate controller
+controller -> FamAdminService : getFamilyService()
 activate FamAdminService
-FamAdminService --> frepository: createFamily()
+FamAdminService -> app : getApplication()
+activate app
+app -> frepository: createAndAddFamily \n(CreateFamilyDTO, addPersonDTO, Application)
 activate frepository
 frepository -> frepository : generateFamilyID()
-frepository -> family** : create(familyID, adminEMail, familyName, localDate)
+frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
 activate family
 family ->  familyName** : create
 family -> registrationDate** : create
 family -> frepository : familyID
 deactivate family
 frepository -> frepository : addToRepository
-
-frepository -> FamAdminService : familyID
-deactivate frepository
+return familyID
+deactivate app
 FamAdminService -> prepository : createPerson()
 activate prepository
 prepository -> admin** : create
 activate admin
-admin -> prepository : email
-deactivate admin
-alt Success
+return email
 prepository -> prepository : verifyEmail
+alt Success
+
 prepository -> prepository : addToRepository
-prepository --> FamAdminService : adminEMail
+return adminEMail
+FamAdminService -> controller : success
 else Fail
 
 FamAdminService -> frepository : removeFamily(FamilyID)
 activate frepository
-frepository --> FamAdminService : ok
-deactivate frepository
+return success
+FamAdminService -> controller 
 deactivate FamAdminService
 end
+return success
 deactivate systemManager
 @enduml
 ````
@@ -170,36 +177,70 @@ The FamilyService then creates a new Family Object and adds it to the existing l
 ## 3.2. Class Diagram
 ```puml
 @startuml
+hide empty members
 
 title Class Diagram
 
-class AddFamilyController {
-  - Application app
-  + addFamily()
-}
-
 class Application {
-  - FamilyService familyService
   + getFamilyService()
 }
 
-class FamilyService {
-  - List<Family> families
-  - getFamilyByID()
-  - generateFamilyID()
+class AddFamilyController {
   + addFamily()
 }
 
-class Family {
-  - int familyID
-  - String familyName
-  - List<FamilyMember> familyMembers
-  - List<CustomCategory> familyCustomCategories
+class FamilyAndAdminService {
 }
 
-AddFamilyController --> Application
-AddFamilyController --> FamilyService
-FamilyService --> Family
+class FamilyID <<ValueObject>> <<ID>> {
+}
+
+class Email <<ValueObject>> <<ID>> {
+}
+
+class FamilyRepository <<Repository>> {
+  
+}
+
+class PersonRepository <<Repository>> {
+  
+}
+
+class Person <<Entity>> <<Root>> {
+}
+
+class Address <<ValueObject>> {
+}
+
+class BirthDate <<ValueObject>> {
+}
+
+class PhoneNumber <<ValueObject>> {
+}
+
+class Name <<ValueObject>> {
+}
+
+class VATNumber <<ValueObject>> {
+}
+
+class Family <<Entity>> <<Root>> { 
+}
+
+
+AddFamilyController -up-> Application : ffmapplication
+AddFamilyController -.> FamilyAndAdminService
+FamilyAndAdminService -.> FamilyRepository
+FamilyAndAdminService -.> PersonRepository
+FamilyAndAdminService -.> FamilyID
+FamilyAndAdminService -.> Email
+FamilyRepository *-down- Family
+PersonRepository *-down- Person
+Person *-right- "1" Address 
+Person *-- "1" BirthDate
+Person *-down- "0..*" PhoneNumber  
+Person *-- "1" Name
+Person *-left- "1" VATNumber 
 
 @enduml
 ```
