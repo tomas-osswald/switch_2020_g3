@@ -51,9 +51,7 @@ class AddPersonControllerTest {
     void mustReturnFalseAddPersonEmailRegistred() {
         application.logInAsAdmin();
 
-        AddPersonDTO addPersonDTO2 = new AddPersonDTO("email@there.com", "Luis", "28/13/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
-
-        addPersonController.addPerson(addPersonDTO2);
+        addPersonController.addPerson(addPersonDTO);
         assertFalse(addPersonController.addPerson(addPersonDTO));
     }
 
