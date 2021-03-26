@@ -26,9 +26,9 @@ class AddPersonControllerTest {
         addPersonController = new AddPersonController(application);
 
         CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO( "Silva",null);
-        CreateFamilyService createFamilyService = new CreateFamilyService(createFamilyDTO, addAdminPersonDTO, application);
+        CreateFamilyService createFamilyService = new CreateFamilyService(application);
 
-        createFamilyService.createFamilyAndAddAdmin();
+        createFamilyService.createFamilyAndAddAdmin(createFamilyDTO, addAdminPersonDTO);
     }
 
     @DisplayName("Successfully add a person")

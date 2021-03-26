@@ -12,16 +12,12 @@ import java.time.LocalDate;
 public class CreateFamilyService {
 
     private Application application;
-    private CreateFamilyDTO createFamilyDTO;
-    private AddPersonDTO addPersonDTO;
 
-    public CreateFamilyService(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO, Application application) {
-        this.createFamilyDTO = createFamilyDTO;
+    public CreateFamilyService(Application application) {
         this.application = application;
-        this.addPersonDTO = addPersonDTO;
     }
 
-    public boolean createFamilyAndAddAdmin() {
+    public boolean createFamilyAndAddAdmin(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO) {
         boolean result;
         EmailAddress adminEmail = new EmailAddress(addPersonDTO.unpackEmail());
         FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
