@@ -124,42 +124,53 @@ autonumber
 header Sequence Diagram
 title US010 Create a Family and Set Administrator
 actor "System Manager" as systemManager
-'participant "UI" as UI
+participant "UI" as UI
 participant ": Create\nFamilyController" as controller
-participant ": Create\nFamilyService" as FamAdminService
+participant ": CreateFamilyService" as FamAdminService
 participant " anApplication : \nApplication" as app
-participant ": FamilyRepository" as frepository
-participant "newFamily : Family" as family
-participant ": PersonRepository" as prepository
+participant "aFamilyRepository \n: FamilyRepository" as frepository
+participant "newFamily \n: Family" as family
+participant "aPersonRepository \n: PersonRepository" as prepository
 participant "administrator : \nPerson" as admin
 activate systemManager
-systemManager -> controller**: createFamilyAndAdmin(createFamilyDTO, addPersonDTO)
+systemManager -> UI: I want to create a Family \n and set the Administrator
+activate UI
+return request data
+systemManager -> UI : input Family data and Administrator data 
+activate UI
+UI -> controller : createFamilyAndAdmin(createFamilyDTO,\n addPersonDTO)
 activate controller
-controller -> FamAdminService** : create(createFamilyDTO, addPersonDTO, application)
-controller -> FamAdminService : createFamilyAndAddAdmin()
+controller -> FamAdminService** : create(application)
+controller -> FamAdminService : createFamilyAndAddAdmin(createFamilyDTO,\n addPersonDTO)
 activate FamAdminService
 
 FamAdminService -> app : getFamilyRepository()
 activate app
-app -> FamAdminService : FamilyRepository
+app -> FamAdminService : aFamilyRepository
 FamAdminService -> app : getPersonRepository()
-app -> FamAdminService : PersonRepository
+app -> FamAdminService : aPersonRepository
 deactivate app
 
 FamAdminService -> frepository: generateAndGetFamilyID()
 activate frepository
 frepository -> frepository : generateFamilyID()
-frepository --> FamAdminService : familyID
-FamAdminService -> frepository: createAndAddFamily \n(familyName, familyID, registrationDate, adminEmail)
+return familyID
 
+FamAdminService -> frepository: createAndAddFamily (familyName, familyID, registrationDate\n, adminEmail)
+activate frepository
 
 frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
+activate family
+
 
 frepository -> frepository : addToRepository(newFamily)
+
+deactivate family
 return
 
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, adminEmail, \nvat, phone, address, cc, familyID)
 
+FamAdminService -> prepository : createAndAddPerson(name, birthdate, adminEmail, \nvat, phone, address, cc, familyID)
+deactivate frepository
 
 
 activate prepository
@@ -174,18 +185,24 @@ prepository -> prepository : addToRepository (admistrator)
 prepository --> FamAdminService
 deactivate admin
 FamAdminService --> controller : success
-controller --> systemManager : success
+controller --> UI : success
+UI -> systemManager : inform success
 else Fail
 
+
 prepository --> FamAdminService
+deactivate prepository
 FamAdminService -> frepository : removeFamily(FamilyID)
 
 activate frepository
 return
-FamAdminService -> controller : fail
+FamAdminService --> controller : fail
+deactivate 
 
-controller -> systemManager : fail
-
+controller --> UI : fail
+deactivate controller
+UI --> systemManager : inform failure
+deactivate UI
 
 
 
@@ -194,8 +211,8 @@ deactivate prepository
 
 end
 
-deactivate controller
-deactivate systemManager
+
+
 @enduml
 ````
 
@@ -290,8 +307,8 @@ CreateFamilyController -r-.> AddPersonDTO
 CreateFamilyController -d---.> CreateFamilyService 
 
 CreateFamilyService -u-> Application : application
-CreateFamilyService -u> CreateFamilyDTO : createFamilyDTO
-CreateFamilyService -u> AddPersonDTO : addPersonDTO
+CreateFamilyService .u> CreateFamilyDTO : createFamilyDTO
+CreateFamilyService .u> AddPersonDTO : addPersonDTO
 CreateFamilyService --.l--> FamilyRepository
 CreateFamilyService .r> PersonRepository
 CreateFamilyService -d-.> FamilyID
