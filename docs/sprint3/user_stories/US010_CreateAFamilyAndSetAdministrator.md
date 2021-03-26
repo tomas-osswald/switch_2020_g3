@@ -92,8 +92,8 @@ class PhoneNumber {
 
 Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
-Person "1" -> "1..*" EmailAddress: has
-Person "1" --> "0..*" PhoneNumber: has
+Person "1" --> "1..*" EmailAddress: has
+Person "1 " --> "0..*" PhoneNumber: has
 
 @enduml
 ```
@@ -120,6 +120,7 @@ possibility of both emails being added since the verification would occur at the
 
 ````puml
 @startuml
+skinparam backgroundcolor white
 autonumber
 header Sequence Diagram
 title US010 Create a Family and Set Administrator
