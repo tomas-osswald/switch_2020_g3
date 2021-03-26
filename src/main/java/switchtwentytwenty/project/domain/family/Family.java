@@ -4,6 +4,9 @@ import switchtwentytwenty.project.AggregateRoot;
 import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.shared.*;
 
+import javax.management.InvalidAttributeValueException;
+import javax.naming.directory.InvalidAttributesException;
+import java.io.InvalidObjectException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,21 @@ public class Family implements AggregateRoot {
     private AccountID cashAccount;
 
     private Family() {
+    }
+
+    private void checkMandatoryAttributes() {
+        if (this.id == null){
+            throw new NullPointerException("FamilyID is Mandatory");
+        }
+        if (this.name == null){
+            throw new NullPointerException("FamilyName is Mandatory");
+        }
+        if (this.registrationDate == null) {
+            throw new NullPointerException("Registration Date is Mandatory");
+        }
+        if (this.admin == null) {
+            throw new NullPointerException("Admin Email is Mandatory");
+        }
     }
 
     public static class Builder {
@@ -53,6 +71,8 @@ public class Family implements AggregateRoot {
             family.name = this.name;
             family.registrationDate = this.registrationDate;
             family.admin = this.admin;
+
+            family.checkMandatoryAttributes();
 
             return family;
         }
