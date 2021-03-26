@@ -102,7 +102,8 @@ Person "1" --> "0..*" PhoneNumber: has
 
 The process to fulfill this requirement requires the actor to select they want to create a new family, which would
 prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
-2.1. Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
+2.1.  
+Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
 
 During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
 Object.
@@ -121,21 +122,21 @@ possibility of both emails being added since the verification would occur at the
 @startuml
 autonumber
 header Sequence Diagram
-title createFamily
+title US010 Create a Family and Set Administrator
 actor "System Manager" as systemManager
+'participant "UI" as UI
 participant ": Create\nFamilyController" as controller
 participant ": Create\nFamilyService" as FamAdminService
 participant " anApplication : \nApplication" as app
 participant ": FamilyRepository" as frepository
 participant "newFamily : Family" as family
-participant "newFamilyName : \nFamilyName" as familyName
-participant "newRegistrationDate : \nRegistrationDate" as registrationDate
 participant ": PersonRepository" as prepository
 participant "administrator : \nPerson" as admin
 activate systemManager
-systemManager -> controller**: CreateFamilyController
+systemManager -> controller**: createFamilyAndAdmin(createFamilyDTO, addPersonDTO)
 activate controller
-controller -> FamAdminService : getFamilyService()
+controller -> FamAdminService** : create(createFamilyDTO, addPersonDTO, application)
+controller -> FamAdminService : createFamilyAndAddAdmin()
 activate FamAdminService
 
 FamAdminService -> app : getFamilyRepository()
@@ -144,55 +145,55 @@ app -> FamAdminService : FamilyRepository
 FamAdminService -> app : getPersonRepository()
 app -> FamAdminService : PersonRepository
 deactivate app
-FamAdminService -> frepository: createAndAddFamily \n(CreateFamilyDTO, addPersonDTO, Application)
+
+FamAdminService -> frepository: generateAndGetFamilyID()
 activate frepository
 frepository -> frepository : generateFamilyID()
-frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
-activate family
-family ->  familyName** : create
-family -> registrationDate** : create
-family -> frepository : familyID
-deactivate family
-frepository -> frepository : addToRepository (new Family)
-return familyID
-deactivate app
+frepository --> FamAdminService : familyID
+FamAdminService -> frepository: createAndAddFamily \n(familyName, familyID, registrationDate, adminEmail)
 
-FamAdminService -> prepository : createPerson()
-alt Success
+
+frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
+
+frepository -> frepository : addToRepository(newFamily)
+return
+
+FamAdminService -> prepository : createAndAddPerson(name, birthdate, adminEmail, \nvat, phone, address, cc, familyID)
+
+
 
 activate prepository
-prepository -> prepository : verifyEmail
+prepository -> prepository : isEmailAlreadyRegistered(email)
+
+alt Success
 prepository -> admin** : create
 activate admin
-return email
-prepository -> prepository : verifyEmail
-alt Success
 
-prepository -> prepository : addToRepository
-return adminEMail
-FamAdminService -> controller : success
+
+prepository -> prepository : addToRepository (admistrator)
+prepository --> FamAdminService
+deactivate admin
+FamAdminService --> controller : success
+controller --> systemManager : success
 else Fail
 
+prepository --> FamAdminService
 FamAdminService -> frepository : removeFamily(FamilyID)
+
 activate frepository
-return ok "Family removed"
+return
 FamAdminService -> controller : fail
 
-controller -> systemManager : success
+controller -> systemManager : fail
 
-else Fail
 
-prepository -> prepository : addToRepository (new Admistrator)
-prepository --> FamAdminService : success
+
+
 deactivate prepository
 
 
-FamAdminService --> controller : success
-return success
-FamAdminService -> controller 
-deactivate FamAdminService
 end
-controller -> systemManager : success
+
 deactivate controller
 deactivate systemManager
 @enduml
