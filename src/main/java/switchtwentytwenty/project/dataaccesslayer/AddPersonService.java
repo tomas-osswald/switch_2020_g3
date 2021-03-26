@@ -1,20 +1,20 @@
 package switchtwentytwenty.project.dataaccesslayer;
+
 import switchtwentytwenty.project.deprecated.CCnumber;
-import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.shared.*;
 
 public class AddPersonService {
 
     private Application application;
-    private AddPersonDTO addPersonDTO;
 
-    public AddPersonService(AddPersonDTO addPersonDTO, Application application) {
+
+    public AddPersonService(Application application) {
         this.application = application;
-        this.addPersonDTO = addPersonDTO;
+
     }
 
-    public void addPerson() {
+    public void addPerson(AddPersonDTO addPersonDTO) {
         FamilyRepository familyRepository = application.getFamilyRepository();
         EmailAddress loggedUserID = application.getLoggedPersonID();
         familyRepository.verifyAdmin(loggedUserID);

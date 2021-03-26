@@ -14,9 +14,9 @@ public class AddPersonController {
 
     public boolean addPerson(AddPersonDTO addPersonDTO) {
         boolean result;
-        AddPersonService addPersonService = new AddPersonService(addPersonDTO, application);
+        AddPersonService addPersonService = new AddPersonService(application);
         try {
-            addPersonService.addPerson();
+            addPersonService.addPerson(addPersonDTO);
             result = true;
         } catch (Exception e) {
             result = false;

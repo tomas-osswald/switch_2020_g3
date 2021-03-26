@@ -22,6 +22,7 @@ class CreateFamilyControllerTest {
     CreateFamilyDTO VALIDCreateFamilyDTO;
     AddPersonDTO addPersonDTO;
     LocalDate localDate = LocalDate.of(2019,12,12);
+
     @BeforeEach
     void setup(){
         application = new Application();
@@ -30,11 +31,17 @@ class CreateFamilyControllerTest {
         addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
     }
 
+
+
     @DisplayName("Test if a family can be successfully created")
     @Test
     void shouldBeTrueCreateFamily() {
         assertTrue(controller.createFamilyAndAdmin(VALIDCreateFamilyDTO,addPersonDTO));
+
+
     }
+
+
 
     @DisplayName("Test if a family isn't created if the admin email is already registered in the app")
     @Test
