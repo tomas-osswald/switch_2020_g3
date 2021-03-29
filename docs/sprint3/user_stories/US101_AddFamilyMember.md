@@ -1,9 +1,28 @@
-# US010 Create a Family and set the Family administrator
+# US101 Add Family Members
 =======================================
 
 # 1. Requirements
 
-*As a system manager, I want to create a family and set a family administrator*
+###1.1 Client Notes
+*As a family administrator, I want to add family members*
+
+We interpreted this requirement as the function of a family administrator adding a new Person to his family. 
+
+This Person's email account must not exist in the Application since it is used as a unique ID.  
+
+- A Person needs to have:
+    - ID (email)
+    - Name
+    - Vat number
+    - Address
+    - Birthdate
+    - Phone (none or one)
+    - Family ID
+
+
+### 1.2 Dependencies 
+
+### 1.3 SSD
 
 ```plantuml
 @startuml
@@ -31,6 +50,15 @@ deactivate Actor
 # 2. Analysis
 
 ## 2.1 Summary
+
+At the moment a person can have one or no phone numbers when it is created.
+Two options:
+
+- Two Person constructors (One with phone number, one without)  
+- One constructor with a validation for phone number that accepts a null Phone Number.
+
+[COMMENT]: # (The first one seems better practice than the second one. Validate both)
+
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
@@ -249,11 +277,11 @@ end
 ## 3.1. Functionality Use
 
 The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
-application. 
+application.
 The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family. 
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator, 
+The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
+The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
+The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
 providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
 The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
 of creating the Family and administrator.
@@ -471,7 +499,7 @@ null The whole user story was tested for the case of success and for failure
 
 5. If the Email fails verification, the Family is removed from the FamilyRepository and the process fails.
 
-   
+
       try {
       personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
       result = true;
