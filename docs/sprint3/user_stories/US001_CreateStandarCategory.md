@@ -151,7 +151,7 @@ service -> service: unpack DTO and validate data
 service -> repository: checkIfParentCategoryIDisValid()
 activate repository
 
-alt Success
+alt Success - Parent Category Exists
 
 repository -> service: true
 service -> repository: create StandardCategory(CategoryName, ParentCategoryID)
@@ -166,7 +166,7 @@ service -> controller: success
 controller -> UI: success
 UI -> systemManager: inform success
 
-else Fail
+else Fail - No Such ParentCategory
 
 return false
 return fail
