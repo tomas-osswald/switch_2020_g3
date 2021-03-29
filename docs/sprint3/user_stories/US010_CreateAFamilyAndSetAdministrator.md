@@ -92,8 +92,8 @@ class PhoneNumber {
 
 Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
-Person "1" -> "1..*" EmailAddress: has
-Person "1" --> "0..*" PhoneNumber: has
+Person "1" --> "1..*" EmailAddress: has
+Person "1 " --> "0..*" PhoneNumber: has
 
 @enduml
 ```
@@ -120,23 +120,20 @@ possibility of both emails being added since the verification would occur at the
 
 ````puml
 @startuml
+
 autonumber
 header Sequence Diagram
 title US010 Create a Family and Set Administrator
+
 actor "System Manager" as systemManager
 participant "UI" as UI
 participant ": Create\nFamilyController" as controller
 participant ": CreateFamilyService" as FamAdminService
-participant " anApplication : \nApplication" as app
-participant "aFamilyRepository \n: FamilyRepository" as frepository
-participant "newFamily \n: Family" as family
-participant "aPersonRepository \n: PersonRepository" as prepository
-participant "administrator : \nPerson" as admin
 activate systemManager
 systemManager -> UI: I want to create a Family \n and set the Administrator
 activate UI
 return request data
-systemManager -> UI : input Family data and Administrator data 
+systemManager -> UI : input Family data and Administrator data
 activate UI
 UI -> controller : createFamilyAndAdmin(createFamilyDTO,\n addPersonDTO)
 activate controller
@@ -144,19 +141,67 @@ controller -> FamAdminService** : create(application)
 controller -> FamAdminService : createFamilyAndAddAdmin(createFamilyDTO,\n addPersonDTO)
 activate FamAdminService
 
+ref over FamAdminService
+
+SequenceDiagram(2):
+Service to Family and Person Creation
+
+end
+
+alt #transparent false
+autonumber 23
+
+FamAdminService --> controller : success
+controller --> UI : success
+UI --> systemManager : inform success
+
+else true
+autonumber 29
+
+FamAdminService --> controller : fail
+deactivate FamAdminService
+
+controller --> UI : fail
+deactivate controller
+UI --> systemManager : inform failure
+deactivate UI
+
+
+end
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber 6
+header Sequence Diagram
+title US010 Create a Family and Set Administrator(2)
+
+participant ": CreateFamilyService" as FamAdminService
+participant " anApplication : \nApplication" as app
+participant "aFamilyRepository \n: FamilyRepository" as frepository
+participant "newFamily \n: Family" as family
+participant "aPersonRepository \n: PersonRepository" as prepository
+participant "administrator : \nPerson" as admin
+
+-> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonDTO)
+activate FamAdminService
+
 FamAdminService -> app : getFamilyRepository()
 activate app
-app -> FamAdminService : aFamilyRepository
+return aFamilyRepository
 FamAdminService -> app : getPersonRepository()
-app -> FamAdminService : aPersonRepository
-deactivate app
+activate app
+return aPersonRepository
+
 
 FamAdminService -> frepository: generateAndGetFamilyID()
 activate frepository
 frepository -> frepository : generateFamilyID()
 return familyID
 
-FamAdminService -> frepository: createAndAddFamily (familyName, familyID, registrationDate\n, adminEmail)
+FamAdminService -> frepository: createAndAddFamily (familyName, \nfamilyID, registrationDate, adminEmail)
 activate frepository
 
 frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
@@ -169,14 +214,14 @@ deactivate family
 return
 
 
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, adminEmail, \nvat, phone, address, cc, familyID)
+FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nadminEmail, vat, phone, address, cc, familyID)
 deactivate frepository
 
 
 activate prepository
 prepository -> prepository : isEmailAlreadyRegistered(email)
 
-alt Success
+alt #transparent false
 prepository -> admin** : create
 activate admin
 
@@ -184,34 +229,19 @@ activate admin
 prepository -> prepository : addToRepository (admistrator)
 prepository --> FamAdminService
 deactivate admin
-FamAdminService --> controller : success
-controller --> UI : success
-UI -> systemManager : inform success
-else Fail
+<-- FamAdminService : success
 
+else true
+autonumber 26
 
 prepository --> FamAdminService
 deactivate prepository
 FamAdminService -> frepository : removeFamily(FamilyID)
-
 activate frepository
 return
-FamAdminService --> controller : fail
-deactivate 
-
-controller --> UI : fail
-deactivate controller
-UI --> systemManager : inform failure
-deactivate UI
-
-
-
-deactivate prepository
-
-
+<-- FamAdminService : fail
+deactivate FamAdminService
 end
-
-
 
 @enduml
 ````
@@ -236,7 +266,6 @@ of creating the Family and administrator.
 
 title US010 Create a Family and set the Family administrator
 
-skinparam linetype ortho
 skinparam linetype polyline
 hide empty members
 
@@ -273,7 +302,7 @@ class FamilyRepository <<Repository>> {
 
 class PersonRepository <<Repository>> {
 + createAndAddPerson()
-  
+
 }
 
 class Person <<Entity>> <<Root>> {
@@ -294,7 +323,7 @@ class Name <<ValueObject>> {
 class VATNumber <<ValueObject>> {
 }
 
-class Family <<Entity>> <<Root>> { 
+class Family <<Entity>> <<Root>> {
 }
 
 class RegistrationDate <<ValueObject>> {
@@ -302,13 +331,13 @@ class RegistrationDate <<ValueObject>> {
 
 
 CreateFamilyController -d-> Application : application
-CreateFamilyController -r-.> CreateFamilyDTO
-CreateFamilyController -r-.> AddPersonDTO
-CreateFamilyController -d---.> CreateFamilyService 
+CreateFamilyController .r> CreateFamilyDTO
+CreateFamilyController .r> AddPersonDTO
+CreateFamilyController -d---.> CreateFamilyService
 
 CreateFamilyService -u-> Application : application
-CreateFamilyService .u> CreateFamilyDTO : createFamilyDTO
-CreateFamilyService .u> AddPersonDTO : addPersonDTO
+CreateFamilyService .u> CreateFamilyDTO
+CreateFamilyService .u> AddPersonDTO
 CreateFamilyService --.l--> FamilyRepository
 CreateFamilyService .r> PersonRepository
 CreateFamilyService -d-.> FamilyID
@@ -334,7 +363,6 @@ Person -u--> "1" BirthDate : birthDate
 Person -up--> "0..1" PhoneNumber : phoneNumber
 Person -up--> "1" Name : name
 Person -up--> "1" VATNumber : vatNumber
-
 @enduml
 ```
 
