@@ -23,10 +23,6 @@ public class PersonRepository implements Repository<Person> {
         this.people.add(person);
     }
 
-    public int size(){
-        return this.people.size();
-    }
-
     public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
         if (!isEmailAlreadyRegistered(email)) {
             Person person = new Person(name, birthDate, email, vat, phone, address, cc, familyID);

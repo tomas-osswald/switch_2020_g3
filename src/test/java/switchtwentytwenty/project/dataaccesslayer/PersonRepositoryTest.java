@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,9 +65,9 @@ class PersonRepositoryTest {
     }
 
     @Test
-    void shouldThrowPersonIDAlreadyPresentInRepositoryMultipleThreads() throws InterruptedException {
+    void shouldThrowNineTimesPersonIDAlreadyPresentInRepositoryTenThreads() throws InterruptedException {
         PersonRepository personRepository = new PersonRepository();
-
+        AtomicInteger counter = new AtomicInteger();
         int numberOfThreads = 10;
         ExecutorService service = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(numberOfThreads);
@@ -75,13 +76,12 @@ class PersonRepositoryTest {
                 try {
                     personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID);
                 } catch (EmailAlreadyRegisteredException e) {
-
+                    counter.getAndIncrement();
                 }
                 latch.countDown();
             });
-
         }
         latch.await();
-        assertEquals(1, personRepository.size());
+        assertEquals(9, counter.get());
     }
 }
