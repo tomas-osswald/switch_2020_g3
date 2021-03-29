@@ -38,8 +38,9 @@ public class FamilyRepository implements Repository<Family> {
     }
 
     public FamilyID generateAndGetFamilyID() {
-        FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
-        FamilyID familyID = familyIDGenerator.generateID();
+        //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
+        //FamilyID familyID = familyIDGenerator.generateID();
+        FamilyID familyID = new FamilyID(UUID.randomUUID());
         if (checkIfFamilyIDExists(familyID)) {
             familyID = generateAndGetFamilyID();
         }
