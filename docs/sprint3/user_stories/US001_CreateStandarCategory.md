@@ -1,0 +1,429 @@
+# US001 Create a Standard Category
+=======================================
+
+# 1. Requirements
+
+*As a system manager, I want to create a standard category.*
+
+```plantuml
+@startuml
+
+header SSD
+title Create Family and Set Administrator
+autonumber
+actor "System Manager" as Actor
+participant "System" as System
+activate Actor
+Actor -> System : Create a family and set administrator
+activate System
+System --> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
+Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
+alt failure
+System --> Actor : Inform Failure
+else success 
+System --> Actor : Inform Success
+end
+deactivate System
+deactivate Actor
+@enduml
+```
+
+# 2. Analysis
+
+## 2.1 Summary
+
+The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
+
+What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
+administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
+
+Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
+will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
+PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
+possible that has **none or multiple** *PhoneNumbers*.
+
+The **Person** must have the following characteristics with the following rules:
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
+| **Name**                    | Required, string                                                                       |
+| **BirthDate**               | Required, date(year-month-day)                                                         |
+| **Address**                 | Required, string                                                                       |
+| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
+| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
+| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
+
+The **Family** must have the following characteristics with the following rules:
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **Name**                | Required, string                                                                           |
+| **RegistrationDate**    | Required, date(year-month-day)                                                             |
+
+## 2.2. Domain Model Excerpt
+
+```plantuml
+@startuml
+header Domain Model
+hide methods
+hide circle
+skinparam linetype ortho
+
+class Family {
+ - Name
+ - Registration Date
+}
+
+class Person {
+ - Name
+ - Vat number
+ - Birthdate
+ - Address
+ }
+
+class EmailAddress {
+ - Email
+}
+
+class PhoneNumber {
+ - Phone Number
+}
+
+Family "1" -> "0..*" Person: has non-administrator members
+Family "1" -> "1" Person: has admin 
+Person "1" -> "1..*" EmailAddress: has
+Person "1" --> "0..*" PhoneNumber: has
+
+@enduml
+```
+
+# 3. Design
+
+The process to fulfill this requirement requires the actor to select they want to create a new family, which would
+prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
+2.1.  
+Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
+
+During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
+Object.
+
+This decision occurred after discussing the possibility of two emails being registered in the application at the same
+time. If this would happen, as we don't know yet how to deal with locking mechanisms, we could have the problem of both
+emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
+repository but, in the end of the process, two equal emails would be added to the Repository.
+
+
+In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
+possibility of both emails being added since the verification would occur at the moment of addition to the repository.
+
+
+````puml
+@startuml
+autonumber
+header Sequence Diagram
+title US001 Create a Standard Category
+actor "System Manager" as systemManager
+participant "UI" as UI
+participant ": Create\nStandardCategoryController" as controller
+participant ": CreateStandardCategoryService" as service
+participant " anApplication : \nApplication" as app
+participant "aCategoryRepository \n: CategoryRepository" as repository
+participant "newStandardCategory \n: StandardCategory" as scategory
+
+activate systemManager
+systemManager -> UI: I want to create a Standard Category
+activate UI
+return request data
+systemManager -> UI : input Category name, Parent ID.
+activate UI
+UI -> controller : createStandardCategory(createStandardCategoryDTO)
+activate controller
+controller -> service** : create(application)
+controller -> service : createFamilyAndAddAdmin(createStandardCategoryDTO)
+activate service
+
+service -> app : getCategoryRepository()
+activate app
+return aCategoryRepository
+
+service -> service: unpack DTO and validate data
+service -> repository: checkIfParentCategoryIDisValid()
+activate repository
+
+alt Success
+
+repository -> service: true
+service -> repository: create StandardCategory(CategoryName, ParentCategoryID)
+activate repository
+repository -> repository: generate categoryID()
+repository -> scategory**: create (CategoryName, CategoryID, ParentCategoryID)
+activate scategory
+return category created
+repository -> repository : add(aStandardcategory)
+return success
+service -> controller: success
+controller -> UI: success
+UI -> systemManager: inform success
+
+else Fail
+
+return false
+return fail
+return fail
+return inform failure
+
+end
+
+
+
+@enduml
+````
+
+## 3.1. Functionality Use
+
+The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
+application. 
+The CreateFamilyService will create all the necessary value objects to create the family and administrator.
+The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
+The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family. 
+The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator, 
+providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
+The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
+of creating the Family and administrator.
+
+
+## 3.2. Class Diagram
+
+```puml
+@startuml
+
+title US010 Create a Family and set the Family administrator
+
+skinparam linetype ortho
+skinparam linetype polyline
+hide empty members
+
+class CreateFamilyController {
+  + createFamilyAndAdmin()
+}
+
+class Application {
+  + getPersonRepository()
++ getFamilyRepository()
+}
+
+class CreateFamilyService {
++ createFamilyAndAddAdmin()
+}
+
+class CreateFamilyDTO {
+}
+
+class AddPersonDTO {
+}
+
+class FamilyID <<ValueObject>> <<ID>> {
+}
+
+class Email <<ValueObject>> <<ID>> {
+}
+
+class FamilyRepository <<Repository>> {
++ generateAndGetFamilyID()
++ createAndAddFamily()
++ removeFamily()
+}
+
+class PersonRepository <<Repository>> {
++ createAndAddPerson()
+  
+}
+
+class Person <<Entity>> <<Root>> {
+}
+
+class Address <<ValueObject>> {
+}
+
+class BirthDate <<ValueObject>> {
+}
+
+class PhoneNumber <<ValueObject>> {
+}
+
+class Name <<ValueObject>> {
+}
+
+class VATNumber <<ValueObject>> {
+}
+
+class Family <<Entity>> <<Root>> { 
+}
+
+class RegistrationDate <<ValueObject>> {
+}
+
+
+CreateFamilyController -d-> Application : application
+CreateFamilyController -r-.> CreateFamilyDTO
+CreateFamilyController -r-.> AddPersonDTO
+CreateFamilyController -d---.> CreateFamilyService 
+
+CreateFamilyService -u-> Application : application
+CreateFamilyService .u> CreateFamilyDTO : createFamilyDTO
+CreateFamilyService .u> AddPersonDTO : addPersonDTO
+CreateFamilyService --.l--> FamilyRepository
+CreateFamilyService .r> PersonRepository
+CreateFamilyService -d-.> FamilyID
+CreateFamilyService -down-.> Email
+CreateFamilyService -down-.> Address
+CreateFamilyService -d-.> BirthDate
+CreateFamilyService -d-.> PhoneNumber
+CreateFamilyService -d-.> Name
+CreateFamilyService -d-.> VATNumber
+CreateFamilyService -d-.> RegistrationDate
+
+FamilyRepository *--l-- "0..*" Family
+PersonRepository *--d--- "0..*" Person
+
+Family -down-> "1" Email : admin
+Family -down-> "1" RegistrationDate : registrationDate
+Family -down-> "1" FamilyID : id
+
+Person -u--> "1" FamilyID : family
+Person -u--> "1" Email : id
+Person -u--> "1" Address : address
+Person -u--> "1" BirthDate : birthDate
+Person -up--> "0..1" PhoneNumber : phoneNumber
+Person -up--> "1" Name : name
+Person -up--> "1" VATNumber : vatNumber
+
+@enduml
+```
+
+## 3.3. Applied Patterns
+
+We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
+used the SOLID Single Responsibility Principle.
+
+## 3.4. Tests
+
+Several cases where analyzed in order to test the creation of a new Family
+
+**Test 1:** Test that it is possible to create a new instance of Family with a valid Admin
+
+**Test 2:** Test that it is not possible to create a new instance of Family if admin email is already registered
+
+**Test 3:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is null
+
+**Test 4:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is empty
+
+**Test 5:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is blank
+
+**Additional Tests** Test that its not possible to create a new instance of Family if any attribure is empty, blank or
+null The whole user story was tested for the case of success and for failure
+
+**Test 5:** Success
+
+```` 
+@DisplayName("Test if a family can be successfully created")  
+@Test
+ void shouldBeTrueCreateFamily() {
+        Application application = new Application();
+        Create Family Controller controller = new Create Family Controller(application);
+        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+        
+        assertTrue(controller.createFamilyAndAdmin(createFamilyDTO));    
+    }
+````
+
+**Test 6:** Failure
+
+````
+@DisplayName ("Test if a family isnt created if the admin email is already registered in the app")  
+@Test
+    void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
+        Application application = new Application();
+        Create Family Controller controller = new Create Family Controller(application);
+        CreateFamilyDTO createFamilyDTO1 = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+        CreateFamilyDTO createFamilyDTO2 = new CreateFamilyDTO("tonyze@hotmail.com", "Pereira", "Rita", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+        controller.createFamilyAndAdmin(createFamilyDTO1);
+        assertFalse(controller.createFamilyAndAdmin(createFamilyDTO2));    
+    }
+    }
+````
+
+# 4. Implementation
+
+1. All the Value Objects are initially instanced (instantiated), with respective validations.
+
+
+      public boolean createFamilyAndAddAdmin() {
+      boolean result;
+      EmailAddress adminEmail = new EmailAddress(addPersonDTO.unpackEmail());
+      FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
+      Name name = new Name(addPersonDTO.unpackName());
+      BirthDate birthdate = new BirthDate(addPersonDTO.unpackBirthDate());
+      VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
+      PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
+      Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
+      CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
+      RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
+
+2. Family ID is automatically generated by the Family Repository (Information Expert)
+
+
+      public FamilyID generateAndGetFamilyID() {
+      FamilyID familyID = new FamilyID(UUID.randomUUID());
+      if (checkIfFamilyIDExists(familyID)) {
+      familyID = generateAndGetFamilyID();
+      }
+      return familyID;
+      }
+
+3. AdminEmail is added to the Family upon its instantiation. The Family is immediately added to the FamilyRepository (
+   The administrator email validation will come later.)
+
+
+      public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, EmailAddress adminEmail) {
+      Family family = new Family(familyID, familyName, registrationDate, adminEmail);
+      this.families.add(family);
+      }
+
+4. Before creating the Administrator, the email is validated in the Person Repository in order to guarantee that it is
+   Unique
+
+
+      private boolean isEmailAlreadyRegistered(EmailAddress email) {
+      boolean emailIsRegistered = false;
+      for (Person person : people) {
+      if (person.isSameEmail(email)) {
+      emailIsRegistered = true;
+      }
+      }
+      return emailIsRegistered;
+      }
+
+5. If the Email fails verification, the Family is removed from the FamilyRepository and the process fails.
+
+   
+      try {
+      personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
+      result = true;
+      } catch (EmailAlreadyRegisteredException e) {
+      familyRepository.removeFamily(familyID);
+      result = false;
+      }
+      return result;
+
+
+# 5. Integration
+
+The development of this user story was the basis for the family structure where the FamilyMembers are stored and was
+thus crucial for the development of the other User Stories
+
+# 6. Observations
+
+As with the Standard Category the family ID will probably need to be reworked in a future sprint to allow for more
+complex ID information if needed (probably using a UUID)
