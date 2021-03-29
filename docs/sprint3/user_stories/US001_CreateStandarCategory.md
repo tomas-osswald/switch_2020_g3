@@ -42,24 +42,14 @@ will have a **single value** but *EmailAddress* and *PhoneNumber* will behave di
 PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
 possible that has **none or multiple** *PhoneNumbers*.
 
-The **Person** must have the following characteristics with the following rules:
+The **Standard Category** must have the following characteristics with the following rules:
 
 | **_Value Objects_**         | **_Business Rules_**                                                                   |
 | :-------------------------- | :------------------------------------------------------------------------------------- |
-| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
-| **Name**                    | Required, string                                                                       |
-| **BirthDate**               | Required, date(year-month-day)                                                         |
-| **Address**                 | Required, string                                                                       |
-| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
-| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
-| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
+| **CategoryName**                | Required, string.               |
+| **CategoryID**                    | Required and optional, unique. A Category will have its own (required) and one for its parent (optional)                                                                        |
 
-The **Family** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Name**                | Required, string                                                                           |
-| **RegistrationDate**    | Required, date(year-month-day)                                                             |
+ |
 
 ## 2.2. Domain Model Excerpt
 
@@ -140,14 +130,14 @@ activate UI
 UI -> controller : createStandardCategory(createStandardCategoryDTO)
 activate controller
 controller -> service** : create(application)
-controller -> service : createFamilyAndAddAdmin(createStandardCategoryDTO)
+controller -> service : createStandardCategory(createStandardCategoryDTO)
 activate service
 
 service -> app : getCategoryRepository()
 activate app
 return aCategoryRepository
 
-service -> service: unpack DTO and validate data
+service -> service: unpack DTO and create value objects
 service -> repository: checkIfParentCategoryIDisValid()
 activate repository
 
@@ -166,7 +156,7 @@ service -> controller: success
 controller -> UI: success
 UI -> systemManager: inform success
 
-else Fail - No Such ParentCategory
+else Fail - No Such Parent Category
 
 return false
 return fail
