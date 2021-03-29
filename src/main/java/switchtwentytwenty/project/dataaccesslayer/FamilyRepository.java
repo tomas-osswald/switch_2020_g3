@@ -8,6 +8,8 @@ import switchtwentytwenty.project.shared.EmailAddress;
 import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
 import switchtwentytwenty.project.shared.RegistrationDate;
+import switchtwentytwenty.project.util.DefaultFamilyIDGenerator;
+import switchtwentytwenty.project.util.FamilyIDGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,8 @@ public class FamilyRepository implements Repository<Family> {
     }
 
     public FamilyID generateAndGetFamilyID() {
+        //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
+        //FamilyID familyID = familyIDGenerator.generateID();
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         if (checkIfFamilyIDExists(familyID)) {
             familyID = generateAndGetFamilyID();

@@ -170,4 +170,23 @@ class FamilyTest {
         assertNotEquals(familyOne.hashCode(), familyTwo.hashCode());
     }
 
+    @Test
+    void shouldCreateAValidFamilyInstaceWithBuilder() {
+        UUID id = UUID.randomUUID();
+        FamilyID familyID = new FamilyID(id);
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        LocalDate date = LocalDate.of(2021, 3, 17);
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        String emailString = "admin@gmail.com";
+        EmailAddress adminEmail = new EmailAddress(emailString);
+        //Act
+        Family result = new Family.Builder(familyID)
+                .withName(familyName)
+                .withRegistrationDate(registrationDate)
+                .withAdmin(adminEmail)
+                .build();
+        //Assert
+        assertNotNull(result);
+    }
 }
