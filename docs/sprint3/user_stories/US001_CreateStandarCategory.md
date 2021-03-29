@@ -9,15 +9,15 @@
 @startuml
 
 header SSD
-title Create Family and Set Administrator
+title Create Standard Category
 autonumber
 actor "System Manager" as Actor
 participant "System" as System
 activate Actor
-Actor -> System : Create a family and set administrator
+Actor -> System : Create a Standard Category
 activate System
-System --> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
-Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
+System --> Actor : Request Category Name and Parent Category ID   
+Actor -> System : Input Category Name and Parent Category ID 
 alt failure
 System --> Actor : Inform Failure
 else success 
@@ -34,13 +34,10 @@ deactivate Actor
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
-What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
-administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
+What is relevant for this US is the validity of the Parent Category ID (PCID). If the actor inputs a not-null PCID that doesn't match any existing Standard Category, then the process must fail.
 
-Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
-PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
-possible that has **none or multiple** *PhoneNumbers*.
+
+Each StandardCategory will have two or three attributes. They must have a non-null, non-empty, non-blank Category Name, and a auto-generated Category ID. Optionally, they may have another Category ID which will be the PCID.
 
 The **Standard Category** must have the following characteristics with the following rules:
 
@@ -54,58 +51,51 @@ The **Standard Category** must have the following characteristics with the follo
 ## 2.2. Domain Model Excerpt
 
 ```plantuml
+
 @startuml
 header Domain Model
 hide methods
 hide circle
 skinparam linetype ortho
 
-class Family {
- - Name
- - Registration Date
+class StandardCategory {
+
 }
 
-class Person {
- - Name
- - Vat number
- - Birthdate
- - Address
+class CategoryID {
+ - CategoryID
  }
 
-class EmailAddress {
- - Email
+class CategoryName {
+ - CategoryName
 }
 
-class PhoneNumber {
- - Phone Number
-}
 
-Family "1" -> "0..*" Person: has non-administrator members
-Family "1" -> "1" Person: has admin 
-Person "1" -> "1..*" EmailAddress: has
-Person "1" --> "0..*" PhoneNumber: has
+
+StandardCategory "1" -> "1" CategoryName: has
+StandardCategory "1" -> "1" CategoryID: has its own ID 
+StandardCategory "1" -> "0..1" CategoryID: may have a Parent Category ID
 
 @enduml
 ```
 
 # 3. Design
 
-The process to fulfill this requirement requires the actor to select they want to create a new family, which would
-prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
+The process to fulfill this requirement requires the actor to select they want to create a new Standard Category
+prompt the input of the name for that category as well as the Parent Category ID
+
 2.1.  
-Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
+Given the current absence of an UI layer the required data will be passed directly into the CreateStandardCategoryController.
 
-During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
-Object.
+If the user does not input a PCID (will be null) then the Standard Category will be considered to be at root level.
+Alternatively, if the PCID does not match any existing Standard Categories, the creation will fail.
 
-This decision occurred after discussing the possibility of two emails being registered in the application at the same
-time. If this would happen, as we don't know yet how to deal with locking mechanisms, we could have the problem of both
-emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
-repository but, in the end of the process, two equal emails would be added to the Repository.
+In order to be possible to input a PCID, the generated CategoryID should not be random.
+In the future, if it's possible to retrieve the existing Categories for the actor to select the parent, then the CategoryID could be made random. 
+
+This decision occurred after discussing the possibility of testing the input of a PCID. If it's random, there's not a way to input it in the tests.
 
 
-In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
-possibility of both emails being added since the verification would occur at the moment of addition to the repository.
 
 
 ````puml
