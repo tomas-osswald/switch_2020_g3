@@ -6,14 +6,14 @@ public class AddPersonDTO {
     private String name;
     private String birtDate;
     private int vatNumber;
-    private int phone;
+    private Integer phone;
     private String street;
     private String city;
     private int houseNumber;
     private String zipCode;
     private String ccNumber;
 
-    public AddPersonDTO(String email, String name, String birtDate, int vatNumber, int phone, String street, String city, int houseNumber, String zipCode, String ccNumber) {
+    public AddPersonDTO(String email, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode, String ccNumber) {
         this.email = email;
         this.name = name;
         this.birtDate = birtDate;
@@ -42,7 +42,7 @@ public class AddPersonDTO {
         return this.vatNumber;
     }
 
-    public int unpackPhone() {
+    public Integer unpackPhone() {
         return this.phone;
     }
 

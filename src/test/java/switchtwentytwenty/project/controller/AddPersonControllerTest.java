@@ -16,14 +16,14 @@ class AddPersonControllerTest {
     Application application;
     AddPersonDTO addAdminPersonDTO;
     AddPersonDTO addPersonDTO;
-    AddPersonController addPersonController;
+    AddFamilyMemberController addPersonController;
 
     @BeforeEach
     void setAdmin() {
         application = new Application();
         addAdminPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
         addPersonDTO = new AddPersonDTO("email2@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
-        addPersonController = new AddPersonController(application);
+        addPersonController = new AddFamilyMemberController(application);
 
         CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO( "Silva",null);
         CreateFamilyService createFamilyService = new CreateFamilyService(application);
@@ -53,8 +53,7 @@ class AddPersonControllerTest {
     void mustReturnFalseAddPersonEmailRegistred() {
         application.logInAsAdmin();
 
-        addPersonController.addPerson(addPersonDTO);
-        assertFalse(addPersonController.addPerson(addPersonDTO));
+        assertFalse(addPersonController.addPerson(addAdminPersonDTO));
     }
 
 

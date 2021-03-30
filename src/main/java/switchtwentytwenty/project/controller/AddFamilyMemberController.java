@@ -1,20 +1,20 @@
 package switchtwentytwenty.project.controller;
 
-import switchtwentytwenty.project.dataaccesslayer.AddPersonService;
+import switchtwentytwenty.project.dataaccesslayer.AddFamilyMemberService;
 import switchtwentytwenty.project.dataaccesslayer.Application;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 
-public class AddPersonController {
+public class AddFamilyMemberController {
 
     private Application application;
 
-    public AddPersonController(Application application) {
+    public AddFamilyMemberController(Application application) {
         this.application = application;
     }
 
     public boolean addPerson(AddPersonDTO addPersonDTO) {
         boolean result;
-        AddPersonService addPersonService = new AddPersonService(application);
+        AddFamilyMemberService addPersonService = new AddFamilyMemberService(application);
         try {
             addPersonService.addPerson(addPersonDTO);
             result = true;
