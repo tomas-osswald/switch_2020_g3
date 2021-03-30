@@ -69,11 +69,6 @@ hide methods
 hide circle
 skinparam linetype ortho
 
-class Family {
- - Name
- - Registration Date
-}
-
 class Person {
  - Name
  - Vat number
@@ -103,43 +98,32 @@ The process to fulfill this requirement requires the actor to select they want t
 prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
 2.1.  
 Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
-
-During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
-Object.
-
-This decision occurred after discussing the possibility of two emails being registered in the application at the same
-time. If this would happen, as we don't know yet how to deal with locking mechanisms, we could have the problem of both
-emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
-repository but, in the end of the process, two equal emails would be added to the Repository.
-
-
-In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
-possibility of both emails being added since the verification would occur at the moment of addition to the repository.
-
+ation would occur at the moment of addition to the repository.
 
 ````puml
 @startuml
 
 autonumber
 header Sequence Diagram
-title US010 Create a Family and Set Administrator
+title US150 Get my profile information
 
-actor "System Manager" as systemManager
+actor "Family Member" as actor
 participant "UI" as UI
-participant ": Create\nFamilyController" as controller
-participant ": CreateFamilyService" as FamAdminService
-activate systemManager
-systemManager -> UI: I want to create a Family \n and set the Administrator
+participant ": GetMy\nProfileInfoController" as controller
+participant ": GetProfileInfoService" as service
+participant "Application" as app
+participant "PersonRepository" as repository
+activate actor
+actor -> UI: Get my profile\n information
 activate UI
-return request data
-systemManager -> UI : input Family data and Administrator data
-activate UI
-UI -> controller : createFamilyAndAdmin(createFamilyDTO,\n addPersonDTO)
+UI -> actor : request data
+actor -> UI : input Family Member data
+UI -> controller : getProfileInfo()
 activate controller
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : createFamilyAndAddAdmin(createFamilyDTO,\n addPersonDTO)
-activate FamAdminService
-
+controller -> service : getProfileInfo()
+activate service
+service -> app : getPersonRepository()
+activate app
 ref over FamAdminService
 
 SequenceDiagram(2):
