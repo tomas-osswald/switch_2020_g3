@@ -3,7 +3,7 @@
 
 # 1. Requirements
 
-###1.1 Client Notes
+### 1.1 Client Notes
 *As a family administrator, I want to add family members*
 
 We interpreted this requirement as the function of a family administrator adding a new Person to their family. 
@@ -72,7 +72,7 @@ The **Person** must have the following characteristics with the following rules:
 
 | **_Value Objects_**         | **_Business Rules_**                                                                   |
 | :-------------------------- | :------------------------------------------------------------------------------------- |
-| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
+| **CCNumber**                | Required, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
 | **Name**                    | Required, string                                                                       |
 | **BirthDate**               | Required, date(year-month-day)                                                         |
 | **Address**                 | Required, string                                                                       |
@@ -128,159 +128,7 @@ Person "1 " --> "0..*" PhoneNumber: has
 The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
 prompt the input of the person's data.
 
-
-
-
-2.1.  
-The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
-
-Given the current absence of an UI layer the required data will be passed directly into the AddPersonController.
-
-We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
-
-
-````puml
-@startuml
-
-autonumber
-header Sequence Diagram
-title US101 Add a Family Member
-
-actor "System Manager" as systemManager
-participant "UI" as UI
-participant ": Create\nFamilyController" as controller
-participant ": CreateFamilyService" as FamAdminService
-activate systemManager
-systemManager -> UI: I want to create a Family \n and set the Administrator
-activate UI
-return request data
-systemManager -> UI : input Family data and Administrator data
-activate UI
-UI -> controller : createFamilyAndAdmin(createFamilyDTO,\n addPersonDTO)
-activate controller
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : createFamilyAndAddAdmin(createFamilyDTO,\n addPersonDTO)
-activate FamAdminService
-
-ref over FamAdminService
-
-SequenceDiagram(2):
-Service to Family and Person Creation
-
-end
-
-alt #transparent false
-autonumber 23
-
-FamAdminService --> controller : success
-controller --> UI : success
-UI --> systemManager : inform success
-
-else true
-autonumber 29
-
-FamAdminService --> controller : fail
-deactivate FamAdminService
-
-controller --> UI : fail
-deactivate controller
-UI --> systemManager : inform failure
-deactivate UI
-
-
-end
-@enduml
-````
-
-````puml
-@startuml
-
-autonumber 6
-header Sequence Diagram
-title US010 Create a Family and Set Administrator(2)
-
-participant ": CreateFamilyService" as FamAdminService
-participant " anApplication : \nApplication" as app
-participant "aFamilyRepository \n: FamilyRepository" as frepository
-participant "newFamily \n: Family" as family
-participant "aPersonRepository \n: PersonRepository" as prepository
-participant "administrator : \nPerson" as admin
-
--> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonDTO)
-activate FamAdminService
-
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
-
-
-FamAdminService -> frepository: generateAndGetFamilyID()
-activate frepository
-frepository -> frepository : generateFamilyID()
-return familyID
-
-FamAdminService -> frepository: createAndAddFamily (familyName, \nfamilyID, registrationDate, adminEmail)
-activate frepository
-
-frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
-activate family
-
-
-frepository -> frepository : addToRepository(newFamily)
-
-deactivate family
-return
-
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nadminEmail, vat, phone, address, cc, familyID)
-deactivate frepository
-
-
-activate prepository
-prepository -> prepository : isEmailAlreadyRegistered(email)
-
-alt #transparent false
-prepository -> admin** : create
-activate admin
-
-
-prepository -> prepository : addToRepository (admistrator)
-prepository --> FamAdminService
-deactivate admin
-<-- FamAdminService : success
-
-else true
-autonumber 26
-
-prepository --> FamAdminService
-deactivate prepository
-FamAdminService -> frepository : removeFamily(FamilyID)
-activate frepository
-return
-<-- FamAdminService : fail
-deactivate FamAdminService
-end
-
-@enduml
-````
-
-## 3.1. Functionality Use
-
-The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
-application.
-The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
-providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
-The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
-of creating the Family and administrator.
-
-
-## 3.2. Class Diagram
+## 3.1 Class Diagram
 
 ```puml
 @startuml
@@ -387,6 +235,116 @@ Person -up--> "1" VATNumber : vatNumber
 @enduml
 ```
 
+
+# 3.2 Sequence Diagram
+
+The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
+
+Given the current absence of a UI layer the required data will be passed directly into the AddPersonController.
+
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
+
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US101 Add a Family Member
+
+actor "Family Administrator" as familyAdmin
+participant "UI" as UI
+participant ": AddFamilyMemberController" as controller
+participant ": AddFamilyMemberService" as FamAdminService
+participant "anApplication\n : Application" as app
+participant "aFamilyRepository\n : FamilyRepository" as frepository
+participant "aPersonRepository\n: PersonRepository" as prepository
+participant "newFamilyMember\n : Person" as admin
+
+activate familyAdmin
+familyAdmin -> UI: I want to add a Family Member
+activate UI
+return request data
+familyAdmin -> UI : input Family Member data
+activate UI
+
+UI -> controller : addFamilyMember(addPersonDTO)
+activate controller
+
+controller -> FamAdminService** : create(application)
+controller -> FamAdminService : addFamilyMember(addPersonDTO)
+activate FamAdminService
+
+FamAdminService -> app : getFamilyRepository()
+activate app
+return aFamilyRepository
+
+FamAdminService -> app : getLoggedPersonID()
+activate app
+return loggedUserID
+
+FamAdminService -> frepository: verifyAdmin(loggedUserID)
+activate frepository
+return
+
+FamAdminService -> app : getPersonRepository()
+activate app
+return aPersonRepository
+
+FamAdminService -> app : getLoggedPersonFamilyID()
+activate app
+return familyID
+
+FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, cc, familyID)
+activate prepository
+
+prepository -> prepository : isEmailAlreadyRegistered(email)
+
+alt false
+
+prepository -> admin** : create
+activate admin
+
+prepository -> prepository : addToRepository (newFamilyMember)
+prepository --> FamAdminService
+deactivate admin
+
+FamAdminService --> controller : success
+
+controller --> UI : success
+
+UI --> familyAdmin : inform success
+
+else true
+
+prepository --> FamAdminService
+deactivate prepository
+
+FamAdminService --> controller : fail
+deactivate FamAdminService
+
+controller --> UI : fail
+deactivate controller
+
+UI --> familyAdmin : inform failure
+deactivate UI
+
+end
+@enduml
+````
+
+## 3.3. Functionality Use
+
+The AddPersonController creates a new AddPersonService object using an addPersonDTO and an application instance.
+The AddPersonService will create all the necessary value objects, after unpacking the addPersonDTO and validating the data, in order to create the Family Member.
+The AddPersonService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
+The AddPersonService will invoke the FamilyRepository to check if the logged user is a Family Administrator and retrieve the FamilyID.
+The AddPersonService will invoke the PersonRepository to create the Person object for the Family Member, after checking if the email is unique. If it isn't, the process will fail. If it is, the Person will be created and added to the PersonRepository.
+The AddPersonController will then return a true or false response depending on the success or insuccess of creating the Family Member.
+
+
+
+
 ## 3.3. Applied Patterns
 
 We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
@@ -396,90 +354,90 @@ used the SOLID Single Responsibility Principle.
 
 Several cases where analyzed in order to test the creation of a new Family
 
-**Test 1:** Test that it is possible to create a new instance of Family with a valid Admin
+**Test 1:** Test that it is possible to add a new Family Member succesfully
 
-**Test 2:** Test that it is not possible to create a new instance of Family if admin email is already registered
+```java
+ @DisplayName("Successfully add a person")
+    @Test
+    void mustReturnTrueAddPerson() {
+        application.logInAsAdmin();
 
-**Test 3:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is null
+        assertTrue(addPersonController.addPerson(addPersonDTO));
+    }
 
-**Test 4:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is empty
+```
 
-**Test 5:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is blank
+**Test 2:** Test that it is not possible to add a new Family Member if logged user is not the admin
 
-**Additional Tests** Test that its not possible to create a new instance of Family if any attribure is empty, blank or
-null The whole user story was tested for the case of success and for failure
+```java
+@DisplayName("Unsuccessfully add a person - not the admin")
+    @Test
+    void mustReturnFalseAddPersonNotAdmin() {
+        application.logInAsNotAdmin();
 
-**Test 5:** Success
+        assertFalse(addPersonController.addPerson(addPersonDTO));
+    }
 
-```` 
-@DisplayName("Test if a family can be successfully created")  
-@Test
- void shouldBeTrueCreateFamily() {
-        Application application = new Application();
-        Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+
+```
+
+**Test 3:** Test that it is not possible to create a new Family Member if the email is already registered in the application.
+
+```java
+@DisplayName("Unsuccessfully add a person - email already registered")
+    @Test
+    void mustReturnFalseAddPersonEmailRegistred() {
+        application.logInAsAdmin();
         
-        assertTrue(controller.createFamilyAndAdmin(createFamilyDTO));    
+        assertFalse(addPersonController.addPerson(addAdminPersonDTO));
     }
-````
-
-**Test 6:** Failure
-
-````
-@DisplayName ("Test if a family isnt created if the admin email is already registered in the app")  
-@Test
-    void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
-        Application application = new Application();
-        Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO1 = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        CreateFamilyDTO createFamilyDTO2 = new CreateFamilyDTO("tonyze@hotmail.com", "Pereira", "Rita", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        controller.createFamilyAndAdmin(createFamilyDTO1);
-        assertFalse(controller.createFamilyAndAdmin(createFamilyDTO2));    
-    }
-    }
-````
+```
 
 # 4. Implementation
 
 1. All the Value Objects are initially instanced (instantiated), with respective validations.
 
+```java
+ public void addPerson(AddPersonDTO addPersonDTO) {
+        FamilyRepository familyRepository = application.getFamilyRepository();
+        EmailAddress loggedUserID = application.getLoggedPersonID();
+        familyRepository.verifyAdmin(loggedUserID);
 
-      public boolean createFamilyAndAddAdmin() {
-      boolean result;
-      EmailAddress adminEmail = new EmailAddress(addPersonDTO.unpackEmail());
-      FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
-      Name name = new Name(addPersonDTO.unpackName());
-      BirthDate birthdate = new BirthDate(addPersonDTO.unpackBirthDate());
-      VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
-      PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
-      Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
-      CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
-      RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
+        Name name = new Name(addPersonDTO.unpackName());
+        BirthDate birthDate = new BirthDate(addPersonDTO.unpackBirthDate());
+        EmailAddress email = new EmailAddress(addPersonDTO.unpackEmail());
+        VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
+        PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
+        Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
+        CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
+        FamilyID familyID = application.getLoggedPersonFamilyID();
 
-2. Family ID is automatically generated by the Family Repository (Information Expert)
+        PersonRepository personRepository = application.getPersonRepository();
+        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, cc, familyID);
+    }
+```
+
+2. Logged User ID is automatically retrieved  from the Logged User and checked to see if they are an admin
+
+    ```java
+   public void verifyAdmin(EmailAddress loggedUserID) {
+        boolean result = false;
+        for (Family family : this.families) {
+            if(family.isPersonTheAdmin(loggedUserID)){
+                result = true;
+            }
+        }
+        if(!result){
+            throw new UserIsNotAdminException();
+        }
+    } 
+   ```
 
 
-      public FamilyID generateAndGetFamilyID() {
-      FamilyID familyID = new FamilyID(UUID.randomUUID());
-      if (checkIfFamilyIDExists(familyID)) {
-      familyID = generateAndGetFamilyID();
-      }
-      return familyID;
-      }
-
-3. AdminEmail is added to the Family upon its instantiation. The Family is immediately added to the FamilyRepository (
-   The administrator email validation will come later.)
-
-
-      public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, EmailAddress adminEmail) {
-      Family family = new Family(familyID, familyName, registrationDate, adminEmail);
-      this.families.add(family);
-      }
-
-4. Before creating the Administrator, the email is validated in the Person Repository in order to guarantee that it is
+3. Before creating the Person, the email is validated in the Person Repository in order to guarantee that it is
    Unique
 
-
+   ```java
       private boolean isEmailAlreadyRegistered(EmailAddress email) {
       boolean emailIsRegistered = false;
       for (Person person : people) {
@@ -489,26 +447,14 @@ null The whole user story was tested for the case of success and for failure
       }
       return emailIsRegistered;
       }
-
-5. If the Email fails verification, the Family is removed from the FamilyRepository and the process fails.
-
-
-      try {
-      personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
-      result = true;
-      } catch (EmailAlreadyRegisteredException e) {
-      familyRepository.removeFamily(familyID);
-      result = false;
-      }
-      return result;
+   ```
+   
 
 
 # 5. Integration
 
-The development of this user story was the basis for the family structure where the FamilyMembers are stored and was
-thus crucial for the development of the other User Stories
+ This functionality uses the same method to add the Person to the PersonRepository as the US010. 
 
 # 6. Observations
 
-As with the Standard Category the family ID will probably need to be reworked in a future sprint to allow for more
-complex ID information if needed (probably using a UUID)
+The Person's unique ID is considered to be the 0 index EmailAddress on the Person's EmailAddress List.
