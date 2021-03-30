@@ -4,12 +4,12 @@ import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.shared.*;
 
-public class AddPersonService {
+public class AddFamilyMemberService {
 
     private Application application;
 
 
-    public AddPersonService(Application application) {
+    public AddFamilyMemberService(Application application) {
         this.application = application;
 
     }
@@ -26,6 +26,7 @@ public class AddPersonService {
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
         CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
+
         FamilyID familyID = application.getLoggedPersonFamilyID();
 
         PersonRepository personRepository = application.getPersonRepository();
