@@ -53,7 +53,7 @@ deactivate Actor
 
 ## 2.1 Summary
 
-At the moment a person can have one or no phone numbers when it is created. As such, the validation of the phone number must accept a null value.
+At the moment a person can have one or no phone numbers when it is created. As such, the validation of the phone number must accept a null value. 
 
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
@@ -123,6 +123,8 @@ Person "1 " --> "0..*" PhoneNumber: has
 
 The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
 prompt the input of the person's data.
+
+Since a Person can be created without a PhoneNumber, in order to not have two different constructors, the AddPersonDTO will accept an Integer object for the phone number, in order to have the possibility of Null values. The PhoneNumber class will also not throw an exception if it recieves a null value. The Person will not add the PhoneNumber object to its list if it was built with a null value.
 
 ## 3.1 Class Diagram
 

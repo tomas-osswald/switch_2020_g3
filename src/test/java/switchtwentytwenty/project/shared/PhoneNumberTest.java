@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PhoneNumberTest {
 
-    final int VALIDPHONE = 999999999;
+    final Integer VALIDPHONE = 999999999;
     PhoneNumber phone;
 
 
@@ -19,6 +19,13 @@ class PhoneNumberTest {
     void shouldNotThrowCreateValidPhoneNumber(){
         assertDoesNotThrow(()->phone = new PhoneNumber(VALIDPHONE));
     }
+
+    @DisplayName("Test the creation of a null PhoneNumber")
+    @Test
+    void shouldNotThrowCreateNullPhoneNumber(){
+        assertDoesNotThrow(()->phone = new PhoneNumber(null));
+    }
+
 
     @DisplayName("Test that a negative, zero and boundary values throw exceptions")
     @ParameterizedTest

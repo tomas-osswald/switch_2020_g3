@@ -34,7 +34,7 @@ public class Person implements AggregateRoot {
     }
 
     private void addPhone(PhoneNumber phone) {
-        if(phone!=null){
+        if(!phone.isNull()){
             this.phone.add(phone);
         }
     }
