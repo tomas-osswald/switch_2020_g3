@@ -39,7 +39,7 @@ public class PersonRepository implements Repository<Person> {
     private boolean isEmailAlreadyRegistered(EmailAddress email) {
         boolean emailIsRegistered = false;
         for (Person person : people) {
-            if (person.isSameEmail(email)) {
+            if (person.doesPersonHaveThisEmail(email)) {
                 emailIsRegistered = true;
             }
         }
@@ -49,7 +49,7 @@ public class PersonRepository implements Repository<Person> {
     private Person retrievePersonFromList(EmailAddress email) {
         Person result = null;
         for (Person person : people) {
-            if (person.isSameEmail(email)) {
+            if (person.doesPersonHaveThisEmail(email)) {
                 result = person;
             }
         }

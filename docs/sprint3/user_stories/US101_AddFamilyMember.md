@@ -6,7 +6,7 @@
 ###1.1 Client Notes
 *As a family administrator, I want to add family members*
 
-We interpreted this requirement as the function of a family administrator adding a new Person to his family. 
+We interpreted this requirement as the function of a family administrator adding a new Person to their family. 
 
 This Person's email account must not exist in the Application since it is used as a unique ID.  
 
@@ -28,15 +28,15 @@ This Person's email account must not exist in the Application since it is used a
 @startuml
 
 header SSD
-title Create Family and Set Administrator
+title Add a Family Member
 autonumber
-actor "System Manager" as Actor
+actor "Family Administrator" as Actor
 participant "System" as System
 activate Actor
-Actor -> System : Create a family and set administrator
+Actor -> System : Add a family member
 activate System
-System --> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
-Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
+System --> Actor : Request Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
+Actor -> System : Input Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
 alt failure
 System --> Actor : Inform Failure
 else success 
@@ -62,8 +62,6 @@ Two options:
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
-What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
-administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
 
 Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
 will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
@@ -82,12 +80,6 @@ The **Person** must have the following characteristics with the following rules:
 | **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
 | **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
 
-The **Family** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Name**                | Required, string                                                                           |
-| **RegistrationDate**    | Required, date(year-month-day)                                                             |
 
 ## 2.2. Domain Model Excerpt
 
@@ -118,9 +110,14 @@ class PhoneNumber {
  - Phone Number
 }
 
+class FamilyID {
+ - FamilyID
+}
+
 Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
 Person "1" --> "1..*" EmailAddress: has
+Family "1" --> "1" FamilyID: has
 Person "1 " --> "0..*" PhoneNumber: has
 
 @enduml
@@ -128,22 +125,18 @@ Person "1 " --> "0..*" PhoneNumber: has
 
 # 3. Design
 
-The process to fulfill this requirement requires the actor to select they want to create a new family, which would
-prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
+The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
+prompt the input of the person's data.
+
+
+
+
 2.1.  
-Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
+The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
 
-During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
-Object.
+Given the current absence of an UI layer the required data will be passed directly into the AddPersonController.
 
-This decision occurred after discussing the possibility of two emails being registered in the application at the same
-time. If this would happen, as we don't know yet how to deal with locking mechanisms, we could have the problem of both
-emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
-repository but, in the end of the process, two equal emails would be added to the Repository.
-
-
-In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
-possibility of both emails being added since the verification would occur at the moment of addition to the repository.
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
 
 
 ````puml
@@ -151,7 +144,7 @@ possibility of both emails being added since the verification would occur at the
 
 autonumber
 header Sequence Diagram
-title US010 Create a Family and Set Administrator
+title US101 Add a Family Member
 
 actor "System Manager" as systemManager
 participant "UI" as UI
