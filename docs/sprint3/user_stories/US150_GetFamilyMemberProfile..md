@@ -113,6 +113,7 @@ participant ": GetMy\nProfileInfoController" as controller
 participant ": GetProfileInfoService" as service
 participant "Application" as app
 participant "PersonRepository" as repository
+participant "Person" as person
 activate actor
 actor -> UI: Get my profile\n information
 activate UI
@@ -124,6 +125,11 @@ controller -> service : getProfileInfo()
 activate service
 service -> app : getPersonRepository()
 activate app
+return repositoryservice
+service -> repository : getProfileInfo(LoggedID)
+activate repository
+repository -> repository : getPersonByID(email)
+repository -> person** : getProfileInfo(email)
 ref over FamAdminService
 
 SequenceDiagram(2):
