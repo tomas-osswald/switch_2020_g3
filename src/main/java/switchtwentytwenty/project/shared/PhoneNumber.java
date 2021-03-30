@@ -8,16 +8,18 @@ import java.util.regex.Pattern;
 
 public class PhoneNumber implements ValueObject<Integer> {
 
-    private int number;
+    private Integer number;
     private final static String INVALIDPHONE = "Phone number is not valid";
 
-    public PhoneNumber(int number) {
+    public PhoneNumber(Integer number) {
         this.number = number;
         validateData();
     }
 
     private void validateData() {
+        if(number!=null){
         checkNumber();
+        }
     }
 
     private void checkNumber() {

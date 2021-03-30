@@ -22,6 +22,8 @@ This Person's email account must not exist in the Application since it is used a
 
 ### 1.2 Dependencies 
 
+This US is dependent of US010, as a family and its administrator must be created before a person can be added.
+
 ### 1.3 SSD
 
 ```plantuml
@@ -51,13 +53,7 @@ deactivate Actor
 
 ## 2.1 Summary
 
-At the moment a person can have one or no phone numbers when it is created.
-Two options:
-
-- Two Person constructors (One with phone number, one without)  
-- One constructor with a validation for phone number that accepts a null Phone Number.
-
-[COMMENT]: # (The first one seems better practice than the second one. Validate both)
+At the moment a person can have one or no phone numbers when it is created. As such, the validation of the phone number must accept a null value.
 
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.

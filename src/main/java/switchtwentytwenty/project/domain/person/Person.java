@@ -27,10 +27,16 @@ public class Person implements AggregateRoot {
         this.birthdate = birthDate;
         this.emails.add(email);
         this.vat = vat;
-        this.phone.add(phone);
+        addPhone(phone);
         this.address = address;
         this.cc = cc;
         this.familyID = familyID;
+    }
+
+    private void addPhone(PhoneNumber phone) {
+        if(phone!=null){
+            this.phone.add(phone);
+        }
     }
 
     public boolean doesPersonHaveThisEmail(EmailAddress emailToCheck) {
