@@ -170,8 +170,9 @@ class FamilyTest {
         assertNotEquals(familyOne.hashCode(), familyTwo.hashCode());
     }
 
+    /*
     @Test
-    void shouldCreateAValidFamilyInstaceWithBuilder() {
+    void shouldCreateAValidFamilyInstanceWithBuilder() {
         UUID id = UUID.randomUUID();
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
@@ -188,5 +189,5 @@ class FamilyTest {
                 .build();
         //Assert
         assertNotNull(result);
-    }
+    }*/
 }
