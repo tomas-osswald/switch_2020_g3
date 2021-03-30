@@ -11,10 +11,10 @@ public class Person implements AggregateRoot {
 
     private Name name;
     private BirthDate birthdate;
-    private EmailAddress id;
+    //private EmailAddress id;
     private List<EmailAddress> emails = new ArrayList<>();
     private VATNumber vat;
-    private PhoneNumber phone;
+    private List<PhoneNumber> phone = new ArrayList<>();
     private Address address;
     private CCnumber cc;
     private FamilyID familyID;
@@ -25,16 +25,23 @@ public class Person implements AggregateRoot {
     public Person(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
         this.name = name;
         this.birthdate = birthDate;
-        this.id = email;
+        this.emails.add(email);
         this.vat = vat;
-        this.phone = phone;
+        this.phone.add(phone);
         this.address = address;
         this.cc = cc;
         this.familyID = familyID;
     }
 
-    public boolean isSameEmail(EmailAddress email) {
-        return this.id.equals(email);
+    public boolean doesPersonHaveThisEmail(EmailAddress emailToCheck) {
+        boolean result = false;
+        for (EmailAddress email : emails) {
+            if (email.equals(emailToCheck)) {
+                result = true;
+            }
+        }
+        return result;
+
     }
 
     public FamilyID getFamilyID() {
@@ -43,6 +50,6 @@ public class Person implements AggregateRoot {
 
 
     public EmailAddress getID() {
-        return this.id;
+        return emails.get(0);
     }
 }

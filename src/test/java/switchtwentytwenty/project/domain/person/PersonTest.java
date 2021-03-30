@@ -50,14 +50,14 @@ class PersonTest {
     @Test
     void shouldAssertTrueIsSameEmail() {
         EmailAddress test = new EmailAddress(VALIDEMAIL);
-        assertTrue(validPerson.isSameEmail(test));
+        assertTrue(validPerson.doesPersonHaveThisEmail(test));
     }
 
     @DisplayName("Check if method isSameEmail returns false when email is not the same")
     @Test
     void shouldAssertFalseIsNotSameEmail() {
         EmailAddress test = new EmailAddress("tonyze@latinhater.pt");
-        assertFalse(validPerson.isSameEmail(test));
+        assertFalse(validPerson.doesPersonHaveThisEmail(test));
     }
 
     @DisplayName("Valid Person Constructor Test")
