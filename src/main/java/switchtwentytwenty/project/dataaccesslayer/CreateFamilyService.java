@@ -26,7 +26,6 @@ public class CreateFamilyService {
         VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
-        CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
         RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
 
         PersonRepository personRepository = application.getPersonRepository();
@@ -36,7 +35,7 @@ public class CreateFamilyService {
         familyRepository.createAndAddFamily(familyName, familyID, registrationDate, adminEmail);
 
         try {
-            personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
+            personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, familyID);
             result = true;
         } catch (EmailAlreadyRegisteredException e) {
             familyRepository.removeFamily(familyID);

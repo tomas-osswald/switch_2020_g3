@@ -11,9 +11,9 @@ public class AddPersonDTO {
     private String city;
     private int houseNumber;
     private String zipCode;
-    private String ccNumber;
 
-    public AddPersonDTO(String email, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode, String ccNumber) {
+
+    public AddPersonDTO(String email, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode) {
         this.email = email;
         this.name = name;
         this.birtDate = birtDate;
@@ -23,7 +23,7 @@ public class AddPersonDTO {
         this.city = city;
         this.houseNumber = houseNumber;
         this.zipCode = zipCode;
-        this.ccNumber = ccNumber;
+
     }
 
     public String unpackEmail() {
@@ -62,7 +62,4 @@ public class AddPersonDTO {
         return this.zipCode;
     }
 
-    public String unpackCCNumber() {
-        return this.ccNumber;
-    }
 }
