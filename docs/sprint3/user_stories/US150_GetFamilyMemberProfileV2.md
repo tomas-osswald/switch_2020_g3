@@ -4,37 +4,47 @@
 
 ## 1.1. Client Notes
 
-### SUBSTITUIR CONTEUDO 
-```
-**Demo1** As a family member, I want to get...
-
-- 1.1. My family member profile information
+**As a family member, I want to get my profile’s information.**
 
 We interpreted this requirement as the function of a user to receive their personal profile information.
 
 - A MemberProfile needs to have the following information:
    - Name;
+   - Email (ID)
    - Birth Date;
-   - Phone Number(none or multiple);
-   - Email (none or multiple);
+   - Email (other emails);
    - VAT Number;
+   - Phone Number(none or more);
    - Address;
-   - Relation with Administrator(none or one);
-   - If member is administrator.
-```
+
 
 ## 1.2. Dependencies
 
 ### 1.2.1. Pre-conditions
 
+To be able to **get family member's profile information**, some user stories need to be implemented in first place. 
+Before everything else, the *Application* needs to have a family with family members. So, **the system manager needs to create a family and assign a family administrator** because the administrator will have the responsibility of adding family members to his family.
+After the **family administrator adds the family members** it will be possible to execute this US by each member. 
+
 ### 1.2.2. Other User Stories
+
+The following users stories need to be executed before US150:
+
+- US010 As system manager, I want to create a family and set the family administrator
+
+- US101 As a family administrator, I want to add family members;
 
 ## 1.3. Acceptance Criteria
 
 ### 1.3.1. Success Cases
 
+This user story is always executed correctly since it doesn't need any data entry neither validation.
+It just gets family member stored information and shows it in the UI.
+
 ### 1.3.2. Failure Cases
 
+In this US there aren't any direct failure scenarios because it just retrives already validated information that belongs to a family member.
+The possible failure cases are related with wrong execution of the dependent user stories from the section **1.2.2.**.
 
 ## 1.4. System Sequence Diagram
 
@@ -51,15 +61,10 @@ participant "System" as System
 activate Actor
 Actor -> System : Get my profile information
 activate System
-System --> Actor : Request Family Member Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
-Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
-alt failure
-System --> Actor : Inform Failure
-else success 
-System --> Actor : Inform Success
-end
+System --> Actor : Return Family Member Data (Name, Email (ID), Birthdate, \nOther Emails, Vat Number, Phone Numbers and Address)  
 deactivate System
 deactivate Actor
+
 @enduml
 ```
 
@@ -433,70 +438,56 @@ We applied the following principles:
 
 ## 3.6. Tests
 
-### 3.6.1. XXXX
+### 3.6.1. Person
 
 #### 3.6.1.1. Success
 
+**Test 1:** Test ProfileDTO creation
+
 #### 3.6.1.2 Failure
 
+No failure tests 
 
-### 3.6.2. YYYY
+_____
+
+### 3.6.2. PersonRepository
 
 #### 3.6.2.1. Success
 
+**Test 2:** Test if the PersonRepository gets the Person by his email (ID)
+
+**Test 3:** Test if the PersonRepository gets the ProfileDTO from Person using his email (ID)
+
 #### 3.6.2.2 Failure
 
+No failure tests
 
-### 3.6.3. ZZZZ
+_____
+
+### 3.6.3. GetProfileInfoService
 
 #### 3.6.3.1. Success
 
+**Test 4:** Test if the Service gets the ProfileDTO from it the PersonRepository
+
 #### 3.6.3.2. Failure
 
-Several cases where analyzed in order to test the creation of a new Family
+No failure tests
 
-**Test 1:** Test that it is possible to create a new instance of Family with a valid Admin
+_____
 
-**Test 2:** Test that it is not possible to create a new instance of Family if admin email is already registered
+### 3.6.4. GetProfileInfoController
 
-**Test 3:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is null
+#### 3.6.4.1. Success
 
-**Test 4:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is empty
+**Test 5:** Test if the Controller gets the ProfileDTO from the GetProfileInfoService
 
-**Test 5:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is blank
+#### 3.6.4.2. Failure
 
-**Additional Tests** Test that its not possible to create a new instance of Family if any attribure is empty, blank or
-null The whole user story was tested for the case of success and for failure
+No failure tests
 
-**Test 5:** Success
+_____
 
-```` 
-@DisplayName("Test if a family can be successfully created")  
-@Test
- void shouldBeTrueCreateFamily() {
-        Application application = new Application();
-        Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        
-        assertTrue(controller.createFamilyAndAdmin(createFamilyDTO));    
-    }
-````
-
-**Test 6:** Failure
-
-````
-@DisplayName ("Test if a family isnt created if the admin email is already registered in the app")  
-@Test
-    void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
-        Application application = new Application();
-        Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO1 = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        CreateFamilyDTO createFamilyDTO2 = new CreateFamilyDTO("tonyze@hotmail.com", "Pereira", "Rita", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        controller.createFamilyAndAdmin(createFamilyDTO1);
-        assertFalse(controller.createFamilyAndAdmin(createFamilyDTO2));    
-    }
-    }
-````
 
 # 4. Implementation
 
