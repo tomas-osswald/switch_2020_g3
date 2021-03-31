@@ -23,9 +23,9 @@ public class PersonRepository implements Repository<Person> {
         this.people.add(person);
     }
 
-    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
+    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         if (!isEmailAlreadyRegistered(email)) {
-            Person person = new Person(name, birthDate, email, vat, phone, address, cc, familyID);
+            Person person = new Person(name, birthDate, email, vat, phone, address, familyID);
             this.people.add(person);
         } else {
             throw new EmailAlreadyRegisteredException();

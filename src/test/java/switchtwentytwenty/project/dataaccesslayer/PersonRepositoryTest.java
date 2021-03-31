@@ -52,16 +52,16 @@ class PersonRepositoryTest {
     void shouldNotThrowPersonSuccessfullyAddedToPersonRepository() {
         PersonRepository personRepository = new PersonRepository();
 
-        assertDoesNotThrow(() -> personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID));
+        assertDoesNotThrow(() -> personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
     }
 
     @Test
     void shouldThrowPersonIDAlreadyPresentInRepository() {
         PersonRepository personRepository = new PersonRepository();
 
-        personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID);
+        personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
-        assertThrows(EmailAlreadyRegisteredException.class, () -> personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID));
+        assertThrows(EmailAlreadyRegisteredException.class, () -> personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
     }
 
     @Test
@@ -74,7 +74,7 @@ class PersonRepositoryTest {
         for (int i = 0; i < numberOfThreads; i++) {
             service.submit(() -> {
                 try {
-                    personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID);
+                    personRepository.createAndAddPerson(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
                 } catch (EmailAlreadyRegisteredException e) {
                     counter.getAndIncrement();
                 }

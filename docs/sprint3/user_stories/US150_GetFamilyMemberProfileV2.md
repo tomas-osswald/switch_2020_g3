@@ -277,16 +277,16 @@ ation would occur at the moment of addition to the repository.
 @startuml
 
 autonumber
-header Sequence Diagram
+header Sequence Diagram - part 1
 title US150 Get my profile information
 
 actor "Family Member" as actor
 participant "UI" as UI
-participant ": GetMy\nProfileInfoController" as controller
-participant ": GetProfileInfoService" as service
+participant ": GetMyProfile\nInfoController" as controller
+participant ": GetProfile\nInfoService" as service
 participant "Application" as app
 participant "PersonRepository" as repository
-participant "Person" as person
+participant "aPerson \n: Person" as person
 activate actor
 actor -> UI: Get my profile\n information
 activate UI
@@ -299,111 +299,101 @@ activate service
 service -> app : getPersonRepository()
 activate app
 return repositoryservice
-service -> repository : getProfileInfo(LoggedID)
+service -> repository : getProfileInfo(LoggedEmail)
 activate repository
 repository -> repository : getPersonByID(email)
 repository -> person** : getProfileInfo(email)
-ref over FamAdminService
+ref over person
 
-SequenceDiagram(2):
-Service to Family and Person Creation
-
+part 2:
+getProfileDTO
 end
 
-alt #transparent false
-autonumber 23
-
-FamAdminService --> controller : success
-controller --> UI : success
-UI --> systemManager : inform success
-
-else true
-autonumber 29
-
-FamAdminService --> controller : fail
-deactivate FamAdminService
-
-controller --> UI : fail
+autonumber 35
+activate person
+person --> repository : aProfileDTO
+deactivate person
+repository --> service : aProfileDTO
+deactivate repository
+service --> controller : aProfileDTO
+deactivate service
+controller --> UI : aProfileDTO
 deactivate controller
-UI --> systemManager : inform failure
+UI -> actor : show Profile
 deactivate UI
+deactivate actor
 
-end
 @enduml
 ````
 
 ````puml
 @startuml
 
-autonumber 6
-header Sequence Diagram
-title US010 Create a Family and Set Administrator(2)
+autonumber 11
+header Sequence Diagram - part 2
+title US150 Get my profile information
 
-participant ": CreateFamilyService" as FamAdminService
-participant " anApplication : \nApplication" as app
-participant "aFamilyRepository \n: FamilyRepository" as frepository
-participant "newFamily \n: Family" as family
-participant "aPersonRepository \n: PersonRepository" as prepository
-participant "administrator : \nPerson" as admin
+participant "aPerson \n: Person" as person
+participant "aProfileDTO \n: ProfileDTO" as profiledto
+participant "aName \n: Name" as name
+participant "aEmail \n: Email" as email
+participant "aBirthDate \n: BirthDate" as birthdate
+participant "aOtherEmails \n: OtherEmails" as otheremails
+participant "aVat \n: Vat" as vat
+participant "aPhoneNumber \n: PhoneNumber" as phonenumber
+participant "aAdress \n: Adress" as adress
+activate person
+[o-> person : getProfileDTO
+activate profiledto
+person -> profiledto** : create()
 
--> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonDTO)
-activate FamAdminService
+deactivate profiledto
+person -> name : getStringName()
+activate name
+return stringName
+person -> profiledto: setName(stringName)
+activate profiledto
+deactivate profiledto
+person -> email : getStringEmail()
+activate email
+return stringEmail
+person -> profiledto: setEmail(stringEmail)
+activate profiledto
+deactivate profiledto
+person -> birthdate : getStringBirthDate()
+activate birthdate
+return stringbirthDate
+person -> profiledto: setBirthate(stringBirthDate)
+activate profiledto
+deactivate profiledto
+person -> otheremails : getStringOtherEmails()
+activate otheremails
+return stringOtherEmails
+person -> profiledto: setOtherEmails(stringOtherEmails)
+activate profiledto
+deactivate profiledto
+person -> vat : getIntVat()
+activate vat
+return intVat
+person -> profiledto: setVat(intVat)
+activate profiledto
+deactivate profiledto
+person -> phonenumber : getStringPhoneNumber()
+activate phonenumber
+return stringPhoneNumber
+person -> profiledto: setPhoneNumber(stringPhoneNumber)
+activate profiledto
+deactivate profiledto
+person -> adress : getStringAdress()
+activate adress
+return stringAdress
+person -> profiledto: setAdress(stringAdress)
+activate profiledto
+deactivate profiledto
 
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
-
-
-FamAdminService -> frepository: generateAndGetFamilyID()
-activate frepository
-frepository -> frepository : generateFamilyID()
-return familyID
-
-FamAdminService -> frepository: createAndAddFamily (familyName, \nfamilyID, registrationDate, adminEmail)
-activate frepository
-
-frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
-activate family
-
-
-frepository -> frepository : addToRepository(newFamily)
-
-deactivate family
-return
-
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nadminEmail, vat, phone, address, cc, familyID)
-deactivate frepository
-
-
-activate prepository
-prepository -> prepository : isEmailAlreadyRegistered(email)
-
-alt #transparent false
-prepository -> admin** : create
-activate admin
-
-
-prepository -> prepository : addToRepository (admistrator)
-prepository --> FamAdminService
-deactivate admin
-<-- FamAdminService : success
-
-else true
-autonumber 26
-
-prepository --> FamAdminService
-deactivate prepository
-FamAdminService -> frepository : removeFamily(FamilyID)
-activate frepository
-return
-<-- FamAdminService : fail
-deactivate FamAdminService
-end
-
+[<-o person : aProfileDTO
+deactivate profiledto
+deactivate person
 @enduml
 ````
 

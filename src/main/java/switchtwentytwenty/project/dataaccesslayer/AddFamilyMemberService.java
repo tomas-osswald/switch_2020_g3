@@ -25,11 +25,11 @@ public class AddFamilyMemberService {
         VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
-        CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
+
 
         FamilyID familyID = application.getLoggedPersonFamilyID();
 
         PersonRepository personRepository = application.getPersonRepository();
-        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, cc, familyID);
+        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, familyID);
     }
 }

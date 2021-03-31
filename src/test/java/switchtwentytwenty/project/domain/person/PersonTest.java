@@ -17,7 +17,6 @@ class PersonTest {
     final String VALIDEMAIL = "tonyze@latinlover.pt";
     final int VALIDVATNUMBER = 999999999;
     final Integer VALIDPHONENUMBER = 916969696;
-    final String VALIDCCNUMBER = "156066866ZY1";
     final String VALIDSTREET = "Rua";
     final String VALIDCITY = "Ermesinde";
     final String VALIDZIPCODE = "4700-111";
@@ -31,7 +30,6 @@ class PersonTest {
     VATNumber tonyZeVat;
     PhoneNumber tonyZePhone;
     Address tonyZeAddress;
-    CCnumber tonyZeCC;
     FamilyID familyID;
 
     @BeforeEach
@@ -42,9 +40,8 @@ class PersonTest {
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        CCnumber tonyZeCC = new CCnumber(VALIDCCNUMBER);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
-        validPerson = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID);
+        validPerson = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
     }
 
     @DisplayName("Check if method isSameEmail returns true when email is the same")
@@ -71,9 +68,9 @@ class PersonTest {
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        CCnumber tonyZeCC = new CCnumber(VALIDCCNUMBER);
+
         FamilyID familyID = new FamilyID(UUID.randomUUID());
-        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, tonyZeCC, familyID ));
+        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID ));
     }
 
 
