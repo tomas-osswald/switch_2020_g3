@@ -36,7 +36,7 @@ class AddPersonControllerTest {
     void mustReturnTrueAddPerson() {
         application.logInAsAdmin();
 
-        assertTrue(addPersonController.addPerson(addPersonDTO));
+        assertTrue(addPersonController.addFamilyMember(addPersonDTO));
     }
 
     @DisplayName("Unsuccessfully add a person - not the admin")
@@ -44,7 +44,7 @@ class AddPersonControllerTest {
     void mustReturnFalseAddPersonNotAdmin() {
         application.logInAsNotAdmin();
 
-        assertFalse(addPersonController.addPerson(addPersonDTO));
+        assertFalse(addPersonController.addFamilyMember(addPersonDTO));
     }
 
 
@@ -53,7 +53,7 @@ class AddPersonControllerTest {
     void mustReturnFalseAddPersonEmailRegistred() {
         application.logInAsAdmin();
 
-        assertFalse(addPersonController.addPerson(addAdminPersonDTO));
+        assertFalse(addPersonController.addFamilyMember(addAdminPersonDTO));
     }
 
 
