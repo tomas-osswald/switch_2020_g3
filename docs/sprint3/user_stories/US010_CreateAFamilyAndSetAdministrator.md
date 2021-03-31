@@ -16,8 +16,8 @@ participant "System" as System
 activate Actor
 Actor -> System : Create a family and set administrator
 activate System
-System --> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
-Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
+System --> Actor : Request Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)  
+Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)
 alt failure
 System --> Actor : Inform Failure
 else success 

@@ -18,7 +18,7 @@ This Person's email account must not exist in the Application since it is used a
     - Birthdate
     - Phone (none or one)
     - Family ID
-
+    
 
 ### 1.2 Dependencies
 
@@ -55,13 +55,9 @@ participant "System" as System
 activate Actor
 Actor -> System : Add a family member
 activate System
-System --> Actor : Request Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
-Actor -> System : Input Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
-alt failure
-System --> Actor : Inform Failure
-else success 
+System --> Actor : Request Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)  
+Actor -> System : Input Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)
 System --> Actor : Inform Success
-end
 deactivate System
 deactivate Actor
 @enduml
@@ -78,7 +74,7 @@ As such, the validation of the phone number must accept a null value.
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
 
-Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
+Each Person will have two types of attributes. The attributes *name*, *birthDate*, *address* and *vatNumber*
 will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and 
 *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
 possible that has **none or multiple** *PhoneNumbers*.
@@ -87,7 +83,6 @@ The **Person** must have the following characteristics with the following rules:
 
 | **_Value Objects_**         | **_Business Rules_**                                                                   |
 | :-------------------------- | :------------------------------------------------------------------------------------- |
-| **CCNumber**                | Required, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
 | **Name**                    | Required, string                                                                       |
 | **BirthDate**               | Required, date(year-month-day)                                                         |
 | **Address**                 | Required, string                                                                       |
@@ -106,8 +101,6 @@ hide circle
 skinparam linetype ortho
 
 class Family {
- - Name
- - Registration Date
 }
 
 class Person {
@@ -118,21 +111,15 @@ class Person {
  }
 
 class EmailAddress {
- - Email
 }
 
 class PhoneNumber {
- - Phone Number
 }
 
-class FamilyID {
- - FamilyID
-}
 
 Family "1" -> "0..*" Person: has non-administrator members
 Family "1" -> "1" Person: has admin 
 Person "1" --> "1..*" EmailAddress: has
-Family "1" --> "1" FamilyID: has
 Person "1 " --> "0..*" PhoneNumber: has
 
 @enduml
@@ -226,7 +213,7 @@ AddFamilyMemberController .r> AddPersonDTO
 AddFamilyMemberController -d---.> AddFamilyMemberService
 
 AddFamilyMemberService -u-> Application : application
-AddFamilyMemberService .u> CreateFamilyDTO
+
 AddFamilyMemberService .u> AddPersonDTO
 AddFamilyMemberService --.l--> FamilyRepository
 AddFamilyMemberService .r> PersonRepository
@@ -237,13 +224,12 @@ AddFamilyMemberService -d-.> BirthDate
 AddFamilyMemberService -d-.> PhoneNumber
 AddFamilyMemberService -d-.> Name
 AddFamilyMemberService -d-.> VATNumber
-AddFamilyMemberService -d-.> RegistrationDate
+
 
 FamilyRepository *--l-- "0..*" Family
 PersonRepository *--d--- "0..*" Person
 
 Family -down-> "1" Email : admin
-Family -down-> "1" RegistrationDate : registrationDate
 Family -down-> "1" FamilyID : id
 
 Person -u--> "1" FamilyID : family
@@ -325,7 +311,7 @@ FamAdminService -> app : getLoggedPersonFamilyID()
 activate app
 return familyID
 
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, cc, familyID)
+FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, familyID)
 activate prepository
 
 prepository -> prepository : isEmailAlreadyRegistered(email)
@@ -456,11 +442,10 @@ We applied the following principles:
         VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
-        CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
         FamilyID familyID = application.getLoggedPersonFamilyID();
 
         PersonRepository personRepository = application.getPersonRepository();
-        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, cc, familyID);
+        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, familyID);
     }
 ```
 
@@ -498,9 +483,9 @@ We applied the following principles:
 
 
 ```java
-public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
+public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         if (!isEmailAlreadyRegistered(email)) {
-            Person person = new Person(name, birthDate, email, vat, phone, address, cc, familyID);
+            Person person = new Person(name, birthDate, email, vat, phone, address, familyID);
             this.people.add(person);
         } else {
             throw new EmailAlreadyRegisteredException();
