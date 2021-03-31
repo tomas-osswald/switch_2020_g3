@@ -21,8 +21,8 @@ class AddPersonControllerTest {
     @BeforeEach
     void setAdmin() {
         application = new Application();
-        addAdminPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
-        addPersonDTO = new AddPersonDTO("email2@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222", "139861572ZW2");
+        addAdminPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222");
+        addPersonDTO = new AddPersonDTO("email2@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222");
         addPersonController = new AddFamilyMemberController(application);
 
         CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO( "Silva",null);
