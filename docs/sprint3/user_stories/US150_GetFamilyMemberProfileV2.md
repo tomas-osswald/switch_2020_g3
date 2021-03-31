@@ -68,34 +68,8 @@ deactivate Actor
 
 ## 2.1 Summary
 
-The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
-
-What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
-administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
-
-Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
-PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
-possible that has **none or multiple** *PhoneNumbers*.
-
-The **Person** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
-| **Name**                    | Required, string                                                                       |
-| **BirthDate**               | Required, date(year-month-day)                                                         |
-| **Address**                 | Required, string                                                                       |
-| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
-| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
-| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
-
-The **Family** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Name**                | Required, string                                                                           |
-| **RegistrationDate**    | Required, date(year-month-day)                                                             |
+The profile information we need to obtain in this user story contains the personal information of the user.
+This includes _Name_, _BirthDate_, _Address_, _VATNumber_ and _PrimaryEmail_, as well as a list of any other _Emails_ and a list of any _PhoneNumbers_ registered in the application.
 
 
 ## 2.2. Domain Model Excerpt
@@ -103,7 +77,6 @@ The **Family** must have the following characteristics with the following rules:
 ```plantuml
 @startuml
 header Domain Model US150
-
 hide methods
 hide circle
 skinparam linetype ortho
@@ -130,65 +103,58 @@ Person "1" --> "1..*" Email : has
 
 ## 3.1. Design decisions
 
-The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
-prompt the input of the person's data.
+To fulfill this requirement it is required for the actor to select they want to get their profile information.
 
-The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
+The user's primary email (it's identification) will be automatically retrieved by checking who is logged into the application.
 
-Given the current absence of an UI layer the required data will be passed directly into the AddPersonController.
+To allow the output of all the data required we opted to create a ProfileDTO gathering all the relevant profile information.
 
-We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
+[COMMENT]: # (A criação do DTO de saida será feita na classe person. O DTO é criado com um builder que lhe passa os dados.
+Esses dados são passados a primitivos directamente ou convertidos quando desempacotados?)
 
 ## 3.2. Class Diagram
 
 ```puml
 @startuml
-
-title US010 Create a Family and set the Family administrator
+header Class Diagram
+title US150 Get Family Member Profile Information
 
 skinparam linetype polyline
+skinparam class {
+BackgroundColor LightBlue
+ArrowColor Black
+BorderColor DarkBlue
+}
 hide empty members
 
-class CreateFamilyController {
-  + createFamilyAndAdmin()
+class GetFamilyMemberProfileController {
+  + getFamilyMemberProfile()
 }
 
 class Application {
   + getPersonRepository()
-+ getFamilyRepository()
 }
 
-class CreateFamilyService {
-+ createFamilyAndAddAdmin()
+class GetFamilyMemberProfileService {
+  + getFamilyMemberProfile()
 }
 
-class CreateFamilyDTO {
-}
-
-class AddPersonDTO {
-}
-
-class FamilyID <<ValueObject>> <<ID>> {
-}
-
-class Email <<ValueObject>> <<ID>> {
-}
-
-class FamilyRepository <<Repository>> {
-+ generateAndGetFamilyID()
-+ createAndAddFamily()
-+ removeFamily()
+class ProfileDTO {
 }
 
 class PersonRepository <<Repository>> {
-+ createAndAddPerson()
-
+  + getPersonByID()
+  + getFamilyMemberProfile()
 }
 
 class Person <<Entity>> <<Root>> {
+  + getFamilyMemberProfile()
 }
 
 class Address <<ValueObject>> {
+}
+
+class Email <<ValueObject>> <<ID>> {
 }
 
 class BirthDate <<ValueObject>> {
@@ -203,62 +169,45 @@ class Name <<ValueObject>> {
 class VATNumber <<ValueObject>> {
 }
 
-class Family <<Entity>> <<Root>> {
-}
 
-class RegistrationDate <<ValueObject>> {
-}
+GetFamilyMemberProfileController -r--> Application : application
+GetFamilyMemberProfileController ..> GetFamilyMemberProfileService
+GetFamilyMemberProfileController ..> ProfileDTO
 
+GetFamilyMemberProfileService --> Application : application
+GetFamilyMemberProfileService ..> PersonRepository
 
-CreateFamilyController -d-> Application : application
-CreateFamilyController .r> CreateFamilyDTO
-CreateFamilyController .r> AddPersonDTO
-CreateFamilyController -d---.> CreateFamilyService
+PersonRepository *-- "1..*" Person
 
-CreateFamilyService -u-> Application : application
-CreateFamilyService .u> CreateFamilyDTO
-CreateFamilyService .u> AddPersonDTO
-CreateFamilyService --.l--> FamilyRepository
-CreateFamilyService .r> PersonRepository
-CreateFamilyService -d-.> FamilyID
-CreateFamilyService -down-.> Email
-CreateFamilyService -down-.> Address
-CreateFamilyService -d-.> BirthDate
-CreateFamilyService -d-.> PhoneNumber
-CreateFamilyService -d-.> Name
-CreateFamilyService -d-.> VATNumber
-CreateFamilyService -d-.> RegistrationDate
+Person ..> ProfileDTO
 
-FamilyRepository *--l-- "0..*" Family
-PersonRepository *--d--- "0..*" Person
+Person --> "1" Email : id
+Person --> "0..*" Email : otherEmails
+Person --> "1" Address : address
+Person --> "1" BirthDate : birthDate
+Person --> "0..*" PhoneNumber : phoneNumber
+Person --> "1" Name : name
+Person --> "1" VATNumber : vatNumber
 
-Family -down-> "1" Email : admin
-Family -down-> "1" RegistrationDate : registrationDate
-Family -down-> "1" FamilyID : id
+ProfileDTO -u-> Email
+ProfileDTO -u-> Address
+ProfileDTO -u-> BirthDate
+ProfileDTO -u-> PhoneNumber
+ProfileDTO -u-> Name
+ProfileDTO -u-> VATNumber
 
-Person -u--> "1" FamilyID : family
-Person -u--> "1" Email : id
-Person -u--> "1" Address : address
-Person -u--> "1" BirthDate : birthDate
-Person -up--> "0..1" PhoneNumber : phoneNumber
-Person -up--> "1" Name : name
-Person -up--> "1" VATNumber : vatNumber
 @enduml
 ```
 
 
 ## 3.3. Functionality Use
 
-The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
-application.
-The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
-providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
-The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
-of creating the Family and administrator.
-
+The GetFamilyMemberProfileController creates a new GetFamilyMemberProfileService using the Application.
+The GetFamilyMemberProfileService will invoke the Application to retrieve the PersonRepository.
+The PersonRepository will use the GetPersonByID method to find the person whose profile we want to return.
+The Person will then create a ProfileDTO containing all the data required for the user story (Name, Address,
+BirthDate, VATNumber, PrimaryEmail and any other Emails or PhoneNumbers)
+It will then return the ProfileDTO all the way back to the  GetFamilyMemberProfileController.
 
 ## 3.4. Sequence Diagram
 
