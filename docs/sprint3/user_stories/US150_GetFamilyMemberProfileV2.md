@@ -4,37 +4,47 @@
 
 ## 1.1. Client Notes
 
-### SUBSTITUIR CONTEUDO 
-```
-**Demo1** As a family member, I want to get...
-
-- 1.1. My family member profile information
+**As a family member, I want to get my profile’s information.**
 
 We interpreted this requirement as the function of a user to receive their personal profile information.
 
 - A MemberProfile needs to have the following information:
    - Name;
+   - Email (ID)
    - Birth Date;
-   - Phone Number(none or multiple);
-   - Email (none or multiple);
+   - Email (other emails);
    - VAT Number;
+   - Phone Number(none or more);
    - Address;
-   - Relation with Administrator(none or one);
-   - If member is administrator.
-```
+
 
 ## 1.2. Dependencies
 
 ### 1.2.1. Pre-conditions
 
+To be able to **get family member's profile information**, some user stories need to be implemented in first place. 
+Before everything else, the *Application* needs to have a family with family members. So, **the system manager needs to create a family and assign a family administrator** because the administrator will have the responsibility of adding family members to his family.
+After the **family administrator adds the family members** it will be possible to execute this US by each member. 
+
 ### 1.2.2. Other User Stories
+
+The following users stories need to be executed before US150:
+
+- US010 As system manager, I want to create a family and set the family administrator
+
+- US101 As a family administrator, I want to add family members;
 
 ## 1.3. Acceptance Criteria
 
 ### 1.3.1. Success Cases
 
+This user story is always executed correctly since it doesn't need any data entry neither validation.
+It just gets family member stored information and shows it in the UI.
+
 ### 1.3.2. Failure Cases
 
+In this US there aren't any direct failure scenarios because it just retrives already validated information that belongs to a family member.
+The possible failure cases are related with wrong execution of the dependent user stories from the section **1.2.2.**.
 
 ## 1.4. System Sequence Diagram
 
@@ -51,15 +61,10 @@ participant "System" as System
 activate Actor
 Actor -> System : Get my profile information
 activate System
-System --> Actor : Request Family Member Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)  
-Actor -> System : Input Family Name and Administrator Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address and CC number)
-alt failure
-System --> Actor : Inform Failure
-else success 
-System --> Actor : Inform Success
-end
+System --> Actor : Return Family Member Data (Name, Email (ID), Birthdate, \nOther Emails, Vat Number, Phone Numbers and Address)  
 deactivate System
 deactivate Actor
+
 @enduml
 ```
 
@@ -68,34 +73,8 @@ deactivate Actor
 
 ## 2.1 Summary
 
-The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
-
-What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
-administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
-
-Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
-PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
-possible that has **none or multiple** *PhoneNumbers*.
-
-The **Person** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
-| **Name**                    | Required, string                                                                       |
-| **BirthDate**               | Required, date(year-month-day)                                                         |
-| **Address**                 | Required, string                                                                       |
-| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
-| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
-| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
-
-The **Family** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Name**                | Required, string                                                                           |
-| **RegistrationDate**    | Required, date(year-month-day)                                                             |
+The profile information we need to obtain in this user story contains the personal information of the user.
+This includes _Name_, _BirthDate_, _Address_, _VATNumber_ and _PrimaryEmail_, as well as a list of any other _Emails_ and a list of any _PhoneNumbers_ registered in the application.
 
 
 ## 2.2. Domain Model Excerpt
@@ -103,7 +82,6 @@ The **Family** must have the following characteristics with the following rules:
 ```plantuml
 @startuml
 header Domain Model US150
-
 hide methods
 hide circle
 skinparam linetype ortho
@@ -130,65 +108,58 @@ Person "1" --> "1..*" Email : has
 
 ## 3.1. Design decisions
 
-The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
-prompt the input of the person's data.
+To fulfill this requirement it is required for the actor to select they want to get their profile information.
 
-The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
+The user's primary email (it's identification) will be automatically retrieved by checking who is logged into the application.
 
-Given the current absence of an UI layer the required data will be passed directly into the AddPersonController.
+To allow the output of all the data required we opted to create a ProfileDTO gathering all the relevant profile information.
 
-We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
+[COMMENT]: # (A criação do DTO de saida será feita na classe person. O DTO é criado com um builder que lhe passa os dados.
+Esses dados são passados a primitivos directamente ou convertidos quando desempacotados?)
 
 ## 3.2. Class Diagram
 
 ```puml
 @startuml
-
-title US010 Create a Family and set the Family administrator
+header Class Diagram
+title US150 Get Family Member Profile Information
 
 skinparam linetype polyline
+skinparam class {
+BackgroundColor LightBlue
+ArrowColor Black
+BorderColor DarkBlue
+}
 hide empty members
 
-class CreateFamilyController {
-  + createFamilyAndAdmin()
+class GetFamilyMemberProfileController {
+  + getFamilyMemberProfile()
 }
 
 class Application {
   + getPersonRepository()
-+ getFamilyRepository()
 }
 
-class CreateFamilyService {
-+ createFamilyAndAddAdmin()
+class GetFamilyMemberProfileService {
+  + getFamilyMemberProfile()
 }
 
-class CreateFamilyDTO {
-}
-
-class AddPersonDTO {
-}
-
-class FamilyID <<ValueObject>> <<ID>> {
-}
-
-class Email <<ValueObject>> <<ID>> {
-}
-
-class FamilyRepository <<Repository>> {
-+ generateAndGetFamilyID()
-+ createAndAddFamily()
-+ removeFamily()
+class ProfileDTO {
 }
 
 class PersonRepository <<Repository>> {
-+ createAndAddPerson()
-
+  + getPersonByID()
+  + getFamilyMemberProfile()
 }
 
 class Person <<Entity>> <<Root>> {
+  + getFamilyMemberProfile()
 }
 
 class Address <<ValueObject>> {
+}
+
+class Email <<ValueObject>> <<ID>> {
 }
 
 class BirthDate <<ValueObject>> {
@@ -203,62 +174,45 @@ class Name <<ValueObject>> {
 class VATNumber <<ValueObject>> {
 }
 
-class Family <<Entity>> <<Root>> {
-}
 
-class RegistrationDate <<ValueObject>> {
-}
+GetFamilyMemberProfileController -r--> Application : application
+GetFamilyMemberProfileController ..> GetFamilyMemberProfileService
+GetFamilyMemberProfileController ..> ProfileDTO
 
+GetFamilyMemberProfileService --> Application : application
+GetFamilyMemberProfileService ..> PersonRepository
 
-CreateFamilyController -d-> Application : application
-CreateFamilyController .r> CreateFamilyDTO
-CreateFamilyController .r> AddPersonDTO
-CreateFamilyController -d---.> CreateFamilyService
+PersonRepository *-- "1..*" Person
 
-CreateFamilyService -u-> Application : application
-CreateFamilyService .u> CreateFamilyDTO
-CreateFamilyService .u> AddPersonDTO
-CreateFamilyService --.l--> FamilyRepository
-CreateFamilyService .r> PersonRepository
-CreateFamilyService -d-.> FamilyID
-CreateFamilyService -down-.> Email
-CreateFamilyService -down-.> Address
-CreateFamilyService -d-.> BirthDate
-CreateFamilyService -d-.> PhoneNumber
-CreateFamilyService -d-.> Name
-CreateFamilyService -d-.> VATNumber
-CreateFamilyService -d-.> RegistrationDate
+Person ..> ProfileDTO
 
-FamilyRepository *--l-- "0..*" Family
-PersonRepository *--d--- "0..*" Person
+Person --> "1" Email : id
+Person --> "0..*" Email : otherEmails
+Person --> "1" Address : address
+Person --> "1" BirthDate : birthDate
+Person --> "0..*" PhoneNumber : phoneNumber
+Person --> "1" Name : name
+Person --> "1" VATNumber : vatNumber
 
-Family -down-> "1" Email : admin
-Family -down-> "1" RegistrationDate : registrationDate
-Family -down-> "1" FamilyID : id
+ProfileDTO -u-> Email
+ProfileDTO -u-> Address
+ProfileDTO -u-> BirthDate
+ProfileDTO -u-> PhoneNumber
+ProfileDTO -u-> Name
+ProfileDTO -u-> VATNumber
 
-Person -u--> "1" FamilyID : family
-Person -u--> "1" Email : id
-Person -u--> "1" Address : address
-Person -u--> "1" BirthDate : birthDate
-Person -up--> "0..1" PhoneNumber : phoneNumber
-Person -up--> "1" Name : name
-Person -up--> "1" VATNumber : vatNumber
 @enduml
 ```
 
 
 ## 3.3. Functionality Use
 
-The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
-application.
-The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
-providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
-The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
-of creating the Family and administrator.
-
+The GetFamilyMemberProfileController creates a new GetFamilyMemberProfileService using the Application.
+The GetFamilyMemberProfileService will invoke the Application to retrieve the PersonRepository.
+The PersonRepository will use the GetPersonByID method to find the person whose profile we want to return.
+The Person will then create a ProfileDTO containing all the data required for the user story (Name, Address,
+BirthDate, VATNumber, PrimaryEmail and any other Emails or PhoneNumbers)
+It will then return the ProfileDTO all the way back to the  GetFamilyMemberProfileController.
 
 ## 3.4. Sequence Diagram
 
@@ -422,70 +376,56 @@ We applied the following principles:
 
 ## 3.6. Tests
 
-### 3.6.1. XXXX
+### 3.6.1. Person
 
 #### 3.6.1.1. Success
 
+**Test 1:** Test ProfileDTO creation
+
 #### 3.6.1.2 Failure
 
+No failure tests 
 
-### 3.6.2. YYYY
+_____
+
+### 3.6.2. PersonRepository
 
 #### 3.6.2.1. Success
 
+**Test 2:** Test if the PersonRepository gets the Person by his email (ID)
+
+**Test 3:** Test if the PersonRepository gets the ProfileDTO from Person using his email (ID)
+
 #### 3.6.2.2 Failure
 
+No failure tests
 
-### 3.6.3. ZZZZ
+_____
+
+### 3.6.3. GetProfileInfoService
 
 #### 3.6.3.1. Success
 
+**Test 4:** Test if the Service gets the ProfileDTO from it the PersonRepository
+
 #### 3.6.3.2. Failure
 
-Several cases where analyzed in order to test the creation of a new Family
+No failure tests
 
-**Test 1:** Test that it is possible to create a new instance of Family with a valid Admin
+_____
 
-**Test 2:** Test that it is not possible to create a new instance of Family if admin email is already registered
+### 3.6.4. GetProfileInfoController
 
-**Test 3:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is null
+#### 3.6.4.1. Success
 
-**Test 4:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is empty
+**Test 5:** Test if the Controller gets the ProfileDTO from the GetProfileInfoService
 
-**Test 5:** Test that it is not possible to create a new instance of Family receiving a **familyName** that is blank
+#### 3.6.4.2. Failure
 
-**Additional Tests** Test that its not possible to create a new instance of Family if any attribure is empty, blank or
-null The whole user story was tested for the case of success and for failure
+No failure tests
 
-**Test 5:** Success
+_____
 
-```` 
-@DisplayName("Test if a family can be successfully created")  
-@Test
- void shouldBeTrueCreateFamily() {
-        Application application = new Application();
-        Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        
-        assertTrue(controller.createFamilyAndAdmin(createFamilyDTO));    
-    }
-````
-
-**Test 6:** Failure
-
-````
-@DisplayName ("Test if a family isnt created if the admin email is already registered in the app")  
-@Test
-    void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
-        Application application = new Application();
-        Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO1 = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        CreateFamilyDTO createFamilyDTO2 = new CreateFamilyDTO("tonyze@hotmail.com", "Pereira", "Rita", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        controller.createFamilyAndAdmin(createFamilyDTO1);
-        assertFalse(controller.createFamilyAndAdmin(createFamilyDTO2));    
-    }
-    }
-````
 
 # 4. Implementation
 
