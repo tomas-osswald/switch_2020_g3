@@ -2,6 +2,42 @@
 
 # 1. Requirements
 
+## 1.1. Client Notes
+
+### SUBSTITUIR CONTEUDO 
+```
+**Demo1** As a family member, I want to get...
+
+- 1.1. My family member profile information
+
+We interpreted this requirement as the function of a user to receive their personal profile information.
+
+- A MemberProfile needs to have the following information:
+   - Name;
+   - Birth Date;
+   - Phone Number(none or multiple);
+   - Email (none or multiple);
+   - VAT Number;
+   - Address;
+   - Relation with Administrator(none or one);
+   - If member is administrator.
+```
+
+## 1.2. Dependencies
+
+### 1.2.1. Pre-conditions
+
+### 1.2.2. Other User Stories
+
+## 1.3. Acceptance Criteria
+
+### 1.3.1. Success Cases
+
+### 1.3.2. Failure Cases
+
+
+## 1.4. System Sequence Diagram
+
 *As a Family Member, I want to get my profile´s information*
 
 ```plantuml
@@ -26,6 +62,7 @@ deactivate System
 deactivate Actor
 @enduml
 ```
+
 
 # 2. Analysis
 
@@ -60,193 +97,47 @@ The **Family** must have the following characteristics with the following rules:
 | **Name**                | Required, string                                                                           |
 | **RegistrationDate**    | Required, date(year-month-day)                                                             |
 
+
 ## 2.2. Domain Model Excerpt
 
 ```plantuml
 @startuml
-header Domain Model
+header Domain Model US150
+
 hide methods
 hide circle
 skinparam linetype ortho
 
-class Person {
- - Name
- - Vat number
- - Birthdate
- - Address
- }
-
-class EmailAddress {
- - Email
+class Person{
+- name
+- birthDate
+- vatNumber
+- address
 }
 
-class PhoneNumber {
- - Phone Number
+class Email{
 }
 
-Family "1" -> "0..*" Person: has non-administrator members
-Family "1" -> "1" Person: has admin 
-Person "1" --> "1..*" EmailAddress: has
-Person "1 " --> "0..*" PhoneNumber: has
+class PhoneNumber{
+}
 
+Person "1" -> "0..*" PhoneNumber: has 
+Person "1" --> "1..*" Email : has 
 @enduml
 ```
 
 # 3. Design
 
-The process to fulfill this requirement requires the actor to select they want to create a new family, which would
-prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
-2.1.  
-Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
-ation would occur at the moment of addition to the repository.
+## 3.1. Design decisions
 
-````puml
-@startuml
+The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
+prompt the input of the person's data.
 
-autonumber
-header Sequence Diagram
-title US150 Get my profile information
+The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
 
-actor "Family Member" as actor
-participant "UI" as UI
-participant ": GetMy\nProfileInfoController" as controller
-participant ": GetProfileInfoService" as service
-participant "Application" as app
-participant "PersonRepository" as repository
-participant "Person" as person
-activate actor
-actor -> UI: Get my profile\n information
-activate UI
-UI -> actor : request data
-actor -> UI : input Family Member data
-UI -> controller : getProfileInfo()
-activate controller
-controller -> service : getProfileInfo()
-activate service
-service -> app : getPersonRepository()
-activate app
-return repositoryservice
-service -> repository : getProfileInfo(LoggedID)
-activate repository
-repository -> repository : getPersonByID(email)
-repository -> person** : getProfileInfo(email)
-ref over FamAdminService
+Given the current absence of an UI layer the required data will be passed directly into the AddPersonController.
 
-SequenceDiagram(2):
-Service to Family and Person Creation
-
-end
-
-alt #transparent false
-autonumber 23
-
-FamAdminService --> controller : success
-controller --> UI : success
-UI --> systemManager : inform success
-
-else true
-autonumber 29
-
-FamAdminService --> controller : fail
-deactivate FamAdminService
-
-controller --> UI : fail
-deactivate controller
-UI --> systemManager : inform failure
-deactivate UI
-
-
-end
-@enduml
-````
-
-````puml
-@startuml
-
-autonumber 6
-header Sequence Diagram
-title US010 Create a Family and Set Administrator(2)
-
-participant ": CreateFamilyService" as FamAdminService
-participant " anApplication : \nApplication" as app
-participant "aFamilyRepository \n: FamilyRepository" as frepository
-participant "newFamily \n: Family" as family
-participant "aPersonRepository \n: PersonRepository" as prepository
-participant "administrator : \nPerson" as admin
-
--> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonDTO)
-activate FamAdminService
-
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
-
-
-FamAdminService -> frepository: generateAndGetFamilyID()
-activate frepository
-frepository -> frepository : generateFamilyID()
-return familyID
-
-FamAdminService -> frepository: createAndAddFamily (familyName, \nfamilyID, registrationDate, adminEmail)
-activate frepository
-
-frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
-activate family
-
-
-frepository -> frepository : addToRepository(newFamily)
-
-deactivate family
-return
-
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nadminEmail, vat, phone, address, cc, familyID)
-deactivate frepository
-
-
-activate prepository
-prepository -> prepository : isEmailAlreadyRegistered(email)
-
-alt #transparent false
-prepository -> admin** : create
-activate admin
-
-
-prepository -> prepository : addToRepository (admistrator)
-prepository --> FamAdminService
-deactivate admin
-<-- FamAdminService : success
-
-else true
-autonumber 26
-
-prepository --> FamAdminService
-deactivate prepository
-FamAdminService -> frepository : removeFamily(FamilyID)
-activate frepository
-return
-<-- FamAdminService : fail
-deactivate FamAdminService
-end
-
-@enduml
-````
-
-## 3.1. Functionality Use
-
-The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
-application. 
-The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family. 
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator, 
-providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
-The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
-of creating the Family and administrator.
-
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
 
 ## 3.2. Class Diagram
 
@@ -355,12 +246,212 @@ Person -up--> "1" VATNumber : vatNumber
 @enduml
 ```
 
-## 3.3. Applied Patterns
+
+## 3.3. Functionality Use
+
+The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonDTO and the
+application.
+The CreateFamilyService will create all the necessary value objects to create the family and administrator.
+The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
+The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
+The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
+providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
+The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
+of creating the Family and administrator.
+
+
+## 3.4. Sequence Diagram
+
+The process to fulfill this requirement requires the actor to select they want to create a new family, which would
+prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
+2.1.  
+Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
+ation would occur at the moment of addition to the repository.
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US150 Get my profile information
+
+actor "Family Member" as actor
+participant "UI" as UI
+participant ": GetMy\nProfileInfoController" as controller
+participant ": GetProfileInfoService" as service
+participant "Application" as app
+participant "PersonRepository" as repository
+participant "Person" as person
+activate actor
+actor -> UI: Get my profile\n information
+activate UI
+UI -> actor : request data
+actor -> UI : input Family Member data
+UI -> controller : getProfileInfo()
+activate controller
+controller -> service : getProfileInfo()
+activate service
+service -> app : getPersonRepository()
+activate app
+return repositoryservice
+service -> repository : getProfileInfo(LoggedID)
+activate repository
+repository -> repository : getPersonByID(email)
+repository -> person** : getProfileInfo(email)
+ref over FamAdminService
+
+SequenceDiagram(2):
+Service to Family and Person Creation
+
+end
+
+alt #transparent false
+autonumber 23
+
+FamAdminService --> controller : success
+controller --> UI : success
+UI --> systemManager : inform success
+
+else true
+autonumber 29
+
+FamAdminService --> controller : fail
+deactivate FamAdminService
+
+controller --> UI : fail
+deactivate controller
+UI --> systemManager : inform failure
+deactivate UI
+
+end
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber 6
+header Sequence Diagram
+title US010 Create a Family and Set Administrator(2)
+
+participant ": CreateFamilyService" as FamAdminService
+participant " anApplication : \nApplication" as app
+participant "aFamilyRepository \n: FamilyRepository" as frepository
+participant "newFamily \n: Family" as family
+participant "aPersonRepository \n: PersonRepository" as prepository
+participant "administrator : \nPerson" as admin
+
+-> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonDTO)
+activate FamAdminService
+
+FamAdminService -> app : getFamilyRepository()
+activate app
+return aFamilyRepository
+FamAdminService -> app : getPersonRepository()
+activate app
+return aPersonRepository
+
+
+FamAdminService -> frepository: generateAndGetFamilyID()
+activate frepository
+frepository -> frepository : generateFamilyID()
+return familyID
+
+FamAdminService -> frepository: createAndAddFamily (familyName, \nfamilyID, registrationDate, adminEmail)
+activate frepository
+
+frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
+activate family
+
+
+frepository -> frepository : addToRepository(newFamily)
+
+deactivate family
+return
+
+
+FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nadminEmail, vat, phone, address, cc, familyID)
+deactivate frepository
+
+
+activate prepository
+prepository -> prepository : isEmailAlreadyRegistered(email)
+
+alt #transparent false
+prepository -> admin** : create
+activate admin
+
+
+prepository -> prepository : addToRepository (admistrator)
+prepository --> FamAdminService
+deactivate admin
+<-- FamAdminService : success
+
+else true
+autonumber 26
+
+prepository --> FamAdminService
+deactivate prepository
+FamAdminService -> frepository : removeFamily(FamilyID)
+activate frepository
+return
+<-- FamAdminService : fail
+deactivate FamAdminService
+end
+
+@enduml
+````
+
+
+## 3.5. Applied Patterns
 
 We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
 used the SOLID Single Responsibility Principle.
 
-## 3.4. Tests
+We applied the following principles:
+
+- GRASP:
+   - Information expert:
+      - This pattern was used in classes that implemented the Account interface, like in this case CashAccount class, for returning a DTO with the account id and description without removing information outside the class;
+
+   - Controller:
+      - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
+
+   - Pure Fabrication:
+      - In this user story the Application and AccountService class was used, which does not represent a business domain concept. It was created to be responsible for all operations regarding Account type Classes.
+
+   - High cohesion and Low Coupling:
+      - The creation of the AccountService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+
+   - Protected Variation:
+      - An Account interface was used in which the polymorphism was used to be implemented in several classes, each representative of a type of Account.
+
+- SOLID:
+   - Single-responsibility principle:
+      - this pattern was used in the AccountService class, in which it the only responsibility is manage account operations.
+
+
+## 3.6. Tests
+
+### 3.6.1. XXXX
+
+#### 3.6.1.1. Success
+
+#### 3.6.1.2 Failure
+
+
+### 3.6.2. YYYY
+
+#### 3.6.2.1. Success
+
+#### 3.6.2.2 Failure
+
+
+### 3.6.3. ZZZZ
+
+#### 3.6.3.1. Success
+
+#### 3.6.3.2. Failure
 
 Several cases where analyzed in order to test the creation of a new Family
 
@@ -473,10 +564,15 @@ null The whole user story was tested for the case of success and for failure
 
 # 5. Integration
 
+[comment]: # (All other US's/features that this one will be added on !!!!!!)
+
 The development of this user story was the basis for the family structure where the FamilyMembers are stored and was
 thus crucial for the development of the other User Stories
 
+
 # 6. Observations
+
+[comment]: # (Tudo o que nao encaixe em lado nenhum vai para aqui AKA LIXOOOOOOO !!!!!!!)
 
 As with the Standard Category the family ID will probably need to be reworked in a future sprint to allow for more
 complex ID information if needed (probably using a UUID)

@@ -433,21 +433,21 @@ We applied the following principles:
 
 #### 3.6.1.1. Success
 
-#### 3.6.1.2 Failure
+#### 3.6.1.2. Failure
 
 
 ### 3.6.2. YYYY
 
 #### 3.6.2.1. Success
 
-#### 3.6.2.2 Failure
+#### 3.6.2.2. Failure
 
 
 ### 3.6.3. ZZZZ
 
 #### 3.6.3.1. Success
 
-#### 3.6.3.2 Failure
+#### 3.6.3.2. Failure
 
 
 Several cases where analyzed in order to test the creation of a new Family
