@@ -392,7 +392,6 @@ deactivate person
 @enduml
 ````
 
-
 ## 3.5. Applied Patterns
 
 We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
@@ -402,23 +401,23 @@ We applied the following principles:
 
 - GRASP:
    - Information expert:
-      - This pattern was used in classes that implemented the Account interface, like in this case CashAccount class, for returning a DTO with the account id and description without removing information outside the class;
-
+      - This pattern is represented in Person object because it stores all the Person attributes associated with it. PersonRepository just stores all the Person´s objects.
+      
    - Controller:
       - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
 
    - Pure Fabrication:
-      - In this user story the Application and AccountService class was used, which does not represent a business domain concept. It was created to be responsible for all operations regarding Account type Classes.
+      - In this user story the Application and GetProfileInfoService class were used, which does not represent business domain concepts. They were created to be responsible for obtaining profile information.
 
    - High cohesion and Low Coupling:
-      - The creation of the AccountService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
+      - The creation of the GetProfileInfoService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
 
    - Protected Variation:
-      - An Account interface was used in which the polymorphism was used to be implemented in several classes, each representative of a type of Account.
+      - An XXXXXXXX was used in which the polymorphism was used to be implemented in several classes, each representative of a type of Account.
 
 - SOLID:
    - Single-responsibility principle:
-      - this pattern was used in the AccountService class, in which it the only responsibility is manage account operations.
+      - this pattern was used in the GetPersonInfoService class, in which is the only responsibility is manage person profile operations.
 
 
 ## 3.6. Tests
