@@ -12,7 +12,7 @@ public class AddFamilyMemberController {
         this.application = application;
     }
 
-    public boolean addPerson(AddPersonDTO addPersonDTO) {
+    public boolean addFamilyMember(AddPersonDTO addPersonDTO) {
         boolean result;
         AddFamilyMemberService addPersonService = new AddFamilyMemberService(application);
         try {

@@ -131,26 +131,26 @@ Since a Person can be created without a PhoneNumber, in order to not have two di
 ```puml
 @startuml
 
-title US010 Create a Family and set the Family administrator
+title US101 Add a Family Member
 
 skinparam linetype polyline
 hide empty members
 
-class CreateFamilyController {
-  + createFamilyAndAdmin()
+class AddFamilyMemberController {
+  + addFamilyMember()
 }
 
 class Application {
-  + getPersonRepository()
++ getPersonRepository()
 + getFamilyRepository()
++ getLoggedPersonID()
++ getLoggedPersonFamilyID()
 }
 
-class CreateFamilyService {
-+ createFamilyAndAddAdmin()
+class AddFamilyMemberService {
++ addPerson()
 }
 
-class CreateFamilyDTO {
-}
 
 class AddPersonDTO {
 }
@@ -162,9 +162,8 @@ class Email <<ValueObject>> <<ID>> {
 }
 
 class FamilyRepository <<Repository>> {
-+ generateAndGetFamilyID()
-+ createAndAddFamily()
-+ removeFamily()
++ verifyAdmin()
+
 }
 
 class PersonRepository <<Repository>> {
@@ -193,28 +192,25 @@ class VATNumber <<ValueObject>> {
 class Family <<Entity>> <<Root>> {
 }
 
-class RegistrationDate <<ValueObject>> {
-}
 
 
-CreateFamilyController -d-> Application : application
-CreateFamilyController .r> CreateFamilyDTO
-CreateFamilyController .r> AddPersonDTO
-CreateFamilyController -d---.> CreateFamilyService
+AddFamilyMemberController -d-> Application : application
+AddFamilyMemberController .r> AddPersonDTO
+AddFamilyMemberController -d---.> AddFamilyMemberService
 
-CreateFamilyService -u-> Application : application
-CreateFamilyService .u> CreateFamilyDTO
-CreateFamilyService .u> AddPersonDTO
-CreateFamilyService --.l--> FamilyRepository
-CreateFamilyService .r> PersonRepository
-CreateFamilyService -d-.> FamilyID
-CreateFamilyService -down-.> Email
-CreateFamilyService -down-.> Address
-CreateFamilyService -d-.> BirthDate
-CreateFamilyService -d-.> PhoneNumber
-CreateFamilyService -d-.> Name
-CreateFamilyService -d-.> VATNumber
-CreateFamilyService -d-.> RegistrationDate
+AddFamilyMemberService -u-> Application : application
+AddFamilyMemberService .u> CreateFamilyDTO
+AddFamilyMemberService .u> AddPersonDTO
+AddFamilyMemberService --.l--> FamilyRepository
+AddFamilyMemberService .r> PersonRepository
+AddFamilyMemberService -d-.> FamilyID
+AddFamilyMemberService -down-.> Email
+AddFamilyMemberService -down-.> Address
+AddFamilyMemberService -d-.> BirthDate
+AddFamilyMemberService -d-.> PhoneNumber
+AddFamilyMemberService -d-.> Name
+AddFamilyMemberService -d-.> VATNumber
+AddFamilyMemberService -d-.> RegistrationDate
 
 FamilyRepository *--l-- "0..*" Family
 PersonRepository *--d--- "0..*" Person
@@ -456,3 +452,6 @@ This functionality uses the same method to add the Person to the PersonRepositor
 # 6. Observations
 
 The Person's unique ID is considered to be the 0 index EmailAddress on the Person's EmailAddress List.
+
+
+
