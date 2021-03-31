@@ -22,9 +22,27 @@ This Person's email account must not exist in the Application since it is used a
 
 ### 1.2 Dependencies
 
+### 1.2.1 Pre-conditions
+
+In order for this US to be possible, a Family and that Family's administrator must already exist in the system.
+
+### 1.2.2 Other User Stories
+
 This US is dependent of US010, as a family and its administrator must be created before a person can be added.
 
-### 1.3 SSD
+## 1.3 Acceptance Criteria
+
+### 1.3.1 Success Cases
+
+A Person is created without errors and added to the Family. 
+
+### 1.3.2 Failure Cases
+
+- Person's data is incomplete or incorrect.
+- User doesn't have Administrator privileges.
+- If the Person's email is already registered in the Application.
+
+## 1.4 SSD
 
 ```plantuml
 @startuml
@@ -53,15 +71,16 @@ deactivate Actor
 
 ## 2.1 Summary
 
-At the moment a person can have one or no phone numbers when it is created. As such, the validation of the phone number must accept a null value.
+At the moment a person can have one or no phone numbers when it is created.  
+As such, the validation of the phone number must accept a null value.
 
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
 
 Each Person will have two types of attributes. The attributes *name*, *CCNumber*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and *
-PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
+will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and 
+*PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
 possible that has **none or multiple** *PhoneNumbers*.
 
 The **Person** must have the following characteristics with the following rules:
@@ -72,7 +91,7 @@ The **Person** must have the following characteristics with the following rules:
 | **Name**                    | Required, string                                                                       |
 | **BirthDate**               | Required, date(year-month-day)                                                         |
 | **Address**                 | Required, string                                                                       |
-| **VatNumber**               | Required, unique, Vat must have 9 numeric digits                                       |
+| **VatNumber**               | Required, Vat must have 9 numeric digits                                       |
 | **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
 | **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
 
@@ -121,12 +140,20 @@ Person "1 " --> "0..*" PhoneNumber: has
 
 # 3. Design
 
+## 3.1. Design decisions
+
 The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
 prompt the input of the person's data.
 
-Since a Person can be created without a PhoneNumber, in order to not have two different constructors, the AddPersonDTO will accept an Integer object for the phone number, in order to have the possibility of Null values. The PhoneNumber class will also not throw an exception if it recieves a null value. The Person will not add the PhoneNumber object to its list if it was built with a null value.
+The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
 
-## 3.1 Class Diagram
+Given the current absence of an UI layer the required data will be passed directly into the AddFamilyMemberController.
+
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
+
+Since a Person can be created without a PhoneNumber, in order to not have two different constructors, the AddPersonDTO will accept an Integer object for the phone number, in order to have the possibility of Null values. The PhoneNumber class will also not throw an exception if it receives a null value. The Person will not add the PhoneNumber object to its list if it was built with a null value.
+
+## 3.2 Class Diagram
 
 ```puml
 @startuml
@@ -230,13 +257,22 @@ Person -up--> "1" VATNumber : vatNumber
 ```
 
 
-# 3.2 Sequence Diagram
+## 3.3. Functionality Use
 
-The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
+The AddFamilyMemberController creates a new AddFamilyMemberService object using an addPersonDTO and the
+application.
+The AddFamilyMemberService will create all the necessary value objects to add a Family Member to the Person Repository.
+The AddFamilyMemberService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
+The AddFamilyMemberService will invoke the Application to retrieve the logged person's email (unique ID) and familyID.
+The AddFamilyMemberService will invoke the FamilyRepository to verify Administrator privileges.
+The AddFamilyMemberService will invoke the PersonRepository to create the Person object for the Family Member,
+providing their email is unique. If it isn't, the process will fail.
+The AddFamilyMemberController will then return a true or false response depending on the success or insuccess
+of creating the Family Member.
 
-Given the current absence of a UI layer the required data will be passed directly into the AddPersonController.
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the Person Repository.
 
-We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
+# 3.4 Sequence Diagram
 
 
 ````puml
@@ -327,28 +363,43 @@ end
 @enduml
 ````
 
-## 3.3. Functionality Use
 
-The AddPersonController creates a new AddPersonService object using an addPersonDTO and an application instance.
-The AddPersonService will create all the necessary value objects, after unpacking the addPersonDTO and validating the data, in order to create the Family Member.
-The AddPersonService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
-The AddPersonService will invoke the FamilyRepository to check if the logged user is a Family Administrator and retrieve the FamilyID.
-The AddPersonService will invoke the PersonRepository to create the Person object for the Family Member, after checking if the email is unique. If it isn't, the process will fail. If it is, the Person will be created and added to the PersonRepository.
-The AddPersonController will then return a true or false response depending on the success or insuccess of creating the Family Member.
+## 3.5. Applied Patterns
 
-
-
-
-## 3.3. Applied Patterns
 
 We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
 used the SOLID Single Responsibility Principle.
 
-## 3.4. Tests
+We applied the following principles:
 
-Several cases where analyzed in order to test the creation of a new Family
+- GRASP:
+    - Information expert:
+        - This pattern was used in classes such as the Person Repository, in order to apply the "Tell Don't Ask" Principle.
 
-**Test 1:** Test that it is possible to add a new Family Member succesfully
+    - Controller:
+        - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
+
+    - Pure Fabrication:
+        - In this user story the Application and AddFamilyMemberService class were used, which does not represent a business domain concept. It was created to be responsible for all operations regarding the creation of a Family Member.
+
+    - High cohesion and Low Coupling:
+        - The creation of the Repository Interface will provide low Coupling and high Cohesion.
+
+    - Protected Variation:
+        - An Interface will be used in which Polymorphism is going to be applied in order to protect the existing classes from future variations.
+
+- SOLID:
+    - Single-responsibility principle:
+        - This pattern was used in the AddFamilyMemberService, in which the only responsibility is to add a Family Member.
+
+
+## 3.6. Tests
+
+### 3.6.1. Creation of a Person/Addition to a Family
+
+#### 3.6.1.1. Success
+
+**Test 1:** Test that it is possible to add a new Family Member successfully
 
 ```java
  @DisplayName("Successfully add a person")
@@ -356,10 +407,12 @@ Several cases where analyzed in order to test the creation of a new Family
     void mustReturnTrueAddPerson() {
         application.logInAsAdmin();
 
-        assertTrue(addPersonController.addPerson(addPersonDTO));
+        assertTrue(addFamilyMemberController.addPerson(addPersonDTO));
     }
 
 ```
+
+#### 3.6.1.2 Failure
 
 **Test 2:** Test that it is not possible to add a new Family Member if logged user is not the admin
 
@@ -369,7 +422,7 @@ Several cases where analyzed in order to test the creation of a new Family
     void mustReturnFalseAddPersonNotAdmin() {
         application.logInAsNotAdmin();
 
-        assertFalse(addPersonController.addPerson(addPersonDTO));
+        assertFalse(addFamilyMemberController.addPerson(addPersonDTO));
     }
 
 
@@ -383,13 +436,13 @@ Several cases where analyzed in order to test the creation of a new Family
     void mustReturnFalseAddPersonEmailRegistred() {
         application.logInAsAdmin();
         
-        assertFalse(addPersonController.addPerson(addAdminPersonDTO));
+        assertFalse(addFamilyMemberController.addPerson(addAdminPersonDTO));
     }
 ```
 
 # 4. Implementation
 
-1. All the Value Objects are initially instanced (instantiated), with respective validations.
+1. All the Value Objects are initially instantiated, with respective validations.
 
 ```java
  public void addPerson(AddPersonDTO addPersonDTO) {
@@ -411,9 +464,9 @@ Several cases where analyzed in order to test the creation of a new Family
     }
 ```
 
-2. Logged User ID is automatically retrieved  from the Logged User and checked to see if they are an admin
+2. Logged User ID is automatically retrieved from the Logged User and checked to see if they are an admin
 
-    ```java
+```java
    public void verifyAdmin(EmailAddress loggedUserID) {
         boolean result = false;
         for (Family family : this.families) {
@@ -430,8 +483,8 @@ Several cases where analyzed in order to test the creation of a new Family
 
 3. Before creating the Person, the email is validated in the Person Repository in order to guarantee that it is
    Unique
-
-   ```java
+   
+```java
       private boolean isEmailAlreadyRegistered(EmailAddress email) {
       boolean emailIsRegistered = false;
       for (Person person : people) {
@@ -444,10 +497,22 @@ Several cases where analyzed in order to test the creation of a new Family
    ```
 
 
+```java
+public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, CCnumber cc, FamilyID familyID) {
+        if (!isEmailAlreadyRegistered(email)) {
+            Person person = new Person(name, birthDate, email, vat, phone, address, cc, familyID);
+            this.people.add(person);
+        } else {
+            throw new EmailAlreadyRegisteredException();
+        }
+    }
+```
 
 # 5. Integration
 
 This functionality uses the same method to add the Person to the PersonRepository as the US010.
+
+In US010 we decided to separate the Person and Family DTO's in order to reuse the Person DTO in this US, avoiding code duplication.
 
 # 6. Observations
 
