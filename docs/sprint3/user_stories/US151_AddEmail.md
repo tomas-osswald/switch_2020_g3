@@ -33,13 +33,13 @@ and US101, as a Family Member must already exist in a Family in order to add an 
 
 ### 1.3.1 Success Cases
 
-A Person is created without errors and added to the Family.
+An email address is added successfully to a Family Member's account.
 
 ### 1.3.2 Failure Cases
 
-- Person's data is incomplete or incorrect.
-- User doesn't have Administrator privileges.
-- If the Person's email is already registered in the Application.
+- Email address is on an invalid format
+- User already has that email address registered.
+- Another user already has that email address registered 
 
 ## 1.4 SSD
 
@@ -47,15 +47,15 @@ A Person is created without errors and added to the Family.
 @startuml
 
 header SSD
-title Add a Family Member
+title Add an Email Address
 autonumber
-actor "Family Administrator" as Actor
+actor "Family Member" as Actor
 participant "System" as System
 activate Actor
-Actor -> System : Add a family member
+Actor -> System : Add an email address
 activate System
-System --> Actor : Request Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)  
-Actor -> System : Input Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)
+System --> Actor : Request Data (email address)  
+Actor -> System : Input Data (email address)
 System --> Actor : Inform Success
 deactivate System
 deactivate Actor
@@ -66,9 +66,15 @@ deactivate Actor
 
 ## 2.1 Summary
 
-At the moment a person can have one or no phone numbers when it is created.  
-As such, the validation of the phone number must accept a null value.
+At the moment a person can have one or more email address. The required, initial Email Address serves as the person's unique ID.
+A valid email address must not be null, empty or blank, and must adhere to the following rules:
 
+- local-part@domain.extension
+- Uppercase and lowercase Latin letters A to Z and a to z
+- Digits 0 to 9
+- Printable characters !#$%&'*+-/=?^_`{|}~
+dot ., provided that it is not the first or last character and provided also that it does not appear consecutively (e.g., John..Doe@example.com is not allowed).
+  
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
@@ -99,8 +105,6 @@ hide methods
 hide circle
 skinparam linetype ortho
 
-class Family {
-}
 
 class Person {
  - Name
@@ -112,14 +116,10 @@ class Person {
 class EmailAddress {
 }
 
-class PhoneNumber {
-}
 
 
-Family "1" -> "0..*" Person: has non-administrator members
-Family "1" -> "1" Person: has admin 
 Person "1" --> "1..*" EmailAddress: has
-Person "1 " --> "0..*" PhoneNumber: has
+
 
 @enduml
 ```
