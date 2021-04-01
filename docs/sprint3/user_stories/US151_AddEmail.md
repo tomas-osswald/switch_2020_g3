@@ -424,4 +424,4 @@ This functionality uses the same method to check the existence of the Email Addr
 
 # 6. Observations
 
-The Person's unique ID is considered to be the 0 index EmailAddress on the Person's EmailAddress List.
+The Person's unique ID is not a part of the email list.
