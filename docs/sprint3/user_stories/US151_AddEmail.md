@@ -315,13 +315,13 @@ We applied the following principles:
 **Test 1:** Test that it is possible to add a new EmailAddress successfully
 
 ```java
- @DisplayName("Successfully add a new email address")
-    @Test
+@DisplayName("Successfully add a new email address")
+@Test
     void mustReturnTrueAddEmail() {
-        application.logInAsAdmin();
 
-        assertTrue(addEmailController.addEmail(addEmailDTO));
-    }
+            AddEmailDTO addEmailDTO = new AddEmailDTO("tonyze@superlatinlover.com");
+            assertTrue(addEmailController.addEmail(addEmailDTO));
+            }
 
 ```
 
@@ -333,14 +333,13 @@ We applied the following principles:
 @DisplayName("Unsuccessfully add an email - invalid email")
 @ParameterizedTest
 @ValueSource(strings = {"  ","invalidemail@@gmail.com","tonyze"})
-@NullAndEmptySource   
-
+@NullAndEmptySource
     void mustReturnFalseAddInvalidEmail(String value) {
-    AddEmailDTO addEmailDTO = new AddEmailDTO(value);    
-    application.logInAsAdmin();
+            AddEmailDTO addEmailDTO = new AddEmailDTO(value);
 
-        assertFalse(addEmailController.addEmail(addEmailDTO));
-    }
+
+            assertFalse(addEmailController.addEmail(addEmailDTO));
+            }
 
 
 ```
@@ -349,23 +348,23 @@ We applied the following principles:
 
 ```java
 @DisplayName("Unsuccessfully add an email - email already registered to user")
-    @Test
+@Test
     void mustReturnFalseAddEmailEmailRegistred() {
-        application.logInAsAdmin();
 
+            AddEmailDTO addAdminEmailDTO = new AddEmailDTO(adminEmail);
             assertFalse(addEmailController.addEmail(addAdminEmailDTO));
-    }
+            }
 ```
 **Test 3:** Test that it is not possible to add a new email if another user already has that email
 
 ```java
 @DisplayName("Unsuccessfully add an email - email already registered to another user")
-    @Test
+@Test
     void mustReturnFalseAddEmailEmailRegistredAnotherUser() {
-        application.logInAsAdmin();
 
+            AddEmailDTO addOtherUserEmailDTO = new AddEmailDTO(otherUserEmail);
             assertFalse(addEmailController.addEmail(addOtherUserEmailDTO));
-    }
+            }
 ```
 
 # 4. Implementation
