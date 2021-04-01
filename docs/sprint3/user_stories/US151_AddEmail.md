@@ -79,21 +79,7 @@ dot ., provided that it is not the first or last character and provided also tha
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
 
-Each Person will have two types of attributes. The attributes *name*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and
-*PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
-possible that has **none or multiple** *PhoneNumbers*.
-
-The **Person** must have the following characteristics with the following rules:
-
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Name**                    | Required, string                                                                       |
-| **BirthDate**               | Required, date(year-month-day)                                                         |
-| **Address**                 | Required, string                                                                       |
-| **VatNumber**               | Required, Vat must have 9 numeric digits                                       |
-| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
-| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
+Each email will have one attribute. The attribute is a String that should comply with the above specifications.
 
 
 ## 2.2. Domain Model Excerpt
@@ -128,134 +114,86 @@ Person "1" --> "1..*" EmailAddress: has
 
 ## 3.1. Design decisions
 
-The process to fulfill this requirement requires the actor to select they want to add a new person to their family, which would
-prompt the input of the person's data.
+The process to fulfill this requirement requires the actor to select they want to add a new email address to their profile, which would
+prompt the input of the new email.
 
-The main user's FamilyID will be automatically retrieved by checking who is logged into the application. It will also verify if the main user is the admin of their own family.
+The main user's ID will be automatically retrieved by checking who is logged into the application. 
 
-Given the current absence of an UI layer the required data will be passed directly into the AddFamilyMemberController.
+Given the current absence of an UI layer the required data will be passed directly into the AddEmailController.
 
-We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the family repository.
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the person's profile.
 
-Since a Person can be created without a PhoneNumber, in order to not have two different constructors, the AddPersonDTO will accept an Integer object for the phone number, in order to have the possibility of Null values. The PhoneNumber class will also not throw an exception if it receives a null value. The Person will not add the PhoneNumber object to its list if it was built with a null value.
+We opted to use an AddEmailDTO in order to account for possible future changes.
 
 ## 3.2 Class Diagram
 
-```puml
+```
 @startuml
 
-title US101 Add a Family Member
+title US151 Add Email
 
 skinparam linetype polyline
 hide empty members
 
-class AddFamilyMemberController {
-  + addFamilyMember()
-}
+class AddEmailController {
++ addEmail()
+  }
 
 class Application {
 + getPersonRepository()
-+ getFamilyRepository()
 + getLoggedPersonID()
-+ getLoggedPersonFamilyID()
-}
+  }
 
-class AddFamilyMemberService {
-+ addPerson()
-}
+class AddEmailService {
++ addEmail()
+  }
 
-
-class AddPersonDTO {
-}
-
-class FamilyID <<ValueObject>> <<ID>> {
+class AddEmailDTO {
 }
 
 class Email <<ValueObject>> <<ID>> {
 }
 
-class FamilyRepository <<Repository>> {
-+ verifyAdmin()
-
-}
-
 class PersonRepository <<Repository>> {
-+ createAndAddPerson()
++ isEmailAlreadyRegistered()
++ addEmail()
 
 }
 
 class Person <<Entity>> <<Root>> {
-}
++ doesPersonHaveThisEmail()
++ addEmail()
+  }
 
-class Address <<ValueObject>> {
-}
+AddEmailController -d> Application : application
+AddEmailController .-> AddEmailDTO
+AddEmailController .-d> AddEmailService
 
-class BirthDate <<ValueObject>> {
-}
+AddEmailService --u> Application : application
 
-class PhoneNumber <<ValueObject>> {
-}
+AddEmailService .-l> AddEmailDTO
+AddEmailService .-> PersonRepository
+AddEmailService -.> Email
 
-class Name <<ValueObject>> {
-}
+PersonRepository *-- "1" Person
 
-class VATNumber <<ValueObject>> {
-}
+Person -u-> "1" Email : emailList
 
-class Family <<Entity>> <<Root>> {
-}
-
-
-
-AddFamilyMemberController -d-> Application : application
-AddFamilyMemberController .r> AddPersonDTO
-AddFamilyMemberController -d---.> AddFamilyMemberService
-
-AddFamilyMemberService -u-> Application : application
-
-AddFamilyMemberService .u> AddPersonDTO
-AddFamilyMemberService --.l--> FamilyRepository
-AddFamilyMemberService .r> PersonRepository
-AddFamilyMemberService -d-.> FamilyID
-AddFamilyMemberService -down-.> Email
-AddFamilyMemberService -down-.> Address
-AddFamilyMemberService -d-.> BirthDate
-AddFamilyMemberService -d-.> PhoneNumber
-AddFamilyMemberService -d-.> Name
-AddFamilyMemberService -d-.> VATNumber
-
-
-FamilyRepository *--l-- "0..*" Family
-PersonRepository *--d--- "0..*" Person
-
-Family -down-> "1" Email : admin
-Family -down-> "1" FamilyID : id
-
-Person -u--> "1" FamilyID : family
-Person -u--> "1" Email : id
-Person -u--> "1" Address : address
-Person -u--> "1" BirthDate : birthDate
-Person -up--> "0..1" PhoneNumber : phoneNumber
-Person -up--> "1" Name : name
-Person -up--> "1" VATNumber : vatNumber
 @enduml
 ```
 
 
 ## 3.3. Functionality Use
 
-The AddFamilyMemberController creates a new AddFamilyMemberService object using an addPersonDTO and the
-application.
-The AddFamilyMemberService will create all the necessary value objects to add a Family Member to the Person Repository.
-The AddFamilyMemberService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
-The AddFamilyMemberService will invoke the Application to retrieve the logged person's email (unique ID) and familyID.
-The AddFamilyMemberService will invoke the FamilyRepository to verify Administrator privileges.
-The AddFamilyMemberService will invoke the PersonRepository to create the Person object for the Family Member,
-providing their email is unique. If it isn't, the process will fail.
-The AddFamilyMemberController will then return a true or false response depending on the success or insuccess
-of creating the Family Member.
+The AddEmailController creates a new AddEmailService object using an addEmailDTO.
+The AddEmailService will create all the necessary EmailAddress value objects to add to the logged user's profile.
+The AddEmailService will invoke the Application to retrieve the PersonRepository.
+The AddEmailService will invoke the Application to retrieve the logged person's email (unique ID).
+The AddEmailService will invoke the PersonRepository to add the EmailAddress object to the logged user's profile, providing their email is unique. If it isn't, the process will fail.
+The AddEmailController will then return a true or false response depending on the success or insuccess
+of creating and adding the EmailAddress object.
 
-We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the Person Repository.
+We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the Person's Email List.
 
 # 3.4 Sequence Diagram
 
@@ -265,83 +203,73 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 
 autonumber
 header Sequence Diagram
-title US101 Add a Family Member
+title US151 Add Email
 
-actor "Family Administrator" as familyAdmin
+actor "Family Member" as actor
 participant "UI" as UI
-participant ": AddFamilyMemberController" as controller
-participant ": AddFamilyMemberService" as FamAdminService
+participant ": AddEmailController" as controller
+participant ": AddEmailService" as service
 participant "anApplication\n : Application" as app
-participant "aFamilyRepository\n : FamilyRepository" as frepository
+participant "newEmail\n: EmailAddress" as email
 participant "aPersonRepository\n: PersonRepository" as prepository
-participant "newFamilyMember\n : Person" as admin
+participant "familyMember\n : Person" as person
 
-activate familyAdmin
-familyAdmin -> UI: I want to add a Family Member
+activate actor
+actor -> UI: I want to add an Email
 activate UI
 return request data
-familyAdmin -> UI : input Family Member data
+actor -> UI : input Email
 activate UI
 
-UI -> controller : addFamilyMember(addPersonDTO)
+UI -> controller : addEmail(addEmailDTO)
 activate controller
 
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : addFamilyMember(addPersonDTO)
-activate FamAdminService
+controller -> service** : create(application)
+controller -> service : addEmail(addEmailDTO)
+activate service
 
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-
-FamAdminService -> app : getLoggedPersonID()
+service -> app : getLoggedPersonID()
 activate app
 return loggedUserID
 
-FamAdminService -> frepository: verifyAdmin(loggedUserID)
-activate frepository
-return
-
-FamAdminService -> app : getPersonRepository()
+service -> app : getPersonRepository()
 activate app
 return aPersonRepository
 
-FamAdminService -> app : getLoggedPersonFamilyID()
-activate app
-return familyID
+service -> email** : create(emailString)
 
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, familyID)
+service -> prepository : addEmail(loggedUserID, newEmail)
 activate prepository
+prepository -> prepository : isEmailAlready\nRegistered(newEmail)
 
-prepository -> prepository : isEmailAlreadyRegistered(email)
+alt Email not registered
 
-alt false
+prepository -> prepository : getPersonByID(loggedUserID)
+prepository -> person : addEmail(newEmail)
+activate person
+person --> prepository
+deactivate person
 
-prepository -> admin** : create
-activate admin
+prepository --> service
 
-prepository -> prepository : addToRepository (newFamilyMember)
-prepository --> FamAdminService
-deactivate admin
-
-FamAdminService --> controller : success
+service --> controller : success
 
 controller --> UI : success
 
-UI --> familyAdmin : inform success
+UI --> actor : inform success
 
-else true
+else Email already registered
 
-prepository --> FamAdminService
+prepository --> service
 deactivate prepository
 
-FamAdminService --> controller : fail
-deactivate FamAdminService
+service --> controller : fail
+deactivate service
 
 controller --> UI : fail
 deactivate controller
 
-UI --> familyAdmin : inform failure
+UI --> actor : inform failure
 deactivate UI
 
 end
@@ -365,7 +293,7 @@ We applied the following principles:
         - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
 
     - Pure Fabrication:
-        - In this user story the Application and AddFamilyMemberService class were used, which does not represent a business domain concept. It was created to be responsible for all operations regarding the creation of a Family Member.
+        - In this user story the Application and AddEmailService class were used, which do not represent a business domain concept. The AddEmailService was created to be responsible for all operations regarding the creation of an Email.
 
     - High cohesion and Low Coupling:
         - The creation of the Repository Interface will provide low Coupling and high Cohesion.
@@ -375,7 +303,7 @@ We applied the following principles:
 
 - SOLID:
     - Single-responsibility principle:
-        - This pattern was used in the AddFamilyMemberService, in which the only responsibility is to add a Family Member.
+        - This pattern was used in the AddEmailService, in which the only responsibility is to add an Email to an already existing Family Member.
 
 
 ## 3.6. Tests
@@ -384,89 +312,94 @@ We applied the following principles:
 
 #### 3.6.1.1. Success
 
-**Test 1:** Test that it is possible to add a new Family Member successfully
+**Test 1:** Test that it is possible to add a new EmailAddress successfully
 
 ```java
- @DisplayName("Successfully add a person")
+ @DisplayName("Successfully add a new email address")
     @Test
-    void mustReturnTrueAddPerson() {
+    void mustReturnTrueAddEmail() {
         application.logInAsAdmin();
 
-        assertTrue(addFamilyMemberController.addPerson(addPersonDTO));
+        assertTrue(addEmailController.addEmail(addEmailDTO));
     }
 
 ```
 
 #### 3.6.1.2 Failure
 
-**Test 2:** Test that it is not possible to add a new Family Member if logged user is not the admin
+**Test 2:** Test that it is not possible to add a new Email Address if the email is invalid
 
 ```java
-@DisplayName("Unsuccessfully add a person - not the admin")
-    @Test
-    void mustReturnFalseAddPersonNotAdmin() {
-        application.logInAsNotAdmin();
+@DisplayName("Unsuccessfully add an email - invalid email")
+@ParameterizedTest
+@ValueSource(strings = {"  ","invalidemail@@gmail.com","tonyze"})
+@NullAndEmptySource   
 
-        assertFalse(addFamilyMemberController.addPerson(addPersonDTO));
+    void mustReturnFalseAddInvalidEmail(String value) {
+    AddEmailDTO addEmailDTO = new AddEmailDTO(value);    
+    application.logInAsAdmin();
+
+        assertFalse(addEmailController.addEmail(addEmailDTO));
     }
 
 
 ```
 
-**Test 3:** Test that it is not possible to create a new Family Member if the email is already registered in the application.
+**Test 3:** Test that it is not possible to add a new email if the user already has that email
 
 ```java
-@DisplayName("Unsuccessfully add a person - email already registered")
+@DisplayName("Unsuccessfully add an email - email already registered to user")
     @Test
-    void mustReturnFalseAddPersonEmailRegistred() {
+    void mustReturnFalseAddEmailEmailRegistred() {
         application.logInAsAdmin();
-        
-        assertFalse(addFamilyMemberController.addPerson(addAdminPersonDTO));
+
+            assertFalse(addEmailController.addEmail(addAdminEmailDTO));
+    }
+```
+**Test 3:** Test that it is not possible to add a new email if another user already has that email
+
+```java
+@DisplayName("Unsuccessfully add an email - email already registered to another user")
+    @Test
+    void mustReturnFalseAddEmailEmailRegistredAnotherUser() {
+        application.logInAsAdmin();
+
+            assertFalse(addEmailController.addEmail(addOtherUserEmailDTO));
     }
 ```
 
 # 4. Implementation
 
-1. All the Value Objects are initially instantiated, with respective validations.
+1. The EmailAddress is initially instantiated, with respective validations.
 
 ```java
- public void addPerson(AddPersonDTO addPersonDTO) {
-        FamilyRepository familyRepository = application.getFamilyRepository();
-        EmailAddress loggedUserID = application.getLoggedPersonID();
-        familyRepository.verifyAdmin(loggedUserID);
-
-        Name name = new Name(addPersonDTO.unpackName());
-        BirthDate birthDate = new BirthDate(addPersonDTO.unpackBirthDate());
-        EmailAddress email = new EmailAddress(addPersonDTO.unpackEmail());
-        VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
-        Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
-        FamilyID familyID = application.getLoggedPersonFamilyID();
-
+ public void addEmail(AddEmailDTO addEmailDTO) {
         PersonRepository personRepository = application.getPersonRepository();
-        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, familyID);
+        EmailAddress loggedUserID = application.getLoggedPersonID();
+        
+        EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
+        
+        personRepository.addEmailToPerson(email, loggedUserID);
     }
 ```
 
-2. Logged User ID is automatically retrieved from the Logged User and checked to see if they are an admin
+2. The Person Repository will check if the email is already registered, and add the email to the target person
+
 
 ```java
-   public void verifyAdmin(EmailAddress loggedUserID) {
-        boolean result = false;
-        for (Family family : this.families) {
-            if(family.isPersonTheAdmin(loggedUserID)){
-                result = true;
-            }
-        }
-        if(!result){
-            throw new UserIsNotAdminException();
-        }
+   public void addEmailToPerson(EmailAddress email, EmailAddress personID) {
+        if (!isEmailAlreadyRegistered(email)) {
+        Person loggedUser = getPersonByEmail(personID);
+        loggedUser.addEmail(email);
+        } else {
+        throw new EmailAlreadyRegisteredException();
+        }    
+        
     } 
    ```
 
 
-3. Before creating the Person, the email is validated in the Person Repository in order to guarantee that it is
-   Unique
+3. Before adding the email, the email is validated in the Person Repository in order to guarantee that it is Unique
 
 ```java
       private boolean isEmailAlreadyRegistered(EmailAddress email) {
@@ -481,22 +414,10 @@ We applied the following principles:
    ```
 
 
-```java
-public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
-        if (!isEmailAlreadyRegistered(email)) {
-            Person person = new Person(name, birthDate, email, vat, phone, address, familyID);
-            this.people.add(person);
-        } else {
-            throw new EmailAlreadyRegisteredException();
-        }
-    }
-```
-
 # 5. Integration
 
-This functionality uses the same method to add the Person to the PersonRepository as the US010.
+This functionality uses the same method to check the existence of the Email Address as the US010 and US101
 
-In US010 we decided to separate the Person and Family DTO's in order to reuse the Person DTO in this US, avoiding code duplication.
 
 # 6. Observations
 

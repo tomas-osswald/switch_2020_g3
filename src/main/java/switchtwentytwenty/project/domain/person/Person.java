@@ -37,6 +37,13 @@ public class Person implements AggregateRoot {
         }
     }
 
+    /**
+     * This method is used to tell the Person to verify if they have that email associated. This way, when the Person
+     * Repository iterates through all the Person in the entire system, doesn't use Getters and tells the Information Expert
+     * to do it (Tell don't ask)
+     * @param emailToCheck
+     * @return
+     */
     public boolean doesPersonHaveThisEmail(EmailAddress emailToCheck) {
         boolean result = false;
         for (EmailAddress email : emails) {
