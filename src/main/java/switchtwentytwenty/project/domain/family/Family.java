@@ -25,7 +25,8 @@ public class Family implements AggregateRoot {
     private Family() {
     }
 
-    /*private void checkMandatoryAttributes() {
+    /*
+    private void checkMandatoryAttributes() {
         if (this.id == null){
             throw new NullPointerException("FamilyID is Mandatory");
         }

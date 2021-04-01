@@ -1,4 +1,4 @@
-# US150 Get Profile Informatio
+# US150 Get Profile Information
 
 # 1. Requirements
 
@@ -138,6 +138,7 @@ class GetFamilyMemberProfileController {
 
 class Application {
   + getPersonRepository()
+  + getLoggedPerson()
 }
 
 class GetFamilyMemberProfileService {
@@ -184,6 +185,8 @@ GetFamilyMemberProfileService ..> PersonRepository
 
 PersonRepository *-- "1..*" Person
 
+'Ligação de ProfileDTO para PersonRepo e GetCenasService?!
+
 Person ..> ProfileDTO
 
 Person --> "1" Email : id
@@ -204,6 +207,7 @@ ProfileDTO -u-> VATNumber
 @enduml
 ```
 
+[comment]: # (Ligação de ProfileDTO para PersonRepo e GetCenasService?!)
 
 ## 3.3. Functionality Use
 
@@ -233,24 +237,25 @@ actor "Family Member" as actor
 participant "UI" as UI
 participant ": GetMyProfile\nInfoController" as controller
 participant ": GetProfile\nInfoService" as service
-participant "Application" as app
-participant "PersonRepository" as repository
+participant ": Application" as app
+participant "personRepository : PersonRepository" as repository
 participant "aPerson \n: Person" as person
 activate actor
 actor -> UI: Get my profile\n information
 activate UI
-UI -> actor : request data
+return request data
 actor -> UI : input Family Member data
+activate UI
 UI -> controller : getProfileInfo()
 activate controller
 controller -> service : getProfileInfo()
 activate service
 service -> app : getPersonRepository()
 activate app
-return repositoryservice
+return personRepository
 service -> repository : getProfileInfo(LoggedEmail)
 activate repository
-repository -> repository : getPersonByID(email)
+repository -> repository : aPerson = getPersonByID(email)
 repository -> person** : getProfileInfo(email)
 ref over person
 
@@ -268,7 +273,7 @@ service --> controller : aProfileDTO
 deactivate service
 controller --> UI : aProfileDTO
 deactivate controller
-UI -> actor : show Profile
+return show Profile
 deactivate UI
 deactivate actor
 
@@ -348,14 +353,11 @@ deactivate person
 
 ## 3.5. Applied Patterns
 
-We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
-used the SOLID Single Responsibility Principle.
-
 We applied the following principles:
 
 - GRASP:
    - Information expert:
-      - This pattern is represented in Person object because it stores all the Person attributes associated with it. PersonRepository just stores all the Person´s objects.
+      - This pattern is used in Person class because it stores all the Person attributes associated with it and creates its own DTO. PersonRepository just stores all the Person´s objects.
       
    - Controller:
       - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.
@@ -363,16 +365,16 @@ We applied the following principles:
    - Pure Fabrication:
       - In this user story the Application and GetProfileInfoService class were used, which does not represent business domain concepts. They were created to be responsible for obtaining profile information.
 
-   - High cohesion and Low Coupling:
-      - The creation of the GetProfileInfoService class provided low Coupling and high Cohesion, keeping one Class as the Information Expert.
-
-   - Protected Variation:
-      - An XXXXXXXX was used in which the polymorphism was used to be implemented in several classes, each representative of a type of Account.
+[comment]: # (- Protected Variation:
+      - O uso do DTO é PV?! Se houver uma alteração nos atributos da classe Person, a sua informação estando encapsulada num DTO só vai sofrer alterações na construção e na "entrega".)
 
 - SOLID:
    - Single-responsibility principle:
-      - this pattern was used in the GetPersonInfoService class, in which is the only responsibility is manage person profile operations.
-
+      - this pattern was used in the GetPersonInfoService class, in which is the only responsibility is manage person profile operations;
+      - also used in ProfileDTO, its only responsibility is to store and deliver Person Data.
+   
+   - Open-Closed Principle:
+      - Any adicional field will not impact the methods. Any change within Person attributes will have impact only on ProfileDTO creation and UI representation.
 
 ## 3.6. Tests
 
@@ -414,7 +416,7 @@ No failure tests
 
 _____
 
-### 3.6.4. GetProfileInfoController
+### 3.6.4. GetFamilyMemberProfileController
 
 #### 3.6.4.1. Success
 
@@ -428,67 +430,6 @@ _____
 
 
 # 4. Implementation
-
-1. All the Value Objects are initially instanced (instantiated), with respective validations.
-
-
-      public boolean createFamilyAndAddAdmin() {
-      boolean result;
-      EmailAddress adminEmail = new EmailAddress(addPersonDTO.unpackEmail());
-      FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
-      Name name = new Name(addPersonDTO.unpackName());
-      BirthDate birthdate = new BirthDate(addPersonDTO.unpackBirthDate());
-      VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
-      PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
-      Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
-      CCnumber cc = new CCnumber(addPersonDTO.unpackCCNumber());
-      RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
-
-2. Family ID is automatically generated by the Family Repository (Information Expert)
-
-
-      public FamilyID generateAndGetFamilyID() {
-      FamilyID familyID = new FamilyID(UUID.randomUUID());
-      if (checkIfFamilyIDExists(familyID)) {
-      familyID = generateAndGetFamilyID();
-      }
-      return familyID;
-      }
-
-3. AdminEmail is added to the Family upon its instantiation. The Family is immediately added to the FamilyRepository (
-   The administrator email validation will come later.)
-
-
-      public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, EmailAddress adminEmail) {
-      Family family = new Family(familyID, familyName, registrationDate, adminEmail);
-      this.families.add(family);
-      }
-
-4. Before creating the Administrator, the email is validated in the Person Repository in order to guarantee that it is
-   Unique
-
-
-      private boolean isEmailAlreadyRegistered(EmailAddress email) {
-      boolean emailIsRegistered = false;
-      for (Person person : people) {
-      if (person.isSameEmail(email)) {
-      emailIsRegistered = true;
-      }
-      }
-      return emailIsRegistered;
-      }
-
-5. If the Email fails verification, the Family is removed from the FamilyRepository and the process fails.
-
-   
-      try {
-      personRepository.createAndAddPerson(name, birthdate, adminEmail, vat, phone, address, cc, familyID);
-      result = true;
-      } catch (EmailAlreadyRegisteredException e) {
-      familyRepository.removeFamily(familyID);
-      result = false;
-      }
-      return result;
 
 
 # 5. Integration
