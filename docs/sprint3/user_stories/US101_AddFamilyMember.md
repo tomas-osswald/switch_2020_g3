@@ -423,7 +423,8 @@ We applied the following principles:
         application.logInAsAdmin();
         
         assertFalse(addFamilyMemberController.addPerson(addAdminPersonDTO));
-    }
+    }  
+    
 ```
 
 # 4. Implementation
@@ -501,7 +502,7 @@ In US010 we decided to separate the Person and Family DTO's in order to reuse th
 
 # 6. Observations
 
-The Person's unique ID is considered to be the 0 index EmailAddress on the Person's EmailAddress List.
+The Person's unique ID is not a part of the email adress list.
 
 
 
