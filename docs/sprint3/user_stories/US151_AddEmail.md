@@ -127,7 +127,7 @@ We opted to use an AddEmailDTO in order to account for possible future changes.
 
 ## 3.2 Class Diagram
 
-```
+```plantuml
 @startuml
 
 title US151 Add Email
@@ -155,7 +155,7 @@ class Email <<ValueObject>> <<ID>> {
 }
 
 class PersonRepository <<Repository>> {
-+ isEmailAlreadyRegistered()
+- isEmailAlreadyRegistered()
 + addEmail()
 
 }
@@ -185,12 +185,12 @@ Person -u-> "1" Email : emailList
 
 ## 3.3. Functionality Use
 
-The AddEmailController creates a new AddEmailService object using an addEmailDTO.
-The AddEmailService will create all the necessary EmailAddress value objects to add to the logged user's profile.
-The AddEmailService will invoke the Application to retrieve the PersonRepository.
-The AddEmailService will invoke the Application to retrieve the logged person's email (unique ID).
-The AddEmailService will invoke the PersonRepository to add the EmailAddress object to the logged user's profile, providing their email is unique. If it isn't, the process will fail.
-The AddEmailController will then return a true or false response depending on the success or insuccess
+- The AddEmailController creates a new AddEmailService object using an addEmailDTO.
+- The AddEmailService will create all the necessary EmailAddress value objects to add to the logged user's profile.
+- The AddEmailService will invoke the Application to retrieve the PersonRepository.
+- The AddEmailService will invoke the Application to retrieve the logged person's email (unique ID).
+- The AddEmailService will invoke the PersonRepository to add the EmailAddress object to the logged user's profile, providing their email is unique. If it isn't, the process will fail.
+- The AddEmailController will then return a true or false response depending on the success or insuccess
 of creating and adding the EmailAddress object.
 
 We chose to verify the uniqueness of the Email Address after instancing the email. This way we could minimize the possibility of duplicate emails being added since the verification would occur at the moment of addition to the Person's Email List.
@@ -236,7 +236,11 @@ service -> app : getPersonRepository()
 activate app
 return aPersonRepository
 
+service -> service : emailString = addEmailDTO.unpackEmail()
 service -> email** : create(emailString)
+activate email
+email -> email : validate data
+return ok
 
 service -> prepository : addEmail(loggedUserID, newEmail)
 activate prepository
