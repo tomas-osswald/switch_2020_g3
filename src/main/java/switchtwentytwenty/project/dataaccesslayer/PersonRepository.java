@@ -63,6 +63,16 @@ public class PersonRepository implements Repository<Person> {
         }
     }
 
+    public void addEmailToPerson(EmailAddress email, EmailAddress personID) {
+        if (!isEmailAlreadyRegistered(email)) {
+            Person loggedUser = getPersonByEmail(personID);
+            loggedUser.addEmail(email);
+        } else {
+            throw new EmailAlreadyRegisteredException();
+        }
+
+    }
+
 
  /*   private class People implements Iterable<Person>{
         private final List<Person> people;

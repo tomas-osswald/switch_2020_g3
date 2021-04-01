@@ -244,7 +244,7 @@ prepository -> prepository : isEmailAlready\nRegistered(newEmail)
 
 alt Email not registered
 
-prepository -> prepository : getPersonByID(loggedUserID)
+prepository -> prepository : familyMember = getPersonByID(loggedUserID)
 prepository -> person : addEmail(newEmail)
 activate person
 person --> prepository

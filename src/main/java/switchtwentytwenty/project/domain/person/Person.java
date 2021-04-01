@@ -63,4 +63,8 @@ public class Person implements AggregateRoot {
     public EmailAddress getID() {
         return emails.get(0);
     }
+
+    public void addEmail(EmailAddress email) {
+        this.emails.add(email);
+    }
 }
