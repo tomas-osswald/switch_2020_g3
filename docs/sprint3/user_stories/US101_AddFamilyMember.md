@@ -503,6 +503,3 @@ In US010 we decided to separate the Person and Family DTO's in order to reuse th
 # 6. Observations
 
 The Person's unique ID is not a part of the email adress list.
-
-
-

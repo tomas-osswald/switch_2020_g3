@@ -1,4 +1,4 @@
-# US150 Get Profile Informatio
+# US150 Get Profile Information
 
 # 1. Requirements
 
@@ -243,7 +243,7 @@ UI -> actor : request data
 actor -> UI : input Family Member data
 UI -> controller : getProfileInfo()
 activate controller
-controller -> service : getProfileInfo()
+controller -> service* : getProfileInfo()
 activate service
 service -> app : getPersonRepository()
 activate app
