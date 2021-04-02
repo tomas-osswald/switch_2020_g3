@@ -23,7 +23,7 @@ public class Person implements AggregateRoot {
     public Person(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         this.name = name;
         this.birthdate = birthDate;
-        this.emails.add(email);
+        this.id = email;
         this.vat = vat;
         addPhone(phone);
         this.address = address;
