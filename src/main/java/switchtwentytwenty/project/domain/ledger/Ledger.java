@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.ledger;
 
-import switchtwentytwenty.project.util.AggregateRoot;
+import switchtwentytwenty.project.shared.AggregateRoot;
 import switchtwentytwenty.project.shared.LedgerID;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 import java.util.UUID;
 

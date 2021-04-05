@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.dataaccesslayer;
 
 
-import switchtwentytwenty.project.util.Repository;
+import switchtwentytwenty.project.shared.Repository;
 import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;

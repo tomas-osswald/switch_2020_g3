@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.ledger;
 
 import switchtwentytwenty.project.shared.InvoiceID;
 import switchtwentytwenty.project.shared.Movement;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 public class Payment implements Transaction {
 

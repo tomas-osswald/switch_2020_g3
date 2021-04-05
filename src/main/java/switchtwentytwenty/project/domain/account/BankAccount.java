@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.domain.account;
 
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 import java.util.UUID;
 

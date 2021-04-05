@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.account;
 
 import switchtwentytwenty.project.shared.AccountID;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 public class CashAccount implements Account {
 

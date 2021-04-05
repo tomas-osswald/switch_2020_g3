@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.util.ValueObject;
-
 import java.util.Objects;
 
 public class FamilyName implements ValueObject<String> {

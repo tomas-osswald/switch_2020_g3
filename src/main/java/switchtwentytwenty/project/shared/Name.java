@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.util.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
 public class Name implements ValueObject<String> {

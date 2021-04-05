@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.family;
 
 import switchtwentytwenty.project.shared.*;
-import switchtwentytwenty.project.util.AggregateRoot;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.AggregateRoot;
+import switchtwentytwenty.project.shared.ID;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

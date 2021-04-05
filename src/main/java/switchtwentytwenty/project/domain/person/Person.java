@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.person;
 
-import switchtwentytwenty.project.util.AggregateRoot;
+import switchtwentytwenty.project.shared.AggregateRoot;
 import switchtwentytwenty.project.shared.*;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 import java.util.ArrayList;
 import java.util.List;

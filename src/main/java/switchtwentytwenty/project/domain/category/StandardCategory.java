@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.domain.category;
 
 import switchtwentytwenty.project.shared.CategoryID;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 public class StandardCategory implements Category {
 

@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.dataaccesslayer;
 
-import switchtwentytwenty.project.util.Repository;
+import switchtwentytwenty.project.shared.Repository;
 import switchtwentytwenty.project.domain.family.Family;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.shared.EmailAddress;

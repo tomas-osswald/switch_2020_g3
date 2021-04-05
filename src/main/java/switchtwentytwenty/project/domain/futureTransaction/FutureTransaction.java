@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.domain.futureTransaction;
 
-import switchtwentytwenty.project.util.AggregateRoot;
+import switchtwentytwenty.project.shared.AggregateRoot;
 import switchtwentytwenty.project.shared.FutureTransactionID;
 import switchtwentytwenty.project.shared.InvoiceID;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 public class FutureTransaction implements AggregateRoot {
 

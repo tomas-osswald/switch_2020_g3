@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.domain.invoice;
 
-import switchtwentytwenty.project.util.AggregateRoot;
+import switchtwentytwenty.project.shared.AggregateRoot;
 import switchtwentytwenty.project.shared.InvoiceID;
-import switchtwentytwenty.project.util.ID;
+import switchtwentytwenty.project.shared.ID;
 
 public class Invoice implements AggregateRoot {
 

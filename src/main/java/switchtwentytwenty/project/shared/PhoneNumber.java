@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.util.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidPhoneNumberException;
 
 import java.util.regex.Pattern;
