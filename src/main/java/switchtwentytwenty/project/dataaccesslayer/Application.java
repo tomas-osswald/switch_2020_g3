@@ -35,7 +35,7 @@ public class Application {
 
     @Deprecated
     public void logInAsAdmin() {
-        this.loggedPerson = personRepository.getPersonByEmail(familyRepository.getFirstAdminEmail());
+        this.loggedPerson = personRepository.getByID(familyRepository.getFirstAdminEmail());
     }
 
     @Deprecated
@@ -44,7 +44,7 @@ public class Application {
     }
 
     public EmailAddress getLoggedPersonID() {
-        return this.loggedPerson.getID();
+        return this.loggedPerson.id();
     }
 
     public FamilyID getLoggedPersonFamilyID() {

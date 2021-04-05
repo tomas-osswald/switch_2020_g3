@@ -1,21 +1,18 @@
 package switchtwentytwenty.project.dataaccesslayer;
 
-import switchtwentytwenty.project.Repository;
+import switchtwentytwenty.project.util.Repository;
 import switchtwentytwenty.project.domain.family.Family;
-import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.shared.EmailAddress;
 import switchtwentytwenty.project.shared.FamilyID;
 import switchtwentytwenty.project.shared.FamilyName;
 import switchtwentytwenty.project.shared.RegistrationDate;
-import switchtwentytwenty.project.util.DefaultFamilyIDGenerator;
-import switchtwentytwenty.project.util.FamilyIDGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FamilyRepository implements Repository<Family> {
+public class FamilyRepository implements Repository<Family, FamilyID> {
 
     private final List<Family> families;
     //private final Families families = new Families();
@@ -50,7 +47,7 @@ public class FamilyRepository implements Repository<Family> {
     private boolean checkIfFamilyIDExists(FamilyID familyID) {
         boolean result = false;
         for (Family family : this.families) {
-            if (family.isIDofThisFamily(familyID)) {
+            if (family.hasID(familyID)) {
                 result = true;
             }
         }
@@ -58,16 +55,16 @@ public class FamilyRepository implements Repository<Family> {
     }
 
     public void removeFamily(FamilyID familyID) {
-        Family family = getFamilyByID(familyID);
+        Family family = getByID(familyID);
         if (family != null) {
             this.families.remove(family);
         }
     }
 
-    private Family getFamilyByID(FamilyID familyID) {
+    public Family getByID(FamilyID familyID) {
         Family targetFamily = null;
         for (Family family : this.families) {
-            if (family.isIDofThisFamily(familyID)) {
+            if (family.hasID(familyID)) {
                 targetFamily = family;
             }
         }
@@ -90,6 +87,8 @@ public class FamilyRepository implements Repository<Family> {
     public EmailAddress getFirstAdminEmail() {
         return this.families.get(0).getAdminEmail();
     }
+
+
 
     /*
     v1

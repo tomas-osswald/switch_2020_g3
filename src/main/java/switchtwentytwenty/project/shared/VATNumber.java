@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ValueObject;
+import switchtwentytwenty.project.util.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidVATException;
 
 import java.util.Objects;

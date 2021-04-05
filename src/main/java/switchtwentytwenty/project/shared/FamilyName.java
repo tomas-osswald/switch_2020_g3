@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ValueObject;
+import switchtwentytwenty.project.util.ValueObject;
 
 import java.util.Objects;
 
