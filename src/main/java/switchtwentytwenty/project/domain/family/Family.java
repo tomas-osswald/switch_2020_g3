@@ -1,19 +1,16 @@
 package switchtwentytwenty.project.domain.family;
 
-import switchtwentytwenty.project.AggregateRoot;
-import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.shared.*;
+import switchtwentytwenty.project.shared.AggregateRoot;
+import switchtwentytwenty.project.shared.ID;
 
-import javax.management.InvalidAttributeValueException;
-import javax.naming.directory.InvalidAttributesException;
-import java.io.InvalidObjectException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Family implements AggregateRoot {
+public class Family implements AggregateRoot<FamilyID> {
 
     private FamilyID id;
     private FamilyName name;
@@ -95,7 +92,8 @@ public class Family implements AggregateRoot {
         this.admin = adminEmail;
     }
 
-    public boolean isIDofThisFamily(FamilyID familyID) { //Implementado do Agregate Root ?
+    @Override
+    public boolean hasID(ID familyID) { //Implementado do Agregate Root ?
         return this.id.equals(familyID);
     }
 
@@ -145,4 +143,11 @@ public class Family implements AggregateRoot {
     public EmailAddress getAdminEmail() {
         return this.admin;
     }
+
+    @Override
+    public FamilyID id() {
+        return this.id;
+    }
+
+
 }

@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidAddressNumberException;
 import switchtwentytwenty.project.exceptions.InvalidCityException;
 import switchtwentytwenty.project.exceptions.InvalidStreetException;

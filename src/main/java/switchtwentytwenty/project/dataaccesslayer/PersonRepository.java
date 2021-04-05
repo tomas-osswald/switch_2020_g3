@@ -1,8 +1,7 @@
 package switchtwentytwenty.project.dataaccesslayer;
 
 
-import switchtwentytwenty.project.Repository;
-import switchtwentytwenty.project.deprecated.CCnumber;
+import switchtwentytwenty.project.shared.Repository;
 import switchtwentytwenty.project.domain.person.Person;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
@@ -11,7 +10,7 @@ import switchtwentytwenty.project.shared.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonRepository implements Repository<Person> {
+public class PersonRepository implements Repository<Person, EmailAddress> {
 
     private final List<Person> people;
 
@@ -32,14 +31,15 @@ public class PersonRepository implements Repository<Person> {
         }
     }
 
-    public Person getPersonByEmail(EmailAddress email) {
+    @Override
+    public Person getByID(EmailAddress email) {
         return retrievePersonFromList(email);
     }
 
     private boolean isEmailAlreadyRegistered(EmailAddress email) {
         boolean emailIsRegistered = false;
         for (Person person : people) {
-            if (person.doesPersonHaveThisEmail(email)) {
+            if (person.hasID(email)) {
                 emailIsRegistered = true;
             }
         }
@@ -49,7 +49,7 @@ public class PersonRepository implements Repository<Person> {
     private Person retrievePersonFromList(EmailAddress email) {
         Person result = null;
         for (Person person : people) {
-            if (person.doesPersonHaveThisEmail(email)) {
+            if (person.hasID(email)) {
                 result = person;
             }
         }
@@ -65,13 +65,16 @@ public class PersonRepository implements Repository<Person> {
 
     public void addEmailToPerson(EmailAddress email, EmailAddress personID) {
         if (!isEmailAlreadyRegistered(email)) {
-            Person loggedUser = getPersonByEmail(personID);
+            Person loggedUser = getByID(personID);
             loggedUser.addEmail(email);
         } else {
             throw new EmailAlreadyRegisteredException();
         }
 
     }
+
+
+
 
 
  /*   private class People implements Iterable<Person>{

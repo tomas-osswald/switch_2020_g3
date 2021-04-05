@@ -1,12 +1,13 @@
 package switchtwentytwenty.project.domain.person;
 
-import switchtwentytwenty.project.AggregateRoot;
+import switchtwentytwenty.project.shared.AggregateRoot;
 import switchtwentytwenty.project.shared.*;
+import switchtwentytwenty.project.shared.ID;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person implements AggregateRoot {
+public class Person implements AggregateRoot<EmailAddress> {
 
     private Name name;
     private BirthDate birthdate;
@@ -44,7 +45,8 @@ public class Person implements AggregateRoot {
      * @param emailToCheck
      * @return
      */
-    public boolean doesPersonHaveThisEmail(EmailAddress emailToCheck) {
+    @Override
+    public boolean hasID(ID emailToCheck) {
         boolean result = false;
         for (EmailAddress email : emails) {
             if (email.equals(emailToCheck)) {
@@ -62,8 +64,8 @@ public class Person implements AggregateRoot {
         return this.familyID.clone();
     }
 
-
-    public EmailAddress getID() {
+    @Override
+    public EmailAddress id() {
         return this.id;
     }
 

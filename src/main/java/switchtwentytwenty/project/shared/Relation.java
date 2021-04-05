@@ -1,8 +1,6 @@
 package switchtwentytwenty.project.shared;
 
 
-import switchtwentytwenty.project.ValueObject;
-
 public class Relation implements ValueObject {
 
     private EmailAddress memberA;

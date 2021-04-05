@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ValueObject;
-
 public class ParentCategory implements ValueObject<Integer> {
 
     private int parentID;
