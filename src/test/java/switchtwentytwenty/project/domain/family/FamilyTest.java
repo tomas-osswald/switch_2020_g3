@@ -44,7 +44,7 @@ class FamilyTest {
         Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
         FamilyID sameID = new FamilyID(id);
         //Act
-        boolean result = aFamily.isIDofThisFamily(sameID);
+        boolean result = aFamily.hasID(sameID);
         //Assert
         assertTrue(result);
     }
@@ -64,7 +64,7 @@ class FamilyTest {
         UUID differentID = UUID.randomUUID();
         FamilyID otherFamilyID = new FamilyID(differentID);
         //Act
-        boolean result = aFamily.isIDofThisFamily(otherFamilyID);
+        boolean result = aFamily.hasID(otherFamilyID);
         //Assert
         assertFalse(result);
     }

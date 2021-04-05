@@ -1,10 +1,8 @@
 package switchtwentytwenty.project.domain.person;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.shared.*;
 
 import java.util.UUID;
@@ -48,14 +46,14 @@ class PersonTest {
     @Test
     void shouldAssertTrueIsSameEmail() {
         EmailAddress test = new EmailAddress(VALIDEMAIL);
-        assertTrue(validPerson.doesPersonHaveThisEmail(test));
+        assertTrue(validPerson.hasID(test));
     }
 
     @DisplayName("Check if method isSameEmail returns false when email is not the same")
     @Test
     void shouldAssertFalseIsNotSameEmail() {
         EmailAddress test = new EmailAddress("tonyze@latinhater.pt");
-        assertFalse(validPerson.doesPersonHaveThisEmail(test));
+        assertFalse(validPerson.hasID(test));
     }
 
     @DisplayName("Valid Person Constructor Test")

@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ValueObject;
-
 import java.time.LocalDate;
 import java.util.Objects;
 

@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ID;
-import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import java.util.Objects;
 import java.util.regex.Pattern;

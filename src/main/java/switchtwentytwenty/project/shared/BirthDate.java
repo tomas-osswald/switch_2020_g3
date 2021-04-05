@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.shared;
 
-import switchtwentytwenty.project.ValueObject;
 import switchtwentytwenty.project.util.DateHelper;
 
 import java.util.Calendar;

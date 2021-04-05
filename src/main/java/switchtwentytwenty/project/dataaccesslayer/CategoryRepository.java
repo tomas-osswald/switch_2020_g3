@@ -1,9 +1,15 @@
 package switchtwentytwenty.project.dataaccesslayer;
 
-import switchtwentytwenty.project.Repository;
+
+import switchtwentytwenty.project.shared.CategoryID;
+import switchtwentytwenty.project.shared.Repository;
 import switchtwentytwenty.project.domain.category.Category;
 
-public class CategoryRepository implements Repository<Category> {
+public class CategoryRepository implements Repository<Category, CategoryID> {
 
 
+    @Override
+    public Category getByID(CategoryID id) {
+        return null;
+    }
 }
