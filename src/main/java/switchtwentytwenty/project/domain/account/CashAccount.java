@@ -5,6 +5,7 @@ import switchtwentytwenty.project.shared.ID;
 
 public class CashAccount implements Account {
 
+
     private AccountID id;
 
     @Override

@@ -6,6 +6,9 @@ import java.util.UUID;
 
 public abstract class NonCashAccount implements Account {
 
+    /**
+     *
+     */
     private AccountID id;
 
     public NonCashAccount(UUID id) {

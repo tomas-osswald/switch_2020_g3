@@ -34,6 +34,10 @@ public class FamilyRepository implements Repository<Family, FamilyID> {
         this.families.add(family);
     }
 
+    /**
+     *
+     * @return familyID
+     */
     public FamilyID generateAndGetFamilyID() {
         //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
         //FamilyID familyID = familyIDGenerator.generateID();
@@ -121,4 +125,3 @@ public class FamilyRepository implements Repository<Family, FamilyID> {
         }
     }*/
 }
-
