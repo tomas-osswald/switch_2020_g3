@@ -133,18 +133,18 @@
                         <param>lapr.project.utils.*</param>
                     </inScopeClasses>-->
                     <targetClasses>
-                        <param>switchtwentytwenty.project.domain.model.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.model.*</param>
                         <param>switchtwentytwenty.project.controllers.*</param>
-                        <param>switchtwentytwenty.project.domain.services.*</param>
-                        <param>switchtwentytwenty.project.domain.utils.*</param>
-                        <param>switchtwentytwenty.project.domain.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.services.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.utils.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>switchtwentytwenty.project.domain.model.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.model.*</param>
                         <param>switchtwentytwenty.project.controllers.*</param>
-                        <param>switchtwentytwenty.project.domain.services.*</param>
-                        <param>switchtwentytwenty.project.domain.utils.*</param>
-                        <param>switchtwentytwenty.project.domain.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.services.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.utils.*</param>
+                        <param>switchtwentytwenty.project.ONEdomain.*</param>
                     </targetTests>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>

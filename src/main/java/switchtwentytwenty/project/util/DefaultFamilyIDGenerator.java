@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.util;
 
-import switchtwentytwenty.project.shared.FamilyID;
+import switchtwentytwenty.project.ONEdomain.valueobject.FamilyID;
 
 import java.util.UUID;
 
