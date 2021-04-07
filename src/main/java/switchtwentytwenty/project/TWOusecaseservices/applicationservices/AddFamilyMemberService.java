@@ -18,12 +18,12 @@ public class AddFamilyMemberService {
 
     public void addPerson(AddPersonDTO addPersonDTO) {
         FamilyRepository familyRepository = application.getFamilyRepository();
-        EmailAddress loggedUserID = application.getLoggedPersonID();
+        PersonID loggedUserID = application.getLoggedPersonID();
         familyRepository.verifyAdmin(loggedUserID);
 
         Name name = new Name(addPersonDTO.unpackName());
         BirthDate birthDate = new BirthDate(addPersonDTO.unpackBirthDate());
-        EmailAddress email = new EmailAddress(addPersonDTO.unpackEmail());
+        PersonID idEmail = new PersonID(addPersonDTO.unpackEmail());
         VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
@@ -32,6 +32,6 @@ public class AddFamilyMemberService {
         FamilyID familyID = application.getLoggedPersonFamilyID();
 
         PersonRepository personRepository = application.getPersonRepository();
-        personRepository.createAndAddPerson(name, birthDate, email, vat, phone, address, familyID);
+        personRepository.createAndAddPerson(name, birthDate, idEmail, vat, phone, address, familyID);
     }
 }

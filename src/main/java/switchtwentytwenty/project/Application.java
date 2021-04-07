@@ -1,6 +1,7 @@
 package switchtwentytwenty.project;
 
 import switchtwentytwenty.project.ONEdomain.aggregates.person.Person;
+import switchtwentytwenty.project.ONEdomain.valueobject.PersonID;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.CategoryRepository;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.FamilyRepository;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.PersonRepository;
@@ -46,7 +47,7 @@ public class Application {
         this.loggedPerson = null;
     }
 
-    public EmailAddress getLoggedPersonID() {
+    public PersonID getLoggedPersonID() {
         return this.loggedPerson.id();
     }
 

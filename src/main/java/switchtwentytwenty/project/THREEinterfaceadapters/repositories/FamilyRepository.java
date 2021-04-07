@@ -1,12 +1,9 @@
 package switchtwentytwenty.project.THREEinterfaceadapters.repositories;
 
+import switchtwentytwenty.project.ONEdomain.valueobject.*;
 import switchtwentytwenty.project.TWOusecaseservices.irepositories.Repository;
 import switchtwentytwenty.project.ONEdomain.aggregates.family.Family;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
-import switchtwentytwenty.project.ONEdomain.valueobject.EmailAddress;
-import switchtwentytwenty.project.ONEdomain.valueobject.FamilyID;
-import switchtwentytwenty.project.ONEdomain.valueobject.FamilyName;
-import switchtwentytwenty.project.ONEdomain.valueobject.RegistrationDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +26,7 @@ public class FamilyRepository implements Repository<Family, FamilyID> {
 
     //}
 
-    public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, EmailAddress adminEmail) {
+    public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, PersonID adminEmail) {
         Family family = new Family(familyID, familyName, registrationDate, adminEmail);
         this.families.add(family);
     }
@@ -75,7 +72,7 @@ public class FamilyRepository implements Repository<Family, FamilyID> {
         return targetFamily;
     }
 
-    public void verifyAdmin(EmailAddress loggedUserID) {
+    public void verifyAdmin(PersonID loggedUserID) {
         boolean result = false;
         for (Family family : this.families) {
             if(family.isPersonTheAdmin(loggedUserID)){
@@ -88,7 +85,7 @@ public class FamilyRepository implements Repository<Family, FamilyID> {
     }
 
     @Deprecated
-    public EmailAddress getFirstAdminEmail() {
+    public PersonID getFirstAdminEmail() {
         return this.families.get(0).getAdminEmail();
     }
 

@@ -1,16 +1,16 @@
 package switchtwentytwenty.project.THREEinterfaceadapters.repositories;
 
 
-import switchtwentytwenty.project.TWOusecaseservices.irepositories.Repository;
 import switchtwentytwenty.project.ONEdomain.aggregates.person.Person;
+import switchtwentytwenty.project.ONEdomain.valueobject.*;
+import switchtwentytwenty.project.TWOusecaseservices.irepositories.Repository;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
-import switchtwentytwenty.project.ONEdomain.valueobject.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonRepository implements Repository<Person, EmailAddress> {
+public class PersonRepository implements Repository<Person, PersonID> {
 
     private final List<Person> people;
 
@@ -18,13 +18,10 @@ public class PersonRepository implements Repository<Person, EmailAddress> {
         this.people = new ArrayList<>();
     }
 
-    public void addPerson(Person person) {
-        this.people.add(person);
-    }
 
-    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
-        if (!isEmailAlreadyRegistered(email)) {
-            Person person = new Person(name, birthDate, email, vat, phone, address, familyID);
+    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, PersonID idEmail, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
+        if (!isPersonIDAlreadyregistered(idEmail)) {
+            Person person = new Person(name, birthDate, idEmail, vat, phone, address, familyID);
             this.people.add(person);
         } else {
             throw new EmailAlreadyRegisteredException();
@@ -32,21 +29,21 @@ public class PersonRepository implements Repository<Person, EmailAddress> {
     }
 
     @Override
-    public Person getByID(EmailAddress email) {
+    public Person getByID(PersonID email) {
         return retrievePersonFromList(email);
     }
 
-    private boolean isEmailAlreadyRegistered(EmailAddress email) {
+    private boolean isPersonIDAlreadyregistered(PersonID personID) {
         boolean emailIsRegistered = false;
         for (Person person : people) {
-            if (person.hasID(email)) {
+            if (person.hasID(personID)) {
                 emailIsRegistered = true;
             }
         }
         return emailIsRegistered;
     }
 
-    private Person retrievePersonFromList(EmailAddress email) {
+    private Person retrievePersonFromList(PersonID email) {
         Person result = null;
         for (Person person : people) {
             if (person.hasID(email)) {
@@ -63,15 +60,18 @@ public class PersonRepository implements Repository<Person, EmailAddress> {
         }
     }
 
-    public void addEmailToPerson(EmailAddress email, EmailAddress personID) {
-        if (!isEmailAlreadyRegistered(email)) {
-            Person loggedUser = getByID(personID);
-            loggedUser.addEmail(email);
-        } else {
+    public void addEmailToPerson(EmailAddress email, PersonID personID) {
+        if(!isPersonIDAlreadyregistered(email.toPersonID())){
+        Person loggedUser = getByID(personID);
+        loggedUser.addEmail(email);
+        }else{
             throw new EmailAlreadyRegisteredException();
         }
 
+
     }
+
+
 
 
 
