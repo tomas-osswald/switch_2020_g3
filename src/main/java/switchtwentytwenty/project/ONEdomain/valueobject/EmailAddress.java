@@ -54,7 +54,5 @@ public class EmailAddress {
     }
 
 
-    public PersonID toPersonID() {
-        return new PersonID(this.email);
-    }
+
 }

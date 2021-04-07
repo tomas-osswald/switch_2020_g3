@@ -65,12 +65,12 @@ class AddEmailControllerTest {
     }
 
 
-    @DisplayName("Unsuccessfully add an email - email already registered to another user")
+    @DisplayName("Successfully add an email - email already registered to another user as PersonID")
     @Test
-    void mustReturnFalseAddEmailEmailRegisteredAnotherUser() {
+    void mustReturnTrueAddEmailEmailRegisteredAsAnotherUserPersonID() {
 
         AddEmailDTO addOtherUserEmailDTO = new AddEmailDTO(otherUserEmail);
-        assertFalse(addEmailController.addEmail(addOtherUserEmailDTO));
+        assertTrue(addEmailController.addEmail(addOtherUserEmailDTO));
     }
 
 }
