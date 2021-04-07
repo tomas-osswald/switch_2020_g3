@@ -1,13 +1,14 @@
 package switchtwentytwenty.project.ONEdomain.valueobject;
 
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
+
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class EmailAddress implements ID<String> {
+public class EmailAddress {
 
-    private String email;
     private final static String INVALIDEMAIL = "This Email is not valid";
+    private String email;
 
     public EmailAddress(String email) {
         this.email = email;
@@ -24,14 +25,14 @@ public class EmailAddress implements ID<String> {
     }
 
     private void checkEmail() {
-        if(!isValidEmail())
+        if (!isValidEmail())
             throw new InvalidEmailException(INVALIDEMAIL);
     }
 
     private boolean isValidEmail() {
         if (email == null)
             return false;
-        if (email.isEmpty() || email.trim().length()==0)
+        if (email.isEmpty() || email.trim().length() == 0)
             return false;
         String emailRegex = "[A-Z0-9a-z._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
 
@@ -53,4 +54,7 @@ public class EmailAddress implements ID<String> {
     }
 
 
+    public PersonID toPersonID() {
+        return new PersonID(this.email);
+    }
 }

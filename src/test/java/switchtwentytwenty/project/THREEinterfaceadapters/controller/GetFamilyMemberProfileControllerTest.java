@@ -47,7 +47,7 @@ class GetFamilyMemberProfileControllerTest {
     void setup() {
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
-        EmailAddress tonyZeEmail = new EmailAddress(VALIDEMAIL);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);

@@ -67,7 +67,7 @@ class AddEmailControllerTest {
 
     @DisplayName("Unsuccessfully add an email - email already registered to another user")
     @Test
-    void mustReturnFalseAddEmailEmailRegistredAnotherUser() {
+    void mustReturnFalseAddEmailEmailRegisteredAnotherUser() {
 
         AddEmailDTO addOtherUserEmailDTO = new AddEmailDTO(otherUserEmail);
         assertFalse(addEmailController.addEmail(addOtherUserEmailDTO));

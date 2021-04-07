@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface TestIController {
 
-    public ResponseEntity<Object> getUsers();
-    public ResponseEntity<Object> getUser(int id);
+    ResponseEntity<Object> getUsers();
+    ResponseEntity<Object> getUser(int id);
 
 }

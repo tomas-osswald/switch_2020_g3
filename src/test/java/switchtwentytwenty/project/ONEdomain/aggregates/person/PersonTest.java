@@ -34,7 +34,7 @@ class PersonTest {
     void createValidPerson() {
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
-        EmailAddress tonyZeEmail = new EmailAddress(VALIDEMAIL);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
@@ -45,14 +45,14 @@ class PersonTest {
     @DisplayName("Check if method isSameEmail returns true when email is the same")
     @Test
     void shouldAssertTrueIsSameEmail() {
-        EmailAddress test = new EmailAddress(VALIDEMAIL);
+        PersonID test = new PersonID(VALIDEMAIL);
         assertTrue(validPerson.hasID(test));
     }
 
     @DisplayName("Check if method isSameEmail returns false when email is not the same")
     @Test
     void shouldAssertFalseIsNotSameEmail() {
-        EmailAddress test = new EmailAddress("tonyze@latinhater.pt");
+        PersonID test = new PersonID("tonyze@latinhater.pt");
         assertFalse(validPerson.hasID(test));
     }
 
@@ -62,13 +62,13 @@ class PersonTest {
         assertNotNull(validPerson);
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
-        EmailAddress tonyZeEmail = new EmailAddress(VALIDEMAIL);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
 
         FamilyID familyID = new FamilyID(UUID.randomUUID());
-        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID ));
+        assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
     }
 
 

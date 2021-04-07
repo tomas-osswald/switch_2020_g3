@@ -1,10 +1,7 @@
 package switchtwentytwenty.project.ONEdomain.aggregates.family;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.ONEdomain.valueobject.EmailAddress;
-import switchtwentytwenty.project.ONEdomain.valueobject.FamilyID;
-import switchtwentytwenty.project.ONEdomain.valueobject.FamilyName;
-import switchtwentytwenty.project.ONEdomain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.ONEdomain.valueobject.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,7 +20,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         //Act
         Family result = new Family(familyID, familyName, registrationDate, adminEmail);
         //Assert
@@ -40,7 +37,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
         FamilyID sameID = new FamilyID(id);
         //Act
@@ -59,7 +56,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
         UUID differentID = UUID.randomUUID();
         FamilyID otherFamilyID = new FamilyID(differentID);
@@ -78,7 +75,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyID, familyName, registrationDate, adminEmail);
         Family familyTwo = new Family(familyID, familyName, registrationDate, adminEmail);
 
@@ -95,7 +92,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyID, familyName, registrationDate, adminEmail);
         Family familyTwo = familyOne;
 
@@ -112,7 +109,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyIDOne, familyName, registrationDate, adminEmail);
         UUID idTwo = UUID.randomUUID();
         FamilyID familyIDTwo = new FamilyID(idTwo);
@@ -130,7 +127,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyID, familyName, registrationDate, adminEmail);
 
         assertNotEquals(familyOne, registrationDate);
@@ -145,7 +142,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyID, familyName, registrationDate, adminEmail);
         Family familyTwo = new Family(familyID, familyName, registrationDate, adminEmail);
 
@@ -161,7 +158,7 @@ class FamilyTest {
         LocalDate date = LocalDate.of(2021, 3, 17);
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
-        EmailAddress adminEmail = new EmailAddress(emailString);
+        PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyIDOne, familyName, registrationDate, adminEmail);
         UUID idTwo = UUID.randomUUID();
         FamilyID familyIDTwo = new FamilyID(idTwo);

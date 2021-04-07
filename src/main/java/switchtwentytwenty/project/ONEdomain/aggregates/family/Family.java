@@ -15,7 +15,7 @@ public class Family implements AggregateRoot<FamilyID> {
     private FamilyID id;
     private FamilyName name;
     private RegistrationDate registrationDate;
-    private EmailAddress admin;
+    private PersonID admin;
     private List<Relation> relations = new ArrayList<>();
     private AccountID cashAccount;
 
@@ -77,7 +77,7 @@ public class Family implements AggregateRoot<FamilyID> {
 
     }*/
 
-    public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, EmailAddress adminEmail) {
+    public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
         this.id = familyID;
         this.name = familyName;
         this.registrationDate = registrationDate;
@@ -85,7 +85,8 @@ public class Family implements AggregateRoot<FamilyID> {
     }
 
     @Deprecated
-    public Family(UUID familyID, String familyName, LocalDate registrationDate, EmailAddress adminEmail) {
+    public Family(UUID familyID, String familyName, LocalDate registrationDate, PersonID
+            adminEmail) {
         this.id = new FamilyID(familyID);
         this.name = new FamilyName(familyName);
         this.registrationDate = new RegistrationDate(registrationDate);
@@ -135,12 +136,12 @@ public class Family implements AggregateRoot<FamilyID> {
         return Objects.hash(id);
     }
 
-    public boolean isPersonTheAdmin(EmailAddress loggedUserID) {
+    public boolean isPersonTheAdmin(PersonID loggedUserID) {
         return loggedUserID.equals(this.admin);
     }
 
     @Deprecated
-    public EmailAddress getAdminEmail() {
+    public PersonID getAdminEmail() {
         return this.admin;
     }
 

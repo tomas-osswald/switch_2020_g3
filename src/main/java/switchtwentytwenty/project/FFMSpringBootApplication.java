@@ -9,6 +9,4 @@ public class FFMSpringBootApplication {
     public static void main(String[] args) {
         SpringApplication.run(FFMSpringBootApplication.class, args);
     }
-
-
 }

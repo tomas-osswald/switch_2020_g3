@@ -28,7 +28,7 @@ class PersonRepositoryTest {
     final String VALIDBIRTHDATE = "01/03/1990";
     Name tonyZeName;
     BirthDate tonyZeBirthDate;
-    EmailAddress tonyZeEmail;
+    PersonID tonyZeEmail;
     VATNumber tonyZeVat;
     PhoneNumber tonyZePhone;
     Address tonyZeAddress;
@@ -39,7 +39,7 @@ class PersonRepositoryTest {
     void createValidPersonAttributtes() {
         tonyZeName = new Name(VALIDNAME);
         tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
-        tonyZeEmail = new EmailAddress(VALIDEMAIL);
+        tonyZeEmail = new PersonID(VALIDEMAIL);
         tonyZeVat = new VATNumber(VALIDVATNUMBER);
         tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);

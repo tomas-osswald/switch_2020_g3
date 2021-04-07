@@ -2,16 +2,16 @@ package switchtwentytwenty.project.ONEdomain.aggregates.person;
 
 import switchtwentytwenty.project.ONEdomain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.ONEdomain.valueobject.*;
-import switchtwentytwenty.project.ONEdomain.valueobject.ID;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person implements AggregateRoot<EmailAddress> {
+public class Person implements AggregateRoot<PersonID> {
 
+    private final PersonID id;
     private Name name;
     private BirthDate birthdate;
-    private EmailAddress id;
     private List<EmailAddress> emails = new ArrayList<>();
     private VATNumber vat;
     private List<PhoneNumber> phone = new ArrayList<>();
@@ -21,7 +21,7 @@ public class Person implements AggregateRoot<EmailAddress> {
     private LedgerID ledger;
     private List<FutureTransactionID> futureTransactions = new ArrayList<>();
 
-    public Person(Name name, BirthDate birthDate, EmailAddress email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
+    public Person(Name name, BirthDate birthDate, PersonID email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         this.name = name;
         this.birthdate = birthDate;
         this.id = email;
@@ -42,22 +42,12 @@ public class Person implements AggregateRoot<EmailAddress> {
      * Repository iterates through all the Person in the entire system, doesn't use Getters and tells the Information Expert
      * to do it (Tell don't ask)
      *
-     * @param emailToCheck
+     * @param personIDToCheck
      * @return
      */
     @Override
-    public boolean hasID(ID emailToCheck) {
-        boolean result = false;
-        for (EmailAddress email : emails) {
-            if (email.equals(emailToCheck)) {
-                result = true;
-            }
-        }
-        if (this.id.equals(emailToCheck)) {
-            result = true;
-        }
-        return result;
-
+    public boolean hasID(ID personIDToCheck) {
+        return this.id.equals(personIDToCheck);
     }
 
     public FamilyID getFamilyID() {
@@ -65,11 +55,28 @@ public class Person implements AggregateRoot<EmailAddress> {
     }
 
     @Override
-    public EmailAddress id() {
+    public PersonID id() {
         return this.id;
     }
 
     public void addEmail(EmailAddress email) {
-        this.emails.add(email);
+        if (!isEmailAlreadyRegistered(email)) {
+            this.emails.add(email);
+        } else {
+            throw new EmailAlreadyRegisteredException();
+        }
+    }
+
+    private boolean isEmailAlreadyRegistered(EmailAddress email) {
+        boolean emailPresent = false;
+        for (EmailAddress registeredEmail : emails) {
+            if (registeredEmail.equals(email)) {
+                emailPresent = true;
+            }
+        }
+        if (this.id.isThisEmail(email)) {
+            emailPresent = true;
+        }
+        return emailPresent;
     }
 }
