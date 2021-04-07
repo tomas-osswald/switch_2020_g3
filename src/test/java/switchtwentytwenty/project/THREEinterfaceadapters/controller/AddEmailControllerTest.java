@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddEmailControllerTest {
 
-    Application application;
+
     CreateFamilyController createFamilyController;
     AddEmailController addEmailController;
     AddFamilyMemberController addFamilyMemberController;

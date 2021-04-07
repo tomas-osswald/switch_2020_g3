@@ -1,24 +1,27 @@
 package switchtwentytwenty.project.TWOusecaseservices.applicationservices;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.Application;
+import switchtwentytwenty.project.TWOusecaseservices.irepositories.IFamilyRepository;
+import switchtwentytwenty.project.TWOusecaseservices.irepositories.IPersonRepository;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.FamilyRepository;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.PersonRepository;
 import switchtwentytwenty.project.ONEdomain.valueobject.*;
 
+@Service
 public class AddFamilyMemberService {
 
-    private Application application;
 
+    @Autowired
+    private IPersonRepository personRepository;
+    @Autowired
+    private IFamilyRepository familyRepository;
 
-    public AddFamilyMemberService(Application application) {
-        this.application = application;
-
-    }
 
     public void addPerson(AddPersonDTO addPersonDTO) {
-        FamilyRepository familyRepository = application.getFamilyRepository();
-        PersonID loggedUserID = application.getLoggedPersonID();
+        PersonID loggedUserID = new PersonID(addPersonDTO.unpackUserID());
         familyRepository.verifyAdmin(loggedUserID);
 
         Name name = new Name(addPersonDTO.unpackName());
@@ -29,9 +32,8 @@ public class AddFamilyMemberService {
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
 
 
-        FamilyID familyID = application.getLoggedPersonFamilyID();
+        FamilyID familyID = personRepository.getPersonFamilyID(loggedUserID);
 
-        PersonRepository personRepository = application.getPersonRepository();
         personRepository.createAndAddPerson(name, birthDate, idEmail, vat, phone, address, familyID);
     }
 }

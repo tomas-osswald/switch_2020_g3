@@ -3,14 +3,15 @@ package switchtwentytwenty.project.THREEinterfaceadapters.repositories;
 
 import switchtwentytwenty.project.ONEdomain.aggregates.person.Person;
 import switchtwentytwenty.project.ONEdomain.valueobject.*;
-import switchtwentytwenty.project.TWOusecaseservices.irepositories.Repository;
+import switchtwentytwenty.project.TWOusecaseservices.irepositories.IPersonRepository;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonRepository implements Repository<Person, PersonID> {
+@org.springframework.stereotype.Repository
+public class PersonRepository implements IPersonRepository {
 
     private final List<Person> people;
 
@@ -70,6 +71,13 @@ public class PersonRepository implements Repository<Person, PersonID> {
 
 
     }
+
+    @Override
+    public FamilyID getPersonFamilyID(PersonID personID) {
+        Person person = getByID(personID);
+        return person.getFamilyID();
+    }
+
 
 
 

@@ -1,7 +1,8 @@
 package switchtwentytwenty.project.THREEinterfaceadapters.repositories;
 
+import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.ONEdomain.valueobject.*;
-import switchtwentytwenty.project.TWOusecaseservices.irepositories.Repository;
+import switchtwentytwenty.project.TWOusecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.ONEdomain.aggregates.family.Family;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 
@@ -9,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FamilyRepository implements Repository<Family, FamilyID> {
+@Repository
+public class FamilyRepository implements IFamilyRepository {
 
     private final List<Family> families;
     //private final Families families = new Families();

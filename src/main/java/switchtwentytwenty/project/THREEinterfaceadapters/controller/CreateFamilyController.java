@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.THREEinterfaceadapters.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import switchtwentytwenty.project.Application;
 import switchtwentytwenty.project.TWOusecaseservices.applicationservices.CreateFamilyService;
 import switchtwentytwenty.project.dto.AddPersonDTO;
@@ -7,11 +8,8 @@ import switchtwentytwenty.project.dto.CreateFamilyDTO;
 
 public class CreateFamilyController {
 
-    private Application application;
-
-    public CreateFamilyController(Application application) {
-        this.application = application;
-    }
+    @Autowired
+    private CreateFamilyService createFamilyService;
 
     /**
      * Method to create a family and add a person as administrator
@@ -21,7 +19,6 @@ public class CreateFamilyController {
      */
     public boolean createFamilyAndAdmin(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO) {
         boolean result;
-        CreateFamilyService createFamilyService = new CreateFamilyService(application);
         try {
             result = createFamilyService.createFamilyAndAddAdmin(createFamilyDTO, addPersonDTO); //False if email is already registered
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package switchtwentytwenty.project.dto;
 
 public class AddPersonDTO {
 
+    private String userID;
     private String email;
     private String name;
     private String birtDate;
@@ -13,7 +14,8 @@ public class AddPersonDTO {
     private String zipCode;
 
 
-    public AddPersonDTO(String email, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode) {
+    public AddPersonDTO(String userID, String email, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode) {
+        this.userID = userID;
         this.email = email;
         this.name = name;
         this.birtDate = birtDate;
@@ -24,6 +26,10 @@ public class AddPersonDTO {
         this.houseNumber = houseNumber;
         this.zipCode = zipCode;
 
+    }
+
+    public String unpackUserID() {
+        return this.userID;
     }
 
     public String unpackEmail() {
@@ -62,4 +68,6 @@ public class AddPersonDTO {
         return this.zipCode;
     }
 
+
 }
+
