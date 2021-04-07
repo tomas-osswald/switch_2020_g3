@@ -62,12 +62,9 @@ public class PersonRepository implements IPersonRepository {
     }
 
     public void addEmailToPerson(EmailAddress email, PersonID personID) {
-        if(!isPersonIDAlreadyregistered(email.toPersonID())){
         Person loggedUser = getByID(personID);
         loggedUser.addEmail(email);
-        }else{
-            throw new EmailAlreadyRegisteredException();
-        }
+
 
 
     }
