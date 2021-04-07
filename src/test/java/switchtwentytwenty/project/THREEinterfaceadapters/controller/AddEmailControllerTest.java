@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import switchtwentytwenty.project.Application;
+
 import switchtwentytwenty.project.dto.AddEmailDTO;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
@@ -21,7 +21,7 @@ class AddEmailControllerTest {
     AddFamilyMemberController addFamilyMemberController;
     String adminEmail = "tonyze@latinlover.com";
     String otherUserEmail = "rifensravens@ddd.com";
-
+/*
     @BeforeEach
     void setup(){
         application = new Application();
@@ -35,6 +35,8 @@ class AddEmailControllerTest {
         application.logInAsAdmin();
         addFamilyMemberController.addFamilyMember(otherUserDTO);
     }
+    */
+
 
     @DisplayName("Successfully add a new email address")
     @Test

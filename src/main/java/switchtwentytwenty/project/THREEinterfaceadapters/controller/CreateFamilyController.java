@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.THREEinterfaceadapters.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import switchtwentytwenty.project.Application;
 import switchtwentytwenty.project.TWOusecaseservices.applicationservices.CreateFamilyService;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;

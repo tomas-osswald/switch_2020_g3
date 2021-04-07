@@ -2,7 +2,6 @@ package switchtwentytwenty.project.TWOusecaseservices.applicationservices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import switchtwentytwenty.project.Application;
 import switchtwentytwenty.project.TWOusecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.TWOusecaseservices.irepositories.IPersonRepository;
 import switchtwentytwenty.project.dto.AddPersonDTO;

@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.TWOusecaseservices.applicationservices;
 
 
-import switchtwentytwenty.project.Application;
+
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
@@ -11,11 +11,9 @@ import switchtwentytwenty.project.ONEdomain.valueobject.*;
 
 public class CreateFamilyService {
 
-    private Application application;
 
-    public CreateFamilyService(Application application) {
-        this.application = application;
-    }
+
+
 
     public boolean createFamilyAndAddAdmin(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO) {
         boolean result;
@@ -28,8 +26,9 @@ public class CreateFamilyService {
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
         RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
 
-        PersonRepository personRepository = application.getPersonRepository();
-        FamilyRepository familyRepository = application.getFamilyRepository();
+        //TODO: meter os autowires do personRepository e familyRepository
+        PersonRepository personRepository = null;
+        FamilyRepository familyRepository = null;
 
         FamilyID familyID = familyRepository.generateAndGetFamilyID();
         familyRepository.createAndAddFamily(familyName, familyID, registrationDate, adminEmail);
