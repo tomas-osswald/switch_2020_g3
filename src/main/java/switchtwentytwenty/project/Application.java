@@ -1,5 +1,7 @@
 package switchtwentytwenty.project;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import switchtwentytwenty.project.ONEdomain.aggregates.person.Person;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.CategoryRepository;
 import switchtwentytwenty.project.THREEinterfaceadapters.repositories.FamilyRepository;
@@ -7,6 +9,7 @@ import switchtwentytwenty.project.THREEinterfaceadapters.repositories.PersonRepo
 import switchtwentytwenty.project.ONEdomain.valueobject.EmailAddress;
 import switchtwentytwenty.project.ONEdomain.valueobject.FamilyID;
 
+@SpringBootApplication
 public class Application {
     private PersonRepository personRepository;
     private FamilyRepository familyRepository;
@@ -55,4 +58,7 @@ public class Application {
     }
 
 
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }

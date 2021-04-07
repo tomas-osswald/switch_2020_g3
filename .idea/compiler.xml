@@ -23,7 +23,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="project" options="-Xlint:all" />
-      <module name="switch_2020_g3" options="-Xlint:all" />
+      <module name="switch_2020_g3" options="-parameters -Xlint:all" />
     </option>
   </component>
 </project>
