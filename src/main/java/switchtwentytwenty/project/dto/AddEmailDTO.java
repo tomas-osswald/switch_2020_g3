@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.dto;
 
-import switchtwentytwenty.project.shared.EmailAddress;
-
 public class AddEmailDTO {
 
     String email;
