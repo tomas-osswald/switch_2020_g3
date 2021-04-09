@@ -3,7 +3,7 @@ package switchtwentytwenty.project.dto;
 public class AddPersonDTO {
 
     private String userID;
-    private String email;
+    private String emailID;
     private String name;
     private String birtDate;
     private int vatNumber;
@@ -14,9 +14,9 @@ public class AddPersonDTO {
     private String zipCode;
 
 
-    public AddPersonDTO(String userID, String email, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode) {
+    public AddPersonDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode) {
         this.userID = userID;
-        this.email = email;
+        this.emailID = emailID;
         this.name = name;
         this.birtDate = birtDate;
         this.vatNumber = vatNumber;
@@ -33,7 +33,7 @@ public class AddPersonDTO {
     }
 
     public String unpackEmail() {
-        return this.email;
+        return this.emailID;
     }
 
     public String unpackName() {
