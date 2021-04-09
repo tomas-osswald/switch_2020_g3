@@ -20,9 +20,9 @@ public class PersonRepository implements IPersonRepository {
     }
 
 
-    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, PersonID idEmail, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
-        if (!isPersonIDAlreadyregistered(idEmail)) {
-            Person person = new Person(name, birthDate, idEmail, vat, phone, address, familyID);
+    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
+        if (!isPersonIDAlreadyregistered(personID)) {
+            Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
             this.people.add(person);
         } else {
             throw new EmailAlreadyRegisteredException();

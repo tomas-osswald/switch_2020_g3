@@ -8,5 +8,5 @@ public interface IPersonRepository extends Repository <Person, PersonID>{
 
     FamilyID getPersonFamilyID(PersonID personID);
 
-    void createAndAddPerson(Name name, BirthDate birthDate, PersonID idEmail, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID);
+    void createAndAddPerson(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID);
 }

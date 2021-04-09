@@ -25,7 +25,7 @@ public class AddFamilyMemberService {
 
         Name name = new Name(addPersonDTO.unpackName());
         BirthDate birthDate = new BirthDate(addPersonDTO.unpackBirthDate());
-        PersonID idEmail = new PersonID(addPersonDTO.unpackEmail());
+        PersonID personID = new PersonID(addPersonDTO.unpackEmail());
         VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
@@ -33,6 +33,6 @@ public class AddFamilyMemberService {
 
         FamilyID familyID = personRepository.getPersonFamilyID(loggedUserID);
 
-        personRepository.createAndAddPerson(name, birthDate, idEmail, vat, phone, address, familyID);
+        personRepository.createAndAddPerson(name, birthDate, personID, vat, phone, address, familyID);
     }
 }
