@@ -46,6 +46,7 @@ Note as N1
     Pros:
     - Baixo custo de refactoring (feito no semestre passado)
     - Fácil acrescentar novos atributos
+    - Private class data pattern 
 end Note
 
 @enduml
@@ -89,7 +90,7 @@ CreditCardAccount --|> NonCashAccount
 'note "Data dentro da AbstractAccount. Cons: herança; Pros:" as note
 
 Note as N1
-    - Data dentro da AccountData
+    - Data dentro da AbstractAccount
     Cons:
     - Herança;
     - Acoplamento entre as implementações concretas de Account e AbstractAccount
