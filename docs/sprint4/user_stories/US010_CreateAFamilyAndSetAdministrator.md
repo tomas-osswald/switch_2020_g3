@@ -117,7 +117,6 @@ repository but, in the end of the process, two equal emails would be added to th
 In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
 possibility of both emails being added since the verification would occur at the moment of addition to the repository.
 
-
 ````puml
 @startuml
 
@@ -125,123 +124,71 @@ autonumber
 header Sequence Diagram
 title US010 Create a Family and Set Administrator
 
-actor "System Manager" as systemManager
-participant "UI" as UI
-participant ": Create\nFamilyController" as controller
-participant ": CreateFamilyService" as FamAdminService
-activate systemManager
-systemManager -> UI: I want to create a Family \n and set the Administrator
-activate UI
-return request data
-systemManager -> UI : input Family data and Administrator data
-activate UI
-UI -> controller : createFamilyAndAdmin(createFamilyDTO,\n addPersonDTO)
+participant ": ICreateFamilyController" as controller
+participant ": ICreateFamilyService" as FamAdminService
+participant ": IFamilyRepository" as familyRepository
+participant ": IPersonRepository" as personRepository
+participant "admin\n : Person" as admin
+participant "newFamily\n : Family" as newFamily
+
+
+-> controller : createFamilyAndAdmin(data)
 activate controller
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : createFamilyAndAddAdmin(createFamilyDTO,\n addPersonDTO)
+
+note left: especificar nome da instância no participant?
+
+controller -> FamAdminService : createFamilyAndAddAdmin\n(createFamilyDTO, addPersonDTO)
 activate FamAdminService
 
+note right: dtos são instanciados no controller?
+
 ref over FamAdminService
+unpack DTOs, validate 
+and create Value Objects
 
-SequenceDiagram(2):
-Service to Family and Person Creation
+end ref
 
-end
+FamAdminService -> familyRepository : generateID()
+activate familyRepository
+return familyID
 
-alt #transparent false
-autonumber 23
+FamAdminService -> personRepository : createAndAdd(name, birthDate, personID, \nvat, phone, address, familyID)
+activate personRepository
+personRepository -> personRepository : isPersonIDAlready\nRegistered(personID)
+personRepository -> admin** : create(name, birthDate, personID, \nvat, phone, address, familyID)
+personRepository -> personRepository : add(admin)
+return
 
-FamAdminService --> controller : success
-controller --> UI : success
-UI --> systemManager : inform success
+FamAdminService -> familyRepository : createAndAdd(familyID, \nfamilyName, registrationDate, adminEmail)
+activate familyRepository
 
-else true
-autonumber 29
+familyRepository -> newFamily** : create(familyID, familyName, registrationDate, adminEmail)
+familyRepository -> familyRepository : add(newFamily)
+return
 
-FamAdminService --> controller : fail
-deactivate FamAdminService
+return true
 
-controller --> UI : fail
-deactivate controller
-UI --> systemManager : inform failure
-deactivate UI
+return successData
 
-
-end
 @enduml
 ````
 
 ````puml
 @startuml
 
-autonumber 6
+autonumber
 header Sequence Diagram
-title US010 Create a Family and Set Administrator(2)
+title US010 Unpack DTOs, validate and create Value Objects
 
-participant ": CreateFamilyService" as FamAdminService
-participant " anApplication : \nApplication" as app
-participant "aFamilyRepository \n: FamilyRepository" as frepository
-participant "newFamily \n: Family" as family
-participant "aPersonRepository \n: PersonRepository" as prepository
-participant "administrator : \nPerson" as admin
+participant ": ICreateFamilyService" as FamAdminService
+participant ": Name" as name
+participant "personID : PersonID" as personID
 
--> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonDTO)
+
 activate FamAdminService
 
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
+FamAdminService -> personID** : create(addPersonDTO.unpackName())
 
-
-FamAdminService -> frepository: generateAndGetFamilyID()
-activate frepository
-frepository -> frepository : generateFamilyID()
-return familyID
-
-FamAdminService -> frepository: createAndAddFamily (familyName, \nfamilyID, registrationDate, adminEmail)
-activate frepository
-
-frepository -> family** : create(familyID, adminEmail, \nfamilyName, localDate)
-activate family
-
-
-frepository -> frepository : addToRepository(newFamily)
-
-deactivate family
-return
-
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nadminEmail, vat, phone, address, cc, familyID)
-deactivate frepository
-
-
-activate prepository
-prepository -> prepository : isEmailAlreadyRegistered(email)
-
-alt #transparent false
-prepository -> admin** : create
-activate admin
-
-
-prepository -> prepository : addToRepository (admistrator)
-prepository --> FamAdminService
-deactivate admin
-<-- FamAdminService : success
-
-else true
-autonumber 26
-
-prepository --> FamAdminService
-deactivate prepository
-FamAdminService -> frepository : removeFamily(FamilyID)
-activate frepository
-return
-<-- FamAdminService : fail
-deactivate FamAdminService
-end
 
 @enduml
 ````

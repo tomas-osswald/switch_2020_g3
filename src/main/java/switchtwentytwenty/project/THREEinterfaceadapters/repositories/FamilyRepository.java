@@ -20,15 +20,7 @@ public class FamilyRepository implements IFamilyRepository {
         this.families = new ArrayList<>();
     }
 
-    public void addFamily(Family family) {
-        this.families.add(family);
-    }
-
-    // public Family findFamilyByID(FamilyID id){
-
-    //}
-
-    public void createAndAddFamily(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, PersonID adminEmail) {
+    public void createAndAdd(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, PersonID adminEmail) {
         Family family = new Family(familyID, familyName, registrationDate, adminEmail);
         this.families.add(family);
     }
@@ -37,17 +29,17 @@ public class FamilyRepository implements IFamilyRepository {
      *
      * @return familyID
      */
-    public FamilyID generateAndGetFamilyID() {
+    public FamilyID generateID() {
         //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
         //FamilyID familyID = familyIDGenerator.generateID();
         FamilyID familyID = new FamilyID(UUID.randomUUID());
-        if (checkIfFamilyIDExists(familyID)) {
-            familyID = generateAndGetFamilyID();
+        if (checkIfIDExists(familyID)) {
+            familyID = generateID();
         }
         return familyID;
     }
 
-    private boolean checkIfFamilyIDExists(FamilyID familyID) {
+    private boolean checkIfIDExists(FamilyID familyID) {
         boolean result = false;
         for (Family family : this.families) {
             if (family.hasID(familyID)) {
@@ -57,6 +49,8 @@ public class FamilyRepository implements IFamilyRepository {
         return result;
     }
 
+    // In create family and set admin family is no longer created before the person and no longer needs to be removed if person cannot be created
+    @Deprecated
     public void removeFamily(FamilyID familyID) {
         Family family = getByID(familyID);
         if (family != null) {

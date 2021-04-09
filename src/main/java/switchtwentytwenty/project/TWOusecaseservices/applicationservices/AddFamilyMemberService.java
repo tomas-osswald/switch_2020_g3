@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.TWOusecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.TWOusecaseservices.irepositories.IPersonRepository;
 import switchtwentytwenty.project.dto.AddPersonDTO;
-import switchtwentytwenty.project.THREEinterfaceadapters.repositories.FamilyRepository;
-import switchtwentytwenty.project.THREEinterfaceadapters.repositories.PersonRepository;
 import switchtwentytwenty.project.ONEdomain.valueobject.*;
 
 @Service
@@ -33,6 +31,6 @@ public class AddFamilyMemberService {
 
         FamilyID familyID = personRepository.getPersonFamilyID(loggedUserID);
 
-        personRepository.createAndAddPerson(name, birthDate, personID, vat, phone, address, familyID);
+        personRepository.createAndAdd(name, birthDate, personID, vat, phone, address, familyID);
     }
 }

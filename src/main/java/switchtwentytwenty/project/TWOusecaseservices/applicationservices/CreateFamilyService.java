@@ -30,11 +30,11 @@ public class CreateFamilyService {
         PersonRepository personRepository = null;
         FamilyRepository familyRepository = null;
 
-        FamilyID familyID = familyRepository.generateAndGetFamilyID();
-        familyRepository.createAndAddFamily(familyName, familyID, registrationDate, adminID);
+        FamilyID familyID = familyRepository.generateID();
+        familyRepository.createAndAdd(familyName, familyID, registrationDate, adminID);
 
         try {
-            personRepository.createAndAddPerson(name, birthdate, adminID, vat, phone, address, familyID);
+            personRepository.createAndAdd(name, birthdate, adminID, vat, phone, address, familyID);
             result = true;
         } catch (EmailAlreadyRegisteredException e) {
             familyRepository.removeFamily(familyID);
