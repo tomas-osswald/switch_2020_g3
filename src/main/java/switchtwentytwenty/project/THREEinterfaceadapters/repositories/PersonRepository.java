@@ -19,10 +19,9 @@ public class PersonRepository implements IPersonRepository {
         this.people = new ArrayList<>();
     }
 
-
-    public synchronized void createAndAddPerson(Name name, BirthDate birthDate, PersonID idEmail, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
-        if (!isPersonIDAlreadyregistered(idEmail)) {
-            Person person = new Person(name, birthDate, idEmail, vat, phone, address, familyID);
+    public void createAndAdd(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
+        if (!isPersonIDAlreadyRegistered(personID)) {
+            Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
             this.people.add(person);
         } else {
             throw new EmailAlreadyRegisteredException();
@@ -34,7 +33,7 @@ public class PersonRepository implements IPersonRepository {
         return retrievePersonFromList(email);
     }
 
-    private boolean isPersonIDAlreadyregistered(PersonID personID) {
+    private boolean isPersonIDAlreadyRegistered(PersonID personID) {
         boolean emailIsRegistered = false;
         for (Person person : people) {
             if (person.hasID(personID)) {

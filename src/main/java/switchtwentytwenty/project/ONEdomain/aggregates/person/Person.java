@@ -21,10 +21,10 @@ public class Person implements AggregateRoot<PersonID> {
     private LedgerID ledger;
     private List<FutureTransactionID> futureTransactions = new ArrayList<>();
 
-    public Person(Name name, BirthDate birthDate, PersonID email, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
+    public Person(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         this.name = name;
         this.birthdate = birthDate;
-        this.id = email;
+        this.id = personID;
         this.vat = vat;
         addPhone(phone);
         this.address = address;
