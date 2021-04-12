@@ -217,7 +217,8 @@ activate service
 service -> service : loggedUserID = addEmailDTO.unpackUserID()
 
 service -> prepository : getByID(loggedUserID)
-prepository --> service: aPerson
+activate prepository
+return aPerson
 
 service -> service : emailString = addEmailDTO.unpackEmail()
 service -> email** : create(emailString)
@@ -233,7 +234,7 @@ person -> person: isEmailAlreadyRegistered(newEmail)
 
 alt Email not registered
 
-person -> person: add newEmail to emails List
+
 person --> service: true
 
 
