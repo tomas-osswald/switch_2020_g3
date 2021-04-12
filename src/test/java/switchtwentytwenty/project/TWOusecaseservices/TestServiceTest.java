@@ -1,7 +1,9 @@
 package switchtwentytwenty.project.TWOusecaseservices;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,13 +19,16 @@ class TestServiceTest {
     @Mock
     private TestIRepository mockTestRepository;
 
+    @InjectMocks
+    private TestService testService = new TestService();
+
     @Test
     void getNameById_CorrectID() {
         when(mockTestRepository.getNameByID(150)).thenReturn("TonyZe");
         int id = 150;
         String expected = "TonyZe";
 
-        String result = mockTestRepository.getNameByID(id);
+        String result = testService.getNameById(id);
 
         assertEquals(expected,result);
     }
@@ -34,7 +39,7 @@ class TestServiceTest {
         int id = 100;
         String notExpected = "TonyZe";
 
-        String result = mockTestRepository.getNameByID(id);
+        String result = testService.getNameById(id);
 
         assertNotEquals(notExpected,result);
     }
