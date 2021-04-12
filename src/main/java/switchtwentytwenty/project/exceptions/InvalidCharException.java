@@ -1,7 +1,9 @@
 package switchtwentytwenty.project.exceptions;
 
-public class InvalidCharException extends IllegalStateException {
+import java.io.Serializable;
 
+public class InvalidCharException extends IllegalStateException implements Serializable {
+//TODO: Implements Serializable ?
     public InvalidCharException(String errorMessage) {
         super(errorMessage);
     }
