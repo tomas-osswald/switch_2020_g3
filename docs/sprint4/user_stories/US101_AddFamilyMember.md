@@ -393,10 +393,12 @@ AddMemberService -> admin : getFamilyId()
 activate admin
 return familyId
 
-AddMemberService-> personRepository : createAndAdd(name, birthDate, personID, vat, phone, address, familyID)
+AddMemberService-> newPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
+
+
+
+AddMemberService -> personRepository :  add(newPerson)
 activate personRepository 
-personRepository -> newPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
-personRepository -> personRepository : add(newPerson)
 return 
 return true
 return successData
@@ -410,10 +412,8 @@ return successData
   
     **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
     
-  
 
 ## 3.5. Applied Patterns
-
 
 We applied the principles of Controller, Information Expert, Creator and PureFabrication from the GRASP pattern. We also
 used the SOLID Single Responsibility Principle.
