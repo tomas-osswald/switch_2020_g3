@@ -261,8 +261,7 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 # 3.4 Sequence Diagram
 
 
-````puml
-@startuml
+````
 
 autonumber
 header Sequence Diagram

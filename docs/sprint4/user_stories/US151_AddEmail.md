@@ -205,78 +205,47 @@ autonumber
 header Sequence Diagram
 title US151 Add Email
 
-actor "Family Member" as actor
-participant "UI" as UI
-participant ": AddEmailController" as controller
+
 participant ": AddEmailService" as service
-participant "anApplication\n : Application" as app
 participant "newEmail\n: EmailAddress" as email
 participant "aPersonRepository\n: PersonRepository" as prepository
-participant "familyMember\n : Person" as person
+participant "aPerson\n : Person" as person
 
-activate actor
-actor -> UI: I want to add an Email
-activate UI
-return request data
-actor -> UI : input Email
-activate UI
-
-UI -> controller : addEmail(addEmailDTO)
-activate controller
-
-controller -> service** : create(application)
-controller -> service : addEmail(addEmailDTO)
+-> service : addEmail(addEmailDTO)
 activate service
 
-service -> app : getLoggedPersonID()
-activate app
-return loggedUserID
+service -> service : loggedUserID = addEmailDTO.unpackUserID()
 
-service -> app : getPersonRepository()
-activate app
-return aPersonRepository
+service -> prepository : getByID(loggedUserID)
+prepository --> service: aPerson
 
 service -> service : emailString = addEmailDTO.unpackEmail()
 service -> email** : create(emailString)
 activate email
 email -> email : validate data
-return ok
 
-service -> prepository : addEmail(loggedUserID, newEmail)
-activate prepository
-prepository -> prepository : isEmailAlready\nRegistered(newEmail)
+
+service -> person: addEmail(newEmail)
+deactivate email
+activate person
+person -> person: isEmailAlreadyRegistered(newEmail)
+
 
 alt Email not registered
 
-prepository -> prepository : familyMember = getPersonByID(loggedUserID)
-prepository -> person : addEmail(newEmail)
-activate person
-person --> prepository
-deactivate person
+person -> person: add newEmail to emails List
+person --> service: true
 
-prepository --> service
 
-service --> controller : success
-
-controller --> UI : success
-
-UI --> actor : inform success
 
 else Email already registered
 
-prepository --> service
-deactivate prepository
-
-service --> controller : fail
-deactivate service
-
-controller --> UI : fail
-deactivate controller
-
-UI --> actor : inform failure
-deactivate UI
+person -> service: false
+deactivate person
 
 end
+return result
+deactivate service
 @enduml
 ````
 
