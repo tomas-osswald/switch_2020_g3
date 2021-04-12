@@ -349,6 +349,68 @@ end
 @enduml
 ````
 
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US0101 Add Family Member
+
+participant ": IAddFamilyMemberController" as controller
+participant ": IAddFamilyMemberService" as AddMemberService
+participant ": IFamilyRepository" as familyRepository
+participant ": IPersonRepository" as personRepository
+participant "aPerson\n : Person" as admin
+participant "newPerson\n : Person" as newPerson
+
+
+-> controller : addFamilyMember(data)
+activate controller
+
+note left: especificar nome da instância no participant?
+
+controller -> AddMemberService : addFamilyMember\n(addPersonDTO)
+activate AddMemberService
+
+note right: dtos são instanciados no controller?
+
+AddMemberService -> AddMemberService : loggedUserId = addPersonDTO.unpackUserID()
+
+AddMemberService -> familyRepository : verifyAdmin(loggedUserId)
+activate familyRepository
+return
+
+ref over AddMemberService
+unpack DTOs, validate 
+and create Value Objects
+end ref
+
+AddMemberService -> personRepository : getById(loggedUserId)
+activate personRepository
+return aPerson
+
+AddMemberService -> admin : getFamilyId()
+activate admin
+return familyId
+
+AddMemberService-> personRepository : createAndAdd(name, birthDate, personID, vat, phone, address, familyID)
+activate personRepository 
+personRepository -> newPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
+personRepository -> personRepository : add(newPerson)
+return 
+return true
+return successData
+
+@enduml
+````
+
+- Duvidas (a tirar em 12.04.2021 para resolver !!!)
+
+    **Person criada no repositorio ou no service ?**
+  
+    **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
+    
+  
 
 ## 3.5. Applied Patterns
 
