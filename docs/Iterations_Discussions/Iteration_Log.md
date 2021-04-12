@@ -45,18 +45,18 @@ Family Member tem um ID (email)
 
 Hipotése C das Categories + Versão inicial de Family e Family Members (Antes da aula de LABPROJ II)
 
-![img.png](img.png)
+![img.png](../../assets/img.png)
 
 ---
 
 Hipótese B das Categories + versão 1 Family e Family Members
-![img_3.png](img_3.png)
+![img_3.png](../../assets/img_3.png)
 
 
 ---  
 
 Hipótese B das Categories + Versão 2 Family e Family Members
-![img_4.png](img_4.png)
+![img_4.png](../../assets/img_4.png)
 
 
 ---
@@ -265,4 +265,3 @@ Referência - aula NB
 
 Dúvida: Se se entender que o Controller é essa "fronteira" e que criaria os Value Objects, de onde virão os DTO's (Que supostamente transitam do Controller
 para o Service).
-
