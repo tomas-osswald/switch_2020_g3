@@ -11,7 +11,7 @@ public class TestService implements  TestIService{
     TestIRepository testRepo;
 
     public String getNameById(int id) {
-
+        if (id>130) id = 100;
         return testRepo.getNameByID(id);
     }
 }
