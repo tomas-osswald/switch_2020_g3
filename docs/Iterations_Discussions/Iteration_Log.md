@@ -250,3 +250,19 @@ Reunião com: todos
 
 
 ------------------------------
+
+## Dúvidas para Prof Nuno Silva - 13/04/2021
+
+REF: SD US010/US101
+
+**1. No SD representam-se os nomes das instâncias?** 
+
+Refere-se que são Interfaces ou Implementações?
+
+Referência - aula NB  
+
+**Prof referiu que instanciação de Value Objects poderia (deveria??) ser feita na camada que faz fronteira com o Domínio.**
+
+Dúvida: Se se entender que o Controller é essa "fronteira" e que criaria os Value Objects, de onde virão os DTO's (Que supostamente transitam do Controller
+para o Service).
+
