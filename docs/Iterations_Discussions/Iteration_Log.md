@@ -213,3 +213,40 @@ end Note
 
    **NOTA: Inverso do que está atualmente implementado (09/04/2021)**
 
+12.04.2021
+---------------
+
+Reunião com: todos
+
+- Accounts:
+
+   - Discussão entre as 2 hipoteses sugeridas antes. Verificação de vantagens e desvantagens entre cada solução.
+   
+   A class **PersonID** ou **FamilyID** é uma implementação de **OwnerID**, e cada conta teria como atributo um **OwnerId** em vez de ter um **PersonId** ou um **FamilyId**
+
+   **A decisão de qual das alternativas a adoptar está dependente da resposta da prof Isabel ???**
+
+- Next steps:
+
+
+   
+
+   Team1 :  US101, US150, US151
+   
+   Team2 : US170, US171, US172, US173, US120
+
+   - Vamos avançar para qual ?
+```US101 As a family administrator, I want to add family members.```
+     
+```US150 As a family member, I want to get my profile’s information.```
+
+```US151 As a family member, I want to add an email account to my profile.```
+
+- US101
+
+
+
+
+
+
+------------------------------

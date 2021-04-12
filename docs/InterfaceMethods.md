@@ -4,9 +4,9 @@
 ### Repositories
 | **_Interface_**             | **_Methods_**                                                                   |
 | :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Repository**              | createAndAdd(), getByID(),                                                                      |
+| **Repository**              | add(), getByID(),                                                                      |
 | **IFamilyRepository**       | generateID(), verifyAdmin()                                                        |
-| **IPersonRepository**       |                                                                         |
+| **IPersonRepository**       |         isPersonIDAlreadyRegistered(PersonID)                                                                |
 | **IAccountRepository**      |                                                                         |
 | **ICategoryRepository**     |                                                                         |
 | **ILedgerRepository**       |                                                                         |
