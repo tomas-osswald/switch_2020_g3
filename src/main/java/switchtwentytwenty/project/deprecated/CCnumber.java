@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.deprecated;
 
-import switchtwentytwenty.project.ONEdomain.valueobject.ValueObject;
+import switchtwentytwenty.project.domain.valueobject.ValueObject;
 import switchtwentytwenty.project.exceptions.InvalidCCException;
 import switchtwentytwenty.project.exceptions.InvalidCharException;
 import switchtwentytwenty.project.util.NumberFromCharHelper;

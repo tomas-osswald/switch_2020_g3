@@ -265,3 +265,16 @@ Referência - aula NB
 
 Dúvida: Se se entender que o Controller é essa "fronteira" e que criaria os Value Objects, de onde virão os DTO's (Que supostamente transitam do Controller
 para o Service).
+
+**2.** Onde instanciar os DTO?, controller?! AppService?
+
+**3.** Explicação do SD do Prof Nuno Silva
+
+
+Mapeamento automático, no controller, para DTO, qual a anotação?
+Classe from data to DTO (Assembler)
+Transferir dados entre camadas (Interface to AppServ e vice)
+Classes de domínio dependentes de VO 
+Criar VO na camada AppServices
+
+por estereotipo no SD, interface 
