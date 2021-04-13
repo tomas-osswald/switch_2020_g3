@@ -1,14 +1,12 @@
-# US101 Add Family Members
+# US170 Create Personal Cash Account
 =======================================
 
 # 1. Requirements
 
 ### 1.1 Client Notes
-*As a family administrator, I want to add family members*
+*As a family member, I want to create a personal cash account*
 
-We interpreted this requirement as the function of a family administrator adding a new Person to their family.
-
-This Person's email account must not exist in the Application since it is used as a unique ID.
+We interpreted this requirement as the function of a family member to create a personal cash account.
 
 - A Person needs to have:
     - ID (email)
@@ -18,29 +16,30 @@ This Person's email account must not exist in the Application since it is used a
     - Birthdate
     - Phone (none or one)
     - Family ID
-    
+
+- A personal Cash Account must have:
+    - Account ID
+    - Owner
 
 ### 1.2 Dependencies
 
 ### 1.2.1 Pre-conditions
 
-In order for this US to be possible, a Family and that Family's administrator must already exist in the system.
 
 ### 1.2.2 Other User Stories
 
 This US is dependent of US010, as a family and its administrator must be created before a person can be added.
+Also is dependent of US101, since a Family Member is a Person added to the Family.
 
 ## 1.3 Acceptance Criteria
 
 ### 1.3.1 Success Cases
 
-A Person is created without errors and added to the Family. 
+A personal cash account is created and added to the Family Member.
 
 ### 1.3.2 Failure Cases
 
-- Person's data is incomplete or incorrect.
-- User doesn't have Administrator privileges.
-- If the Person's email is already registered in the Application.
+- AccountId is already registred
 
 ## 1.4 SSD
 
@@ -75,7 +74,7 @@ The following Domain Model is only referring to this user story. The complete mo
 
 
 Each Person will have two types of attributes. The attributes *name*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and 
+will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and
 *PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
 possible that has **none or multiple** *PhoneNumbers*.
 
@@ -260,94 +259,6 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 
 # 3.4 Sequence Diagram
 
-
-````
-
-autonumber
-header Sequence Diagram
-title US101 Add a Family Member
-
-actor "Family Administrator" as familyAdmin
-participant "UI" as UI
-participant ": AddFamilyMemberController" as controller
-participant ": AddFamilyMemberService" as FamAdminService
-participant "anApplication\n : Application" as app
-participant "aFamilyRepository\n : FamilyRepository" as frepository
-participant "aPersonRepository\n: PersonRepository" as prepository
-participant "newFamilyMember\n : Person" as admin
-
-activate familyAdmin
-familyAdmin -> UI: I want to add a Family Member
-activate UI
-return request data
-familyAdmin -> UI : input Family Member data
-activate UI
-
-UI -> controller : addFamilyMember(addPersonDTO)
-activate controller
-
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : addFamilyMember(addPersonDTO)
-activate FamAdminService
-
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-
-FamAdminService -> app : getLoggedPersonID()
-activate app
-return loggedUserID
-
-FamAdminService -> frepository: verifyAdmin(loggedUserID)
-activate frepository
-return
-
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
-
-FamAdminService -> app : getLoggedPersonFamilyID()
-activate app
-return familyID
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, familyID)
-activate prepository
-
-prepository -> prepository : isEmailAlreadyRegistered(email)
-
-alt false
-
-prepository -> admin** : create
-activate admin
-
-prepository -> prepository : addToRepository (newFamilyMember)
-prepository --> FamAdminService
-deactivate admin
-
-FamAdminService --> controller : success
-
-controller --> UI : success
-
-UI --> familyAdmin : inform success
-
-else true
-
-prepository --> FamAdminService
-deactivate prepository
-
-FamAdminService --> controller : fail
-deactivate FamAdminService
-
-controller --> UI : fail
-deactivate controller
-
-UI --> familyAdmin : inform failure
-deactivate UI
-
-end
-@enduml
-````
-
 ````puml
 @startuml
 
@@ -405,10 +316,10 @@ return successData
 
 - Duvidas (a tirar em 12.04.2021 para resolver !!!)
 
-    **Person criada no repositorio ou no service ?**
-  
-    **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
-    
+  **Person criada no repositorio ou no service ?**
+
+  **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
+
 
 ## 3.5. Applied Patterns
 
@@ -528,7 +439,7 @@ We applied the following principles:
 
 3. Before creating the Person, the email is validated in the Person Repository in order to guarantee that it is
    Unique
-   
+
 ```java
       private boolean isEmailAlreadyRegistered(EmailAddress email) {
       boolean emailIsRegistered = false;

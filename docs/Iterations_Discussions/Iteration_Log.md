@@ -45,18 +45,18 @@ Family Member tem um ID (email)
 
 Hipotése C das Categories + Versão inicial de Family e Family Members (Antes da aula de LABPROJ II)
 
-![img.png](img.png)
+![img.png](../../assets/img.png)
 
 ---
 
 Hipótese B das Categories + versão 1 Family e Family Members
-![img_3.png](img_3.png)
+![img_3.png](../../assets/img_3.png)
 
 
 ---  
 
 Hipótese B das Categories + Versão 2 Family e Family Members
-![img_4.png](img_4.png)
+![img_4.png](../../assets/img_4.png)
 
 
 ---
@@ -213,3 +213,55 @@ end Note
 
    **NOTA: Inverso do que está atualmente implementado (09/04/2021)**
 
+12.04.2021
+---------------
+
+Reunião com: todos
+
+- Accounts:
+
+   - Discussão entre as 2 hipoteses sugeridas antes. Verificação de vantagens e desvantagens entre cada solução.
+   
+   A class **PersonID** ou **FamilyID** é uma implementação de **OwnerID**, e cada conta teria como atributo um **OwnerId** em vez de ter um **PersonId** ou um **FamilyId**
+
+   **A decisão de qual das alternativas a adoptar está dependente da resposta da prof Isabel ???**
+
+- Next steps:
+
+
+   
+
+   Team1 :  US101, US150, US151
+   
+   Team2 : US170, US171, US172, US173, US120
+
+   - Vamos avançar para qual ?
+```US101 As a family administrator, I want to add family members.```
+     
+```US150 As a family member, I want to get my profile’s information.```
+
+```US151 As a family member, I want to add an email account to my profile.```
+
+- US101
+
+
+
+
+
+
+------------------------------
+
+## Dúvidas para Prof Nuno Silva - 13/04/2021
+
+REF: SD US010/US101
+
+**1. No SD representam-se os nomes das instâncias?** 
+
+Refere-se que são Interfaces ou Implementações?
+
+Referência - aula NB  
+
+**Prof referiu que instanciação de Value Objects poderia (deveria??) ser feita na camada que faz fronteira com o Domínio.**
+
+Dúvida: Se se entender que o Controller é essa "fronteira" e que criaria os Value Objects, de onde virão os DTO's (Que supostamente transitam do Controller
+para o Service).

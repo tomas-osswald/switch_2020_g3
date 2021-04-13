@@ -40,12 +40,10 @@ package "Value Objects" {
 package "Application Business rules/Use cases layer" {
 top to bottom direction
 
-
-
  package "AppServices" {
  
  package "IServices" {
- 
+ top to bottom direction
  }
  
  
@@ -53,7 +51,8 @@ top to bottom direction
  package "ImplServices" {
  
  }
-  IServices.bottom.> ImplServices
+ 
+  IServices.> ImplServices
 
  
  }

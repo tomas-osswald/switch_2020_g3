@@ -124,7 +124,7 @@ autonumber
 header Sequence Diagram
 title US010 Create a Family and Set Administrator
 
-participant ": ICreateFamilyController" as controller
+
 participant ": ICreateFamilyService" as FamAdminService
 participant ": IFamilyRepository" as familyRepository
 participant ": IPersonRepository" as personRepository
@@ -132,12 +132,11 @@ participant "admin\n : Person" as admin
 participant "newFamily\n : Family" as newFamily
 
 
--> controller : createFamilyAndAdmin(data)
-activate controller
+
 
 note left: especificar nome da instância no participant?
 
-controller -> FamAdminService : createFamilyAndAddAdmin\n(createFamilyDTO, addPersonDTO)
+ -> FamAdminService : createFamilyAndAddAdmin\n(createFamilyDTO, addPersonDTO)
 activate FamAdminService
 
 note right: dtos são instanciados no controller?
@@ -151,27 +150,25 @@ end ref
 FamAdminService -> familyRepository : generateID()
 activate familyRepository
 return familyID
-
-FamAdminService -> personRepository : createAndAdd(name, birthDate, personID, \nvat, phone, address, familyID)
+FamAdminService -> personRepository: isPersonIDAlready\nRegistered(personID)
 activate personRepository
-personRepository -> personRepository : isPersonIDAlready\nRegistered(personID)
-personRepository -> admin** : create(name, birthDate, personID, \nvat, phone, address, familyID)
-personRepository -> personRepository : add(admin)
-return
+return false
+FamAdminService -> admin** : build(name, birthDate, personID, \nvat, phone, address, familyID)
 
-FamAdminService -> familyRepository : createAndAdd(familyID, \nfamilyName, registrationDate, adminEmail)
+FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, adminEmail)
+
+FamAdminService -> personRepository: add(admin)
+activate personRepository
+return 
+FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-
-familyRepository -> newFamily** : create(familyID, familyName, registrationDate, adminEmail)
-familyRepository -> familyRepository : add(newFamily)
-return
-
+return 
 return true
-
-return successData
+ 
 
 @enduml
 ````
+
 
 ````puml
 @startuml
@@ -192,6 +189,9 @@ FamAdminService -> personID** : create(addPersonDTO.unpackName())
 
 @enduml
 ````
+
+
+
 
 ## 3.1. Functionality Use
 

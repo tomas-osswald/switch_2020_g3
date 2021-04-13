@@ -58,7 +58,7 @@
             <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
-
+<!--junit 5.7.0 necessario para o IntelliJ detectar os Asserts do Junit -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -76,9 +76,17 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
+            <version>1.7.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

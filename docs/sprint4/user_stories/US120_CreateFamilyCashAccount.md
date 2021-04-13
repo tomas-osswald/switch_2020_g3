@@ -1,16 +1,14 @@
-# US101 Add Family Members
+# US120 Create Family Cash Account
 =======================================
 
 # 1. Requirements
 
 ### 1.1 Client Notes
-*As a family administrator, I want to add family members*
+*As a family administrator, I want to create a personal cash account*
 
-We interpreted this requirement as the function of a family administrator adding a new Person to their family.
+We interpreted this requirement as the function of a family administrator to create a family´s cash account.
 
-This Person's email account must not exist in the Application since it is used as a unique ID.
-
-- A Person needs to have:
+- An Admin needs to have:
     - ID (email)
     - Name
     - Vat number
@@ -18,13 +16,15 @@ This Person's email account must not exist in the Application since it is used a
     - Birthdate
     - Phone (none or one)
     - Family ID
-    
+
+- A family Cash Account must have:
+    - Account ID
+    - Owner
 
 ### 1.2 Dependencies
 
 ### 1.2.1 Pre-conditions
 
-In order for this US to be possible, a Family and that Family's administrator must already exist in the system.
 
 ### 1.2.2 Other User Stories
 
@@ -34,13 +34,11 @@ This US is dependent of US010, as a family and its administrator must be created
 
 ### 1.3.1 Success Cases
 
-A Person is created without errors and added to the Family. 
+A family cash account is created and added to the Family Member.
 
 ### 1.3.2 Failure Cases
 
-- Person's data is incomplete or incorrect.
-- User doesn't have Administrator privileges.
-- If the Person's email is already registered in the Application.
+- AccountId is already in use
 
 ## 1.4 SSD
 
@@ -48,15 +46,15 @@ A Person is created without errors and added to the Family.
 @startuml
 
 header SSD
-title Add a Family Member
+title Create Family Cash Account
 autonumber
 actor "Family Administrator" as Actor
 participant "System" as System
 activate Actor
-Actor -> System : Add a family member
+Actor -> System : Create a Family Cash Account
 activate System
-System --> Actor : Request Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)  
-Actor -> System : Input Person Data (Name, Birthdate, \nemail (ID), Vat Number, Phone Number, Address)
+System --> Actor : Request Account Data (something)  
+Actor -> System : Input Account Data (something)
 System --> Actor : Inform Success
 deactivate System
 deactivate Actor
@@ -67,28 +65,35 @@ deactivate Actor
 
 ## 2.1 Summary
 
-At the moment a person can have one or no phone numbers when it is created.  
-As such, the validation of the phone number must accept a null value.
-
 
 The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
 
-Each Person will have two types of attributes. The attributes *name*, *birthDate*, *address* and *vatNumber*
-will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and 
-*PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's
-possible that has **none or multiple** *PhoneNumbers*.
+[comment]: <> (Each Person will have two types of attributes. The attributes *name*, *birthDate*, *address* and *vatNumber*)
 
-The **Person** must have the following characteristics with the following rules:
+[comment]: <> (will have a **single value** but *EmailAddress* and *PhoneNumber* will behave differently. Both *EmailAddress* and)
 
-| **_Value Objects_**         | **_Business Rules_**                                                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------- |
-| **Name**                    | Required, string                                                                       |
-| **BirthDate**               | Required, date(year-month-day)                                                         |
-| **Address**                 | Required, string                                                                       |
-| **VatNumber**               | Required, Vat must have 9 numeric digits                                       |
-| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |
-| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |
+[comment]: <> (*PhoneNumber* are attributes that a Person can have more than one. A *Person* **must have at least one email**, but it's)
+
+[comment]: <> (possible that has **none or multiple** *PhoneNumbers*.)
+
+[comment]: <> (The **Person** must have the following characteristics with the following rules:)
+
+[comment]: <> (| **_Value Objects_**         | **_Business Rules_**                                                                   |)
+
+[comment]: <> (| :-------------------------- | :------------------------------------------------------------------------------------- |)
+
+[comment]: <> (| **Name**                    | Required, string                                                                       |)
+
+[comment]: <> (| **BirthDate**               | Required, date&#40;year-month-day&#41;                                                         |)
+
+[comment]: <> (| **Address**                 | Required, string                                                                       |)
+
+[comment]: <> (| **VatNumber**               | Required, Vat must have 9 numeric digits                                       |)
+
+[comment]: <> (| **EmailAddress**            | Required, unique, Email must follow a pattern                                          |)
+
+[comment]: <> (| **PhoneNumber**             | Non-Required, PhoneNumber must have 9 digits                                           |)
 
 
 ## 2.2. Domain Model Excerpt
@@ -260,94 +265,6 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 
 # 3.4 Sequence Diagram
 
-
-````
-
-autonumber
-header Sequence Diagram
-title US101 Add a Family Member
-
-actor "Family Administrator" as familyAdmin
-participant "UI" as UI
-participant ": AddFamilyMemberController" as controller
-participant ": AddFamilyMemberService" as FamAdminService
-participant "anApplication\n : Application" as app
-participant "aFamilyRepository\n : FamilyRepository" as frepository
-participant "aPersonRepository\n: PersonRepository" as prepository
-participant "newFamilyMember\n : Person" as admin
-
-activate familyAdmin
-familyAdmin -> UI: I want to add a Family Member
-activate UI
-return request data
-familyAdmin -> UI : input Family Member data
-activate UI
-
-UI -> controller : addFamilyMember(addPersonDTO)
-activate controller
-
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : addFamilyMember(addPersonDTO)
-activate FamAdminService
-
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-
-FamAdminService -> app : getLoggedPersonID()
-activate app
-return loggedUserID
-
-FamAdminService -> frepository: verifyAdmin(loggedUserID)
-activate frepository
-return
-
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
-
-FamAdminService -> app : getLoggedPersonFamilyID()
-activate app
-return familyID
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, familyID)
-activate prepository
-
-prepository -> prepository : isEmailAlreadyRegistered(email)
-
-alt false
-
-prepository -> admin** : create
-activate admin
-
-prepository -> prepository : addToRepository (newFamilyMember)
-prepository --> FamAdminService
-deactivate admin
-
-FamAdminService --> controller : success
-
-controller --> UI : success
-
-UI --> familyAdmin : inform success
-
-else true
-
-prepository --> FamAdminService
-deactivate prepository
-
-FamAdminService --> controller : fail
-deactivate FamAdminService
-
-controller --> UI : fail
-deactivate controller
-
-UI --> familyAdmin : inform failure
-deactivate UI
-
-end
-@enduml
-````
-
 ````puml
 @startuml
 
@@ -405,10 +322,10 @@ return successData
 
 - Duvidas (a tirar em 12.04.2021 para resolver !!!)
 
-    **Person criada no repositorio ou no service ?**
-  
-    **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
-    
+  **Person criada no repositorio ou no service ?**
+
+  **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
+
 
 ## 3.5. Applied Patterns
 
@@ -528,7 +445,7 @@ We applied the following principles:
 
 3. Before creating the Person, the email is validated in the Person Repository in order to guarantee that it is
    Unique
-   
+
 ```java
       private boolean isEmailAlreadyRegistered(EmailAddress email) {
       boolean emailIsRegistered = false;
