@@ -278,3 +278,15 @@ Classes de domínio dependentes de VO
 Criar VO na camada AppServices
 
 por estereotipo no SD, interface 
+
+## Dúvidas - 14/04/2021
+
+**1. Qual é a terceira opção, a elegante? (Isabel)**
+
+**2. O que faz sentido nos domanin services?**
+
+P.e. as transferencias têm que manipular dois ledgers, obrigando a ter lógica de negócio na sua manipulação
+
+No caso de create Family and set Admin, como os domain services não têm contacto com a camada de repositórios, não podem fazer as validações necessárias...
+
+**3. **
