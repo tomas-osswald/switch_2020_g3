@@ -17,7 +17,7 @@ public class Family implements AggregateRoot<FamilyID> {
     private RegistrationDate registrationDate;
     private PersonID admin;
     private List<Relation> relations = new ArrayList<>();
-    private AccountID cashAccount;
+    //private AccountID cashAccount;
 
     private Family() {
     }

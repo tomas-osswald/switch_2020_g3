@@ -289,4 +289,16 @@ P.e. as transferencias têm que manipular dois ledgers, obrigando a ter lógica 
 
 No caso de create Family and set Admin, como os domain services não têm contacto com a camada de repositórios, não podem fazer as validações necessárias...
 
-**3. **
+**3. Como representar os Builders nos SDs?**
+
+Ver documentação da US150
+
+## Decisões a 13/04/2021
+
+AccountData para aglomerar os atributos gerais das Accounts
+As Accounts conhecem os seus owners através do OwnerID
+Repositorios recebem objetos de domain
+Só representamos service para a frente nos SD e "abstraimos" do funcionamento dos repositórios
+Mapper para fazer DTOs de saída (exemplo: ProfileInfoDTO)
+ID SEMPRE EM CAPS
+add no repo para adicionar e save para alterar

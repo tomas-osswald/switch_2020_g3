@@ -264,52 +264,32 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 
 autonumber
 header Sequence Diagram
-title US0101 Add Family Member
-
-participant ": IAddFamilyMemberController" as controller
-participant ": IAddFamilyMemberService" as AddMemberService
-participant ": IFamilyRepository" as familyRepository
-participant ": IPersonRepository" as personRepository
-participant "aPerson\n : Person" as admin
-participant "newPerson\n : Person" as newPerson
+title US170 Create Personal Cash Account
 
 
--> controller : addFamilyMember(data)
-activate controller
+participant ": ICreatePersonalCashAccountService" as service
+participant ": IAcountRepository" as arepo
+participant "aPersonalCashAccount : Account" as acc
 
-note left: especificar nome da instância no participant?
+-> service : createPersonalCashAccount\n(createPersonalCashAccountDTO)
+activate service
 
-controller -> AddMemberService : addFamilyMember\n(addPersonDTO)
-activate AddMemberService
+ref over service
+unpack of createPersonalCashAccountDTO
+and creation of Value Objects
+end
 
-note right: dtos são instanciados no controller?
+service -> arepo : generateID()
+activate arepo
+return newId
 
-AddMemberService -> AddMemberService : loggedUserId = addPersonDTO.unpackUserID()
+service -> acc** : create(newId, ownerId, balance, description)
 
-AddMemberService -> familyRepository : verifyAdmin(loggedUserId)
-activate familyRepository
+service -> arepo : add(aPersonalCashAccount)
+activate arepo
 return
 
-ref over AddMemberService
-unpack DTOs, validate 
-and create Value Objects
-end ref
-
-AddMemberService -> personRepository : getById(loggedUserId)
-activate personRepository
-return aPerson
-
-AddMemberService -> admin : getFamilyId()
-activate admin
-return familyId
-
-AddMemberService-> newPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
-
-AddMemberService -> personRepository :  add(newPerson)
-activate personRepository 
-return 
 return true
-return successData
 
 @enduml
 ````

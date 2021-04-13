@@ -17,7 +17,7 @@ public class Person implements AggregateRoot<PersonID> {
     private List<PhoneNumber> phone = new ArrayList<>();
     private Address address;
     private FamilyID familyID;
-    private List<AccountID> accounts = new ArrayList<>();
+    //private List<AccountID> accounts = new ArrayList<>();
     private LedgerID ledger;
     private List<FutureTransactionID> futureTransactions = new ArrayList<>();
 

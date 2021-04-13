@@ -268,7 +268,7 @@ title US150 Person DTO creation
 participant ": PersonToDTO" as mapper
 participant "aPerson \n: Person" as person
 participant ":ProfileDTOBuilder" as builder
-participant "aProfileDTO \n: ProfileDTO" as profiledto
+participant "aProfileDTO \n: ProfileOutputDTO" as profiledto
 
 -> mapper : createPersonDTO(aPerson)
 activate mapper
