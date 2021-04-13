@@ -233,121 +233,119 @@ autonumber
 header Sequence Diagram - part 1
 title US150 Get my profile information
 
-actor "Family Member" as actor
-participant "UI" as UI
-participant ": GetMyProfile\nInfoController" as controller
-participant ": GetProfile\nInfoService" as service
-participant ": Application" as app
-participant "personRepository : PersonRepository" as repository
-participant "aPerson \n: Person" as person
-activate actor
-actor -> UI: Get my profile\n information
-activate UI
-return request data
-actor -> UI : input Family Member data
-activate UI
-UI -> controller : getProfileInfo()
-activate controller
-controller -> service* : getProfileInfo()
+
+participant ": IGetProfile\nInfoService" as service
+participant ": IPersonRepository" as repository
+'participant "aPerson \n: Person" as person
+participant ": PersonToDTO" as mapper
+
+-> service : getProfileInfo(getProfileInfoDTO)
 activate service
-service -> app : getPersonRepository()
-activate app
-return personRepository
-service -> repository : getProfileInfo(LoggedEmail)
+
+service -> service : personID = getProfileInfoDTO.unpackPersonID()
+service -> repository : getById(personID)
 activate repository
-repository -> repository : aPerson = getPersonByID(email)
-repository -> person** : getProfileInfo(email)
-ref over person
+return aPerson
 
-part 2:
-getProfileDTO
+service -> mapper : createPersonDTO(aPerson)
+activate mapper
+ref over mapper 
+Person DTO creation
 end
+return aPersonDTO
 
-autonumber 35
-activate person
-person --> repository : aProfileDTO
-deactivate person
-repository --> service : aProfileDTO
-deactivate repository
-service --> controller : aProfileDTO
-deactivate service
-controller --> UI : aProfileDTO
-deactivate controller
-return show Profile
-deactivate UI
-deactivate actor
-
+return aPersonDTO
 @enduml
 ````
 
 ````puml
 @startuml
 
-autonumber 11
+autonumber 6
 header Sequence Diagram - part 2
-title US150 Get my profile information
+title US150 Person DTO creation
 
+participant ": PersonToDTO" as mapper
 participant "aPerson \n: Person" as person
+participant ":ProfileDTOBuilder" as builder
 participant "aProfileDTO \n: ProfileDTO" as profiledto
-participant "aName \n: Name" as name
-participant "aEmail \n: Email" as email
-participant "aBirthDate \n: BirthDate" as birthdate
-participant "aOtherEmails \n: OtherEmails" as otheremails
-participant "aVat \n: Vat" as vat
-participant "aPhoneNumber \n: PhoneNumber" as phonenumber
-participant "aAdress \n: Adress" as adress
+
+-> mapper : createPersonDTO(aPerson)
+activate mapper
+mapper -> person : getID()
 activate person
-[o-> person : getProfileDTO
-activate profiledto
-person -> profiledto** : create()
+return id
 
-deactivate profiledto
-person -> name : getStringName()
-activate name
-return stringName
-person -> profiledto: setName(stringName)
-activate profiledto
-deactivate profiledto
-person -> email : getStringEmail()
-activate email
-return stringEmail
-person -> profiledto: setEmail(stringEmail)
-activate profiledto
-deactivate profiledto
-person -> birthdate : getStringBirthDate()
-activate birthdate
-return stringbirthDate
-person -> profiledto: setBirthate(stringBirthDate)
-activate profiledto
-deactivate profiledto
-person -> otheremails : getStringOtherEmails()
-activate otheremails
-return stringOtherEmails
-person -> profiledto: setOtherEmails(stringOtherEmails)
-activate profiledto
-deactivate profiledto
-person -> vat : getIntVat()
-activate vat
-return intVat
-person -> profiledto: setVat(intVat)
-activate profiledto
-deactivate profiledto
-person -> phonenumber : getStringPhoneNumber()
-activate phonenumber
-return stringPhoneNumber
-person -> profiledto: setPhoneNumber(stringPhoneNumber)
-activate profiledto
-deactivate profiledto
-person -> adress : getStringAdress()
-activate adress
-return stringAdress
-person -> profiledto: setAdress(stringAdress)
-activate profiledto
-deactivate profiledto
+mapper -> person : getName()
+activate person
+return name
 
-[<-o person : aProfileDTO
-deactivate profiledto
-deactivate person
+mapper -> person : getBirthDate()
+activate person
+return birthDate
+
+mapper -> person : getOtherEmail()
+activate person
+return emails
+
+mapper -> person : getVat()
+activate person
+return vat
+
+mapper -> person : getPhoneNumbers()
+activate person
+return phoneNumbers
+
+mapper -> person : getAddress()
+activate person
+return address
+
+mapper -> builder : ProfileDTOBuilder() 
+activate builder
+builder -> profiledto **: create = new()
+deactivate builder
+
+mapper -> builder : withID(id) 
+activate builder
+builder -> profiledto : setID(id)
+deactivate builder
+
+mapper -> builder : withName(name) 
+activate builder
+builder -> profiledto : setName(name)
+deactivate builder
+
+mapper -> builder : withBirthDate(birthDate) 
+activate builder
+builder -> profiledto : setBirthDate(birthDate)
+deactivate builder
+
+mapper -> builder : withEmails(emails) 
+activate builder
+builder -> profiledto : setEmails(emails)
+deactivate builder
+
+mapper -> builder : withVat(vat) 
+activate builder
+builder -> profiledto : setVat(vat)
+deactivate builder
+
+mapper -> builder : withPhoneNumbers(phoneNumbers) 
+activate builder
+builder -> profiledto : setPhoneNumbers(phoneNumbers)
+deactivate builder
+
+mapper -> builder : withAddress(address) 
+activate builder
+builder -> profiledto : setAddress(address)
+deactivate builder
+
+mapper -> builder : build()
+activate builder
+return aProfileDTO
+
+return aProfileDTO
+
 @enduml
 ````
 
