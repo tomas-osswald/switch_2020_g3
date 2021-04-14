@@ -2,10 +2,11 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppSe
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
-import switchtwentytwenty.project.dto.AddPersonDTO;
-import switchtwentytwenty.project.domain.valueobject.*;
 
 @Service
 public class AddFamilyMemberService {
@@ -28,9 +29,14 @@ public class AddFamilyMemberService {
         PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
 
+        if (!personRepository.isPersonIDAlreadyRegistered(personID)) {
+            Person admin = personRepository.getByID(loggedUserID);
+            FamilyID familyID = admin.getFamilyID();
 
-        FamilyID familyID = personRepository.getPersonFamilyID(loggedUserID);
 
-        personRepository.createAndAdd(name, birthDate, personID, vat, phone, address, familyID);
+            Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
+            personRepository.save(person);
+        }
+
     }
 }

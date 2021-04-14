@@ -147,12 +147,12 @@ and create Value Objects
 
 end ref
 
-FamAdminService -> familyRepository : generateID()
-activate familyRepository
-return familyID
 FamAdminService -> personRepository: isPersonIDAlready\nRegistered(personID)
 activate personRepository
 return false
+FamAdminService -> familyRepository : generateID()
+activate familyRepository
+return familyID
 FamAdminService -> admin** : build(name, birthDate, personID, \nvat, phone, address, familyID)
 
 FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, adminEmail)

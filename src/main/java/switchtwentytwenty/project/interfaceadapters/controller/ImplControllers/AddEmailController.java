@@ -1,22 +1,24 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.AddEmailService;
-
+import org.springframework.stereotype.Controller;
 import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddEmailController;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 
-public class AddEmailController {
+@Controller
+public class AddEmailController implements IAddEmailController {
 
     @Autowired
-    AddEmailService addEmailService;
+    IAddEmailService addEmailService;
 
 
-    public boolean addEmail(AddEmailDTO addEmailDTO){
+    public boolean addEmail(AddEmailDTO addEmailDTO) {
         boolean result = true;
 
-        try{
+        try {
             addEmailService.addEmail(addEmailDTO);
-        }catch(Exception e){
+        } catch (Exception e) {
             result = false;
         }
         return result;

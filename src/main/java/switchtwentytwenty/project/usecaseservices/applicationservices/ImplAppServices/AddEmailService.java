@@ -2,17 +2,19 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppSe
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-public class AddEmailService {
+@Service
+public class AddEmailService implements IAddEmailService {
 
     @Autowired
     IPersonRepository personRepository;
-
 
 
     public void addEmail(AddEmailDTO addEmailDTO) {
@@ -23,6 +25,9 @@ public class AddEmailService {
         EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
 
         Person person = personRepository.getByID(loggedUserID);
+
         person.addEmail(email);
+
+        personRepository.save(person);
     }
 }

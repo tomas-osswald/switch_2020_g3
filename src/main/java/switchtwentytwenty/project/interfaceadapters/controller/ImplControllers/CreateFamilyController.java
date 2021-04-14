@@ -6,8 +6,9 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppSer
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
 
+
 @Controller
-public class CreateFamilyController {
+public class CreateFamilyController  {
 
     @Autowired
     private CreateFamilyService createFamilyService;

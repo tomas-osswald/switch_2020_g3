@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 
+import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
@@ -12,11 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@org.springframework.stereotype.Repository
+@Repository
 public class PersonRepository implements IPersonRepository {
 
     private final List<Person> people;
-    private Map<PersonID,Person> peopleMap = new HashMap();
+    private Map<PersonID, Person> peopleMap = new HashMap();
 
     public PersonRepository() {
         this.people = new ArrayList<>();
@@ -33,11 +34,7 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
-    public Person getByID(PersonID email) {
-        return retrievePersonFromList(email);
-    }
-
-    private boolean isPersonIDAlreadyRegistered(PersonID personID) {
+    public boolean isPersonIDAlreadyRegistered(PersonID personID) {
         boolean emailIsRegistered = false;
         for (Person person : people) {
             if (person.hasID(personID)) {
@@ -46,6 +43,12 @@ public class PersonRepository implements IPersonRepository {
         }
         return emailIsRegistered;
     }
+
+    @Override
+    public Person getByID(PersonID email) {
+        return retrievePersonFromList(email);
+    }
+
 
     private Person retrievePersonFromList(PersonID email) {
         Person result = null;
@@ -73,6 +76,7 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
+    @Deprecated
     public FamilyID getPersonFamilyID(PersonID personID) {
         Person person = getByID(personID);
         return person.getFamilyID();
@@ -80,13 +84,10 @@ public class PersonRepository implements IPersonRepository {
 
     @Override
     public void save(Person person) {
-        if (!isPersonIDAlreadyRegistered(person.id())) {
-            this.people.add(person);
-            this.peopleMap.put(person.id(), person);
-            //TODO: escolher se lista se hashmap
-        } else {
-            throw new EmailAlreadyRegisteredException();
-        }
+        this.people.add(person);
+        this.peopleMap.put(person.id(), person);
+        //TODO: escolher se lista se hashmap
+
 
     }
 

@@ -3,6 +3,8 @@ package switchtwentytwenty.project.domain.aggregates.account;
 import switchtwentytwenty.project.domain.valueobject.ID;
 
 import java.util.UUID;
+/*
+
 
 public class CreditCardAccount implements NonCashAccount {
 
@@ -18,3 +20,4 @@ public class CreditCardAccount implements NonCashAccount {
         return false;
     }
 }
+ */
