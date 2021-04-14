@@ -1,4 +1,4 @@
 package switchtwentytwenty.project.interfaceadapters.controller.IControllers;
 
-public interface AddEmailController {
+public interface IAddEmailController {
 }

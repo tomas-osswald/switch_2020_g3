@@ -11,4 +11,6 @@ public interface IPersonRepository extends Repository <Person, PersonID>{
     void save(Person entity);
 
     void createAndAdd(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID);
+
+    boolean isPersonIDAlreadyRegistered(PersonID personID);
 }

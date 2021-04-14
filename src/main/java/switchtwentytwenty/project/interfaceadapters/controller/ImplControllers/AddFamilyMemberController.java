@@ -1,11 +1,9 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
-import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.AddFamilyMemberService;
 import switchtwentytwenty.project.dto.AddPersonDTO;
+import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.AddFamilyMemberService;
 
 public class AddFamilyMemberController {
-
-
 
 
     public boolean addFamilyMember(AddPersonDTO addPersonDTO) {
