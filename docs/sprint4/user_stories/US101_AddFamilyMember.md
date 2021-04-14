@@ -353,57 +353,54 @@ end
 
 autonumber
 header Sequence Diagram
-title US0101 Add Family Member
-
-participant ": IAddFamilyMemberController" as controller
-participant ": IAddFamilyMemberService" as AddMemberService
-participant ": IFamilyRepository" as familyRepository
-participant ": IPersonRepository" as personRepository
-participant "aPerson\n : Person" as admin
-participant "newPerson\n : Person" as newPerson
+title US010 Create a Family and Set Administrator
 
 
--> controller : addFamilyMember(data)
-activate controller
+participant ": ICreateFamilyMemberService" as service
+participant ": IFamilyRepository" as frepo
+participant ": IPersonRepository" as prepo
+participant "admin\n : Person" as admin
+participant "newPerson : Person" as newPerson
 
-note left: especificar nome da instância no participant?
+-> service : createFamilyMember\n(addPersonDTO)
+activate service
 
-controller -> AddMemberService : addFamilyMember\n(addPersonDTO)
-activate AddMemberService
+service -> service : adminID =\n addPersonDTO\n .unpackAdminID()
 
-note right: dtos são instanciados no controller?
-
-AddMemberService -> AddMemberService : loggedUserId = addPersonDTO.unpackUserID()
-
-AddMemberService -> familyRepository : verifyAdmin(loggedUserId)
-activate familyRepository
+service -> frepo : verifyAdmin(adminID)
+activate frepo
 return
 
-ref over AddMemberService
+ref over service
 unpack DTOs, validate 
 and create Value Objects
+
 end ref
 
-AddMemberService -> personRepository : getById(loggedUserId)
-activate personRepository
-return aPerson
+service -> prepo : getByID(adminID)
+activate prepo
+return admin
 
-AddMemberService -> admin : getFamilyId()
+service -> admin : getFamilyID()
 activate admin
-return familyId
+return familyID
 
-AddMemberService-> newPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
+service -> prepo: isPersonIDAlready\nRegistered(newPersonID)
+activate prepo
+return boolean
 
+service -> newPerson** : create(name, birthDate, newPersonID, vat, phone, address, familyID)
 
+service -> prepo : add(newPerson)
+activate prepo
+return
 
-AddMemberService -> personRepository :  add(newPerson)
-activate personRepository 
-return 
 return true
-return successData
 
 @enduml
 ````
+Duvida - meter o ponto 9 antes do 5?
+
 
 - Duvidas (a tirar em 12.04.2021 para resolver !!!)
 

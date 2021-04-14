@@ -45,18 +45,18 @@ Family Member tem um ID (email)
 
 Hipotése C das Categories + Versão inicial de Family e Family Members (Antes da aula de LABPROJ II)
 
-![img.png](img.png)
+![img.png](../../assets/img.png)
 
 ---
 
 Hipótese B das Categories + versão 1 Family e Family Members
-![img_3.png](img_3.png)
+![img_3.png](../../assets/img_3.png)
 
 
 ---  
 
 Hipótese B das Categories + Versão 2 Family e Family Members
-![img_4.png](img_4.png)
+![img_4.png](../../assets/img_4.png)
 
 
 ---
@@ -266,3 +266,74 @@ Referência - aula NB
 Dúvida: Se se entender que o Controller é essa "fronteira" e que criaria os Value Objects, de onde virão os DTO's (Que supostamente transitam do Controller
 para o Service).
 
+**2.** Onde instanciar os DTO?, controller?! AppService?
+
+**3.** Explicação do SD do Prof Nuno Silva
+
+
+Mapeamento automático, no controller, para DTO, qual a anotação?
+Classe from data to DTO (Assembler)
+Transferir dados entre camadas (Interface to AppServ e vice)
+Classes de domínio dependentes de VO 
+Criar VO na camada AppServices
+
+por estereotipo no SD, interface 
+
+
+-------------------------------------------------------------
+
+
+
+## Dúvidas - 14/04/2021
+
+**1. Qual é a terceira opção, a elegante? (Professora Isabel)**
+
+
+-----------------------------------------------------
+
+
+
+
+**2. O que faz sentido nos domain services?**
+
+R: 
+
+
+P.e. as transferencias têm que manipular dois ledgers, obrigando a ter lógica de negócio na sua manipulação
+
+No caso de create Family and set Admin, como os domain services não têm contacto com a camada de repositórios, não podem fazer as validações necessárias...
+
+**3. Como representar os Builders nos SDs?**
+
+R: respondido e alterado.
+
+
+
+
+Ver documentação da US150
+
+## Decisões a 13/04/2021
+
+AccountData para aglomerar os atributos gerais das Accounts
+As Accounts conhecem os seus owners através do OwnerID
+Repositorios recebem objetos de domain
+Só representamos service para a frente nos SD e "abstraimos" do funcionamento dos repositórios
+Mapper para fazer DTOs de saída (exemplo: ProfileInfoDTO)
+ID SEMPRE EM CAPS
+add no repo para adicionar e save para alterar
+
+14.04.2021 12:01
+---------------
+
+Após a aula do PBS alterou-se o SD da US150 na parte do BuilderDTO
+
+Definir o workflow:
+
+- Aplicar o **SpringBoot** nas US010,US101,US101,US151,US001 (esta se conseguissemos fazer era mesmo TOP)
+
+- Aprender a usar o **Mockito** correctamente
+
+- Foi decidido a US010 - Create a  Family and Set Administrator para aplicar SpringBoot + Mockito
+    Por esta US a funcionar desde o principio ao fim !!!!
+
+- Testes de integração : abordamos qualquer coisa no final

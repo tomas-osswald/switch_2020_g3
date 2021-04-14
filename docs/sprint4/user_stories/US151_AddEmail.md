@@ -225,19 +225,14 @@ service -> email** : create(emailString)
 activate email
 email -> email : validate data
 
-
 service -> person: addEmail(newEmail)
 deactivate email
 activate person
 person -> person: isEmailAlreadyRegistered(newEmail)
 
-
 alt Email not registered
 
-
 person --> service: true
-
-
 
 else Email already registered
 
@@ -245,6 +240,11 @@ person -> service: false
 deactivate person
 
 end
+
+service -> prepository : save(aPerson)
+activate prepository
+return
+
 return result
 deactivate service
 @enduml
