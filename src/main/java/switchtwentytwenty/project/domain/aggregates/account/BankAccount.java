@@ -3,7 +3,7 @@ package switchtwentytwenty.project.domain.aggregates.account;
 import switchtwentytwenty.project.domain.valueobject.ID;
 
 import java.util.UUID;
-
+/*
 public class BankAccount implements NonCashAccount {
 
     private AccountData data;
@@ -18,3 +18,5 @@ public class BankAccount implements NonCashAccount {
         return false;
     }
 }
+
+*/

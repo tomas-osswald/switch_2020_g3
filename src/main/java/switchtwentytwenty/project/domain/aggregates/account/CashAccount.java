@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.aggregates.account;
 
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.ID;
-
+/*
 public class CashAccount implements Account {
 
     private AccountData data;
@@ -16,4 +16,6 @@ public class CashAccount implements Account {
     public boolean hasID(ID id) {
         return false;
     }
+
 }
+    */
