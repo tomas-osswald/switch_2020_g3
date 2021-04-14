@@ -2,16 +2,23 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppSe
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import switchtwentytwenty.project.domain.aggregates.family.Family;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.ImplRepositories.FamilyRepository;
 import switchtwentytwenty.project.interfaceadapters.ImplRepositories.PersonRepository;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
+import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 public class CreateFamilyService {
-
-
+    @Autowired
+    IPersonRepository personRepository;
+    @Autowired
+    IFamilyRepository familyRepository;
 
 
 
@@ -26,18 +33,16 @@ public class CreateFamilyService {
         Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
         RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
 
-        //TODO: meter os autowires do personRepository e familyRepository
-        PersonRepository personRepository = null;
-        FamilyRepository familyRepository = null;
-
         FamilyID familyID = familyRepository.generateID();
-        familyRepository.createAndAdd(familyName, familyID, registrationDate, adminID);
+
+        Family family = new Family(familyID,familyName,registrationDate,adminID);
+        Person admin = new Person(name,birthdate,adminID,vat,phone,address,familyID);
 
         try {
-            personRepository.createAndAdd(name, birthdate, adminID, vat, phone, address, familyID);
+            personRepository.save(admin);
+            familyRepository.save(family);
             result = true;
         } catch (EmailAlreadyRegisteredException e) {
-            familyRepository.removeFamily(familyID);
             result = false;
         }
         return result;

@@ -1,24 +1,28 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.interfaceadapters.ImplRepositories.PersonRepository;
-import switchtwentytwenty.project.domain.valueobject.EmailAddress;
+import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 public class AddEmailService {
 
+    @Autowired
+    IPersonRepository personRepository;
 
 
 
-
-//TODO: autowire de personRepository e obter o loggedUserID no addEmailDTO
     public void addEmail(AddEmailDTO addEmailDTO) {
-        PersonRepository personRepository = null;
-        PersonID loggedUserID = null;
+
+        PersonID loggedUserID = new PersonID(addEmailDTO.unpackID());
+
 
         EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
 
-        personRepository.addEmailToPerson(email, loggedUserID);
+        Person person = personRepository.getByID(loggedUserID);
+        person.addEmail(email);
     }
 }

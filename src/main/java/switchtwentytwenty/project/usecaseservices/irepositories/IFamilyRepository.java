@@ -7,4 +7,9 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 public interface IFamilyRepository extends Repository<Family, FamilyID> {
 
     void verifyAdmin(PersonID adminID);
+
+    FamilyID generateID();
+
+    @Override
+    void save(Family entity);
 }

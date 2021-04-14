@@ -35,7 +35,7 @@ class AddEmailControllerTest {
         application.logInAsAdmin();
         addFamilyMemberController.addFamilyMember(otherUserDTO);
     }
-    */
+
 
 
     @DisplayName("Successfully add a new email address")
@@ -74,5 +74,5 @@ class AddEmailControllerTest {
         AddEmailDTO addOtherUserEmailDTO = new AddEmailDTO(otherUserEmail);
         assertTrue(addEmailController.addEmail(addOtherUserEmailDTO));
     }
-
+*/
 }

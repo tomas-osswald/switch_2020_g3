@@ -12,4 +12,9 @@ public class CategoryRepository implements Repository<Category, CategoryID>, swi
     public Category getByID(CategoryID id) {
         return null;
     }
+
+    @Override
+    public void save(Category entity) {
+
+    }
 }

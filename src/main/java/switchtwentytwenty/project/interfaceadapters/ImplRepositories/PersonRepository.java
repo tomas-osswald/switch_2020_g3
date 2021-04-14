@@ -3,9 +3,9 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
+import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ public class PersonRepository implements IPersonRepository {
         this.people = new ArrayList<>();
     }
 
+    @Deprecated
     public void createAndAdd(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         if (!isPersonIDAlreadyRegistered(personID)) {
             Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
@@ -60,10 +61,10 @@ public class PersonRepository implements IPersonRepository {
         }
     }
 
+    @Deprecated
     public void addEmailToPerson(EmailAddress email, PersonID personID) {
         Person loggedUser = getByID(personID);
         loggedUser.addEmail(email);
-
 
 
     }
@@ -72,6 +73,16 @@ public class PersonRepository implements IPersonRepository {
     public FamilyID getPersonFamilyID(PersonID personID) {
         Person person = getByID(personID);
         return person.getFamilyID();
+    }
+
+    @Override
+    public void save(Person person) {
+        if (!isPersonIDAlreadyRegistered(person.id())) {
+            this.people.add(person);
+        } else {
+            throw new EmailAlreadyRegisteredException();
+        }
+
     }
 
 

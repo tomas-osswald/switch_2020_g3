@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.usecaseservices.irepositories;
 
 import switchtwentytwenty.project.domain.aggregates.Entity;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.ID;
 
 public interface Repository<T extends Entity,K extends ID>{
@@ -13,4 +14,5 @@ public interface Repository<T extends Entity,K extends ID>{
     public T getByID(K id);
 
 
+    void save(T entity);
 }

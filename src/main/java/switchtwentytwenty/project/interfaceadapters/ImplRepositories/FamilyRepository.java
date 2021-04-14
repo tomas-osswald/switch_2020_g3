@@ -20,6 +20,7 @@ public class FamilyRepository implements IFamilyRepository {
         this.families = new ArrayList<>();
     }
 
+    @Deprecated
     public void createAndAdd(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, PersonID adminEmail) {
         Family family = new Family(familyID, familyName, registrationDate, adminEmail);
         this.families.add(family);
@@ -37,6 +38,11 @@ public class FamilyRepository implements IFamilyRepository {
             familyID = generateID();
         }
         return familyID;
+    }
+
+    @Override
+    public void save(Family family) {
+        this.families.add(family);
     }
 
     private boolean checkIfIDExists(FamilyID familyID) {
