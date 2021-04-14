@@ -8,12 +8,15 @@ import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.stereotype.Repository
 public class PersonRepository implements IPersonRepository {
 
     private final List<Person> people;
+    private Map<PersonID,Person> peopleMap = new HashMap();
 
     public PersonRepository() {
         this.people = new ArrayList<>();
@@ -79,6 +82,8 @@ public class PersonRepository implements IPersonRepository {
     public void save(Person person) {
         if (!isPersonIDAlreadyRegistered(person.id())) {
             this.people.add(person);
+            this.peopleMap.put(person.id(), person);
+            //TODO: escolher se lista se hashmap
         } else {
             throw new EmailAlreadyRegisteredException();
         }

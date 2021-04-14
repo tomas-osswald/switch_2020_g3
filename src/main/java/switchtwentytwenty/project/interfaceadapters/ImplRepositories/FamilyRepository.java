@@ -1,19 +1,22 @@
 package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 import org.springframework.stereotype.Repository;
-import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.FamilyName;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
+import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class FamilyRepository implements IFamilyRepository {
 
     private final List<Family> families;
+    private Map<FamilyID, Family> familyMap = new HashMap<>();
+
     //private final Families families = new Families();
 
     public FamilyRepository() {
@@ -27,7 +30,6 @@ public class FamilyRepository implements IFamilyRepository {
     }
 
     /**
-     *
      * @return familyID
      */
     public FamilyID generateID() {
@@ -43,6 +45,8 @@ public class FamilyRepository implements IFamilyRepository {
     @Override
     public void save(Family family) {
         this.families.add(family);
+        this.familyMap.put(family.id(), family);
+        //TODO: decidir se list ou hasmap.
     }
 
     private boolean checkIfIDExists(FamilyID familyID) {
@@ -77,11 +81,11 @@ public class FamilyRepository implements IFamilyRepository {
     public void verifyAdmin(PersonID loggedUserID) {
         boolean result = false;
         for (Family family : this.families) {
-            if(family.isPersonTheAdmin(loggedUserID)){
+            if (family.isPersonTheAdmin(loggedUserID)) {
                 result = true;
             }
         }
-        if(!result){
+        if (!result) {
             throw new UserIsNotAdminException();
         }
     }
