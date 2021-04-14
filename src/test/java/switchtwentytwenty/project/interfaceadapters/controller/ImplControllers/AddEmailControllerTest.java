@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.AddEmailDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddEmailController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 
 import static org.junit.Assert.assertFalse;
@@ -28,7 +29,7 @@ class AddEmailControllerTest {
     AddEmailDTO addEmailDTO2 = new AddEmailDTO("admintony@latinlover.com", "tonyZe@latinlover.com");
 
     @Test
-    void addEmailSucess() {
+    void addEmailSuccess() {
         Mockito.doNothing().when(addEmailService).addEmail(addEmailDTO);
 
         boolean result = addEmailController.addEmail(addEmailDTO);
