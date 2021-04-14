@@ -1,8 +1,10 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
+import org.springframework.stereotype.Controller;
 import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.AddFamilyMemberService;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 
+@Controller
 public class AddFamilyMemberController {
 
 
