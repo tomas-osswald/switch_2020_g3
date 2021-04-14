@@ -300,7 +300,7 @@ mapper -> person : getAddress()
 activate person
 return address
 
-mapper -> builder : ProfileDTOBuilder() 
+mapper -> builder** : ProfileDTOBuilder() 
 activate builder
 builder -> profiledto **: create = new()
 deactivate builder

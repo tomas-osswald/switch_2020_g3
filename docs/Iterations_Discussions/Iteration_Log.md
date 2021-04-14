@@ -279,17 +279,36 @@ Criar VO na camada AppServices
 
 por estereotipo no SD, interface 
 
+
+-------------------------------------------------------------
+
+
+
 ## Dúvidas - 14/04/2021
 
-**1. Qual é a terceira opção, a elegante? (Isabel)**
+**1. Qual é a terceira opção, a elegante? (Professora Isabel)**
 
-**2. O que faz sentido nos domanin services?**
+
+-----------------------------------------------------
+
+
+
+
+**2. O que faz sentido nos domain services?**
+
+R: 
+
 
 P.e. as transferencias têm que manipular dois ledgers, obrigando a ter lógica de negócio na sua manipulação
 
 No caso de create Family and set Admin, como os domain services não têm contacto com a camada de repositórios, não podem fazer as validações necessárias...
 
 **3. Como representar os Builders nos SDs?**
+
+R: respondido e alterado.
+
+
+
 
 Ver documentação da US150
 
@@ -302,3 +321,19 @@ Só representamos service para a frente nos SD e "abstraimos" do funcionamento d
 Mapper para fazer DTOs de saída (exemplo: ProfileInfoDTO)
 ID SEMPRE EM CAPS
 add no repo para adicionar e save para alterar
+
+14.04.2021 12:01
+---------------
+
+Após a aula do PBS alterou-se o SD da US150 na parte do BuilderDTO
+
+Definir o workflow:
+
+- Aplicar o **SpringBoot** nas US010,US101,US101,US151,US001 (esta se conseguissemos fazer era mesmo TOP)
+
+- Aprender a usar o **Mockito** correctamente
+
+- Foi decidido a US010 - Create a  Family and Set Administrator para aplicar SpringBoot + Mockito
+    Por esta US a funcionar desde o principio ao fim !!!!
+
+- Testes de integração : abordamos qualquer coisa no final
