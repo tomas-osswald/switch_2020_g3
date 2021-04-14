@@ -26,7 +26,7 @@ class AddEmailControllerTest {
     @InjectMocks
     AddEmailController addEmailController;
     AddEmailDTO addEmailDTO = new AddEmailDTO("admintony@latinlover.com", "tonyZe@latinlover.com");
-    AddEmailDTO addEmailDTO2 = new AddEmailDTO("admintony@latinlover.com", "tonyZe@latinlover.com");
+
 
     @Test
     void addEmailSuccess() {
@@ -38,9 +38,9 @@ class AddEmailControllerTest {
 
     @Test
     void addEmailFail() {
-        Mockito.doThrow(EmailAlreadyRegisteredException.class).when(addEmailService).addEmail(addEmailDTO2);
+        Mockito.doThrow(EmailAlreadyRegisteredException.class).when(addEmailService).addEmail(addEmailDTO);
 
-        boolean result = addEmailController.addEmail(addEmailDTO2);
+        boolean result = addEmailController.addEmail(addEmailDTO);
         assertFalse(result);
     }
 }
