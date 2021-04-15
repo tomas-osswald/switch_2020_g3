@@ -71,8 +71,6 @@ public class PersonRepository implements IPersonRepository {
     public void addEmailToPerson(EmailAddress email, PersonID personID) {
         Person loggedUser = getByID(personID);
         loggedUser.addEmail(email);
-
-
     }
 
     @Override
@@ -87,8 +85,6 @@ public class PersonRepository implements IPersonRepository {
         this.people.add(person);
         this.peopleMap.put(person.id(), person);
         //TODO: escolher se lista se hashmap
-
-
     }
 
 

@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.usecaseservices.irepositories.Repository;
 
-public class CategoryRepository implements Repository<Category, CategoryID>, switchtwentytwenty.project.usecaseservices.irepositories.CategoryRepository {
+public class ICategoryRepository implements Repository<Category, CategoryID>, switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository {
 
 
     @Override

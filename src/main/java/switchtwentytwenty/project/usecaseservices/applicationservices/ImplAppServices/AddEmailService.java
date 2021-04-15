@@ -20,14 +20,11 @@ public class AddEmailService implements IAddEmailService {
     public void addEmail(AddEmailDTO addEmailDTO) {
 
         PersonID loggedUserID = new PersonID(addEmailDTO.unpackID());
-
-
         EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
 
         Person person = personRepository.getByID(loggedUserID);
 
         person.addEmail(email);
-
         personRepository.save(person);
     }
 }

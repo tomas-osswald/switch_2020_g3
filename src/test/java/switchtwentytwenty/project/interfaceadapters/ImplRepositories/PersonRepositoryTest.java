@@ -2,6 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -57,6 +58,16 @@ class PersonRepositoryTest {
         personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
         assertThrows(EmailAlreadyRegisteredException.class, () -> personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
+    }
+
+    /* UNIT TESTS */
+
+    @Test
+    void getByID() {
+    }
+
+    @Test
+    void save() {
     }
 
     /*

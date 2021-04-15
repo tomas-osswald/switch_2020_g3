@@ -22,11 +22,9 @@ class AddEmailControllerTest {
     @Mock
     IAddEmailService addEmailService;
 
-
     @InjectMocks
     AddEmailController addEmailController;
     AddEmailDTO addEmailDTO = new AddEmailDTO("admintony@latinlover.com", "tonyZe@latinlover.com");
-
 
     @Test
     void addEmailSuccess() {
