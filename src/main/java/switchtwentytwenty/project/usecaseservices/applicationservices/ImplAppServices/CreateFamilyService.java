@@ -8,6 +8,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -19,9 +20,8 @@ public class CreateFamilyService {
     IFamilyRepository familyRepository;
 
 
-    public boolean createFamilyAndAddAdmin(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO) {
-        boolean result;
-
+    //TODO: Alterar SD de Boolean para Void
+    public void createFamilyAndAddAdmin(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO) {
         PersonID adminID = new PersonID(addPersonDTO.unpackEmail());
         FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
         Name name = new Name(addPersonDTO.unpackName());
@@ -40,12 +40,8 @@ public class CreateFamilyService {
 
             personRepository.save(admin);
             familyRepository.save(family);
-
-            result = true;
         } else {
-            result = false;
+            throw new PersonAlreadyRegisteredException("This person is already registered in the Application");
         }
-
-        return result;
     }
 }

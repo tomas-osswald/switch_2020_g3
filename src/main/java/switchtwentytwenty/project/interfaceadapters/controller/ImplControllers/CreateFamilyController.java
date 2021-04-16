@@ -22,7 +22,8 @@ public class CreateFamilyController  {
     public boolean createFamilyAndAdmin(CreateFamilyDTO createFamilyDTO, AddPersonDTO addPersonDTO) {
         boolean result;
         try {
-            result = createFamilyService.createFamilyAndAddAdmin(createFamilyDTO, addPersonDTO); //False if email is already registered
+            createFamilyService.createFamilyAndAddAdmin(createFamilyDTO, addPersonDTO);
+            result = true;
         } catch (Exception e) {
             result = false;
         }

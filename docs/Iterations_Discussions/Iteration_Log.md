@@ -361,5 +361,15 @@ if (!personRepository.isPersonIDAlreadyRegistered(personID)) {
 2. Segundo a informação que temos sobre _Mock Tests_ estes não devem ser vocacionados para a implementação, e como tal a dúvida é se devemos testar/simular todas as condições inseridas dentro do método.
 
 
-
 -----------------------------------------------
+
+Discussão Controller/Service - 16/04/2021
+
+Entre o AddFamilyMemberService e o CreateFamilyService e respetivos controllers, não havia congruência.
+
+No CreateFamilyService o método do Service era boolean e no AddFamilyMember era Void. Ambos usavam a verificação de isPersonAlreadyRegistered que não lança exceção.
+
+Assim, no AddFamilyMemberService se o isPersonAlreadyRegistered fosse true, o método não ia adicionar o Member mas não lannçava exceção para o Controller. Ou seja, o Controller assumia como True a adição da Person sem ela acontecer.
+
+Criou-se uma PersonAlreadyRegisteredException para ambos os Services e converteu-se os métodos para Void pela lógica de poderem falhar por vários motivos (Ao contrário de um boolean que apenas diz true ou false, "sem se saber porquê").
+
