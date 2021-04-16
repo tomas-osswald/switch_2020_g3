@@ -337,3 +337,29 @@ Definir o workflow:
     Por esta US a funcionar desde o principio ao fim !!!!
 
 - Testes de integração : abordamos qualquer coisa no final
+
+
+16.04.2021 17:05
+--------------
+
+- Testes AddFamilyMemberServiceTest: getFamilyID
+
+```
+
+if (!personRepository.isPersonIDAlreadyRegistered(personID)) {
+    Person admin = personRepository.getByID(loggedUserID);
+    FamilyID familyID = admin.getFamilyID();
+
+    Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
+    personRepository.save(person);
+}
+        
+ ``` 
+
+1. A partir da implementação sabemos que este método não falha (visto que a Person na linha anterior foi instanciada num estado válido , com sucesso), sendo impossível não haver retorno deste ID.
+
+2. Segundo a informação que temos sobre _Mock Tests_ estes não devem ser vocacionados para a implementação, e como tal a dúvida é se devemos testar/simular todas as condições inseridas dentro do método.
+
+
+
+-----------------------------------------------

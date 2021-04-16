@@ -34,7 +34,6 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
             Person admin = personRepository.getByID(loggedUserID);
             FamilyID familyID = admin.getFamilyID();
 
-
             Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
             personRepository.save(person);
         }
