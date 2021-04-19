@@ -396,8 +396,13 @@ Nos Repositories ter dois métodos distintos - add e update (Em vez do save() qu
 
 Assim os _adds_ seriam sempre de acréscimo de algo inexistente e o _update_ um overwrite de algum objeto já existente.
 
-Dúvidas para Prof Nuno Silva - 20/04/2021
+## Dúvidas para Prof Nuno Silva - 20/04/2021
 
 Repositories CRUD ou JPA? Qual vai ser utilizado
 
-Em função disso, usarmos a nomenclatura adequada.
+(Em função disso, usarmos a nomenclatura adequada.)
+
+Dúvida sobre representação das associações/generalizações no diagrama de classes onion.
+
+Como determinada classe é atributo de outra, representar como associação é errado?
+
