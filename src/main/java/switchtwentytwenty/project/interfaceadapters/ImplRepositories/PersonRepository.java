@@ -46,10 +46,14 @@ public class PersonRepository implements IPersonRepository {
 
     @Override
     public Person getByID(PersonID email) {
-        return retrievePersonFromList(email);
+        return retrievePersonFromHashMap(email);
     }
 
+    private Person retrievePersonFromHashMap(PersonID id){
+        return this.peopleMap.get(id);
+    }
 
+    @Deprecated
     private Person retrievePersonFromList(PersonID email) {
         Person result = null;
         for (Person person : people) {
@@ -81,10 +85,9 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void save(Person person) {
-        this.people.add(person);
+    public void save(Person person) { ;
         this.peopleMap.put(person.id(), person);
-        //TODO: escolher se lista se hashmap
+
     }
 
 

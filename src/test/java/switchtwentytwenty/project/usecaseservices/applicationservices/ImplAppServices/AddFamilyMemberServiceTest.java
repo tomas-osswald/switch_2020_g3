@@ -13,7 +13,6 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddPersonFormDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
-import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -92,21 +91,12 @@ class AddFamilyMemberServiceTest {
         assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(addPersonFormDTO));
     }
 
-    //TODO: make the other value objects tests
+    
     @Test
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
     void addPersonFail_invalidValueObject() {
         Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
         assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(addPersonFormDTOWrongName));
-    }
-
-
-    @Test
-    @DisplayName("Test failure where person already registered")
-    void addPersonFail_personalreadyregistered() {
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(loggedUserID)).thenReturn(true);
-
-        assertThrows(PersonAlreadyRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonFormDTO));
     }
 
 
