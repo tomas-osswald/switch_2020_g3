@@ -244,7 +244,7 @@ Person -up--> "1" VATNumber : vatNumber
 
 ## 3.3. Functionality Use
 
-The AddFamilyMemberController creates a new AddFamilyMemberService object using an addPersonDTO and the
+The AddFamilyMemberController creates a new AddFamilyMemberService object using an addPersonFormDTO and the
 application.
 The AddFamilyMemberService will create all the necessary value objects to add a Family Member to the Person Repository.
 The AddFamilyMemberService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
@@ -343,7 +343,7 @@ We applied the following principles:
     void mustReturnTrueAddPerson() {
         application.logInAsAdmin();
 
-        assertTrue(addFamilyMemberController.addPerson(addPersonDTO));
+        assertTrue(addFamilyMemberController.addPerson(addPersonFormDTO));
     }
 
 ```
@@ -358,7 +358,7 @@ We applied the following principles:
     void mustReturnFalseAddPersonNotAdmin() {
         application.logInAsNotAdmin();
 
-        assertFalse(addFamilyMemberController.addPerson(addPersonDTO));
+        assertFalse(addFamilyMemberController.addPerson(addPersonFormDTO));
     }
 
 
@@ -382,17 +382,17 @@ We applied the following principles:
 1. All the Value Objects are initially instantiated, with respective validations.
 
 ```java
- public void addPerson(AddPersonDTO addPersonDTO) {
+ public void addPerson(AddPersonDTO addPersonFormDTO) {
         FamilyRepository familyRepository = application.getFamilyRepository();
         EmailAddress loggedUserID = application.getLoggedPersonID();
         familyRepository.verifyAdmin(loggedUserID);
 
-        Name name = new Name(addPersonDTO.unpackName());
-        BirthDate birthDate = new BirthDate(addPersonDTO.unpackBirthDate());
-        EmailAddress email = new EmailAddress(addPersonDTO.unpackEmail());
-        VATNumber vat = new VATNumber(addPersonDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(addPersonDTO.unpackPhone());
-        Address address = new Address(addPersonDTO.unpackStreet(), addPersonDTO.unpackCity(), addPersonDTO.unpackZipCode(), addPersonDTO.unpackHouseNumber());
+        Name name = new Name(addPersonFormDTO.unpackName());
+        BirthDate birthDate = new BirthDate(addPersonFormDTO.unpackBirthDate());
+        EmailAddress email = new EmailAddress(addPersonFormDTO.unpackEmail());
+        VATNumber vat = new VATNumber(addPersonFormDTO.unpackVAT());
+        PhoneNumber phone = new PhoneNumber(addPersonFormDTO.unpackPhone());
+        Address address = new Address(addPersonFormDTO.unpackStreet(), addPersonFormDTO.unpackCity(), addPersonFormDTO.unpackZipCode(), addPersonFormDTO.unpackHouseNumber());
         FamilyID familyID = application.getLoggedPersonFamilyID();
 
         PersonRepository personRepository = application.getPersonRepository();
