@@ -25,6 +25,6 @@ public class AddEmailService implements IAddEmailService {
         Person person = personRepository.getByID(loggedUserID);
 
         person.addEmail(email);
-        personRepository.save(person);
+        personRepository.addPerson(person);
     }
 }

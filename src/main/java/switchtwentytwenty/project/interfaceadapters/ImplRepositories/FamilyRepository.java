@@ -43,7 +43,7 @@ public class FamilyRepository implements IFamilyRepository {
     }
 
     @Override
-    public void save(Family family) {
+    public void addPerson(Family family) {
         this.families.add(family);
         this.familyMap.put(family.id(), family);
         //TODO: decidir se list ou hasmap.
