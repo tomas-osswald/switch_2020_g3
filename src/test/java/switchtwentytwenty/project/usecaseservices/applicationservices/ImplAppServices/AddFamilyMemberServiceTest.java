@@ -101,14 +101,6 @@ class AddFamilyMemberServiceTest {
         assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(addPersonDTOWrongName));
     }
 
-    @Test
-    @DisplayName("Test failure where getByID")
-    void addPersonFail_getByID() {
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(loggedUserID)).thenReturn(false);
-        Mockito.doThrow(EmailNotRegisteredException.class).when(personRepository).getByID(loggedUserID);
-
-        assertThrows(EmailNotRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
-    }
 
 
     @Test
