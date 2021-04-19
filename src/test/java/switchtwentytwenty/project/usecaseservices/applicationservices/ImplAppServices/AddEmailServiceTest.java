@@ -45,24 +45,24 @@ class AddEmailServiceTest {
     }
 
     @Test
-    void addEmailFail_PersonID() {
+    void addEmailFailWhenPersonIDFormatIsInvalid() {
         assertThrows(InvalidEmailException.class,()-> addEmailService.addEmail(tonyInvalidPersonID));
     }
 
     @Test
-    void addEmailFail_Email() {
+    void addEmailFailWhenEmailToAddHasInvalidFormat() {
         assertThrows(InvalidEmailException.class,()-> addEmailService.addEmail(tonyInvalidEmail));
     }
 
     @Test
-    void addEmailFail_getByID() {
+    void addEmailFailWhenLoggedUserIDIsNotRegisteredInTheApplication() {
         Mockito.when(mockPersonRepository.getByID(IDTonyZe)).thenThrow(EmailNotRegisteredException.class);
 
         assertThrows(EmailNotRegisteredException.class,()-> addEmailService.addEmail(tonyDTO));
     }
 
     @Test
-    void addEmailFail_AddEmail() {
+    void addEmailFailWhenEmailIsAlreadyRegisteredInThePerson() {
         Mockito.when(mockPersonRepository.getByID(IDTonyZe)).thenReturn(tonyZe);
         Mockito.doThrow(EmailAlreadyRegisteredException.class).when(tonyZe).addEmail(tonyEmail);
 

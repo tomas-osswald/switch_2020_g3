@@ -19,10 +19,10 @@ public class AddEmailService implements IAddEmailService {
     @Override
     public void addEmail(AddEmailDTO addEmailDTO) {
 
-        PersonID loggedUserID = new PersonID(addEmailDTO.unpackID());
-        EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
-
+        PersonID loggedUserID = new PersonID(addEmailDTO.unpackUserID());
         Person person = personRepository.getByID(loggedUserID);
+
+        EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
 
         person.addEmail(email);
         personRepository.addPerson(person);
