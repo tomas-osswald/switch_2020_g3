@@ -265,7 +265,7 @@ autonumber 6
 header Sequence Diagram - part 2
 title US150 Person DTO creation
 
-participant ":ProfileDTOBuilder" as mapper
+participant ":PersonToDTO" as mapper
 participant "aPerson \n: Person" as person
 
 participant "aProfileDTO \n: ProfileOutputDTO" as profiledto

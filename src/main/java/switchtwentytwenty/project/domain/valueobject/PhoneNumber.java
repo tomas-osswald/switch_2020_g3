@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class PhoneNumber implements ValueObject {
 
-    private final static String INVALIDPHONE = "Phone number is not valid";
+
     private Integer number;
 
     public PhoneNumber(Integer number) {
@@ -21,6 +21,7 @@ public class PhoneNumber implements ValueObject {
     }
 
     private void checkNumber() {
+        String INVALIDPHONE = "Phone number is not valid";
         if (!isPhoneNumberValid())
             throw new InvalidPhoneNumberException(INVALIDPHONE);
     }

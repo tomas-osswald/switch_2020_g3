@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class VATNumber implements ValueObject {
 
     private final int vat;
-    private final static String INVALIDVAT = "Invalid VAT";
+
 
     public VATNumber(int vat) {
         this.vat = vat;
@@ -20,6 +20,7 @@ public class VATNumber implements ValueObject {
     }
 
     private void checkVatNumber() {
+        String INVALIDVAT = "Invalid VAT";
         if (!isValidVAT())
             throw new InvalidVATException(INVALIDVAT);
     }

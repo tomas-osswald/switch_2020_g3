@@ -30,5 +30,9 @@ public class Address implements ValueObject {
         return Objects.hash(street, zipCode, number, city);
     }
 
-
+    @Override
+    public String toString() {
+        String result = street.toString() + "&" + city.toString() + "&" + zipCode.toString() +"&"+ number.toString();
+        return result;
+    }
 }

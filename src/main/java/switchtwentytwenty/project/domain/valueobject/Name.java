@@ -3,9 +3,10 @@ package switchtwentytwenty.project.domain.valueobject;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
 public class Name implements ValueObject {
-    
+
+
     private String name;
-    private final static String INVALIDNAME = "Name is not valid";
+
 
     public Name(String name) {
         this.name = name;
@@ -22,6 +23,7 @@ public class Name implements ValueObject {
     }
 
     private void checkName() {
+        String INVALIDNAME = "Name is not valid";
         if(!isValidName())
             throw new InvalidNameException(INVALIDNAME);
     }

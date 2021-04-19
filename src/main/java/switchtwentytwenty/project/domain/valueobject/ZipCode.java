@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class ZipCode implements ValueObject {
 
     private String zipCode;
-    private final static String INVALIDZIPCODE = "Invalid Zip Code";
+
 
 
     public ZipCode(String zipCode) {
@@ -21,6 +21,7 @@ public class ZipCode implements ValueObject {
     }
 
     private void checkZipCode() {
+        String INVALIDZIPCODE = "Invalid Zip Code";
         if (!validateZipCode()) {
             throw new InvalidZipCodeException(INVALIDZIPCODE);
         }
