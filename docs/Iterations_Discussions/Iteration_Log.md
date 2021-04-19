@@ -387,3 +387,17 @@ Podemos, no entanto, fazê-lo caso um dos objetivos seja verificar que ele parte
 Onde é que isto pode correr mal? perguntou nenhum de vocês...
 
 Se quisermos ter alguma adição ao objeto temos de ponderar uma forma de _update_ em detrimento de um _save_ (Neste momento não é um requisito)
+
+--- 
+
+**Discussão** - 19/04/2021
+
+Nos Repositories ter dois métodos distintos - add e update (Em vez do save() que é ambíguo)
+
+Assim os _adds_ seriam sempre de acréscimo de algo inexistente e o _update_ um overwrite de algum objeto já existente.
+
+Dúvidas para Prof Nuno Silva - 20/04/2021
+
+Repositories CRUD ou JPA? Qual vai ser utilizado
+
+Em função disso, usarmos a nomenclatura adequada.

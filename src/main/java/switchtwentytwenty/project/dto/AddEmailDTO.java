@@ -14,7 +14,7 @@ public class AddEmailDTO {
         return this.email;
     }
 
-    public String unpackID() {
+    public String unpackUserID() {
         return this.id;
     }
 }

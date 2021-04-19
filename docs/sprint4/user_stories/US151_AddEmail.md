@@ -1,4 +1,4 @@
-git # US151 Add Email
+# US151 Add Email
 =======================================
 
 # 1. Requirements
@@ -207,6 +207,7 @@ title US151 Add Email
 
 
 participant ": AddEmailService" as service
+participant "aPersonID : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
 participant "aPersonRepository\n: PersonRepository" as prepository
 participant "aPerson\n : Person" as person
@@ -215,8 +216,9 @@ participant "aPerson\n : Person" as person
 activate service
 
 service -> service : loggedUserID = addEmailDTO.unpackUserID()
+service -> personid** : create(loggedUserID)
 
-service -> prepository : getByID(loggedUserID)
+service -> prepository : getByID(aPersonID)
 activate prepository
 return aPerson
 
@@ -233,6 +235,7 @@ person -> person: isEmailAlreadyRegistered(newEmail)
 alt Email not registered
 
 person --> service: true
+<-- service:
 
 else Email already registered
 
