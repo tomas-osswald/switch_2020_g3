@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,7 +16,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@SpringBootTest
+@SpringBootTest @Tag("Email")
 @RunWith(SpringRunner.class)
 class AddEmailControllerTest {
 

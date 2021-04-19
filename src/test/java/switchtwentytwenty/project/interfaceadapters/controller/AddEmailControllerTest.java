@@ -21,6 +21,7 @@ class AddEmailControllerTest {
     AddFamilyMemberController addFamilyMemberController;
     String adminEmail = "tonyze@latinlover.com";
     String otherUserEmail = "rifensravens@ddd.com";
+
 /*
     @BeforeEach
     void setup(){

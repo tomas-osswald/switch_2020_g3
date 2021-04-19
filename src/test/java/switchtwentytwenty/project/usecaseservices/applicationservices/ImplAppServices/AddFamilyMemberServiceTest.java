@@ -9,7 +9,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
@@ -42,7 +43,6 @@ class AddFamilyMemberServiceTest {
     Person admin;
 
 
-
     //@Mock
     //FamilyID familyID;
 
@@ -54,18 +54,18 @@ class AddFamilyMemberServiceTest {
     @InjectMocks
     AddFamilyMemberService addFamilyMemberService;
 
-    AddPersonDTO addPersonDTO = new AddPersonDTO("tonyze@latinas.com","tonyze@latinas.com","TonyZe","10/10/1999",123456789, 961962963,"Rua das Irma's Beleza e do Primo Flavio","Gaia",100,"4400" );
+    AddPersonDTO addPersonDTO = new AddPersonDTO("tonyze@latinas.com", "tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", 100, "4400");
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
     FamilyID familyID = new FamilyID(UUID.randomUUID());
 
-    AddPersonDTO addPersonDTOWrongName = new AddPersonDTO("tonyze@latinas.com","tonyze@latinas.com",null,"10/10/1999",123456789, 961962963,"Rua das Irma's Beleza e do Primo Flavio","Gaia",100,"4400" );
+    AddPersonDTO addPersonDTOWrongName = new AddPersonDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", 100, "4400");
 
     @Test
     void addPersonSuccess() {
 
 //        Mockito.when(addPersonDTO.unpackUserID()).thenReturn("tonyze@latinas.com");
-     //   Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
+        //   Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
         /*Mockito.when(addPersonDTO.unpackName()).thenReturn("tonyze@latinas.com");
         Mockito.when(addPersonDTO.unpackBirthDate()).thenReturn("10/10/1999");
         Mockito.when(addPersonDTO.unpackEmail()).thenReturn("tonyze@latinas.com");
@@ -85,37 +85,39 @@ class AddFamilyMemberServiceTest {
 
     @Test
     @DisplayName("Test failure where user is not admin")
-    void addPersonFail_NotAdmin(){
+    void addPersonFail_NotAdmin() {
 
         Mockito.doThrow(UserIsNotAdminException.class).when(familyRepository).verifyAdmin(loggedUserID);
 
-        assertThrows(UserIsNotAdminException.class, ()->addFamilyMemberService.addPerson(addPersonDTO));
+        assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
     }
 
     //TODO: make the other value objects tests
     @Test
     @DisplayName("Test failure where value object is invalid")
-    void addPersonFail_invalidValueObject(){
+    void addPersonFail_invalidValueObject() {
         Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
-        assertThrows(InvalidNameException.class, ()->addFamilyMemberService.addPerson(addPersonDTOWrongName));
+        assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(addPersonDTOWrongName));
     }
 
     @Test
     @DisplayName("Test failure where getByID")
-    void addPersonFail_getByID(){
+    void addPersonFail_getByID() {
         Mockito.when(personRepository.isPersonIDAlreadyRegistered(loggedUserID)).thenReturn(false);
         Mockito.doThrow(EmailNotRegisteredException.class).when(personRepository).getByID(loggedUserID);
 
-        assertThrows(EmailNotRegisteredException.class, ()->addFamilyMemberService.addPerson(addPersonDTO));
+        assertThrows(EmailNotRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
     }
 
     @Test
     @DisplayName("Test failure where getFamilyID")
-    void addPersonFail_getFamilyID(){
+    void addPersonFail_getFamilyID() {
         Mockito.when(personRepository.isPersonIDAlreadyRegistered(loggedUserID)).thenReturn(false);
+        Mockito.when(personRepository.getByID(loggedUserID)).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenThrow(EmailNotRegisteredException.class);
 
-
-        assertThrows(EmailNotRegisteredException.class, ()->addFamilyMemberService.addPerson(addPersonDTO));
+        assertThrows(EmailNotRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
     }
+
 
 }
