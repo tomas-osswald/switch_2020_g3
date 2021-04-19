@@ -265,9 +265,9 @@ autonumber 6
 header Sequence Diagram - part 2
 title US150 Person DTO creation
 
-participant ": PersonToDTO" as mapper
+participant ":PersonToDTO" as mapper
 participant "aPerson \n: Person" as person
-participant ":ProfileDTOBuilder" as builder
+
 participant "aProfileDTO \n: ProfileOutputDTO" as profiledto
 
 -> mapper : createPersonDTO(aPerson)
@@ -300,51 +300,39 @@ mapper -> person : getAddress()
 activate person
 return address
 
-mapper -> builder** : ProfileDTOBuilder() 
-activate builder
-builder -> profiledto **: create = new()
-deactivate builder
+mapper -> profiledto** : create 
 
-mapper -> builder : withID(id) 
-activate builder
-builder -> profiledto : setID(id)
-deactivate builder
 
-mapper -> builder : withName(name) 
-activate builder
-builder -> profiledto : setName(name)
-deactivate builder
+activate profiledto
+mapper -> profiledto : setID(id)
 
-mapper -> builder : withBirthDate(birthDate) 
-activate builder
-builder -> profiledto : setBirthDate(birthDate)
-deactivate builder
 
-mapper -> builder : withEmails(emails) 
-activate builder
-builder -> profiledto : setEmails(emails)
-deactivate builder
 
-mapper -> builder : withVat(vat) 
-activate builder
-builder -> profiledto : setVat(vat)
-deactivate builder
+mapper -> profiledto : setName(name)
 
-mapper -> builder : withPhoneNumbers(phoneNumbers) 
-activate builder
-builder -> profiledto : setPhoneNumbers(phoneNumbers)
-deactivate builder
 
-mapper -> builder : withAddress(address) 
-activate builder
-builder -> profiledto : setAddress(address)
-deactivate builder
 
-mapper -> builder : build()
-activate builder
-return aProfileDTO
+mapper -> profiledto : setBirthDate(birthDate)
 
-return aProfileDTO
+
+
+mapper -> profiledto : setEmails(emails)
+
+
+
+mapper -> profiledto : setVat(vat)
+
+
+mapper -> profiledto : setPhoneNumbers(phoneNumbers)
+
+
+
+mapper -> profiledto : setAddress(address)
+
+deactivate profiledto
+<-- mapper : aProfielDTO
+
+
 
 @enduml
 ````

@@ -7,7 +7,7 @@ import java.util.Objects;
 public class DoorNumber implements ValueObject {
 
     private Integer number;
-    private final static String INVALIDADDRESSNUMBER = "Invalid Address Number";
+
 
 
     public DoorNumber(int number) {
@@ -20,6 +20,8 @@ public class DoorNumber implements ValueObject {
     }
 
     private void checkNumber() {
+        String INVALIDADDRESSNUMBER = "Invalid Address Number";
+
         if (!validateNumber()) {
             throw new InvalidAddressNumberException(INVALIDADDRESSNUMBER);
         }

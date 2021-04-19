@@ -373,3 +373,17 @@ Assim, no AddFamilyMemberService se o isPersonAlreadyRegistered fosse true, o m�
 
 Criou-se uma PersonAlreadyRegisteredException para ambos os Services e converteu-se os métodos para Void pela lógica de poderem falhar por vários motivos (Ao contrário de um boolean que apenas diz true ou false, "sem se saber porquê").
 
+-----
+
+Aula Labproj II - Prof NB
+
+**1** Nos testes do AddFamilyMemberService podemos optar por testar apenas o DTO com um dos Value Objects inválidos e verificar se o método parte por aí.
+Ou seja, não é necessário testar todos os value objects e todas as exceções.
+
+Podemos, no entanto, fazê-lo caso um dos objetivos seja verificar que ele parte pelas diversas exceções criadas (Esses testes podem ser feitos nas classes específicas dos Value Objects).
+
+**2** No AddFamilyMemberService estava a haver uma validação para verificar se já existia um user na Aplicação com aquele ID e só depois de verificar é que era instanciado e depois guardado. Como o método do Repository é um Save, pode-se dar esta responsabilidade ao Repository. Ou seja, a pessoa é sempre criada desde que os Value Objects sejam válidos e de seguida é o Repository com a sua magia negra que quando recebe o objeto verifica se já existe algum com aquele ID.
+
+Onde é que isto pode correr mal? perguntou nenhum de vocês...
+
+Se quisermos ter alguma adição ao objeto temos de ponderar uma forma de _update_ em detrimento de um _save_ (Neste momento não é um requisito)

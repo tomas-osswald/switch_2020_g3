@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,7 @@ class AddFamilyMemberControllerTest {
     AddPersonFormDTO addPersonFormDTO;
 
     @Test
+    @Tag("US101")
     void addFamilyMemberSuccess() {
         Mockito.doNothing().when(addFamilyMemberService).addPerson(addPersonFormDTO);
 
@@ -35,6 +37,7 @@ class AddFamilyMemberControllerTest {
     }
 
     @Test
+    @Tag("US101")
     void addFamilyMemberFail() {
         Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(addPersonFormDTO);
 

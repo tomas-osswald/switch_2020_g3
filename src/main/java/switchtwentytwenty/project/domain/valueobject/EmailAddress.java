@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class EmailAddress implements ValueObject {
 
-    private final static String INVALIDEMAIL = "This Email is not valid";
+
     private String email;
 
     public EmailAddress(String email) {
@@ -25,6 +25,7 @@ public class EmailAddress implements ValueObject {
     }
 
     private void checkEmail() {
+        String INVALIDEMAIL = "This Email is not valid";
         if (!isValidEmail())
             throw new InvalidEmailException(INVALIDEMAIL);
     }

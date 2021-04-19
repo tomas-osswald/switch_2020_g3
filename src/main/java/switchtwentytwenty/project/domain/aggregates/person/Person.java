@@ -14,7 +14,7 @@ public class Person implements AggregateRoot<PersonID> {
     private BirthDate birthdate;
     private List<EmailAddress> emails = new ArrayList<>();
     private VATNumber vat;
-    private List<PhoneNumber> phone = new ArrayList<>();
+    private List<PhoneNumber> phoneNumbers = new ArrayList<>();
     private Address address;
     private FamilyID familyID;
     //private List<AccountID> accounts = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Person implements AggregateRoot<PersonID> {
 
     private void addPhone(PhoneNumber phone) {
         if (!phone.isNull()) {
-            this.phone.add(phone);
+            this.phoneNumbers.add(phone);
         }
     }
 
@@ -78,5 +78,29 @@ public class Person implements AggregateRoot<PersonID> {
             emailPresent = true;
         }
         return emailPresent;
+    }
+
+    public Name getName() {
+        return this.name;
+    }
+
+    public BirthDate getBirthdate() {
+        return this.birthdate;
+    }
+
+    public List<EmailAddress> getEmails(){
+            return this.emails;
+        }
+
+    public VATNumber getVat() {
+        return this.vat;
+    }
+
+    public List<PhoneNumber> getPhoneNumbers(){
+        return this.phoneNumbers;
+    }
+
+    public Address getAddress() {
+        return this.address;
     }
 }

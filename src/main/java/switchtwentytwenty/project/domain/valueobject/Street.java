@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Street implements ValueObject {
 
     private String street;
-    private final static String INVALIDSTREET = "Invalid Street Name";
+
 
     public Street(String street) {
         this.street = street;
@@ -20,6 +20,7 @@ public class Street implements ValueObject {
 
 
     private void checkStreet() {
+        String INVALIDSTREET = "Invalid Street Name";
         if (!validateStreet()) {
             throw new InvalidStreetException(INVALIDSTREET);
         }

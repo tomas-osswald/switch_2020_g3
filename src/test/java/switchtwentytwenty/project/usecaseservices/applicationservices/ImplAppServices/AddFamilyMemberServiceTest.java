@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -60,6 +61,7 @@ class AddFamilyMemberServiceTest {
     AddPersonFormDTO addPersonFormDTOWrongName = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", 100, "4400");
 
     @Test
+    @Tag("US101")
     void addPersonSuccess() {
 
 //        Mockito.when(addPersonDTO.unpackUserID()).thenReturn("tonyze@latinas.com");
@@ -82,6 +84,7 @@ class AddFamilyMemberServiceTest {
     }
 
     @Test
+    @Tag("US101")
     @DisplayName("Test failure where user is not admin")
     void addPersonFail_NotAdmin() {
 
@@ -90,7 +93,7 @@ class AddFamilyMemberServiceTest {
         assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(addPersonFormDTO));
     }
 
-    
+
     @Test
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
     void addPersonFail_invalidValueObject() {
