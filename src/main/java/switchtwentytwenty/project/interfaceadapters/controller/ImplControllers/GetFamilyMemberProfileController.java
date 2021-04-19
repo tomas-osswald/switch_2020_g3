@@ -2,7 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import switchtwentytwenty.project.dto.ProfileOutputDTO;
+import switchtwentytwenty.project.dto.PersonProfileDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 @Controller
@@ -11,16 +11,13 @@ public class GetFamilyMemberProfileController implements switchtwentytwenty.proj
     @Autowired
     IGetFamilyMemberProfileService getProfileService;
 
-    public ProfileOutputDTO getFamilyMemberProfile(String familyMemberID){
+    public PersonProfileDTO getFamilyMemberProfile(String familyMemberID){
+        PersonProfileDTO personProfileDTO;
 
-        try{
+        personProfileDTO = getProfileService.getFamilyMemberProfile(familyMemberID);
 
+        //todo: Neste controller não é possível haver exception visto que a única informação colocada advém do login e o objeto pessoa ja se encontra instanciado, correto?
 
-
-        } catch (Exception e){
-
-        }
-
-        return null;
+        return personProfileDTO;
     }
 }

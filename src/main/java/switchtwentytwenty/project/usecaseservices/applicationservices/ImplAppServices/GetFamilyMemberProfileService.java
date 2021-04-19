@@ -15,13 +15,13 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
     @Autowired
     PersonRepository personRepository;
 
-    public PersonProfileDTO getFamilyMemberProfile(String emailID){
-        PersonID personID = new PersonID(emailID);
+    public PersonProfileDTO getFamilyMemberProfile(String familyMemberID){
+        PersonID personID = new PersonID(familyMemberID);
         Person person = personRepository.getByID(personID);
         PersonToDTO personToDTO = new PersonToDTO(person);
 
         return personToDTO.createPersonProfileDTO();
-        return null;
+
     }
 
 }
