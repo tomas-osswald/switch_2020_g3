@@ -14,6 +14,7 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddPersonDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -109,14 +110,13 @@ class AddFamilyMemberServiceTest {
         assertThrows(EmailNotRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
     }
 
-    @Test
-    @DisplayName("Test failure where getFamilyID")
-    void addPersonFail_getFamilyID() {
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(loggedUserID)).thenReturn(false);
-        Mockito.when(personRepository.getByID(loggedUserID)).thenReturn(admin);
-        Mockito.when(admin.getFamilyID()).thenThrow(EmailNotRegisteredException.class);
 
-        assertThrows(EmailNotRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
+    @Test
+    @DisplayName("Test failure where person already registered")
+    void addPersonFail_personalreadyregistered() {
+        Mockito.when(personRepository.isPersonIDAlreadyRegistered(loggedUserID)).thenReturn(true);
+
+        assertThrows(PersonAlreadyRegisteredException.class, () -> addFamilyMemberService.addPerson(addPersonDTO));
     }
 
 
