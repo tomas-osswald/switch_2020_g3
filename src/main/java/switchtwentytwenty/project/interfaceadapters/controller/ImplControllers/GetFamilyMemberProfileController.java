@@ -13,7 +13,13 @@ public class GetFamilyMemberProfileController implements switchtwentytwenty.proj
 
     public ProfileOutputDTO getFamilyMemberProfile(String familyMemberID){
 
+        try{
 
+
+
+        } catch (Exception e){
+
+        }
 
         return null;
     }
