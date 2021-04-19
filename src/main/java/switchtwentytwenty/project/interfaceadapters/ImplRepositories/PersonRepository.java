@@ -45,6 +45,12 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
+    public void updatePerson(Person person) {
+        this.peopleMap.remove(person.id());
+        this.peopleMap.put(person.id(), person);
+    }
+
+    @Override
     public Person getByID(PersonID email) {
         return retrievePersonFromHashMap(email);
     }
@@ -85,7 +91,7 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void save(Person person) { ;
+    public void addPerson(Person person) { ;
         this.peopleMap.put(person.id(), person);
 
     }

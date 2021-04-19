@@ -41,7 +41,7 @@ class AddEmailServiceTest {
     void addEmailSuccess() {
         Mockito.when(mockPersonRepository.getByID(IDTonyZe)).thenReturn(tonyZe);
         Mockito.doNothing().when(tonyZe).addEmail(tonyEmail);
-        Mockito.doNothing().when(mockPersonRepository).save(tonyZe);
+        Mockito.doNothing().when(mockPersonRepository).addPerson(tonyZe);
 
         assertDoesNotThrow(()->addEmailService.addEmail(tonyDTO));
     }

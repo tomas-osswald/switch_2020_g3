@@ -38,8 +38,8 @@ public class CreateFamilyService {
             Family family = new Family(familyID, familyName, registrationDate, adminID);
             Person admin = new Person(name, birthdate, adminID, vat, phone, address, familyID);
 
-            personRepository.save(admin);
-            familyRepository.save(family);
+            personRepository.addPerson(admin);
+            familyRepository.addPerson(family);
         } else {
             throw new PersonAlreadyRegisteredException("This person is already registered in the Application");
         }

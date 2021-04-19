@@ -14,7 +14,7 @@ public class ICategoryRepository implements Repository<Category, CategoryID>, sw
     }
 
     @Override
-    public void save(Category entity) {
+    public void addPerson(Category entity) {
 
     }
 }
