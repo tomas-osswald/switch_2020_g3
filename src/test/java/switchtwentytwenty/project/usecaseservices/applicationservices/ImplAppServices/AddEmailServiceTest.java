@@ -11,9 +11,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
-import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
-import switchtwentytwenty.project.exceptions.InvalidEmailException;
+import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import static org.junit.jupiter.api.Assertions.*;

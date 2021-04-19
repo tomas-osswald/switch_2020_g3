@@ -4,8 +4,7 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
-import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
+import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.ArrayList;
