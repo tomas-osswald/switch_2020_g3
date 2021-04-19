@@ -260,9 +260,10 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 
 # 3.4 Sequence Diagram
 
+![img.png](../../../assets/US151AddEmail.png)
 
-````
-
+```puml
+@startuml
 autonumber
 header Sequence Diagram
 title US101 Add a Family Member
