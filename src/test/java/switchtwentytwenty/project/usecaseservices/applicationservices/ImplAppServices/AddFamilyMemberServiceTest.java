@@ -96,7 +96,7 @@ class AddFamilyMemberServiceTest {
     //TODO: make the other value objects tests
     @Test
     @DisplayName("Test failure where value object is invalid")
-    void addPersonFail_invalidValueObject() {
+    void addPersonFailsWhenInvalidValueObjectThrowingInvalidNameException() {
         Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
         assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(addPersonDTOWrongName));
     }

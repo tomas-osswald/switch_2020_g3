@@ -1,22 +1,24 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import switchtwentytwenty.project.exceptions.InvalidNameException;
+
 import java.util.Objects;
 
 public class FamilyName implements ValueObject {
 
-    private String familyName;
+    private final String familyName;
 
     public FamilyName(String familyName) {
-        this.familyName = familyName;
-        validateName();
-        trimData();
+        validateName(familyName);
+        this.familyName = familyName.trim();
     }
 
-    private void trimData() {
+    /*private void trimData() {
         this.familyName = this.familyName.trim();
     }
+    */
 
-    //TODO: verificar trimData e final
+
     /*
         private String trimData(String familyName) {
         try {
@@ -30,35 +32,38 @@ public class FamilyName implements ValueObject {
     /**
      * Method to verify if an input name is valid, verifies that it is not null, empty or blank
      */
-    private void validateName() {
-        checkNull();
-        checkEmpty();
-        checkBlank();
+    private void validateName(String familyName) {
+        checkNull(familyName);
+        checkEmpty(familyName);
+        checkBlank(familyName);
     }
 
     /**
      * Method to verify if the family name is null, throws and exception if the name is null
+     * @param familyName
      */
-    private void checkNull() {
-        if (this.familyName == null) {
+    private void checkNull(String familyName) {
+        if (familyName == null) {
             throw new IllegalArgumentException("Name is Null");
         }
     }
 
     /**
      * Method to verify if the family name is empty, throws and exception if the name is empty
+     * @param familyName
      */
-    private void checkEmpty() {
-        if (this.familyName.isEmpty()) {
+    private void checkEmpty(String familyName) {
+        if (familyName.isEmpty()) {
             throw new IllegalArgumentException("Name is Empty");
         }
     }
 
     /**
      * Method to verify if the family name is blank, throws and exception if the name is blank
+     * @param familyName
      */
-    private void checkBlank() {
-        if (this.familyName.trim().length() == 0) {
+    private void checkBlank(String familyName) {
+        if (familyName.trim().length() == 0) {
             throw new IllegalArgumentException("Name is Blank");
         }
     }
