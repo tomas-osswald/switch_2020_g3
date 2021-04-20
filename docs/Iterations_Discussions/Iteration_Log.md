@@ -418,7 +418,7 @@ Anotar com **_@Embeddable_** as classes que podem ser "embebidas" na tabela.
    
 5. Anotar com **_@OneToMany_** as coleções que vão gerar tabelas.
 
-
+ ```
 @Entity
 public class FamilyJPA {
 
@@ -454,7 +454,7 @@ public class RelationJPA {
 
 
 }
-
+ ```
 
 
 

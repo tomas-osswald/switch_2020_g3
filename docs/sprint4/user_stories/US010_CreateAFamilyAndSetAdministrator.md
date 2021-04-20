@@ -130,16 +130,13 @@ participant ": IFamilyRepository" as familyRepository
 participant ": IPersonRepository" as personRepository
 participant "admin\n : Person" as admin
 participant "newFamily\n : Family" as newFamily
-
-
-
+participant ": PersonJPARepository" as personJAPRepository
+participant ": FamilyJPARepository" as familyAPRepository
 
 note left: especificar nome da instância no participant?
 
  -> FamAdminService : createFamilyAndAddAdmin\n(createFamilyDTO, addPersonFormDTO)
 activate FamAdminService
-
-note right: dtos são instanciados no controller?
 
 ref over FamAdminService
 unpack DTOs, validate 
@@ -148,6 +145,9 @@ and create Value Objects
 end ref
 
 FamAdminService -> personRepository: isPersonIDAlready\nRegistered(personID)
+ref over personRepository
+
+end ref
 activate personRepository
 return false
 FamAdminService -> familyRepository : generateID()
@@ -159,7 +159,11 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-return 
+personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+personRepository -> personJAPRepository: save(personJPA)
+activate personJAPRepository
+personJAPRepository -> personRepository: personJPA
+deactivate personJAPRepository
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
 return 
