@@ -43,4 +43,9 @@ public class Street implements ValueObject {
     public int hashCode() {
         return Objects.hash(street);
     }
+
+    @Override
+    public String toString() {
+        return this.street;
+    }
 }

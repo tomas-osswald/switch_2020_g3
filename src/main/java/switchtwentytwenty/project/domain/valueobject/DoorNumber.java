@@ -9,10 +9,14 @@ public class DoorNumber implements ValueObject {
     private Integer number;
 
 
-
     public DoorNumber(int number) {
         this.number = number;
         validateData();
+    }
+
+    @Override
+    public String toString() {
+        return this.number.toString();
     }
 
     private void validateData() {

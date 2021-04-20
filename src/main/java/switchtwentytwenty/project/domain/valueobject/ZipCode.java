@@ -10,10 +10,14 @@ public class ZipCode implements ValueObject {
     private String zipCode;
 
 
-
     public ZipCode(String zipCode) {
         this.zipCode = zipCode;
         validateData();
+    }
+
+    @Override
+    public String toString() {
+        return this.zipCode;
     }
 
     private void validateData() {

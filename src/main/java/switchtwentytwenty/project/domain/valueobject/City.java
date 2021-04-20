@@ -7,6 +7,7 @@ import java.util.Objects;
 public class City implements ValueObject {
 
 
+    String INVALIDCITY = "Invalid City Name";
     private String city;
 
     public City(String city) {
@@ -14,10 +15,15 @@ public class City implements ValueObject {
         validateData();
     }
 
+    @Override
+    public String toString() {
+        return this.city;
+    }
+
     private void validateData() {
         checkCity();
     }
-    String INVALIDCITY = "Invalid City Name";
+
     private void checkCity() {
         if (!validateCity()) {
             throw new InvalidCityException(INVALIDCITY);
