@@ -1,18 +1,21 @@
 package switchtwentytwenty.project.dto;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import switchtwentytwenty.project.domain.aggregates.Entity;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
 import java.util.UUID;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
 class PersonToDTOTest {
 
 
@@ -43,28 +46,25 @@ class PersonToDTOTest {
 
     @BeforeEach
     void setup() {
-
         expected.setId(person.id().toString());
         expected.setName(person.getName().toString());
         expected.setBirthdate(person.getBirthdate().toString());
         expected.setVat(person.getVat().toString());
         expected.setAddress(person.getAddress().toString());
         expected.setFamilyID(person.getFamilyID().toString());
-
-
     }
 
     @Test
-    @Ignore
+    //@Ignore
     //TODO: esta jorda nao funciona
     void createPersonProfileDTOSuccess() {
-       //Mockito.doReturn(personID.toString()).when(persona).id().toString();
+    //  Mockito.doReturn(personID.toString()).when(persona).id().toString();
         Mockito.when(persona.id()).thenReturn(personID);
-        Mockito.when(persona.getName().toString()).thenReturn(name.toString());
-        Mockito.when(persona.getBirthdate().toString()).thenReturn(birthdate.toString());
-        Mockito.when(persona.getVat().toString()).thenReturn(vat.toString());
-        Mockito.when(persona.getAddress().toString()).thenReturn(address.toString());
-        Mockito.when(persona.getFamilyID().toString()).thenReturn(familyID.toString());
+        Mockito.when(persona.getName()).thenReturn(name);
+        Mockito.when(persona.getBirthdate()).thenReturn(birthdate);
+        Mockito.when(persona.getVat()).thenReturn(vat);
+        Mockito.when(persona.getAddress()).thenReturn(address);
+        Mockito.when(persona.getFamilyID()).thenReturn(familyID);
 
 
         PersonProfileDTO result = personToDTO.createPersonProfileDTO(persona);
