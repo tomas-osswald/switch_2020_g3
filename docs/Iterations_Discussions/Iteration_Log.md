@@ -410,7 +410,7 @@ Como determinada classe é atributo de outra, representar como associação é e
 
 ## JPA - tutorial
 
-1. Criar versão **JPA** das classes envolvidas
+1. Criar versão **JPA** das classes envolvidas.
 2. Anotar com  **_@Entity_** todas as classes que vão ter uma tabela (em classes de Domínio que têm uma colecção, a própria colecção vai gerar uma tabela , ver o caso das _Relations_ na classe _Family_)
 3. Anotar com **_@Id_** a classe chave
 4. Anotar com **_@Embedded_** as classes relativas a value objects (serve para criar uma coluna com o respectivo _value object_ na tabela da entidade)  
