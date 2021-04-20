@@ -16,6 +16,10 @@ public class AddEmailService implements IAddEmailService {
     @Autowired
     IPersonRepository personRepository;
 
+    /**
+     *
+     * @param addEmailDTO
+     */
     @Override
     public void addEmail(AddEmailDTO addEmailDTO) {
 

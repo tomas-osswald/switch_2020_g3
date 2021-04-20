@@ -398,11 +398,61 @@ Assim os _adds_ seriam sempre de acréscimo de algo inexistente e o _update_ um 
 
 ## Dúvidas para Prof Nuno Silva - 20/04/2021
 
-Repositories CRUD ou JPA? Qual vai ser utilizado
+1. Repositories CRUD ou JPA? Qual vai ser utilizado?
 
 (Em função disso, usarmos a nomenclatura adequada.)
 
-Dúvida sobre representação das associações/generalizações no diagrama de classes onion.
+2. Dúvida sobre representação das associações/generalizações no diagrama de classes onion.
 
 Como determinada classe é atributo de outra, representar como associação é errado?
 
+---------------------------------------------------------
+
+## JPA - tutorial
+
+1. Criar versão **JPA** das classes envolvidas
+2. Anotar com  **_@Entity_** todas as classes que vão ter uma tabela (em classes de Domínio que têm uma colecção, a própria colecção vai gerar uma tabela , ver o caso das _Relations_ na classe _Family_)
+3. Anotar com **_@Id_** a classe chave
+4. Anotar com **_@Embedded_** as classes relativas a value objects (serve para criar uma coluna com o respectivo _value object_ na tabela da entidade)  
+Anotar com **_@Embeddable_** as classes que podem ser "embebidas" na tabela. 
+   
+5. Anotar com **_@OneToMany_** as coleções que vão gerar tabelas.
+
+@Entity
+public class FamilyJPA {
+
+@Id
+private FamilyIDJPA id;
+
+@Embedded
+private FamilyNameJPA name;
+
+@Embedded
+private RegistrationDateJPA registrationDate;
+
+@Embedded
+private PersonIDJPA admin;
+
+@OneToMany
+private List<RelationJPA> relations = new ArrayList<>();
+//...
+}
+
+@Table(name="relations")
+@Entity
+public class RelationJPA {
+
+    static class FamilyRelationJPA {
+
+        @Getter
+        @ManyToOne
+        @JoinColumn(name = "
+
+
+
+}
+
+
+
+
+_____________________________________________________________
