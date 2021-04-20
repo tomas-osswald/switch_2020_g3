@@ -1,8 +1,6 @@
 package switchtwentytwenty.project.dto;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PhoneNumber;
@@ -10,7 +8,7 @@ import switchtwentytwenty.project.domain.valueobject.PhoneNumber;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class PersonToDTO {
 
 
