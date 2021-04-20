@@ -16,8 +16,6 @@ public class GetFamilyMemberProfileController implements switchtwentytwenty.proj
 
         personProfileDTO = getProfileService.getFamilyMemberProfile(familyMemberID);
 
-        //todo: Neste controller não é possível haver exception visto que a única informação colocada advém do login e o objeto pessoa ja se encontra instanciado, correto?
-
         return personProfileDTO;
     }
 }

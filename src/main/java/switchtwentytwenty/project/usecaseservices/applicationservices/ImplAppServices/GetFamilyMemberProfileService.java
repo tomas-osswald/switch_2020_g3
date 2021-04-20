@@ -18,9 +18,9 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
     public PersonProfileDTO getFamilyMemberProfile(String familyMemberID){
         PersonID personID = new PersonID(familyMemberID);
         Person person = personRepository.getByID(personID);
-        PersonToDTO personToDTO = new PersonToDTO(person);
+        PersonToDTO personToDTO = new PersonToDTO();
 
-        return personToDTO.createPersonProfileDTO();
+        return personToDTO.createPersonProfileDTO(person);
 
     }
 

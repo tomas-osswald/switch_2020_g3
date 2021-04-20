@@ -1,8 +1,23 @@
 package switchtwentytwenty.project.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PersonProfileDTO {
+    @Deprecated
+    public PersonProfileDTO(){
+
+    }
+    public PersonProfileDTO(String id, String name, String birthdate, List<String> emails, List<String> phoneNumbers, String vat, String address, String familyID) {
+        this.id = id;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.emails = emails;
+        this.phoneNumbers = phoneNumbers;
+        this.vat = vat;
+        this.address = address;
+        this.familyID = familyID;
+    }
 
     private String id;
     private String name;
@@ -12,6 +27,19 @@ public class PersonProfileDTO {
     private String vat;
     private String address;
     private String familyID;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonProfileDTO that = (PersonProfileDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(birthdate, that.birthdate) && Objects.equals(emails, that.emails) && Objects.equals(phoneNumbers, that.phoneNumbers) && Objects.equals(vat, that.vat) && Objects.equals(address, that.address) && Objects.equals(familyID, that.familyID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, birthdate, emails, phoneNumbers, vat, address, familyID);
+    }
 
     public String getId() {
         return id;

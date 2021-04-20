@@ -1,11 +1,13 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Person implements AggregateRoot<PersonID> {
 
@@ -88,15 +90,15 @@ public class Person implements AggregateRoot<PersonID> {
         return this.birthdate;
     }
 
-    public List<EmailAddress> getEmails(){
-            return this.emails;
-        }
+    public List<EmailAddress> getEmails() {
+        return this.emails;
+    }
 
     public VATNumber getVat() {
         return this.vat;
     }
 
-    public List<PhoneNumber> getPhoneNumbers(){
+    public List<PhoneNumber> getPhoneNumbers() {
         return this.phoneNumbers;
     }
 
