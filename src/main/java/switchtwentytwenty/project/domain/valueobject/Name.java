@@ -33,4 +33,10 @@ public class Name implements ValueObject {
         return name != null && name.trim().length() != 0 && !name.isEmpty();
     }
 
+    @Override
+    public String toString() {
+        return "Name{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

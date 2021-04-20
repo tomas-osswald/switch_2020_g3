@@ -16,6 +16,13 @@ public class EmailAddress implements ValueObject {
         trimData();
     }
 
+    @Override
+    public String toString() {
+        return "EmailAddress{" +
+                "email='" + email + '\'' +
+                '}';
+    }
+
     private void trimData() {
         this.email = this.email.trim();
     }
@@ -53,7 +60,6 @@ public class EmailAddress implements ValueObject {
     public int hashCode() {
         return Objects.hash(email);
     }
-
 
 
 }

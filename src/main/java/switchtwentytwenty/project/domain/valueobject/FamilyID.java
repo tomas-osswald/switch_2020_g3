@@ -13,6 +13,13 @@ public class FamilyID implements OwnerID<UUID> {
         validateID();
     }
 
+    @Override
+    public String toString() {
+        return "FamilyID{" +
+                "familyID=" + familyID +
+                '}';
+    }
+
     public FamilyID clone(){
         FamilyID clone = new FamilyID(this.familyID);
         return clone;

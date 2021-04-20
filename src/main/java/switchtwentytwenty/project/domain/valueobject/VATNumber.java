@@ -9,10 +9,16 @@ public class VATNumber implements ValueObject {
 
     private final int vat;
 
-
     public VATNumber(int vat) {
         this.vat = vat;
         validateData();
+    }
+
+    @Override
+    public String toString() {
+        return "VATNumber{" +
+                "vat=" + vat +
+                '}';
     }
 
     private void validateData() {

@@ -19,6 +19,13 @@ public class PersonID implements OwnerID<EmailAddress> {
     }
 
     @Override
+    public String toString() {
+        return "PersonID{" +
+                "id=" + id +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id);
     }

@@ -32,7 +32,11 @@ public class Address implements ValueObject {
 
     @Override
     public String toString() {
-        String result = street.toString() + "&" + city.toString() + "&" + zipCode.toString() +"&"+ number.toString();
-        return result;
+        return "Address{" +
+                "street=" + street.toString() +
+                ", city=" + city.toString() +
+                ", zipCode=" + zipCode.toString() +
+                ", number=" + number +
+                '}';
     }
 }

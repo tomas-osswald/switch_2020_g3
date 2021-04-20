@@ -12,7 +12,7 @@ class AddressTest {
         String city = "Porto";
         String zipCode = "4405-586";
         Address address = new Address(street, city, zipCode, 14);
-        String expected = "Rua da Amargura&Porto&4405-586&14";
+        String expected = "Address{street=Rua da Amargura, city=Porto, zipCode=4405-586, number=14}";
         String result = address.toString();
         assertEquals(expected, result);
 

@@ -12,4 +12,9 @@ public class BirthDate implements ValueObject {
         this.birthDate = DateHelper.parseDateToCalendar(birthDate);
 
     }
+
+    @Override
+    public String toString() {
+        return this.birthDate.toString();
+    }
 }

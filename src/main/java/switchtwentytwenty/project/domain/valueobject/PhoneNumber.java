@@ -14,6 +14,13 @@ public class PhoneNumber implements ValueObject {
         validateData();
     }
 
+    @Override
+    public String toString() {
+        return "PhoneNumber{" +
+                "number=" + number +
+                '}';
+    }
+
     private void validateData() {
         if (number != null) {
             checkNumber();
