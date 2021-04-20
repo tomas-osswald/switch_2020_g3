@@ -438,6 +438,8 @@ private List<RelationJPA> relations = new ArrayList<>();
 //...
 }
 
+
+
 @Table(name="relations")
 @Entity
 public class RelationJPA {
