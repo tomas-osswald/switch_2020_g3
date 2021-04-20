@@ -18,9 +18,7 @@ public class EmailAddress implements ValueObject {
 
     @Override
     public String toString() {
-        return "EmailAddress{" +
-                "email='" + email + '\'' +
-                '}';
+        return this.email;
     }
 
     private void trimData() {
