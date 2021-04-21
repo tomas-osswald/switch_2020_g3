@@ -29,11 +29,11 @@ public class FamilyDataDomainAssembler {
     public Family toDomain(FamilyJPA familyJPA) {
 
         FamilyID familyID = new FamilyID(familyJPA.getId().toString());
-
         FamilyName familyName = new FamilyName(familyJPA.getFamilyName());
-
-
         RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate());
-        return null;
+        PersonID personID = new PersonID(familyJPA.getAdminID().toString());
+
+        Family family = new Family(familyID, familyName, registrationDate, personID);
+        return family;
     }
 }
