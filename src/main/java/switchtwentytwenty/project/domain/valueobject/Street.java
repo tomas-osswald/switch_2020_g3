@@ -1,9 +1,11 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.ToString;
 import switchtwentytwenty.project.exceptions.InvalidStreetException;
 
 import java.util.Objects;
 
+@ToString
 public class Street implements ValueObject {
 
     private String street;
