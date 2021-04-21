@@ -1,22 +1,40 @@
 package switchtwentytwenty.project.interfaceadapters.controller;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.AddPersonFormDTO;
+import switchtwentytwenty.project.dto.CreateFamilyDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.CreateFamilyController;
+import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.CreateFamilyService;
 
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@RunWith(SpringRunner.class)
 class CreateFamilyControllerTest {
-    /*
-    Application application;
+
+/*
     CreateFamilyController controller;
+    CreateFamilyService createFamilyService;
     CreateFamilyDTO VALIDCreateFamilyDTO;
-    AddPersonDTO addPersonDTO;
+    AddPersonFormDTO addPersonDTO;
     LocalDate localDate = LocalDate.of(2019,12,12);
 
     @BeforeEach
     void setup(){
-        application = new Application();
-        controller = new CreateFamilyController(application);
+        controller = new CreateFamilyController();
+        createFamilyService = new CreateFamilyService();
         VALIDCreateFamilyDTO = new CreateFamilyDTO( "Silva", LocalDate.of(2021,12,25) );
-        addPersonDTO = new AddPersonDTO("email@there.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222");
+        addPersonDTO = new AddPersonFormDTO("email@there.com", "email@here.com","Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", 12, "4432-222");
     }
 
 
@@ -24,12 +42,11 @@ class CreateFamilyControllerTest {
     @DisplayName("Test if a family can be successfully created")
     @Test
     void shouldBeTrueCreateFamily() {
+
         assertTrue(controller.createFamilyAndAdmin(VALIDCreateFamilyDTO,addPersonDTO));
 
 
     }
-
-
 
     @DisplayName("Test if a family isn't created if the admin email is already registered in the app")
     @Test

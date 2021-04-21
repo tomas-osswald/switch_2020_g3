@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.aggregates.family;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
 
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FamilyTest {
 
     @Test
+    @Tag("US010")
     void familyConstructorTest_validFamily() {
         //Arrange
         UUID id = UUID.randomUUID();
@@ -28,6 +30,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void isIDofThisFamilyTest_sameFamilyID() {
         //Arrange
         UUID id = UUID.randomUUID();
@@ -47,6 +50,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void isIDofThisFamilyTest_differentFamilyID() {
         //Arrange
         UUID id = UUID.randomUUID();
@@ -67,6 +71,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void testEquals_equalNotSame() {
         UUID id = UUID.randomUUID();
         FamilyID familyID = new FamilyID(id);
@@ -84,6 +89,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_equalSame() {
         UUID id = UUID.randomUUID();
         FamilyID familyID = new FamilyID(id);
@@ -101,6 +107,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_notEqual() {
         UUID id = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(id);
@@ -119,6 +126,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
         UUID id = UUID.randomUUID();
         FamilyID familyID = new FamilyID(id);
@@ -134,6 +142,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void testHashCode_sameHashCode() {
         UUID id = UUID.randomUUID();
         FamilyID familyID = new FamilyID(id);
@@ -150,6 +159,7 @@ class FamilyTest {
     }
 
     @Test
+    @Tag("US010")
     void testHashCode_differentHashCode() {
         UUID id = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(id);
