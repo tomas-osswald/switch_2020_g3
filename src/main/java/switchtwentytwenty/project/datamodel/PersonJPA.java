@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "persons")
 public class PersonJPA {
     @Id
-    @Embedded
     private PersonID id;
 
     private String name;
