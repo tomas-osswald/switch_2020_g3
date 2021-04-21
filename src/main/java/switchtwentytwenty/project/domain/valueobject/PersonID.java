@@ -1,10 +1,22 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonID implements OwnerID<EmailAddress> {
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Embeddable
+public class PersonID implements OwnerID<EmailAddress>, Serializable {
 
-    private final EmailAddress id;
+    private EmailAddress id;
 
     public PersonID(String id) {
         this.id = new EmailAddress(id);
@@ -20,9 +32,7 @@ public class PersonID implements OwnerID<EmailAddress> {
 
     @Override
     public String toString() {
-        return "PersonID{" +
-                "id=" + id +
-                '}';
+        return this.id.toString();
     }
 
     @Override

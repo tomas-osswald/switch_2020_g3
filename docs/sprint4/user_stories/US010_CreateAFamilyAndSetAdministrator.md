@@ -130,7 +130,7 @@ participant ": IPersonRepository" as personRepository
 participant "admin\n : Person" as admin
 participant "newFamily\n : Family" as newFamily
 participant ": PersonJPARepository" as personJAPRepository
-participant ": FamilyJPARepository" as familyAPRepository
+participant ": FamilyJPARepository" as familyJPARepository
 
 note left: especificar nome da instância no participant?
 
@@ -143,12 +143,6 @@ and create Value Objects
 
 end ref
 
-FamAdminService -> personRepository: isPersonIDAlready\nRegistered(personID)
-ref over personRepository
-
-end ref
-activate personRepository
-return false
 FamAdminService -> familyRepository : generateID()
 activate familyRepository
 return familyID
@@ -158,15 +152,20 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
-personJAPRepository -> personRepository: personJPA
-deactivate personJAPRepository
+return
+return
+
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-return 
-return true
+familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
+familyRepository -> familyJPARepository : save(familyJPA)
+activate familyJPARepository
+return
+
+return
  
 
 @enduml
