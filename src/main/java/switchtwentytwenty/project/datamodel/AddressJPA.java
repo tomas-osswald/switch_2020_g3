@@ -34,4 +34,5 @@ public class AddressJPA {
         this.person = personJPA;
     }
 
+
 }

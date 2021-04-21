@@ -28,7 +28,7 @@ public class PersonJPA {
     private List<EmailAddressJPA> emails;
 
     @Getter
-    private String vat;
+    private int vat;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<PhoneNumberJPA> phones;
@@ -40,7 +40,7 @@ public class PersonJPA {
     @Getter
     private FamilyID familyid;
 
-    public PersonJPA(PersonID id, String name, String birthdate, List<EmailAddressJPA> emails, String vat, List<PhoneNumberJPA> phones, AddressJPA address, FamilyID familyid) {
+    public PersonJPA(PersonID id, String name, String birthdate, List<EmailAddressJPA> emails, int vat, List<PhoneNumberJPA> phones, AddressJPA address, FamilyID familyid) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;

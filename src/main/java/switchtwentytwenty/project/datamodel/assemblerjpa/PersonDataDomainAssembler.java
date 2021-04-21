@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.datamodel.AddressJPA;
 import switchtwentytwenty.project.datamodel.PersonJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.AddressJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
@@ -19,9 +19,9 @@ public class PersonDataDomainAssembler {
         PersonID personID = new PersonID(personJPA.getId().toString());
         Name name = new Name(personJPA.getName());
         BirthDate birthDate = new BirthDate(personJPA.getBirthdate());
-        VATNumber vatNumber = new VATNumber(personJPA.getVat().);
+        VATNumber vatNumber = new VATNumber(personJPA.getVat());
         FamilyID familyID = new FamilyID(personJPA.getFamilyid().toString());
-        Address address = new AddressJPA(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getNumber())
+        Address address = new Address(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getDoorNumber());
 
         Person person = new Person(personID, name, birthDate, vatNumber, familyID);
 
