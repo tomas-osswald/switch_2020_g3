@@ -12,7 +12,7 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void registrationDateTest_Valid() {
-        LocalDate date = LocalDate.of(2021, 3, 15);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
 
         assertNotNull(registrationDate);
@@ -21,7 +21,7 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void registrationDateTest_ValidNull() {
-        LocalDate date = null;
+        String date = null;
         RegistrationDate registrationDate = new RegistrationDate(date);
 
         assertNotNull(registrationDate);
@@ -30,7 +30,7 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void equalsTest_equalNotSame() {
-        LocalDate date = LocalDate.of(2021, 3, 15);
+        String date = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(date);
         RegistrationDate registrationDateTwo = new RegistrationDate(date);
 
@@ -40,7 +40,7 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void equalsTest_equalSame() {
-        LocalDate date = LocalDate.of(2021, 3, 15);
+        String date = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(date);
         RegistrationDate registrationDateTwo = registrationDateOne;
 
@@ -50,9 +50,9 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void equalsTest_notEqual() {
-        LocalDate dateOne = LocalDate.of(2021, 3, 15);
+        String dateOne = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(dateOne);
-        LocalDate dateTwo = null;
+        String dateTwo = "12/12/1991";
         RegistrationDate registrationDateTwo = new RegistrationDate(dateTwo);
 
         assertNotEquals(registrationDateOne, registrationDateTwo);
@@ -61,7 +61,7 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
-        LocalDate dateOne = LocalDate.of(2021, 3, 15);
+        String dateOne = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(dateOne);
         String notRegistrationDate = "not a RegistrationDate";
 
@@ -71,7 +71,7 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void hashCodeTest_sameHashCode() {
-        LocalDate date = LocalDate.of(2021, 3, 15);
+        String date = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(date);
         RegistrationDate registrationDateTwo = new RegistrationDate(date);
 
@@ -81,9 +81,9 @@ class RegistrationDateTest {
     @Test
     @Tag("US010")
     void hashCodeTest_differentHashCode() {
-        LocalDate dateOne = LocalDate.of(2021, 3, 15);
+        String dateOne = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(dateOne);
-        LocalDate dateTwo = null;
+        String dateTwo = null;
         RegistrationDate registrationDateTwo = new RegistrationDate(dateTwo);
 
         assertNotEquals(registrationDateOne.hashCode(), registrationDateTwo.hashCode());
