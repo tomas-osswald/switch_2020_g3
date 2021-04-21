@@ -25,9 +25,8 @@ public class EmailAddressJPA {
     @JoinColumn(name = "person")
     private PersonJPA person;
 
-    public EmailAddressJPA(String email) {
+    public EmailAddressJPA(String email, PersonJPA personJPA) {
         this.email = email;
-
-
+        this.person = personJPA;
     }
 }

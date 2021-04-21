@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.Getter;
 import switchtwentytwenty.project.exceptions.*;
 
 import java.util.regex.Pattern;
@@ -7,6 +8,7 @@ import java.util.regex.Pattern;
 public class PhoneNumber implements ValueObject {
 
 
+    @Getter
     private Integer number;
 
     public PhoneNumber(Integer number) {

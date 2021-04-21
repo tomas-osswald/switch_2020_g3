@@ -24,8 +24,9 @@ public class PhoneNumberJPA {
     @JoinColumn(name = "person")
     private PersonJPA person;
 
-    public PhoneNumberJPA(int number) {
+    public PhoneNumberJPA(int number, PersonJPA personJPA) {
         this.number = number;
 
+        this.person = personJPA;
     }
 }
