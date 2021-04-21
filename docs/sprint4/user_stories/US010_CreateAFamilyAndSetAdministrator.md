@@ -163,7 +163,7 @@ personRepository -> personRepository: personJPA\n = personAssembler.toData(admin
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
 return personJPA
-personRepository -> personRepository: person\n = personAssembler.toDomain(personJPA)
+personRepository -> personRepository: person = \npersonAssembler.toDomain(personJPA)
 return person
 
 FamAdminService -> familyRepository: add(newFamily)
