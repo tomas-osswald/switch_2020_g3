@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "families")

@@ -89,7 +89,7 @@ public class Family implements AggregateRoot<FamilyID> {
     }
 
     @Deprecated
-    public Family(UUID familyID, String familyName, LocalDate registrationDate, PersonID
+    public Family(UUID familyID, String familyName, String registrationDate, PersonID
             adminEmail) {
         this.id = new FamilyID(familyID);
         this.name = new FamilyName(familyName);

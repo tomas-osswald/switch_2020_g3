@@ -5,6 +5,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,18 @@ public class FamilyDataDomainAssembler {
         PersonID adminID = family.getAdmin();
         PersonIDJPA adminIDJPA = new PersonIDJPA(adminID.toString());
 
-        return null; //mudar
+        FamilyJPA familyJPA = new FamilyJPA(familyIDJPA, name, registrationDate, adminIDJPA);
+
+        return familyJPA;
+    }
+    public Family toDomain(FamilyJPA familyJPA) {
+
+        FamilyID familyID = new FamilyID(familyJPA.getId().toString());
+
+        FamilyName familyName = new FamilyName(familyJPA.getFamilyName());
+
+        LocalDate localDate = new LocalDate()
+        RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate().toString());
+
     }
 }

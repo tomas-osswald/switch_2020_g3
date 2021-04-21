@@ -6,9 +6,9 @@ public class CreateFamilyDTO {
 
 
     private String familyName;
-    private LocalDate localDate;
+    private String localDate;
 
-    public CreateFamilyDTO(String familyName, LocalDate localDate) {
+    public CreateFamilyDTO(String familyName, String localDate) {
         this.familyName = familyName;
         this.localDate = localDate;
 
@@ -19,7 +19,7 @@ public class CreateFamilyDTO {
         return this.familyName;
     }
 
-    public LocalDate unpackLocalDate() {
+    public String unpackLocalDate() {
         return this.localDate;
     }
 
