@@ -131,7 +131,7 @@ participant ": IPersonRepository" as personRepository
 participant "admin\n : Person" as admin
 participant "newFamily\n : Family" as newFamily
 participant ": PersonJPARepository" as personJAPRepository
-participant ": FamilyJPARepository" as familyAPRepository
+participant ": FamilyJPARepository" as familyJPARepository
 
 note left: especificar nome da instância no participant?
 
@@ -159,14 +159,24 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
-personJAPRepository -> personRepository: personJPA
-deactivate personJAPRepository
+return personJPA
+personRepository -> personRepository: person\n = personAssembler.toDomain(personJPA)
+return person
+
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-return 
+familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
+familyRepository -> familyJPARepository : save(familyJPA)
+activate familyJPARepository
+return savedFamilyJPA
+familyRepository -> familyRepository : newSavedFamily\n = familyAssembler.toDomain(savedFamilyJPA)
+
+
+
+
 return true
  
 
