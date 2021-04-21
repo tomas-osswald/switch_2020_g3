@@ -14,6 +14,9 @@ public class PersonDataDomainAssembler {
 
     public PersonJPA toData(Person person) {
         PersonID personID = person.id();
+
+        PersonIDJPA personIDJPA = new PersonIDJPA(personID.toString());
+
         String name = person.getName().toString();
         String birthdate = person.getBirthdate().toString();
         //List<EmailAddressJPA> emails = generateEmailAddressJPAList(person);
@@ -22,10 +25,12 @@ public class PersonDataDomainAssembler {
         AddressJPA addressJPA = new AddressJPA(person.getAddress());
         FamilyID familyID = person.getFamilyID();
 
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getFamilyID().toString());
 
-        PersonJPA personJPA = new PersonJPA();
 
-        return personJPA;
+        PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, addressJPA, familyIDJPA);
+
+        return null; //personJPA;
     }
 
     public Person toDomain(PersonJPA personJPA, AddressJPA addressJPA) {

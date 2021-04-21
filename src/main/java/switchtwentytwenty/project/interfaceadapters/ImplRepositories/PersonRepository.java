@@ -89,7 +89,7 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void addPerson(Person person) {
+    public void add(Person person) {
         if (!peopleMap.containsKey(person.id())) {
             this.peopleMap.put(person.id(), person);
         } else {
