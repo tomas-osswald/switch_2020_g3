@@ -465,7 +465,7 @@ _____________________________________________________________
 
 Em sala:
 
-Implpementação JPA
+Implementação JPA
 
 Novas classes:
 |
@@ -477,3 +477,7 @@ Novas classes:
 | FamilyJPA |   |    |
 | FamilyIDJPA |   |    |
 | FamilyRepositoryJPA |   |   |
+
+
+Decidido que os atributos ID (PersonID e FamilyID) não seriam convertidos para JPA.
+Com a anotação @ToString nestas Classes converte-se sempre o objeto de domínio para String (Dado Primitivo) e assim a passagem de camadas não é errada.
