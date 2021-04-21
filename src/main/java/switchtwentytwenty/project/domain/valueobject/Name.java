@@ -7,7 +7,6 @@ public class Name implements ValueObject {
 
     private String name;
 
-
     public Name(String name) {
         this.name = name;
         validateData();

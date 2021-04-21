@@ -32,8 +32,6 @@ deactivate Actor
 
 ## 2.1 Summary
 
-The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
-
 What is relevant for this US is the relation between *Family* and *Person*. The Family will be composed by **1
 administrator** and **0, 1 or multiple non-administrators**. Both administrator and non-administrator are Persons.
 
@@ -46,7 +44,6 @@ The **Person** must have the following characteristics with the following rules:
 
 | **_Value Objects_**         | **_Business Rules_**                                                                   |
 | :-------------------------- | :------------------------------------------------------------------------------------- |
-| **CCNumber**                | Required, unique, CCNumber must have 8 numeric digits and 4 alphanumeric.              |
 | **Name**                    | Required, string                                                                       |
 | **BirthDate**               | Required, date(year-month-day)                                                         |
 | **Address**                 | Required, string                                                                       |
@@ -62,6 +59,8 @@ The **Family** must have the following characteristics with the following rules:
 | **RegistrationDate**    | Required, date(year-month-day)                                                             |
 
 ## 2.2. Domain Model Excerpt
+
+The following Domain Model is only referring to this user story. The complete model can be found in the diagrams folder.
 
 ```plantuml
 @startuml
@@ -100,7 +99,7 @@ Person "1 " --> "0..*" PhoneNumber: has
 
 # 3. Design
 
-The process to fulfill this requirement requires the actor to select they want to create a new family, which would
+The process to fulfill this requirement requires the actor to select the option to create a new family, which would
 prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
 2.1.  
 Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
@@ -130,16 +129,13 @@ participant ": IFamilyRepository" as familyRepository
 participant ": IPersonRepository" as personRepository
 participant "admin\n : Person" as admin
 participant "newFamily\n : Family" as newFamily
-
-
-
+participant ": PersonJPARepository" as personJAPRepository
+participant ": FamilyJPARepository" as familyJPARepository
 
 note left: especificar nome da instância no participant?
 
  -> FamAdminService : createFamilyAndAddAdmin\n(createFamilyDTO, addPersonFormDTO)
 activate FamAdminService
-
-note right: dtos são instanciados no controller?
 
 ref over FamAdminService
 unpack DTOs, validate 
@@ -147,9 +143,6 @@ and create Value Objects
 
 end ref
 
-FamAdminService -> personRepository: isPersonIDAlready\nRegistered(personID)
-activate personRepository
-return false
 FamAdminService -> familyRepository : generateID()
 activate familyRepository
 return familyID
@@ -159,11 +152,20 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-return 
+personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
+personRepository -> personJAPRepository: save(personJPA)
+activate personJAPRepository
+return
+return
+
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-return 
-return true
+familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
+familyRepository -> familyJPARepository : save(familyJPA)
+activate familyJPARepository
+return
+
+return
  
 
 @enduml
