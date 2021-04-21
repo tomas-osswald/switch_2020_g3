@@ -32,9 +32,7 @@ public class PersonID implements OwnerID<EmailAddress>, Serializable {
 
     @Override
     public String toString() {
-        return "PersonID{" +
-                "id=" + id +
-                '}';
+        return this.id.toString();
     }
 
     @Override
