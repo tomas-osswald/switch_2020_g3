@@ -127,6 +127,7 @@ We opted to use an AddEmailDTO in order to account for possible future changes.
 
 ## 3.2 Class Diagram
 
+
 ```plantuml
 @startuml
 
@@ -181,6 +182,13 @@ Person -u-> "1" Email : emailList
 
 @enduml
 ```
+-----------------------------------------------------------------
+Onion Architecture 
+-----------------------------
+
+
+
+![img.png](../../../assets/US151ClassDiagram.png)
 
 
 ## 3.3. Functionality Use
