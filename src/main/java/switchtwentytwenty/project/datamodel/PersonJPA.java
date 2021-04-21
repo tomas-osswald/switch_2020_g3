@@ -4,8 +4,9 @@ package switchtwentytwenty.project.datamodel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,36 +18,37 @@ import java.util.List;
 @Table(name = "persons")
 public class PersonJPA {
     @Id
-    private PersonID id;
+    private PersonIDJPA id;
 
     @Getter
     private String name;
     @Getter
     private String birthdate;
-
+/*
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<EmailAddressJPA> emails;
 
-    @Getter
-    private int vat;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-    private List<PhoneNumberJPA> phones;
+    private List<PhoneNumberJPA> phones;*/
+
+    @Getter
+    private int vat;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressJPA address;
 
     @Getter
-    private FamilyID familyid;
+    private FamilyIDJPA familyid;
 
-    public PersonJPA(PersonID id, String name, String birthdate, List<EmailAddressJPA> emails, int vat, List<PhoneNumberJPA> phones, AddressJPA address, FamilyID familyid) {
+    public PersonJPA(PersonIDJPA id, String name, String birthdate, List<EmailAddressJPA> emails, int vat, List<PhoneNumberJPA> phones, AddressJPA address, FamilyIDJPA familyid) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
-        this.emails = emails;
+        //this.emails = emails;
         this.vat = vat;
-        this.phones = phones;
+        //this.phones = phones;
         this.address = address;
         this.familyid = familyid;
     }

@@ -48,4 +48,8 @@ public class DoorNumber implements ValueObject {
     public int hashCode() {
         return Objects.hash(number);
     }
+
+    public int toInt() {
+        return this.number;
+    }
 }

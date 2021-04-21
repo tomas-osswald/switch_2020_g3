@@ -53,4 +53,8 @@ public class VATNumber implements ValueObject {
     public int hashCode() {
         return Objects.hash(vat);
     }
+
+    public int toInt() {
+        return this.vat;
+    }
 }

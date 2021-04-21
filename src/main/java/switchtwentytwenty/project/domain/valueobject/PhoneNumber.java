@@ -16,9 +16,7 @@ public class PhoneNumber implements ValueObject {
 
     @Override
     public String toString() {
-        return "PhoneNumber{" +
-                "number=" + number +
-                '}';
+        return this.number.toString();
     }
 
     private void validateData() {

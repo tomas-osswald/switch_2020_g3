@@ -3,6 +3,7 @@ package switchtwentytwenty.project.datamodel;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import switchtwentytwenty.project.domain.valueobject.Address;
 
 import javax.persistence.*;
 
@@ -26,12 +27,12 @@ public class AddressJPA {
     @JoinColumn(name = "person", nullable = false)
     private PersonJPA person;
 
-    public AddressJPA(String street, String city, String zipCode, int doorNumber, PersonJPA personJPA) {
-        this.street = street;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.doorNumber = doorNumber;
-        this.person = personJPA;
+    public AddressJPA(Address address) {
+        this.street = address.getStreet();
+        this.city = address.getCity();
+        this.zipCode = address.getZipCode();
+        this.doorNumber = address.getDoorNumber();
+
     }
 
 
