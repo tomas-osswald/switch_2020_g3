@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddPersonFormDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
@@ -24,6 +23,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -69,8 +69,6 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Valid data doesn't throw exception")
     void createFamilyAndAddAdminTestValidData(){
-        PersonID personID = new PersonID("admin@email.com");
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(false);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.doNothing().when(personRepository).addPerson(admin);
@@ -81,11 +79,9 @@ class CreateFamilyServiceTest {
 
     @Test
     @Tag("US010")
-    @DisplayName("createFamilyAndAdmin Test - Invalid person name throw exception")
+    @DisplayName("createFamilyAndAdmin Test - Invalid person name, should throw exception")
     void createFamilyAndAddAdminTestInvalidName(){
-        PersonID personID = new PersonID("admin@email.com");
         Mockito.when(addPersonFormDTO.unpackName()).thenReturn("");
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(false);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.doNothing().when(personRepository).addPerson(admin);
@@ -96,13 +92,11 @@ class CreateFamilyServiceTest {
 
     @Test
     @Tag("US010")
-    @DisplayName("createFamilyAndAdmin Test - Person already registered name throw exception")
+    @DisplayName("createFamilyAndAdmin Test - Person already registered throw exception")
     void createFamilyAndAddAdminTestPersonAlreadyRegistered(){
-        PersonID personID = new PersonID("admin@email.com");
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(true);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doNothing().when(personRepository).addPerson(admin);
+        Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).addPerson(any());
         Mockito.doNothing().when(familyRepository).addPerson(family);
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
