@@ -8,7 +8,6 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.AddPersonFormDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
-import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -31,17 +30,13 @@ public class CreateFamilyService {
         Address address = new Address(addPersonFormDTO.unpackStreet(), addPersonFormDTO.unpackCity(), addPersonFormDTO.unpackZipCode(), addPersonFormDTO.unpackHouseNumber());
         RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
 
-        if (!personRepository.isPersonIDAlreadyRegistered(adminID)) {
+        FamilyID familyID = familyRepository.generateID();
+        Person admin = new Person(name, birthdate, adminID, vat, phone, address, familyID);
+        personRepository.addPerson(admin);
 
-            FamilyID familyID = familyRepository.generateID();
+        Family family = new Family(familyID, familyName, registrationDate, adminID);
 
-            Family family = new Family(familyID, familyName, registrationDate, adminID);
-            Person admin = new Person(name, birthdate, adminID, vat, phone, address, familyID);
+        familyRepository.addPerson(family);
 
-            personRepository.addPerson(admin);
-            familyRepository.addPerson(family);
-        } else {
-            throw new PersonAlreadyRegisteredException("This person is already registered in the Application");
-        }
     }
 }
