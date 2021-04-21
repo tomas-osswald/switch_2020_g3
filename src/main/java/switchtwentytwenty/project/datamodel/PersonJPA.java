@@ -16,7 +16,9 @@ import java.util.List;
 @Table(name = "persons")
 public class PersonJPA {
     @Id
+    @Embedded
     private PersonID id;
+
     private String name;
     private String birthdate;
 
@@ -35,4 +37,21 @@ public class PersonJPA {
 
     private FamilyID familyid;
 
+    public PersonJPA(PersonID id, String name, String birthdate, List<EmailAddressJPA> emails, String vat, List<PhoneNumberJPA> phones, AddressJPA address, FamilyID familyid) {
+        this.id = id;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.emails = emails;
+        this.vat = vat;
+        this.phones = phones;
+        this.address = address;
+        this.familyid = familyid;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonJPA{" +
+                "id=" + id +
+                '}';
+    }
 }
