@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -34,6 +35,9 @@ class PersonToDTOTest {
     @Mock
     Person person;
 
+    @Mock
+    List<String> phoneNumbers;
+
     @InjectMocks
     PersonToDTO personToDTO;
 
@@ -54,4 +58,14 @@ class PersonToDTOTest {
 
         Assertions.assertNotNull(result);
     }
+
+    @Test
+    @DisplayName("Should return a DTO with PhoneNumbers in string format")
+    void phoneNumberListInStringFormat(){
+        PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
+        Assertions.assertEquals(result.getPhoneNumbers(),phoneNumbers);
+    }
+
+
+
 }

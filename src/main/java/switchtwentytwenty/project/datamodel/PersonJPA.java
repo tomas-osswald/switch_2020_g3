@@ -34,7 +34,7 @@ public class PersonJPA {
     private List<PhoneNumberJPA> phones;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    //@JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressJPA address;
 
     @Getter
