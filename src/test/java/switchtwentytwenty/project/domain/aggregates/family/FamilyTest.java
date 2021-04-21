@@ -2,7 +2,10 @@ package switchtwentytwenty.project.domain.aggregates.family;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.FamilyName;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,7 +22,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -37,7 +40,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -57,7 +60,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -77,7 +80,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -95,7 +98,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -113,7 +116,7 @@ class FamilyTest {
         FamilyID familyIDOne = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -132,7 +135,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -148,7 +151,7 @@ class FamilyTest {
         FamilyID familyID = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
@@ -165,7 +168,7 @@ class FamilyTest {
         FamilyID familyIDOne = new FamilyID(id);
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
-        LocalDate date = LocalDate.of(2021, 3, 17);
+        String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
