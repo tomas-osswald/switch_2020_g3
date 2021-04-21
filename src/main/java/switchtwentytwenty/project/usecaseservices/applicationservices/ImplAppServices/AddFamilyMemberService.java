@@ -42,7 +42,7 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
         FamilyID familyID = admin.getFamilyID();
 
         Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
-        personRepository.addPerson(person);
+        personRepository.add(person);
 
     }
 }

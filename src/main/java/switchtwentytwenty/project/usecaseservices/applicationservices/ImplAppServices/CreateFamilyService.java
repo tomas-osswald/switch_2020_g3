@@ -8,7 +8,6 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.AddPersonFormDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
-import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -35,11 +34,11 @@ public class CreateFamilyService implements ICreateFamilyService {
         FamilyID familyID = familyRepository.generateID();
         Person admin = new Person(name, birthdate, adminID, vat, phone, address, familyID);
 
-        personRepository.addPerson(admin);
+        personRepository.add(admin);
 
         Family family = new Family(familyID, familyName, registrationDate, adminID);
 
-        familyRepository.addPerson(family);
+        familyRepository.add(family);
 
     }
 }

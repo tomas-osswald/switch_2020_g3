@@ -73,8 +73,8 @@ class CreateFamilyServiceTest {
         Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(false);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doNothing().when(personRepository).addPerson(admin);
-        Mockito.doNothing().when(familyRepository).addPerson(family);
+        Mockito.doNothing().when(personRepository).add(admin);
+        Mockito.doNothing().when(familyRepository).add(family);
 
         assertDoesNotThrow(() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
     }
@@ -88,8 +88,8 @@ class CreateFamilyServiceTest {
         Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(false);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doNothing().when(personRepository).addPerson(admin);
-        Mockito.doNothing().when(familyRepository).addPerson(family);
+        Mockito.doNothing().when(personRepository).add(admin);
+        Mockito.doNothing().when(familyRepository).add(family);
 
         assertThrows(InvalidNameException.class,() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
     }
@@ -102,8 +102,8 @@ class CreateFamilyServiceTest {
         Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(true);
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doNothing().when(personRepository).addPerson(admin);
-        Mockito.doNothing().when(familyRepository).addPerson(family);
+        Mockito.doNothing().when(personRepository).add(admin);
+        Mockito.doNothing().when(familyRepository).add(family);
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
     }
