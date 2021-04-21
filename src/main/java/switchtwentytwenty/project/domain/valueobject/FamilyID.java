@@ -23,9 +23,8 @@ public class FamilyID implements OwnerID<UUID>, Serializable {
 
     @Override
     public String toString() {
-        return "FamilyID{" +
-                "familyID=" + familyID +
-                '}';
+
+        return this.familyID.toString();
     }
 
     public FamilyID clone(){
