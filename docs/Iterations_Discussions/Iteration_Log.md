@@ -460,6 +460,24 @@ public class RelationJPA {
 
 _____________________________________________________________
 
+21.04.2021
+----------------
+
+Em sala:
+
+Implpementação JPA
+
+Novas classes:
+|
+
+| Class    | Interface | IAssembler |
+|------------|----------|---------|
+| PersonJPA | + Interface | PersonAssembler.toDATA() + .toDomain() |
+| PersonIDJPA | + Interface |  |
+| FamilyJPA |   |    |
+| FamilyIDJPA |   |    |
+| FamilyRepositoryJPA |   |   |
+
 ## JPA - Objectos em JPA
 
 Decidimos que as classes JPA (ex.: PersonJPA, PersonIDJPA, FamilyJPA) não devem implementar interfaces tal como as classes do domínio, pois apenas deve existir uma implementação destas. Também temos em conta que estas classes não têm comportamento para além de getters e setters e um método toString, pelo que seria mais trabalhoso criar interfaces para cada uma.
