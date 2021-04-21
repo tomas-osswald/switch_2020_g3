@@ -113,7 +113,7 @@ class PersonToDTOTest {
 
         Assertions.assertEquals(expected, result.getPhoneNumbers());
     }
-    
+
     @Test
     @DisplayName("Should return a not null PersonDataDTO with an EmailAddress list")
     void createPersonProfileDTOSuccessTestEmailAddress() {

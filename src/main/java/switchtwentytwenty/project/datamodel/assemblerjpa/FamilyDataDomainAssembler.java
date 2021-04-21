@@ -32,7 +32,7 @@ public class FamilyDataDomainAssembler {
 
         FamilyName familyName = new FamilyName(familyJPA.getFamilyName());
 
-        LocalDate localDate = new LocalDate()
+        LocalDate localDate = new LocalDate();
         RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate().toString());
 
     }
