@@ -1,12 +1,21 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@Embeddable
+public class FamilyID implements OwnerID<UUID>, Serializable {
 
-public class FamilyID implements OwnerID<UUID> {
-
-    private final UUID familyID;
+    private UUID familyID;
 
     public FamilyID(UUID familyID) {
         this.familyID = familyID;
