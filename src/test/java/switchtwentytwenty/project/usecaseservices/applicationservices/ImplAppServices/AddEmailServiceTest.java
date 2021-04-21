@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -40,7 +39,7 @@ class AddEmailServiceTest {
     void addEmailSuccess() {
         Mockito.when(mockPersonRepository.getByID(IDTonyZe)).thenReturn(tonyZe);
         Mockito.doNothing().when(tonyZe).addEmail(tonyEmail);
-        Mockito.doNothing().when(mockPersonRepository).addPerson(tonyZe);
+        Mockito.doNothing().when(mockPersonRepository).add(tonyZe);
 
         assertDoesNotThrow(()->addEmailService.addEmail(tonyDTO));
     }

@@ -29,6 +29,6 @@ public class AddEmailService implements IAddEmailService {
         EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
 
         person.addEmail(email);
-        personRepository.addPerson(person);
+        personRepository.add(person);
     }
 }
