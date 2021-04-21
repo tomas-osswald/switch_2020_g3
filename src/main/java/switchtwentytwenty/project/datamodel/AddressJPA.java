@@ -19,7 +19,7 @@ public class AddressJPA {
     private String street;
     private String city;
     private String zipCode;
-    private int doorNumber;
+    private String doorNumber;
 
 
     @OneToOne()
@@ -27,7 +27,7 @@ public class AddressJPA {
     //because it is in the same aggregate, a foreign key constraint is used
     private PersonJPA person;
 
-    public AddressJPA(String street, String city, String zipCode, int doorNumber) {
+    public AddressJPA(String street, String city, String zipCode, String doorNumber) {
         this.street = street;
         this.city = city;
         this.zipCode = zipCode;

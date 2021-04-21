@@ -19,7 +19,7 @@ class PersonTest {
     final String VALIDSTREET = "Rua";
     final String VALIDCITY = "Ermesinde";
     final String VALIDZIPCODE = "4700-111";
-    final int VALIDADDRESSNUMBER = 69;
+    final String VALIDADDRESSNUMBER = "69";
     final String VALIDBIRTHDATE = "01/03/1990";
     Person validPerson;
     Person tonyZe;

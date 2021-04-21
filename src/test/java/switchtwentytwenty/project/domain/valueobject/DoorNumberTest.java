@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import switchtwentytwenty.project.exceptions.InvalidAddressNumberException;
 import switchtwentytwenty.project.exceptions.InvalidCityException;
 
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DoorNumberTest {
-    final Integer VALIDNUMBER = 11;
+    final String VALIDNUMBER = "11";
 
     @Test
     @Tag("US010")
@@ -64,7 +65,7 @@ class DoorNumberTest {
     @Tag("US010")
     void equalsTestDifferentDoorNumbers(){
         DoorNumber doorNumberOne = new DoorNumber(VALIDNUMBER);
-        DoorNumber doorNumberTwo = new DoorNumber(21);
+        DoorNumber doorNumberTwo = new DoorNumber("23B");
 
         assertNotEquals(doorNumberOne,doorNumberTwo);
     }
@@ -79,11 +80,18 @@ class DoorNumberTest {
         assertNotSame(doorNumberOne,doorNumberTwo);
     }
 
+    @ParameterizedTest
+    @NullAndEmptySource
+    @Tag("US010")
+    void doorNumberTest_NullBlankEmpty(String value) {
+        assertThrows(InvalidAddressNumberException.class, ()->  new DoorNumber(value));
+    }
+
     @Test
     @Tag("US010")
     void hashCodeTest_differentHashCode() {
         DoorNumber doorNumberOne = new DoorNumber(VALIDNUMBER);
-        DoorNumber doorNumberTwo = new DoorNumber(21);
+        DoorNumber doorNumberTwo = new DoorNumber("23B");
 
         assertNotEquals(doorNumberOne.hashCode(), doorNumberTwo.hashCode());
     }
