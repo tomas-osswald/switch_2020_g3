@@ -26,7 +26,7 @@ public class PersonDataDomainAssembler {
         List<PhoneNumber> phoneNumbers = person.getPhoneNumbers();
 
         Address address = person.getAddress();
-        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber());
+        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber() );
         FamilyID familyID = person.getFamilyID();
 
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getFamilyID().toString());
