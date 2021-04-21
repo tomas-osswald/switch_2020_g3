@@ -16,6 +16,10 @@ public class FamilyID implements OwnerID<UUID>, Serializable {
     @Setter
     private UUID familyID;
 
+    public FamilyID(String familyID) {
+        this.familyID = UUID.fromString(familyID);
+    }
+
     public FamilyID(UUID familyID) {
         this.familyID = familyID;
         validateID();
