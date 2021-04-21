@@ -27,11 +27,11 @@ public class AddressJPA {
     @JoinColumn(name = "person", nullable = false)
     private PersonJPA person;
 
-    public AddressJPA(Address address) {
-        this.street = address.getStreet();
-        this.city = address.getCity();
-        this.zipCode = address.getZipCode();
-        this.doorNumber = address.getDoorNumber();
+    public AddressJPA(String street, String city, String zip, Integer doorNumber) {
+        this.street = street;
+        this.city = city;
+        this.zipCode = zip;
+        this.doorNumber = doorNumber;
 
     }
 
