@@ -3,15 +3,15 @@ package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import switchtwentytwenty.project.dto.AddPersonFormDTO;
-import switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.CreateFamilyService;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
 
 @Controller
 public class CreateFamilyController  {
 
     @Autowired
-    private CreateFamilyService createFamilyService;
+    private ICreateFamilyService createFamilyService;
 
     /**
      * Method to create a family and add a person as administrator

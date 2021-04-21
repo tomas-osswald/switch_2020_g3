@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -13,6 +14,7 @@ public class EmailAddressTest {
 
 
     @ParameterizedTest
+    @Tag("US010")
     @ValueSource(strings = {"  "})
     @NullAndEmptySource
     @DisplayName("Test if an EmailAddress Object throws an error if the String is empty, blank or null")
@@ -23,6 +25,7 @@ public class EmailAddressTest {
 
     @DisplayName("Test if the Regex catches @@ in email")
     @Test
+    @Tag("US010")
     void shouldAssertFalseIfTwoAtsInEmail() {
         String twoAtsOrArrobesInEnglish = "tonyze@@gmail.com";
         assertThrows(InvalidEmailException.class, () -> new EmailAddress(twoAtsOrArrobesInEnglish));
@@ -30,6 +33,7 @@ public class EmailAddressTest {
 
     @DisplayName("Test if the Regex catches no @ in email")
     @Test
+    @Tag("US010")
     void shouldAssertFalseIfNoAtsInEmail() {
         String noArrobesEmail = "tonyze.email.com";
         assertThrows(InvalidEmailException.class, () -> new EmailAddress(noArrobesEmail));
@@ -37,6 +41,7 @@ public class EmailAddressTest {
 
     @DisplayName("Test if the Regex catches  single word email")
     @Test
+    @Tag("US010")
     void shouldAssertFalseIfSingleWordEmail() {
         String noPointsNorArrobesJustTonyTheNewFragranceByPacoRayban = "tonyze";
         assertThrows(InvalidEmailException.class, () -> new EmailAddress(noPointsNorArrobesJustTonyTheNewFragranceByPacoRayban));
@@ -44,6 +49,7 @@ public class EmailAddressTest {
 
     @DisplayName("Assert Throw for invalid Domain")
     @Test
+    @Tag("US010")
     public void shouldTrowDomainInvalid() {
         String invalidDomain = "1120717@isep.ipp.p";
         assertThrows(InvalidEmailException.class, () -> new EmailAddress(invalidDomain));
@@ -51,6 +57,7 @@ public class EmailAddressTest {
 
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert Throw for Email with [:space:]")
     public void shouldTrowEmailAddressWithSpace() {
         String emailWithSpace = "11207 17@isep.ipp.pt";
@@ -60,6 +67,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert Throw for Email with Illegal Characters")
     public void shouldTrowEmailAddressWithIllegalCharacters() {
         String emailWithIllegalCharacters = "tony!ze@gmail.com";
@@ -69,6 +77,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert Throw for Email with + character")
     public void shouldThrowEmailAddressWithPlusCharacters() {
         String emailWithSignOfMore = "1120+717@isep.ipp.pt";
@@ -79,6 +88,7 @@ public class EmailAddressTest {
 
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert equals same instance")
     public void shouldAssertSameEmailAddressObject() {
         EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
@@ -86,6 +96,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert different type objects through equals")
     public void shouldAssertNotEqualsDifferentClassObject() {
         EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
@@ -94,6 +105,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert equals when the String is the same on two EmailAddress objects")
     public void shouldAssertEqualsSameEmailAddresses() {
         EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
@@ -102,6 +114,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert Not Equals, diferent instance with diferent email")
     public void shouldAssertNotEqualsDifferentEmailAddresses() {
         EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
@@ -111,6 +124,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert same hashcode in different objects with same content")
     void testHashCode_True() {
         EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");
@@ -120,6 +134,7 @@ public class EmailAddressTest {
     }
 
     @Test
+    @Tag("US010")
     @DisplayName("Assert that two different EmailAddress objects don't share the same hash code")
     void testHashCode_False() {
         EmailAddress emailOne = new EmailAddress("1120717@isep.ipp.pt");

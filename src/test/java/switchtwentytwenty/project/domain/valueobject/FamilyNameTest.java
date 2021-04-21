@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FamilyNameTest {
 
     @Test
+    @Tag("US010")
     void familyNameConstructorTest_Valid() {
         //Arrange
         String familyName = "Ribeiro";
@@ -17,6 +19,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void familyNameConstructorTest_ValidTrimmedString() {
         //Arrange
         String familyName = "   Ribeiro   ";
@@ -29,6 +32,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void familyNameConstructorTest_InvalidNull() {
         //Arrange
         String familyName = null;
@@ -39,6 +43,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void familyNameConstructorTest_InvalidEmpty() {
         //Arrange
         String familyName = "";
@@ -49,6 +54,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void familyNameConstructorTest_InvalidBlank() {
         //Arrange
         String familyName = "  ";
@@ -59,6 +65,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_equalNotSame() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
@@ -68,6 +75,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_equalSame() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
@@ -77,6 +85,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_notEqual() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
@@ -87,6 +96,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
@@ -96,6 +106,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void hashCodeTest_sameHashCode() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);
@@ -105,6 +116,7 @@ class FamilyNameTest {
     }
 
     @Test
+    @Tag("US010")
     void hashCodeTest_differentHashCode() {
         String nameOne = "Ribeiro";
         FamilyName familyNameOne = new FamilyName(nameOne);

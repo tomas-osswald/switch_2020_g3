@@ -33,11 +33,11 @@ public class ZipCode implements ValueObject {
 
     private boolean validateZipCode() {
         String regex = "\\d{4}(-\\d{3})?";
-        boolean result = Pattern.matches(regex, zipCode);
+        boolean result;
         if (zipCode == null || zipCode.trim().length() == 0 || zipCode.isEmpty()) {
             result = false;
         } else {
-            result = true;
+            result = Pattern.matches(regex, zipCode);
         }
         return result;
     }
