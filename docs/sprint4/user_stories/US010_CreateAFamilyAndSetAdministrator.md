@@ -144,12 +144,6 @@ and create Value Objects
 
 end ref
 
-FamAdminService -> personRepository: isPersonIDAlready\nRegistered(personID)
-ref over personRepository
-
-end ref
-activate personRepository
-return false
 FamAdminService -> familyRepository : generateID()
 activate familyRepository
 return familyID
@@ -162,22 +156,17 @@ activate personRepository
 personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
-return personJPA
-personRepository -> personRepository: person\n = personAssembler.toDomain(personJPA)
-return person
+return
+return
 
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
 familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
 familyRepository -> familyJPARepository : save(familyJPA)
 activate familyJPARepository
-return savedFamilyJPA
-familyRepository -> familyRepository : newSavedFamily\n = familyAssembler.toDomain(savedFamilyJPA)
+return
 
-
-
-
-return true
+return
  
 
 @enduml

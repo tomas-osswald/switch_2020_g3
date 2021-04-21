@@ -1,14 +1,14 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
+
 import lombok.Setter;
-import org.springframework.stereotype.Component;
+
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Person implements AggregateRoot<PersonID> {
 
