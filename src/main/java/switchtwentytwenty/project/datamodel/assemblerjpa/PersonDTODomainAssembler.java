@@ -6,7 +6,9 @@ import switchtwentytwenty.project.dto.PersonProfileDTO;
 public class PersonDTODomainAssembler {
 
     public PersonProfileDTO toData(Person person){
-        
+
     }
+
+    public Person toDomain(Person)
 
 }

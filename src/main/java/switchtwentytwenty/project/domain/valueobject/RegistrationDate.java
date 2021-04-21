@@ -2,7 +2,6 @@ package switchtwentytwenty.project.domain.valueobject;
 
 import switchtwentytwenty.project.util.DateHelper;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -16,9 +15,11 @@ public class RegistrationDate implements ValueObject {
      * @param registrationDate a LocalDate object that will represent the date of the registration
      */
     public RegistrationDate(String registrationDate) {
-        this.registrationDate = DateHelper.parseDateToCalendar(registrationDate);
-        if (!validateDate()) {
+        if (isDateNull(registrationDate)) {
             this.registrationDate = Calendar.getInstance();
+        } else {
+
+            this.registrationDate = DateHelper.parseDateToCalendar(registrationDate);
         }
     }
 
@@ -27,8 +28,8 @@ public class RegistrationDate implements ValueObject {
      *
      * @return boolean - returns true if the date is valid, false if it is null
      */
-    private boolean validateDate() {
-        return registrationDate != null;
+    private boolean isDateNull(String registrationDate) {
+        return registrationDate == null;
     }
 
     @Override
