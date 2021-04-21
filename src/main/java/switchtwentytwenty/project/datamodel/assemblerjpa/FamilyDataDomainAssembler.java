@@ -1,4 +1,4 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa;
 
-public class ATuaPrimaAssembler {
+public class FamilyDataDomainAssembler {
 }

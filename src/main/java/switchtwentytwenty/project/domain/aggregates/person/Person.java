@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -11,12 +12,13 @@ import java.util.List;
 
 public class Person implements AggregateRoot<PersonID> {
 
-    private final PersonID id;
+    private PersonID id;
     private Name name;
     private BirthDate birthdate;
     private List<EmailAddress> emails = new ArrayList<>();
     private VATNumber vat;
     private List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    @Setter
     private Address address;
     private FamilyID familyID;
     //private List<AccountID> accounts = new ArrayList<>();
@@ -31,6 +33,9 @@ public class Person implements AggregateRoot<PersonID> {
         addPhone(phone);
         this.address = address;
         this.familyID = familyID;
+    }
+
+    public Person(PersonID personID, Name name, BirthDate birthDate,  VATNumber vatNumber, FamilyID familyID) {
     }
 
     private void addPhone(PhoneNumber phone) {
