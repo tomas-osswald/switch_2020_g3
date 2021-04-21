@@ -8,7 +8,7 @@ public interface IPersonRepository extends Repository <Person, PersonID>{
     FamilyID getPersonFamilyID(PersonID personID);
 
     @Override
-    void addPerson(Person entity);
+    void add(Person entity);
 
     void createAndAdd(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID);
 

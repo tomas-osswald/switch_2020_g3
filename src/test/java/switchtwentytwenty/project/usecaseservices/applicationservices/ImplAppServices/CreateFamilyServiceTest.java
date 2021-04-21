@@ -71,8 +71,8 @@ class CreateFamilyServiceTest {
     void createFamilyAndAddAdminTestValidData(){
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doNothing().when(personRepository).addPerson(admin);
-        Mockito.doNothing().when(familyRepository).addPerson(family);
+        Mockito.doNothing().when(personRepository).add(admin);
+        Mockito.doNothing().when(familyRepository).add(family);
 
         assertDoesNotThrow(() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
     }
@@ -84,8 +84,8 @@ class CreateFamilyServiceTest {
         Mockito.when(addPersonFormDTO.unpackName()).thenReturn("");
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doNothing().when(personRepository).addPerson(admin);
-        Mockito.doNothing().when(familyRepository).addPerson(family);
+        Mockito.doNothing().when(personRepository).add(admin);
+        Mockito.doNothing().when(familyRepository).add(family);
 
         assertThrows(InvalidNameException.class,() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
     }
@@ -96,8 +96,8 @@ class CreateFamilyServiceTest {
     void createFamilyAndAddAdminTestPersonAlreadyRegistered(){
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
-        Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).addPerson(any());
-        Mockito.doNothing().when(familyRepository).addPerson(family);
+        Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).add(any());
+        Mockito.doNothing().when(familyRepository).add(family);
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> createFamilyService.createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO));
     }
