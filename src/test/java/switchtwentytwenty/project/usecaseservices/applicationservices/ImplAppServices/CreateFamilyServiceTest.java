@@ -60,7 +60,7 @@ class CreateFamilyServiceTest {
         Mockito.when(addPersonFormDTO.unpackStreet()).thenReturn("Rua da Amargura");
         Mockito.when(addPersonFormDTO.unpackCity()).thenReturn("Porto");
         Mockito.when(addPersonFormDTO.unpackZipCode()).thenReturn("4405-586");
-        Mockito.when(addPersonFormDTO.unpackHouseNumber()).thenReturn(14);
+        Mockito.when(addPersonFormDTO.unpackHouseNumber()).thenReturn("14");
         Mockito.when(createFamilyDTO.unpackFamilyName()).thenReturn("Silva");
 
     }

@@ -53,12 +53,12 @@ class AddFamilyMemberServiceTest {
     @InjectMocks
     AddFamilyMemberService addFamilyMemberService;
 
-    AddPersonFormDTO addPersonFormDTO = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", 100, "4400");
+    AddPersonFormDTO addPersonFormDTO = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
     FamilyID familyID = new FamilyID(UUID.randomUUID());
 
-    AddPersonFormDTO addPersonFormDTOWrongName = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", 100, "4400");
+    AddPersonFormDTO addPersonFormDTOWrongName = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     @Test
     @Tag("US101")

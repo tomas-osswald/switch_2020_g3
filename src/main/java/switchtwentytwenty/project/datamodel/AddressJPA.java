@@ -12,6 +12,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "address")
 public class AddressJPA {
+
+    /**
+     * Por não existir nenhum atributo que possa ser usados como ID. Definiu-se atributo chave id (do tipo long)
+     * com a anotação @GeneratedValue
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,7 +24,7 @@ public class AddressJPA {
     private String street;
     private String city;
     private String zipCode;
-    private int doorNumber;
+    private String doorNumber;
 
 
     @OneToOne()
@@ -27,7 +32,7 @@ public class AddressJPA {
     //because it is in the same aggregate, a foreign key constraint is used
     private PersonJPA person;
 
-    public AddressJPA(String street, String city, String zipCode, int doorNumber) {
+    public AddressJPA(String street, String city, String zipCode, String doorNumber) {
         this.street = street;
         this.city = city;
         this.zipCode = zipCode;

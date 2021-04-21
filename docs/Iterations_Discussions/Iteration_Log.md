@@ -485,3 +485,13 @@ Com a anotação @ToString nestas Classes converte-se sempre o objeto de domíni
 ## JPA - Objectos em JPA
 
 Decidimos que as classes JPA (ex.: PersonJPA, PersonIDJPA, FamilyJPA) não devem implementar interfaces tal como as classes do domínio, pois apenas deve existir uma implementação destas. Também temos em conta que estas classes não têm comportamento para além de getters e setters e um método toString, pelo que seria mais trabalhoso criar interfaces para cada uma.
+
+19:00
+--------------
+
+Ponto de situação:
+
+1. os atributos de FamilyJPa podem/devem ser **@Embeddable** ?
+
+2. Assumindo que o PersonJPA tem o AddressJPA  
+   (PersonJPA , AddressJPA ) é necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
