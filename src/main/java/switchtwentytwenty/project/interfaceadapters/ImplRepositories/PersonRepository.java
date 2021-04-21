@@ -45,7 +45,6 @@ public class PersonRepository implements IPersonRepository {
 
     @Override
     public void updatePerson(Person person) {
-        this.peopleMap.remove(person.id());
         this.peopleMap.put(person.id(), person);
     }
 
@@ -54,7 +53,7 @@ public class PersonRepository implements IPersonRepository {
         return retrievePersonFromHashMap(email);
     }
 
-    private Person retrievePersonFromHashMap(PersonID id){
+    private Person retrievePersonFromHashMap(PersonID id) {
         return this.peopleMap.get(id);
     }
 
@@ -90,8 +89,12 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void addPerson(Person person) { ;
-        this.peopleMap.put(person.id(), person);
+    public void addPerson(Person person) {
+        if (!peopleMap.containsKey(person.id())) {
+            this.peopleMap.put(person.id(), person);
+        } else {
+            throw new PersonAlreadyRegisteredException("Person is already registered in the database");
+        }
 
     }
 
