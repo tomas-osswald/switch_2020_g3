@@ -3,7 +3,6 @@ package switchtwentytwenty.project.datamodel;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import switchtwentytwenty.project.domain.valueobject.Address;
 
 import javax.persistence.*;
 
@@ -25,15 +24,14 @@ public class AddressJPA {
 
     @OneToOne()
     @JoinColumn(name = "person", nullable = false)
+    //because it is in the same aggregate, a foreign key constraint is used
     private PersonJPA person;
 
-    public AddressJPA(Address address) {
-        this.street = address.getStreet();
-        this.city = address.getCity();
-        this.zipCode = address.getZipCode();
-        this.doorNumber = address.getDoorNumber();
-
+    public AddressJPA(String street, String city, String zipCode, int doorNumber) {
+        this.street = street;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.doorNumber = doorNumber;
     }
-
 
 }

@@ -15,5 +15,14 @@
       <jdbc-url>jdbc:sqlite:C:\Users\tomas\Desktop\SWitCH\repos\switch_2020_g3\docs\sprint4\Domain Model DDD_vpp\class_diag_g3_08_04.vpp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="project/Hibernate" uuid="b990cb1b-c6c1-4c1f-b62d-17923b6f88a3">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate</remarks>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:mem:testdb2</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

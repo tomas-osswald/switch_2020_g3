@@ -113,5 +113,31 @@ class PersonToDTOTest {
 
         Assertions.assertEquals(expected, result.getPhoneNumbers());
     }
+    
+    @Test
+    @DisplayName("Should return a not null PersonDataDTO with an EmailAddress list")
+    void createPersonProfileDTOSuccessTestEmailAddress() {
+        EmailAddress email1 = new EmailAddress("email1@email.com");
+        EmailAddress email2 = new EmailAddress("email2@email.com");
+        List<EmailAddress> emailAddressList = new ArrayList();
+        emailAddressList.add(email1);
+        emailAddressList.add(email2);
+
+        Mockito.when(person.id()).thenReturn(personID);
+        Mockito.when(person.getName()).thenReturn(name);
+        Mockito.when(person.getBirthdate()).thenReturn(birthdate);
+        Mockito.when(person.getVat()).thenReturn(vat);
+        Mockito.when(person.getAddress()).thenReturn(address);
+        Mockito.when(person.getFamilyID()).thenReturn(familyID);
+        Mockito.when(person.getEmails()).thenReturn(emailAddressList);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("email1@email.com");
+        expected.add("email2@email.com");
+
+        PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
+
+        Assertions.assertEquals(expected, result.getEmails());
+    }
 
 }

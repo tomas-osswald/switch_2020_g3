@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.aggregates.family;
 
+import lombok.Getter;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.ID;
@@ -13,8 +14,11 @@ import java.util.UUID;
 public class Family implements AggregateRoot<FamilyID> {
 
     private FamilyID id;
+    @Getter
     private FamilyName name;
+    @Getter
     private RegistrationDate registrationDate;
+    @Getter
     private PersonID admin;
     private List<Relation> relations = new ArrayList<>();
     //private AccountID cashAccount;
@@ -85,7 +89,7 @@ public class Family implements AggregateRoot<FamilyID> {
     }
 
     @Deprecated
-    public Family(UUID familyID, String familyName, LocalDate registrationDate, PersonID
+    public Family(UUID familyID, String familyName, String registrationDate, PersonID
             adminEmail) {
         this.id = new FamilyID(familyID);
         this.name = new FamilyName(familyName);
