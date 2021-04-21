@@ -14,5 +14,5 @@ public interface Repository<T extends Entity,K extends ID>{
     public T getByID(K id);
 
 
-    void addPerson(T entity);
+    void add(T entity);
 }
