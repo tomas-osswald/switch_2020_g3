@@ -18,9 +18,9 @@ public class PersonDataDomainAssembler {
     public Person toDomain (PersonJPA personJPA, AddressJPA addressJPA) {
         PersonID personID = new PersonID(personJPA.getId().toString());
         Name name = new Name(personJPA.getName());
-        BirthDate birthDate = new BirthDate(personJPA.getBirthDate());
-        VATNumber vatNumber = new VATNumber(personJPA.getVatNumber());
-        FamilyID familyID = new FamilyID(personJPA.getFamilyID().toString());
+        BirthDate birthDate = new BirthDate(personJPA.getBirthdate());
+        VATNumber vatNumber = new VATNumber(personJPA.getVat().);
+        FamilyID familyID = new FamilyID(personJPA.getFamilyid().toString());
         Address address = new AddressJPA(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getNumber())
 
         Person person = new Person(personID, name, birthDate, vatNumber, familyID);
