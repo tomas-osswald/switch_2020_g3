@@ -10,11 +10,11 @@ public class AddPersonFormDTO {
     private Integer phone;
     private String street;
     private String city;
-    private int houseNumber;
+    private String houseNumber;
     private String zipCode;
 
 
-    public AddPersonFormDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, int houseNumber, String zipCode) {
+    public AddPersonFormDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.userID = userID;
         this.emailID = emailID;
         this.name = name;
@@ -60,7 +60,7 @@ public class AddPersonFormDTO {
         return this.city;
     }
 
-    public int unpackHouseNumber() {
+    public String unpackHouseNumber() {
         return this.houseNumber;
     }
 

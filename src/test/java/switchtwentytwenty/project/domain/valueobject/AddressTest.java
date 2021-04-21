@@ -14,7 +14,7 @@ class AddressTest {
     final String VALIDSTREET = "Rua da Amargura";
     final String VALIDCITY = "Porto";
     final String VALIDZIPCODE = "4405-586";
-    final Integer VALIDDOORNUMBER = 14;
+    final String VALIDDOORNUMBER = "14";
 
     @Test
     void testToString() {
