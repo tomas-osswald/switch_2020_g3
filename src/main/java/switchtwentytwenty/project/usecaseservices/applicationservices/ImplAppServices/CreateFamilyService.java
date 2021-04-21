@@ -32,6 +32,7 @@ public class CreateFamilyService {
 
         FamilyID familyID = familyRepository.generateID();
         Person admin = new Person(name, birthdate, adminID, vat, phone, address, familyID);
+
         personRepository.addPerson(admin);
 
         Family family = new Family(familyID, familyName, registrationDate, adminID);
