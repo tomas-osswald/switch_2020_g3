@@ -7,13 +7,13 @@ public class Address implements ValueObject {
     private Street street;
     private City city;
     private ZipCode zipCode;
-    private DoorNumber number;
+    private DoorNumber doorNumber;
 
-    public Address(String street, String city, String zipCode, int number) {
+    public Address(String street, String city, String zipCode, int doorNumber) {
         this.street = new Street(street);
         this.city = new City(city);
         this.zipCode = new ZipCode(zipCode);
-        this.number = new DoorNumber(number);
+        this.doorNumber = new DoorNumber(doorNumber);
 
     }
 
@@ -22,12 +22,12 @@ public class Address implements ValueObject {
         if (this == o) return true;
         if (!(o instanceof Address)) return false;
         Address address = (Address) o;
-        return Objects.equals(street, address.street) && Objects.equals(zipCode, address.zipCode) && Objects.equals(city, address.city) && Objects.equals(number, address.number);
+        return Objects.equals(street, address.street) && Objects.equals(zipCode, address.zipCode) && Objects.equals(city, address.city) && Objects.equals(doorNumber, address.doorNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(street, zipCode, number, city);
+        return Objects.hash(street, zipCode, doorNumber, city);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Address implements ValueObject {
                 "street=" + street.toString() +
                 ", city=" + city.toString() +
                 ", zipCode=" + zipCode.toString() +
-                ", number=" + number +
+                ", number=" + doorNumber +
                 '}';
     }
 }
