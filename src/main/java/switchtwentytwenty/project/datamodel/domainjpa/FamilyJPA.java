@@ -25,12 +25,5 @@ public class FamilyJPA {
     private String registrationDate;
     private PersonIDJPA adminID;
 
-    public FamilyJPA(FamilyIDJPA id, String familyName, String registrationDate, PersonIDJPA adminID) {
-        this.id = id;
-        this.familyName = familyName;
-        this.registrationDate = registrationDate;
-        this.adminID = adminID;
-    }
-
 
 }

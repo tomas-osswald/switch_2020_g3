@@ -26,13 +26,14 @@ public class FamilyDataDomainAssembler {
 
         return familyJPA;
     }
+
     public Family toDomain(FamilyJPA familyJPA) {
 
         FamilyID familyID = new FamilyID(familyJPA.getId().toString());
 
         FamilyName familyName = new FamilyName(familyJPA.getFamilyName());
 
-        LocalDate localDate = new LocalDate()
+        LocalDate localDate = new LocalDate();
         RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate().toString());
 
     }
