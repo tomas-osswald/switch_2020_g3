@@ -39,4 +39,20 @@ public class Address implements ValueObject {
                 ", number=" + doorNumber +
                 '}';
     }
+
+    public String getStreet() {
+        return this.street.toString();
+    }
+
+    public String getCity() {
+        return this.city.toString();
+    }
+
+    public String getZipCode() {
+        return this.zipCode.toString();
+    }
+
+    public int getDoorNumber() {
+        return this.doorNumber.toInt();
+    }
 }

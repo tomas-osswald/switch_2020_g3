@@ -8,16 +8,18 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.AddPersonFormDTO;
 import switchtwentytwenty.project.dto.CreateFamilyDTO;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 @Service
-public class CreateFamilyService {
+public class CreateFamilyService implements ICreateFamilyService {
+
     @Autowired
     IPersonRepository personRepository;
     @Autowired
     IFamilyRepository familyRepository;
-
 
     //TODO: Alterar SD de Boolean para Void
     public void createFamilyAndAddAdmin(CreateFamilyDTO createFamilyDTO, AddPersonFormDTO addPersonFormDTO) {

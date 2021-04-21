@@ -2,8 +2,8 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,13 +13,14 @@ import javax.persistence.Table;
 @NoArgsConstructor
 
 @Entity
-@Table(name="families")
+@Table(name = "families")
 public class FamilyJPA {
 
-        @Id
-        private FamilyID id;
-        private String familyName;
-        private String registrationDate;
-        private PersonID adminID;
+    @Id
+    private FamilyIDJPA id;
 
-    }
+    private String familyName;
+    private String registrationDate;
+    private PersonIDJPA adminID;
+
+}

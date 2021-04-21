@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.datamodel;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,6 +16,8 @@ public class EmailAddressJPA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Getter
     private String email;
 
 

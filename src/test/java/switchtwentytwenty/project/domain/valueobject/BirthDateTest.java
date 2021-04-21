@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -14,12 +15,14 @@ class BirthDateTest {
 
     @DisplayName("Valid Birthdate construction")
     @Test
+    @Tag("US010")
     void shouldNotThrowCreateValidBirthDate(){
         assertDoesNotThrow(()-> new BirthDate(VALIDBIRTHDATE));
     }
 
 
     @DisplayName("Invalid Birthdate construction")
+    @Tag("US010")
     @ParameterizedTest
     @ValueSource(strings = {"   ","1222-32-12", "tonyZe"})
     @NullAndEmptySource

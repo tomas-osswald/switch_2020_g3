@@ -13,7 +13,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Embeddable
+
 public class PersonID implements OwnerID<EmailAddress>, Serializable {
 
     private EmailAddress id;

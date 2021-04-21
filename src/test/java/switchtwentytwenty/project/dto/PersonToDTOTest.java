@@ -12,6 +12,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+>>>>>>> 974b1e3f210ecb4be82caaf5df3bacbe7ce39b35
 import java.util.List;
 import java.util.UUID;
 
@@ -53,7 +57,6 @@ class PersonToDTOTest {
         Mockito.when(person.getFamilyID()).thenReturn(familyID);
 
 
-
         PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
 
         Assertions.assertNotNull(result);
@@ -67,5 +70,30 @@ class PersonToDTOTest {
     }
 
 
+    @Test
+    @DisplayName("Should return a not null PersonDataDTO with a phone number list")
+    void createPersonProfileDTOSuccessTestPhoneNumbers() {
+        PhoneNumber number1 = new PhoneNumber(919999999);
+        PhoneNumber number2 = new PhoneNumber(918888888);
+        List<PhoneNumber> phoneNumbers = new ArrayList();
+        phoneNumbers.add(number1);
+        phoneNumbers.add(number2);
+
+        Mockito.when(person.id()).thenReturn(personID);
+        Mockito.when(person.getName()).thenReturn(name);
+        Mockito.when(person.getBirthdate()).thenReturn(birthdate);
+        Mockito.when(person.getVat()).thenReturn(vat);
+        Mockito.when(person.getAddress()).thenReturn(address);
+        Mockito.when(person.getFamilyID()).thenReturn(familyID);
+        Mockito.when(person.getPhoneNumbers()).thenReturn(phoneNumbers);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("919999999");
+        expected.add("918888888");
+
+        PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
+
+        Assertions.assertEquals(expected, result.getPhoneNumbers());
+    }
 
 }

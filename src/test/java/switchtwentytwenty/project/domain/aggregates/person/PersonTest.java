@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.aggregates.person;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
 
@@ -44,6 +45,7 @@ class PersonTest {
 
     @DisplayName("Check if method isSameEmail returns true when email is the same")
     @Test
+    @Tag("US010")
     void shouldAssertTrueIsSameEmail() {
         PersonID test = new PersonID(VALIDEMAIL);
         assertTrue(validPerson.hasID(test));
@@ -51,6 +53,7 @@ class PersonTest {
 
     @DisplayName("Check if method isSameEmail returns false when email is not the same")
     @Test
+    @Tag("US010")
     void shouldAssertFalseIsNotSameEmail() {
         PersonID test = new PersonID("tonyze@latinhater.pt");
         assertFalse(validPerson.hasID(test));
@@ -58,6 +61,7 @@ class PersonTest {
 
     @DisplayName("Valid Person Constructor Test")
     @Test
+    @Tag("US010")
     void shouldNotThrowValidPersonConstructor() {
         assertNotNull(validPerson);
         Name tonyZeName = new Name(VALIDNAME);

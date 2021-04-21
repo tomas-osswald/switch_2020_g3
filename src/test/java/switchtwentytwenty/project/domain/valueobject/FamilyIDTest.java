@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FamilyIDTest {
 
     @Test
+    @Tag("US010")
     void familyIDConstructorTest_Valid() {
         //Arrange
         UUID familyID = UUID.randomUUID();
@@ -19,6 +21,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void familyIDConstructorTest_InvalidNull() {
         //Arrange
         UUID familyID = null;
@@ -29,6 +32,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_equalNotSame() {
         UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
@@ -39,6 +43,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_equalSame() {
         UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
@@ -49,6 +54,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_notEqual() {
         UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
@@ -59,6 +65,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
         UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
@@ -68,6 +75,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void hashCodeTest_sameHashCode() {
         UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);
@@ -77,6 +85,7 @@ class FamilyIDTest {
     }
 
     @Test
+    @Tag("US010")
     void hashCodeTest_differentHashCode() {
         UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID(idOne);

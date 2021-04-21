@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.datamodel;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,14 +16,16 @@ public class PhoneNumberJPA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Getter
     private int number;
 
     @ManyToOne()
-    @JoinColumn(name = "person", nullable = true)
+    @JoinColumn(name = "person")
     private PersonJPA person;
 
-    public PhoneNumberJPA(int number, PersonJPA person) {
+    public PhoneNumberJPA(int number) {
         this.number = number;
-        this.person = person;
+
     }
 }
