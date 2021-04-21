@@ -459,3 +459,21 @@ public class RelationJPA {
 
 
 _____________________________________________________________
+
+21.04.2021
+----------------
+
+Em sala:
+
+Implpementação JPA
+
+Novas classes:
+|
+
+| Class    | Interface | IAssembler |
+|------------|----------|---------|
+| PersonJPA | + Interface | PersonAssembler.toDATA() + .toDomain() |
+| PersonIDJPA | + Interface |  |
+| FamilyJPA |   |    |
+| FamilyIDJPA |   |    |
+| FamilyRepositoryJPA |   |   |
