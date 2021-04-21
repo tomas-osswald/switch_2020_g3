@@ -43,15 +43,23 @@ public class PersonDataDomainAssembler {
         return personJPA;
     }
 
-    public Person toDomain(PersonJPA personJPA, AddressJPA addressJPA) {
+    public Person toDomain(PersonJPA personJPA) {
         PersonID personID = new PersonID(personJPA.getId().toString());
         Name name = new Name(personJPA.getName());
         BirthDate birthDate = new BirthDate(personJPA.getBirthdate());
         VATNumber vatNumber = new VATNumber(personJPA.getVat());
         FamilyID familyID = new FamilyID(personJPA.getFamilyid().toString());
+
+        AddressJPA addressJPA = personJPA.getAddress();
         Address address = new Address(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getDoorNumber());
 
         Person person = new Person(personID, name, birthDate, vatNumber, familyID);
+
+        List<EmailAddress> emails = generateEmailAddressList(personJPA.getEmails());
+        List<PhoneNumber> phoneNumbers = generatePhoneNumberList(personJPA.getPhones());
+
+        person.setEmailList(emails);
+        person.setPhoneNumberList(phoneNumbers);
 
         person.setAddress(address);
 
@@ -79,5 +87,24 @@ public class PersonDataDomainAssembler {
         }
 
         return phoneNumberList;
+    }
+
+    private List<PhoneNumber> generatePhoneNumberList(List<PhoneNumberJPA> numberList) {
+        List<PhoneNumber> phoneNumberList = new ArrayList<>();
+
+        for (PhoneNumberJPA phoneNumberJPA: numberList) {
+            PhoneNumber phoneNumber = new PhoneNumber(phoneNumberJPA.getNumber());
+            phoneNumberList.add(phoneNumber);
+        }
+        return phoneNumberList;
+    }
+    private List<EmailAddress> generateEmailAddressList(List<EmailAddressJPA> emailList) {
+        List<EmailAddress> emailAddressList = new ArrayList<>();
+
+        for (EmailAddressJPA emailAddressJPA: emailList) {
+            EmailAddress emailAddress = new EmailAddress(emailAddressJPA.getEmail());
+            emailAddressList.add(emailAddress);
+        }
+        return emailAddressList;
     }
 }

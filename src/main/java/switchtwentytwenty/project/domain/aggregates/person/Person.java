@@ -110,4 +110,12 @@ public class Person implements AggregateRoot<PersonID> {
     public Address getAddress() {
         return this.address;
     }
+
+    public void setEmailList(List<EmailAddress> emails) {
+        this.emails = emails;
+    }
+
+    public void setPhoneNumberList(List<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
 }
