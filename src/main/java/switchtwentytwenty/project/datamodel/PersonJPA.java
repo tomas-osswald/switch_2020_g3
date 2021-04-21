@@ -3,7 +3,7 @@ package switchtwentytwenty.project.datamodel;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import switchtwentytwenty.project.domain.valueobject.EmailAddress;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(name="persons")
+@Table(name = "persons")
 public class PersonJPA {
     @Id
     private PersonID id;
@@ -31,5 +31,8 @@ public class PersonJPA {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressJPA address;
+
+
+    private FamilyID familyid;
 
 }

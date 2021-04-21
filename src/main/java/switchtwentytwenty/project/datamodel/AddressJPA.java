@@ -24,7 +24,6 @@ public class AddressJPA {
 
     @OneToOne()
     @JoinColumn(name = "person", nullable = false)
-    //because it is in the same aggregate, a foreign key constraint is used
     private PersonJPA person;
 
     public AddressJPA(String street, String city, String zipCode, int doorNumber, PersonJPA personJPA) {
