@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import switchtwentytwenty.project.exceptions.InvalidAddressNumberException;
-import switchtwentytwenty.project.exceptions.InvalidCityException;
 
 import java.time.LocalDate;
 

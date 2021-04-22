@@ -10,8 +10,12 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 @Controller
 public class CreateFamilyController  {
 
-    @Autowired
     private ICreateFamilyService createFamilyService;
+
+    @Autowired
+    public CreateFamilyController(ICreateFamilyService createFamilyService){
+        this.createFamilyService = createFamilyService;
+    }
 
     /**
      * Method to create a family and add a person as administrator
