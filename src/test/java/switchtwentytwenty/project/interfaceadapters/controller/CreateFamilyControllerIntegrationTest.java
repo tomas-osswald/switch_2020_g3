@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
@@ -41,11 +39,9 @@ class CreateFamilyControllerIntegrationTest {
     @DisplayName("Test if a family can be successfully created")
     @Test
     void shouldBeTrueCreateFamily() {
-
         assertTrue(controller.createFamilyAndAdmin(VALIDCreateFamilyDTO, inputPersonDTO));
-
-
     }
+
 
     @DisplayName("Test if a family isn't created if the admin email is already registered in the app")
     @Test

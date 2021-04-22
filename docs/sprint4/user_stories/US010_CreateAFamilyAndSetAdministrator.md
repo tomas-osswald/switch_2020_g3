@@ -177,17 +177,13 @@ return
 
 autonumber
 header Sequence Diagram
-title US010 Unpack DTOs, validate and create Value Objects
+title US010 Unpack DTO to create PersonID
 
-participant ": ICreateFamilyService" as FamAdminService
-participant ": Name" as name
-participant "personID : PersonID" as personID
+participant ": ICreateFamilyService" as CreateFamService
 
-
-activate FamAdminService
-
-FamAdminService -> personID** : create(inputPersonDTO.unpackName())
-
+activate CreateFamService
+CreateFamService -> personID** : create(inputPersonDTO.unpackEmail())
+deactivate CreateFamService
 
 @enduml
 ````
