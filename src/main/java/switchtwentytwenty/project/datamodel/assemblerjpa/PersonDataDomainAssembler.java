@@ -39,13 +39,13 @@ public class PersonDataDomainAssembler {
 
         AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA);
 
-        List<EmailAddressJPA> emails = generateEmailAddressJPAList(person.getEmails(), personJPA);
+        List<EmailAddressJPA> emailsJPA = generateEmailAddressJPAList(person.getEmails(), personJPA);
 
-        List<PhoneNumberJPA> phoneNumberJPAS = generetePhoneNumberJPAList(phoneNumbers, personJPA);
+        List<PhoneNumberJPA> phoneNumbersJPA = generetePhoneNumberJPAList(phoneNumbers, personJPA);
 
         personJPA.setAddress(addressJPA);
-        personJPA.setPhones(phoneNumberJPAS);
-        personJPA.setEmails(emails);
+        personJPA.setPhones(phoneNumbersJPA);
+        personJPA.setEmails(emailsJPA);
 
         return personJPA;
     }

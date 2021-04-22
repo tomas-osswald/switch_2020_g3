@@ -102,19 +102,8 @@ Person "1 " --> "0..*" PhoneNumber: has
 The process to fulfill this requirement requires the actor to select the option to create a new family, which would
 prompt the input of the name for that family as well as the administrator email, and the other necessary data stated in
 2.1.  
-Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
+Given the current absence of a UI layer the required data will be passed directly into the CreateFamilyController.
 
-During the analysis process we decided to check the uniqueness of the administrator's email after instancing the Family
-Object.
-
-This decision occurred after discussing the possibility of two emails being registered in the application at the same
-time. If this would happen, as we don't know yet how to deal with locking mechanisms, we could have the problem of both
-emails being added to the Person Repository because when initially verified the email wouldn't be stored in the
-repository but, in the end of the process, two equal emails would be added to the Repository.
-
-
-In order to minimize this issue we chose to verify after instancing the email. This way we could minimize the
-possibility of both emails being added since the verification would occur at the moment of addition to the repository.
 
 ````puml
 @startuml
@@ -196,6 +185,86 @@ activate FamAdminService
 
 FamAdminService -> personID** : create(inputPersonDTO.unpackName())
 
+
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 PersonToDataAssembler
+
+participant ": IPersonRepository" as personRepository
+participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "admin\n : Person" as admin
+participant "personIDJPA : PersonIDJPA" as personIDJPA
+participant "familyIDJPA : FamilyIDJPA" as familyIDJPA
+participant "adminJPA : PersonJPA" as adminJPA
+participant "addressJPA : AdressJPA" as addressJPA
+participant "emailsJPA : List<EmailAddressJPA>" as emailsJPA
+participant "phoneNumbersJPA : List <PhoneNumberJPA>" as phoneNumbersJPA
+
+
+-> personRepository : add(admin)
+activate personRepository
+personRepository -> personRepository : isPersonIDAlreadyRegistered(admin.id())
+
+personRepository -> assembler : toData(admin)
+activate assembler
+
+assembler -> admin : id()
+activate admin
+admin --> assembler : adminID
+assembler -> personIDJPA** :  create(adminID.toString())
+
+assembler -> admin : getName().toString()
+admin --> assembler : name
+
+assembler -> admin : getBirthDate().toString()
+admin --> assembler : birthDate
+
+assembler -> admin : getVat().toInt()
+admin --> assembler : vat
+
+assembler -> admin : getPhoneNumbers()
+admin --> assembler : phoneNumbers
+
+assembler -> admin : getAddress()
+admin --> assembler : address
+
+assembler -> admin : getFamilyID()
+admin --> assembler : familyID
+deactivate admin
+assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
+
+assembler -> adminJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
+
+assembler -> addressJPA** : create(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA)
+
+assembler -> emailsJPA** : generateEmailAddressJPAList(person.getEmails(), personJPA)
+activate emailsJPA
+return emailsJPA
+
+assembler -> phoneNumbersJPA** : generetePhoneNumberJPAList(phoneNumbers, personJPA)
+activate phoneNumbersJPA
+return phoneNumbersJPA
+
+assembler -> adminJPA : setAddress(addressJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> adminJPA : setPhones(phoneNumbersJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> adminJPA : setEmails(emailsJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+
+<- personRepository
 
 @enduml
 ````
