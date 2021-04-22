@@ -174,9 +174,10 @@ return
 
 autonumber
 header Sequence Diagram
-title US010 Unpack DTO to create PersonID
+title US010 FamilyAssembler DTO to Domain
 
 participant ": ICreateFamilyService" as CreateFamService
+
 
 activate CreateFamService
 CreateFamService -> personID** : create(inputPersonDTO.unpackEmail())
@@ -200,18 +201,28 @@ participant "adminIDJPA : PersonIDJPA" as PersonIDJPA
 participant "aFamilyJPA : FamilyJPA" as FamilyJPA
 
 -> assembler : toData(Family)
+activate assembler
 assembler -> Family : id()
+activate Family 
 Family -> assembler : familyID
+deactivate Family 
 assembler -> FamilyIDJPA** : create(familyID)
 assembler -> Family : getAdmin()
+activate Family 
 Family -> assembler : PersonID
+deactivate Family 
 assembler -> PersonIDJPA** : create(PersonID)
 assembler -> Family : getName()
+activate Family 
 Family -> assembler : name
+deactivate Family 
 assembler -> Family : getRegistrationDate()
+activate Family 
 Family -> assembler : registrationDate
+deactivate Family 
 assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJPA)
 <- assembler : FamilyJPA
+deactivate assembler
 
 @enduml
 ````
