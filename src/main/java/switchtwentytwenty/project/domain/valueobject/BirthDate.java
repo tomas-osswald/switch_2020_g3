@@ -15,7 +15,7 @@ public class BirthDate implements ValueObject {
 
     @Override
     public String toString() {
-        String date = birthDate.get(Calendar.DAY_OF_MONTH)+"/"+ birthDate.get(Calendar.MONTH)+"/"+ birthDate.get(Calendar.YEAR);
+        String date = birthDate.get(Calendar.DAY_OF_MONTH)+"/"+ (birthDate.get(Calendar.MONTH)+1)+"/"+ birthDate.get(Calendar.YEAR);
         return date;
     }
 }
