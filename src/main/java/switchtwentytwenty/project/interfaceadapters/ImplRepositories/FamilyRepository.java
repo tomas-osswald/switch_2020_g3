@@ -1,6 +1,10 @@
 package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 import org.springframework.stereotype.Repository;
+import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
+import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
@@ -16,6 +20,8 @@ public class FamilyRepository implements IFamilyRepository {
 
     private final List<Family> families;
     private Map<FamilyID, Family> familyMap = new HashMap<>();
+    private IFamilyRepositoryJPA personRepositoryJPA;
+    private FamilyDataDomainAssembler personAssembler;
 
     //private final Families families = new Families();
 

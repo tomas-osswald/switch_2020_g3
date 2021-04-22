@@ -25,4 +25,5 @@ public class FamilyJPA {
     private String registrationDate;
     private PersonIDJPA adminID;
 
+
 }

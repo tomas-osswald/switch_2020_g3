@@ -2,6 +2,8 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 
 import org.springframework.stereotype.Repository;
+import switchtwentytwenty.project.datamodel.assemblerjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.*;
@@ -17,6 +19,8 @@ public class PersonRepository implements IPersonRepository {
 
     private final List<Person> people;
     private Map<PersonID, Person> peopleMap = new HashMap();
+    private IPersonRepositoryJPA personRepositoryJPA;
+    private PersonDataDomainAssembler personAssembler;
 
     public PersonRepository() {
         this.people = new ArrayList<>();
