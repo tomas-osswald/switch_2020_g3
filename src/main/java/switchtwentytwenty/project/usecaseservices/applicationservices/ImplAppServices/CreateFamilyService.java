@@ -19,12 +19,12 @@ public class CreateFamilyService implements ICreateFamilyService {
     IFamilyRepository familyRepository;
 
     @Autowired
-    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository){
+    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository) {
         this.personRepository = personRepository;
         this.familyRepository = familyRepository;
     }
 
-    //TODO: Alterar SD de Boolean para Void
+
     public void createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         PersonID adminID = new PersonID(inputPersonDTO.unpackEmail());
         FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
@@ -37,12 +37,11 @@ public class CreateFamilyService implements ICreateFamilyService {
 
         FamilyID familyID = familyRepository.generateID();
         Person admin = new Person(name, birthdate, adminID, vat, phone, address, familyID);
-
-        personRepository.add(admin);
-
         Family family = new Family(familyID, familyName, registrationDate, adminID);
 
+        personRepository.add(admin);
         familyRepository.add(family);
+
 
     }
 }
