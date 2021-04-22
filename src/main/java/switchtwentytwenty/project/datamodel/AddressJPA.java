@@ -32,11 +32,12 @@ public class AddressJPA {
     //because it is in the same aggregate, a foreign key constraint is used
     private PersonJPA person;
 
-    public AddressJPA(String street, String city, String zipCode, String doorNumber) {
+    public AddressJPA(String street, String city, String zipCode, String doorNumber, PersonJPA personjpa) {
         this.street = street;
         this.city = city;
         this.zipCode = zipCode;
         this.doorNumber = doorNumber;
+        this.person = personjpa;
     }
 
 }
