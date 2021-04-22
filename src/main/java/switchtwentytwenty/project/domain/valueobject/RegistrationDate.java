@@ -47,7 +47,7 @@ public class RegistrationDate implements ValueObject {
 
     @Override
     public String toString() {
-        String date = registrationDate.get(Calendar.DAY_OF_MONTH)+"/"+ registrationDate.get(Calendar.MONTH)+"/"+ registrationDate.get(Calendar.YEAR);
+        String date = registrationDate.get(Calendar.DAY_OF_MONTH)+"/"+ (registrationDate.get(Calendar.MONTH)+1)+"/"+ registrationDate.get(Calendar.YEAR);
         return date;
     }
 }

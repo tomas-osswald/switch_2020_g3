@@ -1,8 +1,9 @@
 package switchtwentytwenty.project.dto;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-
+@Component
 public class PersonDTODomainAssembler {
 
     public Person toDomain(InputPersonDTO inputPersonDTO, FamilyID familyID){
