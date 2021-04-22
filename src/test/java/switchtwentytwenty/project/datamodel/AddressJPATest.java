@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddressJPATest {
 
-    String street = "rua";
+    String street = "Rua";
     String city = "Covilândia";
     String zip = "6215-000";
     String doorNumber = "1";

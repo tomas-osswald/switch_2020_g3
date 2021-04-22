@@ -19,7 +19,7 @@ FFMSpringBootApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(CreateFamilyService createFamilyService, AddFamilyMemberService addFamilyMemberService) {
+    public CommandLineRunner demo(CreateFamilyService createFamilyService) {
         return (args) -> {
             InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinlover.com", "tonyze@latinlover.com", "TonyZe", "12/12/1999", 999999999, 919999999, "Rua do Charme", "Cidade do Encanto", "69", "1234-123");
             InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Antunes", "22/01/2021");
@@ -34,6 +34,7 @@ FFMSpringBootApplication {
             createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO2, inputPersonDTO2);
             createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO3, inputPersonDTO3);
+
 
 
         };
