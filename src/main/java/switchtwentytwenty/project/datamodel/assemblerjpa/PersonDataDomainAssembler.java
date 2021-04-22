@@ -13,7 +13,12 @@ import java.util.List;
 
 @Component
 public class PersonDataDomainAssembler {
-
+    /**
+     * Assembler method to convert a Person domain object into a PersonJPA data object.
+     *
+     * @param person domain object to be converted
+     * @return PersonJPA data object corresponding the inputted person.
+     */
     public PersonJPA toData(Person person) {
         PersonID personID = person.id();
 
@@ -32,19 +37,25 @@ public class PersonDataDomainAssembler {
 
         PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
-        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA );
+        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA);
 
-        List<EmailAddressJPA> emails = generateEmailAddressJPAList(person.getEmails(), personJPA);
+        List<EmailAddressJPA> emailsJPA = generateEmailAddressJPAList(person.getEmails(), personJPA);
 
-        List<PhoneNumberJPA> phoneNumberJPAS = generetePhoneNumberJPAList(phoneNumbers, personJPA);
+        List<PhoneNumberJPA> phoneNumbersJPA = generetePhoneNumberJPAList(phoneNumbers, personJPA);
 
         personJPA.setAddress(addressJPA);
-        personJPA.setPhones(phoneNumberJPAS);
-        personJPA.setEmails(emails);
+        personJPA.setPhones(phoneNumbersJPA);
+        personJPA.setEmails(emailsJPA);
 
         return personJPA;
     }
 
+    /**
+     * Assembler method to convert a PersonJPA data object into a Person domain object
+     *
+     * @param personJPA data object to be converted
+     * @return Person domain object corresponding the inputted personJPA.
+     */
     public Person toDomain(PersonJPA personJPA) {
         PersonID personID = new PersonID(personJPA.getId().toString());
         Name name = new Name(personJPA.getName());
@@ -94,16 +105,17 @@ public class PersonDataDomainAssembler {
     private List<PhoneNumber> generatePhoneNumberList(List<PhoneNumberJPA> numberList) {
         List<PhoneNumber> phoneNumberList = new ArrayList<>();
 
-        for (PhoneNumberJPA phoneNumberJPA: numberList) {
+        for (PhoneNumberJPA phoneNumberJPA : numberList) {
             PhoneNumber phoneNumber = new PhoneNumber(phoneNumberJPA.getNumber());
             phoneNumberList.add(phoneNumber);
         }
         return phoneNumberList;
     }
+
     private List<EmailAddress> generateEmailAddressList(List<EmailAddressJPA> emailList) {
         List<EmailAddress> emailAddressList = new ArrayList<>();
 
-        for (EmailAddressJPA emailAddressJPA: emailList) {
+        for (EmailAddressJPA emailAddressJPA : emailList) {
             EmailAddress emailAddress = new EmailAddress(emailAddressJPA.getEmail());
             emailAddressList.add(emailAddress);
         }

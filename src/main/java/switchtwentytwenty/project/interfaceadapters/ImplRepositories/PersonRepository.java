@@ -1,25 +1,28 @@
 package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import switchtwentytwenty.project.datamodel.PersonJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class PersonRepository implements IPersonRepository {
 
     private final List<Person> people;
     private Map<PersonID, Person> peopleMap = new HashMap();
+
+    @Autowired
     private IPersonRepositoryJPA personRepositoryJPA;
+    @Autowired
     private PersonDataDomainAssembler personAssembler;
 
     public PersonRepository() {
@@ -36,13 +39,20 @@ public class PersonRepository implements IPersonRepository {
         }
     }
 
+    /**
+     * Method to check if a PersonID is already registered in the database
+     * Optional says yes or no when you ask something. In this case it says if there is something in the personRepositoryJPA.
+     * After you can obtain that something with optional.get().
+     *
+     * @param personID PersonID to check if it's already present in the database
+     * @return true if there is already a person registered with that PersonID
+     */
     @Override
     public boolean isPersonIDAlreadyRegistered(PersonID personID) {
         boolean emailIsRegistered = false;
-        for (Person person : people) {
-            if (person.hasID(personID)) {
-                emailIsRegistered = true;
-            }
+        Optional<PersonJPA> optional = personRepositoryJPA.findById(new PersonIDJPA(personID.toString()));
+        if (optional.isPresent()) {
+            emailIsRegistered = true;
         }
         return emailIsRegistered;
     }
@@ -92,10 +102,16 @@ public class PersonRepository implements IPersonRepository {
         return person.getFamilyID();
     }
 
+    /**
+     * Method to add the inputted Person domain object into the repository.
+     * The Person domain object will be converted into a PersonJPA data object and sent to the repository.
+     * @param person domain object we want to add to the person repository
+     */
     @Override
     public void add(Person person) {
-        if (!peopleMap.containsKey(person.id())) {
-            this.peopleMap.put(person.id(), person);
+        if (!isPersonIDAlreadyRegistered(person.id())) {
+            PersonJPA personJPA = personAssembler.toData(person);
+            personRepositoryJPA.save(personJPA);
         } else {
             throw new PersonAlreadyRegisteredException("Person is already registered in the database");
         }

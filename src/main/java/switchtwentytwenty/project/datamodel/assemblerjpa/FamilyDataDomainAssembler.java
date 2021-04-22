@@ -11,7 +11,11 @@ import java.util.List;
 
 @Component
 public class FamilyDataDomainAssembler {
-
+    /**
+     * Assembler method to create a Family domain object into a FamilyJPA data object.
+     * @param family domain object
+     * @return FamilyJPA data object
+     */
     public FamilyJPA toData(Family family) {
         FamilyID familyID = family.id();
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
@@ -26,7 +30,11 @@ public class FamilyDataDomainAssembler {
 
         return familyJPA;
     }
-
+    /**
+     * Assembler method to create a FamilyJPA data object into a Family domain object.
+     * @param familyJPA data object
+     * @return Family domain object
+     */
     public Family toDomain(FamilyJPA familyJPA) {
 
         FamilyID familyID = new FamilyID(familyJPA.getId().toString());

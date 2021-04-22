@@ -141,7 +141,11 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
+
+ref over personRepository
+personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+end ref
+
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
 return
@@ -149,7 +153,11 @@ return
 
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
+
+ref over familyRepository
+familyRepository -> familyRepository : familyJPA = familyAssembler.toData(newFamily)
+end ref
+
 familyRepository -> familyJPARepository : save(familyJPA)
 activate familyJPARepository
 return
@@ -177,6 +185,86 @@ activate FamAdminService
 
 FamAdminService -> personID** : create(inputPersonDTO.unpackName())
 
+
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 PersonToDataAssembler
+
+participant ": IPersonRepository" as personRepository
+participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "admin\n : Person" as admin
+participant "personIDJPA : PersonIDJPA" as personIDJPA
+participant "familyIDJPA : FamilyIDJPA" as familyIDJPA
+participant "adminJPA : PersonJPA" as adminJPA
+participant "addressJPA : AdressJPA" as addressJPA
+participant "emailsJPA : List<EmailAddressJPA>" as emailsJPA
+participant "phoneNumbersJPA : List <PhoneNumberJPA>" as phoneNumbersJPA
+
+
+-> personRepository : add(admin)
+activate personRepository
+personRepository -> personRepository : isPersonIDAlreadyRegistered(admin.id())
+
+personRepository -> assembler : toData(admin)
+activate assembler
+
+assembler -> admin : id()
+activate admin
+admin --> assembler : adminID
+assembler -> personIDJPA** :  create(adminID.toString())
+
+assembler -> admin : getName().toString()
+admin --> assembler : name
+
+assembler -> admin : getBirthDate().toString()
+admin --> assembler : birthDate
+
+assembler -> admin : getVat().toInt()
+admin --> assembler : vat
+
+assembler -> admin : getPhoneNumbers()
+admin --> assembler : phoneNumbers
+
+assembler -> admin : getAddress()
+admin --> assembler : address
+
+assembler -> admin : getFamilyID()
+admin --> assembler : familyID
+deactivate admin
+assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
+
+assembler -> adminJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
+
+assembler -> addressJPA** : create(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA)
+
+assembler -> emailsJPA** : generateEmailAddressJPAList(person.getEmails(), personJPA)
+activate emailsJPA
+return emailsJPA
+
+assembler -> phoneNumbersJPA** : generetePhoneNumberJPAList(phoneNumbers, personJPA)
+activate phoneNumbersJPA
+return phoneNumbersJPA
+
+assembler -> adminJPA : setAddress(addressJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> adminJPA : setPhones(phoneNumbersJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> adminJPA : setEmails(emailsJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+
+<- personRepository
 
 @enduml
 ````
