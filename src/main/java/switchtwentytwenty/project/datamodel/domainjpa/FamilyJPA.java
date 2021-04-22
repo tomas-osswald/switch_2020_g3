@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -23,6 +24,7 @@ public class FamilyJPA {
 
     private String familyName;
     private String registrationDate;
+    @Column(name = "adminID")
     private PersonIDJPA adminID;
 
 }
