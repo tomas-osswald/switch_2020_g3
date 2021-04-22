@@ -13,6 +13,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -31,6 +32,9 @@ class AddFamilyMemberServiceTest {
 
     @Mock
     IFamilyRepository familyRepository;
+
+    @Mock
+    PersonDTODomainAssembler personDTODomainAssembler;
 
     /*@Mock
     AddPersonDTO addPersonDTO;*/
@@ -79,6 +83,9 @@ class AddFamilyMemberServiceTest {
         Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(false);
         Mockito.when(personRepository.getByID(loggedUserID)).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personDTODomainAssembler.toDomain(inputPersonDTO,familyID)).thenReturn(admin);
+        Mockito.doNothing().when(personRepository).add(admin);
+
 
         assertDoesNotThrow(() -> addFamilyMemberService.addPerson(inputPersonDTO));
     }
