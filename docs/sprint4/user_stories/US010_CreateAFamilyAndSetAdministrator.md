@@ -114,40 +114,40 @@ title US010 Create a Family and Set Administrator
 
 
 participant ": ICreateFamilyService" as FamAdminService
+participant "adminID\n : PersonID" as adminID
 participant ": IFamilyRepository" as familyRepository
 participant ": IPersonRepository" as personRepository
-participant "admin\n : Person" as admin
-participant "newFamily\n : Family" as newFamily
-participant ": PersonJPARepository" as personJAPRepository
-participant ": FamilyJPARepository" as familyJPARepository
+participant ": IPersonRepositoryJPA" as personRepositoryJPA
+participant ": IFamilyRepositoryJPA" as familyRepositoryJPA
 
 note left: especificar nome da instância no participant?
 
- -> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
+-> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
 activate FamAdminService
 
-ref over FamAdminService
-unpack DTOs, validate 
-and create Value Objects
-
-end ref
+FamAdminService -> adminID ** : create\n(inputPersonDTO.unpackEmail()
 
 FamAdminService -> familyRepository : generateID()
 activate familyRepository
 return familyID
-FamAdminService -> admin** : build(name, birthDate, personID, \nvat, phone, address, familyID)
 
-FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, adminEmail)
+ref over FamAdminService
+admin = personDTODomainAssembler.toDomain
+end ref
+
+ref over FamAdminService
+family = familyDTODomainAssembler.toDomain
+end ref
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
 
 ref over personRepository
-personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+personJPA = personAssembler.toData(admin)
 end ref
 
-personRepository -> personJAPRepository: save(personJPA)
-activate personJAPRepository
+personRepository -> personRepositoryJPA: save(personJPA)
+activate personRepositoryJPA
 return
 return
 
@@ -155,11 +155,11 @@ FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
 
 ref over familyRepository
-familyRepository -> familyRepository : familyJPA = familyAssembler.toData(newFamily)
+familyJPA = familyAssembler.toData(newFamily)
 end ref
 
-familyRepository -> familyJPARepository : save(familyJPA)
-activate familyJPARepository
+familyRepository -> familyRepositoryJPA : save(familyJPA)
+activate familyRepositoryJPA
 return
 
 return
