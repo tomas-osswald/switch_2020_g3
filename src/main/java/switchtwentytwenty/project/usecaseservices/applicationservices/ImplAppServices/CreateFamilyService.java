@@ -15,10 +15,14 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class CreateFamilyService implements ICreateFamilyService {
 
-    @Autowired
     IPersonRepository personRepository;
-    @Autowired
     IFamilyRepository familyRepository;
+
+    @Autowired
+    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository){
+        this.personRepository = personRepository;
+        this.familyRepository = familyRepository;
+    }
 
     //TODO: Alterar SD de Boolean para Void
     public void createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {

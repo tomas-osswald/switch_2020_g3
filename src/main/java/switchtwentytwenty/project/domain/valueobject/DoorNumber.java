@@ -25,7 +25,7 @@ public class DoorNumber implements ValueObject {
 
     private void checkNumber() {
         String INVALIDADDRESSNUMBER = "Invalid Address Number";
-        if (this.doorNumber == null || this.doorNumber.length() == 0|| this.doorNumber.isEmpty()) {
+        if (this.doorNumber == null || this.doorNumber.isEmpty() || this.doorNumber.trim().length()==0) {
             throw new InvalidAddressNumberException(INVALIDADDRESSNUMBER);
         }
     }
