@@ -44,21 +44,9 @@ class PersonRepositoryTest {
         familyID = new FamilyID(UUID.randomUUID());
     }
 
-    @Test
-    void shouldNotThrowPersonSuccessfullyAddedToPersonRepository() {
-        PersonRepository personRepository = new PersonRepository();
 
-        assertDoesNotThrow(() -> personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
-    }
 
-    @Test
-    void shouldThrowPersonIDAlreadyPresentInRepository() {
-        PersonRepository personRepository = new PersonRepository();
 
-        personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-
-        assertThrows(EmailAlreadyRegisteredException.class, () -> personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
-    }
 
     /* UNIT TESTS */
 

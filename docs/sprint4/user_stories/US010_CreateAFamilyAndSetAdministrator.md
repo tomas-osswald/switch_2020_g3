@@ -152,7 +152,11 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
+
+ref over personRepository
+personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+end ref
+
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
 return
@@ -160,7 +164,11 @@ return
 
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
+
+ref over familyRepository
+familyRepository -> familyRepository : familyJPA = familyAssembler.toData(newFamily)
+end ref
+
 familyRepository -> familyJPARepository : save(familyJPA)
 activate familyJPARepository
 return

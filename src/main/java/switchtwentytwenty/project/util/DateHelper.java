@@ -46,4 +46,6 @@ public class DateHelper {
                 && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
                 && calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
     }
+
+
 }

@@ -20,14 +20,15 @@ FFMSpringBootApplication {
     @Bean
     public CommandLineRunner demo(CreateFamilyService createFamilyService) {
         return (args) -> {
+            InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com","tonyze@gmail.com","TonyZe","12/12/1999",999999999,919999999,"Rua","Cidade", "69","1234-123");
+            InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Antunes","22/01/2021");
+            InputPersonDTO inputPersonDTO2 = new InputPersonDTO("fuzileiro_gostoso@gmail.com","fuzileiro_gostoso@gmail.com","Ricardo","20/4/1989",888888888,911111111,"Rua da Amargura","Porto", "420","4321-321");
+            InputFamilyDTO inputFamilyDTO2 = new InputFamilyDTO("Batista",null);
+            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO,inputPersonDTO);
+            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO2,inputPersonDTO2);
 
-            InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "22/04/2021");
-            InputPersonDTO inputPersonDTO = new InputPersonDTO(null, "tonyze@latinlover.com", "TonyZe", "20/4/1989", 999999999, 919888888, "Rua da Amargura", "Porto", "2º Esq", "4500-450");
-            InputFamilyDTO inputFamilyDTO2 = new InputFamilyDTO("Vagrrant", "22/04/2021");
-            InputPersonDTO inputPersonDTO2 = new InputPersonDTO(null, "jeanpierre@baguette.com", "Jean-Pierre", "28/12/1990", 111111111, 932222222, "Croissant Street", "Lisbonne", "233", "1234-123");
 
-            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
-            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO2, inputPersonDTO2);
+
         };
     }
 

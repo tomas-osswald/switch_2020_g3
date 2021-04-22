@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import switchtwentytwenty.project.exceptions.InvalidNameException;
-
 import java.util.Objects;
 
 public class FamilyName implements ValueObject {
@@ -40,6 +38,7 @@ public class FamilyName implements ValueObject {
 
     /**
      * Method to verify if the family name is null, throws and exception if the name is null
+     *
      * @param familyName
      */
     private void checkNull(String familyName) {
@@ -50,6 +49,7 @@ public class FamilyName implements ValueObject {
 
     /**
      * Method to verify if the family name is empty, throws and exception if the name is empty
+     *
      * @param familyName
      */
     private void checkEmpty(String familyName) {
@@ -60,6 +60,7 @@ public class FamilyName implements ValueObject {
 
     /**
      * Method to verify if the family name is blank, throws and exception if the name is blank
+     *
      * @param familyName
      */
     private void checkBlank(String familyName) {
@@ -79,5 +80,10 @@ public class FamilyName implements ValueObject {
     @Override
     public int hashCode() {
         return Objects.hash(familyName);
+    }
+
+    @Override
+    public String toString() {
+        return this.familyName;
     }
 }

@@ -13,10 +13,10 @@ import java.io.Serializable;
 @Embeddable
 public class PersonIDJPA implements Serializable {
 
-    private String id;
+    private String personID;
 
-    public PersonIDJPA(String id) {
-        this.id = id;
+    public PersonIDJPA(String personID) {
+        this.personID = personID;
     }
 
 
