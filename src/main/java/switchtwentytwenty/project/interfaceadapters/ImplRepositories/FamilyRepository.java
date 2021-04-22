@@ -11,7 +11,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
-import switchtwentytwenty.project.exceptions.*;
+import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
 import java.util.*;
@@ -38,7 +38,9 @@ public class FamilyRepository implements IFamilyRepository {
         this.families.add(family);
     }
 
-    /**Method to generate a FamilyID domain object.
+    /**
+     * Method to generate a FamilyID domain object.
+     *
      * @return familyID
      * This method uses a recursive call to generate a unique ID after checking if it's not already registered.
      */
@@ -67,10 +69,11 @@ public class FamilyRepository implements IFamilyRepository {
     /**
      * Method to check if there is already a Family in the database with a specific FamilyID. Used to ensure
      * that the familyID is unique, despite being randomly generated.
+     *
      * @param familyID domain object that we want to check the existence of
      * @return true if the FamilyID is already associated with a family.
      */
-    private boolean checkIfIDExists(FamilyID familyID){
+    private boolean checkIfIDExists(FamilyID familyID) {
         boolean result = false;
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
         Optional<FamilyJPA> familyJPA = familyRepositoryJPA.findById(familyIDJPA);
@@ -89,13 +92,14 @@ public class FamilyRepository implements IFamilyRepository {
 
     /**
      * Method to retrieve a Family domain object by presenting a FamilyID
+     *
      * @param familyID domain object of the Family we want to obtain
      * @return Family domain object
      */
     public Family getByID(FamilyID familyID) {
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
         Optional<FamilyJPA> familyJPA = familyRepositoryJPA.findById(familyIDJPA);
-        if (familyJPA.isPresent()){
+        if (familyJPA.isPresent()) {
             Family family = familyAssembler.toDomain(familyJPA.get());
             return family;
         } else {
@@ -105,7 +109,9 @@ public class FamilyRepository implements IFamilyRepository {
 
     public void verifyAdmin(PersonID loggedUserID) {
         boolean result = false;
-        for (Family family : this.families) {
+        List<FamilyJPA> families = familyRepositoryJPA.findAll();
+        for (FamilyJPA familyjpa : families) {
+            Family family = familyAssembler.toDomain(familyjpa);
             if (family.isPersonTheAdmin(loggedUserID)) {
                 result = true;
             }
@@ -113,6 +119,8 @@ public class FamilyRepository implements IFamilyRepository {
         if (!result) {
             throw new UserIsNotAdminException();
         }
+
+
     }
 
     @Deprecated

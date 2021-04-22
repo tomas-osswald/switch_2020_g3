@@ -9,7 +9,9 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.exceptions.*;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.*;
@@ -64,11 +66,14 @@ public class PersonRepository implements IPersonRepository {
 
     @Override
     public Person getByID(PersonID email) {
-        return retrievePersonFromHashMap(email);
+        return retrievePersonFromRepository(email);
     }
 
-    private Person retrievePersonFromHashMap(PersonID id) {
-        return this.peopleMap.get(id);
+    private Person retrievePersonFromRepository(PersonID id) {
+       PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
+       Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+       Person person = personAssembler.toDomain(personJPA.get());
+       return person;
     }
 
     @Deprecated
@@ -105,6 +110,7 @@ public class PersonRepository implements IPersonRepository {
     /**
      * Method to add the inputted Person domain object into the repository.
      * The Person domain object will be converted into a PersonJPA data object and sent to the repository.
+     *
      * @param person domain object we want to add to the person repository
      */
     @Override
