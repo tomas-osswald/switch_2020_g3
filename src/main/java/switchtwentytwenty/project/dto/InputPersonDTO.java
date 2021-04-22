@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.dto;
 
-public class AddPersonFormDTO {
+public class InputPersonDTO {
 
     private String userID;
     private String emailID;
@@ -14,7 +14,7 @@ public class AddPersonFormDTO {
     private String zipCode;
 
 
-    public AddPersonFormDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
+    public InputPersonDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.userID = userID;
         this.emailID = emailID;
         this.name = name;

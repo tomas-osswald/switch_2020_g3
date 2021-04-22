@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.AddPersonFormDTO;
+import switchtwentytwenty.project.dto.InputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,14 +24,14 @@ class AddFamilyMemberControllerTest {
     AddFamilyMemberController addFamilyMemberController;
 
     @Mock
-    AddPersonFormDTO addPersonFormDTO;
+    InputPersonDTO inputPersonDTO;
 
     @Test
     @Tag("US101")
     void addFamilyMemberSuccess() {
-        Mockito.doNothing().when(addFamilyMemberService).addPerson(addPersonFormDTO);
+        Mockito.doNothing().when(addFamilyMemberService).addPerson(inputPersonDTO);
 
-        boolean result = addFamilyMemberController.addFamilyMember(addPersonFormDTO);
+        boolean result = addFamilyMemberController.addFamilyMember(inputPersonDTO);
 
         assertTrue(result);
     }
@@ -39,9 +39,9 @@ class AddFamilyMemberControllerTest {
     @Test
     @Tag("US101")
     void addFamilyMemberFail() {
-        Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(addPersonFormDTO);
+        Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(inputPersonDTO);
 
-        boolean result = addFamilyMemberController.addFamilyMember(addPersonFormDTO);
+        boolean result = addFamilyMemberController.addFamilyMember(inputPersonDTO);
 
         assertFalse(result);
     }

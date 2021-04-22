@@ -2,8 +2,8 @@ package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import switchtwentytwenty.project.dto.AddPersonFormDTO;
-import switchtwentytwenty.project.dto.CreateFamilyDTO;
+import switchtwentytwenty.project.dto.InputFamilyDTO;
+import switchtwentytwenty.project.dto.InputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
 
@@ -15,14 +15,14 @@ public class CreateFamilyController  {
 
     /**
      * Method to create a family and add a person as administrator
-     * @param createFamilyDTO
-     * @param addPersonFormDTO
+     * @param inputFamilyDTO
+     * @param inputPersonDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    public boolean createFamilyAndAdmin(CreateFamilyDTO createFamilyDTO, AddPersonFormDTO addPersonFormDTO) {
+    public boolean createFamilyAndAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         boolean result;
         try {
-            createFamilyService.createFamilyAndAddAdmin(createFamilyDTO, addPersonFormDTO);
+            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             result = true;
         } catch (Exception e) {
             result = false;

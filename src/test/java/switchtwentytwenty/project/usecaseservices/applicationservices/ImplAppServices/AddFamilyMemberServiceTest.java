@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.AddPersonFormDTO;
+import switchtwentytwenty.project.dto.InputPersonDTO;
 import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -53,12 +53,12 @@ class AddFamilyMemberServiceTest {
     @InjectMocks
     AddFamilyMemberService addFamilyMemberService;
 
-    AddPersonFormDTO addPersonFormDTO = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinas.com", "tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
     FamilyID familyID = new FamilyID(UUID.randomUUID());
 
-    AddPersonFormDTO addPersonFormDTOWrongName = new AddPersonFormDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputPersonDTO inputPersonDTOWrongName = new InputPersonDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     @Test
     @Tag("US101")
@@ -80,7 +80,7 @@ class AddFamilyMemberServiceTest {
         Mockito.when(personRepository.getByID(loggedUserID)).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
 
-        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(addPersonFormDTO));
+        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(inputPersonDTO));
     }
 
     @Test
@@ -90,7 +90,7 @@ class AddFamilyMemberServiceTest {
 
         Mockito.doThrow(UserIsNotAdminException.class).when(familyRepository).verifyAdmin(loggedUserID);
 
-        assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(addPersonFormDTO));
+        assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(inputPersonDTO));
     }
 
 
@@ -98,7 +98,7 @@ class AddFamilyMemberServiceTest {
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
     void addPersonFail_invalidValueObject() {
         Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
-        assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(addPersonFormDTOWrongName));
+        assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(inputPersonDTOWrongName));
     }
 
 
