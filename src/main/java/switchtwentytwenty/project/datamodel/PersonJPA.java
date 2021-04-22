@@ -43,7 +43,7 @@ public class PersonJPA {
     @Getter
     private FamilyIDJPA familyid;
 
-    public PersonJPA(PersonIDJPA id, String name, String birthdate, int vat, AddressJPA address, FamilyIDJPA familyid) {
+    public PersonJPA(PersonIDJPA id, String name, String birthdate, int vat, FamilyIDJPA familyid) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
