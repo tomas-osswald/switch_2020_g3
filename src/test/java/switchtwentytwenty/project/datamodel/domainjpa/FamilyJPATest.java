@@ -26,7 +26,7 @@ class FamilyJPATest {
     @Tag("US010")
     void getFamilyNameTest() {
         String expected = "Simpson";
-        FamilyJPA familyJPA = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        FamilyJPA familyJPA = new FamilyJPA(familyID, familyName, registrationDate, adminID);
 
         String result = familyJPA.getFamilyName();
 

@@ -163,6 +163,8 @@ activate familyRepositoryJPA
 return
 
 return
+
+return
  
 
 @enduml
@@ -191,6 +193,35 @@ assembler -> family** : create(familyID, familyName, regDate, adminID)
 assembler -> CreateFamService : aFamily
 deactivate assembler
 deactivate CreateFamService
+
+@enduml
+````
+
+
+````puml
+@startuml
+title US010 Unpack DTO to create Person
+
+participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
+participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
+participant "personID : PersonID" as personID
+participant "name : Name" as name
+participant "birthDate : BirthDate" as birthDate
+participant "vat : VATNumber" as vat
+participant "phone : PhoneNumber" as phoneNumber
+participant "address : Address" as address
+participant "admin : Person" as admin
+
+-> dtoToDomainAssembler : toDomain(inputPersonDTO, familyID)
+activate dtoToDomainAssembler
+dtoToDomainAssembler -> personID** : create(inputPersonDTO.unpackEmail())
+dtoToDomainAssembler -> name** : create(inputPersonDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(inputPersonDTO.unpackBirthDate())
+dtoToDomainAssembler -> vat** : create(inputPersonDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(inputPersonDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber())
+dtoToDomainAssembler -> admin** : create(name, birthDate, personID, vat, phone, address, familyID)
+<- dtoToDomainAssembler : admin
 
 @enduml
 ````
@@ -267,26 +298,40 @@ activate assembler
 assembler -> admin : id()
 activate admin
 admin --> assembler : adminID
+deactivate admin
 assembler -> personIDJPA** :  create(adminID.toString())
 
 assembler -> admin : getName().toString()
+activate admin
 admin --> assembler : name
+deactivate admin
 
 assembler -> admin : getBirthDate().toString()
+activate admin
 admin --> assembler : birthDate
+deactivate admin
 
 assembler -> admin : getVat().toInt()
+activate admin
 admin --> assembler : vat
+deactivate admin
 
 assembler -> admin : getPhoneNumbers()
+activate admin
 admin --> assembler : phoneNumbers
+deactivate admin
+
 
 assembler -> admin : getAddress()
+activate admin
 admin --> assembler : address
+deactivate admin
 
 assembler -> admin : getFamilyID()
+activate admin
 admin --> assembler : familyID
 deactivate admin
+
 assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
 
 assembler -> adminJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
@@ -313,7 +358,8 @@ assembler -> adminJPA : setEmails(emailsJPA)
 activate adminJPA
 adminJPA --> assembler
 deactivate adminJPA
-
+assembler -> personRepository : aPersonJPA
+deactivate assembler
 <- personRepository
 
 @enduml
