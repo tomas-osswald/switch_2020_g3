@@ -8,13 +8,13 @@ import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 
 public class FamilyDTODomainAssembler {
 
-    public Family toDomain(InputFamilyDTO inputFamilyDTO, FamilyID familyID, PersonID personID) {
+    public Family toDomain(InputFamilyDTO inputFamilyDTO, FamilyID familyID, PersonID adminID) {
 
         FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
 
         RegistrationDate registrationDate = new RegistrationDate(inputFamilyDTO.unpackLocalDate());
 
-        Family family = new Family(familyID, familyName, registrationDate, personID);
+        Family family = new Family(familyID, familyName, registrationDate, adminID);
 
         return family;
     }
