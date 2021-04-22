@@ -3,10 +3,11 @@ package switchtwentytwenty.project.datamodel.assemblerjpa;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.FamilyName;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.domain.valueobject.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class FamilyDataDomainAssembler {
@@ -29,8 +30,12 @@ public class FamilyDataDomainAssembler {
     public Family toDomain(FamilyJPA familyJPA) {
 
         FamilyID familyID = new FamilyID(familyJPA.getId().toString());
+
         FamilyName familyName = new FamilyName(familyJPA.getFamilyName());
+
+
         RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate());
+
         PersonID personID = new PersonID(familyJPA.getAdminID().toString());
         Family family = new Family(familyID, familyName, registrationDate, personID);
         return family;

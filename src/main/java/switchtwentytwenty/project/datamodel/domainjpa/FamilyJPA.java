@@ -27,4 +27,5 @@ public class FamilyJPA {
     @Column(name = "adminID")
     private PersonIDJPA adminID;
 
+
 }
