@@ -36,7 +36,9 @@ public class FamilyDataDomainAssembler {
 
         RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate());
 
-        return null;
+        PersonID personID = new PersonID(familyJPA.getAdminID().toString());
+        Family family = new Family(familyID, familyName, registrationDate, personID);
+        return family;
 
     }
 }

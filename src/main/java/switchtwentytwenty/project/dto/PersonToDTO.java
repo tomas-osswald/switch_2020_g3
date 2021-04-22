@@ -18,9 +18,6 @@ public class PersonToDTO {
     }
 
     public PersonProfileDTO createPersonProfileDTO(Person person) {
-
-
-
         String id = person.id().toString();
         String name = person.getName().toString();
         String birthdate = person.getBirthdate().toString();

@@ -22,11 +22,13 @@ public class EmailAddressJPA {
 
 
     @ManyToOne()
-    @JoinColumn(name = "person")
+    @JoinColumn(name = "person", nullable=true)
+    //because it is in the same aggregate, a foreign key constraint is used
     private PersonJPA person;
 
     public EmailAddressJPA(String email, PersonJPA personJPA) {
         this.email = email;
         this.person = personJPA;
     }
+
 }

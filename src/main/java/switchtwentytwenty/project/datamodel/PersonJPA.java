@@ -37,7 +37,7 @@ public class PersonJPA {
     private int vat;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    //@JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressJPA address;
 
     @Getter
