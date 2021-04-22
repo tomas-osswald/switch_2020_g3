@@ -44,4 +44,10 @@ public class RegistrationDate implements ValueObject {
     public int hashCode() {
         return Objects.hash(registrationDate);
     }
+
+    @Override
+    public String toString() {
+        String date = registrationDate.get(Calendar.DAY_OF_MONTH)+"/"+ registrationDate.get(Calendar.MONTH)+"/"+ registrationDate.get(Calendar.YEAR);
+        return date;
+    }
 }

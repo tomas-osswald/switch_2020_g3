@@ -17,6 +17,16 @@ FFMSpringBootApplication {
         SpringApplication.run(FFMSpringBootApplication.class, args);
     }
 
-    
+    @Bean
+    public CommandLineRunner demo(CreateFamilyService createFamilyService) {
+        return (args) -> {
+            InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com","tonyze@gmail.com","TonyZe","12/12/1999",999999999,919999999,"Rua","Cidade", "69","1234-123");
+            InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva","22/01/2021");
+            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO,inputPersonDTO);
+
+
+
+        };
+    }
 
 }
