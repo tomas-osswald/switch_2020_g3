@@ -26,17 +26,19 @@ public class PersonDataDomainAssembler {
         List<PhoneNumber> phoneNumbers = person.getPhoneNumbers();
 
         Address address = person.getAddress();
-        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber() );
         FamilyID familyID = person.getFamilyID();
 
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getFamilyID().toString());
 
-        PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, addressJPA, familyIDJPA);
+        PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
+
+        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA );
 
         List<EmailAddressJPA> emails = generateEmailAddressJPAList(person.getEmails(), personJPA);
 
         List<PhoneNumberJPA> phoneNumberJPAS = generetePhoneNumberJPAList(phoneNumbers, personJPA);
 
+        personJPA.setAddress(addressJPA);
         personJPA.setPhones(phoneNumberJPAS);
         personJPA.setEmails(emails);
 

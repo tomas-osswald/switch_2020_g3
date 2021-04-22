@@ -135,10 +135,10 @@ activate UI
 return request data
 systemManager -> UI : input Family data and Administrator data
 activate UI
-UI -> controller : createFamilyAndAdmin(createFamilyDTO,\n addPersonFormDTO)
+UI -> controller : createFamilyAndAdmin(inputFamilyDTO,\n inputPersonDTO)
 activate controller
 controller -> FamAdminService** : create(application)
-controller -> FamAdminService : createFamilyAndAddAdmin(createFamilyDTO,\n addPersonFormDTO)
+controller -> FamAdminService : createFamilyAndAddAdmin(inputFamilyDTO,\n inputPersonDTO)
 activate FamAdminService
 
 ref over FamAdminService
@@ -185,7 +185,7 @@ participant "newFamily \n: Family" as family
 participant "aPersonRepository \n: PersonRepository" as prepository
 participant "administrator : \nPerson" as admin
 
--> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, addPersonFormDTO)
+-> FamAdminService : createFamilyAndAddAdmin(\ncreateFamilyDTO, inputPersonDTO)
 activate FamAdminService
 
 FamAdminService -> app : getFamilyRepository()
@@ -248,7 +248,7 @@ end
 
 ## 3.1. Functionality Use
 
-The CreateFamilyController creates a new CreateFamilyService object using a createFamilyDTO, a addPersonFormDTO and the
+The CreateFamilyController creates a new CreateFamilyService object using a inputFamilyDTO, a inputPersonDTO and the
 application. 
 The CreateFamilyService will create all the necessary value objects to create the family and administrator.
 The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
@@ -396,9 +396,9 @@ null The whole user story was tested for the case of success and for failure
  void shouldBeTrueCreateFamily() {
         Application application = new Application();
         Create Family Controller controller = new Create Family Controller(application);
-        CreateFamilyDTO createFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+        CreateFamilyDTO inputFamilyDTO = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
         
-        assertTrue(controller.createFamilyAndAdmin(createFamilyDTO));    
+        assertTrue(controller.createFamilyAndAdmin(inputFamilyDTO));    
     }
 ````
 
@@ -411,9 +411,9 @@ null The whole user story was tested for the case of success and for failure
         Application application = new Application();
         Create Family Controller controller = new Create Family Controller(application);
         CreateFamilyDTO createFamilyDTO1 = new CreateFamilyDTO("tonyze@hotmail.com", "Silva", "Tony", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
-        CreateFamilyDTO createFamilyDTO2 = new CreateFamilyDTO("tonyze@hotmail.com", "Pereira", "Rita", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
+        CreateFamilyDTO inputFamilyDTO2 = new CreateFamilyDTO("tonyze@hotmail.com", "Pereira", "Rita", "12/12/1990", 999999999, 919999999, "Rua das Flores", "Porto", 69, "4400-000", "139861572ZW2");
         controller.createFamilyAndAdmin(createFamilyDTO1);
-        assertFalse(controller.createFamilyAndAdmin(createFamilyDTO2));    
+        assertFalse(controller.createFamilyAndAdmin(inputFamilyDTO2));    
     }
     }
 ````
@@ -425,15 +425,15 @@ null The whole user story was tested for the case of success and for failure
 
       public boolean createFamilyAndAddAdmin() {
       boolean result;
-      EmailAddress adminEmail = new EmailAddress(addPersonFormDTO.unpackEmail());
-      FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
-      Name name = new Name(addPersonFormDTO.unpackName());
-      BirthDate birthdate = new BirthDate(addPersonFormDTO.unpackBirthDate());
-      VATNumber vat = new VATNumber(addPersonFormDTO.unpackVAT());
-      PhoneNumber phone = new PhoneNumber(addPersonFormDTO.unpackPhone());
-      Address address = new Address(addPersonFormDTO.unpackStreet(), addPersonFormDTO.unpackCity(), addPersonFormDTO.unpackZipCode(), addPersonFormDTO.unpackHouseNumber());
-      CCnumber cc = new CCnumber(addPersonFormDTO.unpackCCNumber());
-      RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
+      EmailAddress adminEmail = new EmailAddress(inputPersonDTO.unpackEmail());
+      FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
+      Name name = new Name(inputPersonDTO.unpackName());
+      BirthDate birthdate = new BirthDate(inputPersonDTO.unpackBirthDate());
+      VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
+      PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
+      Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
+      CCnumber cc = new CCnumber(inputPersonDTO.unpackCCNumber());
+      RegistrationDate registrationDate = new RegistrationDate(inputFamilyDTO.unpackLocalDate());
 
 2. Family ID is automatically generated by the Family Repository (Information Expert)
 
