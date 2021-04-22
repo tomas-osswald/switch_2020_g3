@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.dto;
 
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
@@ -9,11 +8,11 @@ import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 
 public class FamilyDTODomainAssembler {
 
-    public Family toDomain(CreateFamilyDTO createFamilyDTO, FamilyID familyID, PersonID personID) {
+    public Family toDomain(InputFamilyDTO inputFamilyDTO, FamilyID familyID, PersonID personID) {
 
-        FamilyName familyName = new FamilyName(createFamilyDTO.unpackFamilyName());
+        FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
 
-        RegistrationDate registrationDate = new RegistrationDate(createFamilyDTO.unpackLocalDate());
+        RegistrationDate registrationDate = new RegistrationDate(inputFamilyDTO.unpackLocalDate());
 
         Family family = new Family(familyID, familyName, registrationDate, personID);
 

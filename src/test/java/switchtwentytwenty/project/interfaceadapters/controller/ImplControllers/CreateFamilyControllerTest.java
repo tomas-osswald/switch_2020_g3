@@ -9,8 +9,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.AddPersonFormDTO;
-import switchtwentytwenty.project.dto.CreateFamilyDTO;
+import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
@@ -24,10 +24,10 @@ class CreateFamilyControllerTest {
     ICreateFamilyService familyService;
 
     @Mock
-    CreateFamilyDTO createFamilyDTO;
+    InputFamilyDTO inputFamilyDTO;
 
     @Mock
-    AddPersonFormDTO addPersonFormDTO;
+    InputPersonDTO inputPersonDTO;
 
     @InjectMocks
     CreateFamilyController familyController;
@@ -38,9 +38,9 @@ class CreateFamilyControllerTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Valid data returns true")
     void createFamilyAndAdminTestValidDataReturnsTrue(){
-        Mockito.doNothing().when(familyService).createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO);
+        Mockito.doNothing().when(familyService).createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
 
-        boolean result = familyController.createFamilyAndAdmin(createFamilyDTO,addPersonFormDTO);
+        boolean result = familyController.createFamilyAndAdmin(inputFamilyDTO, inputPersonDTO);
 
         assertTrue(result);
     }
@@ -49,9 +49,9 @@ class CreateFamilyControllerTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Invalid name returns false")
     void createFamilyAndAdminTestInValidDataReturnsFalse(){
-        Mockito.doThrow(InvalidNameException.class).when(familyService).createFamilyAndAddAdmin(createFamilyDTO,addPersonFormDTO);
+        Mockito.doThrow(InvalidNameException.class).when(familyService).createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
 
-        boolean result = familyController.createFamilyAndAdmin(createFamilyDTO,addPersonFormDTO);
+        boolean result = familyController.createFamilyAndAdmin(inputFamilyDTO, inputPersonDTO);
 
         assertFalse(result);
     }
