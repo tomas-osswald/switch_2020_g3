@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -40,4 +41,16 @@ public class AddressJPA {
         this.person = personjpa;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddressJPA that = (AddressJPA) o;
+        return id == that.id && street.equals(that.street) && city.equals(that.city) && zipCode.equals(that.zipCode) && doorNumber.equals(that.doorNumber) && person.equals(that.person);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, street, city, zipCode, doorNumber, person);
+    }
 }
