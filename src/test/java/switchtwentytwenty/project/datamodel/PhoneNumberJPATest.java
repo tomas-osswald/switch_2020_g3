@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.datamodel;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
@@ -23,6 +24,7 @@ class PhoneNumberJPATest {
     PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
     @Test
+    @Tag("US010")
     void getIdTest() {
         Long expected = Long.valueOf(0);
 
@@ -34,6 +36,7 @@ class PhoneNumberJPATest {
     }
 
     @Test
+    @Tag("US010")
     void getPhoneNumberTest() {
         int expected = 963369963;
 
@@ -45,6 +48,7 @@ class PhoneNumberJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testEqualsSameObject() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         PhoneNumberJPA phoneNumberJPATwo = phoneNumberJPAOne;
@@ -53,6 +57,7 @@ class PhoneNumberJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testEqualsNotSameObject() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(phoneNumber, personJPA);
@@ -62,6 +67,7 @@ class PhoneNumberJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testEqualsDifferentTypeOfObject() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
 
@@ -69,6 +75,7 @@ class PhoneNumberJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testEqualsNotEqual() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;
@@ -79,6 +86,7 @@ class PhoneNumberJPATest {
 
 
     @Test
+    @Tag("US010")
     void testHashCodeEqualObjects() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(phoneNumber, personJPA);
@@ -88,6 +96,7 @@ class PhoneNumberJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testHashCodeDifferentObjects() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;

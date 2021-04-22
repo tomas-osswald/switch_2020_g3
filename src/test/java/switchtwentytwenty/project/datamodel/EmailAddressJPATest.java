@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.datamodel;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
@@ -24,6 +25,7 @@ class EmailAddressJPATest {
 
 
     @Test
+    @Tag("US010")
     void getEmail() {
         String expected = "email@email.com";
 
@@ -35,6 +37,7 @@ class EmailAddressJPATest {
     }
 
     @Test
+    @Tag("US010")
     void getId() {
         Long expected = Long.valueOf(0);
 
@@ -46,6 +49,7 @@ class EmailAddressJPATest {
     }
 
     @Test
+    @Tag("US010")
     void getPerson() {
         String id = "emaiil@email.com";
         PersonIDJPA personIDJPA = new PersonIDJPA(id);
@@ -63,6 +67,7 @@ class EmailAddressJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testEquals() {
         EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
 
@@ -70,6 +75,7 @@ class EmailAddressJPATest {
     }
 
     @Test
+    @Tag("US010")
     void testEqualsTwo() {
         EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
 
