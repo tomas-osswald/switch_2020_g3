@@ -19,16 +19,15 @@ public class CreateFamilyService implements ICreateFamilyService {
 
     private IPersonRepository personRepository;
     private IFamilyRepository familyRepository;
+    private PersonDTODomainAssembler personDTODomainAssembler;
+    private FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Autowired
-    PersonDTODomainAssembler personDTODomainAssembler;
-    @Autowired
-    FamilyDTODomainAssembler familyDTODomainAssembler;
-
-    @Autowired
-    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository) {
+    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository, PersonDTODomainAssembler personDTODomainAssembler, FamilyDTODomainAssembler familyDTODomainAssembler) {
         this.personRepository = personRepository;
         this.familyRepository = familyRepository;
+        this.personDTODomainAssembler = personDTODomainAssembler;
+        this.familyDTODomainAssembler = familyDTODomainAssembler;
     }
 
     /**
@@ -38,13 +37,13 @@ public class CreateFamilyService implements ICreateFamilyService {
      */
     public void createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         //TODO: adaptar testes para se remover isto
-        FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
+        /*FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
         Name name = new Name(inputPersonDTO.unpackName());
         BirthDate birthdate = new BirthDate(inputPersonDTO.unpackBirthDate());
         VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
         PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
         Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
-        RegistrationDate registrationDate = new RegistrationDate(inputFamilyDTO.unpackLocalDate());
+        RegistrationDate registrationDate = new RegistrationDate(inputFamilyDTO.unpackLocalDate());*/
 
         PersonID adminID = new PersonID(inputPersonDTO.unpackEmail());
         FamilyID familyID = familyRepository.generateID();

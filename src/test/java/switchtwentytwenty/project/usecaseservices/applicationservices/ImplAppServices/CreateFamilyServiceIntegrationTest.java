@@ -6,9 +6,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -23,6 +26,12 @@ class CreateFamilyServiceIntegrationTest {
     IFamilyRepository familyRepository;
     @Autowired
     IPersonRepository personRepository;
+    @Autowired
+    PersonDTODomainAssembler personDTODomainAssembler;
+    @Autowired
+    FamilyDTODomainAssembler familyDTODomainAssembler;
+
+
 
     final String VALIDNAME = "JessicaMicaela";
     final String VALIDEMAIL = "jessicaMicaela@latinlover.pt";
@@ -43,11 +52,23 @@ class CreateFamilyServiceIntegrationTest {
 
     @Test
     @Tag("US010")
-    void createFamilyAndAddAdmin() {
-        createFamilyService = new CreateFamilyService(personRepository,familyRepository);
+    void createFamilyAndAddAdminValidData() {
+        createFamilyService = new CreateFamilyService(personRepository,familyRepository,personDTODomainAssembler,familyDTODomainAssembler);
 
         assertDoesNotThrow(()->createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO,inputPersonDTO));
     }
+
+    @Test
+    @Tag("US010")
+    void createFamilyAndAddAdminInvalidNameThrowsException() {
+        createFamilyService = new CreateFamilyService(personRepository,familyRepository,personDTODomainAssembler,familyDTODomainAssembler);
+
+        InputPersonDTO invalidInputPersonDTO = new InputPersonDTO(null,VALIDEMAIL,"",VALIDBIRTHDATE,VALIDVATNUMBER,
+                VALIDPHONENUMBER,VALIDSTREET,VALIDCITY,VALIDADDRESSNUMBER,VALIDZIPCODE);
+
+        assertThrows(InvalidNameException.class,()->createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO,invalidInputPersonDTO));
+    }
+
 
 
 }
