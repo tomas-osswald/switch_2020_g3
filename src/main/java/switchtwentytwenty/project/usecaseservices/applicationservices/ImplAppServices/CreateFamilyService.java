@@ -31,9 +31,13 @@ public class CreateFamilyService implements ICreateFamilyService {
         this.familyRepository = familyRepository;
     }
 
-
+    /**
+     * Service method to create a Family and set its administrator
+     * @param inputFamilyDTO DTO that contains the Family's information
+     * @param inputPersonDTO DTO that contains the Family Administrator's information
+     */
     public void createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
-        //TODO: tirar esta jorda dos mocks e apagar
+        //TODO: adaptar testes para se remover isto
         FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
         Name name = new Name(inputPersonDTO.unpackName());
         BirthDate birthdate = new BirthDate(inputPersonDTO.unpackBirthDate());

@@ -152,7 +152,11 @@ FamAdminService -> newFamily**: build(familyID, \nfamilyName, registrationDate, 
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
-personRepository -> personRepository: personJPA\n = personAssembler.toData(admin)
+
+ref over personRepository
+personRepository -> personRepository: personJPA = personAssembler.toData(admin)
+end ref
+
 personRepository -> personJAPRepository: save(personJPA)
 activate personJAPRepository
 return
@@ -160,7 +164,11 @@ return
 
 FamAdminService -> familyRepository: add(newFamily)
 activate familyRepository
-familyRepository -> familyRepository : familyJPA\n = familyAssembler.toData(newFamily)
+
+ref over familyRepository
+familyRepository -> familyRepository : familyJPA = familyAssembler.toData(newFamily)
+end ref
+
 familyRepository -> familyJPARepository : save(familyJPA)
 activate familyJPARepository
 return
@@ -188,6 +196,36 @@ deactivate CreateFamService
 @enduml
 ````
 
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 FamilyAssembler Domain to Data
+
+participant ": familyDataDomainAssembler" as assembler
+participant "aFamily : Family" as Family
+participant "aFamilyIDJPA : FamilyIDJPA" as FamilyIDJPA
+participant "adminIDJPA : PersonIDJPA" as PersonIDJPA
+participant "aFamilyJPA : FamilyJPA" as FamilyJPA
+
+-> assembler : toData(Family)
+assembler -> Family : id()
+Family -> assembler : familyID
+assembler -> FamilyIDJPA** : create(familyID)
+assembler -> Family : getAdmin()
+Family -> assembler : PersonID
+assembler -> PersonIDJPA** : create(PersonID)
+assembler -> Family : getName()
+Family -> assembler : name
+assembler -> Family : getRegistrationDate()
+Family -> assembler : registrationDate
+assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJPA)
+<- assembler : FamilyJPA
+
+@enduml
+````
 
 
 
