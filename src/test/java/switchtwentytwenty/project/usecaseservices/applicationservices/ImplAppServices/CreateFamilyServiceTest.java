@@ -13,8 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
@@ -36,6 +38,12 @@ class CreateFamilyServiceTest {
     IPersonRepository personRepository;
 
     @Mock
+    PersonDTODomainAssembler personDTODomainAssembler;
+
+    @Mock
+    FamilyDTODomainAssembler familyDTODomainAssembler;
+
+    @Mock
     Person admin;
 
     @Mock
@@ -53,16 +61,6 @@ class CreateFamilyServiceTest {
     @BeforeEach
     void setup(){
         Mockito.when(inputPersonDTO.unpackEmail()).thenReturn("admin@email.com");
-        Mockito.when(inputPersonDTO.unpackName()).thenReturn("Admin");
-        Mockito.when(inputPersonDTO.unpackBirthDate()).thenReturn("01/03/2021");
-        Mockito.when(inputPersonDTO.unpackVAT()).thenReturn(999999999);
-        Mockito.when(inputPersonDTO.unpackPhone()).thenReturn(999999999);
-        Mockito.when(inputPersonDTO.unpackStreet()).thenReturn("Rua da Amargura");
-        Mockito.when(inputPersonDTO.unpackCity()).thenReturn("Porto");
-        Mockito.when(inputPersonDTO.unpackZipCode()).thenReturn("4405-586");
-        Mockito.when(inputPersonDTO.unpackHouseNumber()).thenReturn("14");
-        Mockito.when(inputFamilyDTO.unpackFamilyName()).thenReturn("Silva");
-
     }
 
     @Test
@@ -71,6 +69,9 @@ class CreateFamilyServiceTest {
     void createFamilyAndAddAdminTestValidData(){
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
+        Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
+        Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
+
         Mockito.doNothing().when(personRepository).add(admin);
         Mockito.doNothing().when(familyRepository).add(family);
 
@@ -81,9 +82,10 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Invalid person name, should throw exception")
     void createFamilyAndAddAdminTestInvalidName(){
-        Mockito.when(inputPersonDTO.unpackName()).thenReturn("");
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
+        Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenThrow(InvalidNameException.class);
+        Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
         Mockito.doNothing().when(personRepository).add(admin);
         Mockito.doNothing().when(familyRepository).add(family);
 
@@ -96,6 +98,8 @@ class CreateFamilyServiceTest {
     void createFamilyAndAddAdminTestPersonAlreadyRegistered(){
         FamilyID familyID = new FamilyID(UUID.randomUUID());
         Mockito.when(familyRepository.generateID()).thenReturn(familyID);
+        Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
+        Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
         Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).add(any());
         Mockito.doNothing().when(familyRepository).add(family);
 
