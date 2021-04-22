@@ -174,15 +174,31 @@ return
 
 autonumber
 header Sequence Diagram
-title US010 Unpack DTO to create PersonID
+title US010 Unpack DTO to create Person
 
-participant ": ICreateFamilyService" as CreateFamService
+participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
+participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
+participant "personID : PersonID" as personID
+participant "name : Name" as name
+participant "birthDate : BirthDate" as birthDate
+participant "vat : VATNumber" as vat
+participant "phone : PhoneNumber" as phoneNumber
+participant "address : Address" as address
+participant "admin : Person" as admin
 
-activate CreateFamService
-CreateFamService -> personID** : create(inputPersonDTO.unpackEmail())
-deactivate CreateFamService
+-> dtoToDomainAssembler : toDomain(inputPersonDTO, familyID)
+activate dtoToDomainAssembler
+dtoToDomainAssembler -> personID** : create(inputPersonDTO.unpackEmail())
+dtoToDomainAssembler -> name** : create(inputPersonDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(inputPersonDTO.unpackBirthDate())
+dtoToDomainAssembler -> vat** : create(inputPersonDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(inputPersonDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber())
+dtoToDomainAssembler -> admin** : create(name, birthDate, personID, vat, phone, address, familyID)
+<- dtoToDomainAssembler : admin
 
 @enduml
+
 ````
 
 
