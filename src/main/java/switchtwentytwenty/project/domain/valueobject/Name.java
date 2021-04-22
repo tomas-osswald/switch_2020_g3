@@ -34,8 +34,6 @@ public class Name implements ValueObject {
 
     @Override
     public String toString() {
-        return "Name{" +
-                "name='" + name + '\'' +
-                '}';
+        return this.name;
     }
 }
