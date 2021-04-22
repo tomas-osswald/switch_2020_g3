@@ -22,16 +22,16 @@ class DoorNumberTest {
         DoorNumber result = new DoorNumber(VALIDNUMBER);
         assertNotNull(result);
     }
-/*
+
     @ParameterizedTest
     @Tag("US010")
     @ValueSource(strings = {"  "})
     @NullAndEmptySource
     @DisplayName("Test if a DoorNumber Object throws an error if the String is empty, blank or null")
     void constructorTestInValidData(String value){
-        assertThrows(InvalidCityException.class, () -> new City(value));
+        assertThrows(InvalidAddressNumberException.class, () -> new DoorNumber(value));
     }
-*/
+
 
     @Test
     @Tag("US010")
@@ -80,12 +80,7 @@ class DoorNumberTest {
         assertNotSame(doorNumberOne,doorNumberTwo);
     }
 
-    @ParameterizedTest
-    @NullAndEmptySource
-    @Tag("US010")
-    void doorNumberTest_NullBlankEmpty(String value) {
-        assertThrows(InvalidAddressNumberException.class, ()->  new DoorNumber(value));
-    }
+
 
     @Test
     @Tag("US010")
