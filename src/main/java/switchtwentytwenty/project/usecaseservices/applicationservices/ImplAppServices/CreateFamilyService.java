@@ -15,8 +15,8 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class CreateFamilyService implements ICreateFamilyService {
 
-    IPersonRepository personRepository;
-    IFamilyRepository familyRepository;
+    private IPersonRepository personRepository;
+    private IFamilyRepository familyRepository;
 
     @Autowired
     public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository){
