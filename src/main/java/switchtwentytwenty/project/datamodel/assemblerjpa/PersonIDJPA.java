@@ -31,4 +31,9 @@ public class PersonIDJPA implements Serializable {
     public int hashCode() {
         return Objects.hash(personID);
     }
+
+    @Override
+    public String toString() {
+        return this.personID;
+    }
 }

@@ -36,4 +36,9 @@ public class FamilyIDJPA implements Serializable {
     public int hashCode() {
         return Objects.hash(familyID);
     }
+
+    @Override
+    public String toString() {
+        return this.familyID;
+    }
 }

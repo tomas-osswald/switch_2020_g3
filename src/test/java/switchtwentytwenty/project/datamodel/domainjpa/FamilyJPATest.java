@@ -47,7 +47,7 @@ class FamilyJPATest {
     @Test
     @Tag("US010")
     void getAdminEmailTest() {
-        String expected = "PersonIDJPA(personID=email@email.com)";
+        String expected = "email@email.com";
         FamilyJPA familyJPA = new FamilyJPA(familyID,familyName,registrationDate,adminID);
 
         String result = familyJPA.getAdminID().toString();
