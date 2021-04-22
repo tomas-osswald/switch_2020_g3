@@ -177,10 +177,19 @@ header Sequence Diagram
 title US010 FamilyAssembler DTO to Domain
 
 participant ": ICreateFamilyService" as CreateFamService
-
+participant ": FamilyDTODomainAssembler" as assembler
+participant "aFamilyName : FamilyName" as familyName
+participant "aRegistrationDate : RegistrationDate" as regDate
+participant "aFamily : Family" as family
 
 activate CreateFamService
-CreateFamService -> personID** : create(inputPersonDTO.unpackEmail())
+CreateFamService -> assembler : toDomain(inputFamilyDTO, familyID, adminID)
+activate assembler
+assembler -> familyName** : create(inputFamilyDTO.unpackFamilyName())
+assembler -> regDate** : create(inputFamilyDTO.unpackLocalDate())
+assembler -> family** : create(familyID, familyName, regDate, adminID)
+assembler -> CreateFamService : aFamily
+deactivate assembler
 deactivate CreateFamService
 
 @enduml
@@ -194,13 +203,15 @@ autonumber
 header Sequence Diagram
 title US010 FamilyAssembler Domain to Data
 
+participant ": IPersonRepository" as personRepo
 participant ": familyDataDomainAssembler" as assembler
 participant "aFamily : Family" as Family
 participant "aFamilyIDJPA : FamilyIDJPA" as FamilyIDJPA
 participant "adminIDJPA : PersonIDJPA" as PersonIDJPA
 participant "aFamilyJPA : FamilyJPA" as FamilyJPA
 
--> assembler : toData(Family)
+activate personRepo
+personRepo -> assembler : toData(Family)
 activate assembler
 assembler -> Family : id()
 activate Family 
@@ -221,8 +232,9 @@ activate Family
 Family -> assembler : registrationDate
 deactivate Family 
 assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJPA)
-<- assembler : FamilyJPA
+assembler -> personRepo : FamilyJPA
 deactivate assembler
+deactivate personRepo
 
 @enduml
 ````
