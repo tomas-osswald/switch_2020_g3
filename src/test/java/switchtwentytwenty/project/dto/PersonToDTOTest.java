@@ -29,8 +29,8 @@ class PersonToDTOTest {
     String street = "Rua da amargura";
     String city = "Amadora";
     String zipCode = "4444-111";
-    int number = 47;
-    Address address = new Address(street, city, zipCode, number);
+    String doorNumber = "47";
+    Address address = new Address(street, city, zipCode, doorNumber);
 
 
     @Mock

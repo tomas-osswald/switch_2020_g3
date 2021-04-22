@@ -9,7 +9,7 @@ public class Address implements ValueObject {
     private ZipCode zipCode;
     private DoorNumber doorNumber;
 
-    public Address(String street, String city, String zipCode, int doorNumber) {
+    public Address(String street, String city, String zipCode, String doorNumber) {
         this.street = new Street(street);
         this.city = new City(city);
         this.zipCode = new ZipCode(zipCode);
@@ -36,7 +36,7 @@ public class Address implements ValueObject {
                 "street=" + street.toString() +
                 ", city=" + city.toString() +
                 ", zipCode=" + zipCode.toString() +
-                ", number=" + doorNumber +
+                ", number=" + doorNumber.toString() +
                 '}';
     }
 
@@ -52,7 +52,7 @@ public class Address implements ValueObject {
         return this.zipCode.toString();
     }
 
-    public int getDoorNumber() {
-        return this.doorNumber.toInt();
+    public String getDoorNumber() {
+        return this.doorNumber.toString();
     }
 }
