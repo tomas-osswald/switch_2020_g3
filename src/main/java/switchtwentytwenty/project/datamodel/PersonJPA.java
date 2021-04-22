@@ -1,20 +1,17 @@
 package switchtwentytwenty.project.datamodel;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
-
 @Entity
 @Table(name = "persons")
 public class PersonJPA {
@@ -37,7 +34,7 @@ public class PersonJPA {
     private int vat;
 
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressJPA address;
 
     @Getter
@@ -61,5 +58,18 @@ public class PersonJPA {
         return "PersonJPA{" +
                 "id=" + id +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonJPA personJPA = (PersonJPA) o;
+        return vat == personJPA.vat && id.equals(personJPA.id) && name.equals(personJPA.name) && birthdate.equals(personJPA.birthdate) && familyid.equals(personJPA.familyid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, birthdate, emails, phones, vat, address, familyid);
     }
 }

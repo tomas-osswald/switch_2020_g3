@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.datamodel;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-
 @Entity
 @Table(name = "emailAddresses")
 public class EmailAddressJPA {
