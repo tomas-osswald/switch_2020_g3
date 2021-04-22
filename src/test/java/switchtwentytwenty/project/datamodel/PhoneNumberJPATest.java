@@ -12,7 +12,7 @@ class PhoneNumberJPATest {
 
     int phoneNumber = 963369963;
 
-    String id = "emaiil@email.com";
+    String id = "email@email.com";
     PersonIDJPA personIDJPA = new PersonIDJPA(id);
 
     String name = "TonyZe";
