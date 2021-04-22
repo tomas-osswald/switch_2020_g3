@@ -24,5 +24,12 @@
       <jdbc-url>jdbc:h2:mem:testdb2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="class_diag_g3_08_04 [3]" uuid="fdb578fc-8c6d-454d-acf7-edd43d1ef266">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\manel\Repo\switch_2020_g3\docs\sprint4\Domain Model DDD_vpp\class_diag_g3_08_04.vpp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
