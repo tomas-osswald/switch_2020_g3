@@ -38,8 +38,9 @@ public class FamilyRepository implements IFamilyRepository {
         this.families.add(family);
     }
 
-    /**
+    /**Method to generate a FamilyID domain object.
      * @return familyID
+     * This method uses a recursive call to generate a unique ID after checking if it's not already registered.
      */
     public FamilyID generateID() {
         //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
@@ -51,12 +52,24 @@ public class FamilyRepository implements IFamilyRepository {
         return familyID;
     }
 
+    /**
+     * Method to add a Family domain object to the repository.
+     * The Family domain object will be converted into a FamilyJPA data object and saved in the repository.
+     *
+     * @param family domain object we want to add to the family repository
+     */
     @Override
     public void add(Family family) {
         FamilyJPA familyJPA = familyAssembler.toData(family);
         familyRepositoryJPA.save(familyJPA);
     }
 
+    /**
+     * Method to check if there is already a Family in the database with a specific FamilyID. Used to ensure
+     * that the familyID is unique, despite being randomly generated.
+     * @param familyID domain object that we want to check the existence of
+     * @return true if the FamilyID is already associated with a family.
+     */
     private boolean checkIfIDExists(FamilyID familyID){
         boolean result = false;
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
@@ -74,6 +87,11 @@ public class FamilyRepository implements IFamilyRepository {
         }
     }
 
+    /**
+     * Method to retrieve a Family domain object by presenting a FamilyID
+     * @param familyID domain object of the Family we want to obtain
+     * @return Family domain object
+     */
     public Family getByID(FamilyID familyID) {
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
         Optional<FamilyJPA> familyJPA = familyRepositoryJPA.findById(familyIDJPA);

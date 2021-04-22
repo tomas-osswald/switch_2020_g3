@@ -40,10 +40,12 @@ public class PersonRepository implements IPersonRepository {
     }
 
     /**
+     * Method to check if a PersonID is already registered in the database
      * Optional says yes or no when you ask something. In this case it says if there is something in the personRepositoryJPA.
      * After you can obtain that something with optional.get().
-     * @param personID
-     * @return
+     *
+     * @param personID PersonID to check if it's already present in the database
+     * @return true if there is already a person registered with that PersonID
      */
     @Override
     public boolean isPersonIDAlreadyRegistered(PersonID personID) {
@@ -100,7 +102,11 @@ public class PersonRepository implements IPersonRepository {
         return person.getFamilyID();
     }
 
-
+    /**
+     * Method to add the inputted Person domain object into the repository.
+     * The Person domain object will be converted into a PersonJPA data object and sent to the repository.
+     * @param person domain object we want to add to the person repository
+     */
     @Override
     public void add(Person person) {
         if (!isPersonIDAlreadyRegistered(person.id())) {
