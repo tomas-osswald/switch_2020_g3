@@ -176,7 +176,31 @@ return
 
 autonumber
 header Sequence Diagram
-title US010 Unpack DTO to create Person
+title US010 FamilyDTODomainAssembler 
+
+participant ": ICreateFamilyService" as CreateFamService
+participant ": FamilyDTODomainAssembler" as assembler
+participant "aFamilyName : FamilyName" as familyName
+participant "aRegistrationDate : RegistrationDate" as regDate
+participant "aFamily : Family" as family
+
+activate CreateFamService
+CreateFamService -> assembler : toDomain(inputFamilyDTO, familyID, adminID)
+activate assembler
+assembler -> familyName** : create(inputFamilyDTO.unpackFamilyName())
+assembler -> regDate** : create(inputFamilyDTO.unpackLocalDate())
+assembler -> family** : create(familyID, familyName, regDate, adminID)
+assembler -> CreateFamService : aFamily
+deactivate assembler
+deactivate CreateFamService
+
+@enduml
+````
+
+
+````puml
+@startuml
+title US010 PersonDTODomainAssembler
 
 participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
 participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
@@ -200,7 +224,6 @@ dtoToDomainAssembler -> admin** : create(name, birthDate, personID, vat, phone, 
 <- dtoToDomainAssembler : admin
 
 @enduml
-
 ````
 
 
@@ -209,27 +232,40 @@ dtoToDomainAssembler -> admin** : create(name, birthDate, personID, vat, phone, 
 
 autonumber
 header Sequence Diagram
-title US010 FamilyAssembler Domain to Data
+title US010 FamilyDataDomainAssembler 
 
+participant ": IPersonRepository" as personRepo
 participant ": familyDataDomainAssembler" as assembler
 participant "aFamily : Family" as Family
 participant "aFamilyIDJPA : FamilyIDJPA" as FamilyIDJPA
 participant "adminIDJPA : PersonIDJPA" as PersonIDJPA
 participant "aFamilyJPA : FamilyJPA" as FamilyJPA
 
--> assembler : toData(Family)
+activate personRepo
+personRepo -> assembler : toData(Family)
+activate assembler
 assembler -> Family : id()
+activate Family 
 Family -> assembler : familyID
+deactivate Family 
 assembler -> FamilyIDJPA** : create(familyID)
 assembler -> Family : getAdmin()
+activate Family 
 Family -> assembler : PersonID
+deactivate Family 
 assembler -> PersonIDJPA** : create(PersonID)
 assembler -> Family : getName()
+activate Family 
 Family -> assembler : name
+deactivate Family 
 assembler -> Family : getRegistrationDate()
+activate Family 
 Family -> assembler : registrationDate
+deactivate Family 
 assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJPA)
-<- assembler : FamilyJPA
+assembler -> personRepo : FamilyJPA
+deactivate assembler
+deactivate personRepo
 
 @enduml
 ````
@@ -239,7 +275,7 @@ assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJP
 
 autonumber
 header Sequence Diagram
-title US010 PersonToDataAssembler
+title US010 PersonDataDomainAssembler
 
 participant ": IPersonRepository" as personRepository
 participant "personAssembler : PersonDataDomainAssembler" as assembler
@@ -262,26 +298,40 @@ activate assembler
 assembler -> admin : id()
 activate admin
 admin --> assembler : adminID
+deactivate admin
 assembler -> personIDJPA** :  create(adminID.toString())
 
 assembler -> admin : getName().toString()
+activate admin
 admin --> assembler : name
+deactivate admin
 
 assembler -> admin : getBirthDate().toString()
+activate admin
 admin --> assembler : birthDate
+deactivate admin
 
 assembler -> admin : getVat().toInt()
+activate admin
 admin --> assembler : vat
+deactivate admin
 
 assembler -> admin : getPhoneNumbers()
+activate admin
 admin --> assembler : phoneNumbers
+deactivate admin
+
 
 assembler -> admin : getAddress()
+activate admin
 admin --> assembler : address
+deactivate admin
 
 assembler -> admin : getFamilyID()
+activate admin
 admin --> assembler : familyID
 deactivate admin
+
 assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
 
 assembler -> adminJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
@@ -308,7 +358,8 @@ assembler -> adminJPA : setEmails(emailsJPA)
 activate adminJPA
 adminJPA --> assembler
 deactivate adminJPA
-
+assembler -> personRepository : aPersonJPA
+deactivate assembler
 <- personRepository
 
 @enduml
