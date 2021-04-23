@@ -125,18 +125,18 @@ note left: especificar nome da instância no participant?
 -> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
 activate FamAdminService
 
-FamAdminService -> adminID ** : create\n(inputPersonDTO.unpackEmail()
+FamAdminService -> adminID ** : create\n(inputPersonDTO.unpackEmail())
 
 FamAdminService -> familyRepository : generateID()
 activate familyRepository
 return familyID
 
 ref over FamAdminService
-admin = personDTODomainAssembler.toDomain
+admin = personDTODomainAssembler.toDomain(inputPersonDTO,familyID)
 end ref
 
 ref over FamAdminService
-family = familyDTODomainAssembler.toDomain
+family = familyDTODomainAssembler.toDomain(inputFamilyDTO,familyID,adminID)
 end ref
 
 FamAdminService -> personRepository: add(admin)
@@ -165,28 +165,9 @@ return
 return
 
 return
- 
 
 @enduml
 ````
-
-
-````puml
-@startuml
-
-autonumber
-header Sequence Diagram
-title US010 Unpack DTO to create PersonID
-
-participant ": ICreateFamilyService" as CreateFamService
-
-activate CreateFamService
-CreateFamService -> personID** : create(inputPersonDTO.unpackEmail())
-deactivate CreateFamService
-
-@enduml
-````
-
 
 ````puml
 @startuml
