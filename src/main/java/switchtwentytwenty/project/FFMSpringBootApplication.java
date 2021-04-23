@@ -26,7 +26,7 @@ FFMSpringBootApplication {
             InputPersonDTO inputPersonDTO2 = new InputPersonDTO("fuzileiro_gostoso@gmail.com", "fuzileiro_gostoso@gmail.com", "Ricardo", "20/4/1989", 888888888, 911111111, "Rua da Amargura", "Porto", "420", "4321-321");
             InputFamilyDTO inputFamilyDTO2 = new InputFamilyDTO("Batista", null);
             InputFamilyDTO inputFamilyDTO3 = new InputFamilyDTO("Baggins", "3/1/1892");
-            InputPersonDTO inputPersonDTO3 = new InputPersonDTO("samslittlestud@wraithmail.me", "samslittlestud@wraithmail.me", "Frodo", "29/6/1954", 123456789, 922222222, "Bag End", "Shire", "333", "4321-321");
+            InputPersonDTO inputPersonDTO3 = new InputPersonDTO("samslittlestud@wraithmail.me", "samslittlestud@wraithmail.me", "Frodo", "29/6/1954", 123456789, null, "Bag End", "Shire", "333", "4321-321");
 
             //InputPersonDTO inputPersonDTOduplicate = new InputPersonDTO("fuzileiro_gostoso@gmail.com", "fuzileiro_gostoso@gmail.com", "Ricardo", "20/4/1989", 888888888, 911111111, "Rua da Amargura", "Porto", "420", "4321-321");
             //createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTOduplicate);
