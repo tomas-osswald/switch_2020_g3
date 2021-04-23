@@ -47,10 +47,14 @@ public class FamilyRepository implements IFamilyRepository {
     public FamilyID generateID() {
         //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
         //FamilyID familyID = familyIDGenerator.generateID();
-        FamilyID familyID = new FamilyID(UUID.randomUUID());
-        if (checkIfIDExists(familyID)) {
-            familyID = generateID();
-        }
+        FamilyID familyID;
+
+        do {
+            familyID = new FamilyID(UUID.randomUUID());
+
+
+        } while (checkIfIDExists(familyID));
+
         return familyID;
     }
 
