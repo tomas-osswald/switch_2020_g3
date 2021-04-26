@@ -223,19 +223,19 @@
                         <param>lapr.project.utils.*</param>
                     </inScopeClasses>-->
                     <targetClasses>
-                        <param>switchtwentytwenty.project.domain.model.*</param>
-                        <param>switchtwentytwenty.project.controllers.*</param>
-                        <param>switchtwentytwenty.project.domain.services.*</param>
-                        <param>switchtwentytwenty.project.domain.utils.*</param>
                         <param>switchtwentytwenty.project.domain.*</param>
+                        <param>switchtwentytwenty.project.datamodel.*</param>
+                        <param>switchtwentytwenty.project.dto.*</param>
+                        <param>switchtwentytwenty.project.interfaceadapters.*</param>
+                        <param>switchtwentytwenty.project.usecaseservices.*</param>
                     </targetClasses>
-                    <targetTests>
+                    <!--<targetTests>
                         <param>switchtwentytwenty.project.domain.model.*</param>
                         <param>switchtwentytwenty.project.controllers.*</param>
                         <param>switchtwentytwenty.project.domain.services.*</param>
                         <param>switchtwentytwenty.project.domain.utils.*</param>
                         <param>switchtwentytwenty.project.domain.*</param>
-                    </targetTests>
+                    </targetTests>-->
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
                         <outputFormat>HTML</outputFormat>
