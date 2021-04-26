@@ -105,6 +105,133 @@ prompt the input of the name for that family as well as the administrator email,
 Given the current absence of a UI layer the required data will be passed directly into the CreateFamilyController.
 
 
+## 3.1. Class Diagram
+
+### 3.1.1. Previous Iterations
+
+```puml
+@startuml
+
+title US010 Create a Family and set the Family administrator
+
+skinparam linetype polyline
+hide empty members
+
+class CreateFamilyController {
+  + createFamilyAndAdmin()
+}
+
+class Application {
+  + getPersonRepository()
++ getFamilyRepository()
+}
+
+class CreateFamilyService {
++ createFamilyAndAddAdmin()
+}
+
+class CreateFamilyDTO {
+}
+
+class AddPersonDTO {
+}
+
+class FamilyID <<ValueObject>> <<ID>> {
+}
+
+class Email <<ValueObject>> <<ID>> {
+}
+
+class FamilyRepository <<Repository>> {
++ generateAndGetFamilyID()
++ createAndAddFamily()
++ removeFamily()
+}
+
+class PersonRepository <<Repository>> {
++ createAndAddPerson()
+
+}
+
+class Person <<Entity>> <<Root>> {
+}
+
+class Address <<ValueObject>> {
+}
+
+class BirthDate <<ValueObject>> {
+}
+
+class PhoneNumber <<ValueObject>> {
+}
+
+class Name <<ValueObject>> {
+}
+
+class VATNumber <<ValueObject>> {
+}
+
+class Family <<Entity>> <<Root>> {
+}
+
+class RegistrationDate <<ValueObject>> {
+}
+
+
+CreateFamilyController -d-> Application : application
+CreateFamilyController .r> CreateFamilyDTO
+CreateFamilyController .r> AddPersonDTO
+CreateFamilyController -d---.> CreateFamilyService
+
+CreateFamilyService -u-> Application : application
+CreateFamilyService .u> CreateFamilyDTO
+CreateFamilyService .u> AddPersonDTO
+CreateFamilyService --.l--> FamilyRepository
+CreateFamilyService .r> PersonRepository
+CreateFamilyService -d-.> FamilyID
+CreateFamilyService -down-.> Email
+CreateFamilyService -down-.> Address
+CreateFamilyService -d-.> BirthDate
+CreateFamilyService -d-.> PhoneNumber
+CreateFamilyService -d-.> Name
+CreateFamilyService -d-.> VATNumber
+CreateFamilyService -d-.> RegistrationDate
+
+FamilyRepository *--l-- "0..*" Family
+PersonRepository *--d--- "0..*" Person
+
+Family -down-> "1" Email : admin
+Family -down-> "1" RegistrationDate : registrationDate
+Family -down-> "1" FamilyID : id
+
+Person -u--> "1" FamilyID : family
+Person -u--> "1" Email : id
+Person -u--> "1" Address : address
+Person -u--> "1" BirthDate : birthDate
+Person -up--> "0..1" PhoneNumber : phoneNumber
+Person -up--> "1" Name : name
+Person -up--> "1" VATNumber : vatNumber
+@enduml
+```
+
+### 3.1.2. Onion Layer Class Diagram
+
+![img_2.png](img_2.png)
+
+
+## 3.2. Functionality Use
+
+The CreateFamilyController creates a new CreateFamilyService object using a inputFamilyDTO, a inputPersonDTO and the
+application.
+The CreateFamilyService will create all the necessary value objects to create the family and administrator.
+The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
+The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
+The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
+providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
+The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
+of creating the Family and administrator.
+
+
 ````puml
 @startuml
 
@@ -365,127 +492,6 @@ deactivate personRepo
 @enduml
 ````
 
-
-
-## 3.1. Functionality Use
-
-The CreateFamilyController creates a new CreateFamilyService object using a inputFamilyDTO, a inputPersonDTO and the
-application. 
-The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family. 
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator, 
-providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
-The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
-of creating the Family and administrator.
-
-
-## 3.2. Class Diagram
-
-```puml
-@startuml
-
-title US010 Create a Family and set the Family administrator
-
-skinparam linetype polyline
-hide empty members
-
-class CreateFamilyController {
-  + createFamilyAndAdmin()
-}
-
-class Application {
-  + getPersonRepository()
-+ getFamilyRepository()
-}
-
-class CreateFamilyService {
-+ createFamilyAndAddAdmin()
-}
-
-class CreateFamilyDTO {
-}
-
-class AddPersonDTO {
-}
-
-class FamilyID <<ValueObject>> <<ID>> {
-}
-
-class Email <<ValueObject>> <<ID>> {
-}
-
-class FamilyRepository <<Repository>> {
-+ generateAndGetFamilyID()
-+ createAndAddFamily()
-+ removeFamily()
-}
-
-class PersonRepository <<Repository>> {
-+ createAndAddPerson()
-
-}
-
-class Person <<Entity>> <<Root>> {
-}
-
-class Address <<ValueObject>> {
-}
-
-class BirthDate <<ValueObject>> {
-}
-
-class PhoneNumber <<ValueObject>> {
-}
-
-class Name <<ValueObject>> {
-}
-
-class VATNumber <<ValueObject>> {
-}
-
-class Family <<Entity>> <<Root>> {
-}
-
-class RegistrationDate <<ValueObject>> {
-}
-
-
-CreateFamilyController -d-> Application : application
-CreateFamilyController .r> CreateFamilyDTO
-CreateFamilyController .r> AddPersonDTO
-CreateFamilyController -d---.> CreateFamilyService
-
-CreateFamilyService -u-> Application : application
-CreateFamilyService .u> CreateFamilyDTO
-CreateFamilyService .u> AddPersonDTO
-CreateFamilyService --.l--> FamilyRepository
-CreateFamilyService .r> PersonRepository
-CreateFamilyService -d-.> FamilyID
-CreateFamilyService -down-.> Email
-CreateFamilyService -down-.> Address
-CreateFamilyService -d-.> BirthDate
-CreateFamilyService -d-.> PhoneNumber
-CreateFamilyService -d-.> Name
-CreateFamilyService -d-.> VATNumber
-CreateFamilyService -d-.> RegistrationDate
-
-FamilyRepository *--l-- "0..*" Family
-PersonRepository *--d--- "0..*" Person
-
-Family -down-> "1" Email : admin
-Family -down-> "1" RegistrationDate : registrationDate
-Family -down-> "1" FamilyID : id
-
-Person -u--> "1" FamilyID : family
-Person -u--> "1" Email : id
-Person -u--> "1" Address : address
-Person -u--> "1" BirthDate : birthDate
-Person -up--> "0..1" PhoneNumber : phoneNumber
-Person -up--> "1" Name : name
-Person -up--> "1" VATNumber : vatNumber
-@enduml
-```
 
 ## 3.3. Applied Patterns
 
