@@ -494,7 +494,8 @@ Ponto de situação:
 1. os atributos de FamilyJPa podem/devem ser **@Embeddable** ?
 
 2. Assumindo que o PersonJPA tem o AddressJPA  
-   (PersonJPA , AddressJPA ) é necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
+   (PersonJPA , AddressJPA ) é 
+   necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
 
 # Sprint 5
 

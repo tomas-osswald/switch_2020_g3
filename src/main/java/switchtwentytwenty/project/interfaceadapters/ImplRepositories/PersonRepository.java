@@ -19,16 +19,21 @@ import java.util.*;
 @Repository
 public class PersonRepository implements IPersonRepository {
 
-    private final List<Person> people;
+    private final List<Person> people = new ArrayList<>();
     private Map<PersonID, Person> peopleMap = new HashMap();
 
-    @Autowired
     private IPersonRepositoryJPA personRepositoryJPA;
-    @Autowired
+
     private PersonDataDomainAssembler personAssembler;
 
+    @Autowired
+    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) {
+        this.personRepositoryJPA = iPersonRepositoryJPA;
+        this.personAssembler = personDataDomainAssembler;
+    }
+
+
     public PersonRepository() {
-        this.people = new ArrayList<>();
     }
 
     @Deprecated

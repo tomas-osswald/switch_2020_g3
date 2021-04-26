@@ -16,7 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="project" target="1.8" />
+      <module name="project" target="11" />
       <module name="switch_2020_g3" target="11" />
     </bytecodeTargetLevel>
   </component>
