@@ -532,3 +532,15 @@ Hipóteses em discussão:
 1. Family tem list<PersonID> members e PersonID admin
 2. Person tem FamilyID familyID e boolean isAdmin
 3. Person tem subtipo Admin
+
+
+** Grupo Timmy**
+
+US101 - On hold até decisão de como fica o familyID
+
+Validação de Admin está definida como sendo implícita na App. (Cagamos para validar o admin!)
+
+
+
+## Perguntar Pro. Nuno Silva se o Class Diagram tem os métodos dentro das Classes.
+
