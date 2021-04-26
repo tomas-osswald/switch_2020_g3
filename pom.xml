@@ -213,8 +213,6 @@
                         <version>2.8.6</version>
                     </dependency>
 
-
-
                 </dependencies>
                 <configuration>
                     <!--<timestampedReports>false</timestampedReports>-->
@@ -228,14 +226,17 @@
                         <param>switchtwentytwenty.project.dto.*</param>
                         <param>switchtwentytwenty.project.interfaceadapters.*</param>
                         <param>switchtwentytwenty.project.usecaseservices.*</param>
+                        <param>switchtwentytwenty.project.util.*</param>
                     </targetClasses>
-                    <!--<targetTests>
-                        <param>switchtwentytwenty.project.domain.model.*</param>
-                        <param>switchtwentytwenty.project.controllers.*</param>
-                        <param>switchtwentytwenty.project.domain.services.*</param>
-                        <param>switchtwentytwenty.project.domain.utils.*</param>
+                    <targetTests>
                         <param>switchtwentytwenty.project.domain.*</param>
-                    </targetTests>-->
+                        <param>switchtwentytwenty.project.datamodel.*</param>
+                        <param>switchtwentytwenty.project.dto.*</param>
+                        <param>switchtwentytwenty.project.interfaceadapters.*</param>
+                        <param>switchtwentytwenty.project.usecaseservices.*</param>
+                        <param>switchtwentytwenty.project.util.*</param>
+
+                    </targetTests>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
                         <outputFormat>HTML</outputFormat>
