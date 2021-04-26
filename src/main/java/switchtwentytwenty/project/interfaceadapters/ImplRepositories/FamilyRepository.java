@@ -19,17 +19,23 @@ import java.util.*;
 @Repository
 public class FamilyRepository implements IFamilyRepository {
 
-    private final List<Family> families;
+    private final List<Family> families = new ArrayList<>();
     private Map<FamilyID, Family> familyMap = new HashMap<>();
-    @Autowired
+
+
     private IFamilyRepositoryJPA familyRepositoryJPA;
-    @Autowired
+
     private FamilyDataDomainAssembler familyAssembler;
 
     //private final Families families = new Families();
+    @Autowired
+    public FamilyRepository (IFamilyRepositoryJPA iFamilyRepositoryJPA, FamilyDataDomainAssembler familyDataDomainAssembler) {
+        this.familyRepositoryJPA = iFamilyRepositoryJPA;
+        this.familyAssembler = familyDataDomainAssembler;
+    }
 
     public FamilyRepository() {
-        this.families = new ArrayList<>();
+
     }
 
     @Deprecated

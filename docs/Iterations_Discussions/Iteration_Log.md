@@ -494,7 +494,8 @@ Ponto de situação:
 1. os atributos de FamilyJPa podem/devem ser **@Embeddable** ?
 
 2. Assumindo que o PersonJPA tem o AddressJPA  
-   (PersonJPA , AddressJPA ) é necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
+   (PersonJPA , AddressJPA ) é 
+   necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
 
 # Sprint 5
 
@@ -511,5 +512,39 @@ Grupo Cartman - SD
 - US171 As a family member, I want to add a bank account I have.
 - US172 As a family member, I want to add a bank savings account I have.
 - US173 As a family member, I want to add a credit card account I have.
+<<<<<<< HEAD
 - US001 As a system manager, I want to create a standard category.
 
+---
+
+Aula LABPROJ 26/04/2021
+
+ 1. Prof. Bettencourt referiu que em DDD os Value Objects que apenas têm uma propriedade/atributo podem não ser representados por forma a minimizar a complexidade do Diagrama (Isto no Modelo de Domínio)
+
+2. Diagrama de Classes - Supostamente não deve conter os Packages.
+
+3. Bidirecionalidade entre Family e Person deve ser removida:
+
+    3.1. Supostamente cria-nos o problema do tipo "espiral infinita de falos".
+
+
+Hipóteses em discussão:
+
+1. Family tem list<PersonID> members e PersonID admin
+2. Person tem FamilyID familyID e boolean isAdmin
+3. Person tem subtipo Admin
+
+
+** Grupo Timmy**
+
+US101 - On hold até decisão de como fica o familyID
+
+Validação de Admin está definida como sendo implícita na App. (Cagamos para validar o admin!)
+
+
+
+## Perguntar Pro. Nuno Silva se o Class Diagram tem os métodos dentro das Classes.
+
+=======
+- US001 As a system manager, I want to create a standard category.
+>>>>>>> a56bbbee7d200239aa3eee98d02553f9d08dfbb4

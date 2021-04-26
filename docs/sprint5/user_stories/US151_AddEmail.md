@@ -187,9 +187,7 @@ Onion Architecture
 -----------------------------
 
 
-
 ![img.png](../diagrams/CD_US151_AddEmail.png)
-
 
 ## 3.3. Functionality Use
 
@@ -213,12 +211,12 @@ autonumber
 header Sequence Diagram
 title US151 Add Email
 
-
-participant ": AddEmailService" as service
+participant "IAddEmailService" as service <<interface>>
 participant "aPersonID : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
-participant "aPersonRepository\n: PersonRepository" as prepository
 participant "aPerson\n : Person" as person
+participant "IPersonRepository" as personRepository <<interface>>
+participant "IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> service : addEmail(addEmailDTO)
 activate service
@@ -226,17 +224,16 @@ activate service
 service -> service : loggedUserID = addEmailDTO.unpackUserID()
 service -> personid** : create(loggedUserID)
 
-service -> prepository : getByID(aPersonID)
-activate prepository
-return aPerson
-
 service -> service : emailString = addEmailDTO.unpackEmail()
 service -> email** : create(emailString)
-activate email
-email -> email : validate data
+
+
+service -> personRepository : getByID(aPersonID)
+deactivate email
+activate personRepository
+return aPerson
 
 service -> person: addEmail(newEmail)
-deactivate email
 activate person
 person -> person: isEmailAlreadyRegistered(newEmail)
 
@@ -247,16 +244,22 @@ person --> service: true
 
 else Email already registered
 
-person -> service: false
+person --> service: false
 deactivate person
 
 end
 
-service -> prepository : save(aPerson)
-activate prepository
-return
+service -> personRepository : update(aPerson)
+activate personRepository
 
-return result
+ref over personRepository
+personJPA = personAssembler.toData(admin)
+end ref
+personRepository -> repoJPA : save(personJPA)
+activate repoJPA
+return
+return
+<-- service
 deactivate service
 @enduml
 ````
