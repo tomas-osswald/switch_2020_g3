@@ -512,3 +512,22 @@ Grupo Cartman - SD
 - US172 As a family member, I want to add a bank savings account I have.
 - US173 As a family member, I want to add a credit card account I have.
 - US001 As a system manager, I want to create a standard category.
+
+---
+
+Aula LABPROJ 26/04/2021
+
+ 1. Prof. Bettencourt referiu que em DDD os Value Objects que apenas têm uma propriedade/atributo podem não ser representados por forma a minimizar a complexidade do Diagrama (Isto no Modelo de Domínio)
+
+2. Diagrama de Classes - Supostamente não deve conter os Packages.
+
+3. Bidirecionalidade entre Family e Person deve ser removida:
+
+    3.1. Supostamente cria-nos o problema do tipo "espiral infinita de falos".
+
+
+Hipóteses em discussão:
+
+1. Family tem list<PersonID> members e PersonID admin
+2. Person tem FamilyID familyID e boolean isAdmin
+3. Person tem subtipo Admin
