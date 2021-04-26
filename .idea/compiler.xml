@@ -17,13 +17,13 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="project" target="1.8" />
-      <module name="switch_2020_g3" target="1.8" />
+      <module name="switch_2020_g3" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="project" options="-Xlint:all" />
-      <module name="switch_2020_g3" options="-Xlint:all" />
+      <module name="project" options="-parameters -Xlint:all" />
+      <module name="switch_2020_g3" options="-parameters -Xlint:all" />
     </option>
   </component>
 </project>
