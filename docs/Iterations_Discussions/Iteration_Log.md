@@ -495,3 +495,21 @@ Ponto de situação:
 
 2. Assumindo que o PersonJPA tem o AddressJPA  
    (PersonJPA , AddressJPA ) é necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
+
+# Sprint 5
+
+— Divisão de tarefas de acordo com a popular série de animação _South Park_
+
+Grupo Timmy - SD
+- US101 As a family administrator, I want to add family members.
+- US151 As a family member, I want to add an email account to my profile.
+- US150 As a family member, I want to get my profile’s information.
+
+Grupo Cartman - SD
+- US120 As a family administrator, I want to create a family cash account.
+- US170 As a family member, I want to create a personal 74 cash account.
+- US171 As a family member, I want to add a bank account I have.
+- US172 As a family member, I want to add a bank savings account I have.
+- US173 As a family member, I want to add a credit card account I have.
+- US001 As a system manager, I want to create a standard category.
+

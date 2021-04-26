@@ -105,282 +105,9 @@ prompt the input of the name for that family as well as the administrator email,
 Given the current absence of a UI layer the required data will be passed directly into the CreateFamilyController.
 
 
-````puml
-@startuml
+## 3.1. Class Diagram
 
-autonumber
-header Sequence Diagram
-title US010 Create a Family and Set Administrator
-
-
-participant ": ICreateFamilyService" as FamAdminService
-participant "adminID\n : PersonID" as adminID
-participant ": IFamilyRepository" as familyRepository
-participant ": IPersonRepository" as personRepository
-participant ": IPersonRepositoryJPA" as personRepositoryJPA
-participant ": IFamilyRepositoryJPA" as familyRepositoryJPA
-
-note left: especificar nome da instância no participant?
-
--> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
-activate FamAdminService
-
-FamAdminService -> adminID ** : create\n(inputPersonDTO.unpackEmail()
-
-FamAdminService -> familyRepository : generateID()
-activate familyRepository
-return familyID
-
-ref over FamAdminService
-admin = personDTODomainAssembler.toDomain
-end ref
-
-ref over FamAdminService
-family = familyDTODomainAssembler.toDomain
-end ref
-
-FamAdminService -> personRepository: add(admin)
-activate personRepository
-
-ref over personRepository
-personJPA = personAssembler.toData(admin)
-end ref
-
-personRepository -> personRepositoryJPA: save(personJPA)
-activate personRepositoryJPA
-return
-return
-
-FamAdminService -> familyRepository: add(newFamily)
-activate familyRepository
-
-ref over familyRepository
-familyJPA = familyAssembler.toData(newFamily)
-end ref
-
-familyRepository -> familyRepositoryJPA : save(familyJPA)
-activate familyRepositoryJPA
-return
-
-return
-
-return
- 
-
-@enduml
-````
-
-
-````puml
-@startuml
-
-autonumber
-header Sequence Diagram
-title US010 FamilyDTODomainAssembler 
-
-participant ": ICreateFamilyService" as CreateFamService
-participant ": FamilyDTODomainAssembler" as assembler
-participant "aFamilyName : FamilyName" as familyName
-participant "aRegistrationDate : RegistrationDate" as regDate
-participant "aFamily : Family" as family
-
-activate CreateFamService
-CreateFamService -> assembler : toDomain(inputFamilyDTO, familyID, adminID)
-activate assembler
-assembler -> familyName** : create(inputFamilyDTO.unpackFamilyName())
-assembler -> regDate** : create(inputFamilyDTO.unpackLocalDate())
-assembler -> family** : create(familyID, familyName, regDate, adminID)
-assembler -> CreateFamService : aFamily
-deactivate assembler
-deactivate CreateFamService
-
-@enduml
-````
-
-
-````puml
-@startuml
-title US010 PersonDTODomainAssembler
-
-participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
-participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
-participant "personID : PersonID" as personID
-participant "name : Name" as name
-participant "birthDate : BirthDate" as birthDate
-participant "vat : VATNumber" as vat
-participant "phone : PhoneNumber" as phoneNumber
-participant "address : Address" as address
-participant "admin : Person" as admin
-
--> dtoToDomainAssembler : toDomain(inputPersonDTO, familyID)
-activate dtoToDomainAssembler
-dtoToDomainAssembler -> personID** : create(inputPersonDTO.unpackEmail())
-dtoToDomainAssembler -> name** : create(inputPersonDTO.unpackName())
-dtoToDomainAssembler -> birthDate** : create(inputPersonDTO.unpackBirthDate())
-dtoToDomainAssembler -> vat** : create(inputPersonDTO.unpackVAT())
-dtoToDomainAssembler -> phoneNumber** : create(inputPersonDTO.unpackPhone())
-dtoToDomainAssembler -> address** : create(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber())
-dtoToDomainAssembler -> admin** : create(name, birthDate, personID, vat, phone, address, familyID)
-<- dtoToDomainAssembler : admin
-
-@enduml
-````
-
-
-````puml
-@startuml
-
-autonumber
-header Sequence Diagram
-title US010 FamilyDataDomainAssembler 
-
-participant ": IPersonRepository" as personRepo
-participant ": familyDataDomainAssembler" as assembler
-participant "aFamily : Family" as Family
-participant "aFamilyIDJPA : FamilyIDJPA" as FamilyIDJPA
-participant "adminIDJPA : PersonIDJPA" as PersonIDJPA
-participant "aFamilyJPA : FamilyJPA" as FamilyJPA
-
-activate personRepo
-personRepo -> assembler : toData(Family)
-activate assembler
-assembler -> Family : id()
-activate Family 
-Family -> assembler : familyID
-deactivate Family 
-assembler -> FamilyIDJPA** : create(familyID)
-assembler -> Family : getAdmin()
-activate Family 
-Family -> assembler : PersonID
-deactivate Family 
-assembler -> PersonIDJPA** : create(PersonID)
-assembler -> Family : getName()
-activate Family 
-Family -> assembler : name
-deactivate Family 
-assembler -> Family : getRegistrationDate()
-activate Family 
-Family -> assembler : registrationDate
-deactivate Family 
-assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJPA)
-assembler -> personRepo : FamilyJPA
-deactivate assembler
-deactivate personRepo
-
-@enduml
-````
-
-````puml
-@startuml
-
-autonumber
-header Sequence Diagram
-title US010 PersonDataDomainAssembler
-
-participant ": IPersonRepository" as personRepository
-participant "personAssembler : PersonDataDomainAssembler" as assembler
-participant "admin\n : Person" as admin
-participant "personIDJPA : PersonIDJPA" as personIDJPA
-participant "familyIDJPA : FamilyIDJPA" as familyIDJPA
-participant "adminJPA : PersonJPA" as adminJPA
-participant "addressJPA : AdressJPA" as addressJPA
-participant "emailsJPA : List<EmailAddressJPA>" as emailsJPA
-participant "phoneNumbersJPA : List <PhoneNumberJPA>" as phoneNumbersJPA
-
-
--> personRepository : add(admin)
-activate personRepository
-personRepository -> personRepository : isPersonIDAlreadyRegistered(admin.id())
-
-personRepository -> assembler : toData(admin)
-activate assembler
-
-assembler -> admin : id()
-activate admin
-admin --> assembler : adminID
-deactivate admin
-assembler -> personIDJPA** :  create(adminID.toString())
-
-assembler -> admin : getName().toString()
-activate admin
-admin --> assembler : name
-deactivate admin
-
-assembler -> admin : getBirthDate().toString()
-activate admin
-admin --> assembler : birthDate
-deactivate admin
-
-assembler -> admin : getVat().toInt()
-activate admin
-admin --> assembler : vat
-deactivate admin
-
-assembler -> admin : getPhoneNumbers()
-activate admin
-admin --> assembler : phoneNumbers
-deactivate admin
-
-
-assembler -> admin : getAddress()
-activate admin
-admin --> assembler : address
-deactivate admin
-
-assembler -> admin : getFamilyID()
-activate admin
-admin --> assembler : familyID
-deactivate admin
-
-assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
-
-assembler -> adminJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
-
-assembler -> addressJPA** : create(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA)
-
-assembler -> emailsJPA** : generateEmailAddressJPAList(person.getEmails(), personJPA)
-activate emailsJPA
-return emailsJPA
-
-assembler -> phoneNumbersJPA** : generetePhoneNumberJPAList(phoneNumbers, personJPA)
-activate phoneNumbersJPA
-return phoneNumbersJPA
-
-assembler -> adminJPA : setAddress(addressJPA)
-activate adminJPA
-adminJPA --> assembler
-deactivate adminJPA
-assembler -> adminJPA : setPhones(phoneNumbersJPA)
-activate adminJPA
-adminJPA --> assembler
-deactivate adminJPA
-assembler -> adminJPA : setEmails(emailsJPA)
-activate adminJPA
-adminJPA --> assembler
-deactivate adminJPA
-assembler -> personRepository : aPersonJPA
-deactivate assembler
-<- personRepository
-
-@enduml
-````
-
-
-
-## 3.1. Functionality Use
-
-The CreateFamilyController creates a new CreateFamilyService object using a inputFamilyDTO, a inputPersonDTO and the
-application. 
-The CreateFamilyService will create all the necessary value objects to create the family and administrator.
-The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository. 
-The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family. 
-The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator, 
-providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
-The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
-of creating the Family and administrator.
-
-
-## 3.2. Class Diagram
+### 3.1.1. Previous Iterations
 
 ```puml
 @startuml
@@ -486,6 +213,285 @@ Person -up--> "1" Name : name
 Person -up--> "1" VATNumber : vatNumber
 @enduml
 ```
+
+### 3.1.2. Onion Layer Class Diagram
+
+![img_2.png](img_2.png)
+
+
+## 3.2. Functionality Use
+
+The CreateFamilyController creates a new CreateFamilyService object using a inputFamilyDTO, a inputPersonDTO and the
+application.
+The CreateFamilyService will create all the necessary value objects to create the family and administrator.
+The CreateFamilyService will invoke the Application to retrieve the PersonRepository and FamilyRepository.
+The CreateFamilyService will invoke the FamilyRepository to create a familyID and then a Family.
+The CreateFamilyService will invoke the PersonRepository to create the Person object for the administrator,
+providing the email from the admin is unique. If it isn't, the previously created Family will be deleted.
+The CreateFamilyController will then return a true or false response depending on the sucess or insuccess
+of creating the Family and administrator.
+
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 Create a Family and Set Administrator
+
+
+participant ": ICreateFamilyService" as FamAdminService <<Interface>>
+participant "adminID\n : PersonID" as adminID
+participant ": IFamilyRepository" as familyRepository <<Interface>>
+participant ": IPersonRepository" as personRepository <<Interface>>
+participant ": IPersonRepositoryJPA" as personRepositoryJPA <<Interface>>
+participant ": IFamilyRepositoryJPA" as familyRepositoryJPA <<Interface>>
+
+note left: especificar nome da instância no participant?
+
+-> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
+activate FamAdminService
+
+FamAdminService -> adminID ** : create\n(inputPersonDTO.unpackEmail())
+
+FamAdminService -> familyRepository : generateID()
+activate familyRepository
+return familyID
+
+ref over FamAdminService
+admin = personDTODomainAssembler.toDomain(inputPersonDTO,familyID)
+end ref
+
+ref over FamAdminService
+family = familyDTODomainAssembler.toDomain(inputFamilyDTO,familyID,adminID)
+end ref
+
+FamAdminService -> personRepository: add(admin)
+activate personRepository
+
+ref over personRepository
+personJPA = personAssembler.toData(admin)
+end ref
+
+personRepository -> personRepositoryJPA: save(personJPA)
+activate personRepositoryJPA
+return
+return
+
+FamAdminService -> familyRepository: add(newFamily)
+activate familyRepository
+
+ref over familyRepository
+familyJPA = familyAssembler.toData(newFamily)
+end ref
+
+familyRepository -> familyRepositoryJPA : save(familyJPA)
+activate familyRepositoryJPA
+return
+
+return
+
+return
+
+@enduml
+````
+
+````puml
+@startuml
+title US010 admin = personDTODomainAssembler.toDomain
+
+participant ": iCreateFamilyService" as createFamilyService <<Interface>>
+participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
+participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
+participant "personID : PersonID" as personID
+participant "name : Name" as name
+participant "birthDate : BirthDate" as birthDate
+participant "vat : VATNumber" as vat
+participant "phone : PhoneNumber" as phoneNumber
+participant "address : Address" as address
+participant "admin : Person" as admin
+
+activate createFamilyService
+createFamilyService -> dtoToDomainAssembler : toDomain(inputPersonDTO, familyID)
+activate dtoToDomainAssembler
+dtoToDomainAssembler -> personID** : create(inputPersonDTO.unpackEmail())
+dtoToDomainAssembler -> name** : create(inputPersonDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(inputPersonDTO.unpackBirthDate())
+dtoToDomainAssembler -> vat** : create(inputPersonDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(inputPersonDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber())
+dtoToDomainAssembler -> admin** : create(name, birthDate, personID, vat, phone, address, familyID)
+dtoToDomainAssembler -> createFamilyService : admin
+deactivate dtoToDomainAssembler
+deactivate createFamilyService
+
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 family = familyDTODomainAssembler.toDomain 
+
+participant ": ICreateFamilyService" as CreateFamService <<Interface>>
+participant ": FamilyDTODomainAssembler" as assembler
+participant "aFamilyName : FamilyName" as familyName
+participant "aRegistrationDate : RegistrationDate" as regDate
+participant "aFamily : Family" as family
+
+activate CreateFamService
+CreateFamService -> assembler : toDomain(inputFamilyDTO, familyID, adminID)
+activate assembler
+assembler -> familyName** : create(inputFamilyDTO.unpackFamilyName())
+assembler -> regDate** : create(inputFamilyDTO.unpackLocalDate())
+assembler -> family** : create(familyID, familyName, regDate, adminID)
+assembler -> CreateFamService : aFamily
+deactivate assembler
+deactivate CreateFamService
+
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 personJPA = personAssembler.toData(admin)
+
+participant ": IPersonRepository" as personRepository <<interface>>
+participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "admin\n : Person" as admin
+participant "personIDJPA : PersonIDJPA" as personIDJPA
+participant "familyIDJPA : FamilyIDJPA" as familyIDJPA
+participant "adminJPA : PersonJPA" as adminJPA
+participant "addressJPA : AdressJPA" as addressJPA
+participant "emailsJPA : List<EmailAddressJPA>" as emailsJPA
+participant "phoneNumbersJPA : List <PhoneNumberJPA>" as phoneNumbersJPA
+
+
+-> personRepository : add(admin)
+activate personRepository
+personRepository -> personRepository : isPersonIDAlreadyRegistered(admin.id())
+
+personRepository -> assembler : toData(admin)
+activate assembler
+
+assembler -> admin : id()
+activate admin
+admin --> assembler : adminID
+deactivate admin
+assembler -> personIDJPA** :  create(adminID.toString())
+
+assembler -> admin : getName().toString()
+activate admin
+admin --> assembler : name
+deactivate admin
+
+assembler -> admin : getBirthDate().toString()
+activate admin
+admin --> assembler : birthDate
+deactivate admin
+
+assembler -> admin : getVat().toInt()
+activate admin
+admin --> assembler : vat
+deactivate admin
+
+assembler -> admin : getPhoneNumbers()
+activate admin
+admin --> assembler : phoneNumbers
+deactivate admin
+
+
+assembler -> admin : getAddress()
+activate admin
+admin --> assembler : address
+deactivate admin
+
+assembler -> admin : getFamilyID()
+activate admin
+admin --> assembler : familyID
+deactivate admin
+
+assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
+
+assembler -> adminJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
+
+assembler -> addressJPA** : create(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA)
+
+assembler -> emailsJPA** : generateEmailAddressJPAList(person.getEmails(), personJPA)
+activate emailsJPA
+return emailsJPA
+
+assembler -> phoneNumbersJPA** : generetePhoneNumberJPAList(phoneNumbers, personJPA)
+activate phoneNumbersJPA
+return phoneNumbersJPA
+
+assembler -> adminJPA : setAddress(addressJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> adminJPA : setPhones(phoneNumbersJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> adminJPA : setEmails(emailsJPA)
+activate adminJPA
+adminJPA --> assembler
+deactivate adminJPA
+assembler -> personRepository : aPersonJPA
+deactivate assembler
+<- personRepository
+
+@enduml
+````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title US010 familyJPA = familyAssembler.toData(newFamily) 
+
+participant ": IPersonRepository" as personRepo <<interface>>
+participant ": familyDataDomainAssembler" as assembler
+participant "aFamily : Family" as Family
+participant "aFamilyIDJPA : FamilyIDJPA" as FamilyIDJPA
+participant "adminIDJPA : PersonIDJPA" as PersonIDJPA
+participant "aFamilyJPA : FamilyJPA" as FamilyJPA
+
+activate personRepo
+personRepo -> assembler : toData(Family)
+activate assembler
+assembler -> Family : id()
+activate Family 
+Family -> assembler : familyID
+deactivate Family 
+assembler -> FamilyIDJPA** : create(familyID)
+assembler -> Family : getAdmin()
+activate Family 
+Family -> assembler : PersonID
+deactivate Family 
+assembler -> PersonIDJPA** : create(PersonID)
+assembler -> Family : getName()
+activate Family 
+Family -> assembler : name
+deactivate Family 
+assembler -> Family : getRegistrationDate()
+activate Family 
+Family -> assembler : registrationDate
+deactivate Family 
+assembler -> FamilyJPA** : create(familyIDJPA, name, registrationDate, adminIDJPA)
+assembler -> personRepo : FamilyJPA
+deactivate assembler
+deactivate personRepo
+
+@enduml
+````
+
 
 ## 3.3. Applied Patterns
 
