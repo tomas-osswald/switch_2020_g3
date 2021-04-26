@@ -20,6 +20,12 @@ The name of the category must not be empty, and it can't exist in the current li
 A standard category can be a sub-category of an existing standard category.
 The name of a standard category must be case-insensitive.
 
+### 1.2 Dependencies
+
+### 1.2.1 Pre-conditions
+
+In order for this US to be possible, a Family and that Family's administrator must already exist in the system.
+
 ### System Sequence Diagram
 
 ```` puml
@@ -225,3 +231,203 @@ Both [US002](US002_GetStandardCategoriesTree.md) and [US110](US110_GetCategoryTr
 #6. Observations
 
 The way to generate an ID for a Standard Category will probably need to be reworked in a future sprint to allow for more complex ID information if needed
+
+# US101 Add Family Members
+=======================================
+
+# 1. Requirements
+
+## 1.1 Client Notes
+
+## 1.2 Dependencies
+
+### 1.2.1 Pre-conditions
+
+### 1.2.2 Other User Stories
+
+## 1.3 Acceptance Criteria
+
+### 1.3.1 Success Cases
+
+### 1.3.2 Failure Cases
+
+## 1.4 SSD
+
+
+# 2. Analysis
+
+## 2.1 Summary
+
+[COMMENT]: # (The first one seems better practice than the second one. Validate both)
+
+
+| **_Value Objects_**         | **_Business Rules_**                                                                   |
+| :-------------------------- | :--------------------- |
+| **Description** | Required, String |
+| **ParentID** | Optional, string  |
+
+
+## 2.2. Domain Model Excerpt
+
+
+# 3. Design
+
+## 3.1. Design decisions
+
+
+## 3.2. Class Diagram
+
+```puml
+hide empty members
+title Class Diagram
+
+interface ICreateStandardCategoryController
+
+class CreateStandardCategoryController
+
+interface ICreateStandardCategoryService
+
+class CreateStandardCategoryService
+
+class CategoryInputDTO
+
+class CategoryDTODomainAssembler
+
+interface Category
+
+class CategoryID
+
+class CategoryDesignation
+
+interface ICategoryRepository
+
+class CategoryRepository
+
+interface CategoryRepositoryJPA
+
+class CategoryJPA {
+- categoryID : CategoryIDJPA
+- description : String
+- parentID : CategoryIDJPA
+- familyID : FamilyIDJPA
+}
+
+class CategoryDataDomainAssembler
+
+
+
+ICreateStandardCategoryController <|. CreateStandardCategoryController
+
+CreateStandardCategoryController -.> ICreateStandardCategoryService
+
+ICreateStandardCategoryService <|. CreateStandardCategoryService
+
+CreateStandardCategoryController -r.> CategoryInputDTO
+CreateStandardCategoryService -u.> CategoryInputDTO
+
+CreateStandardCategoryService -r.> CategoryDTODomainAssembler
+CategoryDTODomainAssembler -.> CategoryInputDTO
+
+CreateStandardCategoryService -.> Category
+CategoryDTODomainAssembler -.> Category
+
+Category --> CategoryID
+Category --> CategoryDesignation
+
+CreateStandardCategoryService -.> ICategoryRepository
+ICategoryRepository <|.- CategoryRepository
+
+CategoryRepository -.> CategoryDataDomainAssembler
+
+CategoryRepository --.> CategoryJPA
+
+CategoryDataDomainAssembler -.> CategoryJPA
+
+CategoryRepository -.> CategoryRepositoryJPA
+```
+
+## 3.3. Functionality Use
+
+
+
+## 3.4. Sequence Diagram
+
+````puml
+autonumber
+title createStandardCategory
+participant ": ICreateStandardCategoryController" as controller
+participant ": ICreateStandardCategoryService" as catServ
+participant ": ICategoryRepository" as repo
+participant ": CategoryRepositoryJPA" as jpa
+    
+-> controller : createStandardCategory(categoryInputDTO)
+activate controller
+
+controller -> catServ : createStandardCategory(categoryInputDTO)
+activate catServ
+
+ref over catServ
+category = categoryDTODomainAssembler.toDomain(categoryInputDTO)
+end
+
+catServ -> repo : save(category)
+activate repo
+
+ref over repo
+categoryJPA = categoryDataDomainAssembler.toData(category)
+end
+
+repo -> jpa : save(categoryJPA)
+activate jpa
+return savedCategoryJPA
+
+ref over repo
+savedCategory = categoryDataDomainAssembler.toDomain(savedCategoryJPA)
+end
+
+return savedCategory
+
+ref over catServ
+savedCategoryDTO = categoryDTODomainAssembler.toDTO(savedCategory)
+end
+
+return savedCategoryDTO
+
+return savedCategoryDTO
+````
+
+
+## 3.5. Applied Patterns
+
+
+## 3.6. Tests
+
+### 3.6.1. XXXX
+
+#### 3.6.1.1. Success
+
+#### 3.6.1.2. Failure
+
+
+### 3.6.2. YYYY
+
+#### 3.6.2.1. Success
+
+#### 3.6.2.2. Failure
+
+
+### 3.6.3. ZZZZ
+
+#### 3.6.3.1. Success
+
+#### 3.6.3.2. Failure
+
+
+# 4. Implementation
+
+[comment]: # (NOTE: Only critical methods for the US implementation)
+
+# 5. Integration
+
+
+# 6. Observations
