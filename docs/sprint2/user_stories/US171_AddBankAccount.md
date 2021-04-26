@@ -50,8 +50,7 @@ This user story has a dependency with these **2** user stories:
 
 - **US101_AddFamily.md** *(As a system manager, I want to create a family.)*
   - In order to have a Family Administrator and Family Member, the system needs to have that Family.
-- **US101_AddFamilyAdministrator.md** *(As a system manager, I want to add a family administrator)*
-  - The Family Administrator, being a Family Member, can have bank accounts, but is also required to create further Family Members where accounts are created.
+
 - **US101_AddFamilyMember.md** *(As a family Administrator, I want to add a familyMember to a family)*
   - In order to add a bank account, the system needs to have a Family Member.
   
@@ -65,7 +64,6 @@ In order to fulfill this requirement, we need five main data pieces:
 - Bank Account Description;
 
 The account will be stored inside the Family Member.
-We decided to implement 
 The Family and Family Member IDs will be used to identify the correct user where to add the account. 
 The basic information required for the account creation is the description, the current balance and the currency of the account.
 
@@ -93,8 +91,8 @@ class BankAccount {
 - AccountID 
 }
 
-Family "1" -down-> "0..*" FamilyMember : has list of 
-FamilyMember "1" -down-> "0..*" BankAccount  : has 
+Family "1" -down- "0..*" FamilyMember : has 
+FamilyMember "1" -down- "0..*" BankAccount  : has 
 ```
 
 
@@ -113,8 +111,6 @@ participant "accServ : AccountService" as accServ
 participant "famServ : FamilyService" as famService
 participant "aFamily : Family" as family
 participant "aFamilyMember : FamilyMember" as person
-participant "aBankAccount : BankAccount" as bankAcc
-participant "aMoneyValue : MoneyValue" as moneyV
 
 activate actor
 actor -> UI: addBankAccount(addBankAccountDTO)
@@ -144,8 +140,11 @@ activate app
 app -> accServ: addBankAccount(addBankAccountDTO)
 activate accServ
 accServ -> accServ : generateID(FamilyMember)
-accServ -> bankAcc **: create(id,description,balance,currency)
-bankAcc -> moneyV **: create(balance,currency)
+ref over accServ
+
+AddBankBankAccount 2
+
+end ref
 
 accServ -> person: addAccount(aBankAccount)
 activate person
@@ -167,6 +166,33 @@ deactivate actor
 @enduml
 ````
 
+````puml
+@startuml
+autonumber
+title US171 - AddBankBankAccount 2 
+
+participant "accServ : AccountService" as accServ
+participant "aBankAccount : BankAccount" as bankAcc
+participant "anAccountData : \nAccountData" as data
+participant "aMoneyValue : MoneyValue" as moneyV
+
+activate accServ
+accServ -> bankAcc **: create(addBankAccountDTO, targetMember)
+activate bankAcc
+bankAcc -> data **: create(balance, description, bankAccountID, addBankAccountDTO.getCurrency())
+activate data
+data -> moneyV **: create(balance,currency)
+activate moneyV
+moneyV -> data: aMoneyValue
+deactivate moneyV
+data -> bankAcc: anAccountData
+deactivate data
+bankAcc -> accServ: aBankAccount
+deactivate bankAcc
+deactivate accServ
+
+@enduml
+````
 
 ## 3.1. Functionality Use
 
@@ -263,7 +289,7 @@ AccountData --> MoneyValue: has
 
 - GRASP:
     - Information expert:
-        - This pattern was used in classes that implemented the Account interface, like in this case BankAccount class. The BankAccount concentrate the responsibility of managing all procedures about itself;
+        - This pattern was used in classes that implemented the Account interface, like in this case BankAccount class. The BankAccount concentrates the responsibility of managing all procedures about itself;
 
     - Controller:
         - To deal with the responsibility of receiving input from outside the system (first layer after the UI) we use a case controller.

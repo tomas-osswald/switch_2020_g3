@@ -512,6 +512,7 @@ Grupo Cartman - SD
 - US171 As a family member, I want to add a bank account I have.
 - US172 As a family member, I want to add a bank savings account I have.
 - US173 As a family member, I want to add a credit card account I have.
+<<<<<<< HEAD
 - US001 As a system manager, I want to create a standard category.
 
 ---
@@ -544,3 +545,6 @@ Validação de Admin está definida como sendo implícita na App. (Cagamos para 
 
 ## Perguntar Pro. Nuno Silva se o Class Diagram tem os métodos dentro das Classes.
 
+=======
+- US001 As a system manager, I want to create a standard category.
+>>>>>>> a56bbbee7d200239aa3eee98d02553f9d08dfbb4
