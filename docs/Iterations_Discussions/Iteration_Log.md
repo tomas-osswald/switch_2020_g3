@@ -512,3 +512,10 @@ Grupo Cartman - SD
 - US172 As a family member, I want to add a bank savings account I have.
 - US173 As a family member, I want to add a credit card account I have.
 - US001 As a system manager, I want to create a standard category.
+
+
+REST Controllers planning
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630908504375387/IMG_20210427_165045.jpg)
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630908806103060/IMG_20210427_165104.jpg)
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630909070475374/IMG_20210427_165119.jpg)
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630909431971890/IMG_20210427_165128.jpg)
