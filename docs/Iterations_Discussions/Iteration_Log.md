@@ -563,4 +563,3 @@ Categories
 
 1. Mapear as Custom Categories por URI de _families_ e as Standard Categories pelo URI de _categories_?
 2. Mapear todas as categories pelo URI _categories_?
-
