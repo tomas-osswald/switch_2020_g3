@@ -512,7 +512,6 @@ Grupo Cartman - SD
 - US171 As a family member, I want to add a bank account I have.
 - US172 As a family member, I want to add a bank savings account I have.
 - US173 As a family member, I want to add a credit card account I have.
-<<<<<<< HEAD
 - US001 As a system manager, I want to create a standard category.
 
 ---
@@ -543,8 +542,25 @@ Validação de Admin está definida como sendo implícita na App. (Cagamos para 
 
 
 
-## Perguntar Pro. Nuno Silva se o Class Diagram tem os métodos dentro das Classes.
+## Perguntar Prof. Nuno Silva se o Class Diagram tem os métodos dentro das Classes.
 
-=======
-- US001 As a system manager, I want to create a standard category.
->>>>>>> a56bbbee7d200239aa3eee98d02553f9d08dfbb4
+
+### Tabela métodos HTTP
+
+
+| **_Método_**         | **_Cenas que faz / Cenários_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **GET**                    | Autoexplicativo. Dados estão "seguros". Não edita/cria nada.                                                                       |
+| **POST**               | Adicionar algo específico/concreto. Depende da validação do Backend. Exemplo da nossa App: Um pedido POST para adicionar email irá validar junto do Backend se o email já existe e consequentemente falhar. O PUT já aceitaria sempre!
+| **PUT**                 | O Batista quando está muito bêbado -> Aceita tudo! Não depende de validações do Backend. Vai sempre aceitar o que lhe for deitado.                                                                     |
+| **PATCH**               | Usado para alterar algo cujo outcome não é específico. Exemplo: Pedir para atualizar o saldo de todas as contas com mais de 100€ e passar esse saldo para 0€. Apesar de ser possível executar não é específico. O client não sabe quantas contas vão ser afetadas.                                       |
+| **DELETE**            | Autoexplicativo.                                          |
+| **OPTIONS**             | Utilizado para listar um determinado conjunto de opções de determinado recurso.                                          |
+
+### Dúvida mapeamento:
+
+Categories
+
+1. Mapear as Custom Categories por URI de _families_ e as Standard Categories pelo URI de _categories_?
+2. Mapear todas as categories pelo URI _categories_?
+
