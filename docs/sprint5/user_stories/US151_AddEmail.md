@@ -187,9 +187,7 @@ Onion Architecture
 -----------------------------
 
 
-
-![img.png](../../../assets/US151ClassDiagram.png)
-
+![img.png](../diagrams/CD_US151_AddEmail.png)
 
 ## 3.3. Functionality Use
 
@@ -213,13 +211,11 @@ autonumber
 header Sequence Diagram
 title US151 Add Email
 
-
 participant "IAddEmailService" as service <<interface>>
 participant "aPersonID : PersonID" as personid
-participant "IPersonRepository" as personRepository <<interface>>
 participant "newEmail\n: EmailAddress" as email
 participant "aPerson\n : Person" as person
-participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "IPersonRepository" as personRepository <<interface>>
 participant "IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> service : addEmail(addEmailDTO)
@@ -248,16 +244,22 @@ person --> service: true
 
 else Email already registered
 
-person -> service: false
+person --> service: false
 deactivate person
 
 end
 
-service -> prepository : save(aPerson)
-activate prepository
-return
+service -> personRepository : update(aPerson)
+activate personRepository
 
-return result
+ref over personRepository
+personJPA = personAssembler.toData(admin)
+end ref
+personRepository -> repoJPA : save(personJPA)
+activate repoJPA
+return
+return
+<-- service
 deactivate service
 @enduml
 ````

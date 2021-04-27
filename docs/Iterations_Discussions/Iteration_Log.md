@@ -494,7 +494,8 @@ Ponto de situação:
 1. os atributos de FamilyJPa podem/devem ser **@Embeddable** ?
 
 2. Assumindo que o PersonJPA tem o AddressJPA  
-   (PersonJPA , AddressJPA ) é necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
+   (PersonJPA , AddressJPA ) é 
+   necessário AddressJPA ter o PersonJPA como atributo?  Se sim , o AddressJPA tem de ser set no PersonJPA.
 
 # Sprint 5
 
@@ -513,9 +514,61 @@ Grupo Cartman - SD
 - US173 As a family member, I want to add a credit card account I have.
 - US001 As a system manager, I want to create a standard category.
 
+---
+
+Aula LABPROJ 26/04/2021
+
+ 1. Prof. Bettencourt referiu que em DDD os Value Objects que apenas têm uma propriedade/atributo podem não ser representados por forma a minimizar a complexidade do Diagrama (Isto no Modelo de Domínio)
+
+2. Diagrama de Classes - Supostamente não deve conter os Packages.
+
+3. Bidirecionalidade entre Family e Person deve ser removida:
+
+    3.1. Supostamente cria-nos o problema do tipo "espiral infinita de falos".
+
+
+Hipóteses em discussão:
+
+1. Family tem list<PersonID> members e PersonID admin
+2. Person tem FamilyID familyID e boolean isAdmin
+3. Person tem subtipo Admin
+
+
+** Grupo Timmy**
+
+US101 - On hold até decisão de como fica o familyID
+
+Validação de Admin está definida como sendo implícita na App. (Cagamos para validar o admin!)
+
+
+
+## Perguntar Prof. Nuno Silva se o Class Diagram tem os métodos dentro das Classes.
+
+
+### Tabela métodos HTTP
+
+
+| **_Método_**         | **_Cenas que faz / Cenários_**                                                                   |
+| :-------------------------- | :------------------------------------------------------------------------------------- |
+| **GET**                    | Autoexplicativo. Dados estão "seguros". Não edita/cria nada.                                                                       |
+| **POST**               | Adicionar algo específico/concreto. Depende da validação do Backend. Exemplo da nossa App: Um pedido POST para adicionar email irá validar junto do Backend se o email já existe e consequentemente falhar. O PUT já aceitaria sempre!
+| **PUT**                 | O Batista quando está muito bêbado -> Aceita tudo! Não depende de validações do Backend. Vai sempre aceitar o que lhe for deitado.                                                                     |
+| **PATCH**               | Usado para alterar algo cujo outcome não é específico. Exemplo: Pedir para atualizar o saldo de todas as contas com mais de 100€ e passar esse saldo para 0€. Apesar de ser possível executar não é específico. O client não sabe quantas contas vão ser afetadas.                                       |
+| **DELETE**            | Autoexplicativo.                                          |
+| **OPTIONS**             | Utilizado para listar um determinado conjunto de opções de determinado recurso.                                          |
+
+### Dúvida mapeamento:
+
+Categories
+
+1. Mapear as Custom Categories por URI de _families_ e as Standard Categories pelo URI de _categories_?
+2. Mapear todas as categories pelo URI _categories_?
+
+---
 
 REST Controllers planning
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630908504375387/IMG_20210427_165045.jpg)
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630908806103060/IMG_20210427_165104.jpg)
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630909070475374/IMG_20210427_165119.jpg)
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630909431971890/IMG_20210427_165128.jpg)
+---
