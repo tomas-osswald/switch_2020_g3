@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.usecaseservices.irepositories.Repository;
 
-public class ICategoryRepository implements Repository<Category, CategoryID>, switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository {
+public class ICategoryRepository implements Repository<Category, CategoryID> {
 
 
     @Override
@@ -14,7 +14,7 @@ public class ICategoryRepository implements Repository<Category, CategoryID>, sw
     }
 
     @Override
-    public void add(Category entity) {
-
+    public Category add(Category entity) {
+        return null;
     }
 }

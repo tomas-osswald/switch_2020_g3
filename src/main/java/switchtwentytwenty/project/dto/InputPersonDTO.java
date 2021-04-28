@@ -13,9 +13,13 @@ public class InputPersonDTO {
     private String houseNumber;
     private String zipCode;
 
+<<<<<<< HEAD
     //TODO: Retirar o userID deste DTO.
     // Partimos do pressuposto que quem está a usar esta funcionalidade tem autenticação efetuada corretamente.
     // O userID vem na mesma no megaDTO externo mas é extraído à parte para obter a family e este não fica "poluído"(João Pinto).
+=======
+    //TODO: retirar ID do admin pq não devemos "poluir" com informação que não é necessária para a criação de uma Person (aqui tivemos o nosso momento GRETA)
+>>>>>>> f1ff71c7e998b8177a0d1fc022cd987bad14af09
     public InputPersonDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.userID = userID;
         this.emailID = emailID;
@@ -72,4 +76,3 @@ public class InputPersonDTO {
 
 
 }
-

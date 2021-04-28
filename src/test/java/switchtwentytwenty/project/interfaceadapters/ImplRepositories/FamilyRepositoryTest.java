@@ -57,7 +57,7 @@ class FamilyRepositoryTest {
     // Family
 
     UUID id = UUID.randomUUID();
-    FamilyID familyID = new FamilyID(id);
+    FamilyID familyID = new FamilyID("admin@gmail.com");
     String familyNameString = "Ribeiro";
     FamilyName familyName = new FamilyName(familyNameString);
     String date = "12/12/1990";
@@ -67,31 +67,9 @@ class FamilyRepositoryTest {
 
     Family family = new Family(familyID, familyName, registrationDate, adminEmail);
 
-    // End Family
 
-    @Tag("US010")
-    @Test
-    void generateID() {
-        Optional<FamilyJPA> familyJPAOptional = Optional.empty();
 
-        when(iFamilyRepositoryJPA.findById(any())).thenReturn(familyJPAOptional);
 
-        assertNotNull(familyRepository.generateID());
-    }
-
-    @Tag("US010")
-    @Test
-    void generateIDAlreadyPresentCreatesAnother() {
-        //FamilyJPA familyJPA = Mockito.mock(FamilyJPA.class);
-        FamilyJPA familyJPA = new FamilyJPA(familyIDJPA, familyNameJPA, registrationDateJPA, adminIDJPA);
-
-        Optional<FamilyJPA> familyJPAOptional = Optional.of(familyJPA);
-
-        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(familyJPAOptional).thenReturn(Optional.empty());
-
-        //when(iFamilyRepositoryJPA.findById(any())).thenReturn()
-        assertNotNull(familyRepository.generateID());
-    }
 
     @Tag("US010")
     @Test

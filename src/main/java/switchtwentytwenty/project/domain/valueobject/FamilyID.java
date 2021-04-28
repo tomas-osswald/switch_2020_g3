@@ -14,24 +14,20 @@ import java.util.UUID;
 public class FamilyID implements OwnerID<UUID>, Serializable {
     @Getter
     @Setter
-    private UUID familyID;
+    private String familyID;
 
     public FamilyID(String familyID) {
-        this.familyID = UUID.fromString(familyID);
+        this.familyID = familyID;
     }
 
-    public FamilyID(UUID familyID) {
-        this.familyID = familyID;
-        validateID();
-    }
 
     @Override
     public String toString() {
 
-        return this.familyID.toString();
+        return this.familyID;
     }
 
-    public FamilyID clone(){
+    public FamilyID clone() {
         FamilyID clone = new FamilyID(this.familyID);
         return clone;
     }

@@ -1,21 +1,18 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-
 @Entity
 @Table(name = "families")
 public class FamilyJPA {
@@ -26,8 +23,26 @@ public class FamilyJPA {
     private String familyName;
     @Getter
     private String registrationDate;
-    @Column(name = "adminID")
+    @Getter
     private PersonIDJPA adminID;
 
+    public FamilyJPA(FamilyIDJPA id, String familyName, String registrationDate, PersonIDJPA adminID) {
+        this.id = id;
+        this.familyName = familyName;
+        this.registrationDate = registrationDate;
+        this.adminID = adminID;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FamilyJPA familyJPA = (FamilyJPA) o;
+        return Objects.equals(id, familyJPA.id) && Objects.equals(familyName, familyJPA.familyName) && Objects.equals(registrationDate, familyJPA.registrationDate) && Objects.equals(adminID, familyJPA.adminID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, familyName, registrationDate, adminID);
+    }
 }
