@@ -13,7 +13,9 @@ public class InputPersonDTO {
     private String houseNumber;
     private String zipCode;
 
-
+    //TODO: Retirar o userID deste DTO.
+    // Partimos do pressuposto que quem está a usar esta funcionalidade tem autenticação efetuada corretamente.
+    // O userID vem na mesma no megaDTO externo mas é extraído à parte para obter a family e este não fica "poluído"(João Pinto).
     public InputPersonDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.userID = userID;
         this.emailID = emailID;

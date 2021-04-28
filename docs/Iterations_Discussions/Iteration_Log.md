@@ -572,3 +572,7 @@ REST Controllers planning
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630909070475374/IMG_20210427_165119.jpg)
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630909431971890/IMG_20210427_165128.jpg)
 ---
+
+### Decisão do Autowired ser colocado no construtor e não nos atributos.
+Nos testes evita o problema de haver objetos instanciados como nulos. Nas classes "finais" como DTOs recorrer a anotações de _allargsconstructor_
+
