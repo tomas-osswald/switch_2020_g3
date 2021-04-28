@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.plugin.javascript.navig.Link;
 import switchtwentytwenty.project.dto.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
