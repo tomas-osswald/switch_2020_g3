@@ -87,7 +87,7 @@ class AddFamilyMemberServiceTest {
         Mockito.when(personRepository.add(admin)).thenReturn(admin);
 
 
-        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(inputPersonDTO, "email@email.com"));
+        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(inputPersonDTO, "tonyze@latinas.com"));
     }
 
     @Test
@@ -97,7 +97,7 @@ class AddFamilyMemberServiceTest {
 
         Mockito.doThrow(UserIsNotAdminException.class).when(familyRepository).verifyAdmin(loggedUserID);
 
-        assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(inputPersonDTO, "email@email.com"));
+        assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(inputPersonDTO, "tonyze@latinas.com"));
     }
 
 
@@ -105,7 +105,7 @@ class AddFamilyMemberServiceTest {
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
     void addPersonFail_invalidValueObject() {
         Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
-        assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(inputPersonDTOWrongName, "email@email.com"));
+        assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(inputPersonDTOWrongName, "tonyze@latinas.com"));
     }
 
 

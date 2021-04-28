@@ -22,19 +22,18 @@ class FamilyIDTest {
     @Tag("US010")
     void familyIDConstructorTest_InvalidNull() {
         //Arrange
-        UUID familyID = null;
+        String familyID = null;
         //Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                new FamilyID(null)
+                new FamilyID(familyID)
         );
     }
 
     @Test
     @Tag("US010")
     void equalsTest_equalNotSame() {
-        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID("admin@gmail.com");
-        FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
+        FamilyID familyIDTwo = new FamilyID("admin@gmail.com");
 
         assertNotSame(familyIDOne, familyIDTwo);
         assertEquals(familyIDOne, familyIDTwo);

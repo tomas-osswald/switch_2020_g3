@@ -17,7 +17,9 @@ public class FamilyID implements OwnerID<UUID>, Serializable {
     private String familyID;
 
     public FamilyID(String familyID) {
-        this.familyID = familyID;
+        validateID(familyID);
+        this.familyID = familyID.trim();
+
     }
 
 
@@ -34,9 +36,10 @@ public class FamilyID implements OwnerID<UUID>, Serializable {
 
     /**
      * Method that validates a familyID, throws an exception if the ID isn't valid
+     * @param familyID
      */
-    private void validateID() {
-        if (!isIDValid()) {
+    private void validateID(String familyID) {
+        if (!isIDValid(familyID)) {
             throw new IllegalArgumentException("Invalid ID");
         }
     }
@@ -45,9 +48,10 @@ public class FamilyID implements OwnerID<UUID>, Serializable {
      * Method to determine if an ID is valid, i.e. not null
      *
      * @return boolean, true if ID is valid, false otherwise
+     * @param familyID
      */
-    private boolean isIDValid() {
-        return this.familyID != null;
+    private boolean isIDValid(String familyID) {
+        return familyID != null;
     }
 
     @Override

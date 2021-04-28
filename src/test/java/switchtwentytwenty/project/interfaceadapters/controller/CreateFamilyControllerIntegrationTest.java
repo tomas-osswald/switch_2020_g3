@@ -22,6 +22,7 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
@@ -80,7 +81,7 @@ class CreateFamilyControllerIntegrationTest {
 
     @BeforeEach
     void setup() {
-       // controller = new CreateFamilyController(createFamilyService);
+        // controller = new CreateFamilyController(createFamilyService);
         //VALIDCreateFamilyDTO = new InputFamilyDTO("Silva", "2019/12/12");
         //inputPersonDTO = new InputPersonDTO("email@there.com", "email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
     }
@@ -101,11 +102,12 @@ class CreateFamilyControllerIntegrationTest {
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
         when(familyDataDomainAssembler.toData(any(Family.class))).thenReturn(new FamilyJPA());
         when(iFamilyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(new FamilyJPA());
+        when(familyDataDomainAssembler.toDomain(any(FamilyJPA.class))).thenReturn(new Family(new FamilyID("email@here.com"), new FamilyName("Silva"), new RegistrationDate("12/12/1999"), new PersonID("email@here.com")));
 
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
         when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(new PersonJPA());
         when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA());
-
+        when(personDataDomainAssembler.toDomain(any(PersonJPA.class))).thenReturn(new Person(new Name("Rui"), new BirthDate("12/12/1999"), new PersonID("email@here.com"), new VATNumber(123456789), new PhoneNumber(987654321), new Address("Rua", "Covilhã", "6200-000", "1"), new FamilyID("email@here.com")));
 
         assertTrue(controller.createFamilyAndAdmin(VALIDCreateFamilyDTO, inputPersonDTO));
     }
@@ -115,7 +117,7 @@ class CreateFamilyControllerIntegrationTest {
     @Test
     void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
         VALIDCreateFamilyDTO = new InputFamilyDTO("Silva", "2019/12/12");
-        inputPersonDTO = new InputPersonDTO( "email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
+        inputPersonDTO = new InputPersonDTO("email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
 
         CreateFamilyService createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
         //personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
