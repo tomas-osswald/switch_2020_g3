@@ -1,13 +1,13 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.plugin.javascript.navig.Link;
 import switchtwentytwenty.project.dto.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
@@ -25,6 +25,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.createFamilyService = createFamilyService;
     }
     //TODO: definir result, a cena do link para aceder ao recurso criado
+
     /**
      * Method to create a family and add a person as administrator
      *
@@ -33,7 +34,7 @@ public class FamilyRESTController implements IFamilyRESTController {
      */
     @PostMapping("/")
 
-       public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
+    public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         InputPersonDTO inputPersonDTO = new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirtDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getLocalDate());
 
