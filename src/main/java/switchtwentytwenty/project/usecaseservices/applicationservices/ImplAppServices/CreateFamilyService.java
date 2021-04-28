@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
-import switchtwentytwenty.project.dto.InputFamilyDTO;
-import switchtwentytwenty.project.dto.InputPersonDTO;
-import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -35,7 +32,7 @@ public class CreateFamilyService implements ICreateFamilyService {
      * @param inputFamilyDTO DTO that contains the Family's information
      * @param inputPersonDTO DTO that contains the Family Administrator's information
      */
-    public void createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
+    public OutputFamilyDTO createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         //TODO: adaptar testes para se remover isto
         /*FamilyName familyName = new FamilyName(inputFamilyDTO.unpackFamilyName());
         Name name = new Name(inputPersonDTO.unpackName());
@@ -53,6 +50,6 @@ public class CreateFamilyService implements ICreateFamilyService {
         personRepository.add(admin);
         familyRepository.add(family);
 
-
+        return new OutputFamilyDTO(inputFamilyDTO.unpackFamilyName());
     }
 }

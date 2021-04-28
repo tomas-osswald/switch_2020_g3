@@ -2,9 +2,10 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.iappservi
 
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.OutputFamilyDTO;
 
 public interface ICreateFamilyService {
 
-    void createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO);
+    OutputFamilyDTO createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO);
 
 }
