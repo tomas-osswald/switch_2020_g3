@@ -26,8 +26,6 @@ FFMSpringBootApplication {
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO("tonyze@latinlover.com","TonyZe","12/12/1969",123456789,919999999,"Rua do Charme","Cidade do Zexo","69 Esquerdo","1234-123","Antunes",null);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
 
-
-
         };
     }
 
