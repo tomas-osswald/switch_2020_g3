@@ -67,8 +67,7 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Valid data doesn't throw exception")
     void createFamilyAndAddAdminTestValidData(){
-        FamilyID familyID = new FamilyID(UUID.randomUUID());
-        Mockito.when(familyRepository.generateID()).thenReturn(familyID);
+        FamilyID familyID = new FamilyID("tonyze@latinas.com");
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
 
@@ -82,8 +81,8 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Invalid person name, should throw exception")
     void createFamilyAndAddAdminTestInvalidName(){
-        FamilyID familyID = new FamilyID(UUID.randomUUID());
-        Mockito.when(familyRepository.generateID()).thenReturn(familyID);
+        FamilyID familyID = new FamilyID("tonyze@latinas.com");
+        //Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenThrow(InvalidNameException.class);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
         Mockito.doNothing().when(personRepository).add(admin);
@@ -96,8 +95,8 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Person already registered throw exception")
     void createFamilyAndAddAdminTestPersonAlreadyRegistered(){
-        FamilyID familyID = new FamilyID(UUID.randomUUID());
-        Mockito.when(familyRepository.generateID()).thenReturn(familyID);
+        FamilyID familyID = new FamilyID("tonyze@latinas.com");
+        //Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
         Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).add(any());

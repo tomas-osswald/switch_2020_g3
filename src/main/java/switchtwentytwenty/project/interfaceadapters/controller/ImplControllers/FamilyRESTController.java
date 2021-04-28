@@ -3,10 +3,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
@@ -15,6 +12,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 
 @RestController
 @RequestMapping("/families")
+@CrossOrigin
 public class FamilyRESTController implements IFamilyRESTController {
 
     private ICreateFamilyService createFamilyService;
@@ -30,7 +28,7 @@ public class FamilyRESTController implements IFamilyRESTController {
      * @param addFamilyAndSetAdminDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    @PostMapping("/")
+    @PutMapping("/")
 
        public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         InputPersonDTO inputPersonDTO = new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirthDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());

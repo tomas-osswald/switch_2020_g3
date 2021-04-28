@@ -9,7 +9,7 @@ public interface IFamilyRepository extends Repository<Family, FamilyID> {
 
     void verifyAdmin(PersonID adminID);
 
-    FamilyID generateID();
+    //FamilyID generateID();
 
     @Override
     Family add(Family entity);

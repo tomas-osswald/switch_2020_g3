@@ -60,7 +60,7 @@ class AddFamilyMemberServiceTest {
     InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinas.com", "tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
-    FamilyID familyID = new FamilyID(UUID.randomUUID());
+    FamilyID familyID = new FamilyID("tonyze@latinas.com");
 
     InputPersonDTO inputPersonDTOWrongName = new InputPersonDTO("tonyze@latinas.com", "tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
