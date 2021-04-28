@@ -3,8 +3,6 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

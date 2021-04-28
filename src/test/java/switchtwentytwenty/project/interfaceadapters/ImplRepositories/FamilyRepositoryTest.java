@@ -8,12 +8,11 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
 
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
@@ -22,7 +21,6 @@ import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

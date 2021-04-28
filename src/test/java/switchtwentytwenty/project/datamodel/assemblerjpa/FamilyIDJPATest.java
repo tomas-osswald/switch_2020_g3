@@ -2,6 +2,7 @@ package switchtwentytwenty.project.datamodel.assemblerjpa;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 
 import static org.junit.jupiter.api.Assertions.*;
 

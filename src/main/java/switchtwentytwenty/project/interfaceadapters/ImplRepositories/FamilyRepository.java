@@ -3,7 +3,7 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;

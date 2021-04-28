@@ -8,11 +8,11 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.PersonJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.PersonDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
@@ -23,12 +23,9 @@ import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
 import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.interfaceadapters.ImplRepositories.FamilyRepository;
 import switchtwentytwenty.project.interfaceadapters.ImplRepositories.PersonRepository;
-import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
-import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.Optional;
 
