@@ -12,6 +12,10 @@ import switchtwentytwenty.project.dto.InputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+
 @RestController
 @RequestMapping("/families")
 @CrossOrigin
@@ -24,31 +28,40 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.createFamilyService = createFamilyService;
     }
     //TODO: definir result, a cena do link para aceder ao recurso criado
+
     /**
      * Method to create a family and add a person as administrator
      *
      * @param addFamilyAndSetAdminDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    @PutMapping("/")
+    @PostMapping("/")
 
-       public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
+    public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         InputPersonDTO inputPersonDTO = new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirthDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getLocalDate());
 
         HttpStatus status;
         FamilyOutputDTO familyOutputDTO;
-
+        Object result;
         try {
             familyOutputDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             status = HttpStatus.CREATED;
 
-
-            return new ResponseEntity<>(familyOutputDTO, status);
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(addFamilyAndSetAdminDTO.getFamilyName())).withSelfRel();
+            familyOutputDTO.add(selfLink);
+            result = familyOutputDTO;
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity<>("BUSineSs ErRoR ApI LoGIc", status);
+            result = "error";
         }
+        return new ResponseEntity<>(result, status);
 
     }
+
+    @RequestMapping(value = "/{familyName}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getFamilyName(@PathVariable String familyName) {
+        return null;
+    }
+
 }

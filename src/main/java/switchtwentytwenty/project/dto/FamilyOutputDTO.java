@@ -13,4 +13,12 @@ public class FamilyOutputDTO extends RepresentationModel<FamilyOutputDTO> {
         this.adminID = adminID;
 
     }
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public String getAdminID() {
+        return adminID;
+    }
 }
