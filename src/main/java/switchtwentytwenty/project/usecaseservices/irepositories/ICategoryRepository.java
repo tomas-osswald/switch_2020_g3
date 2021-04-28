@@ -5,4 +5,6 @@ import switchtwentytwenty.project.domain.valueobject.CategoryID;
 
 public interface ICategoryRepository extends Repository<Category, CategoryID> {
 
+    Category add(Category category);
+
 }
