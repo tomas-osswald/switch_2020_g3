@@ -9,7 +9,7 @@ public class AddFamilyAndSetAdminDTO  {
 
     private String emailID;
     private String name;
-    private String birtDate;
+    private String birthDate;
     private int vatNumber;
     private Integer phone;
     private String street;
@@ -39,12 +39,12 @@ public class AddFamilyAndSetAdminDTO  {
         this.name = name;
     }
 
-    public String getBirtDate() {
-        return birtDate;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirtDate(String birtDate) {
-        this.birtDate = birtDate;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public int getVatNumber() {
