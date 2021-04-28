@@ -211,6 +211,9 @@ autonumber
 header Sequence Diagram
 title US151 Add Email
 
+participant ":IPersonController" as controller <<interface>>
+participant ":InputEmailDTO" as inputemail
+participant ":UserIDDTO" as userdto
 participant "IAddEmailService" as service <<interface>>
 participant "aPersonID : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
@@ -218,13 +221,17 @@ participant "aPerson\n : Person" as person
 participant "IPersonRepository" as personRepository <<interface>>
 participant "IPersonRepositoryJPA" as repoJPA <<interface>>
 
--> service : addEmail(addEmailDTO)
+-> controller : addEmail(addEmailDTO)
+activate controller
+controller -> inputemail** : create(addEmailDTO.unpackEmail())
+controller -> userdto** : create(addEmailDTO.unpackUserID())
+controller -> service : addEmail(inputEmailDTO, userIDDTO)
 activate service
 
-service -> service : loggedUserID = addEmailDTO.unpackUserID()
+service -> service : loggedUserID = userIDDTO.unpackUserID()
 service -> personid** : create(loggedUserID)
 
-service -> service : emailString = addEmailDTO.unpackEmail()
+service -> service : emailString = inputEmailDTO.unpackEmail()
 service -> email** : create(emailString)
 
 
@@ -261,6 +268,8 @@ return
 return
 <-- service
 deactivate service
+
+ADICIONAR HTTP.STATUS E MENSAGEM PARA USER (Adicionado email X ao user Y)
 @enduml
 ````
 
