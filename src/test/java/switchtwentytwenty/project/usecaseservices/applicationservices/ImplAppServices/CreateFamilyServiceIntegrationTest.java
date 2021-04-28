@@ -88,11 +88,11 @@ class CreateFamilyServiceIntegrationTest {
         // Arrange FamilyRepository
         when(familyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
         when(familyDataDomainAssembler.toData(any(Family.class))).thenReturn(new FamilyJPA());
-        when(familyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(new FamilyJPA());
+        when(familyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(new FamilyJPA(new FamilyIDJPA(VALIDEMAIL), "Silva", "12/12/1999", new PersonIDJPA(VALIDEMAIL)));
         // Arrange PersonRepository
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
         when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(new PersonJPA());
-        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA());
+        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA(new PersonIDJPA(VALIDEMAIL), "TonyZe", "12/12/199", 123456789, new FamilyIDJPA(VALIDEMAIL)));
 
         createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
 

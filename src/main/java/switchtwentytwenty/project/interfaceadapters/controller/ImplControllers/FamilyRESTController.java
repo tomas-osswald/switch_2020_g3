@@ -1,10 +1,12 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.FamilyOutputDTO;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
@@ -35,15 +37,18 @@ public class FamilyRESTController implements IFamilyRESTController {
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getLocalDate());
 
         HttpStatus status;
-        String result;
+        FamilyOutputDTO familyOutputDTO;
+
         try {
-            createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
+            familyOutputDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             status = HttpStatus.CREATED;
-            result = "Family added";
+
+
+            return new ResponseEntity<>(familyOutputDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            result = e.getMessage();
+            return new ResponseEntity<>("BUSineSs ErRoR ApI LoGIc", status);
         }
-        return new ResponseEntity<>(result, status);
+
     }
 }

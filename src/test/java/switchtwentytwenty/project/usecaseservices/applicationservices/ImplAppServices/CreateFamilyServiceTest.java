@@ -63,6 +63,7 @@ class CreateFamilyServiceTest {
         Mockito.when(inputPersonDTO.unpackEmail()).thenReturn("admin@email.com");
     }
 
+    //TODO: Decidir o familyID
     @Test
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Valid data doesn't throw exception")
@@ -71,8 +72,8 @@ class CreateFamilyServiceTest {
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
 
-        Mockito.doNothing().when(personRepository).add(admin);
-        Mockito.doNothing().when(familyRepository).add(family);
+        Mockito.when(personRepository.add(admin)).thenReturn(admin);
+        Mockito.when(familyRepository.add(family)).thenReturn(family);
 
         assertDoesNotThrow(() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
     }
@@ -85,8 +86,8 @@ class CreateFamilyServiceTest {
         //Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenThrow(InvalidNameException.class);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
-        Mockito.doNothing().when(personRepository).add(admin);
-        Mockito.doNothing().when(familyRepository).add(family);
+        Mockito.when(personRepository.add(admin)).thenReturn(admin);
+        Mockito.when(familyRepository.add(family)).thenReturn(family);
 
         assertThrows(InvalidNameException.class,() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
     }
@@ -100,7 +101,7 @@ class CreateFamilyServiceTest {
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
         Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).add(any());
-        Mockito.doNothing().when(familyRepository).add(family);
+        Mockito.when(familyRepository.add(family)).thenReturn(family);
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
     }

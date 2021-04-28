@@ -84,7 +84,7 @@ class AddFamilyMemberServiceTest {
         Mockito.when(personRepository.getByID(loggedUserID)).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
         Mockito.when(personDTODomainAssembler.toDomain(inputPersonDTO,familyID)).thenReturn(admin);
-        Mockito.doNothing().when(personRepository).add(admin);
+        Mockito.when(personRepository.add(admin)).thenReturn(admin);
 
 
         assertDoesNotThrow(() -> addFamilyMemberService.addPerson(inputPersonDTO));
