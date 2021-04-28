@@ -242,6 +242,10 @@
                         <param>switchtwentytwenty.project.util.*</param>
 
                     </targetTests>
+                    <excludedTestClasses>
+                        <excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
+                        <!--<param>switchtwentytwenty.project.**.*ITDB</param>-->
+                    </excludedTestClasses>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
                         <outputFormat>HTML</outputFormat>
