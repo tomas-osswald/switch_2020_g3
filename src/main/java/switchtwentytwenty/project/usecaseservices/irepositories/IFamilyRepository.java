@@ -12,5 +12,5 @@ public interface IFamilyRepository extends Repository<Family, FamilyID> {
     FamilyID generateID();
 
     @Override
-    void add(Family entity);
+    Family add(Family entity);
 }

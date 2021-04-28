@@ -13,7 +13,7 @@ public class InputPersonDTO {
     private String houseNumber;
     private String zipCode;
 
-
+    //TODO: retirar ID do admin pq não devemos "poluir" com informação que não é necessária para a criação de uma Person (aqui tivemos o nosso momento GRETA)
     public InputPersonDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.userID = userID;
         this.emailID = emailID;
@@ -70,4 +70,3 @@ public class InputPersonDTO {
 
 
 }
-

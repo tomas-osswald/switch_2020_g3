@@ -69,11 +69,16 @@ public class FamilyRepository implements IFamilyRepository {
      * The Family domain object will be converted into a FamilyJPA data object and saved in the repository.
      *
      * @param family domain object we want to add to the family repository
+     * @return
      */
     @Override
-    public void add(Family family) {
+    public Family add(Family family) {
+        FamilyJPA registeredFamilyJPA;
+        Family registeredFamily;
         FamilyJPA familyJPA = familyAssembler.toData(family);
-        familyRepositoryJPA.save(familyJPA);
+        registeredFamilyJPA = familyRepositoryJPA.save(familyJPA);
+        registeredFamily = familyAssembler.toDomain(registeredFamilyJPA);
+        return registeredFamily;
     }
 
     /**

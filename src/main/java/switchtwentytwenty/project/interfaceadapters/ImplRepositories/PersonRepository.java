@@ -75,10 +75,10 @@ public class PersonRepository implements IPersonRepository {
     }
 
     private Person retrievePersonFromRepository(PersonID id) {
-       PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
-       Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
-       Person person = personAssembler.toDomain(personJPA.get());
-       return person;
+        PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
+        Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+        Person person = personAssembler.toDomain(personJPA.get());
+        return person;
     }
 
     @Deprecated
@@ -119,22 +119,18 @@ public class PersonRepository implements IPersonRepository {
      * @param person domain object we want to add to the person repository
      */
     @Override
-    public void add(Person person) {
+    public Person add(Person person) {
+        PersonJPA registeredPersonJPA;
+        Person registeredPerson;
         if (!isPersonIDAlreadyRegistered(person.id())) {
             PersonJPA personJPA = personAssembler.toData(person);
-            personRepositoryJPA.save(personJPA);
+            registeredPersonJPA = personRepositoryJPA.save(personJPA);
+            registeredPerson = personAssembler.toDomain(registeredPersonJPA);
         } else {
             throw new PersonAlreadyRegisteredException("Person is already registered in the database");
         }
-
+        return registeredPerson;
     }
-
-
-
-
-
-
-
 
  /*   private class People implements Iterable<Person>{
         private final List<Person> people;
