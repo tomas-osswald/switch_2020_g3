@@ -2,7 +2,6 @@ package switchtwentytwenty.project.dto;
 
 public class InputPersonDTO {
 
-    private String userID;
     private String emailID;
     private String name;
     private String birtDate;
@@ -13,9 +12,7 @@ public class InputPersonDTO {
     private String houseNumber;
     private String zipCode;
 
-    //TODO: retirar ID do admin pq não devemos "poluir" com informação que não é necessária para a criação de uma Person (aqui tivemos o nosso momento GRETA)
-    public InputPersonDTO(String userID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
-        this.userID = userID;
+    public InputPersonDTO(String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.emailID = emailID;
         this.name = name;
         this.birtDate = birtDate;
@@ -26,10 +23,6 @@ public class InputPersonDTO {
         this.houseNumber = houseNumber;
         this.zipCode = zipCode;
 
-    }
-
-    public String unpackUserID() {
-        return this.userID;
     }
 
     public String unpackEmail() {

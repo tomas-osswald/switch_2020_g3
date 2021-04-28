@@ -74,7 +74,7 @@ class CreateFamilyServiceIntegrationTest {
     final String VALIDZIPCODE = "4700-111";
     final String VALIDADDRESSNUMBER = "69B";
     final String VALIDBIRTHDATE = "01/03/1990";
-    InputPersonDTO inputPersonDTO = new InputPersonDTO(null, VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER,
+    InputPersonDTO inputPersonDTO = new InputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER,
             VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE);
     //
     final String VALID_FAMILY_NAME = "Simpson";
@@ -113,7 +113,7 @@ class CreateFamilyServiceIntegrationTest {
 
         createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
 
-        InputPersonDTO invalidInputPersonDTO = new InputPersonDTO(null, VALIDEMAIL, "", VALIDBIRTHDATE, VALIDVATNUMBER,
+        InputPersonDTO invalidInputPersonDTO = new InputPersonDTO(VALIDEMAIL, "", VALIDBIRTHDATE, VALIDVATNUMBER,
                 VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE);
 
         assertThrows(InvalidNameException.class, () -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, invalidInputPersonDTO));

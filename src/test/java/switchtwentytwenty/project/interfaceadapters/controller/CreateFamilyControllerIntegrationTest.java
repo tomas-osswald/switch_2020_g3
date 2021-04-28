@@ -91,7 +91,7 @@ class CreateFamilyControllerIntegrationTest {
     void shouldBeTrueCreateFamily() {
 
         VALIDCreateFamilyDTO = new InputFamilyDTO("Silva", "2019/12/12");
-        inputPersonDTO = new InputPersonDTO("email@there.com", "email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
+        inputPersonDTO = new InputPersonDTO("email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
 
         CreateFamilyService createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
         //personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
@@ -115,7 +115,7 @@ class CreateFamilyControllerIntegrationTest {
     @Test
     void shouldBeFalseCreateFamilyEmailAlreadyregistered() {
         VALIDCreateFamilyDTO = new InputFamilyDTO("Silva", "2019/12/12");
-        inputPersonDTO = new InputPersonDTO("email@there.com", "email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
+        inputPersonDTO = new InputPersonDTO( "email@here.com", "Rui", "28/12/1990", 123456789, 919999999, "Rua do Coiso", "Porto", "12", "4432-222");
 
         CreateFamilyService createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
         //personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);

@@ -585,3 +585,5 @@ REST Controllers planning
 #28/04/2021
 
 Ter em atenção os equals - deve ter apenas os atributos que dão a identidade ao objeto. Em OneToMany/ManyToOne, quando temos o JoinColumn, pode originar uma EIDC e consequentemente um StackOverflow
+
+Foi retirado o admin ID do InputPersonDTO (não era necessária essa informação para a criação de Person)

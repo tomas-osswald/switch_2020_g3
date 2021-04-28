@@ -27,7 +27,6 @@ public class FamilyRESTController implements IFamilyRESTController {
     public FamilyRESTController(ICreateFamilyService createFamilyService) {
         this.createFamilyService = createFamilyService;
     }
-    //TODO: definir result, a cena do link para aceder ao recurso criado
 
     /**
      * Method to create a family and add a person as administrator
@@ -38,24 +37,24 @@ public class FamilyRESTController implements IFamilyRESTController {
     @PostMapping("/")
 
     public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
-        InputPersonDTO inputPersonDTO = new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirthDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());
+        InputPersonDTO inputPersonDTO = new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirthDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getLocalDate());
 
         HttpStatus status;
         FamilyOutputDTO familyOutputDTO;
-        Object result;
+
         try {
             familyOutputDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             status = HttpStatus.CREATED;
 
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(addFamilyAndSetAdminDTO.getFamilyName())).withSelfRel();
             familyOutputDTO.add(selfLink);
-            result = familyOutputDTO;
+            return new ResponseEntity<>(familyOutputDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            result = "error";
+            return new ResponseEntity<>("BUSineSs ErRoR ApI LoGIc", status);
         }
-        return new ResponseEntity<>(result, status);
+
 
     }
 
