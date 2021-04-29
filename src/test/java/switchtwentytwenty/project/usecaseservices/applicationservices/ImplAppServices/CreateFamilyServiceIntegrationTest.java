@@ -8,26 +8,24 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.PersonJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
+import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
-import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.dto.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.interfaceadapters.ImplRepositories.FamilyRepository;
 import switchtwentytwenty.project.interfaceadapters.ImplRepositories.PersonRepository;
-import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
-import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.Optional;
 
@@ -74,7 +72,7 @@ class CreateFamilyServiceIntegrationTest {
     final String VALIDZIPCODE = "4700-111";
     final String VALIDADDRESSNUMBER = "69B";
     final String VALIDBIRTHDATE = "01/03/1990";
-    InputPersonDTO inputPersonDTO = new InputPersonDTO(null, VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER,
+    InputPersonDTO inputPersonDTO = new InputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER,
             VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE);
     //
     final String VALID_FAMILY_NAME = "Simpson";
@@ -88,11 +86,13 @@ class CreateFamilyServiceIntegrationTest {
         // Arrange FamilyRepository
         when(familyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
         when(familyDataDomainAssembler.toData(any(Family.class))).thenReturn(new FamilyJPA());
-        when(familyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(new FamilyJPA());
+        when(familyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(new FamilyJPA(new FamilyIDJPA(VALIDEMAIL), "Silva", "12/12/1999", new PersonIDJPA(VALIDEMAIL)));
+        when(familyDataDomainAssembler.toDomain(any(FamilyJPA.class))).thenReturn(new Family(new FamilyID(VALIDEMAIL), new FamilyName("Silva"), new RegistrationDate("12/12/1999"), new PersonID(VALIDEMAIL)));
         // Arrange PersonRepository
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
         when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(new PersonJPA());
-        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA());
+        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA(new PersonIDJPA(VALIDEMAIL), "TonyZe", "12/12/199", 123456789, new FamilyIDJPA(VALIDEMAIL)));
+        when(personDataDomainAssembler.toDomain(any(PersonJPA.class))).thenReturn(new Person(new Name("Rui"), new BirthDate("12/12/1999"), new PersonID("email@here.com"), new VATNumber(123456789), new PhoneNumber(987654321), new Address("Rua", "Covilhã", "6200-000", "1"), new FamilyID("email@here.com")));
 
         createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
 
@@ -113,7 +113,7 @@ class CreateFamilyServiceIntegrationTest {
 
         createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
 
-        InputPersonDTO invalidInputPersonDTO = new InputPersonDTO(null, VALIDEMAIL, "", VALIDBIRTHDATE, VALIDVATNUMBER,
+        InputPersonDTO invalidInputPersonDTO = new InputPersonDTO(VALIDEMAIL, "", VALIDBIRTHDATE, VALIDVATNUMBER,
                 VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE);
 
         assertThrows(InvalidNameException.class, () -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, invalidInputPersonDTO));

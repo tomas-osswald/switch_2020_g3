@@ -1,3 +1,4 @@
+![apes](https://media1.tenor.com/images/62f924e0d5dd5437e522609cf7dd81ef/tenor.gif?itemid=20906166)
 # Sprint 3
 
 # This document keeps track of the different Class Diagrams throughout the sprint
@@ -565,6 +566,15 @@ Categories
 2. Mapear todas as categories pelo URI _categories_?
 
 ---
+##27/04/2021
+## REST Controllers planning
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630908504375387/IMG_20210427_165045.jpg)
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630908806103060/IMG_20210427_165104.jpg)
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630909070475374/IMG_20210427_165119.jpg)
+![](https://cdn.discordapp.com/attachments/786935055863644231/836630909431971890/IMG_20210427_165128.jpg)
+---
+
+---
 
 REST Controllers planning
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630908504375387/IMG_20210427_165045.jpg)
@@ -572,3 +582,12 @@ REST Controllers planning
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630909070475374/IMG_20210427_165119.jpg)
 ![](https://cdn.discordapp.com/attachments/786935055863644231/836630909431971890/IMG_20210427_165128.jpg)
 ---
+
+### Decisão do Autowired ser colocado no construtor e não nos atributos.
+Nos testes evita o problema de haver objetos instanciados como nulos. Nas classes "finais" como DTOs recorrer a anotações de _allargsconstructor_
+
+#28/04/2021
+
+Ter em atenção os equals - deve ter apenas os atributos que dão a identidade ao objeto. Em OneToMany/ManyToOne, quando temos o JoinColumn, pode originar uma EIDC e consequentemente um StackOverflow
+
+Foi retirado o admin ID do InputPersonDTO (não era necessária essa informação para a criação de Person)

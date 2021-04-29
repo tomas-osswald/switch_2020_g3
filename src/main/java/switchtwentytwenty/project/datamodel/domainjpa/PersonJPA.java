@@ -1,9 +1,7 @@
-package switchtwentytwenty.project.datamodel;
+package switchtwentytwenty.project.datamodel.domainjpa;
 
 
 import lombok.*;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
 
 import javax.persistence.*;
 import java.util.ArrayList;

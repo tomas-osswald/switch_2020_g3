@@ -8,12 +8,11 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
 
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
@@ -22,7 +21,6 @@ import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,7 +55,7 @@ class FamilyRepositoryTest {
     // Family
 
     UUID id = UUID.randomUUID();
-    FamilyID familyID = new FamilyID(id);
+    FamilyID familyID = new FamilyID("admin@gmail.com");
     String familyNameString = "Ribeiro";
     FamilyName familyName = new FamilyName(familyNameString);
     String date = "12/12/1990";
@@ -67,31 +65,9 @@ class FamilyRepositoryTest {
 
     Family family = new Family(familyID, familyName, registrationDate, adminEmail);
 
-    // End Family
 
-    @Tag("US010")
-    @Test
-    void generateID() {
-        Optional<FamilyJPA> familyJPAOptional = Optional.empty();
 
-        when(iFamilyRepositoryJPA.findById(any())).thenReturn(familyJPAOptional);
 
-        assertNotNull(familyRepository.generateID());
-    }
-
-    @Tag("US010")
-    @Test
-    void generateIDAlreadyPresentCreatesAnother() {
-        //FamilyJPA familyJPA = Mockito.mock(FamilyJPA.class);
-        FamilyJPA familyJPA = new FamilyJPA(familyIDJPA, familyNameJPA, registrationDateJPA, adminIDJPA);
-
-        Optional<FamilyJPA> familyJPAOptional = Optional.of(familyJPA);
-
-        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(familyJPAOptional).thenReturn(Optional.empty());
-
-        //when(iFamilyRepositoryJPA.findById(any())).thenReturn()
-        assertNotNull(familyRepository.generateID());
-    }
 
     @Tag("US010")
     @Test

@@ -1,15 +1,18 @@
-package switchtwentytwenty.project.datamodel.assemblerjpa;
+package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.AssemblerDataDomain;
 
 @Component
-public class FamilyDataDomainAssembler {
+public class FamilyDataDomainAssembler implements AssemblerDataDomain<FamilyJPA, Family> {
     /**
      * Assembler method to create a Family domain object into a FamilyJPA data object.
      * @param family domain object

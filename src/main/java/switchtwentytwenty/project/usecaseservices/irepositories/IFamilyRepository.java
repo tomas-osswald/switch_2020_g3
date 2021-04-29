@@ -9,8 +9,8 @@ public interface IFamilyRepository extends Repository<Family, FamilyID> {
 
     void verifyAdmin(PersonID adminID);
 
-    FamilyID generateID();
+    //FamilyID generateID();
 
     @Override
-    void add(Family entity);
+    Family add(Family entity);
 }

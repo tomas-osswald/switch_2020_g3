@@ -14,33 +14,32 @@ import java.util.UUID;
 public class FamilyID implements OwnerID<UUID>, Serializable {
     @Getter
     @Setter
-    private UUID familyID;
+    private String familyID;
 
     public FamilyID(String familyID) {
-        this.familyID = UUID.fromString(familyID);
+        validateID(familyID);
+        this.familyID = familyID.trim();
+
     }
 
-    public FamilyID(UUID familyID) {
-        this.familyID = familyID;
-        validateID();
-    }
 
     @Override
     public String toString() {
 
-        return this.familyID.toString();
+        return this.familyID;
     }
 
-    public FamilyID clone(){
+    public FamilyID clone() {
         FamilyID clone = new FamilyID(this.familyID);
         return clone;
     }
 
     /**
      * Method that validates a familyID, throws an exception if the ID isn't valid
+     * @param familyID
      */
-    private void validateID() {
-        if (!isIDValid()) {
+    private void validateID(String familyID) {
+        if (!isIDValid(familyID)) {
             throw new IllegalArgumentException("Invalid ID");
         }
     }
@@ -49,9 +48,10 @@ public class FamilyID implements OwnerID<UUID>, Serializable {
      * Method to determine if an ID is valid, i.e. not null
      *
      * @return boolean, true if ID is valid, false otherwise
+     * @param familyID
      */
-    private boolean isIDValid() {
-        return this.familyID != null;
+    private boolean isIDValid(String familyID) {
+        return familyID != null;
     }
 
     @Override

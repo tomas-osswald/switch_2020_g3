@@ -12,10 +12,8 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void familyIDConstructorTest_Valid() {
-        //Arrange
-        UUID familyID = UUID.randomUUID();
         //Act
-        FamilyID newFamilyID = new FamilyID(familyID);
+        FamilyID newFamilyID = new FamilyID("admin@gmail.com");
         //Assert
         assertNotNull(newFamilyID);
     }
@@ -24,7 +22,7 @@ class FamilyIDTest {
     @Tag("US010")
     void familyIDConstructorTest_InvalidNull() {
         //Arrange
-        UUID familyID = null;
+        String familyID = null;
         //Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
                 new FamilyID(familyID)
@@ -34,9 +32,8 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void equalsTest_equalNotSame() {
-        UUID idOne = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(idOne);
-        FamilyID familyIDTwo = new FamilyID(idOne);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
+        FamilyID familyIDTwo = new FamilyID("admin@gmail.com");
 
         assertNotSame(familyIDOne, familyIDTwo);
         assertEquals(familyIDOne, familyIDTwo);
@@ -46,7 +43,7 @@ class FamilyIDTest {
     @Tag("US010")
     void equalsTest_equalSame() {
         UUID idOne = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(idOne);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         FamilyID familyIDTwo = familyIDOne;
 
         assertSame(familyIDOne, familyIDTwo);
@@ -57,9 +54,9 @@ class FamilyIDTest {
     @Tag("US010")
     void equalsTest_notEqual() {
         UUID idOne = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(idOne);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         UUID idTwo = UUID.randomUUID();
-        FamilyID familyIDTwo = new FamilyID(idTwo);
+        FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
 
         assertNotEquals(familyIDOne, familyIDTwo);
     }
@@ -68,7 +65,7 @@ class FamilyIDTest {
     @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
         UUID idOne = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(idOne);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         String notFamilyID = "notFamilyID";
 
         assertNotEquals(familyIDOne, notFamilyID);
@@ -78,8 +75,8 @@ class FamilyIDTest {
     @Tag("US010")
     void hashCodeTest_sameHashCode() {
         UUID idOne = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(idOne);
-        FamilyID familyIDTwo = new FamilyID(idOne);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
+        FamilyID familyIDTwo = new FamilyID("admin@gmail.com");
 
         assertEquals(familyIDOne.hashCode(), familyIDTwo.hashCode());
     }
@@ -88,9 +85,9 @@ class FamilyIDTest {
     @Tag("US010")
     void hashCodeTest_differentHashCode() {
         UUID idOne = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(idOne);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         UUID idTwo = UUID.randomUUID();
-        FamilyID familyIDTwo = new FamilyID(idTwo);
+        FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
 
         assertNotEquals(familyIDOne.hashCode(), familyIDTwo.hashCode());
     }
