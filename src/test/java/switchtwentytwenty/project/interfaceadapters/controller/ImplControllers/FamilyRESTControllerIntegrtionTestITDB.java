@@ -26,7 +26,6 @@ class FamilyRESTControllerIntegrtionTestITDB {
     @Autowired
     IFamilyRESTController familyRESTController;
 
-    @Disabled
     @Test
     void createFamilyAndSetAdmin() {
 
