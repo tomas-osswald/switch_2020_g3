@@ -266,10 +266,11 @@ personRepository -> repoJPA : save(personJPA)
 activate repoJPA
 return
 return
-<-- service
+controller <-- service :  
 deactivate service
+<-- controller : 
 
-ADICIONAR HTTP.STATUS E MENSAGEM PARA USER (Adicionado email X ao user Y)
+'ADICIONAR HTTP.STATUS E MENSAGEM PARA USER (Adicionado email X ao user Y)
 @enduml
 ````
 
