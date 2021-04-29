@@ -312,7 +312,8 @@ We applied the following principles:
 
 **Test 1:** Test that it is possible to add a new EmailAddress successfully
 
-```java
+```
+java
 @DisplayName("Successfully add a new email address")
 @Test
     void mustReturnTrueAddEmail() {
@@ -327,7 +328,8 @@ We applied the following principles:
 
 **Test 2:** Test that it is not possible to add a new Email Address if the email is invalid
 
-```java
+```
+java
 @DisplayName("Unsuccessfully add an email - invalid email")
 @ParameterizedTest
 @ValueSource(strings = {"  ","invalidemail@@gmail.com","tonyze"})
@@ -344,7 +346,8 @@ We applied the following principles:
 
 **Test 3:** Test that it is not possible to add a new email if the user already has that email
 
-```java
+```
+java
 @DisplayName("Unsuccessfully add an email - email already registered to user")
 @Test
     void mustReturnFalseAddEmailEmailRegistred() {
@@ -355,7 +358,8 @@ We applied the following principles:
 ```
 **Test 3:** Test that it is not possible to add a new email if another user already has that email
 
-```java
+```
+java
 @DisplayName("Unsuccessfully add an email - email already registered to another user")
 @Test
     void mustReturnFalseAddEmailEmailRegistredAnotherUser() {
@@ -369,7 +373,8 @@ We applied the following principles:
 
 1. The EmailAddress is initially instantiated, with respective validations.
 
-```java
+```
+java
  public void addEmail(AddEmailDTO addEmailDTO) {
         PersonRepository personRepository = application.getPersonRepository();
         EmailAddress loggedUserID = application.getLoggedPersonID();
@@ -383,7 +388,8 @@ We applied the following principles:
 2. The Person Repository will check if the email is already registered, and add the email to the target person
 
 
-```java
+```
+java
    public void addEmailToPerson(EmailAddress email, EmailAddress personID) {
         if (!isEmailAlreadyRegistered(email)) {
         Person loggedUser = getPersonByEmail(personID);
@@ -398,7 +404,8 @@ We applied the following principles:
 
 3. Before adding the email, the email is validated in the Person Repository in order to guarantee that it is Unique
 
-```java
+```
+java
       private boolean isEmailAlreadyRegistered(EmailAddress email) {
       boolean emailIsRegistered = false;
       for (Person person : people) {
