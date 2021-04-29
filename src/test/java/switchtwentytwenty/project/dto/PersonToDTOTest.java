@@ -25,7 +25,7 @@ class PersonToDTOTest {
     BirthDate birthdate = new BirthDate("12/12/1970");
     PersonID personID = new PersonID("tonyze@gmail.com");
     VATNumber vat = new VATNumber(123456789);
-    FamilyID familyID = new FamilyID(UUID.randomUUID());
+    FamilyID familyID = new FamilyID("tonyze@gmail.com");
     String street = "Rua da amargura";
     String city = "Amadora";
     String zipCode = "4444-111";

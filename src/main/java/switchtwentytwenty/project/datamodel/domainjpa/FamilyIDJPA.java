@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.datamodel.assemblerjpa;
+package switchtwentytwenty.project.datamodel.domainjpa;
 
 import lombok.*;
 

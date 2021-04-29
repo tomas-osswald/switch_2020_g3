@@ -27,4 +27,9 @@ public class FamilyDTODomainAssembler {
         return family;
     }
 
+    public FamilyOutputDTO toDTO(Family family) {
+        FamilyOutputDTO familyOutputDTO = new FamilyOutputDTO(family.getName().toString(), family.id().toString(), family.getAdmin().toString());
+        return familyOutputDTO;
+    }
+
 }

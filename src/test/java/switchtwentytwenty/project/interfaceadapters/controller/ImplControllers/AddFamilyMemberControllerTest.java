@@ -29,9 +29,9 @@ class AddFamilyMemberControllerTest {
     @Test
     @Tag("US101")
     void addFamilyMemberSuccess() {
-        Mockito.doNothing().when(addFamilyMemberService).addPerson(inputPersonDTO);
+        Mockito.doNothing().when(addFamilyMemberService).addPerson(inputPersonDTO, "email@email.com");
 
-        boolean result = addFamilyMemberController.addFamilyMember(inputPersonDTO);
+        boolean result = addFamilyMemberController.addFamilyMember(inputPersonDTO, "email@email.com");
 
         assertTrue(result);
     }
@@ -39,9 +39,9 @@ class AddFamilyMemberControllerTest {
     @Test
     @Tag("US101")
     void addFamilyMemberFail() {
-        Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(inputPersonDTO);
+        Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(inputPersonDTO, "email@email.com");
 
-        boolean result = addFamilyMemberController.addFamilyMember(inputPersonDTO);
+        boolean result = addFamilyMemberController.addFamilyMember(inputPersonDTO, "email@email.com");
 
         assertFalse(result);
     }

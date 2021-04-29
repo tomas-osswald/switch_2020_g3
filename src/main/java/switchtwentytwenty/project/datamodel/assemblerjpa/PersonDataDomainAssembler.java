@@ -1,10 +1,7 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa;
 
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.datamodel.AddressJPA;
-import switchtwentytwenty.project.datamodel.EmailAddressJPA;
-import switchtwentytwenty.project.datamodel.PersonJPA;
-import switchtwentytwenty.project.datamodel.PhoneNumberJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 

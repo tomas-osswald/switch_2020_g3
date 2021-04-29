@@ -1,6 +1,5 @@
-package switchtwentytwenty.project.datamodel.assemblerjpa;
+package switchtwentytwenty.project.datamodel.domainjpa;
 
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
