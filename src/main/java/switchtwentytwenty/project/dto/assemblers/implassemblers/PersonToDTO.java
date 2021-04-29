@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
@@ -8,6 +9,7 @@ import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Component
 public class PersonToDTO {

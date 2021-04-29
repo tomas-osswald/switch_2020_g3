@@ -1,12 +1,14 @@
 package switchtwentytwenty.project.dto.family;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
 @AllArgsConstructor
+@NoArgsConstructor
 public class AddFamilyAndSetAdminDTO  {
 
     private String emailID;

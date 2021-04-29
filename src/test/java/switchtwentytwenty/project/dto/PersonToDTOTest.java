@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+//@ContextConfiguration(classes = {Person.class, PersonToDTO.class})
 class PersonToDTOTest {
 
 

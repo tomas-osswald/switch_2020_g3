@@ -1,8 +1,11 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.*;
@@ -11,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person implements AggregateRoot<PersonID> {
 
     private PersonID id;
