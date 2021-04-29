@@ -4,7 +4,7 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;

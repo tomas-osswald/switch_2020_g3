@@ -13,16 +13,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.dto.FamilyDTODomainAssembler;
+import switchtwentytwenty.project.dto.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.InputFamilyDTO;
 import switchtwentytwenty.project.dto.InputPersonDTO;
-import switchtwentytwenty.project.dto.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
-
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

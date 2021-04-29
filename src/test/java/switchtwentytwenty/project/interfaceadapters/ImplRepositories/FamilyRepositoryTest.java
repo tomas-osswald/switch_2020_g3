@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
