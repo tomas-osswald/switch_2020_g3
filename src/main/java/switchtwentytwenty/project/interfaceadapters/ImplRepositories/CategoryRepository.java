@@ -3,9 +3,9 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
-import switchtwentytwenty.project.usecaseservices.irepositories.Repository;
+import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
-public class ICategoryRepository implements Repository<Category, CategoryID> {
+public class CategoryRepository implements ICategoryRepository {
 
 
     @Override

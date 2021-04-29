@@ -17,6 +17,10 @@ public class CategoryIDJPA implements Serializable {
     @GeneratedValue
     private long id;
 
+    public CategoryIDJPA(long id){
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

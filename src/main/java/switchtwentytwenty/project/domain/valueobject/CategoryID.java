@@ -1,15 +1,13 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 import java.util.Objects;
-import java.util.UUID;
 
-public class CategoryID implements ID<UUID> {
+public class CategoryID implements ID<Long> {
 
-    private UUID categoryID;
+    private long categoryID;
 
-    public CategoryID() {
-        this.categoryID = UUID.randomUUID();
-        //validateID();
+    public CategoryID(long categoryID) {
+        this.categoryID = categoryID;
     }
 
     @Override
@@ -17,7 +15,7 @@ public class CategoryID implements ID<UUID> {
         if (this == o) return true;
         if (!(o instanceof CategoryID)) return false;
         CategoryID that = (CategoryID) o;
-        return categoryID.equals(that.categoryID);
+        return categoryID == that.categoryID;
     }
 
     @Override

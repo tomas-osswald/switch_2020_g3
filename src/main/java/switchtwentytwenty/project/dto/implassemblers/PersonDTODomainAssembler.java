@@ -4,10 +4,9 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.InputPersonDTO;
-import switchtwentytwenty.project.dto.iassemblers.AssemblerDTODomain;
 
 @Component
-public class PersonDTODomainAssembler {
+public class PersonDTODomainAssembler{
     /**
      * Assembler method to create a Person domain object from a DTO.
      * @param inputPersonDTO DTO that contains the Person's information
