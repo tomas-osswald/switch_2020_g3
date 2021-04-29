@@ -8,9 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddEmailController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 
 import static org.junit.Assert.assertFalse;

@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
-import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.person.InputPersonDTO;
 
 public interface IAddFamilyMemberService {
 

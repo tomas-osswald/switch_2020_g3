@@ -2,7 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddFamilyMemberController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 

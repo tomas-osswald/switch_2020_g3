@@ -5,10 +5,10 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import switchtwentytwenty.project.dto.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.FamilyOutputDTO;
-import switchtwentytwenty.project.dto.InputFamilyDTO;
-import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.dto.family.InputFamilyDTO;
+import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
@@ -41,15 +41,15 @@ public class FamilyRESTController implements IFamilyRESTController {
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getLocalDate());
 
         HttpStatus status;
-        FamilyOutputDTO familyOutputDTO;
+        OutputFamilyDTO outputFamilyDTO;
 
         try {
-            familyOutputDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
+            outputFamilyDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             status = HttpStatus.CREATED;
 
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(addFamilyAndSetAdminDTO.getFamilyName())).withSelfRel();
-            familyOutputDTO.add(selfLink);
-            return new ResponseEntity<>(familyOutputDTO, status);
+            outputFamilyDTO.add(selfLink);
+            return new ResponseEntity<>(outputFamilyDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             return new ResponseEntity<>("BUSineSs ErRoR ApI LoGIc", status);

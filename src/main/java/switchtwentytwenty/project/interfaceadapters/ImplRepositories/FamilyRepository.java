@@ -44,25 +44,6 @@ public class FamilyRepository implements IFamilyRepository {
         this.families.add(family);
     }
 
-    /**
-     * Method to generate a FamilyID domain object.
-     *
-     * @return familyID
-     * This method uses a recursive call to generate a unique ID after checking if it's not already registered.
-     *//*
-    public FamilyID generateID() {
-        //FamilyIDGenerator familyIDGenerator = new DefaultFamilyIDGenerator();
-        //FamilyID familyID = familyIDGenerator.generateID();
-        FamilyID familyID;
-
-        do {
-            familyID = new FamilyID(String);
-
-
-        } while (checkIfIDExists(familyID));
-
-        return familyID;
-    }*/
 
     /**
      * Method to add a Family domain object to the repository.

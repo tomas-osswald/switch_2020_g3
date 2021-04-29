@@ -1,14 +1,14 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.person;
+
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 
-public class PersonProfileDTO {
-    @Deprecated
-    public PersonProfileDTO(){
+@NoArgsConstructor
+public class OutputPersonDTO {
 
-    }
-    public PersonProfileDTO(String id, String name, String birthdate, List<String> emails, List<String> phoneNumbers, String vat, String address, String familyID) {
+    public OutputPersonDTO(String id, String name, String birthdate, List<String> emails, List<String> phoneNumbers, String vat, String address, String familyID) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
@@ -32,7 +32,7 @@ public class PersonProfileDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonProfileDTO that = (PersonProfileDTO) o;
+        OutputPersonDTO that = (OutputPersonDTO) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(birthdate, that.birthdate) && Objects.equals(emails, that.emails) && Objects.equals(phoneNumbers, that.phoneNumbers) && Objects.equals(vat, that.vat) && Objects.equals(address, that.address) && Objects.equals(familyID, that.familyID);
     }
 

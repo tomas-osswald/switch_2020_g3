@@ -1,9 +1,10 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PhoneNumber;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +12,11 @@ import java.util.List;
 @Component
 public class PersonToDTO {
 
-
-
     public PersonToDTO() {
 
     }
 
-    public PersonProfileDTO createPersonProfileDTO(Person person) {
+    public OutputPersonDTO createPersonProfileDTO(Person person) {
         String id = person.id().toString();
         String name = person.getName().toString();
         String birthdate = person.getBirthdate().toString();
@@ -27,8 +26,8 @@ public class PersonToDTO {
         String address = person.getAddress().toString();
         String familyID = person.getFamilyID().toString();
 
-        PersonProfileDTO personProfileDTO = new PersonProfileDTO(id,name,birthdate,emails,phoneNumbers,vat,address,familyID);
-        return personProfileDTO;
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(id,name,birthdate,emails,phoneNumbers,vat,address,familyID);
+        return outputPersonDTO;
     }
 
     private List<String> generatePhoneNumberList(Person person) {

@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.valueobject;
 import lombok.Getter;
 import switchtwentytwenty.project.exceptions.*;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class PhoneNumber implements ValueObject {
@@ -47,5 +48,18 @@ public class PhoneNumber implements ValueObject {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PhoneNumber that = (PhoneNumber) o;
+        return number.equals(that.number);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number);
     }
 }

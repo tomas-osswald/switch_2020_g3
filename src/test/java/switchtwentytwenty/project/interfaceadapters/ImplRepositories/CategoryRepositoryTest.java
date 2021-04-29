@@ -60,6 +60,7 @@ class CategoryRepositoryTest {
         Category result = categoryRepository.getByID(categoryID);
 
         assertEquals(expected,result);
+        assertNotNull(result);
     }
 
 
@@ -76,6 +77,7 @@ class CategoryRepositoryTest {
         Category result = categoryRepository.add(category);
 
         assertEquals(expected,result);
+        assertNotNull(result);
     }
 
     /*

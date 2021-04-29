@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.PersonProfileDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 class GetFamilyMemberProfileControllerTest {
 
-    PersonProfileDTO personProfileDTOoutput = new PersonProfileDTO();
+    OutputPersonDTO outputPersonDTOoutput = new OutputPersonDTO();
 
     @Mock
     IGetFamilyMemberProfileService getProfileService;
@@ -29,11 +29,11 @@ class GetFamilyMemberProfileControllerTest {
     @DisplayName("Test if the GetFamilyMemberProfileController returns the correct DTO")
     void getFamilyMemberProfileSuccessCase() {
         String personID = "email@domain.pt";
-        PersonProfileDTO expected = new PersonProfileDTO();
+        OutputPersonDTO expected = new OutputPersonDTO();
 
-        Mockito.when(getProfileService.getFamilyMemberProfile(personID)).thenReturn(personProfileDTOoutput);
+        Mockito.when(getProfileService.getFamilyMemberProfile(personID)).thenReturn(outputPersonDTOoutput);
 
-        PersonProfileDTO result = getFamilyMemberProfileController.getFamilyMemberProfile(personID);
+        OutputPersonDTO result = getFamilyMemberProfileController.getFamilyMemberProfile(personID);
 
         assertNotSame(expected, result);
         assertEquals(expected, result);

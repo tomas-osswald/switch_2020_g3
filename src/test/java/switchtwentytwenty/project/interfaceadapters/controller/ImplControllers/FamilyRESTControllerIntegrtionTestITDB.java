@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.FamilyOutputDTO;
+import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,11 +30,11 @@ class FamilyRESTControllerIntegrtionTestITDB {
 
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
 
-        FamilyOutputDTO familyOutputDTO = new FamilyOutputDTO("Silva", "tony@email.com", "tony@email.com");
+        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
 
-        familyOutputDTO.add(expectedLink);
+        outputFamilyDTO.add(expectedLink);
 
-        ResponseEntity expected = new ResponseEntity(familyOutputDTO, HttpStatus.CREATED);
+        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
 
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
 

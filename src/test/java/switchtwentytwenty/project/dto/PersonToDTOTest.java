@@ -11,10 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -54,7 +55,7 @@ class PersonToDTOTest {
         Mockito.when(person.getFamilyID()).thenReturn(familyID);
 
 
-        PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
+        OutputPersonDTO result = personToDTO.createPersonProfileDTO(person);
 
         Assertions.assertNotNull(result);
     }
@@ -109,7 +110,7 @@ class PersonToDTOTest {
         expected.add("919999999");
         expected.add("918888888");
 
-        PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
+        OutputPersonDTO result = personToDTO.createPersonProfileDTO(person);
 
         Assertions.assertEquals(expected, result.getPhoneNumbers());
     }
@@ -135,7 +136,7 @@ class PersonToDTOTest {
         expected.add("email1@email.com");
         expected.add("email2@email.com");
 
-        PersonProfileDTO result = personToDTO.createPersonProfileDTO(person);
+        OutputPersonDTO result = personToDTO.createPersonProfileDTO(person);
 
         Assertions.assertEquals(expected, result.getEmails());
     }

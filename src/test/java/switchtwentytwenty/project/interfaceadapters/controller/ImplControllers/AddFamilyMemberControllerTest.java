@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 
 import static org.junit.jupiter.api.Assertions.*;

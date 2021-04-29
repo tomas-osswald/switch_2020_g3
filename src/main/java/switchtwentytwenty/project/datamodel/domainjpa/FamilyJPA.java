@@ -36,11 +36,11 @@ public class FamilyJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FamilyJPA familyJPA = (FamilyJPA) o;
-        return Objects.equals(id, familyJPA.id) && Objects.equals(familyName, familyJPA.familyName) && Objects.equals(registrationDate, familyJPA.registrationDate) && Objects.equals(adminID, familyJPA.adminID);
+        return Objects.equals(id, familyJPA.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, familyName, registrationDate, adminID);
+        return Objects.hash(id);
     }
 }

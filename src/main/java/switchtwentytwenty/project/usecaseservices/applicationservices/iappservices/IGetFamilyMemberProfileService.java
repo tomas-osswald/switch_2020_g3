@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
-import switchtwentytwenty.project.dto.PersonProfileDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 public interface IGetFamilyMemberProfileService {
 
-    PersonProfileDTO getFamilyMemberProfile(String personID);
+    OutputPersonDTO getFamilyMemberProfile(String personID);
 
 }

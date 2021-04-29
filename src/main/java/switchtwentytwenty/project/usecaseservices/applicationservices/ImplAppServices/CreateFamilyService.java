@@ -7,9 +7,11 @@ import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.*;
-import switchtwentytwenty.project.dto.implassemblers.FamilyDTODomainAssembler;
-import switchtwentytwenty.project.dto.implassemblers.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.family.InputFamilyDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -36,7 +38,7 @@ public class CreateFamilyService implements ICreateFamilyService {
      * @param inputFamilyDTO DTO that contains the Family's information
      * @param inputPersonDTO DTO that contains the Family Administrator's information
      */
-    public FamilyOutputDTO createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
+    public OutputFamilyDTO createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         PersonID adminID = new PersonID(inputPersonDTO.unpackEmail());
         FamilyID familyID = new FamilyID(inputPersonDTO.unpackEmail());
         Person admin = personDTODomainAssembler.toDomain(inputPersonDTO, familyID);
@@ -45,7 +47,7 @@ public class CreateFamilyService implements ICreateFamilyService {
         Person person = personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
 
-        FamilyOutputDTO familyOutputDTO = familyDTODomainAssembler.toDTO(registeredFamily);
-        return familyOutputDTO;
+        OutputFamilyDTO outputFamilyDTO = familyDTODomainAssembler.toDTO(registeredFamily);
+        return outputFamilyDTO;
     }
 }

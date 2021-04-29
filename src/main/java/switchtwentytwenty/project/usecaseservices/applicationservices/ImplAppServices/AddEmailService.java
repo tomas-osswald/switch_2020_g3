@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 

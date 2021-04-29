@@ -1,4 +1,6 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.person;
+
+import java.util.Objects;
 
 public class InputPersonDTO {
 
@@ -68,5 +70,16 @@ public class InputPersonDTO {
         return this.zipCode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InputPersonDTO that = (InputPersonDTO) o;
+        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birtDate.equals(that.birtDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailID, name, birtDate, vatNumber, phone, street, city, houseNumber, zipCode);
+    }
 }

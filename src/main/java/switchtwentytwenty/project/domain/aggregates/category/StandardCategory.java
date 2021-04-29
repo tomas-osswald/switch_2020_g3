@@ -3,6 +3,8 @@ package switchtwentytwenty.project.domain.aggregates.category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 
+import java.util.Objects;
+
 public class StandardCategory implements Category {
 
     private CategoryData categoryData;
@@ -31,5 +33,18 @@ public class StandardCategory implements Category {
     @Override
     public boolean hasID(CategoryID id) {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StandardCategory that = (StandardCategory) o;
+        return categoryData.equals(that.categoryData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryData);
     }
 }

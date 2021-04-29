@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.PersonProfileDTO;
-import switchtwentytwenty.project.dto.PersonToDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,14 +33,14 @@ class GetFamilyMemberProfileServiceTest {
 
     @Test
     void getFamilyMemberProfileTest() {
-        PersonProfileDTO profileDTO = new PersonProfileDTO();
+        OutputPersonDTO profileDTO = new OutputPersonDTO();
         PersonID personID = new PersonID("person@email.pt");
         Mockito.when(personRepository.getByID(personID)).thenReturn(person);
         Mockito.when(mockPersonToDTO.createPersonProfileDTO(person)).thenReturn(profileDTO);
 
-        PersonProfileDTO expected = new PersonProfileDTO();
+        OutputPersonDTO expected = new OutputPersonDTO();
 
-        PersonProfileDTO result = getFamilyMemberProfileService.getFamilyMemberProfile("person@email.pt");
+        OutputPersonDTO result = getFamilyMemberProfileService.getFamilyMemberProfile("person@email.pt");
 
         assertNotSame(expected, result);
         assertEquals(expected, result);

@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
