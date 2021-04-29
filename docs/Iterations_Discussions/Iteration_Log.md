@@ -1,3 +1,4 @@
+![apes](https://media1.tenor.com/images/62f924e0d5dd5437e522609cf7dd81ef/tenor.gif?itemid=20906166)
 # Sprint 3
 
 # This document keeps track of the different Class Diagrams throughout the sprint
