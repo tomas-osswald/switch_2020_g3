@@ -214,8 +214,14 @@ title US151 Add Email
 participant ":IPersonController" as controller <<interface>>
 participant ":InputEmailDTO" as inputemail
 participant ":UserIDDTO" as userdto
+participant "selfLink\n : Link" as link
+participant "aResponseEntity\n : ResponseEntity" as respEntity
+
 participant "IAddEmailService" as service <<interface>>
-participant "aPersonID : PersonID" as personid
+
+participant "aOutputEmailDTO\n : OutputEmailDTO" as output
+
+participant "aPersonID\n : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
 participant "aPerson\n : Person" as person
 participant "IPersonRepository" as personRepository <<interface>>
@@ -266,14 +272,19 @@ personRepository -> repoJPA : save(personJPA)
 activate repoJPA
 return
 return
-controller <-- service :  
-deactivate service
-<-- controller : 
 
-'ADICIONAR HTTP.STATUS E MENSAGEM PARA USER (Adicionado email X ao user Y)
+service -> output** : create(Person.getName(), emailString)
+service -> controller : OutputEmailDTO
+deactivate service
+
+controller -> controller : HttpStatus = Ok
+controller -> link** : create()
+controller -> respEntity** : create(OutputDTO, HttpStatus)
+
+deactivate controller
+
 @enduml
 ````
-
 
 ## 3.5. Applied Patterns
 
