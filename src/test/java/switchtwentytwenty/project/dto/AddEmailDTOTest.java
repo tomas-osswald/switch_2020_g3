@@ -59,6 +59,26 @@ class AddEmailDTOTest {
         assertNotSame(expectedId, result);
     }
 
+    @DisplayName("Verify unpack returns expected String")
+    @Test
+    void unpackUserID_notSame() {
+        String expectedEmail = "tonyze@latinlover.com";
+        String expectedId = "3";
+
+        AddEmailDTO resultDTO = new AddEmailDTO(expectedId, expectedEmail);
+
+
+        String notExpected = "-3";
+
+        String result = resultDTO.unpackUserID();
+
+        assertEquals(notExpected, result);
+        assertNotSame(notExpected, result);
+    }
+
+
+    //TODO : Finalizar estes testes para cobertura.
+
     @DisplayName("Verify DTO is equal to another DTO")
     @Test
     void testEquals() {
