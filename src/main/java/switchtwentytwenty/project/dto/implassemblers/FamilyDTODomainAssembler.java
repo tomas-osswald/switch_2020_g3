@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.implassemblers;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
@@ -6,6 +6,9 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.dto.FamilyOutputDTO;
+import switchtwentytwenty.project.dto.InputFamilyDTO;
+
 @Component
 public class FamilyDTODomainAssembler {
 

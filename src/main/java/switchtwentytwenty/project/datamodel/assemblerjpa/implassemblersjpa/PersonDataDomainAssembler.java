@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.datamodel.assemblerjpa;
+package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.domainjpa.*;
