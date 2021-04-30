@@ -2,12 +2,12 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Data
 @NoArgsConstructor
 
 @Entity
@@ -18,16 +18,21 @@ public class AddressJPA {
      * Por não existir nenhum atributo que possa ser usados como ID. Definiu-se atributo chave id (do tipo long)
      * com a anotação @GeneratedValue
      */
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Getter
     private String street;
+    @Getter
     private String city;
+    @Getter
     private String zipCode;
+    @Getter
     private String doorNumber;
 
-
+    @Getter
     @OneToOne()
     @JoinColumn(name = "person", nullable = false)
     //because it is in the same aggregate, a foreign key constraint is used

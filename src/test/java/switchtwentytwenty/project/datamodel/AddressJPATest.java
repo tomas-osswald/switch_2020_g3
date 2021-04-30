@@ -127,4 +127,25 @@ class AddressJPATest {
         assertEquals(addressJPA, addressJPATwo);
     }
 
+    @Test
+    @Tag("US010")
+    void hashCodeSameEqualObjects() {
+        AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
+
+        AddressJPA addressJPATwo = new AddressJPA(street, city, zip, doorNumber, personJPA);
+
+        assertEquals(addressJPA.hashCode(), addressJPATwo.hashCode());
+        assertNotSame(addressJPA, addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void hashCodeDifferentObjects() {
+        AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
+
+        AddressJPA addressJPATwo = new AddressJPA("street", "city", "zip", "doorNumber", personJPA);
+
+        assertNotEquals(addressJPA.hashCode(), addressJPATwo.hashCode());
+    }
+
 }

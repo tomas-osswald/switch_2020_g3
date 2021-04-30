@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "PhoneNumbers")
 public class PhoneNumberJPA {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,6 +20,7 @@ public class PhoneNumberJPA {
     @Getter
     private int number;
 
+    @Getter
     @ManyToOne()
     @JoinColumn(name = "person")
     private PersonJPA person;

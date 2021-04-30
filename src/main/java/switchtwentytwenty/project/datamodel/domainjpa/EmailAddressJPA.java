@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
-
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "emailAddresses")
 public class EmailAddressJPA {
+
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,7 +20,7 @@ public class EmailAddressJPA {
     @Getter
     private String email;
 
-
+    @Getter
     @ManyToOne()
     @JoinColumn(name = "person", nullable=true)
     //because it is in the same aggregate, a foreign key constraint is used
@@ -36,11 +36,11 @@ public class EmailAddressJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmailAddressJPA that = (EmailAddressJPA) o;
-        return id == that.id;
+        return id == that.id && email == that.email;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, email);
     }
 }

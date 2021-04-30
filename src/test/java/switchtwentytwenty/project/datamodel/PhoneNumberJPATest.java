@@ -51,6 +51,19 @@ class PhoneNumberJPATest {
 
     @Test
     @Tag("US010")
+    void getPersonJPATest() {
+        PersonJPA expected = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
+
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber, personJPA);
+
+        PersonJPA result = phoneNumberJPA.getPerson();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+    @Test
+    @Tag("US010")
     void testEqualsSameObject() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         PhoneNumberJPA phoneNumberJPATwo = phoneNumberJPAOne;

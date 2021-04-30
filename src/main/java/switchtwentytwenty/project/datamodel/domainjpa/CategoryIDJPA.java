@@ -34,5 +34,4 @@ public class CategoryIDJPA implements Serializable {
         return Objects.hash(id);
     }
 
-
 }

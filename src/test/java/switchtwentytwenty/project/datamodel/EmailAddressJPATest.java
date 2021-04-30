@@ -2,10 +2,7 @@ package switchtwentytwenty.project.datamodel;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.EmailAddressJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.*;
 
 import java.util.UUID;
 
@@ -85,4 +82,28 @@ class EmailAddressJPATest {
 
         assertEquals(emailAddressJPA, emailAddressJPATwo);
     }
+
+    @Test
+    @Tag("US010")
+    void hashCodeEqualObjects() {
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(email, personJPA);
+
+        assertEquals(emailAddressJPA, emailAddressJPATwo);
+        assertNotSame(emailAddressJPA, emailAddressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void hashCodeDifferentObjects() {
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA("email", personJPA);
+
+        assertNotEquals(emailAddressJPA, emailAddressJPATwo);
+    }
+
+
+
 }

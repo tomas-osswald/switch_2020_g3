@@ -133,4 +133,16 @@ class PersonJPATest {
         assertNotEquals(personJPAOne.hashCode(),personJPATwo.hashCode());
     }
 
+    @Test
+    @Tag("US010")
+    void testToString() {
+        PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
+        String expected = "PersonJPA{" + "id=" + "emaiil@email.com" + '}';
+
+        String result = personJPA.toString();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
 }

@@ -52,4 +52,15 @@ class FamilyIDJPATest {
         assertEquals(expected, result);
 
     }
+
+    @Test
+    void setFamilyID() {
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+        String expected = "2";
+
+        familyIDJPA.setFamilyID("2");
+        String result = familyIDJPA.getFamilyID();
+
+        assertEquals(expected,result);
+    }
 }

@@ -61,4 +61,22 @@ class FamilyJPATest {
         assertEquals(expected,result);
     }
 
+    @Test
+    void equalsTestEqualFamilyJPA(){
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        FamilyJPA familyJPATwo = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+
+        assertEquals(familyJPAOne,familyJPATwo);
+        assertNotSame(familyJPAOne,familyJPATwo);
+    }
+
+    @Test
+    void equalsTestSameFamilyJPA(){
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        FamilyJPA familyJPATwo = familyJPAOne;
+
+        assertEquals(familyJPAOne,familyJPATwo);
+        assertSame(familyJPAOne,familyJPATwo);
+    }
+
 }
