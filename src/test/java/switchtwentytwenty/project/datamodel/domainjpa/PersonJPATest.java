@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.datamodel;
+package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

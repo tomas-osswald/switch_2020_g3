@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name="categories")
@@ -17,6 +16,7 @@ public class CategoryJPA {
     @Getter
     private String categoryName;
 
+    @Getter
     @Id
     private CategoryIDJPA categoryIDJPA;
 
@@ -24,16 +24,16 @@ public class CategoryJPA {
     private Long parentID;
 
     @Getter
-    private String familyIDJPA;
+    private FamilyIDJPA familyIDJPA;
 
-    public CategoryJPA(String categoryName, CategoryIDJPA categoryIDJPA, Long parentID, String familyIDJPA) {
+    public CategoryJPA(String categoryName, CategoryIDJPA categoryIDJPA, Long parentID, FamilyIDJPA familyIDJPA) {
         this.categoryName = categoryName;
         this.categoryIDJPA = categoryIDJPA;
         this.parentID = parentID;
         this.familyIDJPA = familyIDJPA;
     }
 
-    public CategoryJPA(String categoryName, Long parentID, String familyIDJPA) {
+    public CategoryJPA(String categoryName, Long parentID, FamilyIDJPA familyIDJPA) {
         this.categoryName = categoryName;
         this.parentID = parentID;
         this.familyIDJPA = familyIDJPA;

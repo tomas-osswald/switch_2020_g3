@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
@@ -39,6 +40,7 @@ class CategoryRepositoryTest {
     CategoryIDJPA cat = new CategoryIDJPA(12L);
     Long parentID = 0L;
     String familyID = null;
+    FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
 
     // Category Data
     CategoryName catName = new CategoryName("BuYs");
@@ -49,7 +51,7 @@ class CategoryRepositoryTest {
     @Test
     @Disabled
     void getByID() {
-        CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, cat, parentID, familyID);
+        CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, cat, parentID, familyIDJPA);
         StandardCategory category = new StandardCategory(catName, selfID, parentIDCat);
         when(categoryRepositoryJPA.findById(any(CategoryIDJPA.class))).thenReturn(Optional.of(categoryJPA));
         when(categoryDataDomainAssembler.toDomain(categoryJPA)).thenReturn(category);
@@ -68,8 +70,8 @@ class CategoryRepositoryTest {
     @Disabled
     void add() {
         StandardCategory category = new StandardCategory(catName, parentIDCat);
-        CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, parentID, familyID);
-        CategoryJPA categoryJPAWithID = new CategoryJPA(categoryDescription, cat, parentID, familyID);
+        CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, parentID, familyIDJPA);
+        CategoryJPA categoryJPAWithID = new CategoryJPA(categoryDescription, cat, parentID, familyIDJPA);
         when(categoryDataDomainAssembler.toData(category)).thenReturn(categoryJPA);
         when(categoryRepositoryJPA.save(categoryJPA)).thenReturn(categoryJPAWithID);
 
