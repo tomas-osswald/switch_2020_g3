@@ -15,7 +15,9 @@ class FamilyJPATest {
     String adminEmail = "email@email.com";
     PersonIDJPA adminID = new PersonIDJPA(adminEmail);
 
-    FamilyIDJPA familyID = new FamilyIDJPA(UUID.randomUUID().toString());
+    FamilyIDJPA familyID = new FamilyIDJPA("email@email.com");
+    FamilyIDJPA familyIDTwo = new FamilyIDJPA("email2@email2.com");
+
 
     @Test
     @Tag("US010")
@@ -77,6 +79,31 @@ class FamilyJPATest {
 
         assertEquals(familyJPAOne,familyJPATwo);
         assertSame(familyJPAOne,familyJPATwo);
+    }
+
+    @Test
+    void equalsTestDifferentFamilyJPA(){
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        FamilyJPA familyJPATwo = new FamilyJPA(familyIDTwo,familyName,registrationDate,adminID);
+
+        assertNotEquals(familyJPAOne,familyJPATwo);
+    }
+
+    @Test
+    void hashCodeEqualFamily() {
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        FamilyJPA familyJPATwo = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+
+        assertEquals(familyJPAOne.hashCode(), familyJPATwo.hashCode());
+        assertNotSame(familyJPAOne, familyJPATwo);
+    }
+
+    @Test
+    void hashCodeDifferentFamily() {
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        FamilyJPA familyJPATwo = new FamilyJPA(familyIDTwo,familyName,registrationDate,adminID);
+
+        assertNotEquals(familyJPAOne.hashCode(), familyJPATwo.hashCode());
     }
 
 }

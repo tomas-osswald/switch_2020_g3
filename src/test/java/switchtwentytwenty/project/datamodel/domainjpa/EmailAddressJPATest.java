@@ -90,7 +90,7 @@ class EmailAddressJPATest {
 
         EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(email, personJPA);
 
-        assertEquals(emailAddressJPA, emailAddressJPATwo);
+        assertEquals(emailAddressJPA.hashCode(), emailAddressJPATwo.hashCode());
         assertNotSame(emailAddressJPA, emailAddressJPATwo);
     }
 
@@ -101,7 +101,7 @@ class EmailAddressJPATest {
 
         EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA("email", personJPA);
 
-        assertNotEquals(emailAddressJPA, emailAddressJPATwo);
+        assertNotEquals(emailAddressJPA.hashCode(), emailAddressJPATwo.hashCode());
     }
 
 

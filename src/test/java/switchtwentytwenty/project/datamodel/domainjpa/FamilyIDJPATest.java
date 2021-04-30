@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FamilyIDJPATest {
 
     String familyID = "1";
+    String familyIDTwo = "2";
 
     @Tag("US010")
     @Test
@@ -62,5 +63,22 @@ class FamilyIDJPATest {
         String result = familyIDJPA.getFamilyID();
 
         assertEquals(expected,result);
+    }
+
+    @Test
+    void hashCodeEqualFamilies() {
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+        FamilyIDJPA familyIDJPATwo = new FamilyIDJPA(familyID);
+
+        assertEquals(familyIDJPA.hashCode(), familyIDJPATwo.hashCode());
+        assertNotSame(familyIDJPA, familyIDJPATwo);
+    }
+
+    @Test
+    void hashCodeDifferentFamilies() {
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+        FamilyIDJPA familyIDJPATwo = new FamilyIDJPA(familyIDTwo);
+
+        assertNotEquals(familyIDJPA.hashCode(), familyIDJPATwo.hashCode());
     }
 }
