@@ -15,7 +15,7 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddEmailDTO;
 import switchtwentytwenty.project.dto.InputEmailDTO;
 import switchtwentytwenty.project.dto.OutputEmailDTO;
-import switchtwentytwenty.project.dto.UserIDDTO;
+import switchtwentytwenty.project.dto.InputPersonIDDTO;
 import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -39,7 +39,7 @@ class AddEmailServiceTest {
 
 
     @Mock
-    UserIDDTO mockUserIDDTO;
+    InputPersonIDDTO mockUserIDDTO;
 
     @Mock
     OutputEmailDTO mockOutputEmailDTO;
