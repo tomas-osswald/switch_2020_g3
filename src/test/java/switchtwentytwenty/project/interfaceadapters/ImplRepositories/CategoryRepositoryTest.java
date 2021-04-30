@@ -70,7 +70,7 @@ class CategoryRepositoryTest {
     @Disabled
     void add() {
         StandardCategory category = new StandardCategory(catName, parentIDCat);
-        CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, parentID, familyIDJPA);
+        CategoryJPA categoryJPA = new CategoryJPA.Builder(categoryDescription).withParentID(parentID).withFamilyIDJPA(familyIDJPA).build();
         CategoryJPA categoryJPAWithID = new CategoryJPA(categoryDescription, cat, parentID, familyIDJPA);
         when(categoryDataDomainAssembler.toData(category)).thenReturn(categoryJPA);
         when(categoryRepositoryJPA.save(categoryJPA)).thenReturn(categoryJPAWithID);

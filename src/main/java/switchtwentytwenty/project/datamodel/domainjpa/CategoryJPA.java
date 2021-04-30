@@ -1,13 +1,14 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="categories")
@@ -26,19 +27,6 @@ public class CategoryJPA {
     @Getter
     private FamilyIDJPA familyIDJPA;
 
-    public CategoryJPA(String categoryName, CategoryIDJPA categoryIDJPA, Long parentID, FamilyIDJPA familyIDJPA) {
-        this.categoryName = categoryName;
-        this.categoryIDJPA = categoryIDJPA;
-        this.parentID = parentID;
-        this.familyIDJPA = familyIDJPA;
-    }
-
-    public CategoryJPA(String categoryName, Long parentID, FamilyIDJPA familyIDJPA) {
-        this.categoryName = categoryName;
-        this.parentID = parentID;
-        this.familyIDJPA = familyIDJPA;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,5 +38,44 @@ public class CategoryJPA {
     @Override
     public int hashCode() {
         return Objects.hash(categoryIDJPA);
+    }
+
+    public static class Builder {
+
+        private String categoryName;
+        private CategoryIDJPA categoryIDJPA;
+        private Long parentID;
+        private FamilyIDJPA familyIDJPA;
+
+        public Builder(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
+        public Builder withCategoryIDJPA(CategoryIDJPA categoryIDJPA) {
+            this.categoryIDJPA = categoryIDJPA;
+            return this;
+        }
+
+        public Builder withParentID(Long parentID) {
+            this.parentID = parentID;
+            return this;
+        }
+
+        public Builder withFamilyIDJPA(FamilyIDJPA familyIDJPA) {
+            this.familyIDJPA = familyIDJPA;
+            return this;
+        }
+
+        public CategoryJPA build() {
+            CategoryJPA categoryJPA = new CategoryJPA();
+
+            categoryJPA.categoryName = this.categoryName;
+            categoryJPA.categoryIDJPA = this.categoryIDJPA;
+            categoryJPA.parentID = this.parentID;
+            categoryJPA.familyIDJPA = this.familyIDJPA;
+
+            return categoryJPA;
+        }
+
     }
 }

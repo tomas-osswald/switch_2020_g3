@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-@ToString
 @NoArgsConstructor
 @Embeddable
 public class FamilyIDJPA implements Serializable {

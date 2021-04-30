@@ -9,12 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "families")
 public class FamilyJPA {
 
+    @Getter
     @Id
     private FamilyIDJPA id;
     @Getter

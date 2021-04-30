@@ -1,9 +1,6 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
-import lombok.Getter;
-import org.junit.Test;
-
-import javax.persistence.Id;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,14 +27,14 @@ class CategoryJPATest {
 
     @Test
     void noCategoryIDConstructorTest() {
-        CategoryJPA categoryJPA = new CategoryJPA(categoryName, parentID, familyIDJPA);
+        CategoryJPA categoryJPA = new CategoryJPA.Builder(categoryName).withParentID(parentID).withFamilyIDJPA(familyIDJPA).build();
 
         assertNotNull(categoryJPA);
     }
 
     @Test
     void allArgsConstructorTest() {
-        CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
+        CategoryJPA categoryJpa = new CategoryJPA.Builder(categoryName).withCategoryIDJPA(categoryIDJPA).withParentID(parentID).withFamilyIDJPA(familyIDJPA).build();
 
         assertNotNull(categoryJpa);
     }
@@ -75,7 +72,7 @@ class CategoryJPATest {
     @Test
     void getCategoryIDSecondTest() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryNameTwo, categoryIDJPATwo, parentIDTwo, familyIDJPATwo);
-        CategoryIDJPA expected = new CategoryIDJPA(1L);
+        CategoryIDJPA expected = new CategoryIDJPA(13L);
 
         CategoryIDJPA result = categoryJpa.getCategoryIDJPA();
 
@@ -104,12 +101,11 @@ class CategoryJPATest {
 
     @Test
     void getFamilyIDTest() {
-        CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        FamilyIDJPA expected = new FamilyIDJPA();
+        CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, null);
 
         FamilyIDJPA result = categoryJpa.getFamilyIDJPA();
 
-        assertEquals(expected, result);
+        assertNull(result);
     }
 
     @Test
