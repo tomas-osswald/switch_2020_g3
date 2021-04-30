@@ -41,7 +41,7 @@ class PersonRepositoryTest {
         tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
         tonyZeCC = new CCnumber(VALIDCCNUMBER);
-        familyID = new FamilyID(UUID.randomUUID());
+        familyID = new FamilyID(VALIDEMAIL);
     }
 
 

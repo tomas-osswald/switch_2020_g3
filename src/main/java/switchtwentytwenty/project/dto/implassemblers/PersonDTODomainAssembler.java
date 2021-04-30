@@ -1,8 +1,11 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.implassemblers;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.InputPersonDTO;
+import switchtwentytwenty.project.dto.iassemblers.AssemblerDTODomain;
+
 @Component
 public class PersonDTODomainAssembler {
     /**

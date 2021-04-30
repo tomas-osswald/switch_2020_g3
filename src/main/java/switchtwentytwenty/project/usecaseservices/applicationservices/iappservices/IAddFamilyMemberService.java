@@ -4,6 +4,6 @@ import switchtwentytwenty.project.dto.InputPersonDTO;
 
 public interface IAddFamilyMemberService {
 
-    public void addPerson(InputPersonDTO inputPersonDTO);
+    public void addPerson(InputPersonDTO inputPersonDTO, String userID);
 
 }

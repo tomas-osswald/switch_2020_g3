@@ -18,8 +18,7 @@ class FamilyTest {
     @Tag("US010")
     void familyConstructorTest_validFamily() {
         //Arrange
-        UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -37,7 +36,7 @@ class FamilyTest {
     void isIDofThisFamilyTest_sameFamilyID() {
         //Arrange
         UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -45,7 +44,7 @@ class FamilyTest {
         String emailString = "admin@gmail.com";
         PersonID adminEmail = new PersonID(emailString);
         Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
-        FamilyID sameID = new FamilyID(id);
+        FamilyID sameID = new FamilyID("admin@gmail.com");
         //Act
         boolean result = aFamily.hasID(sameID);
         //Assert
@@ -57,7 +56,7 @@ class FamilyTest {
     void isIDofThisFamilyTest_differentFamilyID() {
         //Arrange
         UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -66,7 +65,7 @@ class FamilyTest {
         PersonID adminEmail = new PersonID(emailString);
         Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
         UUID differentID = UUID.randomUUID();
-        FamilyID otherFamilyID = new FamilyID(differentID);
+        FamilyID otherFamilyID = new FamilyID("admin2@gmail.com");
         //Act
         boolean result = aFamily.hasID(otherFamilyID);
         //Assert
@@ -77,7 +76,7 @@ class FamilyTest {
     @Tag("US010")
     void testEquals_equalNotSame() {
         UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -95,7 +94,7 @@ class FamilyTest {
     @Tag("US010")
     void equalsTest_equalSame() {
         UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -113,7 +112,7 @@ class FamilyTest {
     @Tag("US010")
     void equalsTest_notEqual() {
         UUID id = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(id);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -122,7 +121,7 @@ class FamilyTest {
         PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyIDOne, familyName, registrationDate, adminEmail);
         UUID idTwo = UUID.randomUUID();
-        FamilyID familyIDTwo = new FamilyID(idTwo);
+        FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
         Family familyTwo = new Family(familyIDTwo, familyName, registrationDate, adminEmail);
 
         assertNotEquals(familyOne, familyTwo);
@@ -132,7 +131,7 @@ class FamilyTest {
     @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
         UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -148,7 +147,7 @@ class FamilyTest {
     @Tag("US010")
     void testHashCode_sameHashCode() {
         UUID id = UUID.randomUUID();
-        FamilyID familyID = new FamilyID(id);
+        FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -165,7 +164,7 @@ class FamilyTest {
     @Tag("US010")
     void testHashCode_differentHashCode() {
         UUID id = UUID.randomUUID();
-        FamilyID familyIDOne = new FamilyID(id);
+        FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
         FamilyName familyName = new FamilyName(familyNameString);
         String date = "12/12/1990";
@@ -174,7 +173,7 @@ class FamilyTest {
         PersonID adminEmail = new PersonID(emailString);
         Family familyOne = new Family(familyIDOne, familyName, registrationDate, adminEmail);
         UUID idTwo = UUID.randomUUID();
-        FamilyID familyIDTwo = new FamilyID(idTwo);
+        FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
         Family familyTwo = new Family(familyIDTwo, familyName, registrationDate, adminEmail);
 
         assertNotEquals(familyOne.hashCode(), familyTwo.hashCode());

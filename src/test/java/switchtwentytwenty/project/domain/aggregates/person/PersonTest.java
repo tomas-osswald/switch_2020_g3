@@ -39,7 +39,7 @@ class PersonTest {
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        FamilyID familyID = new FamilyID(UUID.randomUUID());
+        FamilyID familyID = new FamilyID(VALIDEMAIL);
         validPerson = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
     }
 
@@ -71,7 +71,7 @@ class PersonTest {
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
 
-        FamilyID familyID = new FamilyID(UUID.randomUUID());
+        FamilyID familyID = new FamilyID(VALIDEMAIL);
         assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
     }
 

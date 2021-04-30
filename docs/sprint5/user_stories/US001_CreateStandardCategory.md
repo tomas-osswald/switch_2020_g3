@@ -66,10 +66,10 @@ participant ": ICreateStandardCategoryService" as catServ
 participant ": ICategoryRepository" as repo
 participant ": CategoryRepositoryJPA" as jpa
     
--> controller : createStandardCategory(categoryInputDTO)
+-> controller : createStandardCategory(createStandardCategoryDTO)
 activate controller
 
-controller -> catServ : createStandardCategory(categoryInputDTO)
+controller -> catServ : createStandardCategory(inputCategoryDTO)
 activate catServ
 
 ref over catServ

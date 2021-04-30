@@ -2,11 +2,6 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.AddressJPA;
-import switchtwentytwenty.project.datamodel.PersonJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.assemblerjpa.PersonIDJPA;
-import switchtwentytwenty.project.domain.aggregates.family.Family;
 
 import java.util.UUID;
 
