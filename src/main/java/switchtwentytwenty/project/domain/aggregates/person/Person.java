@@ -42,7 +42,12 @@ public class Person implements AggregateRoot<PersonID> {
         this.familyID = familyID;
     }
 
-    public Person(PersonID personID, Name name, BirthDate birthDate,  VATNumber vatNumber, FamilyID familyID) {
+    public Person(PersonID personID, Name name, BirthDate birthDate, VATNumber vatNumber, FamilyID familyID) {
+        this.id = personID;
+        this.name = name;
+        this.birthdate = birthDate;
+        this.vat = vatNumber;
+        this.familyID = familyID;
     }
 
     private void addPhone(PhoneNumber phone) {

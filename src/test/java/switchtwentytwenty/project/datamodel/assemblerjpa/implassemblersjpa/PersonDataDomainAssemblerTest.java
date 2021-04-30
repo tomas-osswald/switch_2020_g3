@@ -11,8 +11,10 @@ import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.datamodel.domainjpa.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -87,20 +89,89 @@ class PersonDataDomainAssemblerTest {
         String exepctedName = VALIDNAME;
         String resultName = result.getName();
 
-        java.util.List<switchtwentytwenty.project.datamodel.domainjpa.EmailAddressJPA> expectedEmails = new ArrayList<>();
-        expectedEmails.add(new switchtwentytwenty.project.datamodel.domainjpa.EmailAddressJPA(VALIDEMAIL, expected));
-        java.util.List<switchtwentytwenty.project.datamodel.domainjpa.EmailAddressJPA> resultEmail = result.getEmails();
+        List<EmailAddressJPA> expectedEmails = new ArrayList<>();
+        expectedEmails.add(new EmailAddressJPA(ANOTHERVALIDEMAIL, expected));
+        List<EmailAddressJPA> resultEmail = result.getEmails();
 
         Integer expectedVat = VALIDVATNUMBER;
         Integer resultVat = result.getVat();
 
-        switchtwentytwenty.project.datamodel.domainjpa.AddressJPA expectedAddress = new switchtwentytwenty.project.datamodel.domainjpa.AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, expected);
+        AddressJPA expectedAddress = new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, expected);
+        AddressJPA resultAddressJPA = result.getAddress();
 
+        FamilyIDJPA expectedFamilyIDJPA = new FamilyIDJPA(VALIDEMAIL);
+        FamilyIDJPA resultFamilyIDJPA = result.getFamilyid();
+
+        assertEquals(expected, result);
+
+        assertEquals(expectedPersonIDJPA, resultPersonIDJPA);
+        assertEquals(exepctedName, resultName);
+        assertEquals(expectedEmails, resultEmail);
+        assertEquals(expectedVat, resultVat);
+        assertEquals(expectedAddress, resultAddressJPA);
+        assertEquals(expectedFamilyIDJPA, resultFamilyIDJPA);
+    }
+
+    @Test
+    void toDomainComparingEquals() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+        personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
+
+        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+        Person result = personDataDomainAssembler.toDomain(personJPA);
 
         assertEquals(expected, result);
     }
 
     @Test
-    void toDomain() {
+    void toDomainComparingByAttribute() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+        personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
+        List<PhoneNumberJPA> phoneNumberList = new ArrayList<PhoneNumberJPA>();
+        PhoneNumberJPA phoneNumber = new PhoneNumberJPA(VALIDPHONENUMBER, personJPA);
+        phoneNumberList.add(phoneNumber);
+        personJPA.setPhones(phoneNumberList);
+
+        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+        Person result = personDataDomainAssembler.toDomain(personJPA);
+
+        PersonID expectedPersonID = new PersonID(VALIDEMAIL);
+        PersonID resultPersonID = result.id();
+
+        Name expectedName = new Name(VALIDNAME);
+        Name resultName = result.getName();
+
+        BirthDate expectedBirthDate = new BirthDate(VALIDBIRTHDATE);
+        BirthDate resultBirthDate = result.getBirthdate();
+
+        List<EmailAddress> expectedEmailAddresses = new ArrayList<>();
+        List<EmailAddress> resultEmailAddresses = result.getEmails();
+
+        VATNumber expectedVatNumber = new VATNumber(VALIDVATNUMBER);
+        VATNumber resultVatNumber = result.getVat();
+
+        List<PhoneNumber> expectedPhoneNumbers = new ArrayList<PhoneNumber>();
+        PhoneNumber expectedPhone = new PhoneNumber(VALIDPHONENUMBER);
+        expectedPhoneNumbers.add(expectedPhone);
+        List<PhoneNumber> resultPhoneNumbers = result.getPhoneNumbers();
+
+        Address expectedAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        Address resultAddress = result.getAddress();
+
+        FamilyID expectedFamilyID = new FamilyID(VALIDEMAIL);
+        FamilyID resultFamilyID = result.getFamilyID();
+
+        assertEquals(expected, result);
+
+        assertEquals(expectedPersonID, resultPersonID);
+        assertEquals(expectedName, resultName);
+        assertEquals(expectedBirthDate, resultBirthDate);
+        assertEquals(expectedEmailAddresses, resultEmailAddresses);
+        assertEquals(expectedVatNumber, resultVatNumber);
+        assertEquals(expectedPhoneNumbers, resultPhoneNumbers);
+        assertEquals(expectedAddress, resultAddress);
+        assertEquals(expectedFamilyID, resultFamilyID);
     }
 }
