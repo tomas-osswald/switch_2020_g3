@@ -19,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class FamilyRESTControllerIntegrtionTestITDB {
+class FamilyRESTControllerIntegrationTestITDB {
     AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com","Silva","12/12/1222",999999999,919999999,"Rua","Cidade","12B","4400-123","Silva","12/12/2000");
 
 

@@ -73,6 +73,7 @@ class AddEmailServiceTest {
         Mockito.doNothing().when(tonyZe).addEmail(emailToAdd);
         Mockito.doNothing().when(mockIPersonRepository).updatePerson(tonyZe);
 
+
         assertDoesNotThrow(() -> addEmailService.addEmail(mockInputEmailDTO, mockUserIDDTO));
     }
 
