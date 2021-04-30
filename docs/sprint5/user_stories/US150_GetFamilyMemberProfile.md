@@ -119,6 +119,9 @@ Esses dados são passados a primitivos directamente ou convertidos quando desemp
 
 ## 3.2. Class Diagram
 
+
+![img](../diagrams/US150_GetPersonProfileInfo.png)
+
 ```puml
 @startuml
 header Class Diagram
