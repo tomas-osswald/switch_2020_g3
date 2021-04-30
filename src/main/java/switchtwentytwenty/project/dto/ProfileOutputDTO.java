@@ -12,7 +12,7 @@ public class ProfileOutputDTO {
     private final Integer addressNumber;
     private final String zipCode;
 
-
+//TODO should class' name be refactored so the Output is the first part of the class name?
     public ProfileOutputDTO(String email, String name, String birthDate, Integer vatNumber, Integer phoneNumber, String street, String city, Integer addressNumber, String zipCode) {
         this.email = email;
         this.name = name;
