@@ -234,27 +234,39 @@ header Sequence Diagram - part 1
 title US150 Get my profile information
 
 
-participant ": IGetProfile\nInfoService" as service
-participant ": IPersonRepository" as repository
-'participant "aPerson \n: Person" as person
-participant ": PersonToDTO" as mapper
+participant ": IPersonController" as controller <<interface>>
+participant ": InputPersonIDDTO" as inputDTO
+participant ": IGetProfile\nInfoService" as service <<interface>>
+participant ": ProfileOutputDTO" as outputDTO
+participant ": IPersonRepository" as repository <<interface>>
+participant ": IPersonRepositoryJPA" as repoJPA <<interface>>
 
--> service : getProfileInfo(getProfileInfoDTO)
+-> controller : getProfileInfo(getProfileInfoDTO)
+activate controller
+controller -> inputDTO** : create(getProfileInfoDTO.unpackPersonID())
+controller -> service : getProfileInfo(InputPersonIDDTO)
 activate service
 
-service -> service : personID = getProfileInfoDTO.unpackPersonID()
+service -> service : personID = InputPersonIDDTO.unpackPersonID()
 service -> repository : getById(personID)
 activate repository
+repository -> repoJPA : findByID(personID)
+activate repoJPA 
+return aPersonJPA
+
+ref over repository 
+aPerson = PersonDataDomainAssembler.toDomain(aPersonJPA)
+end
 return aPerson
 
-service -> mapper : createPersonDTO(aPerson)
-activate mapper
-ref over mapper 
-Person DTO creation
-end
-return aPersonDTO
+ref over service
+aProfileOutputDTO
+end 
 
-return aPersonDTO
+return aProfileOutputDTO
+<-- controller : responseEntity(aProfileOutputDTO, Httpstatus.OK)
+deactivate controller
+
 @enduml
 ````
 
@@ -263,76 +275,53 @@ return aPersonDTO
 
 autonumber 6
 header Sequence Diagram - part 2
-title US150 Person DTO creation
+title US150 ProfileOutputDTO creation
 
-participant ":PersonToDTO" as mapper
+participant ":IGetProfileInfoService" as service
 participant "aPerson \n: Person" as person
-
 participant "aProfileDTO \n: ProfileOutputDTO" as profiledto
 
--> mapper : createPersonDTO(aPerson)
-activate mapper
-mapper -> person : getID()
+activate service
+service -> person : getID()
 activate person
 return id
 
-mapper -> person : getName()
+service -> person : getName()
 activate person
 return name
 
-mapper -> person : getBirthDate()
+service -> person : getBirthDate()
 activate person
 return birthDate
 
-mapper -> person : getOtherEmail()
+service -> person : getOtherEmail()
 activate person
 return emails
 
-mapper -> person : getVat()
+service -> person : getVat()
 activate person
 return vat
 
-mapper -> person : getPhoneNumbers()
+service -> person : getPhoneNumbers()
 activate person
 return phoneNumbers
 
-mapper -> person : getAddress()
+service -> person : getAddress()
 activate person
 return address
 
-mapper -> profiledto** : create 
-
+service -> profiledto** : create 
 
 activate profiledto
-mapper -> profiledto : setID(id)
-
-
-
-mapper -> profiledto : setName(name)
-
-
-
-mapper -> profiledto : setBirthDate(birthDate)
-
-
-
-mapper -> profiledto : setEmails(emails)
-
-
-
-mapper -> profiledto : setVat(vat)
-
-
-mapper -> profiledto : setPhoneNumbers(phoneNumbers)
-
-
-
-mapper -> profiledto : setAddress(address)
+service -> profiledto : setID(id)
+service -> profiledto : setName(name)
+service -> profiledto : setBirthDate(birthDate)
+service -> profiledto : setEmails(emails)
+service -> profiledto : setVat(vat)
+service -> profiledto : setPhoneNumbers(phoneNumbers)
+service -> profiledto : setAddress(address)
 
 deactivate profiledto
-<-- mapper : aProfielDTO
-
-
 
 @enduml
 ````
