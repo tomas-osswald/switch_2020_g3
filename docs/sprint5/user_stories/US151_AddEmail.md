@@ -214,12 +214,10 @@ title US151 Add Email
 participant ":IPersonController" as controller <<interface>>
 participant ":InputEmailDTO" as inputemail
 participant ":UserIDDTO" as userdto
-participant "selfLink\n : Link" as link
-participant "aResponseEntity\n : ResponseEntity" as respEntity
 
 participant "IAddEmailService" as service <<interface>>
 
-participant "aOutputEmailDTO\n : OutputEmailDTO" as output
+participant "anOutputEmailDTO\n : OutputEmailDTO" as output
 
 participant "aPersonID\n : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
@@ -274,13 +272,10 @@ return
 return
 
 service -> output** : create(Person.getName(), emailString)
-service -> controller : OutputEmailDTO
+service -> controller : anOutputEmailDTO
 deactivate service
 
-controller -> controller : HttpStatus = Ok
-controller -> link** : create()
-controller -> respEntity** : create(OutputDTO, HttpStatus)
-
+<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.OK)
 deactivate controller
 
 @enduml
