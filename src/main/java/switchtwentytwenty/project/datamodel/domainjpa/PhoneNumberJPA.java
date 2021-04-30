@@ -35,11 +35,11 @@ public class PhoneNumberJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PhoneNumberJPA that = (PhoneNumberJPA) o;
-        return id == that.id;
+        return id == that.id && number == that.number;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id,number);
     }
 }

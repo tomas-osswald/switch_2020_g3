@@ -14,6 +14,7 @@ class PersonJPATest {
 
     String id = "emaiil@email.com";
     PersonIDJPA personIDJPA = new PersonIDJPA(id);
+    PersonIDJPA personIDJPAOther = new PersonIDJPA("anotheremail@here.com");
 
     String name = "TonyZe";
     String birthdate = "23/12/1992";
@@ -108,7 +109,7 @@ class PersonJPATest {
     @Tag("US010")
     void testEqualsDifferentPersonJPA() {
         PersonJPA personJPAOne = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
-        PersonJPA personJPATwo = new PersonJPA(personIDJPA, "otherPerson", birthdate, vat, familyIDJPA);
+        PersonJPA personJPATwo = new PersonJPA(personIDJPAOther, "otherPerson", birthdate, vat, familyIDJPA);
 
         assertNotEquals(personJPAOne,personJPATwo);
     }
@@ -127,7 +128,7 @@ class PersonJPATest {
     @Tag("US010")
     void testHashCodeDifferentPersonJPA() {
         PersonJPA personJPAOne = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
-        PersonJPA personJPATwo = new PersonJPA(personIDJPA, "otherPerson", birthdate, vat, familyIDJPA);
+        PersonJPA personJPATwo = new PersonJPA(personIDJPAOther, "otherPerson", birthdate, vat, familyIDJPA);
 
         assertNotEquals(personJPAOne.hashCode(),personJPATwo.hashCode());
     }

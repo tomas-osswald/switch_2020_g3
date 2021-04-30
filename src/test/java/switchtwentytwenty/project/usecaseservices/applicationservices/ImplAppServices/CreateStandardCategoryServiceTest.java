@@ -16,9 +16,9 @@ class CreateStandardCategoryServiceTest {
     @InjectMocks
     CreateStandardCategoryService createStandardCategoryService;
 
-
-
     @Test
     void createStandardCategory() {
+
+
     }
 }
