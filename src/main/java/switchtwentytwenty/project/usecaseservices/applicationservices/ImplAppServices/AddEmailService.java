@@ -20,6 +20,7 @@ public class AddEmailService implements IAddEmailService {
      *
      * @param addEmailDTO
      */
+    //TODO alterar o addEmail porque tem de aceitar as duas classes
     @Override
     public void addEmail(AddEmailDTO addEmailDTO) {
 
