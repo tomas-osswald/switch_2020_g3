@@ -3,6 +3,8 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -34,6 +37,9 @@ class CategoryRepositoryTest {
 
     @InjectMocks
     CategoryRepository categoryRepository;
+
+    @Captor
+    ArgumentCaptor<CategoryIDJPA> captor;
 
     // Category JPA data
     String categoryDescription = "compras"; //"in english B
@@ -57,11 +63,11 @@ class CategoryRepositoryTest {
         when(categoryDataDomainAssembler.toDomain(categoryJPA)).thenReturn(category);
 
         CategoryID categoryID = new CategoryID(12L);
-        Category expected = new StandardCategory(catName,selfID, parentIDCat);
+        Category expected = new StandardCategory(catName, selfID, parentIDCat);
 
         Category result = categoryRepository.getByID(categoryID);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
         assertNotNull(result);
     }
 
@@ -78,8 +84,24 @@ class CategoryRepositoryTest {
         Category expected = new StandardCategory(catName, selfID, parentIDCat);
         Category result = categoryRepository.add(category);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
         assertNotNull(result);
     }
 
+    @Test
+    @Disabled
+    void testForCaptorFindByID() {
+
+        CategoryID categoryID = new CategoryID(12L);
+
+        CategoryIDJPA expected = new CategoryIDJPA(12L);
+
+        categoryRepository.getByID(categoryID);
+
+        verify(categoryRepositoryJPA).findById(captor.capture());
+
+        CategoryIDJPA result = captor.getValue();
+
+        assertEquals(expected, result);
+    }
 }
