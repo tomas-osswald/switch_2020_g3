@@ -19,11 +19,6 @@ public class FamilyIDJPA implements Serializable {
         this.familyID = familyID;
     }
 
-    public FamilyIDJPA(UUID familyID) {
-        this.familyID = familyID.toString();
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

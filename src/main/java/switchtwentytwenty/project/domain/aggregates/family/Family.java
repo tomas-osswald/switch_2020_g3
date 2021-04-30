@@ -3,13 +3,10 @@ package switchtwentytwenty.project.domain.aggregates.family;
 import lombok.Getter;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
-import switchtwentytwenty.project.domain.valueobject.ID;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class Family implements AggregateRoot<FamilyID> {
 

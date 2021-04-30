@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.interfaceadapters.controller;
 
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.AddEmailController;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.AddFamilyMemberController;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.CreateFamilyController;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.AddEmailController;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.AddFamilyMemberController;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.CreateFamilyController;
 
 class AddEmailControllerTest {
 

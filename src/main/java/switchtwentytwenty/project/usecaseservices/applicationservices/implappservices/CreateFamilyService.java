@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class CreateFamilyService implements ICreateFamilyService {
 
-    private IPersonRepository personRepository;
-    private IFamilyRepository familyRepository;
-    private PersonDTODomainAssembler personDTODomainAssembler;
-    private FamilyDTODomainAssembler familyDTODomainAssembler;
+    final private IPersonRepository personRepository;
+    final private IFamilyRepository familyRepository;
+    final private PersonDTODomainAssembler personDTODomainAssembler;
+    final private FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Autowired
     public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository, PersonDTODomainAssembler personDTODomainAssembler, FamilyDTODomainAssembler familyDTODomainAssembler) {

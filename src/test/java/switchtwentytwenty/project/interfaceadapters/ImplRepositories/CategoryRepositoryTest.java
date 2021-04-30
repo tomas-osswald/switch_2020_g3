@@ -80,18 +80,4 @@ class CategoryRepositoryTest {
         assertNotNull(result);
     }
 
-    /*
-    @Test
-    void addFamily() {
-        FamilyJPA familyJPA = new FamilyJPA(familyIDJPA, familyNameJPA, registrationDateJPA, adminIDJPA);
-
-        when(familyDataDomainAssembler.toData(any(Family.class))).thenReturn(familyJPA);
-
-        when(iFamilyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(familyJPA);
-
-        assertDoesNotThrow(() -> familyRepository.add(family));
-    }
-    */
-
-
 }

@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
+package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 @Controller
 public class CreateFamilyController  {
 
-    private ICreateFamilyService createFamilyService;
+    final private ICreateFamilyService createFamilyService;
 
     @Autowired
     public CreateFamilyController(ICreateFamilyService createFamilyService){

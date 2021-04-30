@@ -1,6 +1,5 @@
-package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
+package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +12,19 @@ import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 @RunWith(SpringRunner.class)
-class FamilyRESTControllerTest {
+@SpringBootTest
+class FamilyRESTControllerIntegrtionTestITDB {
     AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com","Silva","12/12/1222",999999999,919999999,"Rua","Cidade","12B","4400-123","Silva","12/12/2000");
 
 
     @Autowired
     IFamilyRESTController familyRESTController;
 
-    @Disabled
     @Test
     void createFamilyAndSetAdmin() {
 
@@ -42,4 +40,5 @@ class FamilyRESTControllerTest {
 
         assertEquals(expected,result);
     }
+
 }

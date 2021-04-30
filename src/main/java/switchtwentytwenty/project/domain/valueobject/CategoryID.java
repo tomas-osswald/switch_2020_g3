@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class CategoryID implements ID<Long> {
 
-    private long categoryID;
+    final private long id;
 
     public CategoryID(long categoryID) {
-        this.categoryID = categoryID;
+        this.id = categoryID;
     }
 
     @Override
@@ -15,12 +15,12 @@ public class CategoryID implements ID<Long> {
         if (this == o) return true;
         if (!(o instanceof CategoryID)) return false;
         CategoryID that = (CategoryID) o;
-        return categoryID == that.categoryID;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryID);
+        return Objects.hash(id);
     }
 
     /*
