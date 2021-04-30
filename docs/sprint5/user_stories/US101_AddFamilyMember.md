@@ -260,92 +260,96 @@ We chose to verify the uniqueness of the Email Address after instancing the emai
 
 # 3.4 Sequence Diagram
 
-![img.png](../../../assets/US151AddEmail.png)
-
 ```puml
 @startuml
 autonumber
 header Sequence Diagram
 title US101 Add a Family Member
 
-actor "Family Administrator" as familyAdmin
-participant "UI" as UI
-participant ": AddFamilyMemberController" as controller
-participant ": AddFamilyMemberService" as FamAdminService
-participant "anApplication\n : Application" as app
-participant "aFamilyRepository\n : FamilyRepository" as frepository
-participant "aPersonRepository\n: PersonRepository" as prepository
-participant "newFamilyMember\n : Person" as admin
+participant ": IPersonController" as controller <<interface>>
+participant " anOutputEmailDTO\n : OutputEmailDTO" as outputEmailDTO
+participant " : InputPersonDTO" as inputPersonDTO
+participant " : InputPersonIDDTO" as inputPersonIDDTO
 
-activate familyAdmin
-familyAdmin -> UI: I want to add a Family Member
-activate UI
-return request data
-familyAdmin -> UI : input Family Member data
-activate UI
+participant ": IAddFamilyMemberService" as FamAdminService <<interface>>
+participant " anAdminID : PersonID" as pID
+participant ": IPersonRepository" as prepository  <<interface>>
+participant ": IPersonRepositoryJPA" as prepositoryJPA  <<interface>>
+'participant "aFamilyRepository\n : FamilyRepository" as frepository
 
-UI -> controller : addFamilyMember(inputPersonDTO)
+-> controller : addFamilyMember(addFamilyMemberDTO)
 activate controller
+controller -> inputPersonIDDTO** : create(addFamilyMemberDTO.unpackAdminID())
+'controller -> inputPersonDTO** : create(addFamilyMemberDTO.unpackAdminID())
 
-controller -> FamAdminService** : create(application)
-controller -> FamAdminService : addFamilyMember(inputPersonDTO)
+ref over controller
+InputPersonDTO
+end
+controller -> FamAdminService : addFamilyMember(inputPersonIDDTO, inputPersonDTO)
 activate FamAdminService
-
-FamAdminService -> app : getFamilyRepository()
-activate app
-return aFamilyRepository
-
-FamAdminService -> app : getLoggedPersonID()
-activate app
-return loggedUserID
-
-FamAdminService -> frepository: verifyAdmin(loggedUserID)
-activate frepository
-return
-
-FamAdminService -> app : getPersonRepository()
-activate app
-return aPersonRepository
-
-FamAdminService -> app : getLoggedPersonFamilyID()
-activate app
-return familyID
-
-FamAdminService -> prepository : createAndAddPerson(name, birthdate, \nemail, vat, phone, address, familyID)
+FamAdminService -> pID* : create(inputPersonIDDTO.unpackPersonID())
+FamAdminService -> prepository : getById(anAdminID)
+activate prepository
+return aPerson
+FamAdminService -> FamAdminService : familyID = aPerson.getFamilyID()
+ref over FamAdminService
+create Family Member
+end
+FamAdminService -> prepository : add(aPerson)
 activate prepository
 
-prepository -> prepository : isEmailAlreadyRegistered(email)
+ref over prepository
 
-alt false
-
-prepository -> admin** : create
-activate admin
-
-prepository -> prepository : addToRepository (newFamilyMember)
-prepository --> FamAdminService
-deactivate admin
-
-FamAdminService --> controller : success
-
-controller --> UI : success
-
-UI --> familyAdmin : inform success
-
-else true
-
-prepository --> FamAdminService
-deactivate prepository
-
-FamAdminService --> controller : fail
-deactivate FamAdminService
-
-controller --> UI : fail
-deactivate controller
-
-UI --> familyAdmin : inform failure
-deactivate UI
+assembler Domain To Data
 
 end
+
+prepository -> prepositoryJPA : save(aPersonJPA)
+activate prepositoryJPA
+prepositoryJPA --> prepository
+deactivate prepositoryJPA
+prepository --> FamAdminService
+deactivate prepository
+FamAdminService --> controller
+controller -> outputEmailDTO** : create(inputPersonDTO.unpackEmail())
+deactivate FamAdminService
+<-- controller : responseEntity(outputEmailDTO, Httpstatus.OK)
+deactivate controller
+
+@enduml
+````
+
+'TODO: colocar alt para ter o condicional de se a Person já existir no JPA
+' retornar fail message e em caso de sucesso fazer o foward
+
+````puml
+@startuml
+title US101 FamilyMember = personDTODomainAssembler.toDomain
+
+participant ": IAddFamilyMemberService" as FamilyMemberService <<Interface>>
+participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
+participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
+participant "personID : PersonID" as personID
+participant "name : Name" as name
+participant "birthDate : BirthDate" as birthDate
+participant "vat : VATNumber" as vat
+participant "phone : PhoneNumber" as phoneNumber
+participant "address : Address" as address
+
+activate FamilyMemberService
+FamilyMemberService -> dtoToDomainAssembler : toDomain(inputPersonDTO, familyID)
+activate dtoToDomainAssembler
+dtoToDomainAssembler -> personID** : create(inputPersonDTO.unpackEmail())
+dtoToDomainAssembler -> name** : create(inputPersonDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(inputPersonDTO.unpackBirthDate())
+dtoToDomainAssembler -> vat** : create(inputPersonDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(inputPersonDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber())
+dtoToDomainAssembler -> aPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
+dtoToDomainAssembler -> FamilyMemberService : aPerson
+deactivate dtoToDomainAssembler
+deactivate FamilyMemberService
+
 @enduml
 ````
 
@@ -354,52 +358,97 @@ end
 
 autonumber
 header Sequence Diagram
-title US010 Create a Family and Set Administrator
+title personJPA = personAssembler.toData(FamilyMember)
+
+participant ": IPersonRepository" as personRepository <<interface>>
+participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "person\n : Person" as person
+participant "personIDJPA : PersonIDJPA" as personIDJPA
+participant "familyIDJPA : FamilyIDJPA" as familyIDJPA
+participant "personJPA : PersonJPA" as personJPA
+participant "addressJPA : AdressJPA" as addressJPA
+participant "emailsJPA : List<EmailAddressJPA>" as emailsJPA
+participant "phoneNumbersJPA : List <PhoneNumberJPA>" as phoneNumbersJPA
 
 
-participant ": ICreateFamilyMemberService" as service
-participant ": IFamilyRepository" as frepo
-participant ": IPersonRepository" as prepo
-participant "admin\n : Person" as admin
-participant "newPerson : Person" as newPerson
+-> personRepository : add(aPerson)
+activate personRepository
+personRepository -> personRepository : isPersonIDAlreadyRegistered(person.id())
 
--> service : createFamilyMember\n(inputPersonDTO)
-activate service
+personRepository -> assembler : toData(person)
+activate assembler
 
-service -> service : adminID =\n inputPersonDTO\n .unpackAdminID()
+assembler -> person : id()
+activate person
+person --> assembler : personID
+deactivate person
+assembler -> personIDJPA** :  create(personID.toString())
 
-service -> frepo : verifyAdmin(adminID)
-activate frepo
-return
+assembler -> person : getName().toString()
+activate person
+person --> assembler : name
+deactivate person
 
-ref over service
-unpack DTOs, validate 
-and create Value Objects
+assembler -> person : getBirthDate().toString()
+activate person
+person --> assembler : birthDate
+deactivate person
 
-end ref
+assembler -> person : getVat().toInt()
+activate person
+person --> assembler : vat
+deactivate person
 
-service -> prepo : getByID(adminID)
-activate prepo
-return admin
+assembler -> person : getPhoneNumbers()
+activate person
+person --> assembler : phoneNumbers
+deactivate person
 
-service -> admin : getFamilyID()
-activate admin
-return familyID
 
-service -> prepo: isPersonIDAlready\nRegistered(newPersonID)
-activate prepo
-return boolean
+assembler -> person : getAddress()
+activate person
+person --> assembler : address
+deactivate person
 
-service -> newPerson** : create(name, birthDate, newPersonID, vat, phone, address, familyID)
+assembler -> person: getFamilyID()
+activate person
+person --> assembler : familyID
+deactivate person
 
-service -> prepo : add(newPerson)
-activate prepo
-return
+assembler -> familyIDJPA** :  create(familyID.getFamilyID().toString())
 
-return true
+assembler -> personJPA** : create(personIDJPA, name, birthdate, vat, familyIDJPA)
+
+assembler -> addressJPA** : create(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA)
+
+assembler -> emailsJPA** : generateEmailAddressJPAList(person.getEmails(), personJPA)
+activate emailsJPA
+return emailsJPA
+
+assembler -> phoneNumbersJPA** : generetePhoneNumberJPAList(phoneNumbers, personJPA)
+activate phoneNumbersJPA
+return phoneNumbersJPA
+
+assembler -> personJPA : setAddress(addressJPA)
+activate personJPA
+personJPA --> assembler
+deactivate personJPA
+assembler -> personJPA : setPhones(phoneNumbersJPA)
+activate personJPA
+personJPA --> assembler
+deactivate personJPA
+assembler -> personJPA : setEmails(emailsJPA)
+activate personJPA
+personJPA --> assembler
+deactivate personJPA
+assembler -> personRepository : aPersonJPA
+deactivate assembler
+<- personRepository
 
 @enduml
 ````
+
+
 Duvida - meter o ponto 9 antes do 5?
 
 
