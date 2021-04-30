@@ -213,7 +213,7 @@ title US151 Add Email
 
 participant ":IPersonController" as controller <<interface>>
 participant ":InputEmailDTO" as inputemail
-participant ":UserIDDTO" as userdto
+participant ":InputUserIDDTO" as userdto
 
 participant "IAddEmailService" as service <<interface>>
 

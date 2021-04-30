@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.dto;
 
-public class UserIDDTO {
+public class InputUserIDDTO {
 
     public String unpackUserID(){
         return null;
