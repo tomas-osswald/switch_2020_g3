@@ -128,12 +128,18 @@ class PersonDataDomainAssemblerTest {
     void toDomainComparingByAttribute() {
         PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
         personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
-        List<PhoneNumberJPA> phoneNumberList = new ArrayList<PhoneNumberJPA>();
+
+        List<PhoneNumberJPA> phoneNumberList = new ArrayList<>();
         PhoneNumberJPA phoneNumber = new PhoneNumberJPA(VALIDPHONENUMBER, personJPA);
         phoneNumberList.add(phoneNumber);
         personJPA.setPhones(phoneNumberList);
 
+        List<EmailAddressJPA> emailAddressJPAS = new ArrayList<>();
+        emailAddressJPAS.add(new EmailAddressJPA(ANOTHERVALIDEMAIL, personJPA));
+        personJPA.setEmails(emailAddressJPAS);
+
         Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        expected.addEmail(new EmailAddress(ANOTHERVALIDEMAIL));
 
         Person result = personDataDomainAssembler.toDomain(personJPA);
 
@@ -147,6 +153,7 @@ class PersonDataDomainAssemblerTest {
         BirthDate resultBirthDate = result.getBirthdate();
 
         List<EmailAddress> expectedEmailAddresses = new ArrayList<>();
+        expectedEmailAddresses.add(new EmailAddress(ANOTHERVALIDEMAIL));
         List<EmailAddress> resultEmailAddresses = result.getEmails();
 
         VATNumber expectedVatNumber = new VATNumber(VALIDVATNUMBER);
