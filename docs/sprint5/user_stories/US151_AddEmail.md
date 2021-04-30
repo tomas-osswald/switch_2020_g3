@@ -213,7 +213,7 @@ title US151 Add Email
 
 participant ":IPersonController" as controller <<interface>>
 participant ":InputEmailDTO" as inputemail
-participant ":UserIDDTO" as userdto
+participant ":InputPersonIDDTO" as userdto
 
 participant "IAddEmailService" as service <<interface>>
 
@@ -232,7 +232,7 @@ controller -> userdto** : create(addEmailDTO.unpackUserID())
 controller -> service : addEmail(inputEmailDTO, userIDDTO)
 activate service
 
-service -> service : loggedUserID = userIDDTO.unpackUserID()
+service -> service : loggedUserID = inputPersonIDDTO.unpackUserID()
 service -> personid** : create(loggedUserID)
 
 service -> service : emailString = inputEmailDTO.unpackEmail()
