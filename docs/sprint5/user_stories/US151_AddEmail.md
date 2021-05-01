@@ -251,8 +251,8 @@ person -> person: isEmailAlreadyRegistered(newEmail)
 alt Email not registered
 
 person --> service: true
-<-- service:
-
+service -> controller : anOutputEmailDTO
+<-- controller : responseEntity()
 else Email already registered
 
 person --> service: false
