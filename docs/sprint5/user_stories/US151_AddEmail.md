@@ -218,6 +218,7 @@ participant ":InputPersonIDDTO" as userdto
 participant "IAddEmailService" as service <<interface>>
 
 participant "anOutputEmailDTO\n : OutputEmailDTO" as output
+participant "aFailedOutputEmailDTO\n : OutputEmailDTO" as failoutput
 
 participant "aPersonID\n : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
@@ -251,8 +252,12 @@ person -> person: isEmailAlreadyRegistered(newEmail)
 alt Email not registered
 
 person --> service: true
-service -> controller : anOutputEmailDTO
-<-- controller : responseEntity()
+service -> output** : create(Person.getName(), emailString, statusMessage)
+controller <-- service: 
+<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.)
+
+
+
 else Email already registered
 
 person --> service: false
@@ -271,7 +276,7 @@ activate repoJPA
 return
 return
 
-service -> output** : create(Person.getName(), emailString)
+service -> output** : create(Person.getName(), emailString, statusMessage)
 service -> controller : anOutputEmailDTO
 deactivate service
 
