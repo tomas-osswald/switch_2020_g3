@@ -65,7 +65,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
         // FamilyOptionsDTO e por ai em diante? que extende o RepresentationModel para colocarmos os varios links?
 
-        Link optionOne = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO())).withRel("Add new Relation");
+        Link optionOne = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO())).withRel("Add new Relation").withType("POST");
         //Link selfLinkTwo = linkTo(methodOn(FamilyRESTController.class).changeRelation(relationInputDTO, familyID).withSelfRel();
 
         //outputFamilyDTO.add(selfLink);
