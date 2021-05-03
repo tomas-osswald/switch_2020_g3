@@ -595,5 +595,11 @@ Foi retirado o admin ID do InputPersonDTO (não era necessária essa informaçã
 03.05.2021
 -------------
 
+Duvidas:
+
 * Após gravar no Repositorio JPA devemos retornar uma "representação" do que foi gravado ?
   Ou seja , por ex. no SD US101 no ponto 10, o método **save** deve return uma **savedPerson** , de modo a que se consiga aferir se este método realmente realizou esse _save_. Com o método a ser _void_ não temos como saber se a _Person_ foi adicionada.
+  
+  
+* as "entradas" via GET podem ser pelo string que vem do uri, ou temos que entrar com um DTO , por ex. na US150 podemos ter `.../{PersonID}/`
+  em vez de "entrar" com um **_inputDTO_**.
