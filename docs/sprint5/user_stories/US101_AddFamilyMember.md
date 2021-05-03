@@ -267,7 +267,7 @@ header Sequence Diagram
 title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
-participant " anOutputEmailDTO\n : OutputEmailDTO" as outputEmailDTO
+participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
 participant " : InputPersonDTO" as inputPersonDTO
 participant " : InputPersonIDDTO" as inputPersonIDDTO
 
@@ -311,9 +311,9 @@ deactivate prepositoryJPA
 prepository --> FamAdminService
 deactivate prepository
 FamAdminService --> controller
-controller -> outputEmailDTO** : create(inputPersonDTO.unpackEmail())
+controller -> outputPersonDTO** : create(inputPersonDTO.unpackEmail())
 deactivate FamAdminService
-<-- controller : responseEntity(outputEmailDTO, Httpstatus.OK)
+<-- controller : responseEntity(outputPersonDTO, Httpstatus.OK)
 deactivate controller
 
 @enduml

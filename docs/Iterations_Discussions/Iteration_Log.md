@@ -591,3 +591,9 @@ Nos testes evita o problema de haver objetos instanciados como nulos. Nas classe
 Ter em atenção os equals - deve ter apenas os atributos que dão a identidade ao objeto. Em OneToMany/ManyToOne, quando temos o JoinColumn, pode originar uma EIDC e consequentemente um StackOverflow
 
 Foi retirado o admin ID do InputPersonDTO (não era necessária essa informação para a criação de Person)
+
+03.05.2021
+-------------
+
+* Após gravar no Repositorio JPA devemos retornar uma "representação" do que foi gravado ?
+  Ou seja , por ex. no SD US101 no ponto 10, o método **save** deve return uma **savedPerson** , de modo a que se consiga aferir se este método realmente realizou esse _save_. Com o método a ser _void_ não temos como saber se a _Person_ foi adicionada.
