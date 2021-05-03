@@ -592,6 +592,8 @@ Ter em atenção os equals - deve ter apenas os atributos que dão a identidade 
 
 Foi retirado o admin ID do InputPersonDTO (não era necessária essa informação para a criação de Person)
 
+REST Controllers planning
+
 ````java
 @Requestmapping(value="/persons/")
 public class PersonController {
