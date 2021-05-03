@@ -591,3 +591,59 @@ Nos testes evita o problema de haver objetos instanciados como nulos. Nas classe
 Ter em atenção os equals - deve ter apenas os atributos que dão a identidade ao objeto. Em OneToMany/ManyToOne, quando temos o JoinColumn, pode originar uma EIDC e consequentemente um StackOverflow
 
 Foi retirado o admin ID do InputPersonDTO (não era necessária essa informação para a criação de Person)
+
+REST Controllers planning
+
+````java
+@Requestmapping(value="/persons/")
+public class PersonController {
+    // devolve pessoa com {id} (US150)
+    GET /"*{id}/"
+    
+    // adiciona um email à pessoa com {id} (US151)
+    POST /"*{id}/emails/" 
+    
+    // add member (US101)
+    POST /"*" 
+}
+
+@Requestmapping(value="/families/")
+public class FamilyController {
+    // criar família e set admin (US010)
+    POST /"*"
+    
+    // lista de family members e suas relações (US104)
+    GET /"*/{familyID}/members/"
+    
+    // criar relação (US105)
+    POST /"*/{familyID}/relations/"
+
+    // alterar relação (US105)
+    POST /"*/{familyID}/relations/{relationID}"
+    
+    // obter category tree da família (US110)
+    GET /"*/{familyID}/Categories/"
+    
+    // adicionar categoria custom (US111)
+    POST /"*/{familyID}/Categories/"
+}
+
+@Requestmapping(value="/categories/")
+public class CategoryController {
+    // criar standard category (US001)
+    POST /"*"
+    
+    // obter standard category tree (US002)
+    GET /"*"
+}
+
+@Requestmapping(value="/accounts/")
+public class AccountController {
+    // Create an account (US120, US170-173)
+    POST /"*"
+    
+    // Get balance
+    GET /"*/{accountID}/balance"
+    
+}
+````
