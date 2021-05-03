@@ -11,7 +11,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Embeddable
-public class FamilyID implements OwnerID<UUID>, Serializable {
+public class FamilyID implements OwnerID<String>, Serializable {
     @Getter
     @Setter
     private String familyID;
