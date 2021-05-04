@@ -12,14 +12,14 @@ import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class FamilyRESTControllerIntegrationTestITDB {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com","Silva","12/12/1222",999999999,919999999,"Rua","Cidade","12B","4400-123","Silva","12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
 
     @Autowired
@@ -34,11 +34,12 @@ class FamilyRESTControllerIntegrationTestITDB {
 
         outputFamilyDTO.add(expectedLink);
 
-        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
+        ResponseEntity<OutputFamilyDTO> expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
 
-        ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
+        ResponseEntity<OutputFamilyDTO> result = familyRESTController.createFamilyAndSetAdmin(dto);
 
-        assertEquals(expected,result);
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
     }
 
 }

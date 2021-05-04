@@ -37,7 +37,7 @@ public class FamilyRESTController implements IFamilyRESTController {
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
     @PostMapping("/")
-    public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
+    public ResponseEntity<OutputFamilyDTO> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         InputPersonDTO inputPersonDTO = AddFamilyAndSetAdminDTOAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
         InputFamilyDTO inputFamilyDTO = AddFamilyAndSetAdminDTOAssembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
 
@@ -50,10 +50,10 @@ public class FamilyRESTController implements IFamilyRESTController {
 
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(addFamilyAndSetAdminDTO.getFamilyName())).withSelfRel();
             outputFamilyDTO.add(selfLink);
-            return new ResponseEntity<>(outputFamilyDTO, status);
+            return new ResponseEntity(outputFamilyDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity<>("BUSineSs ErRoR ApI LoGIc", status);
+            return new ResponseEntity(null, status);
         }
     }
 
