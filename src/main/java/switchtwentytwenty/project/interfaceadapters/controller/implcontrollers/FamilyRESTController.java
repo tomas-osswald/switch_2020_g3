@@ -5,6 +5,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.AddFamilyAndSetAdminDTOAssembler;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
@@ -40,9 +41,8 @@ public class FamilyRESTController implements IFamilyRESTController {
      */
     @PostMapping("/")
     public ResponseEntity<Object> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
-        //TODO: Criar assembler para converter addFamilyAndSetAdminDTO to inputPersonDTO e inputFamilyDTO
-        InputPersonDTO inputPersonDTO = new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirthDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());
-        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getLocalDate());
+        InputPersonDTO inputPersonDTO = AddFamilyAndSetAdminDTOAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
+        InputFamilyDTO inputFamilyDTO = AddFamilyAndSetAdminDTOAssembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
 
         HttpStatus status;
         OutputFamilyDTO outputFamilyDTO;
