@@ -1,27 +1,21 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.dto.InputEmailDTO;
+import switchtwentytwenty.project.dto.InternalEmailDTO;
 import switchtwentytwenty.project.dto.OutputEmailDTO;
 import switchtwentytwenty.project.dto.InputPersonIDDTO;
-import switchtwentytwenty.project.exceptions.*;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -38,7 +32,7 @@ class AddEmailServiceTest {
     Person tonyZe;
 
     @Mock
-    InputEmailDTO mockInputEmailDTO;
+    InternalEmailDTO mockInternalEmailDTO;
 
 
     @Mock
@@ -60,7 +54,7 @@ class AddEmailServiceTest {
 
 
         Mockito.when(mockUserIDDTO.unpackUserID()).thenReturn("tonyze@latinlover.com");
-        Mockito.when(mockInputEmailDTO.unpackEmail()).thenReturn("tonyze@addemail.com");
+        Mockito.when(mockInternalEmailDTO.unpackEmail()).thenReturn("tonyze@addemail.com");
         //Mockito.when(invalidMockUser)
     }
 
