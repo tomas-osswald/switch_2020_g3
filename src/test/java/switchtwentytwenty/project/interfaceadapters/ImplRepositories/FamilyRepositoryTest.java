@@ -13,9 +13,11 @@ import static org.mockito.Mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
