@@ -1,11 +1,10 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
-import switchtwentytwenty.project.usecaseservices.applicationservices.*;
 
 class CreateStandardCategoryServiceTest {
 
@@ -15,7 +14,7 @@ class CreateStandardCategoryServiceTest {
     ICategoryDTODomainAssembler iCategoryDTODomainAssembler;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices.CreateStandardCategoryService createStandardCategoryService;
+    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.CreateStandardCategoryService createStandardCategoryService;
 
     @Test
     void createStandardCategory() {
