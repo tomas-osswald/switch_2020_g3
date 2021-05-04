@@ -6,17 +6,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.datamodel.domainjpa.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -99,7 +96,7 @@ class PersonDataDomainAssemblerTest {
         AddressJPA expectedAddress = new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, expected);
         AddressJPA resultAddressJPA = result.getAddress();
 
-        FamilyIDJPA expectedFamilyIDJPA = new FamilyIDJPA(VALIDEMAIL);
+        FamilyIDJPA expectedFamilyIDJPA = new FamilyIDJPA("@" + VALIDEMAIL);
         FamilyIDJPA resultFamilyIDJPA = result.getFamilyid();
 
         assertEquals(expected, result);
