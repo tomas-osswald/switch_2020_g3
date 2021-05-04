@@ -19,7 +19,7 @@ class AddEmailDTOTest {
         String result = resultDTO.unpackEmail();
 
         assertEquals(expected, result);
-        assertNotSame(expected, result);
+
 
     }
 
@@ -56,7 +56,7 @@ class AddEmailDTOTest {
         String result = resultDTO.unpackUserID();
 
         assertEquals(expectedId, result);
-        assertNotSame(expectedId, result);
+
     }
 
     @DisplayName("Verify unpack returns expected String")
@@ -72,7 +72,7 @@ class AddEmailDTOTest {
 
         String result = resultDTO.unpackUserID();
 
-        assertEquals(notExpected, result);
+        assertNotEquals(notExpected, result);
         assertNotSame(notExpected, result);
     }
 
