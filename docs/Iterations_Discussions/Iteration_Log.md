@@ -672,3 +672,16 @@ Vai-se manter o "problema" do acoplamento do Controller com um DTO externo + 2 D
 
 Professor referiu que a Interface ID não precisa de receber um <T> porque os IDs vão ser todos primitivos.
 
+
+### 04/05/2021 - Aula DSOFT II
+
+### 1. Conversão de DTO externo ou String para DTO interno no Controller é sempre correto. Na dúvida, faz-se sempre a conversão mesmo que só entre uma String.
+
+### 2. Depois de alterar um objeto e enviar para a persistência há situações em que não é necessário retornar esse objeto depois de transformado em Data, há situações em que é conveniente e outras em que é mandatório. Isto tudo para dizer o quê? Talvez seja preferível ter sempre essa devolução e operar com os dados daí provenientes (Exemplo SD do US001 ponto 5).
+
+### 3. Os OutputDTOs devem ser manipulados no Service por forma a que dos objetos de domínio sejam convertidos para DTO contendo apenas o necessário para depois exteriorizar.
+
+Exemplo: Um personOutputDTO pode não ter todos os dados do objeto Person. Dependendo de quem está a fazer o pedido para aceder aquele recurso, podemos limitar a quantidade de informação exteriorizada.
+
+### 4. No Controller, ao OutputDTO que vem do Service é são acrescentados os links referentes ao recurso.
+

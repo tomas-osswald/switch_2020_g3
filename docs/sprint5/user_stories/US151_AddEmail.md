@@ -212,8 +212,9 @@ header Sequence Diagram
 title US151 Add Email
 
 participant ":IPersonController" as controller <<interface>>
-participant ":InputEmailDTO" as inputemail
-participant ":InputPersonIDDTO" as userdto
+participant ":EmailExternalInternalAssembler" as assembler
+participant "anInternalEmailDTO\n:InternalEmailDTO" as internal
+participant "anExternalEmailDTO\n:ExternalEmailDTO" as external
 
 participant "IAddEmailService" as service <<interface>>
 
@@ -228,15 +229,19 @@ participant "IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> controller : addEmail(addEmailDTO)
 activate controller
-controller -> inputemail** : create(addEmailDTO.unpackEmail())
-controller -> userdto** : create(addEmailDTO.unpackUserID())
-controller -> service : addEmail(inputEmailDTO, userIDDTO)
+controller -> assembler : toInternal(addEmailDTO)
+activate assembler
+assembler -> internal** : create(addEmailDTO)  
+assembler --> controller : anEmailInternalDTO
+deactivate assembler
+
+controller -> service : addEmail(anInternalEmailDTO)
 activate service
 
-service -> service : loggedUserID = inputPersonIDDTO.unpackUserID()
+service -> service : loggedUserID = anInternalEmailDTO.unpackUserID()
 service -> personid** : create(loggedUserID)
 
-service -> service : emailString = inputEmailDTO.unpackEmail()
+service -> service : emailString = anInternalEmailDTO.unpackEmail()
 service -> email** : create(emailString)
 
 
@@ -252,9 +257,12 @@ person -> person: isEmailAlreadyRegistered(newEmail)
 alt Email not registered
 
 person --> service: true
-service -> output** : create(Person.getName(), emailString, statusMessage)
-controller <-- service: 
-<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.)
+service -> output** : create(emailString)
+controller <-- service: anOutputEmailDTO
+controller -> assembler : toExternal(anOutputEmailDTO, selfLink)
+activate assembler
+return anExternalEmailDTO
+<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.BADREQUEST)
 
 
 
@@ -273,14 +281,22 @@ personJPA = personAssembler.toData(admin)
 end ref
 personRepository -> repoJPA : save(personJPA)
 activate repoJPA
-return
-return
+repoJPA --> personRepository : savedPersonJPA
+ref over personRepository
+convert JPA to Domain
+person = personAssembler.toDomain(savedPersonJPA)
+end
+personRepository --> service : savedPerson
 
-service -> output** : create(Person.getName(), emailString, statusMessage)
-service -> controller : anOutputEmailDTO
+service -> output** : create( savedPerson.getAddedEmail(), savedPerson.getAddedEmailID())
+service --> controller : anOutputEmailDTO
 deactivate service
 
-<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.OK)
+controller -> assembler : toExternal(anOutputEmailDTO, selfLink)
+activate assembler
+return anExternalEmailDTO
+<-- controller : responseEntity(anExternalEmailDTO, Httpstatus.OK)
+deactivate assembler
 deactivate controller
 
 @enduml
