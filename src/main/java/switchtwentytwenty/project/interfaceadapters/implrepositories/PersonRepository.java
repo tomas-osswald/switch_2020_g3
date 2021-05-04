@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
+package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
