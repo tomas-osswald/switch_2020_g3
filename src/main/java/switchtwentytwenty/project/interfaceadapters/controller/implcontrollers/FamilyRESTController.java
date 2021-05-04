@@ -53,7 +53,9 @@ public class FamilyRESTController implements IFamilyRESTController {
             return new ResponseEntity(outputFamilyDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity("BuSsinEsS ErRor aPi LoGiC", status);
+
+            return new ResponseEntity("Business Error Api Logic", status);
+
         }
     }
 
