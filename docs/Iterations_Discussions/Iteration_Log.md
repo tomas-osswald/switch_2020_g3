@@ -664,7 +664,9 @@ public class AccountController {
 
 Cada funcionalidade deve ter no final do seu método as opções que se pretendem para o final de cada passo. Exemplo, no próprio método do CreateFamilyandSetAdmin, no final deve ter também um OPTIONS com aquilo que depois de adicionar a família e definir o admin, o user pode fazer.
 
-Acrescentar mais um Assembler para fazer a conversão de "outsideDTO" para inputDTO.
+
+Acrescentar mais um Assembler para fazer a conversão de "outsideDTO" para inputDTO. 
+R: SIM
 
 Vai-se manter o "problema" do acoplamento do Controller com um DTO externo + 2 DTO's internos, mas assim já não se andam com get() no Controller nem new xxxDTO. Converte recorrendo a um assembler antes de enviar para o Service.
 

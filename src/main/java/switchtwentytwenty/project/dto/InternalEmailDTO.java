@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.dto;
 
-public class InputEmailDTO {
+public class InternalEmailDTO {
 
     public String unpackEmail(){
         return null;
