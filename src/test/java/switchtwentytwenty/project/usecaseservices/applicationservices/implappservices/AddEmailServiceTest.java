@@ -14,12 +14,11 @@ import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.AddEmailDTO;
 import switchtwentytwenty.project.dto.InternalEmailDTO;
-import switchtwentytwenty.project.dto.InputPersonIDDTO;
 import switchtwentytwenty.project.dto.OutputEmailDTO;
-import switchtwentytwenty.project.exceptions.*;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
