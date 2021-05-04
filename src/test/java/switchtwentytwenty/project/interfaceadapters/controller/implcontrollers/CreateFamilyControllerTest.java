@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
+package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

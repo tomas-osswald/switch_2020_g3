@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
+package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

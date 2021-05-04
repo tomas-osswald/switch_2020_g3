@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

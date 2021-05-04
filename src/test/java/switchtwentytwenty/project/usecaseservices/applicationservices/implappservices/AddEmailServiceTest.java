@@ -48,7 +48,7 @@ class AddEmailServiceTest {
     OutputEmailDTO mockOutputEmailDTO;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.AddEmailService addEmailService;
+    AddEmailService addEmailService;
 
 
     PersonID IDTonyZe = new PersonID("tonyZe@gmail.com");

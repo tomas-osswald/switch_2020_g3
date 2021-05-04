@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
