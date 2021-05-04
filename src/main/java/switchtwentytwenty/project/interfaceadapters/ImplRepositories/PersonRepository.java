@@ -81,17 +81,6 @@ public class PersonRepository implements IPersonRepository {
         return person;
     }
 
-    @Deprecated
-    private Person retrievePersonFromList(PersonID email) {
-        Person result = null;
-        for (Person person : people) {
-            if (person.hasID(email)) {
-                result = person;
-            }
-        }
-        validatePersonNotNull(result);
-        return result;
-    }
 
     private void validatePersonNotNull(Person person) {
         if (person == null) {
