@@ -677,7 +677,7 @@ Professor referiu que a Interface ID não precisa de receber um <T> porque os ID
 
 
 ### 04/05/2021 - Aula DSOFT II
-
+![](https://media.giphy.com/media/xT8qB4HFqftRrLUpkQ/giphy.gif)
 ### 1. Conversão de DTO externo ou String para DTO interno no Controller é sempre correto. Na dúvida, faz-se sempre a conversão mesmo que só entre uma String.
 
 ### 2. Depois de alterar um objeto e enviar para a persistência há situações em que não é necessário retornar esse objeto depois de transformado em Data, há situações em que é conveniente e outras em que é mandatório. Isto tudo para dizer o quê? Talvez seja preferível ter sempre essa devolução e operar com os dados daí provenientes (Exemplo SD do US001 ponto 5).
@@ -688,3 +688,12 @@ Exemplo: Um personOutputDTO pode não ter todos os dados do objeto Person. Depen
 
 ### 4. No Controller, ao OutputDTO que vem do Service é são acrescentados os links referentes ao recurso.
 
+
+
+## 04/05/2021 - tarde
+
+Accounts - todas as accounts usam um DTO de entrada único. Apenas um serviço que trabalha com interface Account. O assembler toDomain é que deve processar a informação que recebe no DTO e criar então o tipo de account específico.
+
+Assim para a criação de qualquer tipo de account apenas existe um método em controller, serviço e repositório.
+
+Mais tarde se necessário diferenciar accounts pelos seus atributos (por exemplo bank account ter mais uma série de atributos que cash account), pode ser feito mais um pedido para adicionar a informação complementar.

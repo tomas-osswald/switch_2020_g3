@@ -3,11 +3,11 @@ package switchtwentytwenty.project.domain.valueobject;
 import java.util.Objects;
 import java.util.UUID;
 
-public class AccountID implements ID<UUID> {
+public class AccountID implements ID {
 
-    private final UUID accountID;
+    private final Long accountID;
 
-    public AccountID(UUID accountID) {
+    public AccountID(long accountID) {
         this.accountID = accountID;
         validateID();
     }
