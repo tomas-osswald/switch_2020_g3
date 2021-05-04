@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller.IControllers;
+package switchtwentytwenty.project.interfaceadapters.controller.icontrollers;
 
 import org.springframework.stereotype.Controller;
 

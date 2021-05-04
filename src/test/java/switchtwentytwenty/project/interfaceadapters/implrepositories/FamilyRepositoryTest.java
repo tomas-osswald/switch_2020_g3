@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
+package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;

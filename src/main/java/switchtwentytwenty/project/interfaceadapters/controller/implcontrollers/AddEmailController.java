@@ -3,7 +3,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddEmailController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAddEmailController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 
 @Controller

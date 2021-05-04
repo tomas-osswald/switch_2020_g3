@@ -1,15 +1,9 @@
-package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
+package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import switchtwentytwenty.project.deprecated.CCnumber;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.domain.valueobject.*;
-
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PersonRepositoryTest {
 

@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller;
+package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

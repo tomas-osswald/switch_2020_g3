@@ -24,8 +24,8 @@ import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
-import switchtwentytwenty.project.interfaceadapters.ImplRepositories.FamilyRepository;
-import switchtwentytwenty.project.interfaceadapters.ImplRepositories.PersonRepository;
+import switchtwentytwenty.project.interfaceadapters.implrepositories.FamilyRepository;
+import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 
 import java.util.Optional;
 

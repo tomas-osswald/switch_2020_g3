@@ -11,11 +11,8 @@ import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
+package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

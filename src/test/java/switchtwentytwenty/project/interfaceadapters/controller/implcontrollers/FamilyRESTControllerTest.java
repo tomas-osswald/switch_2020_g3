@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 class FamilyRESTControllerTest {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com","Silva","12/12/1222",999999999,919999999,"Rua","Cidade","12B","4400-123","Silva","12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
 
     @Autowired
@@ -40,6 +40,6 @@ class FamilyRESTControllerTest {
 
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 }
