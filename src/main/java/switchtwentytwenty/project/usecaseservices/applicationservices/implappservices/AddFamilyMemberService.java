@@ -22,13 +22,7 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
     private PersonDTODomainAssembler personDTODomainAssembler;
 
 
-    /**
-     * Added the PersonAlreadyRegisteredException in order to guarantee that if a person is already
-     * registered in the App the method will fail and the Controller will catch this Exception. The Controller was receiving
-     * a true even when the person was not added (line 40 was true)
-     *
-     * @param inputPersonDTO
-     */
+
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
     public void addPerson(InputPersonDTO inputPersonDTO, String userID) {
         PersonID loggedUserID = new PersonID(userID);
@@ -51,5 +45,3 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
 
     }
 }
-
-
