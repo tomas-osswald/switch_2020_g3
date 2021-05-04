@@ -85,7 +85,7 @@ class FamilyRepositoryTest {
 
     @Test
     void captorFindByID() {
-        FamilyIDJPA expected = new FamilyIDJPA(emailString);
+        FamilyIDJPA expected = new FamilyIDJPA("@"+emailString);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
 

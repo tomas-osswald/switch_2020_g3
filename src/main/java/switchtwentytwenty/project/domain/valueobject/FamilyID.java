@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @ToString
 @EqualsAndHashCode
@@ -18,8 +17,18 @@ public class FamilyID implements OwnerID<String>, Serializable {
 
     public FamilyID(String familyID) {
         validateID(familyID);
-        this.familyID = familyID.trim();
+        if (isAtPresent(familyID)) {
+            this.familyID = familyID.trim();
+        } else {
+            this.familyID = "@" + familyID.trim();
+        }
 
+
+    }
+
+    private boolean isAtPresent(String familyID) {
+        String firstCharacter = String.valueOf(familyID.trim().charAt(0));
+        return "@".equals(firstCharacter);
     }
 
 
@@ -36,6 +45,7 @@ public class FamilyID implements OwnerID<String>, Serializable {
 
     /**
      * Method that validates a familyID, throws an exception if the ID isn't valid
+     *
      * @param familyID
      */
     private void validateID(String familyID) {
@@ -47,8 +57,8 @@ public class FamilyID implements OwnerID<String>, Serializable {
     /**
      * Method to determine if an ID is valid, i.e. not null
      *
-     * @return boolean, true if ID is valid, false otherwise
      * @param familyID
+     * @return boolean, true if ID is valid, false otherwise
      */
     private boolean isIDValid(String familyID) {
         return familyID != null;

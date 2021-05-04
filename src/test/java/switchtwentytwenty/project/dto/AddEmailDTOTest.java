@@ -20,7 +20,6 @@ class AddEmailDTOTest {
 
         assertEquals(expected, result);
 
-
     }
 
     @DisplayName("Verify unpack returns different String")

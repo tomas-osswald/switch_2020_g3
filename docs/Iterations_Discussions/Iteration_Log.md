@@ -670,3 +670,6 @@ Vai-se manter o "problema" do acoplamento do Controller com um DTO externo + 2 D
 
 Professor referiu que a Interface ID não precisa de receber um <T> porque os IDs vão ser todos primitivos.
 
+## 04/05/2021
+
+- Visto que o ID do admin e o ID da familia são o mesmo, ir buscar uma cash account do admin ou da familia seria indistinguivel. Como tal, familyID será sempre no formato "@+adminID".
