@@ -1,17 +1,8 @@
 package switchtwentytwenty.project.interfaceadapters.controller;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.AddEmailController;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.AddFamilyMemberController;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.CreateFamilyController;
-
-import static org.junit.jupiter.api.Assertions.*;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.AddEmailController;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.AddFamilyMemberController;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.CreateFamilyController;
 
 class AddEmailControllerTest {
 

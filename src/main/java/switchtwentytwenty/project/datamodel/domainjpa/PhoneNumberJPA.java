@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "PhoneNumbers")
 public class PhoneNumberJPA {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,6 +20,7 @@ public class PhoneNumberJPA {
     @Getter
     private int number;
 
+    @Getter
     @ManyToOne()
     @JoinColumn(name = "person")
     private PersonJPA person;
@@ -35,11 +36,11 @@ public class PhoneNumberJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PhoneNumberJPA that = (PhoneNumberJPA) o;
-        return id == that.id && number == that.number && person.equals(that.person);
+        return id == that.id && number == that.number;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, number, person);
+        return Objects.hash(id,number);
     }
 }

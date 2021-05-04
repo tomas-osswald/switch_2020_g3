@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.AssemblerDataDomain;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;

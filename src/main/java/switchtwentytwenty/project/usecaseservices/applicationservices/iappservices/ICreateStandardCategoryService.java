@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
-import switchtwentytwenty.project.dto.InputCategoryDTO;
-import switchtwentytwenty.project.dto.OutputCategoryDTO;
+import switchtwentytwenty.project.dto.category.InputCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 
 public interface ICreateStandardCategoryService {
 

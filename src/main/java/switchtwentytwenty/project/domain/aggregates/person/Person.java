@@ -1,15 +1,22 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person implements AggregateRoot<PersonID> {
 
     private PersonID id;
@@ -35,7 +42,12 @@ public class Person implements AggregateRoot<PersonID> {
         this.familyID = familyID;
     }
 
-    public Person(PersonID personID, Name name, BirthDate birthDate,  VATNumber vatNumber, FamilyID familyID) {
+    public Person(PersonID personID, Name name, BirthDate birthDate, VATNumber vatNumber, FamilyID familyID) {
+        this.id = personID;
+        this.name = name;
+        this.birthdate = birthDate;
+        this.vat = vatNumber;
+        this.familyID = familyID;
     }
 
     private void addPhone(PhoneNumber phone) {
@@ -117,5 +129,18 @@ public class Person implements AggregateRoot<PersonID> {
 
     public void setPhoneNumberList(List<PhoneNumber> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id.equals(person.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

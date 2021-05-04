@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-@ToString
 @NoArgsConstructor
 @Embeddable
 public class FamilyIDJPA implements Serializable {
@@ -17,11 +16,6 @@ public class FamilyIDJPA implements Serializable {
 
     public FamilyIDJPA(String familyID) {
         this.familyID = familyID;
-    }
-
-    public FamilyIDJPA(UUID familyID) {
-        this.familyID = familyID.toString();
-
     }
 
     @Override
