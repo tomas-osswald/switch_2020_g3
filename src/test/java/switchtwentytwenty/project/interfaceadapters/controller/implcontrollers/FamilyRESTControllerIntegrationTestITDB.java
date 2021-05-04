@@ -1,0 +1,44 @@
+package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IFamilyRESTController;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+class FamilyRESTControllerIntegrationTestITDB {
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com","Silva","12/12/1222",999999999,919999999,"Rua","Cidade","12B","4400-123","Silva","12/12/2000");
+
+
+    @Autowired
+    IFamilyRESTController familyRESTController;
+
+    @Test
+    void createFamilyAndSetAdmin() {
+
+        Link expectedLink = linkTo(methodOn(switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
+
+        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
+
+        outputFamilyDTO.add(expectedLink);
+
+        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
+
+        ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
+
+        assertEquals(expected,result);
+    }
+
+}

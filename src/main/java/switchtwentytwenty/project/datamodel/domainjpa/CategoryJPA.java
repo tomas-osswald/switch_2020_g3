@@ -1,14 +1,14 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="categories")
@@ -17,6 +17,7 @@ public class CategoryJPA {
     @Getter
     private String categoryName;
 
+    @Getter
     @Id
     private CategoryIDJPA categoryIDJPA;
 
@@ -24,20 +25,7 @@ public class CategoryJPA {
     private Long parentID;
 
     @Getter
-    private String familyIDJPA;
-
-    public CategoryJPA(String categoryName, CategoryIDJPA categoryIDJPA, Long parentID, String familyIDJPA) {
-        this.categoryName = categoryName;
-        this.categoryIDJPA = categoryIDJPA;
-        this.parentID = parentID;
-        this.familyIDJPA = familyIDJPA;
-    }
-
-    public CategoryJPA(String categoryName, Long parentID, String familyIDJPA) {
-        this.categoryName = categoryName;
-        this.parentID = parentID;
-        this.familyIDJPA = familyIDJPA;
-    }
+    private FamilyIDJPA familyIDJPA;
 
     @Override
     public boolean equals(Object o) {
@@ -50,5 +38,44 @@ public class CategoryJPA {
     @Override
     public int hashCode() {
         return Objects.hash(categoryIDJPA);
+    }
+
+    public static class Builder {
+
+        private String categoryName;
+        private CategoryIDJPA categoryIDJPA;
+        private Long parentID;
+        private FamilyIDJPA familyIDJPA;
+
+        public Builder(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
+        public Builder withCategoryIDJPA(CategoryIDJPA categoryIDJPA) {
+            this.categoryIDJPA = categoryIDJPA;
+            return this;
+        }
+
+        public Builder withParentID(Long parentID) {
+            this.parentID = parentID;
+            return this;
+        }
+
+        public Builder withFamilyIDJPA(FamilyIDJPA familyIDJPA) {
+            this.familyIDJPA = familyIDJPA;
+            return this;
+        }
+
+        public CategoryJPA build() {
+            CategoryJPA categoryJPA = new CategoryJPA();
+
+            categoryJPA.categoryName = this.categoryName;
+            categoryJPA.categoryIDJPA = this.categoryIDJPA;
+            categoryJPA.parentID = this.parentID;
+            categoryJPA.familyIDJPA = this.familyIDJPA;
+
+            return categoryJPA;
+        }
+
     }
 }

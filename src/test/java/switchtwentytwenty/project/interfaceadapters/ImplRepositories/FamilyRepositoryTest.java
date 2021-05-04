@@ -3,6 +3,8 @@ package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -21,6 +23,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +42,8 @@ class FamilyRepositoryTest {
     @InjectMocks
     FamilyRepository familyRepository;
 
+    @Captor
+    ArgumentCaptor<FamilyIDJPA> captorFamilyIDJPA;
 
     // FamilyJPA
 
@@ -66,9 +71,6 @@ class FamilyRepositoryTest {
     Family family = new Family(familyID, familyName, registrationDate, adminEmail);
 
 
-
-
-
     @Tag("US010")
     @Test
     void addFamily() {
@@ -79,5 +81,20 @@ class FamilyRepositoryTest {
         when(iFamilyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(familyJPA);
 
         assertDoesNotThrow(() -> familyRepository.add(family));
+    }
+
+    @Test
+    void captorFindByID() {
+        FamilyIDJPA expected = new FamilyIDJPA(emailString);
+
+        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
+
+        familyRepository.getByID(familyID);
+
+        verify(iFamilyRepositoryJPA).findById(captorFamilyIDJPA.capture());
+
+        FamilyIDJPA result = captorFamilyIDJPA.getValue();
+
+        assertEquals(expected, result);
     }
 }

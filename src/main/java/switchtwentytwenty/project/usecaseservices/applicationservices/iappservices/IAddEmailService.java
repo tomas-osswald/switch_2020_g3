@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
-import org.springframework.stereotype.Service;
-import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 
 
 public interface IAddEmailService {

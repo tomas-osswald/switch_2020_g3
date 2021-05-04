@@ -63,11 +63,11 @@ public class PersonJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonJPA personJPA = (PersonJPA) o;
-        return vat == personJPA.vat && id.equals(personJPA.id) && name.equals(personJPA.name) && birthdate.equals(personJPA.birthdate) && familyid.equals(personJPA.familyid);
+        return id.equals(personJPA.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, birthdate, emails, phones, vat, address, familyid);
+        return Objects.hash(id);
     }
 }

@@ -1,4 +1,4 @@
-![apes](https://media1.tenor.com/images/62f924e0d5dd5437e522609cf7dd81ef/tenor.gif?itemid=20906166)
+
 # Sprint 3
 
 # This document keeps track of the different Class Diagrams throughout the sprint
@@ -603,3 +603,70 @@ Duvidas:
   
 * as "entradas" via GET podem ser pelo string que vem do uri, ou temos que entrar com um DTO , por ex. na US150 podemos ter `.../{PersonID}/`
   em vez de "entrar" com um **_inputDTO_**.
+
+REST Controllers planning
+
+````java
+@Requestmapping(value="/persons/")
+public class PersonController {
+    // devolve pessoa com {id} (US150)
+    GET /"*{id}/"
+    
+    // adiciona um email à pessoa com {id} (US151)
+    POST /"*{id}/emails/" 
+    
+    // add member (US101)
+    POST /"*" 
+}
+
+@Requestmapping(value="/families/")
+public class FamilyController {
+    // criar família e set admin (US010)
+    POST /"*"
+    
+    // lista de family members e suas relações (US104)
+    GET /"*/{familyID}/members/"
+    
+    // criar relação (US105)
+    POST /"*/{familyID}/relations/"
+
+    // alterar relação (US105)
+    POST /"*/{familyID}/relations/{relationID}"
+    
+    // obter category tree da família (US110)
+    GET /"*/{familyID}/Categories/"
+    
+    // adicionar categoria custom (US111)
+    POST /"*/{familyID}/Categories/"
+}
+
+@Requestmapping(value="/categories/")
+public class CategoryController {
+    // criar standard category (US001)
+    POST /"*"
+    
+    // obter standard category tree (US002)
+    GET /"*"
+}
+
+@Requestmapping(value="/accounts/")
+public class AccountController {
+    // Create an account (US120, US170-173)
+    POST /"*"
+    
+    // Get balance
+    GET /"*/{accountID}/balance"
+    
+}
+````
+
+03/05/2021 - Aula LABPROJ
+
+Cada funcionalidade deve ter no final do seu método as opções que se pretendem para o final de cada passo. Exemplo, no próprio método do CreateFamilyandSetAdmin, no final deve ter também um OPTIONS com aquilo que depois de adicionar a família e definir o admin, o user pode fazer.
+
+Acrescentar mais um Assembler para fazer a conversão de "outsideDTO" para inputDTO.
+
+Vai-se manter o "problema" do acoplamento do Controller com um DTO externo + 2 DTO's internos, mas assim já não se andam com get() no Controller nem new xxxDTO. Converte recorrendo a um assembler antes de enviar para o Service.
+
+Professor referiu que a Interface ID não precisa de receber um <T> porque os IDs vão ser todos primitivos.
+
