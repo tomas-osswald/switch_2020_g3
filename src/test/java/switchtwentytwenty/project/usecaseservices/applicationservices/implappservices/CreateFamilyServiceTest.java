@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +66,7 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Valid data doesn't throw exception")
     void createFamilyAndAddAdminTestValidData(){
-        FamilyID familyID = new FamilyID("tonyze@latinas.com");
+        //FamilyID familyID = new FamilyID("tonyze@latinas.com");
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
 
@@ -80,7 +80,7 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Invalid person name, should throw exception")
     void createFamilyAndAddAdminTestInvalidName(){
-        FamilyID familyID = new FamilyID("tonyze@latinas.com");
+        //FamilyID familyID = new FamilyID("tonyze@latinas.com");
         //Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenThrow(InvalidNameException.class);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);
@@ -94,7 +94,7 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Person already registered throw exception")
     void createFamilyAndAddAdminTestPersonAlreadyRegistered(){
-        FamilyID familyID = new FamilyID("tonyze@latinas.com");
+        //FamilyID familyID = new FamilyID("tonyze@latinas.com");
         //Mockito.when(familyRepository.generateID()).thenReturn(familyID);
         Mockito.when(personDTODomainAssembler.toDomain(any(),any())).thenReturn(admin);
         Mockito.when(familyDTODomainAssembler.toDomain(any(),any(),any())).thenReturn(family);

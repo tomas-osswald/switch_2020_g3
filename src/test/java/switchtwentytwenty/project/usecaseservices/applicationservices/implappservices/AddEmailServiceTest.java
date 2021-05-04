@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -43,7 +43,7 @@ class AddEmailServiceTest {
     OutputEmailDTO mockOutputEmailDTO;
 
     @InjectMocks
-    AddEmailService addEmailService;
+    IAddEmailService addEmailService;
 
 
     PersonID IDTonyZe = new PersonID("tonyZe@gmail.com");

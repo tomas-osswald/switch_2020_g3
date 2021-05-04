@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
