@@ -1,10 +1,10 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
-import switchtwentytwenty.project.dto.family.InAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 
 public class AddFamilyOutInAssembler {
 
-    public InAddFamilyMemberDTO toIn (InAddFamilyMemberDTO inAddFamilyMemberDTO) {
+    public AddFamilyMemberDTO toIn (AddFamilyMemberDTO inAddFamilyMemberDTO) {
         return null;
     }
 
