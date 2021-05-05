@@ -32,7 +32,8 @@ public class CreateFamilyService implements ICreateFamilyService {
         this.familyDTODomainAssembler = familyDTODomainAssembler;
     }
 
-    /**cd
+    /**
+     * cd
      * Service method to create a Family and set its administrator
      *
      * @param inputFamilyDTO DTO that contains the Family's information
@@ -44,7 +45,7 @@ public class CreateFamilyService implements ICreateFamilyService {
         Person admin = personDTODomainAssembler.toDomain(inputPersonDTO, familyID);
         Family family = familyDTODomainAssembler.toDomain(inputFamilyDTO, familyID, adminID);
 
-        Person person = personRepository.add(admin);
+        personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
 
         OutputFamilyDTO outputFamilyDTO = familyDTODomainAssembler.toDTO(registeredFamily);

@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
+package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,10 @@ import static org.mockito.Mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
+
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
@@ -85,7 +86,7 @@ class FamilyRepositoryTest {
 
     @Test
     void captorFindByID() {
-        FamilyIDJPA expected = new FamilyIDJPA(emailString);
+        FamilyIDJPA expected = new FamilyIDJPA("@"+emailString);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
 

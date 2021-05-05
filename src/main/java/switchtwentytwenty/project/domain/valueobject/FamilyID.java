@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @NoArgsConstructor
 public class FamilyID implements OwnerID<String>, Serializable {
@@ -13,10 +12,25 @@ public class FamilyID implements OwnerID<String>, Serializable {
     @Setter
     private String familyID;
 
+    /**
+     * FamilyID value object. It is the same as the Family Admin ID but with an "@" automatically added to the start ( char at index 0) of the String.
+     * Constructor calls a valdiation method to ensure that only one @ is added to the String
+     * @param familyID
+     */
     public FamilyID(String familyID) {
         validateID(familyID);
-        this.familyID = familyID.trim();
+        if (isAtPresent(familyID)) {
+            this.familyID = familyID.trim();
+        } else {
+            this.familyID = "@" + familyID.trim();
+        }
 
+
+    }
+
+    private boolean isAtPresent(String familyID) {
+        String firstCharacter = String.valueOf(familyID.trim().charAt(0));
+        return "@".equals(firstCharacter);
     }
 
 
@@ -27,6 +41,7 @@ public class FamilyID implements OwnerID<String>, Serializable {
 
      /**
      * Method that validates a familyID, throws an exception if the ID isn't valid
+     *
      * @param familyID
      */
     private void validateID(String familyID) {
@@ -38,8 +53,8 @@ public class FamilyID implements OwnerID<String>, Serializable {
     /**
      * Method to determine if an ID is valid, i.e. not null
      *
-     * @return boolean, true if ID is valid, false otherwise
      * @param familyID
+     * @return boolean, true if ID is valid, false otherwise
      */
     private boolean isIDValid(String familyID) {
         return familyID != null;

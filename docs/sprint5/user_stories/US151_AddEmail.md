@@ -212,6 +212,7 @@ header Sequence Diagram
 title US151 Add Email
 
 participant ":IPersonController" as controller <<interface>>
+participant ":EmailExternalInternalAssembler" as assembler
 participant ":InputEmailDTO" as inputemail
 participant ":InputPersonIDDTO" as userdto
 
@@ -228,6 +229,9 @@ participant "IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> controller : addEmail(addEmailDTO)
 activate controller
+controller -> assembler : toInternal(addEmailDTO)
+activate assembler
+deactivate assembler
 controller -> inputemail** : create(addEmailDTO.unpackEmail())
 controller -> userdto** : create(addEmailDTO.unpackUserID())
 controller -> service : addEmail(inputEmailDTO, userIDDTO)

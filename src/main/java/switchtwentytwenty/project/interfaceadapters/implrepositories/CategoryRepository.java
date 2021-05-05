@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.ImplRepositories;
+package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 
 import switchtwentytwenty.project.domain.aggregates.category.Category;

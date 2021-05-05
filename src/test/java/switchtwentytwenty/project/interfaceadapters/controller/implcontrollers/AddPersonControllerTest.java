@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller;
+package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 

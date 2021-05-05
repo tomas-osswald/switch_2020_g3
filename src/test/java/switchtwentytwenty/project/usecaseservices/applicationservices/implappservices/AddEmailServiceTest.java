@@ -1,27 +1,22 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.dto.InputEmailDTO;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
-import switchtwentytwenty.project.dto.InputPersonIDDTO;
-import switchtwentytwenty.project.exceptions.*;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.InputEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
+import switchtwentytwenty.project.dto.person.InputPersonIDDTO;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -48,7 +43,7 @@ class AddEmailServiceTest {
     OutputEmailDTO mockOutputEmailDTO;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.AddEmailService addEmailService;
+    IAddEmailService addEmailService;
 
 
     PersonID IDTonyZe = new PersonID("tonyZe@gmail.com");
