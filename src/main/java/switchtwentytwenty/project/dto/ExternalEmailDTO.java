@@ -1,17 +1,22 @@
 package switchtwentytwenty.project.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.hateoas.Link;
 
+import javax.persistence.Embedded;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExternalEmailDTO {
 
-    private final String outputEmail;
-    private final String link;
+    @Getter
+    @Setter
+    private String outputEmail;
+    private String link;
 
-
-    public ExternalEmailDTO (OutputEmailDTO outputEmailDTO, Link link){
-        this.outputEmail = outputEmailDTO.toString();
-        this.link = link.toString();
-    }
 
     public String unpackEmail(){return this.outputEmail; }
 

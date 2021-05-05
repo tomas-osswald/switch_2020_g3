@@ -254,19 +254,15 @@ service -> person: addEmail(newEmail)
 activate person
 person -> person: isEmailAlreadyRegistered(newEmail)
 
-alt Email not registered
+alt Email already registered
 
-person --> service: true
-service -> output** : create(emailString)
-controller <-- service: anOutputEmailDTO
-controller -> assembler : toExternal(anOutputEmailDTO, selfLink)
-activate assembler
-return anExternalEmailDTO
-<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.BADREQUEST)
+person --> service
+controller <-- service
+<-- controller : responseEntity(errorMessage, Httpstatus.BADREQUEST)
 
 
 
-else Email already registered
+else Email not registered
 
 person --> service: false
 deactivate person
@@ -296,6 +292,7 @@ deactivate service
 
 controller -> assembler : toExternal(anOutputEmailDTO, selfLink)
 activate assembler
+assembler -> external** : create(anExternalEmailDTO, selfLink)
 return anExternalEmailDTO
 <-- controller : responseEntity(anExternalEmailDTO, Httpstatus.OK)
 deactivate assembler
