@@ -23,7 +23,6 @@ class AddFamilyMemberControllerTest {
 
 
     //TODO: Rever testes do controller. Tudo a quebrar
-    /*
     @Test
     @Tag("US101")
     void addFamilyMemberSuccess() {
@@ -44,7 +43,6 @@ class AddFamilyMemberControllerTest {
         assertFalse(result);
     }
 
-     */
 
 
 }
