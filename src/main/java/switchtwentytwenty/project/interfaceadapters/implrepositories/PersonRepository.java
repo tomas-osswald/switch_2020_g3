@@ -3,14 +3,13 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.*;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
-import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -65,6 +64,7 @@ public class PersonRepository implements IPersonRepository {
     }
 
     @Override
+    @Deprecated
     public void updatePerson(Person person) {
         this.peopleMap.put(person.id(), person);
     }
@@ -81,12 +81,6 @@ public class PersonRepository implements IPersonRepository {
         return person;
     }
 
-
-    private void validatePersonNotNull(Person person) {
-        if (person == null) {
-            throw new EmailNotRegisteredException();
-        }
-    }
 
     @Deprecated
     public void addEmailToPerson(EmailAddress email, PersonID personID) {

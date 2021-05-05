@@ -692,7 +692,7 @@ Exemplo: Um personOutputDTO pode não ter todos os dados do objeto Person. Depen
 
 ## 04/05/2021 - tarde
 
-Accounts - todas as accounts usam um DTO de entrada único. Apenas um serviço que trabalha com interface Account. O assembler toDomain é que deve processar a informação que recebe no DTO e criar então o tipo de account específico.
+Accounts - todas as accounts usam um DTO de entrada único. Apenas um serviço que trabalha com interface Account. O assembler toDomain é que deve processar a informação que recebe no DTO e criar então o tipo de account específico. O DTO tem um atributo que especifica o tipo de conta, para alem de tudo o resto necessario para criar a conta
 
 Assim para a criação de qualquer tipo de account apenas existe um método em controller, serviço e repositório.
 

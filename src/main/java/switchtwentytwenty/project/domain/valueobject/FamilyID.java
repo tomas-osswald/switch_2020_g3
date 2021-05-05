@@ -15,6 +15,11 @@ public class FamilyID implements OwnerID<String>, Serializable {
     @Setter
     private String familyID;
 
+    /**
+     * FamilyID value object. It is the same as the Family Admin ID but with an "@" automatically added to the start ( char at index 0) of the String.
+     * Constructor calls a valdiation method to ensure that only one @ is added to the String
+     * @param familyID
+     */
     public FamilyID(String familyID) {
         validateID(familyID);
         if (isAtPresent(familyID)) {
