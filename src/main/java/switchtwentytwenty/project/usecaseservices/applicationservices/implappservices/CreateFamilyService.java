@@ -19,10 +19,10 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class CreateFamilyService implements ICreateFamilyService {
 
-    final private IPersonRepository personRepository;
-    final private IFamilyRepository familyRepository;
-    final private PersonDTODomainAssembler personDTODomainAssembler;
-    final private FamilyDTODomainAssembler familyDTODomainAssembler;
+    private final IPersonRepository personRepository;
+    private final IFamilyRepository familyRepository;
+    private final PersonDTODomainAssembler personDTODomainAssembler;
+    private final FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Autowired
     public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository, PersonDTODomainAssembler personDTODomainAssembler, FamilyDTODomainAssembler familyDTODomainAssembler) {
@@ -33,7 +33,6 @@ public class CreateFamilyService implements ICreateFamilyService {
     }
 
     /**
-     * cd
      * Service method to create a Family and set its administrator
      *
      * @param inputFamilyDTO DTO that contains the Family's information
