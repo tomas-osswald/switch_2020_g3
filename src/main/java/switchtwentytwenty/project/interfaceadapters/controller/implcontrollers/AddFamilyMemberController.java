@@ -13,11 +13,11 @@ public class AddFamilyMemberController implements IAddFamilyMemberController {
     IAddFamilyMemberService addPersonService;
 
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
-    public boolean addFamilyMember(addFamilyMemberDTO) {
+    public boolean addFamilyMember(InputPersonDTO inputPersonDTO, String userID) {
         boolean result;
 
         try {
-            addPersonService.addPerson((addFamilyMemberDTO);
+            addPersonService.addPerson(inputPersonDTO, userID);
             result = true;
         } catch (Exception e) {
             result = false;

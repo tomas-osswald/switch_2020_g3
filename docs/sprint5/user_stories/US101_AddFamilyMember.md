@@ -267,8 +267,8 @@ header Sequence Diagram
 title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
-participant ": addFamiyOutInAssembler" as outinassembler
-participant " anInAddFamilyMemberDTO\n :InAddFamilyMemberDTO" as aninaddassembler
+participant ": ExternalInternal\n FamilyMemberAssembler" as outinassembler
+participant " anInternalFamilyMemberDTO\n :InternalFamilyMemberDTO" as aninaddassembler
 participant ": IAddFamilyMemberService" as FamAdminService <<interface>>
 participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
 participant ": IPersonRepository" as prepository  <<interface>>
@@ -277,33 +277,40 @@ participant ": IPersonRepositoryJPA" as prepositoryJPA  <<interface>>
 
 -> controller : addFamilyMember(addFamilyMemberDTO)
 activate controller
-controller -> outinassembler : toIn(addFamilyMemberDTO)
+controller -> outinassembler : toInternal(addFamilyMemberDTO)
 activate outinassembler
 outinassembler -> aninaddassembler** : create
-outinassembler -> controller : anInAddFamilyMemberDTO
+outinassembler -> controller : anInternalFamilyMemberDTO
 deactivate
-controller -> FamAdminService : addPerson(inAddFamilyMemberDTO)
+controller -> FamAdminService : addPerson(InternalFamilyMemberDTO)
 activate FamAdminService
 
 ref over FamAdminService
 create Family Member
 end
+
 FamAdminService -> prepository : add(aPerson)
 activate prepository
 
+prepository -> prepository : isPersonIDAlreadyRegistered()
+alt Person is already present
+prepository --> FamAdminService : failure
+activate outinassembler
+FamAdminService -> outinassembler : failure
+'FamAdminService -> outinassembler : toExternal(internalFamilyMemberDTO)
+outinassembler --> controller :
+<-- controller : responseEntity(null, Httpstatus.BADREQUEST)
+else Person is not present
 ref over prepository
 personJPA = personAssembler.toData(Person)
 assembler Domain To Data
 end
 
-prepository -> prepositoryJPA : save(aPersonJPA)
-activate prepositoryJPA
-return savedPersonJPA
-
 ref over prepository
 savedPersonDTO = personAssembler.toDomain(savedPersonJPA)
 assembler JPA To Data
 end
+
 return savedPersonDTO
 deactivate prepositoryJPA
 'FamAdminService - create (savedPersonDTO)
@@ -311,7 +318,7 @@ deactivate prepository
 FamAdminService -> outputPersonDTO** : create (savedPersonDTO.getID(), savedPersonDTO.getName())
 FamAdminService -> controller: anOutputPersonDTO
 deactivate FamAdminService 
-controller -> outinassembler : toOut(anOutputPersonDTO, selfLink)
+controller -> outinassembler : toExternal(anOutputPersonDTO, selfLink)
 activate outinassembler
 outinassembler -> controller : outputToExteriorPersonDTO
 deactivate
@@ -319,11 +326,9 @@ deactivate FamAdminService
 <-- controller : responseEntity(outputToExteriorPersonDTO, Httpstatus.OK)
 deactivate controller
 
+end
 @enduml
 ````
-
-'TODO: colocar alt para ter o condicional de se a Person já existir no JPA
-' retornar fail message e em caso de sucesso fazer o foward
 
 ````puml
 @startuml
@@ -455,17 +460,6 @@ deactivate assembler
 
 @enduml
 ````
-
-
-Duvida - meter o ponto 9 antes do 5?
-
-
-- Duvidas (a tirar em 12.04.2021 para resolver !!!)
-
-    **Person criada no repositorio ou no service ?**
-  
-    **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
-    
 
 ## 3.5. Applied Patterns
 
