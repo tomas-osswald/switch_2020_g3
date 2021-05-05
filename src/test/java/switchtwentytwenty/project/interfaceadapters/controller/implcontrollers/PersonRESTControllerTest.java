@@ -1,7 +1,9 @@
-package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
+package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,9 +23,21 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInt
 import switchtwentytwenty.project.dto.AddEmailDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.dto.GetProfileInfoDTO;
+import switchtwentytwenty.project.dto.InternalProfileDTO;
+import switchtwentytwenty.project.dto.OutputEmailDTO;
+import switchtwentytwenty.project.dto.ProfileOutputDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
+
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.PersonRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -41,6 +55,18 @@ class PersonRESTControllerTest {
 
     @Mock
     IGetFamilyMemberProfileService getFamilyMemberProfileService;
+
+    @Mock
+    GetProfileInfoDTO getProfileInfoDTO;
+
+    @Mock
+    InternalProfileDTO anInternalProfileDTO;
+
+    @Mock
+    OutputPersonDTO outputPersonDTO;
+
+    @Mock
+    ProfileInternalExternalAssembler profileInternalExternalAssembler;
 
     @InjectMocks
     PersonRESTController personRESTController;
@@ -70,5 +96,22 @@ class PersonRESTControllerTest {
         assertEquals(expected, result);
     }
 
+    @Disabled
+    @Test
+    void successCaseInGetProfileInfo() {
 
+        Mockito.when(profileInternalExternalAssembler.toService(getProfileInfoDTO)).thenReturn(anInternalProfileDTO);
+        Mockito.when(getFamilyMemberProfileService.getFamilyMemberProfile(anInternalProfileDTO)).thenReturn(outputPersonDTO);
+
+        Mockito.when(getProfileInfoDTO.getPersonID()).thenReturn("tonyze@latinlover.com");
+
+        OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+        //expectedOutputPersonDTO.add(link);
+        ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(outputPersonDTO, HttpStatus.FOUND);
+
+        ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO);
+
+        Assertions.assertEquals(expected.getStatusCode(), result.getStatusCode());
+        Assertions.assertEquals(expected.getBody(), result.getBody());
+    }
 }

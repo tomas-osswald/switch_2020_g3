@@ -2,6 +2,7 @@ package switchtwentytwenty.project.dto;
 
 import java.util.Objects;
 
+//TODO e que tal: criar uma Interface de DTOs para nao ficarmos presos a um só DTO quando implementamos?
 public class InputPersonIDDTO {
 
     private String id;
