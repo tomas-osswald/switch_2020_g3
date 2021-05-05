@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
+package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
