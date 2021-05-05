@@ -3,14 +3,20 @@ package switchtwentytwenty.project.dto.category;
 import java.util.Objects;
 
 public class InputCategoryDTO {
-
     private String categoryName;
-
     private String parentID;
 
     public InputCategoryDTO(String categoryName, String parentID) {
         this.categoryName = categoryName;
         this.parentID = parentID;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public String getParentID() {
+        return parentID;
     }
 
     @Override
