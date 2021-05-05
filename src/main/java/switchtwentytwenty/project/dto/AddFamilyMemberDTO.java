@@ -1,8 +1,9 @@
-package switchtwentytwenty.project.dto.family;
+package switchtwentytwenty.project.dto;
 
 import java.util.Objects;
 
-public class InAddFamilyMemberDTO {
+
+public class AddFamilyMemberDTO {
 
     private String adminID;
     private String emailID;
@@ -15,23 +16,7 @@ public class InAddFamilyMemberDTO {
     private String houseNumber;
     private String zipCode;
 
-    /*
-    public InAddFamilyMemberDTO(String adminID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
-        this.adminID = adminID;
-        this.emailID = emailID;
-        this.name = name;
-        this.birtDate = birtDate;
-        this.vatNumber = vatNumber;
-        this.phone = phone;
-        this.street = street;
-        this.city = city;
-        this.houseNumber = houseNumber;
-        this.zipCode = zipCode;
-    }
-     */
-
-    public InAddFamilyMemberDTO(){
-
+    public AddFamilyMemberDTO(){
     }
 
     public String getAdminID() {
@@ -117,13 +102,13 @@ public class InAddFamilyMemberDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InAddFamilyMemberDTO)) return false;
-        InAddFamilyMemberDTO that = (InAddFamilyMemberDTO) o;
-        return getVatNumber() == that.getVatNumber() && Objects.equals(getAdminID(), that.getAdminID()) && Objects.equals(getEmailID(), that.getEmailID()) && Objects.equals(getName(), that.getName()) && Objects.equals(getBirtDate(), that.getBirtDate()) && Objects.equals(getPhone(), that.getPhone()) && Objects.equals(getStreet(), that.getStreet()) && Objects.equals(getCity(), that.getCity()) && Objects.equals(getHouseNumber(), that.getHouseNumber()) && Objects.equals(getZipCode(), that.getZipCode());
+        if (!(o instanceof AddFamilyMemberDTO)) return false;
+        AddFamilyMemberDTO that = (AddFamilyMemberDTO) o;
+        return vatNumber == that.vatNumber && Objects.equals(adminID, that.adminID) && Objects.equals(emailID, that.emailID) && Objects.equals(name, that.name) && Objects.equals(birtDate, that.birtDate) && Objects.equals(phone, that.phone) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(houseNumber, that.houseNumber) && Objects.equals(zipCode, that.zipCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAdminID(), getEmailID(), getName(), getBirtDate(), getVatNumber(), getPhone(), getStreet(), getCity(), getHouseNumber(), getZipCode());
+        return Objects.hash(adminID, emailID, name, birtDate, vatNumber, phone, street, city, houseNumber, zipCode);
     }
 }

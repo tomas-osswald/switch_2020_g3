@@ -3,9 +3,9 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.family.InAddFamilyMemberDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -13,34 +13,21 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class AddFamilyMemberService implements IAddFamilyMemberService {
 
-
-    @Autowired
     private IPersonRepository personRepository;
-    @Autowired
     private IFamilyRepository familyRepository;
-    @Autowired
     private PersonDTODomainAssembler personDTODomainAssembler;
 
-
+    @Autowired
+    public AddFamilyMemberService(IPersonRepository personRepository, IFamilyRepository familyRepository) {
+        this.personRepository = personRepository;
+        this.familyRepository = familyRepository;
+    }
 
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
-    public void addPerson(InputPersonDTO inputPersonDTO, String userID) {
-        PersonID loggedUserID = new PersonID(userID);
-
+    public void addPerson(InAddFamilyMemberDTO InAddFamilyMemberDTO) {
+        PersonID loggedUserID = new PersonID(InAddFamilyMemberDTO.getAdminID());
         familyRepository.verifyAdmin(loggedUserID);
-
-        Name name = new Name(inputPersonDTO.unpackName());
-        BirthDate birthDate = new BirthDate(inputPersonDTO.unpackBirthDate());
-        PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
-        VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
-        Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
-
-
-        Person admin = personRepository.getByID(loggedUserID);
-        FamilyID familyID = admin.getFamilyID();
-
-        Person person = personDTODomainAssembler.toDomain(inputPersonDTO,familyID);
+        Person person = personDTODomainAssembler.toDomain(InAddFamilyMemberDTO);
         personRepository.add(person);
 
     }
