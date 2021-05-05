@@ -7,4 +7,5 @@ public interface IPersonRESTController {
 
         public ResponseEntity<Object> addEmail(AddEmailDTO addEmailDTO);
 
+        public ResponseEntity<Object> getEmail (String personID, String emailID);
     }

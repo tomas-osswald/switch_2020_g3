@@ -11,4 +11,10 @@ public class PersonRESTController implements IPersonRESTController {
     public ResponseEntity<Object> addEmail(AddEmailDTO addEmailDTO) {
         return null;
     }
+
+    @Override
+    public ResponseEntity<Object> getEmail(String personID, String emailID) {
+        return null;
+    }
+
 }
