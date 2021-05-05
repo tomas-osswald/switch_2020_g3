@@ -62,7 +62,6 @@ title Create Account
 
 participant ": IAccountRESTController" as controller
 participant ": ICheckBalanceService" as service
-participant "account : Account" as account
 participant ": IAccountRepository" as repository
 participant ": IAccountRepositoryJPA" as repositoryJPA
 
@@ -98,91 +97,20 @@ end
 
 return account
 
-service -> account : getBalance()
-activate account
-return balance
 
 ref over service
-Balance to OutputBalanceDTO
+Balance to OutputAccountDTO
 
-outputBalanceDTO = balanceDTODomainAssembler.toDTO(balance)
+outputAccountDTO = accountDTODomainAssembler.toDTO(account)
 end
 
 return outputAccountDTO
 
 ref over controller
-Add Links to account to OutputBalanceDTO
+Add Links to OutputBalanceDTO
 end
 
 return responseEntity
-
-```
-
-
-```puml
-autonumber
-title AccountJPA to Account
-
-participant ": AccountDataDomainAssembler" as assembler
-participant "accountID : AccountID" as id
-participant "ownerID : OwnerID" as owner
-participant "balance : Balance" as balance
-participant "description : Description" as description
-participant "accountType: AccountType" as type
-
--> assembler : toDomain(accountJPA)
-activate assembler
-
-assembler -> id** : create(accountJPA.getId()) 
-
-assembler -> owner ** : create(accountJPA.getOwner())
-
-assembler -> balance ** : create(accountJPA.getBalance())
-
-assembler -> description ** : create(accountJPA.getDescription)
-
-assembler -> type : valueOf(accountJPA.accountType)
-activate type
-return accountType
-
-ref over assembler
-Account Factory 2.
-
-account = accountFactory.getAccout(ownerID, balance, description, accountType, accountID)
-end
-
-return account
-
-```
-
-```puml
-autonumber
-title Account Factory 2.
-
-participant ": AccountFactory" as factory
-participant "cashAccount : Account" as cashAccount
-participant "bankAccount : Account" as bankAccount
-participant "bankSavingsAccount : Account" as bankSavingsAccount
-participant "creditCardAccount : Account" as creditCardAccount
-
--> factory : getAccount(ownerID, balance, description, accountType, accountID)
-activate factory
-
-alt if(accountType = "CASH_ACCOUNT")
-factory -> cashAccount ** : create(ownerID, balance, description, accountID)
-
-else if(accountType = "BANK_ACCOUNT")
-factory -> bankAccount ** : create(ownerID, balance, description, accountID)
-
-else if(accountType = "BANK_SAVINGS_ACCOUNT")
-factory -> bankSavingsAccount ** : create(ownerID, balance, description, accountID)
-
-else if(accountType = "CREDIT_CARD_ACCOUNT")
-factory -> creditCardAccount ** : create(ownerID, balance, description, accountID)
-
-end
-
-return account
 
 ```
 
