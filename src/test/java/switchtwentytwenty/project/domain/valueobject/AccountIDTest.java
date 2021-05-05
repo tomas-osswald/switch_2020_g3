@@ -3,15 +3,17 @@ package switchtwentytwenty.project.domain.valueobject;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountIDTest {
 
+    Long idOne = 100L;
+    Long idTwo = 200L;
+
     @Test
     void constructorTestValidObject(){
-        AccountID accountID = new AccountID(UUID.randomUUID());
+        AccountID accountID = new AccountID(idOne);
 
         assertNotNull(accountID);
     }
@@ -25,9 +27,8 @@ class AccountIDTest {
 
     @Test
     void equalsTestEqualObjects(){
-        UUID id = UUID.randomUUID();
-        AccountID accountIDOne = new AccountID(id);
-        AccountID accountIDTwo = new AccountID(id);
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idOne);
 
         assertEquals(accountIDOne,accountIDTwo);
         assertNotSame(accountIDOne,accountIDTwo);
@@ -35,8 +36,7 @@ class AccountIDTest {
 
     @Test
     void equalsTestSameObject(){
-        UUID id = UUID.randomUUID();
-        AccountID accountIDOne = new AccountID(id);
+        AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = accountIDOne;
 
         assertEquals(accountIDOne,accountIDTwo);
@@ -44,15 +44,15 @@ class AccountIDTest {
 
     @Test
     void equalsTestDifferentAccountIDs(){
-        AccountID accountIDOne = new AccountID(UUID.randomUUID());
-        AccountID accountIDTwo = new AccountID(UUID.randomUUID());
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idTwo);
 
         assertNotEquals(accountIDOne,accountIDTwo);
     }
 
     @Test
     void equalsTestDifferentObjects(){
-        AccountID accountID = new AccountID(UUID.randomUUID());
+        AccountID accountID = new AccountID(idOne);
         LocalDate notAccountID = LocalDate.now();
 
         assertNotEquals(accountID,notAccountID);
@@ -60,9 +60,8 @@ class AccountIDTest {
 
     @Test
     void hashCodeSameHashCode(){
-        UUID id = UUID.randomUUID();
-        AccountID accountIDOne = new AccountID(id);
-        AccountID accountIDTwo = new AccountID(id);
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idOne);
 
         assertEquals(accountIDOne.hashCode(),accountIDTwo.hashCode());
         assertNotSame(accountIDOne,accountIDTwo);
@@ -70,8 +69,8 @@ class AccountIDTest {
 
     @Test
     void hashCodeDifferentHashCode(){
-        AccountID accountIDOne = new AccountID(UUID.randomUUID());
-        AccountID accountIDTwo = new AccountID(UUID.randomUUID());
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idTwo);
 
         assertNotEquals(accountIDOne.hashCode(),accountIDTwo.hashCode());
     }

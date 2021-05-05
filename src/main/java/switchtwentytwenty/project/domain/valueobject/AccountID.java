@@ -7,7 +7,7 @@ public class AccountID implements ID {
 
     private final Long accountID;
 
-    public AccountID(long accountID) {
+    public AccountID(Long accountID) {
         this.accountID = accountID;
         validateID();
     }

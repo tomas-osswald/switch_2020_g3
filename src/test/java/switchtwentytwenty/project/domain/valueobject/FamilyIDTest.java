@@ -100,7 +100,7 @@ class FamilyIDTest {
     @Test
     void getFamilyIDTest(){
         FamilyID familyID = new FamilyID("admin@gmail.com");
-        String expected = "admin@gmail.com";
+        String expected = "@admin@gmail.com";
 
         String result = familyID.getFamilyID();
 
