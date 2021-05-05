@@ -243,6 +243,7 @@ participant "anInternalProfileDTO:\n InternalProfileDTO" as internalDTO
 participant ": IGetProfile\nInfoService" as service <<interface>>
 participant ": ProfileOutputDTO" as outputDTO
 participant ": IPersonRepository" as repository <<interface>>
+participant ": aPersonIDJPA : PersonIDJPA" as personIDJPA
 participant ": IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> controller : getProfileInfo(getProfileInfoDTO)
@@ -255,9 +256,10 @@ controller -> service : getProfileInfo(anInternalProfileDTO)
 activate service
 
 service -> service : personID = InputPersonIDDTO.unpackPersonID()
-service -> repository : getById(personID)
+service -> repository : retrievePersonFromRepository(personID)
 activate repository
-repository -> repoJPA : findByID(personID)
+repository -> personIDJPA** : create(personID.toString())
+repository -> repoJPA : findByID(personIDJPA)
 activate repoJPA 
 return aPersonJPA
 
@@ -271,12 +273,10 @@ Creation of aProfileOutputDTO
 end 
 return aProfileOutputDTO
 
-controller -> assembler : toController(aProfileOutputDTO, link)
-activate assembler
-ref over assembler
-Creation of anExternalDTO
+ref over controller
+Link creation
 end
-return anExternalDTO
+
 <-- controller : responseEntity(anExternalDTO, Httpstatus.OK)
 deactivate controller
 
@@ -301,7 +301,6 @@ participant "phoneNumbers : List <PhoneNumber>" as phoneNumbers
 participant "aPerson\n : Person" as aPerson
 
 
--> personRepository : add(admin)
 activate personRepository
 
 personRepository -> assembler : toDomain(aPersonJPA)
@@ -433,71 +432,6 @@ deactivate profiledto
 
 @enduml
 ````
-
-````puml
-@startuml
-
-autonumber 6
-header Sequence Diagram - part 2
-title Creation of anExternalProfileDTO
-
-participant ": ProfileInternalExternalAssembler" as assembler
-participant "aProfileOutputDTO \n: ProfileOutputDTO" as profiledto
-participant "selfLink : SelfLink" as link
-participant "anExternalProfileDTO : ExternalProfileDTO" as dto
-
-activate assembler
-assembler -> profiledto : getID()
-activate profiledto
-return id
-
-assembler -> profiledto : getName()
-activate profiledto
-return name
-
-assembler -> profiledto : getBirthDate()
-activate profiledto
-return birthDate
-
-assembler -> profiledto : getOtherEmail()
-activate profiledto
-return emails
-
-assembler -> profiledto : getVat()
-activate profiledto
-return vat
-
-assembler -> profiledto : getPhoneNumbers()
-activate profiledto
-return phoneNumbers
-
-assembler -> profiledto : getAddress()
-activate profiledto
-return address
-
-assembler -> link : getLink.toString()
-activate link
-return link
-
-assembler -> dto** : create 
-
-activate dto
-assembler -> dto : setID(id)
-assembler -> dto : setName(name)
-assembler -> dto : setBirthDate(birthDate)
-assembler -> dto : setEmails(emails)
-assembler -> dto : setVat(vat)
-assembler -> dto : setPhoneNumbers(phoneNumbers)
-assembler -> dto : setAddress(address)
-assembler -> dto : setLink(link)
-deactivate dto
-
-<- assembler : anExternalOutputDTO
-deactivate assembler
-
-@enduml
-````
-
 
 
 ## 3.5. Applied Patterns

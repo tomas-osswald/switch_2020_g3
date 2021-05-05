@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.OutputEmailDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -20,6 +21,9 @@ class PersonRESTControllerTest {
 
     @Mock
     OutputEmailDTO outputEmailDTO;
+
+    @Mock
+    IGetFamilyMemberProfileService getFamilyMemberProfileService;
 
     @InjectMocks
     IPersonRESTController personRESTController;
