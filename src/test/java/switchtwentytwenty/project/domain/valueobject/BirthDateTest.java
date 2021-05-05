@@ -8,6 +8,8 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import switchtwentytwenty.project.exceptions.*;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BirthDateTest {
@@ -28,6 +30,56 @@ class BirthDateTest {
     @NullAndEmptySource
     void shouldThrowCreateInValidBirthDate(String value){
         assertThrows(InvalidDateException.class, ()-> new BirthDate(value));
+    }
+
+    @Test
+    void equalsTestEqualBirthDates(){
+        BirthDate birthDateOne = new BirthDate("01/03/2021");
+        BirthDate birthDateTwo = new BirthDate("01/03/2021");
+
+        assertEquals(birthDateOne,birthDateTwo);
+        assertNotSame(birthDateOne,birthDateTwo);
+    }
+
+    @Test
+    void equalsTestSameBirthDate(){
+        BirthDate birthDateOne = new BirthDate("01/03/2021");
+        BirthDate birthDateTwo = birthDateOne;
+
+        assertEquals(birthDateOne,birthDateTwo);
+    }
+
+    @Test
+    void equalsTestDifferentBirthDate(){
+        BirthDate birthDateOne = new BirthDate("01/03/2021");
+        BirthDate birthDateTwo = new BirthDate("01/03/2020");
+
+        assertNotEquals(birthDateOne,birthDateTwo);
+    }
+
+    @Test
+    void equalsTestDifferentObjects(){
+        BirthDate birthDate = new BirthDate("01/03/2021");
+        LocalDate notBirthDate = LocalDate.now();
+
+        assertNotEquals(birthDate,notBirthDate);
+    }
+
+    @Test
+    void hashCodeTestSameHashCode(){
+        BirthDate birthDateOne = new BirthDate("01/03/2021");
+        BirthDate birthDateTwo = new BirthDate("01/03/2021");
+
+        assertEquals(birthDateOne.hashCode(),birthDateTwo.hashCode());
+        assertNotSame(birthDateOne,birthDateTwo);
+    }
+
+    @Test
+    void hashCodeTestDifferentHashCode(){
+        BirthDate birthDateOne = new BirthDate("01/03/2021");
+        BirthDate birthDateTwo = new BirthDate("01/03/2020");
+
+        assertNotEquals(birthDateOne.hashCode(),birthDateTwo.hashCode());
     }
 
 }

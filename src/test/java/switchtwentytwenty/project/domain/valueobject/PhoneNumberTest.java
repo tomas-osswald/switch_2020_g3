@@ -38,4 +38,54 @@ class PhoneNumberTest {
         assertThrows(InvalidPhoneNumberException.class, ()-> phone = new PhoneNumber(value) );
     }
 
+    @Test
+    void equalsTestEqualPhoneNumber() {
+        PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
+        PhoneNumber phoneNumberTwo = new PhoneNumber(931234567);
+
+        assertEquals(phoneNumberOne, phoneNumberTwo);
+        assertNotSame(phoneNumberOne, phoneNumberTwo);
+    }
+
+    @Test
+    void equalsTestSamePhoneNumber() {
+        PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
+        PhoneNumber phoneNumberTwo = phoneNumberOne;
+
+        assertEquals(phoneNumberOne, phoneNumberTwo);
+    }
+
+    @Test
+    void equalsTestDifferentPhoneNumber() {
+        PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
+        PhoneNumber phoneNumberTwo = new PhoneNumber(961234567);
+
+        assertNotEquals(phoneNumberOne, phoneNumberTwo);
+    }
+
+    @Test
+    void equalsTestDifferentObject() {
+        PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
+        String notPhoneNumber = "notPhoneNumber";
+
+        assertNotEquals(phoneNumberOne, notPhoneNumber);
+    }
+
+    @Test
+    void hashCodeTestSameHashCode() {
+        PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
+        PhoneNumber phoneNumberTwo = new PhoneNumber(931234567);
+
+        assertEquals(phoneNumberOne.hashCode(), phoneNumberTwo.hashCode());
+        assertNotSame(phoneNumberOne, phoneNumberTwo);
+    }
+
+    @Test
+    void hashCodeTestDifferentHashCode() {
+        PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
+        PhoneNumber phoneNumberTwo = new PhoneNumber(961234567);
+
+        assertNotEquals(phoneNumberOne.hashCode(), phoneNumberTwo.hashCode());
+    }
+
 }

@@ -41,15 +41,6 @@ public class PhoneNumber implements ValueObject {
         return Pattern.matches(regex, phoneNumb);
     }
 
-
-    public boolean isNull() {
-        boolean result = false;
-        if (this.number == null) {
-            result = true;
-        }
-        return result;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
