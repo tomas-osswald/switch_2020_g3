@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class AddEmailDTO {
 
-    String email;
-    String id;
+    private String email;
+    private String id;
 
     public AddEmailDTO(String id, String email) {
         this.id = id;

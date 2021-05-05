@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.dto.InternalEmailDTO;
+import switchtwentytwenty.project.dto.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -17,17 +19,19 @@ public class AddEmailService implements IAddEmailService {
     IPersonRepository personRepository;
 
     /**
-     *
-     * @param addEmailDTO
+     * Method was changed because it was previously a void method. Now it receives an InternalEmailDTO (Converted from an addEmailDTO)
+     * and returns an OutputEmailDTO
+     * @param internalEmailDTO
+     * @return OutputEmailDTO
      */
     //TODO alterar o addEmail porque tem de aceitar as duas classes
     @Override
-    public void addEmail(AddEmailDTO addEmailDTO) {
+    public OutputEmailDTO addEmail(InternalEmailDTO internalEmailDTO) {
 
-        PersonID loggedUserID = new PersonID(addEmailDTO.unpackUserID());
+        PersonID loggedUserID = new PersonID(internalEmailDTO.unpackUserID());
+
         Person person = personRepository.getByID(loggedUserID);
-
-        EmailAddress email = new EmailAddress(addEmailDTO.unpackEmail());
+        EmailAddress email = new EmailAddress(internalEmailDTO.unpackEmail());
 
         person.addEmail(email);
         personRepository.add(person);
@@ -41,7 +45,7 @@ public class AddEmailService implements IAddEmailService {
 
             person.addEmail(emailString);
             personRepository.add(person);*/
-
+        return null;
 
     }
 }
