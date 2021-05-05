@@ -2,9 +2,11 @@ package switchtwentytwenty.project.domain.valueobject;
 
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class CategoryName implements ValueObject {
+
     private String name;
 
     public CategoryName(String name) {
@@ -14,24 +16,17 @@ public class CategoryName implements ValueObject {
     }
 
     private void trimData() {
-        this.name = this.name.trim();
+        this.name = this.name.trim().toUpperCase();
     }
 
     private void validation(){
         checkIfNotNull();
-        checkIfNotBlank();
         checkIfNotEmpty();
     }
 
     private void checkIfNotNull(){
         if (this.name == null){
             throw new InvalidNameException("Name cannot be null");
-        }
-    }
-
-    private void checkIfNotBlank(){
-        if (this.name.isEmpty()){
-            throw new InvalidNameException("Name cannot be blank");
         }
     }
 
@@ -52,5 +47,10 @@ public class CategoryName implements ValueObject {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

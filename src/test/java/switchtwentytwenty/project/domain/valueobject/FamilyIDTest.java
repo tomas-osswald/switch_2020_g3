@@ -107,6 +107,16 @@ class FamilyIDTest {
         assertEquals(expected,result);
     }
 
+    @Test
+    void getFamilyIDTestAlreadyChanged(){
+        FamilyID familyID = new FamilyID("@admin@gmail.com");
+        String expected = "@admin@gmail.com";
+
+        String result = familyID.getFamilyID();
+
+        assertEquals(expected,result);
+    }
+
 
 
 }

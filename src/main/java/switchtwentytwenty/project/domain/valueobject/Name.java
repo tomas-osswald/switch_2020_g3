@@ -10,27 +10,22 @@ public class Name implements ValueObject {
     private String name;
 
     public Name(String name) {
-        this.name = name;
-        validateData();
-        trimData();
+        validateData(name);
+        this.name = name.trim();
     }
 
-    private void trimData() {
-        this.name = this.name.trim();
+    private void validateData(String name) {
+        checkName(name);
     }
 
-    private void validateData() {
-        checkName();
-    }
-
-    private void checkName() {
+    private void checkName(String name) {
         String INVALIDNAME = "Name is not valid";
-        if(!isValidName())
+        if(!isValidName(name))
             throw new InvalidNameException(INVALIDNAME);
     }
 
     // Falta Verificação com regras de negócio
-    private boolean isValidName() {
+    private boolean isValidName(String name) {
         return name != null && name.trim().length() != 0 && !name.isEmpty();
     }
 

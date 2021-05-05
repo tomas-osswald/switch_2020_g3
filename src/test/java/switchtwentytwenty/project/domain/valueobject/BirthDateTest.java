@@ -82,4 +82,14 @@ class BirthDateTest {
         assertNotEquals(birthDateOne.hashCode(),birthDateTwo.hashCode());
     }
 
+    @Test
+    void toStringTest() {
+        BirthDate birthDate = new BirthDate("01/03/2021");
+        String expected = "1/3/2021";
+
+        String result = birthDate.toString();
+
+        assertEquals(expected,result);
+    }
+
 }

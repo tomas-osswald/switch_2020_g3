@@ -13,16 +13,11 @@ public class EmailAddress implements ValueObject {
     public EmailAddress(String email) {
         this.email = email;
         validateData();
-        trimData();
     }
 
     @Override
     public String toString() {
         return this.email;
-    }
-
-    private void trimData() {
-        this.email = this.email.trim();
     }
 
     private void validateData() {

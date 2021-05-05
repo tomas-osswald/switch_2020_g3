@@ -88,4 +88,15 @@ class RegistrationDateTest {
 
         assertNotEquals(registrationDateOne.hashCode(), registrationDateTwo.hashCode());
     }
+
+    @Test
+    void toStringTest() {
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        String expected = "12/12/1990";
+
+        String result = registrationDate.toString();
+
+        assertEquals(expected,result);
+    }
 }
