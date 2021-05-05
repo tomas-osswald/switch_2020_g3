@@ -9,16 +9,14 @@ import switchtwentytwenty.project.dto.OutputEmailDTO;
 @Component
 public class EmailExternalInternalAssembler {
 
-    //TODO: 04/05/2021 Target para Timmys
+    /**
+     * This method receives an External DTO and converts it to an Internal DTO.
+     * @param addEmailDTO
+     * @return InternalEmailDTO (Contains info required to add an Email to an already existing person)
+     */
     public InternalEmailDTO toInternal (AddEmailDTO addEmailDTO) { return null;
     }
 
-    public ExternalEmailDTO toExternal (OutputEmailDTO outputEmailDTO) {
-        String outputEmail = outputEmailDTO.getEmail();
-        String emailID = outputEmailDTO.getEmailID();
-        ExternalEmailDTO externalEmailDTO = new ExternalEmailDTO(outputEmail, emailID);
-        return externalEmailDTO;
-    }
 
 
 }

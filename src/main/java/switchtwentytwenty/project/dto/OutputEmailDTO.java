@@ -2,6 +2,8 @@ package switchtwentytwenty.project.dto;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import java.util.Objects;
+
 public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
 
     private final String email;
@@ -24,5 +26,19 @@ public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
 
     public String getEmailID() {
         return this.emailID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        OutputEmailDTO that = (OutputEmailDTO) o;
+        return Objects.equals(email, that.email) && Objects.equals(emailID, that.emailID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), email, emailID);
     }
 }

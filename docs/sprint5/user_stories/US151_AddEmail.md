@@ -214,7 +214,6 @@ title US151 Add Email
 participant ":IPersonController" as controller <<interface>>
 participant ":EmailExternal\nInternalAssembler" as assembler
 participant "anInternalEmailDTO\n:InternalEmailDTO" as internal
-participant "anExternalEmailDTO\n:ExternalEmailDTO" as external
 
 participant "IAddEmailService" as service <<interface>>
 
