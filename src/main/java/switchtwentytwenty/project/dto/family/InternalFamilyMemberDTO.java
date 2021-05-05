@@ -2,7 +2,7 @@ package switchtwentytwenty.project.dto.family;
 
 import java.util.Objects;
 
-public class InAddFamilyMemberDTO {
+public class InternalFamilyMemberDTO {
 
     private String adminID;
     private String emailID;
@@ -15,8 +15,8 @@ public class InAddFamilyMemberDTO {
     private String houseNumber;
     private String zipCode;
 
-    /*
-    public InAddFamilyMemberDTO(String adminID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
+
+    public InternalFamilyMemberDTO(String adminID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.adminID = adminID;
         this.emailID = emailID;
         this.name = name;
@@ -28,9 +28,9 @@ public class InAddFamilyMemberDTO {
         this.houseNumber = houseNumber;
         this.zipCode = zipCode;
     }
-     */
 
-    public InAddFamilyMemberDTO(){
+
+    public InternalFamilyMemberDTO(){
 
     }
 
@@ -117,8 +117,8 @@ public class InAddFamilyMemberDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InAddFamilyMemberDTO)) return false;
-        InAddFamilyMemberDTO that = (InAddFamilyMemberDTO) o;
+        if (!(o instanceof InternalFamilyMemberDTO)) return false;
+        InternalFamilyMemberDTO that = (InternalFamilyMemberDTO) o;
         return getVatNumber() == that.getVatNumber() && Objects.equals(getAdminID(), that.getAdminID()) && Objects.equals(getEmailID(), that.getEmailID()) && Objects.equals(getName(), that.getName()) && Objects.equals(getBirtDate(), that.getBirtDate()) && Objects.equals(getPhone(), that.getPhone()) && Objects.equals(getStreet(), that.getStreet()) && Objects.equals(getCity(), that.getCity()) && Objects.equals(getHouseNumber(), that.getHouseNumber()) && Objects.equals(getZipCode(), that.getZipCode());
     }
 

@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
-import switchtwentytwenty.project.dto.family.InAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 
 public interface IAddFamilyMemberService {
 
-    public void addPerson(InAddFamilyMemberDTO InAddFamilyMemberDTO);
+    public void addPerson(InternalFamilyMemberDTO InternalFamilyMemberDTO);
 
 }

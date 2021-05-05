@@ -295,10 +295,9 @@ activate prepository
 prepository -> prepository : isPersonIDAlreadyRegistered()
 alt Person is already present
 prepository --> FamAdminService : failure
-activate outinassembler
-'FamAdminService -> outinassembler : failure
-'FamAdminService -> outinassembler : toExternal(internalFamilyMemberDTO)
-outinassembler --> controller :
+
+FamAdminService -> controller : failure
+
 <-- controller : responseEntity(null, Httpstatus.BADREQUEST)
 else Person is not present
 ref over prepository
@@ -311,19 +310,22 @@ savedPersonDTO = personAssembler.toDomain(savedPersonJPA)
 assembler JPA To Data
 end
 
-return savedPersonDTO
+prepository -> FamAdminService : savedPersonDTO
+deactivate prepository
 deactivate prepositoryJPA
 'FamAdminService - create (savedPersonDTO)
-deactivate prepository
+
 FamAdminService -> outputPersonDTO** : create (savedPersonDTO.getID(), savedPersonDTO.getName())
 FamAdminService -> controller: anOutputPersonDTO
+deactivate prepository
 deactivate FamAdminService 
-controller -> outinassembler : toExternal(anOutputPersonDTO, selfLink)
-activate outinassembler
-outinassembler -> controller : outputToExteriorPersonDTO
-deactivate
+
+ref over controller
+ addSelfLink to anOutputPersonDTO
+
+end
 deactivate FamAdminService
-<-- controller : responseEntity(outputToExteriorPersonDTO, Httpstatus.OK)
+<-- controller : responseEntity(outputPersonDTO, Httpstatus.OK)
 deactivate controller
 
 end

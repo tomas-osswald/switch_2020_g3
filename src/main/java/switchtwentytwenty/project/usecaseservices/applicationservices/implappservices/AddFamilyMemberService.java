@@ -3,13 +3,11 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-<<<<<<< HEAD
-import switchtwentytwenty.project.domain.valueobject.*;
-=======
+
 import switchtwentytwenty.project.domain.valueobject.PersonID;
->>>>>>> 09a7206475d97e3abb174c7aee2d6ff3d0c3b222
+
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -28,16 +26,11 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
     }
 
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
-<<<<<<< HEAD
     public void addPerson(InternalFamilyMemberDTO internalFamilyMemberDTO) {
-        PersonID loggedUserID = new PersonID(userID);
+        PersonID loggedUserID = new PersonID(internalFamilyMemberDTO.getAdminID());
 
-=======
-    public void addPerson(InAddFamilyMemberDTO InAddFamilyMemberDTO) {
-        PersonID loggedUserID = new PersonID(InAddFamilyMemberDTO.getAdminID());
->>>>>>> 09a7206475d97e3abb174c7aee2d6ff3d0c3b222
         familyRepository.verifyAdmin(loggedUserID);
-        Person person = personDTODomainAssembler.toDomain(InAddFamilyMemberDTO);
+        Person person = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
         personRepository.add(person);
 
     }

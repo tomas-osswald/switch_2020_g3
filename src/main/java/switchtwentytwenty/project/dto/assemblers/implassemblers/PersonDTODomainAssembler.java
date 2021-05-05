@@ -3,7 +3,7 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.family.InAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 
 @Component
@@ -30,17 +30,18 @@ public class PersonDTODomainAssembler {
 
     /**
      * US101 - Assembler method that creates a Person domain object from a DTO
-     * @param InAddFamilyMemberDTO
+     *
+     * @param internalFamilyMemberDTO
      * @return Person
      */
-    public Person toDomain(InAddFamilyMemberDTO InAddFamilyMemberDTO){
-        PersonID personID = new PersonID(InAddFamilyMemberDTO.getEmailID());
-        Name name = new Name(InAddFamilyMemberDTO.getName());
-        BirthDate birthDate = new BirthDate(InAddFamilyMemberDTO.getBirtDate());
-        VATNumber vat = new VATNumber(InAddFamilyMemberDTO.getVatNumber());
-        PhoneNumber phone = new PhoneNumber(InAddFamilyMemberDTO.getPhone());
-        Address address = new Address(InAddFamilyMemberDTO.getStreet(), InAddFamilyMemberDTO.getCity(), InAddFamilyMemberDTO.getZipCode(), InAddFamilyMemberDTO.getHouseNumber());
-        FamilyID familyID = new FamilyID(InAddFamilyMemberDTO.getAdminID());
+    public Person toDomain(InternalFamilyMemberDTO internalFamilyMemberDTO){
+        PersonID personID = new PersonID(internalFamilyMemberDTO.getEmailID());
+        Name name = new Name(internalFamilyMemberDTO.getName());
+        BirthDate birthDate = new BirthDate(internalFamilyMemberDTO.getBirtDate());
+        VATNumber vat = new VATNumber(internalFamilyMemberDTO.getVatNumber());
+        PhoneNumber phone = new PhoneNumber(internalFamilyMemberDTO.getPhone());
+        Address address = new Address(internalFamilyMemberDTO.getStreet(), internalFamilyMemberDTO.getCity(), internalFamilyMemberDTO.getZipCode(), internalFamilyMemberDTO.getHouseNumber());
+        FamilyID familyID = new FamilyID(internalFamilyMemberDTO.getAdminID());
 
         Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
 
@@ -48,4 +49,3 @@ public class PersonDTODomainAssembler {
     }
 
 }
-
