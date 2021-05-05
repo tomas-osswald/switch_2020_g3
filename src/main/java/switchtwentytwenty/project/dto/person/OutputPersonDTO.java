@@ -8,6 +8,15 @@ import java.util.Objects;
 @NoArgsConstructor
 public class OutputPersonDTO {
 
+    private String id;
+    private String name;
+    private String birthdate;
+    private List<String> emails;
+    private List<String> phoneNumbers;
+    private String vat;
+    private String address;
+    private String familyID;
+
     public OutputPersonDTO(String id, String name, String birthdate, List<String> emails, List<String> phoneNumbers, String vat, String address, String familyID) {
         this.id = id;
         this.name = name;
@@ -18,15 +27,6 @@ public class OutputPersonDTO {
         this.address = address;
         this.familyID = familyID;
     }
-
-    private String id;
-    private String name;
-    private String birthdate;
-    private List<String> emails;
-    private List<String> phoneNumbers;
-    private String vat;
-    private String address;
-    private String familyID;
 
     @Override
     public boolean equals(Object o) {
