@@ -92,72 +92,79 @@ The family class will be the creator of the cash account object, because it has 
 
 ```puml
 autonumber 1
-title createFamilyCashAccount
-actor "FamilyAdministrator" as familyAdmin
-participant ": UI" as UI
-participant ": CreateFamilyCash\nAccountController" as controller
-participant ": Application" as app
-participant ": familyService : FamilyService" as famSer
-participant "aFamily : Family" as family
+title Create Account
 
-activate familyAdmin
-familyAdmin -> UI: create a Family Cash \n Account (familyID)
-activate UI
-UI -> controller: createFamilyCash\nAccount(familyID)
+participant ": IAccountRESTController" as controller
+participant ": ICreateAccountService" as service
+participant ": IAccountRepository" as repository
+participant ": IAccountRepositoryJPA" as repositoryJPA
+
+
+-> controller : createAccount(createAccountDTO)
 activate controller
-controller -> app: getFamilyService()
-activate app
-app -> controller: FamilyService
-deactivate app
-controller -> famSer: createFamilyCash\nAccount(familyID)
-activate famSer
-famSer -> famSer: aFamily = \ngetFamilyByID(FamilyID)
 
-famSer -> family: createFamily\nCashAccount()
-activate family
-family -> family: hasCashAccount()
+ref over controller
+CreateAccountDTO to InputAccountDTO
 
-alt failure
-
-family --> famSer: fail
-famSer --> controller: fail
-controller --> UI: fail
-UI --> familyAdmin: Failure
-
-else success
-ref over family
-Success
-end ref
-
-family --> famSer: ok
-deactivate family
-famSer --> controller: ok
-deactivate famSer
-controller --> UI: ok
-deactivate controller
-UI --> familyAdmin: ok
-deactivate UI
-
+inputAccountDTO = accountInputDTOAssembler.toInputDTO(createAccountDTO)
 end
-deactivate familyAdmin
+
+controller -> service : createAccount(inputAccountDTO)
+activate service
+
+ref over service
+InputAccountDTO to Account
+
+account = accountDTODomainAssembler.toDomain(inputAccountDTO)
+end
+
+service -> repository : add(account)
+activate repository
+
+ref over repository
+Account to AccountJPA
+
+accountJPA = accountDataDomainAssembler.toData(account)
+end
+
+repository -> repositoryJPA : save(accountJPA)
+activate repositoryJPA
+return savedAccountJPA
+
+ref over repository
+AccountJPA to Account
+
+savedAccount = accountDataDomainAssembler.toDomain(savedAccountJPA)
+end
+
+return savedAccount
+
+ref over service
+Account to OutputAccountDTO
+
+outputAccountDTO = accountDTODomainAssembler.toDTO(savedAccount)
+end
+
+return outputAccountDTO
+
+ref over controller
+Add Links to OutputAccountDTO
+end
+
+return responseEntity
+
 ```
 
 ```puml
 autonumber
-title createFamilyCashAccountSuccess
+title InputAccountDTO to Account
 
-participant "aFamily : Family" as family
-participant "newFamilyCashAccount\n : CashAccount" as cashAccount
+participant ": AccountDTODomainAssembler" as assembler
+participant ": OwnerID" as owner
+participant ": Balance" as balance
+participant ": Description" as description
 
--> family: createFamilyCashAccount()
-activate family
-family -> family: hasCashAccount()
 
-family -> cashAccount **: createFamilyCashAccount()
-family -> family: addFamilyCashAccount\n(newFamilyCashAccount)
-
-[<-- family: ok
-deactivate family
 ```
 
 For this function the actor Family Administrator requests the creation of a cash account for the family he administrates to the UI.

@@ -68,9 +68,13 @@ participant ": CategoryRepositoryJPA" as jpa
     
 -> controller : createStandardCategory(createStandardCategoryDTO)
 activate controller
+
 ref over controller 
+CreateStandardCategoryDTO to InputCategoryDTO
+
 inputCategoryDTO = categoryInputDTOAssembler.toInputDTO(createStandardCategoryDTO)
 end
+
 controller -> catServ : createStandardCategory(inputCategoryDTO)
 activate catServ
 
@@ -369,6 +373,7 @@ controller -> catServ : createStandardCategory(categoryInputDTO)
 activate catServ
 
 ref over catServ
+
 category = categoryDTODomainAssembler.toDomain(categoryInputDTO)
 end
 
