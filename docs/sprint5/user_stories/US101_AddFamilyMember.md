@@ -296,7 +296,7 @@ prepository -> prepository : isPersonIDAlreadyRegistered()
 alt Person is already present
 prepository --> FamAdminService : failure
 activate outinassembler
-FamAdminService -> outinassembler : failure
+'FamAdminService -> outinassembler : failure
 'FamAdminService -> outinassembler : toExternal(internalFamilyMemberDTO)
 outinassembler --> controller :
 <-- controller : responseEntity(null, Httpstatus.BADREQUEST)
