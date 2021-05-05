@@ -229,6 +229,9 @@ prompt the input of the name for that family as well as the administrator email,
 Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
 ation would occur at the moment of addition to the repository.
 
+
+//TODO change namings to reflect existent classes and methods
+
 ````puml
 @startuml
 
