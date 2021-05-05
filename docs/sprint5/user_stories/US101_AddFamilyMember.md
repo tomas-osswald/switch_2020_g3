@@ -267,7 +267,7 @@ header Sequence Diagram
 title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
-participant ": ExternalInternal\n FamilyMemberAssembler" as outinassembler
+participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
 participant " anInternalFamilyMemberDTO\n :InternalFamilyMemberDTO" as aninaddassembler
 participant ": IAddFamilyMemberService" as FamAdminService <<interface>>
 participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
