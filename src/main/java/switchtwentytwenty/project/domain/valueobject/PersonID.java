@@ -1,19 +1,11 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
-
 public class PersonID implements OwnerID<EmailAddress>, Serializable {
 
     private EmailAddress id;

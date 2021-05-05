@@ -29,4 +29,55 @@ class VATNumberTest {
         assertThrows(InvalidVATException.class, ()-> vatNumber = new VATNumber(value) );
     }
 
+    @Test
+    void equalsTestEqualVATNumber() {
+        VATNumber vatNumberOne = new VATNumber(999999999);
+        VATNumber vatNumberTwo = new VATNumber(999999999);
+
+        assertEquals(vatNumberOne, vatNumberTwo);
+        assertNotSame(vatNumberOne, vatNumberTwo);
+    }
+
+    @Test
+    void equalsTestSameVATNumber() {
+        VATNumber vatNumberOne = new VATNumber(999999999);
+        VATNumber vatNumberTwo = vatNumberOne;
+
+        assertEquals(vatNumberOne, vatNumberTwo);
+    }
+
+    @Test
+    void equalsTestDifferentVATNumber() {
+        VATNumber vatNumberOne = new VATNumber(999999999);
+        VATNumber vatNumberTwo = new VATNumber(199999999);
+
+        assertNotEquals(vatNumberOne, vatNumberTwo);
+    }
+
+    @Test
+    void equalsTestDifferentObject() {
+        VATNumber vatNumber = new VATNumber(999999999);
+        String notVATNumber = "notVATNumber";
+
+        assertNotEquals(vatNumber, notVATNumber);
+    }
+
+    @Test
+    void hashCodeTestSameHashCode() {
+        VATNumber vatNumberOne = new VATNumber(999999999);
+        VATNumber vatNumberTwo = new VATNumber(999999999);
+
+        assertEquals(vatNumberOne.hashCode(), vatNumberTwo.hashCode());
+        assertNotSame(vatNumberOne, vatNumberTwo);
+    }
+
+    @Test
+    void hashCodeTestDifferentHashCode() {
+        VATNumber vatNumberOne = new VATNumber(999999999);
+        VATNumber vatNumberTwo = new VATNumber(199999999);
+
+        assertNotEquals(vatNumberOne.hashCode(), vatNumberTwo.hashCode());
+    }
+
+
 }

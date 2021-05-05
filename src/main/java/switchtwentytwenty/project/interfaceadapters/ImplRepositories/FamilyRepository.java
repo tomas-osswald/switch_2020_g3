@@ -119,9 +119,5 @@ public class FamilyRepository implements IFamilyRepository {
 
     }
 
-    @Deprecated
-    public PersonID getFirstAdminEmail() {
-        return this.families.get(0).getAdminEmail();
-    }
 
 }

@@ -23,24 +23,4 @@ public class CategoryID implements ID<Long> {
         return Objects.hash(id);
     }
 
-    /*
-    private void validateID(){
-        if(!isIDValid()){
-            throw new IllegalArgumentException("Invalid ID");
-        }
-    }
-
-    private boolean isIDValid(){
-        return this.categoryID<1;
-    }
-
-    public boolean isThisYourID(UUID categoryID){
-        boolean result = false;
-        if (this.categoryID == categoryID){
-            return result;
-        }
-        return result;
-    };
-
-    */
 }

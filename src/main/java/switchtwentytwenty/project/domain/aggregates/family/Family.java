@@ -20,23 +20,9 @@ public class Family implements AggregateRoot<FamilyID> {
     private List<Relation> relations = new ArrayList<>();
     //private AccountID cashAccount;
 
-    private Family() {
-    }
 
     /*
-    private void checkMandatoryAttributes() {
-        if (this.id == null){
-            throw new NullPointerException("FamilyID is Mandatory");
-        }
-        if (this.name == null){
-            throw new NullPointerException("FamilyName is Mandatory");
-        }
-        if (this.registrationDate == null) {
-            throw new NullPointerException("Registration Date is Mandatory");
-        }
-        if (this.admin == null) {
-            throw new NullPointerException("Admin Email is Mandatory");
-        }
+    private Family() {
     }
 
     public static class Builder {
@@ -76,21 +62,13 @@ public class Family implements AggregateRoot<FamilyID> {
             return family;
         }
 
-    }*/
+    }
+    */
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
         this.id = familyID;
         this.name = familyName;
         this.registrationDate = registrationDate;
-        this.admin = adminEmail;
-    }
-
-    @Deprecated
-    public Family(String familyID, String familyName, String registrationDate, PersonID
-            adminEmail) {
-        this.id = new FamilyID(familyID);
-        this.name = new FamilyName(familyName);
-        this.registrationDate = new RegistrationDate(registrationDate);
         this.admin = adminEmail;
     }
 
@@ -139,11 +117,6 @@ public class Family implements AggregateRoot<FamilyID> {
 
     public boolean isPersonTheAdmin(PersonID loggedUserID) {
         return loggedUserID.equals(this.admin);
-    }
-
-    @Deprecated
-    public PersonID getAdminEmail() {
-        return this.admin;
     }
 
     @Override

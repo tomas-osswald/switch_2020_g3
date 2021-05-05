@@ -7,10 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-@ToString
-@EqualsAndHashCode
 @NoArgsConstructor
-@Embeddable
 public class FamilyID implements OwnerID<String>, Serializable {
     @Getter
     @Setter
@@ -25,16 +22,10 @@ public class FamilyID implements OwnerID<String>, Serializable {
 
     @Override
     public String toString() {
-
         return this.familyID;
     }
 
-    public FamilyID clone() {
-        FamilyID clone = new FamilyID(this.familyID);
-        return clone;
-    }
-
-    /**
+     /**
      * Method that validates a familyID, throws an exception if the ID isn't valid
      * @param familyID
      */

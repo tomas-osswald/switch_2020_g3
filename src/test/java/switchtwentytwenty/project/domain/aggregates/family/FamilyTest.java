@@ -199,4 +199,23 @@ class FamilyTest {
         //Assert
         assertNotNull(result);
     }*/
+
+    @Test
+    void isPersonTheAdminTestTrue(){
+        //Arrange
+        FamilyID familyID = new FamilyID("admin@gmail.com");
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        String emailString = "admin@gmail.com";
+        PersonID adminEmail = new PersonID(emailString);
+        Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
+        //Act
+        boolean result = aFamily.isPersonTheAdmin(adminEmail);
+        //Assert
+        assertTrue(result);
+    }
+
+
 }
