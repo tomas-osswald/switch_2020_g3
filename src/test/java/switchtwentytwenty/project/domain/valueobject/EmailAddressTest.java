@@ -142,4 +142,15 @@ public class EmailAddressTest {
 
         assertNotEquals(emailOne.hashCode(), emailTwo.hashCode());
     }
+
+    @Test
+    void testToString(){
+        EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
+        String expected = "1120717@isep.ipp.pt";
+
+        String result = email.toString();
+
+        assertEquals(expected,result);
+    }
+
 }

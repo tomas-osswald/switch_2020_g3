@@ -10,7 +10,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 @Controller
 public class CreateFamilyController  {
 
-    final private ICreateFamilyService createFamilyService;
+    private final ICreateFamilyService createFamilyService;
 
     @Autowired
     public CreateFamilyController(ICreateFamilyService createFamilyService){

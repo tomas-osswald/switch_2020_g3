@@ -125,4 +125,14 @@ class FamilyNameTest {
 
         assertNotEquals(familyNameOne.hashCode(), familyNameTwo.hashCode());
     }
+
+    @Test
+    void familyNametoStringTest (){
+        String name = "Ribeiro";
+        FamilyName familyName = new FamilyName(name);
+
+        String result = familyName.toString();
+
+        assertEquals(name,result);
+    }
 }

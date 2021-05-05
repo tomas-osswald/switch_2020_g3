@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class CategoryID implements ID<Long> {
 
-    final private long id;
+    private final long id;
 
     public CategoryID(long categoryID) {
         this.id = categoryID;

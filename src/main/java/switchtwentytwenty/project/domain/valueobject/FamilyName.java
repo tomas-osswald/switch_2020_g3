@@ -16,7 +16,6 @@ public class FamilyName implements ValueObject {
      */
     private void validateName(String familyName) {
         checkNull(familyName);
-        checkEmpty(familyName);
         checkBlank(familyName);
     }
 
@@ -32,24 +31,13 @@ public class FamilyName implements ValueObject {
     }
 
     /**
-     * Method to verify if the family name is empty, throws and exception if the name is empty
-     *
-     * @param familyName
-     */
-    private void checkEmpty(String familyName) {
-        if (familyName.isEmpty()) {
-            throw new IllegalArgumentException("Name is Empty");
-        }
-    }
-
-    /**
      * Method to verify if the family name is blank, throws and exception if the name is blank
      *
      * @param familyName
      */
     private void checkBlank(String familyName) {
         if (familyName.trim().length() == 0) {
-            throw new IllegalArgumentException("Name is Blank");
+            throw new IllegalArgumentException("Name is Blank or Empty");
         }
     }
 

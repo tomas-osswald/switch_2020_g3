@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CategoryNameTest {
 
     @Test
-    void categoryNameConstructor_Valid() {
+    void categoryNameConstructorValid() {
         String name = "Compras";
         CategoryName categoryName = new CategoryName(name);
 
@@ -90,4 +90,27 @@ class CategoryNameTest {
 
         assertNotEquals(categoryNameOne.hashCode(),categoryNameTwo.hashCode());
     }
+
+    @Test
+    void toStringTest(){
+        String name = "Compras";
+        CategoryName categoryName = new CategoryName(name);
+        String expected = "COMPRAS";
+
+        String result = categoryName.toString();
+
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void toStringTestTrimmedInput(){
+        String name = "  Compras  ";
+        CategoryName categoryName = new CategoryName(name);
+        String expected = "COMPRAS";
+
+        String result = categoryName.toString();
+
+        assertEquals(expected,result);
+    }
+
 }

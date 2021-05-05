@@ -88,4 +88,14 @@ class PhoneNumberTest {
         assertNotEquals(phoneNumberOne.hashCode(), phoneNumberTwo.hashCode());
     }
 
+    @Test
+    void getPhoneNumber(){
+        PhoneNumber phoneNumber = new PhoneNumber(931234567);
+        Integer expected = 931234567;
+
+        Integer result = phoneNumber.getNumber();
+
+        assertEquals(expected,result);
+    }
+
 }
