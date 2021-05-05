@@ -262,12 +262,12 @@ activate repoJPA
 return aPersonJPA
 
 ref over repository 
-aPerson = PersonDataDomainAssembler.toDomain(aPersonJPA)
+Creation of aPerson
 end
 return aPerson
 
 ref over service
-aProfileOutputDTO
+Creation of aProfileOutputDTO
 end 
 return aProfileOutputDTO
 
@@ -282,6 +282,101 @@ deactivate controller
 
 @enduml
 ````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title Creation of aPerson :  personJPA = personAssembler.toDomain(aPersonJPA)
+
+participant ": IPersonRepository" as personRepository <<interface>>
+participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "aPersonJPA : PersonJPA" as personJPA
+participant "personID : PersonID" as personID
+participant "familyID : FamilyID" as familyID
+participant "address : Adress" as address
+participant "emails : List<EmailAddress>" as emails
+participant "phoneNumbers : List <PhoneNumber>" as phoneNumbers
+participant "aPerson\n : Person" as aPerson
+
+
+-> personRepository : add(admin)
+activate personRepository
+
+personRepository -> assembler : toDomain(aPersonJPA)
+activate assembler
+
+assembler -> personJPA : getId()
+activate personJPA
+personJPA --> assembler : personIDJPA
+deactivate personJPA
+assembler -> personID** :  create(personIDJPA)
+
+assembler -> personJPA : getName()
+activate personJPA
+personJPA --> assembler : name
+deactivate personJPA
+
+assembler -> personJPA : getBirthDate()
+activate personJPA
+personJPA --> assembler : birthDate
+deactivate personJPA
+
+assembler -> personJPA : getVat()
+activate personJPA
+personJPA --> assembler : vat
+deactivate personJPA
+
+assembler -> personJPA : getPhones()
+activate personJPA
+personJPA --> assembler : phoneNumbers
+deactivate personJPA
+
+
+assembler -> personJPA : getAddress()
+activate personJPA
+personJPA --> assembler : address
+deactivate personJPA
+
+assembler -> personJPA : getFamilyID()
+activate personJPA
+personJPA --> assembler : familyIDJPA
+deactivate personJPA
+
+assembler -> familyID** :  create(familyIDJPA)
+
+assembler -> address** : create(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getDoorNumber())
+
+assembler -> aPerson** : create(personID, name, birthDate, vatNumber, familyID)
+
+assembler -> emails** : generateEmailAddressList(personJPA.getEmails())
+activate emails
+return emails
+
+assembler -> phoneNumbers** : generetePhoneNumberList(phoneNumbers)
+activate phoneNumbers
+return phoneNumbers
+
+assembler -> aPerson : setAddress(address)
+activate aPerson
+aPerson --> assembler
+deactivate aPerson
+assembler -> aPerson : setPhones(phoneNumbers)
+activate aPerson
+aPerson --> assembler
+deactivate aPerson
+assembler -> aPerson : setEmails(emails)
+activate aPerson
+aPerson --> assembler
+deactivate aPerson
+assembler -> personRepository : aPerson
+deactivate assembler
+<- personRepository
+
+@enduml
+````
+
 
 ````puml
 @startuml
@@ -402,6 +497,8 @@ deactivate assembler
 
 @enduml
 ````
+
+
 
 ## 3.5. Applied Patterns
 
