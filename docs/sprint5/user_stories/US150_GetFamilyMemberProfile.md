@@ -274,10 +274,10 @@ return aProfileOutputDTO
 controller -> assembler : toController(aProfileOutputDTO, link)
 activate assembler
 ref over assembler
-Creation of anExternalOutputDTO
+Creation of anExternalDTO
 end
-return anExternalOutputDTO
-<-- controller : responseEntity(anExternalOutputDTO, Httpstatus.OK)
+return anExternalDTO
+<-- controller : responseEntity(anExternalDTO, Httpstatus.OK)
 deactivate controller
 
 @enduml
@@ -344,12 +344,12 @@ deactivate profiledto
 
 autonumber 6
 header Sequence Diagram - part 2
-title Creation of anExternalOutputDTO
+title Creation of anExternalProfileDTO
 
 participant ": ProfileInternalExternalAssembler" as assembler
 participant "aProfileOutputDTO \n: ProfileOutputDTO" as profiledto
 participant "selfLink : SelfLink" as link
-participant "anExternalOutputDTO : ExternalOutputDTO" as dto
+participant "anExternalProfileDTO : ExternalProfileDTO" as dto
 
 activate assembler
 assembler -> profiledto : getID()
