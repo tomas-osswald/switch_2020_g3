@@ -42,7 +42,6 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void equalsTest_equalSame() {
-        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         FamilyID familyIDTwo = familyIDOne;
 
@@ -53,9 +52,7 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void equalsTest_notEqual() {
-        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID("admin@gmail.com");
-        UUID idTwo = UUID.randomUUID();
         FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
 
         assertNotEquals(familyIDOne, familyIDTwo);
@@ -64,7 +61,6 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void equalsTest_notEqualDifferentObject() {
-        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         String notFamilyID = "notFamilyID";
 
@@ -74,7 +70,6 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void hashCodeTest_sameHashCode() {
-        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID("admin@gmail.com");
         FamilyID familyIDTwo = new FamilyID("admin@gmail.com");
 
@@ -84,12 +79,34 @@ class FamilyIDTest {
     @Test
     @Tag("US010")
     void hashCodeTest_differentHashCode() {
-        UUID idOne = UUID.randomUUID();
         FamilyID familyIDOne = new FamilyID("admin@gmail.com");
-        UUID idTwo = UUID.randomUUID();
         FamilyID familyIDTwo = new FamilyID("admin2@gmail.com");
 
         assertNotEquals(familyIDOne.hashCode(), familyIDTwo.hashCode());
     }
+
+    @Test
+    void setFamilyIDTest(){
+        FamilyID familyID = new FamilyID();
+        String expected = "admin@gmail.com";
+
+        familyID.setFamilyID("admin@gmail.com");
+        String result = familyID.toString();
+
+        assertNotNull(familyID);
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void getFamilyIDTest(){
+        FamilyID familyID = new FamilyID("admin@gmail.com");
+        String expected = "@admin@gmail.com";
+
+        String result = familyID.getFamilyID();
+
+        assertEquals(expected,result);
+    }
+
+
 
 }

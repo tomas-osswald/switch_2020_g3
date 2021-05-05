@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 
 import java.util.UUID;
 
@@ -75,5 +76,34 @@ class PersonTest {
         assertDoesNotThrow(() -> tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID));
     }
 
+    @Test
+    void addEmailTestAlreadyRegisteredAsSecondaryShouldThrowException(){
+        Name tonyZeName = new Name(VALIDNAME);
+        BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        String otherEmail = "otherEmail@gmail.com";
+        EmailAddress emailToAdd = new EmailAddress(otherEmail);
+        tonyZe.addEmail(emailToAdd);
+
+        assertThrows(EmailAlreadyRegisteredException.class,()->tonyZe.addEmail(emailToAdd));
+    }
+
+    @Test
+    void addEmailTestAlreadyRegisteredAsPrimaryShouldThrowException(){
+        Name tonyZeName = new Name(VALIDNAME);
+        BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        EmailAddress emailToAdd = new EmailAddress(VALIDEMAIL);
+
+        assertThrows(EmailAlreadyRegisteredException.class,()->tonyZe.addEmail(emailToAdd));
+    }
 
 }

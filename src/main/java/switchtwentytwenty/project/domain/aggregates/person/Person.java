@@ -29,8 +29,8 @@ public class Person implements AggregateRoot<PersonID> {
     private Address address;
     private FamilyID familyID;
     //private List<AccountID> accounts = new ArrayList<>();
-    private LedgerID ledger;
-    private List<FutureTransactionID> futureTransactions = new ArrayList<>();
+    //private LedgerID ledger;
+    //private List<FutureTransactionID> futureTransactions = new ArrayList<>();
 
     public Person(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         this.name = name;
@@ -51,7 +51,7 @@ public class Person implements AggregateRoot<PersonID> {
     }
 
     private void addPhone(PhoneNumber phone) {
-        if (!phone.isNull()) {
+        if (phone!=null) {
             this.phoneNumbers.add(phone);
         }
     }
@@ -70,7 +70,7 @@ public class Person implements AggregateRoot<PersonID> {
     }
 
     public FamilyID getFamilyID() {
-        return this.familyID.clone();
+        return this.familyID;
     }
 
     @Override
