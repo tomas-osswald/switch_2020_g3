@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.dto;
 
-public class OutputEmailDTO {
+import org.springframework.hateoas.RepresentationModel;
+
+public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
 
     private final String email;
     private final String emailID;

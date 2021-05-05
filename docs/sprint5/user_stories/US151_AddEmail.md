@@ -290,12 +290,11 @@ service -> output** : create( savedPerson.getAddedEmail(), savedPerson.getAddedE
 service --> controller : anOutputEmailDTO
 deactivate service
 
-controller -> assembler : toExternal(anOutputEmailDTO, selfLink)
-activate assembler
-assembler -> external** : create(anExternalEmailDTO, selfLink)
-return anExternalEmailDTO
-<-- controller : responseEntity(anExternalEmailDTO, Httpstatus.OK)
-deactivate assembler
+ref over controller
+add SelfLink to anOutputEmailDTO
+end
+<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.OK)
+
 deactivate controller
 
 @enduml
