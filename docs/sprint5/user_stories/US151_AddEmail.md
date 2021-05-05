@@ -212,7 +212,7 @@ header Sequence Diagram
 title US151 Add Email
 
 participant ":IPersonController" as controller <<interface>>
-participant ":EmailExternalInternalAssembler" as assembler
+participant ":EmailExternal\nInternalAssembler" as assembler
 participant "anInternalEmailDTO\n:InternalEmailDTO" as internal
 participant "anExternalEmailDTO\n:ExternalEmailDTO" as external
 
@@ -286,7 +286,9 @@ ref over personRepository
 convert JPA to Domain
 person = personAssembler.toDomain(savedPersonJPA)
 end
+deactivate repoJPA
 personRepository --> service : savedPerson
+deactivate personRepository
 
 service -> output** : create( savedPerson.getAddedEmail(), savedPerson.getAddedEmailID())
 service --> controller : anOutputEmailDTO
