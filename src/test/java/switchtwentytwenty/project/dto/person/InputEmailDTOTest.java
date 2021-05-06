@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 class InputEmailDTOTest {
 
     @Test
@@ -19,21 +21,45 @@ class InputEmailDTOTest {
     @Test
     @DisplayName("Should return true, if two identical InputEmailDTOs are compared")
     void testEquals() {
-        InputEmailDTO inputEmailDTO = new InputEmailDTO("tonyze@gmail.com");
-        InputEmailDTO inputEmailDTO2 = new InputEmailDTO("tonyze@gmail.com");
+        InputEmailDTO inputEmailDTOOne = new InputEmailDTO("tonyze@gmail.com");
+        InputEmailDTO inputEmailDTOTwo = new InputEmailDTO("tonyze@gmail.com");
 
-        Assertions.assertNotSame(inputEmailDTO, inputEmailDTO2);
-        Assertions.assertEquals(inputEmailDTO, inputEmailDTO2);
+        Assertions.assertNotSame(inputEmailDTOOne, inputEmailDTOTwo);
+        Assertions.assertEquals(inputEmailDTOOne, inputEmailDTOTwo);
     }
 
     @Test
     @DisplayName("Should return false, if two different InputEmailDTOs are compared")
     void testEqualsFalse() {
-        InputEmailDTO inputEmailDTO = new InputEmailDTO("tony2ze@gmail.com");
-        InputEmailDTO inputEmailDTO2 = new InputEmailDTO("tonyze@gmail.com");
+        InputEmailDTO inputEmailDTOOne = new InputEmailDTO("tony2ze@gmail.com");
+        InputEmailDTO inputEmailDTOTwo = new InputEmailDTO("tonyze@gmail.com");
 
-        Assertions.assertNotSame(inputEmailDTO, inputEmailDTO2);
-        Assertions.assertNotEquals(inputEmailDTO, inputEmailDTO2);
+        Assertions.assertNotEquals(inputEmailDTOOne, inputEmailDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return true, if it is the same object")
+    void testEqualsSameInputEmailDTO() {
+        InputEmailDTO inputEmailDTOOne = new InputEmailDTO("tonyze@gmail.com");
+        InputEmailDTO inputEmailDTOTwo = inputEmailDTOOne;
+
+        Assertions.assertEquals(inputEmailDTOOne, inputEmailDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false, if two different Object types are compared")
+    void testEqualsDifferentObjectTypes() {
+        InputEmailDTO inputEmailDTO = new InputEmailDTO("tony2ze@gmail.com");
+        String notInputEmailDTO = "tonyze@gmail.com";
+
+        Assertions.assertNotEquals(inputEmailDTO, notInputEmailDTO);
+    }
+
+    @Test
+    void testEqualsDifferentFromNull() {
+        InputEmailDTO inputEmailDTO = new InputEmailDTO("tony2ze@gmail.com");
+
+        assertNotEquals(inputEmailDTO, null);
     }
 
     @Test
