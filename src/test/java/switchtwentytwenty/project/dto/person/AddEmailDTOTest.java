@@ -10,21 +10,38 @@ class AddEmailDTOTest {
     @Test
     @DisplayName("Should return true, testing the Equals method")
     void testEquals() {
-        AddEmailDTO addEmailDTO1 = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
-        AddEmailDTO addEmailDTO2 = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
+        AddEmailDTO addEmailDTOOne = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
+        AddEmailDTO addEmailDTOTwo = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
 
-        assertEquals(addEmailDTO1,addEmailDTO2);
-        assertNotSame(addEmailDTO1,addEmailDTO2);
+        assertEquals(addEmailDTOOne,addEmailDTOTwo);
+        assertNotSame(addEmailDTOOne,addEmailDTOTwo);
     }
 
     @Test
     @DisplayName("Should return false (DTO's are not equal), testing the Equals method")
     void testEqualsFalse() {
-        AddEmailDTO addEmailDTO1 = new AddEmailDTO("tonyze2@gmail.com","tonyzealt@gmail.com");
-        AddEmailDTO addEmailDTO2 = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
+        AddEmailDTO addEmailDTOOne = new AddEmailDTO("tonyze2@gmail.com","tonyzealt@gmail.com");
+        AddEmailDTO addEmailDTOTwo = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
 
-        assertNotEquals(addEmailDTO1,addEmailDTO2);
-        assertNotSame(addEmailDTO1,addEmailDTO2);
+        assertNotEquals(addEmailDTOOne,addEmailDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return true, testing the Equals method with the Same Object")
+    void testEqualsSameAddEmailDTO() {
+        AddEmailDTO addEmailDTOOne = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
+        AddEmailDTO addEmailDTOTwo = addEmailDTOOne;
+
+        assertEquals(addEmailDTOOne,addEmailDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return true, testing the Equals method with the different Object types")
+    void testEqualsDifferentObjects() {
+        AddEmailDTO addEmailDTO = new AddEmailDTO("tonyze@gmail.com","tonyzealt@gmail.com");
+        String notAddEmailDTO = "test string";
+
+        assertNotEquals(addEmailDTO,notAddEmailDTO);
     }
 
     @Test

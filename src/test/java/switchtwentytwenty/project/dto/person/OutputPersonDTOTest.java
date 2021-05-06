@@ -21,45 +21,55 @@ class OutputPersonDTOTest {
     @Test
     @DisplayName("Should return true if two identical OutputPersonDTO objects are compared using the equals method")
     void testEquals() {
-        OutputPersonDTO outputPersonDTO1 = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
-        OutputPersonDTO outputPersonDTO2 = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
 
-        Assertions.assertNotSame(outputPersonDTO1,outputPersonDTO2);
-        Assertions.assertEquals(outputPersonDTO1,outputPersonDTO2);
-
-
+        Assertions.assertNotSame(outputPersonDTOOne,outputPersonDTOTwo);
+        Assertions.assertEquals(outputPersonDTOOne,outputPersonDTOTwo);
     }
 
     @Test
     @DisplayName("Should return false if two different OutputPersonDTO objects are compared using the equals method")
     void testEqualsFalse() {
-        OutputPersonDTO outputPersonDTO1 = new OutputPersonDTO("notTony@gmail.com",NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
-        OutputPersonDTO outputPersonDTO2 = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO("notTony@gmail.com",NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
 
-        Assertions.assertNotSame(outputPersonDTO1,outputPersonDTO2);
-        Assertions.assertNotEquals(outputPersonDTO1,outputPersonDTO2);
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
 
+    @Test
+    void testEqualsSameOutputPersonDTO() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = outputPersonDTOOne;
 
+        Assertions.assertEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentObjectTypes() {
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        String notOutputPersonDTO = "test String";
+
+        Assertions.assertNotEquals(outputPersonDTO,notOutputPersonDTO);
     }
 
     @Test
     @DisplayName("Should return true if two identical OutPutPersonDTO objects have their hash codes compared")
     void testHashCode() {
-        OutputPersonDTO outputPersonDTO1 = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
-        OutputPersonDTO outputPersonDTO2 = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
 
-        Assertions.assertNotSame(outputPersonDTO1,outputPersonDTO2);
-        Assertions.assertEquals(outputPersonDTO1.hashCode(),outputPersonDTO2.hashCode());
+        Assertions.assertNotSame(outputPersonDTOOne,outputPersonDTOTwo);
+        Assertions.assertEquals(outputPersonDTOOne.hashCode(),outputPersonDTOTwo.hashCode());
     }
 
     @Test
     @DisplayName("Should return false if two different OutPutPersonDTO objects have their hash codes compared")
     void testHashCodeFalse() {
-        OutputPersonDTO outputPersonDTO1 = new OutputPersonDTO("notTony@gmail.com",NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
-        OutputPersonDTO outputPersonDTO2 = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO("notTony@gmail.com",NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
 
-        Assertions.assertNotSame(outputPersonDTO1,outputPersonDTO2);
-        Assertions.assertNotEquals(outputPersonDTO1.hashCode(),outputPersonDTO2.hashCode());
+        Assertions.assertNotEquals(outputPersonDTOOne.hashCode(),outputPersonDTOTwo.hashCode());
     }
 
     @Test
