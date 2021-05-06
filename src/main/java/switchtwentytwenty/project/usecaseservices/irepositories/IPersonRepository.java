@@ -13,6 +13,6 @@ public interface IPersonRepository extends Repository <Person, PersonID>{
 
     boolean isPersonIDAlreadyRegistered(PersonID personID);
 
-    void updatePerson(Person person);
+    Person updatePerson(Person person);
 
 }
