@@ -7,7 +7,8 @@ public class RelationDesignation implements ValueObject {
     private String description;
 
     public RelationDesignation(String designation) {
-        this.description = designation;
+        //validate designation - not null not empty not blank
+        this.description = designation.trim();
     }
 
     @Override
