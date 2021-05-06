@@ -19,7 +19,6 @@ import java.util.*;
 public class PersonRepository implements IPersonRepository {
 
 
-
     private final List<Person> people = new ArrayList<>();
     private Map<PersonID, Person> peopleMap = new HashMap();
 
@@ -65,7 +64,6 @@ public class PersonRepository implements IPersonRepository {
         }
         return emailIsRegistered;
     }
-
 
 
     @Override
@@ -117,7 +115,9 @@ public class PersonRepository implements IPersonRepository {
     @Override
     public Person updatePerson(Person person) {
         PersonJPA personJPA = personAssembler.toData(person);
-        return null;
+        PersonJPA updatedPersonJPA = personRepositoryJPA.save(personJPA);
+        Person updatedPerson = personAssembler.toDomain(updatedPersonJPA);
+        return updatedPerson;
 
 
     }
