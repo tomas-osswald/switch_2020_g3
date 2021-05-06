@@ -10,43 +10,56 @@ class InputPersonIDDTOTest {
     @Test
     @DisplayName("Should return true if two identical InputPersonDTO objects are compared with the equals method")
     void testEquals() {
-        InputPersonIDDTO inputPersonIDDTO1 = new InputPersonIDDTO("tonyze@gmail.com");
-        InputPersonIDDTO inputPersonIDDTO2 = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOTwo = new InputPersonIDDTO("tonyze@gmail.com");
 
-        assertEquals(inputPersonIDDTO1,inputPersonIDDTO2);
-        assertNotSame(inputPersonIDDTO1,inputPersonIDDTO2);
+        assertEquals(inputPersonIDDTOOne,inputPersonIDDTOTwo);
+        assertNotSame(inputPersonIDDTOOne,inputPersonIDDTOTwo);
     }
 
     @Test
     @DisplayName("Should return false if two different InputPersonDTO objects are compared with the equals method")
     void testEqualsFalse() {
-        InputPersonIDDTO inputPersonIDDTO1 = new InputPersonIDDTO("tonyze2@gmail.com");
-        InputPersonIDDTO inputPersonIDDTO2 = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze2@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOTwo = new InputPersonIDDTO("tonyze@gmail.com");
 
-        assertNotEquals(inputPersonIDDTO1,inputPersonIDDTO2);
-        assertNotSame(inputPersonIDDTO1,inputPersonIDDTO2);
+        assertNotEquals(inputPersonIDDTOOne,inputPersonIDDTOTwo);
+    }
+
+    @Test
+    void testEqualsSameInputPersonIDDTO() {
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOTwo = inputPersonIDDTOOne;
+
+        assertEquals(inputPersonIDDTOOne,inputPersonIDDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentObjects() {
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");
+        String notInputPersonIDDTO = "tonyze@gmail.com";
+
+        assertNotEquals(inputPersonIDDTOOne,notInputPersonIDDTO);
     }
 
     @Test
     @DisplayName("Should return true if two identical InputPersonDTO objects have their hashcodes compared")
     void testHashCode() {
-        InputPersonIDDTO inputPersonIDDTO1 = new InputPersonIDDTO("tonyze@gmail.com");
-        InputPersonIDDTO inputPersonIDDTO2 = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOTwo = new InputPersonIDDTO("tonyze@gmail.com");
 
-        assertEquals(inputPersonIDDTO1.hashCode(),inputPersonIDDTO2.hashCode());
-        assertNotSame(inputPersonIDDTO1,inputPersonIDDTO2);
+        assertEquals(inputPersonIDDTOOne.hashCode(),inputPersonIDDTOTwo.hashCode());
+        assertNotSame(inputPersonIDDTOOne,inputPersonIDDTOTwo);
 
     }
 
     @Test
     @DisplayName("Should return false if two different InputPersonDTO objects have their hashcodes compared")
     void testHashCode_False() {
-        InputPersonIDDTO inputPersonIDDTO1 = new InputPersonIDDTO("tonyze2@gmail.com");
-        InputPersonIDDTO inputPersonIDDTO2 = new InputPersonIDDTO("tonyze@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze2@gmail.com");
+        InputPersonIDDTO inputPersonIDDTOTwo = new InputPersonIDDTO("tonyze@gmail.com");
 
-        assertNotEquals(inputPersonIDDTO1.hashCode(),inputPersonIDDTO2.hashCode());
-        assertNotSame(inputPersonIDDTO1,inputPersonIDDTO2);
-
+        assertNotEquals(inputPersonIDDTOOne.hashCode(),inputPersonIDDTOTwo.hashCode());
     }
 
     @Test
