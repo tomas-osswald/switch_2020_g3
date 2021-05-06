@@ -124,7 +124,7 @@ class OutputPersonDTOTest {
     void testEqualsDifferentFromNull() {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
 
-        Assertions.assertNotEquals(outputPersonDTO,null);
+        Assertions.assertNotEquals(null, outputPersonDTO);
     }
 
     @Test

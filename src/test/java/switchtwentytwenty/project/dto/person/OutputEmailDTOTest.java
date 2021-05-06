@@ -57,7 +57,7 @@ class OutputEmailDTOTest {
     void testEqualsDifferentFromNull() {
         OutputEmailDTO outputEmailDTO = new OutputEmailDTO("tonyze@gmail.com");
 
-        assertNotEquals(outputEmailDTO, null);
+        assertNotEquals(null, outputEmailDTO);
     }
 
     @Test

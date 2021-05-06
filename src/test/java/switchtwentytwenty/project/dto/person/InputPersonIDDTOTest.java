@@ -46,7 +46,7 @@ class InputPersonIDDTOTest {
     void testEqualsDifferentFromNull() {
         InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");
 
-        assertNotEquals(inputPersonIDDTOOne,null);
+        assertNotEquals(null, inputPersonIDDTOOne);
     }
 
     @Test
