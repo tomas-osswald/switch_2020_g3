@@ -111,20 +111,40 @@ class AddressJPATest {
 
     @Test
     @Tag("US010")
-    void testEquals() {
-        AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
+    void testEqualsSameAddressJPA() {
+        AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        AddressJPA addressJPATwo = addressJPAOne;
 
-        assertEquals(addressJPA, addressJPA);
+        assertEquals(addressJPAOne, addressJPATwo);
     }
 
     @Test
     @Tag("US010")
-    void testEqualsTwo() {
-        AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
-
+    void testEqualsEqualAddressJPAs() {
+        AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
         AddressJPA addressJPATwo = new AddressJPA(street, city, zip, doorNumber, personJPA);
 
-        assertEquals(addressJPA, addressJPATwo);
+        assertEquals(addressJPAOne, addressJPATwo);
+        assertNotSame(addressJPAOne,addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentAddressJPAs() {
+        AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        String otherStreet = "Rua de Baixo";
+        AddressJPA addressJPATwo = new AddressJPA(otherStreet, city, zip, doorNumber, personJPA);
+
+        assertNotEquals(addressJPAOne, addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentObjects() {
+        AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        String notAddressJPA = "Rua de Baixo";
+
+        assertNotEquals(addressJPA, notAddressJPA);
     }
 
     @Test

@@ -24,9 +24,55 @@ class PersonIDJPATest {
 
     @Tag("US010")
     @Test
-    void sameEquals() {
+    void equalsTestSamePersonIDJPA() {
+        PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);
+        PersonIDJPA personIDJPATwo = personIDJPAOne;
+
+        assertEquals(personIDJPAOne, personIDJPATwo);
+    }
+
+    @Tag("US010")
+    @Test
+    void equalsTestEqualPersonIDJPAs() {
+        PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);
+        PersonIDJPA personIDJPATwo = new PersonIDJPA(personID);
+
+        assertEquals(personIDJPAOne, personIDJPATwo);
+        assertNotSame(personIDJPAOne, personIDJPATwo);
+    }
+
+    @Tag("US010")
+    @Test
+    void equalsTestDifferentPersonIDJPAs() {
+        PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);
+        PersonIDJPA personIDJPATwo = new PersonIDJPA("test@gmail.com");
+
+        assertNotEquals(personIDJPAOne, personIDJPATwo);
+    }
+
+    @Tag("US010")
+    @Test
+    void equalsTestDifferentObjects() {
         PersonIDJPA personIDJPA = new PersonIDJPA(personID);
 
-        assertEquals(personIDJPA, personIDJPA);
+        assertNotEquals(personIDJPA, personID);
     }
+
+    @Test
+    void hashCodeSameHashCode(){
+        PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);
+        PersonIDJPA personIDJPATwo = new PersonIDJPA(personID);
+
+        assertEquals(personIDJPAOne.hashCode(), personIDJPATwo.hashCode());
+        assertNotSame(personIDJPAOne, personIDJPATwo);
+    }
+
+    @Test
+    void hashCodeDifferentHashCode(){
+        PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);
+        PersonIDJPA personIDJPATwo = new PersonIDJPA("test@gmail.com");
+
+        assertNotEquals(personIDJPAOne, personIDJPATwo);
+    }
+
 }
