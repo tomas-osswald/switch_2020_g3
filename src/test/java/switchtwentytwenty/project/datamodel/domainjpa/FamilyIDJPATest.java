@@ -13,19 +13,37 @@ class FamilyIDJPATest {
 
     @Tag("US010")
     @Test
-    void testEquals() {
-        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+    void equalsTestSameFamilyIDJPA() {
+        FamilyIDJPA familyIDJPAOne = new FamilyIDJPA(familyID);
+        FamilyIDJPA familyIDJPATwo = familyIDJPAOne;
 
-        assertEquals(familyIDJPA, familyIDJPA);
+        assertEquals(familyIDJPAOne, familyIDJPATwo);
     }
 
     @Tag("US010")
     @Test
-    void testEqualsTwo() {
+    void equalsTestEqualFamilyIDJPAs() {
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
         FamilyIDJPA familyIDJPATwo = new FamilyIDJPA(familyID);
 
         assertEquals(familyIDJPA, familyIDJPATwo);
+    }
+
+    @Tag("US010")
+    @Test
+    void equalsTestDifferentFamilyIDJPAs() {
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+        FamilyIDJPA familyIDJPATwo = new FamilyIDJPA(familyIDTwo);
+
+        assertNotEquals(familyIDJPA, familyIDJPATwo);
+    }
+
+    @Tag("US010")
+    @Test
+    void equalsTestDifferentObjects() {
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+
+        assertNotEquals(familyIDJPA, familyIDTwo);
     }
 
     @Tag("US010")

@@ -67,20 +67,39 @@ class EmailAddressJPATest {
 
     @Test
     @Tag("US010")
-    void testEquals() {
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+    void equalsTestSameEmailAddressJPA() {
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPATwo = emailAddressJPAOne;
 
-        assertEquals(emailAddressJPA, emailAddressJPA);
+        assertEquals(emailAddressJPAOne, emailAddressJPATwo);
     }
 
     @Test
     @Tag("US010")
-    void testEqualsTwo() {
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
-
+    void equalsTestEqualEmailAddressJPAs() {
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(email, personJPA);
         EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(email, personJPA);
 
-        assertEquals(emailAddressJPA, emailAddressJPATwo);
+        assertEquals(emailAddressJPAOne, emailAddressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentEmailAddressJPAs() {
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(email, personJPA);
+        String otherEmail = "test@hotmail.com";
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(otherEmail, personJPA);
+
+        assertNotEquals(emailAddressJPAOne, emailAddressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentObjects() {
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        String notEmailAddressJPA = "test@hotmail.com";
+
+        assertNotEquals(emailAddressJPA, notEmailAddressJPA);
     }
 
     @Test

@@ -2,7 +2,6 @@ package switchtwentytwenty.project.domain.valueobject;
 
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 
-import java.util.Locale;
 import java.util.Objects;
 
 public class CategoryName implements ValueObject {

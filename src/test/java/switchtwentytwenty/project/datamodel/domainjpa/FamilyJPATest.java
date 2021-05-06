@@ -90,6 +90,13 @@ class FamilyJPATest {
     }
 
     @Test
+    void equalsTestDifferentObjects(){
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+
+        assertNotEquals(familyJPAOne,familyIDTwo);
+    }
+
+    @Test
     void hashCodeEqualFamily() {
         FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
         FamilyJPA familyJPATwo = new FamilyJPA(familyID,familyName,registrationDate,adminID);

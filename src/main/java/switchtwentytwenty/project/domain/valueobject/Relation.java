@@ -10,15 +10,13 @@ public class Relation implements ValueObject {
     private RelationDesignation relationDesignation;
 
     public Relation (EmailAddress memberA, EmailAddress memberB, String designation) {
-        validateRelation();
+        //validateRelation();
         this.memberA = memberA;
         this.memberB = memberB;
         this.relationDesignation = new RelationDesignation(designation);
     }
 
-    private void validateRelation() {
-
-    }
+    //private void validateRelation() { } //member A and member B cannot be the same
 
     @Override
     public boolean equals(Object o) {
