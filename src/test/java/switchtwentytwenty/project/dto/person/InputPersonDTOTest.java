@@ -17,13 +17,87 @@ class InputPersonDTOTest {
     }
 
     @Test
-    @DisplayName("Should return false if two different InputPersonDTOs are compared with the equals method")
-    void testEqualsFalse() {
+    @DisplayName("Should return false if two  InputPersonDTOs with different emailID are compared with the equals method")
+    void testEqualsFalseDifferentEmailID() {
         InputPersonDTO inputPersonDTOOne = new InputPersonDTO("AAAAtonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
         InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
 
         Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
     }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different names are compared with the equals method")
+    void testEqualsFalseDifferentName() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","other","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different birthDates are compared with the equals method")
+    void testEqualsFalseDifferentBirthDate() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","01/01/2000",123123123,919999999,"rua","cidade","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different vatNumbers are compared with the equals method")
+    void testEqualsFalseDifferentVATNumbers() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",321321321,919999999,"rua","cidade","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different phoneNumbers are compared with the equals method")
+    void testEqualsFalseDifferentPhoneNumbers() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,911234567,"rua","cidade","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different street are compared with the equals method")
+    void testEqualsFalseDifferentStreet() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"other","cidade","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different city are compared with the equals method")
+    void testEqualsFalseDifferentCity() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","other","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different city are compared with the equals method")
+    void testEqualsFalseDifferentHouseNumbers() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","11","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different InputPersonDTOs with different zipCodes are compared with the equals method")
+    void testEqualsFalseDifferentZipCodes() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        InputPersonDTO inputPersonDTOTwo = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","4000-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,inputPersonDTOTwo);
+    }
+
+
 
     @Test
     void testEqualsSameObject() {
@@ -39,6 +113,13 @@ class InputPersonDTOTest {
         String notInputPersonDTO = "test String";
 
         Assertions.assertNotEquals(inputPersonDTOOne,notInputPersonDTO);
+    }
+
+    @Test
+    void testEqualsDifferentFromNull() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+
+        Assertions.assertNotEquals(inputPersonDTOOne,null);
     }
 
     @Test

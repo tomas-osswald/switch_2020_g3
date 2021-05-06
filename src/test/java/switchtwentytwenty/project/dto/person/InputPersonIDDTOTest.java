@@ -43,6 +43,13 @@ class InputPersonIDDTOTest {
     }
 
     @Test
+    void testEqualsDifferentFromNull() {
+        InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");
+
+        assertNotEquals(inputPersonIDDTOOne,null);
+    }
+
+    @Test
     @DisplayName("Should return true if two identical InputPersonDTO objects have their hashcodes compared")
     void testHashCode() {
         InputPersonIDDTO inputPersonIDDTOOne = new InputPersonIDDTO("tonyze@gmail.com");

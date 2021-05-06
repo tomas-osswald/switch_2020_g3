@@ -54,6 +54,13 @@ class OutputEmailDTOTest {
     }
 
     @Test
+    void testEqualsDifferentFromNull() {
+        OutputEmailDTO outputEmailDTO = new OutputEmailDTO("tonyze@gmail.com");
+
+        assertNotEquals(outputEmailDTO, null);
+    }
+
+    @Test
     @DisplayName("Should return true if two identical OutputEmailDTO objects have their hashcodes compared")
     void testHashCode() {
         OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com");

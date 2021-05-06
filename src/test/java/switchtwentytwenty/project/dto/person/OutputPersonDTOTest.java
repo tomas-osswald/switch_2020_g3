@@ -13,7 +13,9 @@ class OutputPersonDTOTest {
     String NAME = "Tony";
     String BIRTHDATE = "12/12/1222";
     List<String> EMAILLIST = new ArrayList<String>();
+    List<String> EMAILLISTTWO = new ArrayList<String>();
     List<String> PHONELIST = new ArrayList<String>();
+    List<String> PHONELISTTWO = new ArrayList<String>();
     String VAT = "123456789";
     String ADDRESS = "Address";
     String FAMILYID = "@tony@gmail.com";
@@ -29,10 +31,75 @@ class OutputPersonDTOTest {
     }
 
     @Test
-    @DisplayName("Should return false if two different OutputPersonDTO objects are compared using the equals method")
-    void testEqualsFalse() {
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different ids are compared using the equals method")
+    void testEqualsFalseDifferentIDs() {
         OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO("notTony@gmail.com",NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
         OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different names are compared using the equals method")
+    void testEqualsFalseDifferentNames() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,"notTony",BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different BirthDates are compared using the equals method")
+    void testEqualsFalseDifferentBirthDates() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,"01/01/1970", EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different Emails are compared using the equals method")
+    void testEqualsFalseDifferentEmails() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        EMAILLISTTWO.add("otherEmailOne@gmail.com");
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELIST,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different PhoneNumbers are compared using the equals method")
+    void testEqualsFalseDifferentPhoneNumbers() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        PHONELISTTWO.add("911234567");
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELISTTWO,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different VATNumbers are compared using the equals method")
+    void testEqualsFalseDifferentVATNumbers() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,"911234567",ADDRESS,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELISTTWO,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different addresses are compared using the equals method")
+    void testEqualsFalseDifferentAddresses() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,"otherAddress",FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELISTTWO,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two  OutputPersonDTO objects with different familyIDs are compared using the equals method")
+    void testEqualsFalseDifferentFamilyIDs() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,"admin@gmail.com");
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELISTTWO,VAT,ADDRESS,FAMILYID);
 
         Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
     }
@@ -51,6 +118,13 @@ class OutputPersonDTOTest {
         String notOutputPersonDTO = "test String";
 
         Assertions.assertNotEquals(outputPersonDTO,notOutputPersonDTO);
+    }
+
+    @Test
+    void testEqualsDifferentFromNull() {
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+
+        Assertions.assertNotEquals(outputPersonDTO,null);
     }
 
     @Test

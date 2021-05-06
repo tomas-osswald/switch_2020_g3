@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 class InputEmailDTOTest {
 
     @Test
@@ -39,7 +41,7 @@ class InputEmailDTOTest {
     @DisplayName("Should return true, if it is the same object")
     void testEqualsSameInputEmailDTO() {
         InputEmailDTO inputEmailDTOOne = new InputEmailDTO("tonyze@gmail.com");
-        InputEmailDTO inputEmailDTOTwo = new InputEmailDTO("tonyze@gmail.com");
+        InputEmailDTO inputEmailDTOTwo = inputEmailDTOOne;
 
         Assertions.assertEquals(inputEmailDTOOne, inputEmailDTOTwo);
     }
@@ -51,6 +53,13 @@ class InputEmailDTOTest {
         String notInputEmailDTO = "tonyze@gmail.com";
 
         Assertions.assertNotEquals(inputEmailDTO, notInputEmailDTO);
+    }
+
+    @Test
+    void testEqualsDifferentFromNull() {
+        InputEmailDTO inputEmailDTO = new InputEmailDTO("tony2ze@gmail.com");
+
+        assertNotEquals(inputEmailDTO, null);
     }
 
     @Test
