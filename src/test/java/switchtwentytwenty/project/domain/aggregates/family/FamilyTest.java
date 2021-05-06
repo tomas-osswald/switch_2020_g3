@@ -217,5 +217,22 @@ class FamilyTest {
         assertTrue(result);
     }
 
+    @Test
+    void isPersonTheAdminTestFalse(){
+        //Arrange
+        FamilyID familyID = new FamilyID("admin@gmail.com");
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        PersonID adminEmail = new PersonID("admin@gmail.com");
+        String emailString = "other@gmail.com";
+        PersonID notAdminEmail = new PersonID(emailString);
+        Family aFamily = new Family(familyID, familyName, registrationDate, adminEmail);
+        //Act
+        boolean result = aFamily.isPersonTheAdmin(notAdminEmail);
+        //Assert
+        assertFalse(result);
+    }
 
 }

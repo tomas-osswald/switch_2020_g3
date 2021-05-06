@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
+import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -7,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +29,6 @@ class PersonTest {
     Person tonyZe;
     Name tonyZeName;
     BirthDate tonyZeBirthDate;
-    EmailAddress tonyZeEmail;
     VATNumber tonyZeVat;
     PhoneNumber tonyZePhone;
     Address tonyZeAddress;
@@ -77,7 +79,7 @@ class PersonTest {
     }
 
     @Test
-    void addEmailTestAlreadyRegisteredAsSecondaryShouldThrowException(){
+    void addEmailTestAlreadyRegisteredAsSecondaryShouldThrowException() {
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
@@ -89,11 +91,11 @@ class PersonTest {
         EmailAddress emailToAdd = new EmailAddress(otherEmail);
         tonyZe.addEmail(emailToAdd);
 
-        assertThrows(EmailAlreadyRegisteredException.class,()->tonyZe.addEmail(emailToAdd));
+        assertThrows(EmailAlreadyRegisteredException.class, () -> tonyZe.addEmail(emailToAdd));
     }
 
     @Test
-    void addEmailTestAlreadyRegisteredAsPrimaryShouldThrowException(){
+    void addEmailTestAlreadyRegisteredAsPrimaryShouldThrowException() {
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
@@ -103,7 +105,96 @@ class PersonTest {
         tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         EmailAddress emailToAdd = new EmailAddress(VALIDEMAIL);
 
-        assertThrows(EmailAlreadyRegisteredException.class,()->tonyZe.addEmail(emailToAdd));
+        assertThrows(EmailAlreadyRegisteredException.class, () -> tonyZe.addEmail(emailToAdd));
+    }
+
+    @Test
+    @Tag("US010")
+    void shouldNotThrowValidPersonConstructorWithoutPhoneNumber() {
+        Name tonyZeName = new Name(VALIDNAME);
+        BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+        Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+
+        FamilyID familyID = new FamilyID(VALIDEMAIL);
+
+        tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, null, tonyZeAddress, familyID);
+        assertNotNull(tonyZe);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestSamePerson() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person personTwo = personOne;
+
+        assertEquals(personOne,personTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestEqualPersons() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person personTwo = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+        assertEquals(personOne,personTwo);
+        assertNotSame(personOne,personTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentPersons() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        String otherValidEmail = "Jessica@gmail.com";
+        PersonID otherEmail = new PersonID(otherValidEmail);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person personTwo = new Person(tonyZeName, tonyZeBirthDate, otherEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+        assertNotEquals(personOne,personTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentObjects() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        String notAPerson = "Jessica@gmail.com";
+
+        assertNotEquals(personOne,notAPerson);
+    }
+
+    @Test
+    @Tag("US010")
+    void hashCodeTestSameHashCode() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person personTwo = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+        assertEquals(personOne.hashCode(),personTwo.hashCode());
+        assertNotSame(personOne,personTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void hashCodeTestDifferentHashCodes() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        String otherValidEmail = "Jessica@gmail.com";
+        PersonID otherEmail = new PersonID(otherValidEmail);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person personTwo = new Person(tonyZeName, tonyZeBirthDate, otherEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+        assertNotEquals(personOne.hashCode(),personTwo.hashCode());
+    }
+
+    @Test
+    void constructorTestPersonAllArgumentConstructor(){
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person person = new Person(tonyZeEmail,tonyZeName,tonyZeBirthDate,null,tonyZeVat,null,tonyZeAddress,familyID);
+
+        assertNotNull(person);
     }
 
 }

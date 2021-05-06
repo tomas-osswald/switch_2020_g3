@@ -46,6 +46,15 @@ class RelationTest {
     }
 
     @Test
+    void equalsTestEqualRelationsMembersInDifferentOrder(){
+        Relation relationOne = new Relation(personOneID,personTwoID,designation);
+        Relation relationTwo = new Relation(personTwoID,personOneID,designation);
+
+        assertEquals(relationOne,relationTwo);
+        assertNotSame(relationOne,relationTwo);
+    }
+
+    @Test
     void equalsTestDifferentRelations(){
         Relation relationOne = new Relation(personOneID,personTwoID,designation);
         EmailAddress otherPersonOneID = new EmailAddress("otheremail@hotmail.com");
