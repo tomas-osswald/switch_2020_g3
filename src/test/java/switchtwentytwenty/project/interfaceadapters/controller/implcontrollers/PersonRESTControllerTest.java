@@ -1,9 +1,8 @@
-package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
+package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,33 +12,17 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.InputPersonIDDTO;
-import switchtwentytwenty.project.dto.InternalEmailDTO;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
+import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInternalAssembler;
-import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
-import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.GetProfileInfoDTO;
-import switchtwentytwenty.project.dto.InternalProfileDTO;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
-import switchtwentytwenty.project.dto.ProfileOutputDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
-
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
-import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -69,7 +52,7 @@ class PersonRESTControllerTest {
     ProfileInternalExternalAssembler profileInternalExternalAssembler;
 
     @InjectMocks
-    PersonRESTController personRESTController;
+    switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController personRESTController;
 
     EmailAddress emailAddress = new EmailAddress("tonyze@latinlover.com");
     PersonID personID = new PersonID(emailAddress);
