@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 @RestController
@@ -16,6 +18,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 public class PersonRESTController implements IPersonRESTController {
 
     private IGetFamilyMemberProfileService getFamilyMemberProfileService;
+    private IAddFamilyMemberService addFamilyMemberService;
 
     @Autowired
     public PersonRESTController(IGetFamilyMemberProfileService getFamilyMemberProfileService) {
@@ -36,5 +39,10 @@ public class PersonRESTController implements IPersonRESTController {
     //TODO ver se DTO vem vazio se body do pedido for vazio
     @GetMapping(value = "/{personID}")
     public ResponseEntity<OutputPersonDTO> getProfileInfo(GetProfileInfoDTO getProfileInfoDTO) { return null; }
+
+    @Override
+    public ResponseEntity<Object> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO) {
+        return null;
+    }
 
 }

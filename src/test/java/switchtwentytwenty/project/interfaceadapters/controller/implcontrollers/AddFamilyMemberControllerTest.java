@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.dto.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 
@@ -31,6 +31,9 @@ class AddFamilyMemberControllerTest {
 
     @Mock
     InternalFamilyMemberDTO internalFamilyMemberDTO;
+
+    @Mock
+    AddFamilyMemberDTO addFamilyMemberDTO;
 
 
     //TODO: Rever testes do controller. Tudo a quebrar

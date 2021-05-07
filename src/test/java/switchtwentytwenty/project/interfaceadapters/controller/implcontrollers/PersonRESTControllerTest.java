@@ -17,6 +17,7 @@ import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInternalAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
+import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
@@ -117,17 +118,17 @@ class PersonRESTControllerTest {
 
     @Disabled
     @Test
-    void successCaseInAddFamilyMemberl() {
+    void successCaseInAddFamilyMember() {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         Mockito.when(mockAddFamilyMemberAssembler.toInner(addFamilyMemberDTO)).thenReturn(anInternalFamilyMemberDTO);
         Mockito.when(mockAddFamilyMemberService.addPerson(anInternalFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
 
-        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
+        Link link = linkTo(methodOn(IPersonRESTController.class).getOutputPersonDTO(), anOutputPersonDTO.getId()).withSelfRel();
         expectedOutputPersonDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
 
-        ResponseEntity result = personRESTController.addEmail(addEmailDTO);
+        ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
         assertEquals(expected, result);
     }

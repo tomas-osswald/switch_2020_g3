@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.family;
 
 import java.util.Objects;
 
