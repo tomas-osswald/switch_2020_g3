@@ -31,7 +31,7 @@ class GetFamilyMemberProfileServiceTest {
     Person person;
 
     @InjectMocks
-    GetFamilyMemberProfileService getFamilyMemberProfileService;
+     GetFamilyMemberProfileService getFamilyMemberProfileService;
 
 
     @Test
