@@ -17,7 +17,7 @@ class AddFamilyMemberDTOTest {
     String houseNumber = "03";
     String zipCode = "4321-333";
 
-    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO();
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO("2L","3L", "tony", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
 
 
     @Test

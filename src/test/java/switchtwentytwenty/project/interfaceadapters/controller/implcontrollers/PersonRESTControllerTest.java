@@ -74,14 +74,14 @@ class PersonRESTControllerTest {
     ProfileInternalExternalAssembler profileInternalExternalAssembler;
 
     @InjectMocks
-    switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController personRESTController;
+
 
     String emailAddress = "tonyze@latinlover.com";
     PersonID personID = new PersonID(emailAddress);
     InternalEmailDTO internalEmailDTO = new InternalEmailDTO(emailAddress.toString(), "tonyadmin@gmail.com");
     OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailAddress.toString(), "tonyadmin@gmail.com");
     AddEmailDTO addEmailDTO = new AddEmailDTO("tonyadmin@gmail.com", "tonyze@latinlover.com");
-    AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
+//    AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L","3L", "tony", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
 
     @Disabled
     @Test
@@ -123,11 +123,12 @@ class PersonRESTControllerTest {
     @Disabled
     @Test
     void successCaseInAddFamilyMember() {
+        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L","3L", "tony", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         Mockito.when(mockAddFamilyMemberAssembler.toInner(addFamilyMemberDTO)).thenReturn(anInternalFamilyMemberDTO);
         Mockito.when(mockAddFamilyMemberService.addPerson(anInternalFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
 
-        Link link = linkTo(methodOn(IPersonRESTController.class).getOutputPersonDTO(), anOutputPersonDTO.getId()).withSelfRel();
+        Link link = linkTo(methodOn(IPersonRESTController.class).addFamilyMember(addFamilyMemberDTO)).withSelfRel();
         expectedOutputPersonDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
