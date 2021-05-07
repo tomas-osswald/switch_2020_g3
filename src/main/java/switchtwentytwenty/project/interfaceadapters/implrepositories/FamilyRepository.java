@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
@@ -32,16 +33,6 @@ public class FamilyRepository implements IFamilyRepository {
     public FamilyRepository (IFamilyRepositoryJPA iFamilyRepositoryJPA, FamilyDataDomainAssembler familyDataDomainAssembler) {
         this.familyRepositoryJPA = iFamilyRepositoryJPA;
         this.familyAssembler = familyDataDomainAssembler;
-    }
-
-    public FamilyRepository() {
-
-    }
-
-    @Deprecated
-    public void createAndAdd(FamilyName familyName, FamilyID familyID, RegistrationDate registrationDate, PersonID adminEmail) {
-        Family family = new Family(familyID, familyName, registrationDate, adminEmail);
-        this.families.add(family);
     }
 
 
@@ -77,14 +68,6 @@ public class FamilyRepository implements IFamilyRepository {
         return result;
     }
 
-    // In create family and set admin family is no longer created before the person and no longer needs to be removed if person cannot be created
-    @Deprecated
-    public void removeFamily(FamilyID familyID) {
-        Family family = getByID(familyID);
-        if (family != null) {
-            this.families.remove(family);
-        }
-    }
 
     /**
      * Method to retrieve a Family domain object by presenting a FamilyID
@@ -103,15 +86,15 @@ public class FamilyRepository implements IFamilyRepository {
         }
     }
 
+
     public void verifyAdmin(PersonID loggedUserID) {
         boolean result = false;
-        List<FamilyJPA> families = familyRepositoryJPA.findAll();
-        for (FamilyJPA familyjpa : families) {
-            Family family = familyAssembler.toDomain(familyjpa);
-            if (family.isPersonTheAdmin(loggedUserID)) {
-                result = true;
-            }
-        }
+
+        PersonIDJPA personIDJPA = new PersonIDJPA(loggedUserID.toString());
+
+        // Substitui para evitar instaciar-se todas as families, assim a query é já feita apenas pelo personID
+        result = familyRepositoryJPA.existsByAdminID(personIDJPA);
+
         if (!result) {
             throw new UserIsNotAdminException();
         }

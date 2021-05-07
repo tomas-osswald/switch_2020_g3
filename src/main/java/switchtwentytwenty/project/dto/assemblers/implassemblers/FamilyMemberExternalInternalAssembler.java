@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.dto.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 @Component
 public class FamilyMemberExternalInternalAssembler {
