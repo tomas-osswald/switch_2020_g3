@@ -53,7 +53,7 @@ class CreateFamilyServiceTest {
     InputPersonDTO inputPersonDTO;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.CreateFamilyService createFamilyService;
+    CreateFamilyService createFamilyService;
 
     String familyName = "Silva";
     String familyID = "@admin@gmail.com";

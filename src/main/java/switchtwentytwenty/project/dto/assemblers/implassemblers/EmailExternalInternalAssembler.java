@@ -1,10 +1,8 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.dto.AddEmailDTO;
-import switchtwentytwenty.project.dto.ExternalEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.InternalEmailDTO;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
 
 @Component
 public class EmailExternalInternalAssembler {

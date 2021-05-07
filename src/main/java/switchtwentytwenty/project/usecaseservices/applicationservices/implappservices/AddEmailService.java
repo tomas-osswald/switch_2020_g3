@@ -7,8 +7,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.InternalEmailDTO;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
-import switchtwentytwenty.project.dto.person.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 

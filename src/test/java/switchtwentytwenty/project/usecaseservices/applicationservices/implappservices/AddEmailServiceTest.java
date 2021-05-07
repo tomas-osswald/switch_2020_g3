@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.AddEmailDTO;
 import switchtwentytwenty.project.dto.InternalEmailDTO;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -43,7 +44,7 @@ class AddEmailServiceTest {
     OutputEmailDTO mockOutputEmailDTO;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.AddEmailService addEmailService;
+    AddEmailService addEmailService;
 
 
     PersonID IDTonyZe = new PersonID("tonyZe@gmail.com");

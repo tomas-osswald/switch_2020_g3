@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ class GetFamilyMemberProfileServiceTest {
     Person person;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMemberProfileService getFamilyMemberProfileService;
+    GetFamilyMemberProfileService getFamilyMemberProfileService;
 
 
     @Test

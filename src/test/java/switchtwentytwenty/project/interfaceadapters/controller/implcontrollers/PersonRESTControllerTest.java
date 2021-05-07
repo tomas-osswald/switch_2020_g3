@@ -18,8 +18,10 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInt
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;

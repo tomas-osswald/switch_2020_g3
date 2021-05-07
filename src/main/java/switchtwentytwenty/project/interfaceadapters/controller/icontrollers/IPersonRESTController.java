@@ -1,7 +1,7 @@
-package switchtwentytwenty.project.interfaceadapters.controller.IControllers;
+package switchtwentytwenty.project.interfaceadapters.controller.icontrollers;
 
 import org.springframework.http.ResponseEntity;
-import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 

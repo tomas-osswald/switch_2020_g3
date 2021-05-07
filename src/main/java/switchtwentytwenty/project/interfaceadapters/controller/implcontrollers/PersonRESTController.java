@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import switchtwentytwenty.project.dto.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 @RestController
