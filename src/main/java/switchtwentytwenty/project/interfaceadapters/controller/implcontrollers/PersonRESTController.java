@@ -41,4 +41,9 @@ public class PersonRESTController implements IPersonRESTController {
         return null;
     }
 
+    @Override
+    public ResponseEntity<Object> getPersonOptions(String personID) {
+        return null;
+    }
+
 }

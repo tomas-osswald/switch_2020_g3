@@ -12,4 +12,7 @@ public interface IPersonRESTController {
         public ResponseEntity<Object> getEmail (String personID, String emailID);
         public ResponseEntity<OutputPersonDTO> getProfileInfo(GetProfileInfoDTO getProfileInfoDTO);
         public ResponseEntity<Object> getPersonID (GetProfileInfoDTO getProfileInfoDTO);
+        public ResponseEntity<Object> getPersonOptions (String personID);
+
+
     }
