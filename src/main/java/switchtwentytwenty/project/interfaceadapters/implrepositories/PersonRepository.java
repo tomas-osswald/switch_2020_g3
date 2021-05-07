@@ -18,10 +18,6 @@ import java.util.*;
 @Repository
 public class PersonRepository implements IPersonRepository {
 
-
-    private final List<Person> people = new ArrayList<>();
-    private Map<PersonID, Person> peopleMap = new HashMap();
-
     private IPersonRepositoryJPA personRepositoryJPA;
 
     private PersonDataDomainAssembler personAssembler;
@@ -31,10 +27,6 @@ public class PersonRepository implements IPersonRepository {
         this.personRepositoryJPA = iPersonRepositoryJPA;
         this.personAssembler = personDataDomainAssembler;
 
-    }
-
-
-    public PersonRepository() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
     }
 
 
@@ -98,18 +90,6 @@ public class PersonRepository implements IPersonRepository {
         Person updatedPerson = personAssembler.toDomain(updatedPersonJPA);
         return updatedPerson;
 
-
     }
 
- /*   private class People implements Iterable<Person>{
-        private final List<Person> people;
-
-        private People(){
-            this.people = new ArrayList<>();
-        }
-
-        public Iterator<Person> iterator(){
-            return this.people.iterator();
-        }
-    }*/
 }
