@@ -37,15 +37,6 @@ public class PersonRepository implements IPersonRepository {
     public PersonRepository() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
     }
 
-    @Deprecated
-    public void createAndAdd(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
-        if (!isPersonIDAlreadyRegistered(personID)) {
-            Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
-            this.people.add(person);
-        } else {
-            throw new EmailAlreadyRegisteredException();
-        }
-    }
 
     /**
      * Method to check if a PersonID is already registered in the database
@@ -79,18 +70,6 @@ public class PersonRepository implements IPersonRepository {
     }
 
 
-    @Deprecated
-    public void addEmailToPerson(EmailAddress email, PersonID personID) {
-        Person loggedUser = getByID(personID);
-        loggedUser.addEmail(email);
-    }
-
-    @Override
-    @Deprecated
-    public FamilyID getPersonFamilyID(PersonID personID) {
-        Person person = getByID(personID);
-        return person.getFamilyID();
-    }
 
     /**
      * Method to add the inputted Person domain object into the repository.
