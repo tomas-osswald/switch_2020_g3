@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -9,11 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.InternalProfileDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -29,10 +31,14 @@ class GetFamilyMemberProfileServiceTest {
     Person person;
 
     @InjectMocks
-    GetFamilyMemberProfileService getFamilyMemberProfileService;
+    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMemberProfileService getFamilyMemberProfileService;
+
 
     @Test
     void getFamilyMemberProfileTest() {
+        InternalProfileDTO internalProfileDTO = new InternalProfileDTO();
+        internalProfileDTO.setId("person@email.pt");
+
         OutputPersonDTO profileDTO = new OutputPersonDTO();
         PersonID personID = new PersonID("person@email.pt");
         Mockito.when(personRepository.getByID(personID)).thenReturn(person);
@@ -40,7 +46,7 @@ class GetFamilyMemberProfileServiceTest {
 
         OutputPersonDTO expected = new OutputPersonDTO();
 
-        OutputPersonDTO result = getFamilyMemberProfileService.getFamilyMemberProfile("person@email.pt");
+        OutputPersonDTO result = getFamilyMemberProfileService.getFamilyMemberProfile(internalProfileDTO);
 
         assertNotSame(expected, result);
         assertEquals(expected, result);

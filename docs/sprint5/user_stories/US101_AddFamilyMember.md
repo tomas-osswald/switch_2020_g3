@@ -267,60 +267,74 @@ header Sequence Diagram
 title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
+participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
+participant " anInternalFamilyMemberDTO\n :InternalFamilyMemberDTO" as aninaddassembler
+participant ": IAddFamilyMemberService" as FamilyMemberService <<interface>>
+participant ": FamilyMember\n InternalExternalAssembler" as inoutassembler
 participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
-participant " : InputPersonDTO" as inputPersonDTO
-participant " : InputPersonIDDTO" as inputPersonIDDTO
-
-participant ": IAddFamilyMemberService" as FamAdminService <<interface>>
-participant " anAdminID : PersonID" as pID
 participant ": IPersonRepository" as prepository  <<interface>>
 participant ": IPersonRepositoryJPA" as prepositoryJPA  <<interface>>
 'participant "aFamilyRepository\n : FamilyRepository" as frepository
 
 -> controller : addFamilyMember(addFamilyMemberDTO)
 activate controller
-controller -> inputPersonIDDTO** : create(addFamilyMemberDTO.unpackAdminID())
-'controller -> inputPersonDTO** : create(addFamilyMemberDTO.unpackAdminID())
+controller -> outinassembler : toInner(addFamilyMemberDTO)
+activate outinassembler
+outinassembler -> aninaddassembler** : create
+outinassembler -> controller : anInternalFamilyMemberDTO
+deactivate
+controller -> FamilyMemberService : addPerson(anInternalFamilyMemberDTO)
+activate FamilyMemberService
 
-ref over controller
-InputPersonDTO
+ref over FamilyMemberService
+personDTODomainAssembler.toDomain
 end
-controller -> FamAdminService : addFamilyMember(inputPersonIDDTO, inputPersonDTO)
-activate FamAdminService
-FamAdminService -> pID* : create(inputPersonIDDTO.unpackPersonID())
-FamAdminService -> prepository : getById(anAdminID)
+
+FamilyMemberService -> prepository : add(aPerson)
 activate prepository
-return aPerson
-FamAdminService -> FamAdminService : familyID = aPerson.getFamilyID()
-ref over FamAdminService
-create Family Member
+
+prepository -> prepository : isPersonIDAlreadyRegistered()
+alt Person is already present
+prepository --> FamilyMemberService : failure
+
+FamilyMemberService -> controller : failure
+
+<-- controller : responseEntity(null, Httpstatus.BADREQUEST)
+else Person is not present
+ref over prepository
+personJPA = personAssembler.toData(Person)
+assembler Domain To Data
 end
-FamAdminService -> prepository : add(aPerson)
-activate prepository
 
 ref over prepository
-
-assembler Domain To Data
-
+savedPersonDTO = personAssembler.toDomain(savedPersonJPA)
+assembler JPA To Data
 end
 
-prepository -> prepositoryJPA : save(aPersonJPA)
-activate prepositoryJPA
-prepositoryJPA --> prepository
-deactivate prepositoryJPA
-prepository --> FamAdminService
+prepository -> FamilyMemberService : savedPerson
 deactivate prepository
-FamAdminService --> controller
-controller -> outputPersonDTO** : create(inputPersonDTO.unpackEmail())
-deactivate FamAdminService
+deactivate prepositoryJPA
+
+FamilyMemberService  -> inoutassembler : toDTO(savedPerson)
+activate inoutassembler 
+inoutassembler -> outputPersonDTO** : create (savedPersonDTO.getID(), savedPersonDTO.getName())
+inoutassembler ->  FamilyMemberService  : anOutputPersonDTO
+deactivate 
+deactivate prepository
+
+FamilyMemberService -> controller : anOutputPersonDTO
+deactivate FamilyMemberService 
+ref over controller
+ addSelfLink to anOutputPersonDTO
+
+end
+deactivate FamilyMemberService
 <-- controller : responseEntity(outputPersonDTO, Httpstatus.OK)
 deactivate controller
 
+end
 @enduml
 ````
-
-'TODO: colocar alt para ter o condicional de se a Person já existir no JPA
-' retornar fail message e em caso de sucesso fazer o foward
 
 ````puml
 @startuml
@@ -328,24 +342,29 @@ title US101 FamilyMember = personDTODomainAssembler.toDomain
 
 participant ": IAddFamilyMemberService" as FamilyMemberService <<Interface>>
 participant ": PersonDTODomainAssembler" as dtoToDomainAssembler
-participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
+'participant "inputPersonDTO : inputPersonDTO" as inputPersonDTO
 participant "personID : PersonID" as personID
 participant "name : Name" as name
 participant "birthDate : BirthDate" as birthDate
+participant "email : Email" as email
 participant "vat : VATNumber" as vat
 participant "phone : PhoneNumber" as phoneNumber
 participant "address : Address" as address
+participant "familyID : FamilyID" as familyID
 
 activate FamilyMemberService
-FamilyMemberService -> dtoToDomainAssembler : toDomain(inputPersonDTO, familyID)
+FamilyMemberService -> dtoToDomainAssembler : toDomain(anInternalFamilyMemberDTO)
 activate dtoToDomainAssembler
-dtoToDomainAssembler -> personID** : create(inputPersonDTO.unpackEmail())
-dtoToDomainAssembler -> name** : create(inputPersonDTO.unpackName())
-dtoToDomainAssembler -> birthDate** : create(inputPersonDTO.unpackBirthDate())
-dtoToDomainAssembler -> vat** : create(inputPersonDTO.unpackVAT())
-dtoToDomainAssembler -> phoneNumber** : create(inputPersonDTO.unpackPhone())
-dtoToDomainAssembler -> address** : create(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber())
+dtoToDomainAssembler -> personID** : create(anInternalFamilyMemberDTO.unpackPersonID())
+dtoToDomainAssembler -> name** : create(anInternalFamilyMemberDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(anInternalFamilyMemberDTO.unpackBirthDate())
+dtoToDomainAssembler -> email** : create(anInternalFamilyMemberDTO.unpackEmail())
+dtoToDomainAssembler -> vat** : create(anInternalFamilyMemberDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(anInternalFamilyMemberDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(anInternalFamilyMemberDTO.unpackStreet(), anInternalFamilyMemberDTO.unpackCity(), anInternalFamilyMemberDTO.unpackZipCode(), anInternalFamilyMemberDTO.unpackHouseNumber())
+dtoToDomainAssembler -> familyID** : create(anInternalFamilyMemberDTO.unpackFamilyID())
 dtoToDomainAssembler -> aPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
+
 dtoToDomainAssembler -> FamilyMemberService : aPerson
 deactivate dtoToDomainAssembler
 deactivate FamilyMemberService
@@ -447,17 +466,6 @@ deactivate assembler
 
 @enduml
 ````
-
-
-Duvida - meter o ponto 9 antes do 5?
-
-
-- Duvidas (a tirar em 12.04.2021 para resolver !!!)
-
-    **Person criada no repositorio ou no service ?**
-  
-    **Ou seja o ponto 10 seria Create() e depois no Repository teriamos um Add apenas (Person)**
-    
 
 ## 3.5. Applied Patterns
 

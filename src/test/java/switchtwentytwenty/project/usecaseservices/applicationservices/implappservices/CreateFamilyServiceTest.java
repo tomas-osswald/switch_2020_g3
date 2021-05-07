@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppservices;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,16 +15,17 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -56,7 +57,7 @@ class CreateFamilyServiceTest {
     InputPersonDTO inputPersonDTO;
 
     @InjectMocks
-    CreateFamilyService createFamilyService;
+    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.CreateFamilyService createFamilyService;
 
     String familyName = "Silva";
     String familyID = "@admin@gmail.com";
