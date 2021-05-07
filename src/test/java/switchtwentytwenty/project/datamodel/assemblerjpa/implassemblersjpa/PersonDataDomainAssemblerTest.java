@@ -10,6 +10,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,11 @@ class PersonDataDomainAssemblerTest {
         expectedEmails.add(new EmailAddressJPA(ANOTHERVALIDEMAIL, expected));
         List<EmailAddressJPA> resultEmail = result.getEmails();
 
+        List<PhoneNumberJPA> expectedPhone = new ArrayList<>();
+        expectedPhone.add(new PhoneNumberJPA(VALIDPHONENUMBER, expected));
+
+        List<PhoneNumberJPA> resultPhones = result.getPhones();
+
         Integer expectedVat = VALIDVATNUMBER;
         Integer resultVat = result.getVat();
 
@@ -107,6 +113,9 @@ class PersonDataDomainAssemblerTest {
         assertEquals(expectedVat, resultVat);
         assertEquals(expectedAddress, resultAddressJPA);
         assertEquals(expectedFamilyIDJPA, resultFamilyIDJPA);
+        assertEquals(expectedPhone, resultPhones);
+        assert(!resultEmail.isEmpty());
+        assert(!resultPhones.isEmpty());
     }
 
     @Test
