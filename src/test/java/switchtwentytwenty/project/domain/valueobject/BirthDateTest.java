@@ -66,6 +66,13 @@ class BirthDateTest {
     }
 
     @Test
+    void equalsTestDifferentFromNull(){
+        BirthDate birthDate = new BirthDate("01/03/2021");
+
+        assertNotEquals(null,birthDate);
+    }
+
+    @Test
     void hashCodeTestSameHashCode(){
         BirthDate birthDateOne = new BirthDate("01/03/2021");
         BirthDate birthDateTwo = new BirthDate("01/03/2021");

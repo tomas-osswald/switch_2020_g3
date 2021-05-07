@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Address implements ValueObject {
 
-    private Street street;
-    private City city;
-    private ZipCode zipCode;
-    private DoorNumber doorNumber;
+    private final Street street;
+    private final City city;
+    private final ZipCode zipCode;
+    private final DoorNumber doorNumber;
 
     public Address(String street, String city, String zipCode, String doorNumber) {
         this.street = new Street(street);

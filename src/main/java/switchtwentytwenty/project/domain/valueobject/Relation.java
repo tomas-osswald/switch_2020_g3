@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public class Relation implements ValueObject {
 
-    private EmailAddress memberA;
-    private EmailAddress memberB;
-    private RelationDesignation relationDesignation;
+    private final EmailAddress memberA;
+    private final EmailAddress memberB;
+    private final RelationDesignation relationDesignation;
 
     public Relation (EmailAddress memberA, EmailAddress memberB, String designation) {
         //validateRelation();

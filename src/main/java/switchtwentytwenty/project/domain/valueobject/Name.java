@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Name implements ValueObject {
 
 
-    private String name;
+    private final String name;
 
     public Name(String name) {
         validateData(name);
@@ -26,7 +26,7 @@ public class Name implements ValueObject {
 
     // Falta Verificação com regras de negócio
     private boolean isValidName(String name) {
-        return name != null && name.trim().length() != 0 && !name.isEmpty();
+        return name != null && name.trim().length() != 0;
     }
 
     @Override

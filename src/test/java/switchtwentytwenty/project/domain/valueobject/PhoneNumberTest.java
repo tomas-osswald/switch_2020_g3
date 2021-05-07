@@ -72,6 +72,13 @@ class PhoneNumberTest {
     }
 
     @Test
+    void equalsTestDifferentFromNull() {
+        PhoneNumber phoneNumber = new PhoneNumber(931234567);
+
+        assertNotEquals(null, phoneNumber);
+    }
+
+    @Test
     void hashCodeTestSameHashCode() {
         PhoneNumber phoneNumberOne = new PhoneNumber(931234567);
         PhoneNumber phoneNumberTwo = new PhoneNumber(931234567);

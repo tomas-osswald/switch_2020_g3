@@ -51,6 +51,14 @@ class CityTest {
 
     @Test
     @Tag("US010")
+    void equalsTestDifferentFromNull(){
+        City city = new City(VALIDCITY);
+
+        assertNotEquals(null,city);
+    }
+
+    @Test
+    @Tag("US010")
     void equalsTestEqualCities(){
         City cityOne = new City(VALIDCITY);
         City cityTwo = new City(VALIDCITY);

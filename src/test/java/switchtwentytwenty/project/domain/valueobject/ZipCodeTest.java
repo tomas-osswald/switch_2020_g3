@@ -51,10 +51,18 @@ class ZipCodeTest {
     @Test
     @Tag("US010")
     void equalsTestDifferentTypesOfObject(){
-        ZipCode zipCodeOne = new ZipCode(VALIDZIPCODE);
+        ZipCode zipCode = new ZipCode(VALIDZIPCODE);
         LocalDate notAZipCode = LocalDate.of(2001,1,1);
 
-        assertNotEquals(zipCodeOne,notAZipCode);
+        assertNotEquals(zipCode,notAZipCode);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentFromNull(){
+        ZipCode zipCode = new ZipCode(VALIDZIPCODE);
+
+        assertNotEquals(null,zipCode);
     }
 
     @Test

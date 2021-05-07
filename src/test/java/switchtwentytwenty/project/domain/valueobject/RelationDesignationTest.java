@@ -27,6 +27,13 @@ class RelationDesignationTest {
     }
 
     @Test
+    void equalsTestDifferentFromNull(){
+        RelationDesignation relationDesignation = new RelationDesignation(designation);
+
+        assertNotEquals(null,relationDesignation);
+    }
+
+    @Test
     void equalsTestEqualRelationDesignations(){
         RelationDesignation relationDesignationOne = new RelationDesignation(designation);
         RelationDesignation relationDesignationTwo = new RelationDesignation(designation);

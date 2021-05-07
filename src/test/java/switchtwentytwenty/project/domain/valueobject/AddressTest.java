@@ -71,9 +71,36 @@ class AddressTest {
 
     @Test
     @Tag("US010")
-    void equalsTestDifferentAddresses(){
+    void equalsTestDifferentStreets(){
+        Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
+        Address addressTwo = new Address("Rua de Baixo", VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
+
+        assertNotEquals(addressOne,addressTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentCities(){
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = new Address(VALIDSTREET, "Matosinhos", VALIDZIPCODE, VALIDDOORNUMBER);
+
+        assertNotEquals(addressOne,addressTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentZipCodes(){
+        Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
+        Address addressTwo = new Address(VALIDSTREET, VALIDCITY, "4000-001", VALIDDOORNUMBER);
+
+        assertNotEquals(addressOne,addressTwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentDoorNumbers(){
+        Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
+        Address addressTwo = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, "58A");
 
         assertNotEquals(addressOne,addressTwo);
     }
