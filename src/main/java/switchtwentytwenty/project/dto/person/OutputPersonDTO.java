@@ -1,12 +1,13 @@
 package switchtwentytwenty.project.dto.person;
 
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
-public class OutputPersonDTO {
+public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
 
     private String id;
     private String name;

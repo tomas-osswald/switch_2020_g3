@@ -229,6 +229,9 @@ prompt the input of the name for that family as well as the administrator email,
 Given the current absence of an UI layer the required data will be passed directly into the CreateFamilyController.
 ation would occur at the moment of addition to the repository.
 
+
+//TODO change namings to reflect existent classes and methods
+
 ````puml
 @startuml
 
@@ -238,40 +241,143 @@ title US150 Get my profile information
 
 
 participant ": IPersonController" as controller <<interface>>
-participant ": InputPersonIDDTO" as inputDTO
+participant ": ProfileInternalExternalAssembler" as assembler
+participant "anInternalProfileDTO:\n InternalProfileDTO" as internalDTO
 participant ": IGetProfile\nInfoService" as service <<interface>>
-participant ": ProfileOutputDTO" as outputDTO
 participant ": IPersonRepository" as repository <<interface>>
+participant ": aPersonIDJPA:\n PersonIDJPA" as personIDJPA
 participant ": IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> controller : getProfileInfo(getProfileInfoDTO)
 activate controller
-controller -> inputDTO** : create(getProfileInfoDTO.unpackPersonID())
-controller -> service : getProfileInfo(InputPersonIDDTO)
+controller -> assembler : toService(getProfileInfoDTO)
+activate assembler
+assembler -> internalDTO** : create(getProfileInfoDTO.\nunpackPersonID())
+return anInternalProfileDTO
+controller -> service : getFamilyMemberProfile(anInternalProfileDTO)
 activate service
 
 service -> service : personID = InputPersonIDDTO.unpackPersonID()
-service -> repository : getById(personID)
+service -> repository : getByID(personID)
 activate repository
-repository -> repoJPA : findByID(personID)
+repository -> personIDJPA** : create(personID.toString())
+repository -> repoJPA : findByID(personIDJPA)
 activate repoJPA 
 return aPersonJPA
 
 ref over repository 
-aPerson = PersonDataDomainAssembler.toDomain(aPersonJPA)
+Creation of aPerson
 end
 return aPerson
 
 ref over service
-aProfileOutputDTO
+Creation of aProfileOutputDTO
 end 
-
 return aProfileOutputDTO
-<-- controller : responseEntity(aProfileOutputDTO, Httpstatus.OK)
+
+ref over controller
+Link creation
+end
+
+<-- controller : responseEntity(anExternalDTO, Httpstatus.OK)
 deactivate controller
 
 @enduml
 ````
+
+````puml
+@startuml
+
+autonumber
+header Sequence Diagram
+title Creation of aPerson :  personJPA = personAssembler.toDomain(aPersonJPA)
+
+participant ": IPersonRepository" as personRepository <<interface>>
+participant "personAssembler : PersonDataDomainAssembler" as assembler
+participant "aPersonJPA : PersonJPA" as personJPA
+participant "personID : PersonID" as personID
+participant "familyID : FamilyID" as familyID
+participant "address : Adress" as address
+participant "emails : List<EmailAddress>" as emails
+participant "phoneNumbers : List <PhoneNumber>" as phoneNumbers
+participant "aPerson\n : Person" as aPerson
+
+
+activate personRepository
+
+personRepository -> assembler : toDomain(aPersonJPA)
+activate assembler
+
+assembler -> personJPA : getId()
+activate personJPA
+personJPA --> assembler : personIDJPA
+deactivate personJPA
+assembler -> personID** :  create(personIDJPA)
+
+assembler -> personJPA : getName()
+activate personJPA
+personJPA --> assembler : name
+deactivate personJPA
+
+assembler -> personJPA : getBirthDate()
+activate personJPA
+personJPA --> assembler : birthDate
+deactivate personJPA
+
+assembler -> personJPA : getVat()
+activate personJPA
+personJPA --> assembler : vat
+deactivate personJPA
+
+assembler -> personJPA : getPhones()
+activate personJPA
+personJPA --> assembler : phoneNumbers
+deactivate personJPA
+
+
+assembler -> personJPA : getAddress()
+activate personJPA
+personJPA --> assembler : address
+deactivate personJPA
+
+assembler -> personJPA : getFamilyID()
+activate personJPA
+personJPA --> assembler : familyIDJPA
+deactivate personJPA
+
+assembler -> familyID** :  create(familyIDJPA)
+
+assembler -> address** : create(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getDoorNumber())
+
+assembler -> aPerson** : create(personID, name, birthDate, vatNumber, familyID)
+
+assembler -> emails** : generateEmailAddressList(personJPA.getEmails())
+activate emails
+return emails
+
+assembler -> phoneNumbers** : generetePhoneNumberList(phoneNumbers)
+activate phoneNumbers
+return phoneNumbers
+
+assembler -> aPerson : setAddress(address)
+activate aPerson
+aPerson --> assembler
+deactivate aPerson
+assembler -> aPerson : setPhones(phoneNumbers)
+activate aPerson
+aPerson --> assembler
+deactivate aPerson
+assembler -> aPerson : setEmails(emails)
+activate aPerson
+aPerson --> assembler
+deactivate aPerson
+assembler -> personRepository : aPerson
+deactivate assembler
+<- personRepository
+
+@enduml
+````
+
 
 ````puml
 @startuml
@@ -281,37 +387,58 @@ header Sequence Diagram - part 2
 title US150 ProfileOutputDTO creation
 
 participant ":IGetProfileInfoService" as service
+participant "personAssembler:\n PersonDomainDTOAssembler " as assembler
 participant "aPerson \n: Person" as person
+participant "anAddress:\n Address" as address
 participant "aProfileDTO \n: ProfileOutputDTO" as profiledto
 
 activate service
-service -> person : getID()
+service -> assembler : toDTO(aPerson)
+activate assembler
+
+assembler -> person : getID()
 activate person
 return id
 
-service -> person : getName()
+assembler -> person : getName()
 activate person
 return name
 
-service -> person : getBirthDate()
+assembler -> person : getBirthDate()
 activate person
 return birthDate
 
-service -> person : getOtherEmail()
+assembler -> person : getOtherEmail()
 activate person
 return emails
 
-service -> person : getVat()
+assembler -> person : getVat()
 activate person
 return vat
 
-service -> person : getPhoneNumbers()
+assembler -> person : getPhoneNumbers()
 activate person
 return phoneNumbers
 
-service -> person : getAddress()
+assembler -> person : getAddress()
 activate person
 return address
+
+assembler -> address : getStreet()
+activate address
+return street
+
+assembler -> address : getCity()
+activate address
+return city
+
+assembler -> address : getZipCode()
+activate address
+return zipCode
+
+assembler -> address : getdoorNumber()
+activate address
+return doorNumber
 
 service -> profiledto** : create 
 
@@ -322,12 +449,16 @@ service -> profiledto : setBirthDate(birthDate)
 service -> profiledto : setEmails(emails)
 service -> profiledto : setVat(vat)
 service -> profiledto : setPhoneNumbers(phoneNumbers)
-service -> profiledto : setAddress(address)
+service -> profiledto : setStreet(street)
+service -> profiledto : setCity(city)
+service -> profiledto : setZipCode(zipCode)
+service -> profiledto : setDoorNumber(doorNumber)
 
 deactivate profiledto
 
 @enduml
 ````
+
 
 ## 3.5. Applied Patterns
 
