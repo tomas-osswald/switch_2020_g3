@@ -60,10 +60,13 @@ public class PersonRESTController implements IPersonRESTController {
             status = HttpStatus.CREATED;
 
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withSelfRel();
-        }catch (Exception e){
+            outputPersonDTO.add(personOptionsLink);
+            return new ResponseEntity<OutputPersonDTO>(outputPersonDTO, status);
+        } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity("Error", status);
         }
-        return null;
+
     }
 
     @RequestMapping(value = "/{personID}", method = RequestMethod.OPTIONS)
