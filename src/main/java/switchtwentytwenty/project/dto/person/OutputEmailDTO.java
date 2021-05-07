@@ -1,13 +1,18 @@
 package switchtwentytwenty.project.dto.person;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
-
-    private final String email;
-    private final String emailID;
+    @Setter
+    private String email;
+    @Setter
+    private String emailID;
 
     /**
      * This DTO receives information from the updated Person in the Persistence and retrieves the added email and the newly created
@@ -15,16 +20,13 @@ public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
      * to be placed in the Response Entity.
      */
 
-    public OutputEmailDTO (String email, Long emailID) {
-        this.email = email;
-        this.emailID = emailID.toString();
-    }
 
-    public String getEmail() {
+
+    public String unpackEmail() {
         return this.email;
     }
 
-    public String getEmailID() {
+    public String unpackEmailID() {
         return this.emailID;
     }
 

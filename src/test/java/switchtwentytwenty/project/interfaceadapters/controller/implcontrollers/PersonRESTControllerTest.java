@@ -73,9 +73,9 @@ class PersonRESTControllerTest {
 
     String emailAddress = "tonyze@latinlover.com";
     PersonID personID = new PersonID(emailAddress);
-    InternalEmailDTO internalEmailDTO = new InternalEmailDTO(emailAddress.toString(), "3");
-    OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailAddress.toString(), 3L);
-    AddEmailDTO addEmailDTO = new AddEmailDTO("3", "tonyze@latinlover.com");
+    InternalEmailDTO internalEmailDTO = new InternalEmailDTO(emailAddress.toString(), "tonyadmin@gmail.com");
+    OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailAddress.toString(), "tonyadmin@gmail.com");
+    AddEmailDTO addEmailDTO = new AddEmailDTO("tonyadmin@gmail.com", "tonyze@latinlover.com");
     AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
 
     @Disabled
@@ -85,8 +85,8 @@ class PersonRESTControllerTest {
         Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
 
 
-        OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddress.toString(), 3L);
-        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.getEmailID())).withSelfRel();
+        OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddress.toString(), "tonyadmin@gmail.com");
+        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
         expectedOutputEmailDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputEmailDTO, HttpStatus.OK);
@@ -122,7 +122,7 @@ class PersonRESTControllerTest {
         Mockito.when(mockAddFamilyMemberAssembler.toInner(addFamilyMemberDTO)).thenReturn(anInternalFamilyMemberDTO);
         Mockito.when(mockAddFamilyMemberService.addPerson(anInternalFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
 
-        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.getEmailID())).withSelfRel();
+        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
         expectedOutputPersonDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
