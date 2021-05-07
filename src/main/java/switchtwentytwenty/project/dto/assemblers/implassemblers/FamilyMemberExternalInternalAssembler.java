@@ -1,26 +1,27 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
-
+@Component
 public class FamilyMemberExternalInternalAssembler {
 
     public InternalFamilyMemberDTO toInner(AddFamilyMemberDTO AddFamilyMemberDTO) {
 
-        InternalFamilyMemberDTO internalFamilyMemberDTO = new InternalFamilyMemberDTO();
+        InternalFamilyMemberDTO InternalFamilyMemberDTO = new InternalFamilyMemberDTO();
 
-        internalFamilyMemberDTO.setAdminID(AddFamilyMemberDTO.getAdminID());
-        internalFamilyMemberDTO.setEmailID(AddFamilyMemberDTO.getEmailID());
-        internalFamilyMemberDTO.setName(AddFamilyMemberDTO.getName());
-        internalFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirtDate());
-        internalFamilyMemberDTO.setVatNumber(AddFamilyMemberDTO.getVatNumber());
-        internalFamilyMemberDTO.setPhone(AddFamilyMemberDTO.getPhone());
-        internalFamilyMemberDTO.setStreet(AddFamilyMemberDTO.getStreet());
-        internalFamilyMemberDTO.setCity(AddFamilyMemberDTO.getCity());
-        internalFamilyMemberDTO.setHouseNumber(AddFamilyMemberDTO.getHouseNumber());
-        internalFamilyMemberDTO.setZipCode(AddFamilyMemberDTO.getZipCode());
+        InternalFamilyMemberDTO.setAdminID(AddFamilyMemberDTO.getAdminID());
+        InternalFamilyMemberDTO.setEmailID(AddFamilyMemberDTO.getEmailID());
+        InternalFamilyMemberDTO.setName(AddFamilyMemberDTO.getName());
+        InternalFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirtDate());
+        InternalFamilyMemberDTO.setVatNumber(AddFamilyMemberDTO.getVatNumber());
+        InternalFamilyMemberDTO.setPhone(AddFamilyMemberDTO.getPhone());
+        InternalFamilyMemberDTO.setStreet(AddFamilyMemberDTO.getStreet());
+        InternalFamilyMemberDTO.setCity(AddFamilyMemberDTO.getCity());
+        InternalFamilyMemberDTO.setHouseNumber(AddFamilyMemberDTO.getHouseNumber());
+        InternalFamilyMemberDTO.setZipCode(AddFamilyMemberDTO.getZipCode());
 
-        return internalFamilyMemberDTO;
+        return InternalFamilyMemberDTO;
     }
 
 }
