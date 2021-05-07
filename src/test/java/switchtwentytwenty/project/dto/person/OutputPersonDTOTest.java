@@ -117,14 +117,15 @@ class OutputPersonDTOTest {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
         String notOutputPersonDTO = "test String";
 
-        Assertions.assertNotEquals(outputPersonDTO,notOutputPersonDTO);
+        Assertions.assertNotEquals(outputPersonDTO, notOutputPersonDTO);
     }
 
     @Test
     void testEqualsDifferentFromNull() {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
+        String nullString = null;
 
-        Assertions.assertNotEquals(null, outputPersonDTO);
+        Assertions.assertNotEquals(outputPersonDTO, nullString);
     }
 
     @Test

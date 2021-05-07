@@ -55,7 +55,7 @@ class StreetTest {
     void equalsTestDifferentFromNull(){
         Street streetOne = new Street(VALIDSTREET);
 
-        assertNotEquals(null,streetOne);
+        assertNotEquals(streetOne,null);
     }
 
     @Test

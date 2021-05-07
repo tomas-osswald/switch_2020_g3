@@ -78,7 +78,7 @@ class CategoryNameTest {
     void equalsTestDifferentFromNull(){
         CategoryName categoryName = new CategoryName("Utilities");
 
-        assertNotEquals(null,categoryName);
+        assertNotEquals(categoryName,null);
 
     }
 

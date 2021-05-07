@@ -76,7 +76,7 @@ public class NameTest {
         String nameOne = "Jessica";
         Name personName = new Name(nameOne);
 
-        assertNotEquals(null, personName);
+        assertNotEquals(personName,null);
     }
 
     @Test

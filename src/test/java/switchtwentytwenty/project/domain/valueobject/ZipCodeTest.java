@@ -61,8 +61,9 @@ class ZipCodeTest {
     @Tag("US010")
     void equalsTestDifferentFromNull(){
         ZipCode zipCode = new ZipCode(VALIDZIPCODE);
+        String nullString = null;
 
-        assertNotEquals(null,zipCode);
+        assertNotEquals(zipCode, nullString);
     }
 
     @Test

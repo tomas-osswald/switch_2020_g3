@@ -40,7 +40,7 @@ class RelationTest {
     void equalsTestDifferentFromNull(){
         Relation relation = new Relation(personOneID,personTwoID,designation);
 
-        assertNotEquals(null,relation);
+        assertNotEquals(relation,null);
     }
 
     @Test

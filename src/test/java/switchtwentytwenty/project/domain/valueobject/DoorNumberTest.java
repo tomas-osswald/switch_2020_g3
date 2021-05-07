@@ -55,7 +55,7 @@ class DoorNumberTest {
     void equalsTestDifferentFromNull(){
         DoorNumber doorNumber = new DoorNumber(VALIDNUMBER);
 
-        assertNotEquals(null,doorNumber);
+        assertNotEquals(doorNumber,null);
     }
 
     @Test

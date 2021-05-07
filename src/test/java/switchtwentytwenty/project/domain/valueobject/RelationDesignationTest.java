@@ -30,7 +30,7 @@ class RelationDesignationTest {
     void equalsTestDifferentFromNull(){
         RelationDesignation relationDesignation = new RelationDesignation(designation);
 
-        assertNotEquals(null,relationDesignation);
+        assertNotEquals(relationDesignation,null);
     }
 
     @Test

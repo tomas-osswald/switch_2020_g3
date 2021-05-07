@@ -54,7 +54,7 @@ class CityTest {
     void equalsTestDifferentFromNull(){
         City city = new City(VALIDCITY);
 
-        assertNotEquals(null,city);
+        assertNotEquals(city,null);
     }
 
     @Test
