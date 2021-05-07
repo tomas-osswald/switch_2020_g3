@@ -27,8 +27,9 @@ class FamilyRESTControllerTest {
     @Autowired
     IFamilyRESTController familyRESTController;
 
-    @Disabled
+
     @Test
+    @Disabled
     void createFamilyAndSetAdmin() {
 
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
