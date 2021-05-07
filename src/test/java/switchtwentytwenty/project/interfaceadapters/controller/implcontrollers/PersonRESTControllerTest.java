@@ -106,8 +106,9 @@ class PersonRESTControllerTest {
         Mockito.when(getProfileInfoDTO.getPersonID()).thenReturn("tonyze@latinlover.com");
 
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
-        //expectedOutputPersonDTO.add(link);
-        ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(outputPersonDTO, HttpStatus.FOUND);
+        Link link = linkTo(methodOn(PersonRESTController.class).getPersonID(getProfileInfoDTO)).withSelfRel();
+        expectedOutputPersonDTO.add(link);
+        ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(expectedOutputPersonDTO, HttpStatus.FOUND);
 
         ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO);
 
