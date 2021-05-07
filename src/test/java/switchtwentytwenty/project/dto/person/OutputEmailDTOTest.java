@@ -91,4 +91,32 @@ class OutputEmailDTOTest {
 
         assertNotEquals(outputEmailDTOOne.hashCode(),outputEmailDTOTwo.hashCode());
     }
+
+    @Test
+    void equalsWithNull() {
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com", "1");
+        OutputEmailDTO outputEmailDTOTwo = null;
+
+        assertNotEquals(outputEmailDTOOne, outputEmailDTOTwo);
+    }
+
+    @Test
+    void equalsWithAnotherClass() {
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com", "1");
+        String outputEmailDTOTwo = "tonyze@gmail.com";
+
+        assertNotEquals(outputEmailDTOOne, outputEmailDTOTwo);
+    }
+
+    @Test
+    void getEmailId() {
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com", "1");
+
+        String expected = "1";
+
+        String result = outputEmailDTOOne.unpackEmailID();
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
 }

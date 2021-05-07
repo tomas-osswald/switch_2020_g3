@@ -69,7 +69,8 @@ class AddFamilyMemberServiceTest {
     //PersonID loggedUserID;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.AddFamilyMemberService addFamilyMemberService;
+    AddFamilyMemberService addFamilyMemberService;
+
 
     // OLD DTO
     InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
