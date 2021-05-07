@@ -72,6 +72,15 @@ public class NameTest {
 
     @Test
     @Tag("US010")
+    void equalsTestDifferentFromNull() {
+        String nameOne = "Jessica";
+        Name personName = new Name(nameOne);
+
+        assertNotEquals(null, personName);
+    }
+
+    @Test
+    @Tag("US010")
     void hashCodeTestSameHashCode() {
         String nameOne = "Jessica";
         Name personNameOne = new Name(nameOne);

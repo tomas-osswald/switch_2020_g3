@@ -52,6 +52,14 @@ class DoorNumberTest {
 
     @Test
     @Tag("US010")
+    void equalsTestDifferentFromNull(){
+        DoorNumber doorNumber = new DoorNumber(VALIDNUMBER);
+
+        assertNotEquals(null,doorNumber);
+    }
+
+    @Test
+    @Tag("US010")
     void equalsTestEqualDoorNumbers(){
         DoorNumber doorNumberOne = new DoorNumber(VALIDNUMBER);
         DoorNumber doorNumberTwo = new DoorNumber(VALIDNUMBER);

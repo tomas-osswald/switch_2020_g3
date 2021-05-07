@@ -8,7 +8,7 @@ import java.util.Objects;
 @ToString
 public class Street implements ValueObject {
 
-    private String street;
+    private final String street;
 
 
     public Street(String street) {
@@ -30,7 +30,7 @@ public class Street implements ValueObject {
 
     // Verificar com lógica de negócio
     private boolean validateStreet() {
-        return street != null && street.trim().length() != 0 && !street.isEmpty();
+        return street != null && street.trim().length() != 0;
     }
 
     @Override

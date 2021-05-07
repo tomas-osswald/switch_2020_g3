@@ -178,7 +178,7 @@ class ProfileOutputDTOTest {
     void testEqualsDifferentFromNull() {
         ProfileOutputDTO profileOutputDTO = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
-        Assertions.assertNotEquals(profileOutputDTO, null);
+        Assertions.assertNotEquals(null,profileOutputDTO);
     }
 
     @Test
