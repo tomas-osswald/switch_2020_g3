@@ -16,7 +16,7 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
 
     private IPersonRepository personRepository;
     private IFamilyRepository familyRepository;
-    private PersonDTODomainAssembler personDTODomainAssembler;
+
 
     @Autowired
     public AddFamilyMemberService(IPersonRepository personRepository, IFamilyRepository familyRepository) {
@@ -26,6 +26,7 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
 
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
     public OutputPersonDTO addPerson(InternalFamilyMemberDTO internalFamilyMemberDTO) {
+        PersonDTODomainAssembler personDTODomainAssembler = new PersonDTODomainAssembler();
         PersonID loggedUserID = new PersonID(internalFamilyMemberDTO.getAdminID());
         familyRepository.verifyAdmin(loggedUserID);
         Person aPerson = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
