@@ -50,7 +50,15 @@ public class PersonDTODomainAssembler {
     }
 
     public OutputPersonDTO toDTO(Person savedPerson){
-        return null;
+
+        // Criei isto para não falhar o teste
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
+        String personID = savedPerson.id().toString();
+        String name = savedPerson.getName().toString();
+        outputPersonDTO.setId(personID);
+        outputPersonDTO.setName(name);
+
+        return outputPersonDTO;
     }
 
 }
