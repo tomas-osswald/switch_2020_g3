@@ -12,10 +12,12 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInternalAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
@@ -25,6 +27,9 @@ import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPer
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -78,6 +83,7 @@ class PersonRESTControllerTest {
     AddEmailDTO addEmailDTO = new AddEmailDTO("tonyadmin@gmail.com", "tonyze@latinlover.com");
     AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
 
+
     @Disabled
     @Test
     void successCaseInAddEmail() {
@@ -103,10 +109,27 @@ class PersonRESTControllerTest {
         Mockito.when(profileInternalExternalAssembler.toService(getProfileInfoDTO)).thenReturn(anInternalProfileDTO);
         Mockito.when(getFamilyMemberProfileService.getFamilyMemberProfile(anInternalProfileDTO)).thenReturn(outputPersonDTO);
 
-        Mockito.when(getProfileInfoDTO.getPersonID()).thenReturn("tonyze@latinlover.com");
-
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         //expectedOutputPersonDTO.add(link);
+        ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(expectedOutputPersonDTO, HttpStatus.FOUND);
+
+        ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO);
+
+        Assertions.assertEquals(expected.getStatusCode(), result.getStatusCode());
+        Assertions.assertEquals(expected.getBody(), result.getBody());
+    }
+
+    @Disabled
+    @Test
+    void failCaseInGetProfileInfo() {
+
+        Mockito.when(profileInternalExternalAssembler.toService(getProfileInfoDTO)).thenReturn(anInternalProfileDTO);
+        Mockito.when(getFamilyMemberProfileService.getFamilyMemberProfile(anInternalProfileDTO)).thenReturn(outputPersonDTO);
+
+        Mockito.when(getProfileInfoDTO.getPersonID()).thenReturn("tonyze@latinlover.com");
+
+
+        //outputPersonDTO.add(link);
         ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(outputPersonDTO, HttpStatus.FOUND);
 
         ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO);
