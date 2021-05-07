@@ -26,8 +26,6 @@ public class PersonRESTController implements IPersonRESTController {
 
     private IGetFamilyMemberProfileService getFamilyMemberProfileService;
 
-    private FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler;
-
     private IAddFamilyMemberService addFamilyMemberService;
 
 
@@ -50,6 +48,7 @@ public class PersonRESTController implements IPersonRESTController {
     @Override
     @PostMapping("/add")
     public ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO) {
+        FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler = new FamilyMemberExternalInternalAssembler();
         InternalFamilyMemberDTO internalFamilyMemberDTO = familyMemberExternalInternalAssembler.toInner(addFamilyMemberDTO);
 
         HttpStatus status;
