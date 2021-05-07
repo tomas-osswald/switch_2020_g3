@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 @Component
 public class PersonDTODomainAssembler {
@@ -46,6 +47,10 @@ public class PersonDTODomainAssembler {
         Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
 
         return person;
+    }
+
+    public OutputPersonDTO toDTO(Person savedPerson){
+        return null;
     }
 
 }

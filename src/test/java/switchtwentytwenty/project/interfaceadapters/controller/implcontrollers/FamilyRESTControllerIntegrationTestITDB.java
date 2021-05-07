@@ -28,7 +28,7 @@ class FamilyRESTControllerIntegrationTestITDB {
     @Test
     void createFamilyAndSetAdmin() {
 
-        Link expectedLink = linkTo(methodOn(switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
 

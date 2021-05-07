@@ -1,7 +1,5 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
 
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -57,7 +55,7 @@ class AddFamilyMemberServiceTest {
 
     // Inserir class no diagram
     @Mock
-    InternalExternalAssembler internalExternalAssembler;
+    PersonDTODomainAssembler internalExternalAssembler;
 
     @Mock
     OutputPersonDTO outputPersonDTO;

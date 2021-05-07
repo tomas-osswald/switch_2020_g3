@@ -28,6 +28,9 @@ class AddFamilyMemberControllerTest {
     @InjectMocks
     switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.AddFamilyMemberController addFamilyMemberController;
 
+    @Mock
+    InternalFamilyMemberDTO internalFamilyMemberDTO;
+
 
     //TODO: Rever testes do controller. Tudo a quebrar
     @Test
@@ -43,7 +46,7 @@ class AddFamilyMemberControllerTest {
     @Tag("US101")
     void addFamilyMemberFail() {
 
-        Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(InternalFamilyMemberDTO);
+        Mockito.doThrow(IllegalArgumentException.class).when(addFamilyMemberService).addPerson(internalFamilyMemberDTO);
 
         boolean result = addFamilyMemberController.addFamilyMember(addFamilyMemberDTO);
 
