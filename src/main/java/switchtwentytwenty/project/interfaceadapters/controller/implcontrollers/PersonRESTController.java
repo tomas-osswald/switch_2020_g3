@@ -37,4 +37,8 @@ public class PersonRESTController implements IPersonRESTController {
     @GetMapping(value = "/{personID}")
     public ResponseEntity<OutputPersonDTO> getProfileInfo(GetProfileInfoDTO getProfileInfoDTO) { return null; }
 
+    public ResponseEntity<Object> getPersonID (GetProfileInfoDTO getProfileInfoDTO) {
+        return null;
+    }
+
 }
