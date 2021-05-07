@@ -27,7 +27,7 @@ class AddFamilyMemberDTOTest {
         String result = familyMemberDTO.getAdminID();
 
         String expected = "tonyAdmin@gmail.com";
-        
+
         Assert.assertEquals(expected, result);
     }
 

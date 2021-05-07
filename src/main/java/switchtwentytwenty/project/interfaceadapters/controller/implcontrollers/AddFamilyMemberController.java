@@ -3,7 +3,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import switchtwentytwenty.project.dto.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.AddFamilyOutInAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddFamilyMemberController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
@@ -13,7 +13,7 @@ public class AddFamilyMemberController implements IAddFamilyMemberController {
 
     IAddFamilyMemberService addPersonService;
 
-    AddFamilyOutInAssembler addFamilyMemberAssembler;
+    FamilyMemberExternalInternalAssembler addFamilyMemberAssembler;
 
     @Autowired
     public AddFamilyMemberController(IAddFamilyMemberService addPersonService) {
@@ -25,7 +25,7 @@ public class AddFamilyMemberController implements IAddFamilyMemberController {
     public boolean addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO) {
 
         boolean result;
-        InternalFamilyMemberDTO InternalFamilyMemberDTO = addFamilyMemberAssembler.toIn(addFamilyMemberDTO);
+        InternalFamilyMemberDTO InternalFamilyMemberDTO = addFamilyMemberAssembler.toInner(addFamilyMemberDTO);
 
         //TODO: Substituir
         try {

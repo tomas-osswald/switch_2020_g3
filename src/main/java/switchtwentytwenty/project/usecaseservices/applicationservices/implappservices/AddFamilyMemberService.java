@@ -2,12 +2,14 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppSe
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -26,12 +28,15 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
     }
 
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
-    public void addPerson(InternalFamilyMemberDTO internalFamilyMemberDTO) {
+    public OutputPersonDTO addPerson(InternalFamilyMemberDTO internalFamilyMemberDTO) {
         PersonID loggedUserID = new PersonID(internalFamilyMemberDTO.getAdminID());
-
         familyRepository.verifyAdmin(loggedUserID);
-        Person person = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
-        personRepository.add(person);
+        Person aPerson = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
+        personRepository.add(aPerson);
+        personRepository.isPersonIDAlreadyRegistered(aPerson.id());
 
+
+
+        return null;
     }
 }

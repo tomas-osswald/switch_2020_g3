@@ -16,10 +16,20 @@ import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInternalAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
+import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.FamilyRESTController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.dto.OutputEmailDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,10 +44,16 @@ class PersonRESTControllerTest {
     EmailExternalInternalAssembler mockAssembler;
 
     @Mock
+    FamilyMemberExternalInternalAssembler mockAddFamilyMemberAssembler;
+
+    @Mock
     IAddEmailService mockAddEmailService;
 
     @Mock
     IGetFamilyMemberProfileService getFamilyMemberProfileService;
+
+    @Mock
+    IAddFamilyMemberService mockAddFamilyMemberService;
 
     @Mock
     GetProfileInfoDTO getProfileInfoDTO;
@@ -46,7 +62,14 @@ class PersonRESTControllerTest {
     InternalProfileDTO anInternalProfileDTO;
 
     @Mock
+    InternalFamilyMemberDTO anInternalFamilyMemberDTO;
+
+    @Mock
     OutputPersonDTO outputPersonDTO;
+
+    @Mock
+    OutputPersonDTO anOutputPersonDTO;
+
 
     @Mock
     ProfileInternalExternalAssembler profileInternalExternalAssembler;
@@ -59,7 +82,7 @@ class PersonRESTControllerTest {
     InternalEmailDTO internalEmailDTO = new InternalEmailDTO(emailAddress.toString(), "3");
     OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailAddress.toString(), 3L);
     AddEmailDTO addEmailDTO = new AddEmailDTO("3", "tonyze@latinlover.com");
-
+    AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
 
     @Disabled
     @Test
@@ -97,4 +120,22 @@ class PersonRESTControllerTest {
         Assertions.assertEquals(expected.getStatusCode(), result.getStatusCode());
         Assertions.assertEquals(expected.getBody(), result.getBody());
     }
+
+    @Disabled
+    @Test
+    void successCaseInAddFamilyMemberl() {
+        OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+        Mockito.when(mockAddFamilyMemberAssembler.toInner(addFamilyMemberDTO)).thenReturn(anInternalFamilyMemberDTO);
+        Mockito.when(mockAddFamilyMemberService.addPerson(anInternalFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
+
+        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.getEmailID())).withSelfRel();
+        expectedOutputPersonDTO.add(link);
+
+        ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
+
+        ResponseEntity result = personRESTController.addEmail(addEmailDTO);
+
+        assertEquals(expected, result);
+    }
+
 }

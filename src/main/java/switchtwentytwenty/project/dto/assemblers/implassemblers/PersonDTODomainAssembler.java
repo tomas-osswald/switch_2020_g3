@@ -31,17 +31,17 @@ public class PersonDTODomainAssembler {
     /**
      * US101 - Assembler method that creates a Person domain object from a DTO
      *
-     * @param internalFamilyMemberDTO
+     * @param anInternalFamilyMemberDTO
      * @return Person
      */
-    public Person toDomain(InternalFamilyMemberDTO internalFamilyMemberDTO){
-        PersonID personID = new PersonID(internalFamilyMemberDTO.getEmailID());
-        Name name = new Name(internalFamilyMemberDTO.getName());
-        BirthDate birthDate = new BirthDate(internalFamilyMemberDTO.getBirtDate());
-        VATNumber vat = new VATNumber(internalFamilyMemberDTO.getVatNumber());
-        PhoneNumber phone = new PhoneNumber(internalFamilyMemberDTO.getPhone());
-        Address address = new Address(internalFamilyMemberDTO.getStreet(), internalFamilyMemberDTO.getCity(), internalFamilyMemberDTO.getZipCode(), internalFamilyMemberDTO.getHouseNumber());
-        FamilyID familyID = new FamilyID(internalFamilyMemberDTO.getAdminID());
+    public Person toDomain(InternalFamilyMemberDTO anInternalFamilyMemberDTO){
+        PersonID personID = new PersonID(anInternalFamilyMemberDTO.getEmailID());
+        Name name = new Name(anInternalFamilyMemberDTO.getName());
+        BirthDate birthDate = new BirthDate(anInternalFamilyMemberDTO.getBirtDate());
+        VATNumber vat = new VATNumber(anInternalFamilyMemberDTO.getVatNumber());
+        PhoneNumber phone = new PhoneNumber(anInternalFamilyMemberDTO.getPhone());
+        Address address = new Address(anInternalFamilyMemberDTO.getStreet(), anInternalFamilyMemberDTO.getCity(), anInternalFamilyMemberDTO.getZipCode(), anInternalFamilyMemberDTO.getHouseNumber());
+        FamilyID familyID = new FamilyID(anInternalFamilyMemberDTO.getAdminID());
 
         Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
 
