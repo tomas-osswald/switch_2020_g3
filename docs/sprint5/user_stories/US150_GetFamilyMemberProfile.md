@@ -244,9 +244,8 @@ participant ": IPersonController" as controller <<interface>>
 participant ": ProfileInternalExternalAssembler" as assembler
 participant "anInternalProfileDTO:\n InternalProfileDTO" as internalDTO
 participant ": IGetProfile\nInfoService" as service <<interface>>
-participant ": ProfileOutputDTO" as outputDTO
 participant ": IPersonRepository" as repository <<interface>>
-participant ": aPersonIDJPA : PersonIDJPA" as personIDJPA
+participant ": aPersonIDJPA:\n PersonIDJPA" as personIDJPA
 participant ": IPersonRepositoryJPA" as repoJPA <<interface>>
 
 -> controller : getProfileInfo(getProfileInfoDTO)
@@ -255,11 +254,11 @@ controller -> assembler : toService(getProfileInfoDTO)
 activate assembler
 assembler -> internalDTO** : create(getProfileInfoDTO.\nunpackPersonID())
 return anInternalProfileDTO
-controller -> service : getProfileInfo(anInternalProfileDTO)
+controller -> service : getFamilyMemberProfile(anInternalProfileDTO)
 activate service
 
 service -> service : personID = InputPersonIDDTO.unpackPersonID()
-service -> repository : retrievePersonFromRepository(personID)
+service -> repository : getByID(personID)
 activate repository
 repository -> personIDJPA** : create(personID.toString())
 repository -> repoJPA : findByID(personIDJPA)
@@ -388,37 +387,58 @@ header Sequence Diagram - part 2
 title US150 ProfileOutputDTO creation
 
 participant ":IGetProfileInfoService" as service
+participant "personAssembler:\n PersonDomainDTOAssembler " as assembler
 participant "aPerson \n: Person" as person
+participant "anAddress:\n Address" as address
 participant "aProfileDTO \n: ProfileOutputDTO" as profiledto
 
 activate service
-service -> person : getID()
+service -> assembler : toDTO(aPerson)
+activate assembler
+
+assembler -> person : getID()
 activate person
 return id
 
-service -> person : getName()
+assembler -> person : getName()
 activate person
 return name
 
-service -> person : getBirthDate()
+assembler -> person : getBirthDate()
 activate person
 return birthDate
 
-service -> person : getOtherEmail()
+assembler -> person : getOtherEmail()
 activate person
 return emails
 
-service -> person : getVat()
+assembler -> person : getVat()
 activate person
 return vat
 
-service -> person : getPhoneNumbers()
+assembler -> person : getPhoneNumbers()
 activate person
 return phoneNumbers
 
-service -> person : getAddress()
+assembler -> person : getAddress()
 activate person
 return address
+
+assembler -> address : getStreet()
+activate address
+return street
+
+assembler -> address : getCity()
+activate address
+return city
+
+assembler -> address : getZipCode()
+activate address
+return zipCode
+
+assembler -> address : getdoorNumber()
+activate address
+return doorNumber
 
 service -> profiledto** : create 
 
@@ -429,7 +449,10 @@ service -> profiledto : setBirthDate(birthDate)
 service -> profiledto : setEmails(emails)
 service -> profiledto : setVat(vat)
 service -> profiledto : setPhoneNumbers(phoneNumbers)
-service -> profiledto : setAddress(address)
+service -> profiledto : setStreet(street)
+service -> profiledto : setCity(city)
+service -> profiledto : setZipCode(zipCode)
+service -> profiledto : setDoorNumber(doorNumber)
 
 deactivate profiledto
 
