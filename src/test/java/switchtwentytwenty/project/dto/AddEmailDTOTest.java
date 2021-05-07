@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.dto;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
@@ -63,7 +62,6 @@ class AddEmailDTOTest {
 
     @DisplayName("Verify unpack returns expected String")
     @Test
-    @Disabled
     void unpackUserID_notSame() {
         String expectedEmail = "tonyze@latinlover.com";
         String expectedId = "3";
@@ -76,7 +74,7 @@ class AddEmailDTOTest {
         String result = resultDTO.unpackUserID();
 
         assertNotEquals(notExpected, result);
-        assertNotSame(notExpected, result);
+
     }
 
 
