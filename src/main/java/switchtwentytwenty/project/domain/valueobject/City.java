@@ -9,8 +9,8 @@ import java.util.Objects;
 public class City implements ValueObject {
 
 
-    String INVALIDCITY = "Invalid City Name";
-    private String city;
+    final String INVALIDCITY = "Invalid City Name";
+    private final String city;
 
     public City(String city) {
         this.city = city;
@@ -34,7 +34,7 @@ public class City implements ValueObject {
 
     // Verificar com lógica de negócio
     private boolean validateCity() {
-        return city != null && city.trim().length() != 0 && !city.isEmpty();
+        return city != null && city.trim().length() != 0;
     }
 
     @Override

@@ -30,10 +30,17 @@ class RelationTest {
 
     @Test
     void equalsTestDifferentTypesOfObject(){
-        Relation relationOne = new Relation(personOneID,personTwoID,designation);
+        Relation relation = new Relation(personOneID,personTwoID,designation);
         LocalDate notARelation = LocalDate.of(2001,1,1);
 
-        assertNotEquals(relationOne,notARelation);
+        assertNotEquals(relation,notARelation);
+    }
+
+    @Test
+    void equalsTestDifferentFromNull(){
+        Relation relation = new Relation(personOneID,personTwoID,designation);
+
+        assertNotEquals(null,relation);
     }
 
     @Test
@@ -55,10 +62,37 @@ class RelationTest {
     }
 
     @Test
-    void equalsTestDifferentRelations(){
+    void equalsTestDifferentFamilyMemberOne(){
         Relation relationOne = new Relation(personOneID,personTwoID,designation);
         EmailAddress otherPersonOneID = new EmailAddress("otheremail@hotmail.com");
         Relation relationTwo = new Relation(otherPersonOneID,personTwoID,designation);
+
+        assertNotEquals(relationOne,relationTwo);
+    }
+
+    @Test
+    void equalsTestDifferentFamilyMemberTwo(){
+        Relation relationOne = new Relation(personOneID,personTwoID,designation);
+        EmailAddress otherPersonTwoID = new EmailAddress("otheremail@hotmail.com");
+        Relation relationTwo = new Relation(personOneID,otherPersonTwoID,designation);
+
+        assertNotEquals(relationOne,relationTwo);
+    }
+
+    @Test
+    void equalsTestDifferentFamilyMemberOneDifferentOrder(){
+        Relation relationOne = new Relation(personOneID,personTwoID,designation);
+        EmailAddress otherPersonOneID = new EmailAddress("otheremail@hotmail.com");
+        Relation relationTwo = new Relation(personTwoID,otherPersonOneID,designation);
+
+        assertNotEquals(relationOne,relationTwo);
+    }
+
+    @Test
+    void equalsTestDifferentFamilyMemberTwoDifferentOrder(){
+        Relation relationOne = new Relation(personOneID,personTwoID,designation);
+        EmailAddress otherPersonTwoID = new EmailAddress("otheremail@hotmail.com");
+        Relation relationTwo = new Relation(otherPersonTwoID,personOneID,designation);
 
         assertNotEquals(relationOne,relationTwo);
     }

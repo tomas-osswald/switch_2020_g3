@@ -75,6 +75,15 @@ class CategoryNameTest {
     }
 
     @Test
+    void equalsTestDifferentFromNull(){
+        CategoryName categoryName = new CategoryName("Utilities");
+
+        assertNotEquals(null,categoryName);
+
+    }
+
+
+    @Test
     void hashCodeTestSameHashCode(){
         CategoryName categoryNameOne = new CategoryName("Utilities");
         CategoryName categoryNameTwo = new CategoryName("Utilities");

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class RelationDesignation implements ValueObject {
 
-    private String description;
+    private final String description;
 
     public RelationDesignation(String designation) {
         //validate designation - not null not empty not blank

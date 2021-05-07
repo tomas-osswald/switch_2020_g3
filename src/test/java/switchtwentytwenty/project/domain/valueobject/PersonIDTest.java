@@ -53,6 +53,13 @@ class PersonIDTest {
     }
 
     @Test
+    void equalsTestDifferentFromNull() {
+        PersonID id = new PersonID("admin@gmail.com");
+
+        assertNotEquals(null, id);
+    }
+
+    @Test
     void hashCodeTestSameHashCode() {
         PersonID idOne = new PersonID("admin@gmail.com");
         PersonID idTwo = new PersonID("admin@gmail.com");
