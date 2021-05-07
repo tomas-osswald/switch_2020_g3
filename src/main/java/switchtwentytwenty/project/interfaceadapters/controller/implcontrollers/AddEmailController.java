@@ -1,4 +1,6 @@
-package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
+/*
+package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,14 +8,14 @@ import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAddEmailController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 
-@Controller
+
 public class AddEmailController implements IAddEmailController {
 
     @Autowired
     IAddEmailService addEmailService;
 
 
-    public boolean addEmail(AddEmailDTO addEmailDTO) {
+   /* public boolean addEmail(AddEmailDTO addEmailDTO) {
         boolean result = true;
 
         try {
@@ -23,5 +25,6 @@ public class AddEmailController implements IAddEmailController {
         }
         return result;
     }
-
 }
+
+*/

@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class AddEmailDTO {
 
-    String email;
-    String id;
+    private String email;
+    private String id;
 
     public AddEmailDTO(String id, String email) {
         this.id = id;
@@ -25,7 +25,7 @@ public class AddEmailDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddEmailDTO that = (AddEmailDTO) o;
-        return email.equals(that.email) && id.equals(that.id);
+        return Objects.equals(email, that.email) && Objects.equals(id, that.id);
     }
 
     @Override

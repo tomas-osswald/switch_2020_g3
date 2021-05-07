@@ -14,7 +14,7 @@ class CreateStandardCategoryServiceTest {
     ICategoryDTODomainAssembler iCategoryDTODomainAssembler;
 
     @InjectMocks
-    switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.CreateStandardCategoryService createStandardCategoryService;
+    CreateStandardCategoryService createStandardCategoryService;
 
     @Test
     void createStandardCategory() {

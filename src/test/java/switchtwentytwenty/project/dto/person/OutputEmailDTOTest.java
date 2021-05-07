@@ -10,7 +10,8 @@ class OutputEmailDTOTest {
     @Test
     @DisplayName("Should return true if the unpackEmail method is working correctly")
     void unpackEmail() {
-        OutputEmailDTO outputEmailDTO = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
+        outputEmailDTO.setEmail("tonyze@gmail.com");
 
         String expected = "tonyze@gmail.com";
         String result = outputEmailDTO.unpackEmail();
@@ -21,8 +22,10 @@ class OutputEmailDTOTest {
     @Test
     @DisplayName("Should return true if two identical OutputEmailDTO objects are compared with the equals method")
     void testEquals() {
-        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com");
-        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO();
+        outputEmailDTOOne.setEmail("tonyze@gmail.com");
+        outputEmailDTOTwo.setEmail("tonyze@gmail.com");
 
         assertEquals(outputEmailDTOOne, outputEmailDTOTwo);
         assertNotSame(outputEmailDTOOne, outputEmailDTOTwo);
@@ -31,15 +34,18 @@ class OutputEmailDTOTest {
     @Test
     @DisplayName("Should return false if two different OutputEmailDTO objects are compared with the equals method")
     void testEqualsFalse() {
-        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze2@gmail.com");
-        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO();
+        outputEmailDTOOne.setEmail("tonyze@gmail.com");
+        outputEmailDTOTwo.setEmail("tonyze2@gmail.com");
 
         assertNotEquals(outputEmailDTOOne, outputEmailDTOTwo);
     }
 
     @Test
     void testEqualsSameOutputEmailDTO() {
-        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        outputEmailDTOOne.setEmail("tonyze@gmail.com");
         OutputEmailDTO outputEmailDTOTwo = outputEmailDTOOne;
 
         assertEquals(outputEmailDTOOne, outputEmailDTOTwo);
@@ -47,15 +53,18 @@ class OutputEmailDTOTest {
 
     @Test
     void testEqualsDifferentObjects() {
-        OutputEmailDTO outputEmailDTO = new OutputEmailDTO("tonyze@gmail.com");
-        String notOutputEmailDTO = "test string";
+        OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
+        outputEmailDTO.setEmailID("tony@gmail.com");
+        OutputEmailDTO notOutputEmailDTO = new OutputEmailDTO();
+        notOutputEmailDTO.setEmail("not the same");
 
         assertNotEquals(outputEmailDTO, notOutputEmailDTO);
     }
 
     @Test
     void testEqualsDifferentFromNull() {
-        OutputEmailDTO outputEmailDTO = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
+        outputEmailDTO.setEmail("tonyze@gmail.com");
 
         assertNotEquals(outputEmailDTO, null);
     }
@@ -63,8 +72,10 @@ class OutputEmailDTOTest {
     @Test
     @DisplayName("Should return true if two identical OutputEmailDTO objects have their hashcodes compared")
     void testHashCode() {
-        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("tonyze@gmail.com");
-        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO();
+        outputEmailDTOOne.setEmail("tonyze@gmail.com");
+        outputEmailDTOTwo.setEmail("tonyze@gmail.com");
 
         assertNotSame(outputEmailDTOOne,outputEmailDTOTwo);
         assertEquals(outputEmailDTOOne.hashCode(),outputEmailDTOTwo.hashCode());
@@ -73,8 +84,10 @@ class OutputEmailDTOTest {
     @Test
     @DisplayName("Should return false if two different OutputEmailDTO objects have their hashcodes compared")
     void testHashCodeFalse() {
-        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO("AAAAtonyze@gmail.com");
-        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO();
+        outputEmailDTOOne.setEmail("tonyze@gmail.com");
+        outputEmailDTOTwo.setEmail("tonyze2@gmail.com");
 
         assertNotEquals(outputEmailDTOOne.hashCode(),outputEmailDTOTwo.hashCode());
     }

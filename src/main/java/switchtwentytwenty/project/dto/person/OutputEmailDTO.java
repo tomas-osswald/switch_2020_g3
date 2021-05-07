@@ -1,28 +1,46 @@
 package switchtwentytwenty.project.dto.person;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Objects;
+@NoArgsConstructor
+@AllArgsConstructor
+public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
+    @Setter
+    private String email;
+    @Setter
+    private String emailID;
+
+    /**
+     * This DTO receives information from the updated Person in the Persistence and retrieves the added email and the newly created
+     * email ID (Given by the database). Packages all info to be sent back to the Controller to be converted to an External DTO
+     * to be placed in the Response Entity.
+     */
 
 
-public class OutputEmailDTO {
-    public final String email;
 
     public String unpackEmail() {
-        return email;
+        return this.email;
     }
 
-    public OutputEmailDTO(String email) {
-        this.email = email;
+    public String unpackEmailID() {
+        return this.emailID;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         OutputEmailDTO that = (OutputEmailDTO) o;
-        return Objects.equals(email, that.email);
+        return Objects.equals(email, that.email) && Objects.equals(emailID, that.emailID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(super.hashCode(), email, emailID);
     }
 }
