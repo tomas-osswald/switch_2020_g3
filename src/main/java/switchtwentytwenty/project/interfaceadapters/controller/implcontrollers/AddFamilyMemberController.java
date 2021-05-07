@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import switchtwentytwenty.project.dto.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IAddFamilyMemberController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAddFamilyMemberController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 
 @Controller

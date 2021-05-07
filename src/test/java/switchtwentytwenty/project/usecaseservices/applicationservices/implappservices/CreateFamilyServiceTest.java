@@ -1,9 +1,6 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppservices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,7 +21,6 @@ import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -82,7 +78,7 @@ class CreateFamilyServiceTest {
         Mockito.when(familyDTODomainAssembler.toDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
 
         OutputFamilyDTO outputFamilyDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
-        assertNotNull(outputFamilyDTO);
+        Assertions.assertNotNull(outputFamilyDTO);
     }
 
     @Test

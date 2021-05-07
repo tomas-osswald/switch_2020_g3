@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.interfaceadapters.controller.ImplControllers;
+package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -12,20 +12,12 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInternalAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
-import switchtwentytwenty.project.interfaceadapters.controller.ImplControllers.FamilyRESTController;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.OutputEmailDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
+import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.IControllers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
@@ -77,7 +69,7 @@ class PersonRESTControllerTest {
     @InjectMocks
     switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController personRESTController;
 
-    EmailAddress emailAddress = new EmailAddress("tonyze@latinlover.com");
+    String emailAddress = "tonyze@latinlover.com";
     PersonID personID = new PersonID(emailAddress);
     InternalEmailDTO internalEmailDTO = new InternalEmailDTO(emailAddress.toString(), "3");
     OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailAddress.toString(), 3L);

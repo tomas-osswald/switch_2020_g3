@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.usecaseservices.applicationservices.ImplAppServices;
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +19,8 @@ import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -64,9 +66,9 @@ class AddEmailServiceTest {
     void SucceedToAddEmail() {
         Mockito.when(mockIPersonRepository.getByID(any(PersonID.class))).thenReturn(tonyZe);
         Mockito.doNothing().when(tonyZe).addEmail(any(EmailAddress.class));
-        Mockito.doNothing().when(mockIPersonRepository).updatePerson(tonyZe);
+        Mockito.when(mockIPersonRepository.updatePerson(tonyZe)).thenReturn(tonyZe);
 
-        //assertDoesNotThrow(() -> addEmailService.addEmail(mockInternalEmailDTO));
+        assertDoesNotThrow(() -> addEmailService.addEmail(mockInternalEmailDTO));
     }
 
     @DisplayName("Fail to add email when an Value Object is invalid")
@@ -74,9 +76,9 @@ class AddEmailServiceTest {
     void failToAddEmailWhenAnExceptionIsThrownBecauseOfInvalidObject() {
         Mockito.when(mockIPersonRepository.getByID(any(PersonID.class))).thenReturn(tonyZe);
         Mockito.doThrow(InvalidEmailException.class).when(tonyZe).addEmail(any(EmailAddress.class));
-        Mockito.doNothing().when(mockIPersonRepository).updatePerson(tonyZe);
+        Mockito.when(mockIPersonRepository.updatePerson(tonyZe)).thenReturn(tonyZe);
 
-        //assertThrows(InvalidEmailException.class,()-> addEmailService.addEmail(mockInternalEmailDTO));
+        assertThrows(InvalidEmailException.class,()-> addEmailService.addEmail(mockInternalEmailDTO));
     }
 
     @DisplayName("Fail to add email when email is already registered ")
@@ -85,9 +87,9 @@ class AddEmailServiceTest {
 
         Mockito.when(mockIPersonRepository.getByID(any(PersonID.class))).thenReturn(tonyZe);
         Mockito.doThrow(EmailAlreadyRegisteredException.class).when(tonyZe).addEmail(any(EmailAddress.class));
-        Mockito.doNothing().when(mockIPersonRepository).updatePerson(tonyZe);
+        Mockito.when(mockIPersonRepository.updatePerson(tonyZe)).thenReturn(tonyZe);
 
-        //assertThrows(EmailAlreadyRegisteredException.class,()-> addEmailService.addEmail(mockInternalEmailDTO));
+        assertThrows(EmailAlreadyRegisteredException.class,()-> addEmailService.addEmail(mockInternalEmailDTO));
     }
 
 
