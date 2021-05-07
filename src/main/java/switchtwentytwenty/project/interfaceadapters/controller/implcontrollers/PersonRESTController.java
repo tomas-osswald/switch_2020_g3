@@ -5,9 +5,11 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import switchtwentytwenty.project.dto.AddFamilyMemberDTO;
+
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
+
+import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
@@ -75,6 +77,7 @@ public class PersonRESTController implements IPersonRESTController {
         personOptionsDTO.add(getProfileInfo);
         return new ResponseEntity<PersonOptionsDTO>(personOptionsDTO, HttpStatus.OK);
     }
+
 
     //TODO ver se DTO vem vazio se body do pedido for vazio
     @GetMapping(value = "/{personID}")
