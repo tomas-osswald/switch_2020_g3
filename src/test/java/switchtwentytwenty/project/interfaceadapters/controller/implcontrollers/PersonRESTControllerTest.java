@@ -2,6 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -80,6 +81,7 @@ class PersonRESTControllerTest {
 
     @Disabled
     @Test
+    @DisplayName("Success case of adding an email to a Person")
     void successCaseInAddEmail() {
         Mockito.when(mockAssembler.toInternal(addEmailDTO)).thenReturn(internalEmailDTO);
         Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
@@ -97,6 +99,20 @@ class PersonRESTControllerTest {
     }
 
     @Disabled
+    @DisplayName("Fail test when Email is already registered in the Person")
+    @Test
+    void failCaseInAddEmailWhenProvidedEmailIsAlreadyRegisteredInThePerson() {
+
+    }
+
+    @Disabled
+    @DisplayName("Fail test when Email is in invalid format")
+    @Test
+    void failCaseInAddEmailWhenProvidedEmailIsWrongfullyInsertedExpectingInvalidEmailException() {
+
+    }
+
+    @Disabled
     @Test
     void successCaseInGetProfileInfo() {
 
@@ -106,7 +122,7 @@ class PersonRESTControllerTest {
         Mockito.when(getProfileInfoDTO.getPersonID()).thenReturn("tonyze@latinlover.com");
 
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
-        Link link = linkTo(methodOn(PersonRESTController.class).getPersonID(getProfileInfoDTO)).withSelfRel();
+        Link link = linkTo(methodOn(PersonRESTController.class).getPersonOptions(getProfileInfoDTO.getPersonID())).withSelfRel();
         expectedOutputPersonDTO.add(link);
         ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(expectedOutputPersonDTO, HttpStatus.FOUND);
 

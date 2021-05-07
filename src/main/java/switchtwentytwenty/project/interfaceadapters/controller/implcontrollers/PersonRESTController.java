@@ -83,8 +83,4 @@ public class PersonRESTController implements IPersonRESTController {
         return null;
     }
 
-    public ResponseEntity<Object> getPersonID (GetProfileInfoDTO getProfileInfoDTO) {
-        return null;
-    }
-
 }
