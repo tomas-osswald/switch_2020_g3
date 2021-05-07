@@ -1,8 +1,14 @@
 package switchtwentytwenty.project.dto.family;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
-
+@Component
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddFamilyMemberDTO {
 
     private String adminID;
@@ -16,8 +22,6 @@ public class AddFamilyMemberDTO {
     private String houseNumber;
     private String zipCode;
 
-    public AddFamilyMemberDTO(String adminID, String emailID, String name,String birtDate, int vatNumber, Integer phone, String street,  String city, String houseNumber, String zipCode  ){
-    }
 
     public String getAdminID() {
         return adminID;

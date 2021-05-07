@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.controller.icontrollers;
 
 import org.springframework.http.ResponseEntity;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 
