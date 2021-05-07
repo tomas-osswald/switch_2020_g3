@@ -25,9 +25,12 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private ICreateFamilyService createFamilyService;
 
+    private AddFamilyAndSetAdminDTOAssembler assembler;
+
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, AddFamilyAndSetAdminDTOAssembler assembler) {
         this.createFamilyService = createFamilyService;
+        this.assembler = assembler;
     }
 
     /**
@@ -38,8 +41,8 @@ public class FamilyRESTController implements IFamilyRESTController {
      */
     @PostMapping("/")
     public ResponseEntity<OutputFamilyDTO> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
-        InputPersonDTO inputPersonDTO = AddFamilyAndSetAdminDTOAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
-        InputFamilyDTO inputFamilyDTO = AddFamilyAndSetAdminDTOAssembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
+        InputPersonDTO inputPersonDTO = assembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
+        InputFamilyDTO inputFamilyDTO = assembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
 
         HttpStatus status;
         OutputFamilyDTO outputFamilyDTO;
