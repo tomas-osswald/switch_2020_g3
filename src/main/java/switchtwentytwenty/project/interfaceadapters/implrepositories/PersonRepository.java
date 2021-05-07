@@ -18,6 +18,7 @@ import java.util.*;
 @Repository
 public class PersonRepository implements IPersonRepository {
 
+
     private final List<Person> people = new ArrayList<>();
     private Map<PersonID, Person> peopleMap = new HashMap();
 
@@ -26,13 +27,14 @@ public class PersonRepository implements IPersonRepository {
     private PersonDataDomainAssembler personAssembler;
 
     @Autowired
-    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) {
+    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         this.personRepositoryJPA = iPersonRepositoryJPA;
         this.personAssembler = personDataDomainAssembler;
+
     }
 
 
-    public PersonRepository() {
+    public PersonRepository() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
     }
 
     @Deprecated
@@ -63,11 +65,6 @@ public class PersonRepository implements IPersonRepository {
         return emailIsRegistered;
     }
 
-    @Override
-    @Deprecated
-    public void updatePerson(Person person) {
-        this.peopleMap.put(person.id(), person);
-    }
 
     @Override
     public Person getByID(PersonID email) {
@@ -113,6 +110,16 @@ public class PersonRepository implements IPersonRepository {
             throw new PersonAlreadyRegisteredException("Person is already registered in the database");
         }
         return registeredPerson;
+    }
+
+    @Override
+    public Person updatePerson(Person person) {
+        PersonJPA personJPA = personAssembler.toData(person);
+        PersonJPA updatedPersonJPA = personRepositoryJPA.save(personJPA);
+        Person updatedPerson = personAssembler.toDomain(updatedPersonJPA);
+        return updatedPerson;
+
+
     }
 
  /*   private class People implements Iterable<Person>{
