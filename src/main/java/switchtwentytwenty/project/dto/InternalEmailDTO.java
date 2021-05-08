@@ -2,13 +2,13 @@ package switchtwentytwenty.project.dto;
 
 public class InternalEmailDTO {
 
+    private final String id;
     private final String email;
 
-    private final String id;
 
-    public InternalEmailDTO(String email, String id) {
-        this.email = email;
+    public InternalEmailDTO(String id, String email) {
         this.id = id;
+        this.email = email;
     }
 
     public String unpackEmail(){
