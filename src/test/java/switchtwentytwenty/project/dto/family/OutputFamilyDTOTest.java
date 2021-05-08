@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class OutputFamilyDTOTest {
 
     @Test
@@ -64,5 +66,28 @@ class OutputFamilyDTOTest {
 
         Assertions.assertNotEquals(outputFamilyDTO1.hashCode(), outputFamilyDTO2.hashCode());
         Assertions.assertNotSame(outputFamilyDTO1, outputFamilyDTO2);
+    }
+
+    @Test
+    void equalsSameObject() {
+        OutputFamilyDTO outputFamilyDTO1 = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");
+
+        assertEquals(outputFamilyDTO1, outputFamilyDTO1);
+    }
+
+    @Test
+    void equalsWithNull() {
+        OutputFamilyDTO outputFamilyDTO1 = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");
+        OutputFamilyDTO outputFamilyDTO2 = null;
+
+        assertNotEquals(outputFamilyDTO1, outputFamilyDTO2);
+    }
+
+    @Test
+    void equalsDifferentClass() {
+        OutputFamilyDTO outputFamilyDTO1 = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");
+        String outputFamilyDTO2 = "Silva";
+
+        assertNotEquals(outputFamilyDTO1, outputFamilyDTO2);
     }
 }
