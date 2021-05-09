@@ -24,11 +24,90 @@ class AddFamilyAndSetAdminDTOTest {
         AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
         assertNotEquals(dto1,dto2);
-        assertNotSame(dto1,dto2);
     }
 
     @Test
-    void getLocaDate() {
+    void testEqualsFailDifferentNames() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Costa", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentBirthDates() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "10/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentVatNumbers() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 199999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentPhoneNumbers() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 939999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentStreets() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua de Cima", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentCities() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Vila Norte", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentHouseNumbers() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "1200F", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentZipCodes() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentFamilyName() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Costa", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void testEqualsFailDifferentRegistrationDate() {
+        AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Silva", "01/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+        assertNotEquals(dtoOne,dtoTwo);
+    }
+
+    @Test
+    void getLocalDate() {
         AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
         String expectedLocalDate = "12/12/2000";

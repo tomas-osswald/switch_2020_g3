@@ -48,6 +48,15 @@ class FamilyIDJPATest {
 
     @Tag("US010")
     @Test
+    void equalsTestDifferentFromNull() {
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID);
+        String nullString = null;
+
+        assertNotEquals(familyIDJPA, nullString);
+    }
+
+    @Tag("US010")
+    @Test
     void testToString() {
         String expected = "1";
 

@@ -55,8 +55,9 @@ class PersonIDTest {
     @Test
     void equalsTestDifferentFromNull() {
         PersonID id = new PersonID("admin@gmail.com");
+        String nullString = null;
 
-        assertNotEquals(id, null);
+        assertNotEquals(id, nullString);
     }
 
     @Test

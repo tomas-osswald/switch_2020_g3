@@ -110,8 +110,9 @@ class AddEmailDTOTest {
     @Test
     void testEqualsDifferentFromNull() {
         AddEmailDTO addEmailDTO = new AddEmailDTO("tonyze@gmail.com", "tonyzealt@gmail.com");
+        String nullString = null;
 
-        assertNotEquals(addEmailDTO, null);
+        assertNotEquals(addEmailDTO, nullString);
     }
 
     @Test

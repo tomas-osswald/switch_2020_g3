@@ -1,12 +1,10 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import lombok.ToString;
 import switchtwentytwenty.project.exceptions.InvalidZipCodeException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@ToString
 public class ZipCode implements ValueObject {
 
     private String zipCode;

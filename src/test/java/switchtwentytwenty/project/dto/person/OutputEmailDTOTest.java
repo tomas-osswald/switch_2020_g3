@@ -55,8 +55,7 @@ class OutputEmailDTOTest {
     void testEqualsDifferentObjects() {
         OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
         outputEmailDTO.setEmailID("tony@gmail.com");
-        OutputEmailDTO notOutputEmailDTO = new OutputEmailDTO();
-        notOutputEmailDTO.setEmail("not the same");
+        String notOutputEmailDTO = "not a DTO";
 
         assertNotEquals(outputEmailDTO, notOutputEmailDTO);
     }
@@ -65,9 +64,21 @@ class OutputEmailDTOTest {
     void testEqualsDifferentFromNull() {
         OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
         outputEmailDTO.setEmail("tonyze@gmail.com");
+        String nullString = null;
 
-        assertNotEquals(outputEmailDTO, null);
+        assertNotEquals(outputEmailDTO, nullString);
     }
+
+    @Test
+    void testEqualsDifferentEmailIDsInDTOs() {
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO();
+        outputEmailDTOOne.setEmailID("tonyze@gmail.com");
+        outputEmailDTOTwo.setEmailID("tonyze2@gmail.com");
+
+        assertNotEquals(outputEmailDTOOne, outputEmailDTOTwo);
+    }
+
 
     @Test
     @DisplayName("Should return true if two identical OutputEmailDTO objects have their hashcodes compared")

@@ -49,6 +49,30 @@ class OutputFamilyDTOTest {
     }
 
     @Test
+    void testEqualsDifferentFamilyIDsInDTOs() {
+        OutputFamilyDTO outputFamilyDTOOne = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");
+        OutputFamilyDTO outputFamilyDTOTwo = new OutputFamilyDTO("Silva", "@admin@gmail.com", "silva@gmail.com", "12/12/1990");
+
+        Assertions.assertNotEquals(outputFamilyDTOOne, outputFamilyDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentAdminIDsInDTOs() {
+        OutputFamilyDTO outputFamilyDTOOne = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");
+        OutputFamilyDTO outputFamilyDTOTwo = new OutputFamilyDTO("Silva", "@silva@gmail.com", "admin@gmail.com", "12/12/1990");
+
+        Assertions.assertNotEquals(outputFamilyDTOOne, outputFamilyDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentRegistrationDatesInDTOs() {
+        OutputFamilyDTO outputFamilyDTOOne = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");
+        OutputFamilyDTO outputFamilyDTOTwo = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/2/2015");
+
+        Assertions.assertNotEquals(outputFamilyDTOOne, outputFamilyDTOTwo);
+    }
+
+    @Test
     @DisplayName("Should return true if two identical OutputFamilyDTO objects are compared using their hash code")
     void testHashCode() {
         OutputFamilyDTO outputFamilyDTO1 = new OutputFamilyDTO("Silva", "@silva@gmail.com", "silva@gmail.com", "12/12/1990");

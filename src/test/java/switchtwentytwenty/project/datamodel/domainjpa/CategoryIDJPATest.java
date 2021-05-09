@@ -64,6 +64,15 @@ class CategoryIDJPATest {
     }
 
     @Test
+    void categoryIDJPAEqualsTestDifferentFromNull(){
+        long id = 12L;
+        CategoryIDJPA categoryIDJPAOne = new CategoryIDJPA(id);
+        String nullString = null;
+
+        assertNotEquals(categoryIDJPAOne,nullString);
+    }
+
+    @Test
     void categoryIDJPAHashCodeSameHashCode(){
         long id = 12L;
         CategoryIDJPA categoryIDJPAOne = new CategoryIDJPA(id);

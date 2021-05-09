@@ -2,7 +2,6 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.deprecated.CCnumber;
 import switchtwentytwenty.project.domain.valueobject.*;
 
 class PersonRepositoryTest {
@@ -11,7 +10,6 @@ class PersonRepositoryTest {
     final String VALIDEMAIL = "tonyze@latinlover.pt";
     final int VALIDVATNUMBER = 999999999;
     final int VALIDPHONENUMBER = 916969696;
-    final String VALIDCCNUMBER = "156066866ZY1";
     final String VALIDSTREET = "Rua";
     final String VALIDCITY = "Ermesinde";
     final String VALIDZIPCODE = "4700-111";
@@ -23,7 +21,6 @@ class PersonRepositoryTest {
     VATNumber tonyZeVat;
     PhoneNumber tonyZePhone;
     Address tonyZeAddress;
-    CCnumber tonyZeCC;
     FamilyID familyID;
 
     @BeforeEach
@@ -34,7 +31,6 @@ class PersonRepositoryTest {
         tonyZeVat = new VATNumber(VALIDVATNUMBER);
         tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
         tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        tonyZeCC = new CCnumber(VALIDCCNUMBER);
         familyID = new FamilyID(VALIDEMAIL);
     }
 

@@ -104,6 +104,15 @@ class EmailAddressJPATest {
 
     @Test
     @Tag("US010")
+    void equalsTestDifferentFromNull() {
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        String nullString = null;
+
+        assertNotEquals(emailAddressJPA, nullString);
+    }
+
+    @Test
+    @Tag("US010")
     void hashCodeEqualObjects() {
         EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
 

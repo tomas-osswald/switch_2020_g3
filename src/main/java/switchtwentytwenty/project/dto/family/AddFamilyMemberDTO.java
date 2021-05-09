@@ -22,6 +22,7 @@ public class AddFamilyMemberDTO {
     private String houseNumber;
     private String zipCode;
 
+    //TODO: Duplication resolve-se com @Setters e Getters
 
     public String getAdminID() {
         return adminID;

@@ -186,8 +186,9 @@ class PersonTest {
     void equalsTestDifferentFromNull() {
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        String nullString = null;
 
-        assertNotEquals(person,null);
+        assertNotEquals(person,nullString);
     }
 
     @Test

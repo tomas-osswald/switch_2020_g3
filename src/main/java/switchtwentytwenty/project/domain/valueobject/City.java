@@ -1,11 +1,9 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import lombok.ToString;
 import switchtwentytwenty.project.exceptions.InvalidCityException;
 
 import java.util.Objects;
 
-@ToString
 public class City implements ValueObject {
 
 

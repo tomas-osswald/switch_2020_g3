@@ -54,8 +54,9 @@ class DoorNumberTest {
     @Tag("US010")
     void equalsTestDifferentFromNull(){
         DoorNumber doorNumber = new DoorNumber(VALIDNUMBER);
+        String nullString = null;
 
-        assertNotEquals(doorNumber,null);
+        assertNotEquals(doorNumber,nullString);
     }
 
     @Test

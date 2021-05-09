@@ -249,18 +249,47 @@ class OutputPersonDTOTest {
         Assertions.assertEquals(expected,result);
     }
 
-    //Address was replaced by Street, City, Zipcode and Doornumber
-    /*
+
     @Test
-    @DisplayName("Test to determine the correct function of the getAddress method")
-    void getAddress() {
-        outputPersonDTO.setAddress(ADDRESS);
-        String expected = "Address";
-        String result = outputPersonDTO.getAddress();
+    @DisplayName("Test to determine the correct function of the getStreet method")
+    void getStreetTest() {
+        outputPersonDTO.setStreet(STREET);
+        String expected = "street";
+        String result = outputPersonDTO.getStreet();
 
         Assertions.assertEquals(expected,result);
     }
-    */
+
+    @Test
+    @DisplayName("Test to determine the correct function of the getCity method")
+    void getCityTest() {
+        outputPersonDTO.setCity(CITY);
+        String expected = "city";
+        String result = outputPersonDTO.getCity();
+
+        Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    @DisplayName("Test to determine the correct function of the getZipCode method")
+    void getZipCodeTest() {
+        outputPersonDTO.setZipCode(ZIPCODE);
+        String expected = "zipCode";
+        String result = outputPersonDTO.getZipCode();
+
+        Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    @DisplayName("Test to determine the correct function of the getDoorNumber method")
+    void getDoorNumberTest() {
+        outputPersonDTO.setDoorNumber(DOORNUMBER);
+        String expected = "doorNumber";
+        String result = outputPersonDTO.getDoorNumber();
+
+        Assertions.assertEquals(expected,result);
+    }
+
     @Test
     @DisplayName("Test to determine the correct function of the getFamilyID method")
     void getFamilyID() {

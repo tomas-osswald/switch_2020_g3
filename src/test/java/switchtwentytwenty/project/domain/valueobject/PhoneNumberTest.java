@@ -74,8 +74,9 @@ class PhoneNumberTest {
     @Test
     void equalsTestDifferentFromNull() {
         PhoneNumber phoneNumber = new PhoneNumber(931234567);
+        String nullString = null;
 
-        assertNotEquals(phoneNumber, null);
+        assertNotEquals(phoneNumber, nullString);
     }
 
     @Test

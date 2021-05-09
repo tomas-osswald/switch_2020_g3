@@ -77,8 +77,9 @@ class CategoryNameTest {
     @Test
     void equalsTestDifferentFromNull(){
         CategoryName categoryName = new CategoryName("Utilities");
+        String nullString = null;
 
-        assertNotEquals(categoryName,null);
+        assertNotEquals(categoryName,nullString);
 
     }
 

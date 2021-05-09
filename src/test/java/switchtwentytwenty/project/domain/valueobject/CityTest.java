@@ -53,8 +53,9 @@ class CityTest {
     @Tag("US010")
     void equalsTestDifferentFromNull(){
         City city = new City(VALIDCITY);
+        String nullString = null;
 
-        assertNotEquals(city,null);
+        assertNotEquals(city,nullString);
     }
 
     @Test
