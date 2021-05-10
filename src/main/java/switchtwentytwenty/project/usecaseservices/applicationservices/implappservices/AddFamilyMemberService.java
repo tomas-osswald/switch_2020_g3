@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
-import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 @Service
@@ -17,22 +16,21 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 public class AddFamilyMemberService implements IAddFamilyMemberService {
 
     private IPersonRepository personRepository;
-    private IFamilyRepository familyRepository;
     private PersonDTODomainAssembler personDTODomainAssembler;
 
 
     @Autowired
-    public AddFamilyMemberService(IFamilyRepository familyRepository, IPersonRepository personRepository, PersonDTODomainAssembler personDTODomainAssembler) {
+    public AddFamilyMemberService(IPersonRepository personRepository, PersonDTODomainAssembler personDTODomainAssembler) {
         this.personRepository = personRepository;
         this.personDTODomainAssembler = personDTODomainAssembler;
-        this.familyRepository = familyRepository;
+
     }
 
 
-    public OutputPersonDTO addPerson(InternalAddFamilyMemberDTO internalAddFamilyMemberDTO) {
+    public OutputPersonDTO addPerson(InputAddFamilyMemberDTO internalAddFamilyMemberDTO) {
 
         PersonID loggedUserID = new PersonID(internalAddFamilyMemberDTO.getAdminID());
-        familyRepository.verifyAdmin(loggedUserID);
+
 
         FamilyID familyID = personRepository.getByID(loggedUserID).getFamilyID();
         Name name = personDTODomainAssembler.createName(internalAddFamilyMemberDTO);

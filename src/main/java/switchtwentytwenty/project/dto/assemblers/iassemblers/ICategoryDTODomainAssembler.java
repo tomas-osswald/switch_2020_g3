@@ -8,5 +8,6 @@ public interface ICategoryDTODomainAssembler {
 
     public OutputCategoryDTO toDTO(Category category);
 
-    public Category toDomain(InputCategoryDTO inputCategoryDTO);
+
+    //TODO: método para cada value object
 }

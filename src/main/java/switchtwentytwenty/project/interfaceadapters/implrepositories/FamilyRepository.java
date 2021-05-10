@@ -20,10 +20,6 @@ import java.util.*;
 @Repository
 public class FamilyRepository implements IFamilyRepository {
 
-    private final List<Family> families = new ArrayList<>();
-    private Map<FamilyID, Family> familyMap = new HashMap<>();
-
-
     private IFamilyRepositoryJPA familyRepositoryJPA;
 
     private FamilyDataDomainAssembler familyAssembler;
