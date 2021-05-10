@@ -1,8 +1,11 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
 
-import lombok.*;
-
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,11 +25,12 @@ public class PersonJPA {
     @Getter
     private String birthdate;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     private List<EmailAddressJPA> emails = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
     private List<PhoneNumberJPA> phones = new ArrayList<>();
 
     @Getter
@@ -49,7 +53,6 @@ public class PersonJPA {
         this.address = address;
         this.familyid = familyid;
     }
-
 
 
     @Override

@@ -2,10 +2,12 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.AddFamilyAndSetAdminDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
@@ -25,12 +27,24 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private ICreateFamilyService createFamilyService;
 
-    private AddFamilyAndSetAdminDTOAssembler assembler;
+    private FamilyInputDTOAssembler familyAssembler;
+
+    private PersonInputDTOAssembler personAssembler;
 
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, AddFamilyAndSetAdminDTOAssembler assembler) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler) {
         this.createFamilyService = createFamilyService;
-        this.assembler = assembler;
+        this.familyAssembler = familyAssembler;
+        this.personAssembler = personAssembler;
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Object> familiesOptions(){
+        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("Add New Family").withSelfRel();
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Allow", "POST, OPTIONS");
+        return new ResponseEntity<>(linkToAddFamily,responseHeaders,HttpStatus.OK);
     }
 
     /**
@@ -39,10 +53,10 @@ public class FamilyRESTController implements IFamilyRESTController {
      * @param addFamilyAndSetAdminDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<OutputFamilyDTO> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
-        InputPersonDTO inputPersonDTO = assembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
-        InputFamilyDTO inputFamilyDTO = assembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
+        InputPersonDTO inputPersonDTO = personAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
+        InputFamilyDTO inputFamilyDTO = familyAssembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
 
         HttpStatus status;
         OutputFamilyDTO outputFamilyDTO;

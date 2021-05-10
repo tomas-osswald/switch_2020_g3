@@ -13,10 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class AddFamilyAndSetAdminDTOAssemblerTest {
+class FamilyInputDTOAssemblerTest {
 
     @Autowired
-    AddFamilyAndSetAdminDTOAssembler assembler;
+    FamilyInputDTOAssembler familyAssembler;
+
+    @Autowired
+    PersonInputDTOAssembler personAssembler;
+
+
 
     @Test
     void toInputPersonDTO() {
@@ -25,7 +30,7 @@ class AddFamilyAndSetAdminDTOAssemblerTest {
 
         InputPersonDTO expected = new InputPersonDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123");
 
-        InputPersonDTO result = assembler.toInputPersonDTO(dto);
+        InputPersonDTO result = personAssembler.toInputPersonDTO(dto);
 
         assertEquals(expected, result);
         assertNotNull(result);
@@ -38,7 +43,7 @@ class AddFamilyAndSetAdminDTOAssemblerTest {
 
         InputFamilyDTO expected = new InputFamilyDTO("Silva", "12/12/2000");
 
-        InputFamilyDTO result = assembler.toInputFamilyDTO(dto);
+        InputFamilyDTO result = familyAssembler.toInputFamilyDTO(dto);
 
         assertEquals(expected, result);
         assertNotNull(result);

@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto.assemblers.implassemblers;
+package switchtwentytwenty.project.domain.aggregates.account;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.account.Account;
 
 @Component
-public class AccountDTODomainAssembler {
+public class AccountFactory {
 
     @Autowired
     private Environment environment;
-
 
     //Isto nao aceita só uma String, aceita um DTO que tem lá o string do account type. Terá de ser adaptado
     public Account createAccount(String accountType) {

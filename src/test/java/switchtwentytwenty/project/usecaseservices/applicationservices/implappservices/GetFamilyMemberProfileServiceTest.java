@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.InternalGetProfileDTO;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -25,7 +25,7 @@ class GetFamilyMemberProfileServiceTest {
     IPersonRepository personRepository;
 
     @Mock
-    PersonToDTO mockPersonToDTO;
+    PersonDTODomainAssembler mockPersonToDTO;
 
     @Mock
     Person person;
@@ -36,13 +36,13 @@ class GetFamilyMemberProfileServiceTest {
 
     @Test
     void getFamilyMemberProfileTest() {
-        InternalGetProfileDTO internalGetProfileDTO = new InternalGetProfileDTO();
+        InputGetProfileDTO internalGetProfileDTO = new InputGetProfileDTO();
         internalGetProfileDTO.setId("person@email.pt");
 
         OutputPersonDTO profileDTO = new OutputPersonDTO();
         PersonID personID = new PersonID("person@email.pt");
         Mockito.when(personRepository.getByID(personID)).thenReturn(person);
-        Mockito.when(mockPersonToDTO.createPersonProfileDTO(person)).thenReturn(profileDTO);
+        Mockito.when(mockPersonToDTO.toDTO(person)).thenReturn(profileDTO);
 
         OutputPersonDTO expected = new OutputPersonDTO();
 

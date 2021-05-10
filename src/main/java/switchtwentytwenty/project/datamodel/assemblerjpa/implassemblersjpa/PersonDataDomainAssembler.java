@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IPersonDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDataDomainAssembler {
+public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
     /**
      * Assembler method to convert a Person domain object into a PersonJPA data object.
      *
