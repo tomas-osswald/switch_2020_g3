@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.InternalProfileDTO;
+import switchtwentytwenty.project.dto.InternalGetProfileDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -36,8 +36,8 @@ class GetFamilyMemberProfileServiceTest {
 
     @Test
     void getFamilyMemberProfileTest() {
-        InternalProfileDTO internalProfileDTO = new InternalProfileDTO();
-        internalProfileDTO.setId("person@email.pt");
+        InternalGetProfileDTO internalGetProfileDTO = new InternalGetProfileDTO();
+        internalGetProfileDTO.setId("person@email.pt");
 
         OutputPersonDTO profileDTO = new OutputPersonDTO();
         PersonID personID = new PersonID("person@email.pt");
@@ -46,7 +46,7 @@ class GetFamilyMemberProfileServiceTest {
 
         OutputPersonDTO expected = new OutputPersonDTO();
 
-        OutputPersonDTO result = getFamilyMemberProfileService.getFamilyMemberProfile(internalProfileDTO);
+        OutputPersonDTO result = getFamilyMemberProfileService.getFamilyMemberProfile(internalGetProfileDTO);
 
         assertNotSame(expected, result);
         assertEquals(expected, result);

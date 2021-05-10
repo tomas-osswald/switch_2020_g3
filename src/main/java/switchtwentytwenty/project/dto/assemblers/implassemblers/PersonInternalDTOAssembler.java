@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.dto.InternalProfileDTO;
+import switchtwentytwenty.project.dto.InternalGetProfileDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 
@@ -26,10 +26,10 @@ public class PersonInternalDTOAssembler {
         return InternalAddFamilyMemberDTO;
     }
 
-    public InternalProfileDTO toInternalProfileDTO(String personID){
-        InternalProfileDTO internalProfileDTO = new InternalProfileDTO();
-        internalProfileDTO.setId(personID);
-        return  internalProfileDTO;
+    public InternalGetProfileDTO toInternalGetProfileDTO(String personID){
+        InternalGetProfileDTO internalGetProfileDTO = new InternalGetProfileDTO();
+        internalGetProfileDTO.setId(personID);
+        return internalGetProfileDTO;
     }
 
 }

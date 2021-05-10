@@ -64,7 +64,7 @@ class PersonRESTControllerTest {
     GetProfileInfoDTO getProfileInfoDTO;
 
     @Mock
-    InternalProfileDTO anInternalProfileDTO;
+    InternalGetProfileDTO anInternalGetProfileDTO;
 
     @Mock
     InternalAddFamilyMemberDTO anInternalAddFamilyMemberDTO;
@@ -151,8 +151,8 @@ class PersonRESTControllerTest {
     @Test
     void successCaseInGetProfileInfo() {
 
-        Mockito.when(profileInternalExternalAssembler.toInternalProfileDTO(emailAddressAsID)).thenReturn(anInternalProfileDTO);
-        Mockito.when(getFamilyMemberProfileService.getFamilyMemberProfile(anInternalProfileDTO)).thenReturn(outputPersonDTO);
+        Mockito.when(profileInternalExternalAssembler.toInternalGetProfileDTO(emailAddressAsID)).thenReturn(anInternalGetProfileDTO);
+        Mockito.when(getFamilyMemberProfileService.getFamilyMemberProfile(anInternalGetProfileDTO)).thenReturn(outputPersonDTO);
 
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         Link link = linkTo(methodOn(PersonRESTController.class).getPersonOptions(getProfileInfoDTO.getPersonID())).withSelfRel();

@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.family.InputFamilyDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.family.InputFamilyDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
@@ -41,8 +40,17 @@ public class CreateFamilyService implements ICreateFamilyService {
     public OutputFamilyDTO createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         PersonID adminID = new PersonID(inputPersonDTO.unpackEmail());
         FamilyID familyID = new FamilyID(inputPersonDTO.unpackEmail());
-        Person admin = personDTODomainAssembler.toDomain(inputPersonDTO, familyID);
-        Family family = familyDTODomainAssembler.toDomain(inputFamilyDTO, familyID, adminID);
+
+        Name name = personDTODomainAssembler.createName(inputPersonDTO);
+        BirthDate birthDate = personDTODomainAssembler.createBirthDate(inputPersonDTO);
+        VATNumber vat = personDTODomainAssembler.createVATNumber(inputPersonDTO);
+        PhoneNumber phone = personDTODomainAssembler.createPhoneNumber(inputPersonDTO);
+        Address address = personDTODomainAssembler.createAddress(inputPersonDTO);
+        Person admin = new Person(name, birthDate, adminID, vat, phone, address, familyID);
+
+        FamilyName familyName = familyDTODomainAssembler.createFamilyName(inputFamilyDTO);
+        RegistrationDate registrationDate = familyDTODomainAssembler.createRegistrationDate(inputFamilyDTO);
+        Family family = new Family(familyID, familyName, registrationDate, adminID);
 
         personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
