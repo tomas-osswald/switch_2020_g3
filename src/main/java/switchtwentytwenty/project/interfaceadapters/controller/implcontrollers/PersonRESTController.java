@@ -59,7 +59,7 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @Override
-    @PostMapping("/add/")
+    @PostMapping
     public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
         InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = familyMemberExternalInternalAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
 
@@ -85,7 +85,7 @@ public class PersonRESTController implements IPersonRESTController {
         PersonOptionsDTO personOptionsDTO = new PersonOptionsDTO();
         Link getProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withRel("Get Profile Info").withType("GET");
         personOptionsDTO.add(getProfileInfo);
-        return new ResponseEntity<PersonOptionsDTO>(personOptionsDTO, HttpStatus.OK);
+        return new ResponseEntity<>(personOptionsDTO, HttpStatus.OK);
     }
 
 

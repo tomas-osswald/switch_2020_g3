@@ -13,10 +13,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -55,6 +61,46 @@ class PersonRESTControllerIntegrationTestITDB {
         ResponseEntity<Object> result = personRESTController.addEmail(emailToAddDTO);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Integration Test for Successfully adding a new Family Member")
+    @Disabled
+    void addFamilyMemberSuccessIT() {
+        List<Integer> phones = new ArrayList<>();
+        phones.add(919999999);
+        OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+        expectedOutputPersonDTO.setName("Kiko");
+        expectedOutputPersonDTO.setId("kiko@gmail.com");
+        expectedOutputPersonDTO.setBirthdate("12/12/1222");
+        expectedOutputPersonDTO.setVat("123456789");
+        expectedOutputPersonDTO.setStreet("rua");
+        expectedOutputPersonDTO.setCity("cidade");
+        expectedOutputPersonDTO.setZipCode("1234-123");
+        expectedOutputPersonDTO.setDoorNumber("69");
+        expectedOutputPersonDTO.setFamilyID("tonyze@latinlover.com");
+        expectedOutputPersonDTO.setPhoneNumbers(phones);
+
+        Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(expectedOutputPersonDTO.getId())).withRel("Person Options");
+        expectedOutputPersonDTO.add(personOptionsLink);
+        ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
+
+        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
+        addFamilyMemberDTO.setAdminID("tonyze@latinlover.com");
+        addFamilyMemberDTO.setEmailID("kiko@gmail.com");
+        addFamilyMemberDTO.setName("Kiko");
+        addFamilyMemberDTO.setBirthDate("12/12/1222");
+        addFamilyMemberDTO.setVatNumber(123456789);
+        addFamilyMemberDTO.setPhone(919999999);
+        addFamilyMemberDTO.setStreet("rua");
+        addFamilyMemberDTO.setCity("cidade");
+        addFamilyMemberDTO.setHouseNumber("69");
+        addFamilyMemberDTO.setZipCode("1234-123");
+        ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
+
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+
     }
 
 }

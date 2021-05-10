@@ -1,8 +1,9 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
 
-import lombok.*;
-
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,7 +50,6 @@ public class PersonJPA {
         this.address = address;
         this.familyid = familyid;
     }
-
 
 
     @Override
