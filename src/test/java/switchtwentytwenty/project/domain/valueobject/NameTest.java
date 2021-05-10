@@ -75,8 +75,9 @@ public class NameTest {
     void equalsTestDifferentFromNull() {
         String nameOne = "Jessica";
         Name personName = new Name(nameOne);
+        String nullString = null;
 
-        assertNotEquals(null, personName);
+        assertNotEquals(personName,nullString);
     }
 
     @Test

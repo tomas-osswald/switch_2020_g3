@@ -29,8 +29,9 @@ class RelationDesignationTest {
     @Test
     void equalsTestDifferentFromNull(){
         RelationDesignation relationDesignation = new RelationDesignation(designation);
+        String nullString = null;
 
-        assertNotEquals(null,relationDesignation);
+        assertNotEquals(relationDesignation,nullString);
     }
 
     @Test

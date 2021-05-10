@@ -27,6 +27,30 @@ class InputFamilyDTOTest {
         assertNotSame(inputFamilyDTO1, inputFamilyDTO2);
     }
 
+    @Test
+    void testEqualsDifferentObjects() {
+        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "12/12/1990");
+        String notDTO = "Not a DTO";
+
+        assertNotEquals(inputFamilyDTO, notDTO);
+    }
+
+    @Test
+    void testEqualsDifferentFromNull() {
+        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "12/12/1990");
+        String nullString = null;
+
+        assertNotEquals(inputFamilyDTO, nullString);
+    }
+
+
+    @Test
+    void testEqualsSameDTO() {
+        InputFamilyDTO inputFamilyDTOOne = new InputFamilyDTO("Silva", "12/12/1990");
+        InputFamilyDTO inputFamilyDTOTwo = inputFamilyDTOOne;
+
+        assertEquals(inputFamilyDTOOne, inputFamilyDTOTwo);
+    }
 
     @Test
     @DisplayName("Should return true if two identical InputFamilyDTO objects are compared using their hash codes")

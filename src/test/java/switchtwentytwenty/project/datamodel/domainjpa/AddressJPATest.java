@@ -130,10 +130,40 @@ class AddressJPATest {
 
     @Test
     @Tag("US010")
-    void testEqualsDifferentAddressJPAs() {
+    void testEqualsDifferentStreetAddressJPAs() {
         AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
         String otherStreet = "Rua de Baixo";
         AddressJPA addressJPATwo = new AddressJPA(otherStreet, city, zip, doorNumber, personJPA);
+
+        assertNotEquals(addressJPAOne, addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentCityAddressJPAs() {
+        AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        String otherCity = "Vila Nova de Gaia";
+        AddressJPA addressJPATwo = new AddressJPA(street, otherCity, zip, doorNumber, personJPA);
+
+        assertNotEquals(addressJPAOne, addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentZipCodeAddressJPAs() {
+        AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        String otherZip = "4130-155";
+        AddressJPA addressJPATwo = new AddressJPA(street, city, otherZip, doorNumber, personJPA);
+
+        assertNotEquals(addressJPAOne, addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentDoorNumberAddressJPAs() {
+        AddressJPA addressJPAOne = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        String otherDoorNumber = "44F";
+        AddressJPA addressJPATwo = new AddressJPA(street, city, zip, otherDoorNumber, personJPA);
 
         assertNotEquals(addressJPAOne, addressJPATwo);
     }
@@ -145,6 +175,15 @@ class AddressJPATest {
         String notAddressJPA = "Rua de Baixo";
 
         assertNotEquals(addressJPA, notAddressJPA);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentFromNull() {
+        AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
+        String nullString = null;
+
+        assertNotEquals(addressJPA, nullString);
     }
 
     @Test

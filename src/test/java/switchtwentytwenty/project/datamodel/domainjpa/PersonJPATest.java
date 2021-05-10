@@ -107,6 +107,15 @@ class PersonJPATest {
 
     @Test
     @Tag("US010")
+    void testEqualsDifferentFromNull() {
+        PersonJPA personJPAOne = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
+        String nullString = null;
+
+        assertNotEquals(personJPAOne,nullString);
+    }
+
+    @Test
+    @Tag("US010")
     void testEqualsDifferentPersonJPA() {
         PersonJPA personJPAOne = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
         PersonJPA personJPATwo = new PersonJPA(personIDJPAOther, "otherPerson", birthdate, vat, familyIDJPA);

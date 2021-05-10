@@ -18,8 +18,6 @@ public interface IPersonRESTController {
 
     public ResponseEntity<OutputPersonDTO> getProfileInfo(GetProfileInfoDTO getProfileInfoDTO);
 
-    public ResponseEntity<Object> getPersonID(GetProfileInfoDTO getProfileInfoDTO);
-
     public ResponseEntity<PersonOptionsDTO> getPersonOptions(String personID);
 
     public ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO);

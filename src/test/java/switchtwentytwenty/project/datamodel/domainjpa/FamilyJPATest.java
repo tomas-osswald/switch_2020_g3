@@ -97,6 +97,14 @@ class FamilyJPATest {
     }
 
     @Test
+    void equalsTestDifferentFromNull(){
+        FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        String nullString = null;
+
+        assertNotEquals(familyJPAOne,nullString);
+    }
+
+    @Test
     void hashCodeEqualFamily() {
         FamilyJPA familyJPAOne = new FamilyJPA(familyID,familyName,registrationDate,adminID);
         FamilyJPA familyJPATwo = new FamilyJPA(familyID,familyName,registrationDate,adminID);

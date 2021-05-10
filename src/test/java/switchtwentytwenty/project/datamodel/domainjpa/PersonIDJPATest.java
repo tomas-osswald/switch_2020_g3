@@ -58,6 +58,15 @@ class PersonIDJPATest {
         assertNotEquals(personIDJPA, personID);
     }
 
+    @Tag("US010")
+    @Test
+    void equalsTestDifferentFromNull() {
+        PersonIDJPA personIDJPA = new PersonIDJPA(personID);
+        String nullString = null;
+
+        assertNotEquals(personIDJPA, nullString);
+    }
+
     @Test
     void hashCodeSameHashCode(){
         PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);

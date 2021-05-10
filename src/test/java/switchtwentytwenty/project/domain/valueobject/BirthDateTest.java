@@ -68,8 +68,9 @@ class BirthDateTest {
     @Test
     void equalsTestDifferentFromNull(){
         BirthDate birthDate = new BirthDate("01/03/2021");
+        String nullString = null;
 
-        assertNotEquals(null,birthDate);
+        assertNotEquals(birthDate,nullString);
     }
 
     @Test

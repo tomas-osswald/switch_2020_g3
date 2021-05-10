@@ -54,8 +54,9 @@ class StreetTest {
     @Tag("US010")
     void equalsTestDifferentFromNull(){
         Street streetOne = new Street(VALIDSTREET);
+        String nullString = null;
 
-        assertNotEquals(null,streetOne);
+        assertNotEquals(streetOne,nullString);
     }
 
     @Test

@@ -95,6 +95,21 @@ class PersonTest {
     }
 
     @Test
+    void addEmailTestShouldNotThrowException() {
+        Name tonyZeName = new Name(VALIDNAME);
+        BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        String otherEmail = "otherEmail@gmail.com";
+        EmailAddress emailToAdd = new EmailAddress(otherEmail);
+
+        assertDoesNotThrow(() -> tonyZe.addEmail(emailToAdd));
+    }
+
+    @Test
     void addEmailTestAlreadyRegisteredAsPrimaryShouldThrowException() {
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
@@ -160,10 +175,20 @@ class PersonTest {
     @Tag("US010")
     void equalsTestDifferentObjects() {
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
-        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         String notAPerson = "Jessica@gmail.com";
 
-        assertNotEquals(personOne,notAPerson);
+        assertNotEquals(person,notAPerson);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestDifferentFromNull() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        String nullString = null;
+
+        assertNotEquals(person,nullString);
     }
 
     @Test

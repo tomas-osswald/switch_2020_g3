@@ -91,6 +91,16 @@ class PhoneNumberJPATest {
 
     @Test
     @Tag("US010")
+    void testEqualsDifferentFromNull() {
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
+        String nullString = null;
+
+        assertNotEquals(phoneNumberJPAOne,nullString);
+    }
+
+
+    @Test
+    @Tag("US010")
     void testEqualsNotEqual() {
         PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;

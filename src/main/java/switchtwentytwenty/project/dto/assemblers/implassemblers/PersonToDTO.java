@@ -24,10 +24,13 @@ public class PersonToDTO {
         List<String> emails = generateEmailLists(person);
         String vat = person.getVat().toString();
         List<Integer> phoneNumbers = generatePhoneNumberList(person);
-        String address = person.getAddress().toString();
+        String street = person.getAddress().getStreet();
+        String city = person.getAddress().getCity();
+        String zipCode = person.getAddress().getZipCode();
+        String doorNumber = person.getAddress().getDoorNumber();
         String familyID = person.getFamilyID().toString();
 
-        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(id,name,birthdate,emails,phoneNumbers,vat,address,familyID);
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(id,name,birthdate,emails,phoneNumbers,vat,street, city, zipCode, doorNumber,familyID);
         return outputPersonDTO;
     }
 

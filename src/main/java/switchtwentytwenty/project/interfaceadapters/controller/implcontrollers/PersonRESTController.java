@@ -40,6 +40,13 @@ public class PersonRESTController implements IPersonRESTController {
         return null;
     }
 
+    /**
+     * Not a User Story method. This method exists to allow access to an added email. It's supposed to be an Options method
+     * to be included after the addEmail method successfully adds an email to a person.
+     * @param personID
+     * @param emailID
+     * @return A string with the person id to access the person resource and a string with the added email id to access the added resource.
+     */
     @Override
     public ResponseEntity<Object> getEmail(String personID, String emailID) {
         return null;

@@ -1,12 +1,10 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import lombok.ToString;
 import switchtwentytwenty.project.exceptions.InvalidZipCodeException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@ToString
 public class ZipCode implements ValueObject {
 
     private String zipCode;
@@ -36,7 +34,7 @@ public class ZipCode implements ValueObject {
     private boolean validateZipCode() {
         String regex = "\\d{4}(-\\d{3})?";
         boolean result;
-        if (zipCode == null || zipCode.trim().length() == 0 || zipCode.isEmpty()) {
+        if (zipCode == null || zipCode.trim().length() == 0) {
             result = false;
         } else {
             result = Pattern.matches(regex, zipCode);
