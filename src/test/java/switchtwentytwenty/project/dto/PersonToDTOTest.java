@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -108,9 +107,9 @@ class PersonToDTOTest {
         Mockito.when(person.getFamilyID()).thenReturn(familyID);
         Mockito.when(person.getPhoneNumbers()).thenReturn(phoneNumbers);
 
-        List<String> expected = new ArrayList<>();
-        expected.add("919999999");
-        expected.add("918888888");
+        List<Integer> expected = new ArrayList<>();
+        expected.add(919999999);
+        expected.add(918888888);
 
         OutputPersonDTO result = personToDTO.createPersonProfileDTO(person);
 

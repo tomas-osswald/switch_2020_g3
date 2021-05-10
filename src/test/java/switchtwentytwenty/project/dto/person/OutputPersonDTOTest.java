@@ -14,8 +14,8 @@ class OutputPersonDTOTest {
     String BIRTHDATE = "12/12/1222";
     List<String> EMAILLIST = new ArrayList<String>();
     List<String> EMAILLISTTWO = new ArrayList<String>();
-    List<String> PHONELIST = new ArrayList<String>();
-    List<String> PHONELISTTWO = new ArrayList<String>();
+    List<Integer> PHONELIST = new ArrayList<Integer>();
+    List<Integer> PHONELISTTWO = new ArrayList<Integer>();
     String VAT = "123456789";
     String ADDRESS = "Address";
     String FAMILYID = "@tony@gmail.com";
@@ -71,7 +71,7 @@ class OutputPersonDTOTest {
     @DisplayName("Should return false if two  OutputPersonDTO objects with different PhoneNumbers are compared using the equals method")
     void testEqualsFalseDifferentPhoneNumbers() {
         OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT,ADDRESS,FAMILYID);
-        PHONELISTTWO.add("911234567");
+        PHONELISTTWO.add(911234567);
         OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELISTTWO,VAT,ADDRESS,FAMILYID);
 
         Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
@@ -195,14 +195,14 @@ class OutputPersonDTOTest {
     @Test
     @DisplayName("Test to determine the correct function of the getPhoneNumbers method")
     void getPhoneNumbers() {
-        PHONELIST.add("919999999");
-        PHONELIST.add("918888888");
+        PHONELIST.add(919999999);
+        PHONELIST.add(918888888);
         outputPersonDTO.setPhoneNumbers(PHONELIST);
-        List<String> expected = new ArrayList<String>();
-        expected.add("919999999");
-        expected.add("918888888");
+        List<Integer> expected = new ArrayList<Integer>();
+        expected.add(919999999);
+        expected.add(918888888);
 
-        List<String> result = outputPersonDTO.getPhoneNumbers();
+        List<Integer> result = outputPersonDTO.getPhoneNumbers();
 
         Assertions.assertEquals(expected,result);
         Assertions.assertNotSame(expected,result);

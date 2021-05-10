@@ -5,10 +5,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
-
 import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
@@ -48,8 +46,8 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @Override
-    @PostMapping("/add")
-    public ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO) {
+    @PostMapping("/add/")
+    public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
         FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler = new FamilyMemberExternalInternalAssembler();
         InternalFamilyMemberDTO internalFamilyMemberDTO = familyMemberExternalInternalAssembler.toInner(addFamilyMemberDTO);
 
@@ -62,10 +60,10 @@ public class PersonRESTController implements IPersonRESTController {
 
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withSelfRel();
             outputPersonDTO.add(personOptionsLink);
-            return new ResponseEntity<OutputPersonDTO>(outputPersonDTO, status);
+            return new ResponseEntity<>(outputPersonDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity("Error", status);
+            return new ResponseEntity("Error: " + e.getMessage(), status);
         }
 
     }
@@ -85,7 +83,7 @@ public class PersonRESTController implements IPersonRESTController {
         return null;
     }
 
-    public ResponseEntity<Object> getPersonID (GetProfileInfoDTO getProfileInfoDTO) {
+    public ResponseEntity<Object> getPersonID(GetProfileInfoDTO getProfileInfoDTO) {
         return null;
     }
 

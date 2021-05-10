@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
@@ -24,7 +23,7 @@ public class PersonToDTO {
         String birthdate = person.getBirthdate().toString();
         List<String> emails = generateEmailLists(person);
         String vat = person.getVat().toString();
-        List<String> phoneNumbers = generatePhoneNumberList(person);
+        List<Integer> phoneNumbers = generatePhoneNumberList(person);
         String address = person.getAddress().toString();
         String familyID = person.getFamilyID().toString();
 
@@ -32,14 +31,14 @@ public class PersonToDTO {
         return outputPersonDTO;
     }
 
-    private List<String> generatePhoneNumberList(Person person) {
-        List<String> stringPhoneNumbers = new ArrayList<>();
+    private List<Integer> generatePhoneNumberList(Person person) {
+        List<Integer> integersPhoneNumbers = new ArrayList<>();
         if (!person.getPhoneNumbers().isEmpty()) {
             for (PhoneNumber phoneNumber : person.getPhoneNumbers()) {
-                stringPhoneNumbers.add(phoneNumber.toString());
+                integersPhoneNumbers.add(phoneNumber.getNumber());
             }
         }
-        return stringPhoneNumbers;
+        return integersPhoneNumbers;
     }
 
     private List<String> generateEmailLists(Person person) {
