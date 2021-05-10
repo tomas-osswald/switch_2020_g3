@@ -5,5 +5,7 @@ import switchtwentytwenty.project.domain.valueobject.AccountID;
 
 public interface IAccountRepository extends Repository<Account, AccountID> {
 
-    Account add(Account account);
+    Account add(Account entity);
+
+    Account getById(AccountID id);
 }
