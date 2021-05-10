@@ -8,12 +8,12 @@ import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import java.util.*;
+import java.util.Optional;
 
 @Repository
 public class PersonRepository implements IPersonRepository {
@@ -57,8 +57,12 @@ public class PersonRepository implements IPersonRepository {
     private Person retrievePersonFromRepository(PersonID id) {
         PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
         Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+        if(personJPA.isPresent()){
         Person person = personAssembler.toDomain(personJPA.get());
         return person;
+        }else{
+            throw new EmailNotRegisteredException();
+        }
     }
 
 

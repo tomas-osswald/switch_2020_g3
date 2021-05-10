@@ -27,12 +27,12 @@ public class StandardCategory implements Category {
 
     @Override
     public CategoryID id() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean hasID(CategoryID id) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override

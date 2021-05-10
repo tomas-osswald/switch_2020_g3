@@ -65,10 +65,11 @@ class PersonRESTControllerIntegrationTestITDB {
 
     @Test
     @DisplayName("Integration Test for Successfully adding a new Family Member")
-    @Disabled
+
     void addFamilyMemberSuccessIT() {
         List<Integer> phones = new ArrayList<>();
         phones.add(919999999);
+        List<String> emails = new ArrayList<>();
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         expectedOutputPersonDTO.setName("Kiko");
         expectedOutputPersonDTO.setId("kiko@gmail.com");
@@ -78,12 +79,12 @@ class PersonRESTControllerIntegrationTestITDB {
         expectedOutputPersonDTO.setCity("cidade");
         expectedOutputPersonDTO.setZipCode("1234-123");
         expectedOutputPersonDTO.setDoorNumber("69");
-        expectedOutputPersonDTO.setFamilyID("tonyze@latinlover.com");
+        expectedOutputPersonDTO.setFamilyID("@tonyze@latinlover.com");
         expectedOutputPersonDTO.setPhoneNumbers(phones);
-
+        expectedOutputPersonDTO.setEmails(emails);
         Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(expectedOutputPersonDTO.getId())).withRel("Person Options");
         expectedOutputPersonDTO.add(personOptionsLink);
-        ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
+        ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.CREATED);
 
         AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
         addFamilyMemberDTO.setAdminID("tonyze@latinlover.com");
@@ -91,15 +92,17 @@ class PersonRESTControllerIntegrationTestITDB {
         addFamilyMemberDTO.setName("Kiko");
         addFamilyMemberDTO.setBirthDate("12/12/1222");
         addFamilyMemberDTO.setVatNumber(123456789);
-        addFamilyMemberDTO.setPhone(919999999);
+       addFamilyMemberDTO.setPhone(919999999);
         addFamilyMemberDTO.setStreet("rua");
         addFamilyMemberDTO.setCity("cidade");
         addFamilyMemberDTO.setHouseNumber("69");
         addFamilyMemberDTO.setZipCode("1234-123");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
+        assertEquals(expected.getBody(),result.getBody());
+        assertEquals(expected.getStatusCode(),result.getStatusCode());
         assertNotSame(expected, result);
-        assertEquals(expected, result);
+
 
     }
 

@@ -35,17 +35,19 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
         this.familyID = familyID;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OutputPersonDTO that = (OutputPersonDTO) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(birthdate, that.birthdate) && Objects.equals(emails, that.emails) && Objects.equals(phoneNumbers, that.phoneNumbers) && Objects.equals(vat, that.vat) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(zipCode, that.zipCode) && Objects.equals(doorNumber, that.doorNumber) && Objects.equals(familyID, that.familyID);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, birthdate, emails, phoneNumbers, vat, street, city, zipCode, doorNumber, familyID);
+        return Objects.hash(super.hashCode(), id, name, birthdate, emails, phoneNumbers, vat, street, city, zipCode, doorNumber, familyID);
     }
 
     public String getId() {
