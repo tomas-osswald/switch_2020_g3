@@ -33,6 +33,7 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
 
         PersonID loggedUserID = new PersonID(internalAddFamilyMemberDTO.getAdminID());
         familyRepository.verifyAdmin(loggedUserID);
+
         FamilyID familyID = personRepository.getByID(loggedUserID).getFamilyID();
         Name name = personDTODomainAssembler.createName(internalAddFamilyMemberDTO);
         BirthDate birthDate = personDTODomainAssembler.createBirthDate(internalAddFamilyMemberDTO);
