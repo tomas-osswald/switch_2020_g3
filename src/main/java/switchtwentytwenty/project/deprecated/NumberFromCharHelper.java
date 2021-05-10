@@ -1,7 +1,11 @@
-package switchtwentytwenty.project.util;
+package switchtwentytwenty.project.deprecated;
 
 import switchtwentytwenty.project.exceptions.InvalidCharException;
 
+/**
+ * @Deprecated because CC Number is no longer in use
+ */
+@Deprecated
 public class NumberFromCharHelper {
 
     public static int getNumberFromChar(char letter) {

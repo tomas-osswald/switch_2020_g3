@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ProfileOutputDTOTest {
+class OutputProfileDTOTest {
     OutputProfileDTO profileOutputDTO = new OutputProfileDTO();
     String ID = "tony@gmail.com";
     String NAME = "Tony";

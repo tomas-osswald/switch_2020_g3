@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class AddFamilyMemberServiceIntegrationTest {
+class AddFamilyMemberServiceIT {
 
     @Autowired
     PersonRepository personRepository;

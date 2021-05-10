@@ -41,8 +41,9 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class CreateFamilyControllerIntegrationTest {
+class CreateFamilyControllerIT {
 
+    /*
     CreateFamilyController controller;
 
     // CreateFamilyService
@@ -149,5 +150,5 @@ class CreateFamilyControllerIntegrationTest {
 
         assertFalse(controller.createFamilyAndSetAdmin(INVALIDCreateFamilyDTO, inputPersonDTO));
     }
-
+*/
 }

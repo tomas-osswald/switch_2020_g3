@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 //@ContextConfiguration(classes = {Person.class, PersonToDTO.class})
-class PersonToDTOTest {
+class PersonDTODomainAssemblerTest {
 
 
     Name name = new Name("TonyZe");

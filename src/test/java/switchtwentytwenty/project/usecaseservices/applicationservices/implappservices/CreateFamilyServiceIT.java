@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class CreateFamilyServiceIntegrationTest {
+class CreateFamilyServiceIT {
 
 
     CreateFamilyService createFamilyService;

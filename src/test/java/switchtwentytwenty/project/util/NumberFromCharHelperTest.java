@@ -3,6 +3,7 @@ package switchtwentytwenty.project.util;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import switchtwentytwenty.project.deprecated.NumberFromCharHelper;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 class GetFamilyMemberProfileControllerTest {
-
+/*
     OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
 
     @Mock
@@ -47,5 +47,5 @@ class GetFamilyMemberProfileControllerTest {
     @Test
     void testGetFamilyMemberProfileFailCase() {
 
-    }
+    }*/
 }
