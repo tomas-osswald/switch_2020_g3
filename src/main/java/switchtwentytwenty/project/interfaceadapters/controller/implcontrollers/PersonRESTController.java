@@ -59,7 +59,7 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @Override
-    @PostMapping("/add/")
+    @PostMapping
     public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
         InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = familyMemberExternalInternalAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
 

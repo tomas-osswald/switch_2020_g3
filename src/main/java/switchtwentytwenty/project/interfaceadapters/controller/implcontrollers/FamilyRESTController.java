@@ -39,7 +39,7 @@ public class FamilyRESTController implements IFamilyRESTController {
      * @param addFamilyAndSetAdminDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<OutputFamilyDTO> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         InputPersonDTO inputPersonDTO = assembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
         InputFamilyDTO inputFamilyDTO = assembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
