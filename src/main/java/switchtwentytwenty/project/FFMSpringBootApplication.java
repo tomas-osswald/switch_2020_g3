@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 //import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 

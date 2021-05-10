@@ -2,9 +2,9 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
-import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInternalDTOAssembler;
+import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAddFamilyMemberController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 
@@ -12,7 +12,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 public class AddFamilyMemberController implements IAddFamilyMemberController {
 
     IAddFamilyMemberService addPersonService;
-    FamilyMemberExternalInternalAssembler addFamilyMemberAssembler;
+    PersonInternalDTOAssembler addFamilyMemberAssembler;
 
     @Autowired
     public AddFamilyMemberController(IAddFamilyMemberService addPersonService) {
@@ -24,11 +24,11 @@ public class AddFamilyMemberController implements IAddFamilyMemberController {
     public boolean addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO) {
 
         boolean result;
-        InternalFamilyMemberDTO InternalFamilyMemberDTO = addFamilyMemberAssembler.toInner(addFamilyMemberDTO);
+        InternalAddFamilyMemberDTO InternalAddFamilyMemberDTO = addFamilyMemberAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
 
         //TODO: Substituir
         try {
-            addPersonService.addPerson(InternalFamilyMemberDTO);
+            addPersonService.addPerson(InternalAddFamilyMemberDTO);
             result = true;
         } catch (Exception e) {
             result = false;

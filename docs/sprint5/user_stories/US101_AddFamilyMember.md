@@ -268,7 +268,7 @@ title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
 participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
-participant " anInternalFamilyMemberDTO\n :InternalFamilyMemberDTO" as aninaddassembler
+participant " anInternalAddFamilyMemberDTO\n :InternalAddFamilyMemberDTO" as aninaddassembler
 participant ": IAddFamilyMemberService" as FamilyMemberService <<interface>>
 participant ": FamilyMember\n InternalExternalAssembler" as inoutassembler
 participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
@@ -281,9 +281,9 @@ activate controller
 controller -> outinassembler : toInner(addFamilyMemberDTO)
 activate outinassembler
 outinassembler -> aninaddassembler** : create
-outinassembler -> controller : anInternalFamilyMemberDTO
+outinassembler -> controller : anInternalAddFamilyMemberDTO
 deactivate
-controller -> FamilyMemberService : addPerson(anInternalFamilyMemberDTO)
+controller -> FamilyMemberService : addPerson(anInternalAddFamilyMemberDTO)
 activate FamilyMemberService
 
 ref over FamilyMemberService
@@ -353,16 +353,16 @@ participant "address : Address" as address
 participant "familyID : FamilyID" as familyID
 
 activate FamilyMemberService
-FamilyMemberService -> dtoToDomainAssembler : toDomain(anInternalFamilyMemberDTO)
+FamilyMemberService -> dtoToDomainAssembler : toDomain(anInternalAddFamilyMemberDTO)
 activate dtoToDomainAssembler
-dtoToDomainAssembler -> personID** : create(anInternalFamilyMemberDTO.unpackPersonID())
-dtoToDomainAssembler -> name** : create(anInternalFamilyMemberDTO.unpackName())
-dtoToDomainAssembler -> birthDate** : create(anInternalFamilyMemberDTO.unpackBirthDate())
-dtoToDomainAssembler -> email** : create(anInternalFamilyMemberDTO.unpackEmail())
-dtoToDomainAssembler -> vat** : create(anInternalFamilyMemberDTO.unpackVAT())
-dtoToDomainAssembler -> phoneNumber** : create(anInternalFamilyMemberDTO.unpackPhone())
-dtoToDomainAssembler -> address** : create(anInternalFamilyMemberDTO.unpackStreet(), anInternalFamilyMemberDTO.unpackCity(), anInternalFamilyMemberDTO.unpackZipCode(), anInternalFamilyMemberDTO.unpackHouseNumber())
-dtoToDomainAssembler -> familyID** : create(anInternalFamilyMemberDTO.unpackFamilyID())
+dtoToDomainAssembler -> personID** : create(anInternalAddFamilyMemberDTO.unpackPersonID())
+dtoToDomainAssembler -> name** : create(anInternalAddFamilyMemberDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(anInternalAddFamilyMemberDTO.unpackBirthDate())
+dtoToDomainAssembler -> email** : create(anInternalAddFamilyMemberDTO.unpackEmail())
+dtoToDomainAssembler -> vat** : create(anInternalAddFamilyMemberDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(anInternalAddFamilyMemberDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(anInternalAddFamilyMemberDTO.unpackStreet(), anInternalAddFamilyMemberDTO.unpackCity(), anInternalAddFamilyMemberDTO.unpackZipCode(), anInternalAddFamilyMemberDTO.unpackHouseNumber())
+dtoToDomainAssembler -> familyID** : create(anInternalAddFamilyMemberDTO.unpackFamilyID())
 dtoToDomainAssembler -> aPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
 
 dtoToDomainAssembler -> FamilyMemberService : aPerson

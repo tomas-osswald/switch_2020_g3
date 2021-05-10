@@ -15,7 +15,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
@@ -57,21 +57,21 @@ class AddFamilyMemberServiceIntegrationTest {
     String houseNum = "239";
     String zipCode = "1111-222";
 
-    InternalFamilyMemberDTO internalFamilyMemberDTO = new InternalFamilyMemberDTO(adminID,ID,name,birthDate,vat,phone,street,city,houseNum,zipCode);
-    InternalFamilyMemberDTO invalidNameInternalFamilyMemberDTO = new InternalFamilyMemberDTO(adminID,ID,invalidName,birthDate,vat,phone,street,city,houseNum,zipCode);
+    InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = new InternalAddFamilyMemberDTO(adminID,ID,name,birthDate,vat,phone,street,city,houseNum,zipCode);
+    InternalAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InternalAddFamilyMemberDTO(adminID,ID,invalidName,birthDate,vat,phone,street,city,houseNum,zipCode);
 
     @Disabled
     @Test
     void addPersonSuccess() {
         AddFamilyMemberService service = new AddFamilyMemberService(personRepository);
-        Person familyMember = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
+        Person familyMember = personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO);
         //personRepository.isPersonIDAlreadyRegistered(familyMember.id());
         PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
         Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
         Mockito.when(personRepositoryJPA.save(familyMemberJPA)).thenReturn(savedPersonJPA);
         //Person savedFamilyMember = personDataDomainAssembler.toDomain(savedPersonJPA);
         //OutputPersonDTO result = personDTODomainAssembler.toDTO(savedFamilyMember);
-        OutputPersonDTO result = service.addPerson(internalFamilyMemberDTO);
+        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
 
         OutputPersonDTO expected = new OutputPersonDTO();
         expected.setId(ID);
@@ -88,7 +88,7 @@ class AddFamilyMemberServiceIntegrationTest {
         //PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
         Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
 
-        assertThrows(PersonAlreadyRegisteredException.class,()-> service.addPerson(internalFamilyMemberDTO));
+        assertThrows(PersonAlreadyRegisteredException.class,()-> service.addPerson(internalAddFamilyMemberDTO));
 
     }
 
@@ -97,6 +97,6 @@ class AddFamilyMemberServiceIntegrationTest {
     void addPersonFail_InvalidEmail(){
         AddFamilyMemberService service = new AddFamilyMemberService(personRepository);
 
-        assertThrows(InvalidNameException.class,()-> service.addPerson(invalidNameInternalFamilyMemberDTO));
+        assertThrows(InvalidNameException.class,()-> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
 }

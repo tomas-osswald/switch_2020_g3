@@ -19,10 +19,9 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.EmailExternalInternalAssembler;
 
-import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
-import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInternalDTOAssembler;
+import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
@@ -49,7 +48,7 @@ class PersonRESTControllerTest {
     EmailExternalInternalAssembler mockAssembler;
 
     @Mock
-    FamilyMemberExternalInternalAssembler mockAddFamilyMemberAssembler;
+    PersonInternalDTOAssembler mockAddFamilyMemberAssembler;
 
     @Mock
     IAddEmailService mockAddEmailService;
@@ -67,7 +66,7 @@ class PersonRESTControllerTest {
     InternalProfileDTO anInternalProfileDTO;
 
     @Mock
-    InternalFamilyMemberDTO anInternalFamilyMemberDTO;
+    InternalAddFamilyMemberDTO anInternalAddFamilyMemberDTO;
 
     @Mock
     OutputPersonDTO outputPersonDTO;
@@ -77,7 +76,7 @@ class PersonRESTControllerTest {
 
 
     @Mock
-    ProfileInternalExternalAssembler profileInternalExternalAssembler;
+    PersonInternalDTOAssembler profileInternalExternalAssembler;
 
     @InjectMocks
 
@@ -151,7 +150,7 @@ class PersonRESTControllerTest {
     @Test
     void successCaseInGetProfileInfo() {
 
-        Mockito.when(profileInternalExternalAssembler.toService(getProfileInfoDTO)).thenReturn(anInternalProfileDTO);
+        Mockito.when(profileInternalExternalAssembler.toInternalProfileDTO(emailAddressAsID)).thenReturn(anInternalProfileDTO);
         Mockito.when(getFamilyMemberProfileService.getFamilyMemberProfile(anInternalProfileDTO)).thenReturn(outputPersonDTO);
 
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
@@ -159,7 +158,7 @@ class PersonRESTControllerTest {
         expectedOutputPersonDTO.add(link);
         ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(expectedOutputPersonDTO, HttpStatus.FOUND);
 
-        ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO);
+        ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO.getPersonID());
 
         Assertions.assertEquals(expected.getStatusCode(), result.getStatusCode());
         Assertions.assertEquals(expected.getBody(), result.getBody());
@@ -171,8 +170,8 @@ class PersonRESTControllerTest {
     void successCaseInAddFamilyMember() {
 //        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L","3L", "tony", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
-        Mockito.when(mockAddFamilyMemberAssembler.toInner(addFamilyMemberDTO)).thenReturn(anInternalFamilyMemberDTO);
-        Mockito.when(mockAddFamilyMemberService.addPerson(anInternalFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
+        Mockito.when(mockAddFamilyMemberAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
+        Mockito.when(mockAddFamilyMemberService.addPerson(anInternalAddFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
 
         Link link = linkTo(methodOn(IPersonRESTController.class).addFamilyMember(addFamilyMemberDTO)).withSelfRel();
         expectedOutputPersonDTO.add(link);

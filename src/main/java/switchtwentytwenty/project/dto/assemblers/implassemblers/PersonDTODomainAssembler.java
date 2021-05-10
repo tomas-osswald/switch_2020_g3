@@ -3,7 +3,7 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
@@ -36,17 +36,17 @@ public class PersonDTODomainAssembler {
     /**
      * US101 - Assembler method that creates a Person domain object from a DTO
      *
-     * @param anInternalFamilyMemberDTO
+     * @param anInternalAddFamilyMemberDTO
      * @return Person
      */
-    public Person toDomain(InternalFamilyMemberDTO anInternalFamilyMemberDTO) {
-        PersonID personID = new PersonID(anInternalFamilyMemberDTO.getEmailID());
-        Name name = new Name(anInternalFamilyMemberDTO.getName());
-        BirthDate birthDate = new BirthDate(anInternalFamilyMemberDTO.getBirtDate());
-        VATNumber vat = new VATNumber(anInternalFamilyMemberDTO.getVatNumber());
-        PhoneNumber phone = new PhoneNumber(anInternalFamilyMemberDTO.getPhone());
-        Address address = new Address(anInternalFamilyMemberDTO.getStreet(), anInternalFamilyMemberDTO.getCity(), anInternalFamilyMemberDTO.getZipCode(), anInternalFamilyMemberDTO.getHouseNumber());
-        FamilyID familyID = new FamilyID(anInternalFamilyMemberDTO.getAdminID());
+    public Person toDomain(InternalAddFamilyMemberDTO anInternalAddFamilyMemberDTO) {
+        PersonID personID = new PersonID(anInternalAddFamilyMemberDTO.getEmailID());
+        Name name = new Name(anInternalAddFamilyMemberDTO.getName());
+        BirthDate birthDate = new BirthDate(anInternalAddFamilyMemberDTO.getBirtDate());
+        VATNumber vat = new VATNumber(anInternalAddFamilyMemberDTO.getVatNumber());
+        PhoneNumber phone = new PhoneNumber(anInternalAddFamilyMemberDTO.getPhone());
+        Address address = new Address(anInternalAddFamilyMemberDTO.getStreet(), anInternalAddFamilyMemberDTO.getCity(), anInternalAddFamilyMemberDTO.getZipCode(), anInternalAddFamilyMemberDTO.getHouseNumber());
+        FamilyID familyID = new FamilyID(anInternalAddFamilyMemberDTO.getAdminID());
 
         Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
 
