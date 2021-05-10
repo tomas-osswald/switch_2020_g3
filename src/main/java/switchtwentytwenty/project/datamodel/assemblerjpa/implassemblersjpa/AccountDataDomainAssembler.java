@@ -8,12 +8,18 @@ import switchtwentytwenty.project.domain.aggregates.account.Account;
 @Component
 public class AccountDataDomainAssembler {
 
-    public Account toData(Account account){
+    public AccountJPA toData(Account account){
+
         AccountIDJPA accountIDJPA = new AccountIDJPA(account.getId());
 
+        String ownerId = account.getOwnerId().toString();
+        String designation = account.getDesignation().toString();
+        String balance = account.getBalance().toString();
+        String accountType = account.getAccountType().toString();
 
+        // TODO: Verificar se é esta a ordem no construtor de AccountJPA
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, balance, designation, accountType);
 
-
-        return null;
+        return accountJPA;
     }
 }
