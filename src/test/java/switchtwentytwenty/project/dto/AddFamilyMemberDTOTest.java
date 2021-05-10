@@ -85,7 +85,7 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void getBirtDateTest() {
-        String result = familyMemberDTO.getBirtDate();
+        String result = familyMemberDTO.getBirthDate();
 
         String expected = "12/02/1999";
 
@@ -94,8 +94,8 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void setBirtDateTest() {
-        familyMemberDTO.setBirtDate(birthDate);
-        String result = familyMemberDTO.getBirtDate();
+        familyMemberDTO.setBirthDate(birthDate);
+        String result = familyMemberDTO.getBirthDate();
 
         String expected = "1/1/1991";
 

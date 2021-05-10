@@ -7,15 +7,19 @@ import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class PersonDTODomainAssembler {
     /**
      * US010 - Assembler method to create a Person domain object from a DTO.
+     *
      * @param inputPersonDTO DTO that contains the Person's information
-     * @param familyID Domain object representing the FamilyID of the Family of the Person to be created
+     * @param familyID       Domain object representing the FamilyID of the Family of the Person to be created
      * @return Person domain object
      */
-    public Person toDomain(InputPersonDTO inputPersonDTO, FamilyID familyID){
+    public Person toDomain(InputPersonDTO inputPersonDTO, FamilyID familyID) {
 
         PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
         Name name = new Name(inputPersonDTO.unpackName());
@@ -35,7 +39,7 @@ public class PersonDTODomainAssembler {
      * @param anInternalFamilyMemberDTO
      * @return Person
      */
-    public Person toDomain(InternalFamilyMemberDTO anInternalFamilyMemberDTO){
+    public Person toDomain(InternalFamilyMemberDTO anInternalFamilyMemberDTO) {
         PersonID personID = new PersonID(anInternalFamilyMemberDTO.getEmailID());
         Name name = new Name(anInternalFamilyMemberDTO.getName());
         BirthDate birthDate = new BirthDate(anInternalFamilyMemberDTO.getBirtDate());
@@ -49,16 +53,45 @@ public class PersonDTODomainAssembler {
         return person;
     }
 
-    public OutputPersonDTO toDTO(Person savedPerson){
-
-        // Criei isto para não falhar o teste
+    public OutputPersonDTO toDTO(Person savedPerson) {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
-        String personID = savedPerson.id().toString();
-        String name = savedPerson.getName().toString();
-        outputPersonDTO.setId(personID);
-        outputPersonDTO.setName(name);
+        outputPersonDTO.setId(savedPerson.id().toString());
+        outputPersonDTO.setName(savedPerson.getName().toString());
+        outputPersonDTO.setBirthdate(savedPerson.getBirthdate().toString());
+        outputPersonDTO.setVat(savedPerson.getVat().toString());
+        outputPersonDTO.setStreet(savedPerson.getAddress().getStreet());
+        outputPersonDTO.setCity(savedPerson.getAddress().getCity());
+        outputPersonDTO.setZipCode(savedPerson.getAddress().getZipCode());
+        outputPersonDTO.setDoorNumber(savedPerson.getAddress().getDoorNumber());
+        outputPersonDTO.setFamilyID(savedPerson.getFamilyID().toString());
+
+        outputPersonDTO.setEmails(getPersonStringEmailList(savedPerson));
+        outputPersonDTO.setPhoneNumbers(getPersonStringPhoneNumberList(savedPerson));
 
         return outputPersonDTO;
     }
+
+    private List<Integer> getPersonStringPhoneNumberList(Person savedPerson) {
+        List<Integer> phoneNumbers = new ArrayList<>();
+        List<PhoneNumber> phoneNumbersObjects = savedPerson.getPhoneNumbers();
+        if (phoneNumbersObjects != null) {
+            for (PhoneNumber phoneNumberObject : phoneNumbersObjects) {
+                phoneNumbers.add(phoneNumberObject.getNumber());
+            }
+        }
+        return phoneNumbers;
+    }
+
+    private List<String> getPersonStringEmailList(Person savedPerson) {
+        List<String> emails = new ArrayList<>();
+        List<EmailAddress> emailObjects = savedPerson.getEmails();
+        if (emailObjects != null) {
+            for (EmailAddress emailObject : emailObjects) {
+                emails.add(emailObject.toString());
+            }
+        }
+        return emails;
+    }
+
 
 }

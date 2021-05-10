@@ -13,7 +13,7 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
     private String name;
     private String birthdate;
     private List<String> emails;
-    private List<String> phoneNumbers;
+    private List<Integer> phoneNumbers;
     private String vat;
     private String street;
     private String city;
@@ -21,7 +21,7 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
     private String doorNumber;
     private String familyID;
 
-    public OutputPersonDTO(String id, String name, String birthdate, List<String> emails, List<String> phoneNumbers, String vat, String street, String city, String zipCode, String doorNumber, String familyID) {
+    public OutputPersonDTO(String id, String name, String birthdate, List<String> emails, List<Integer> phoneNumbers, String vat, String street, String city, String zipCode, String doorNumber, String familyID) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
@@ -80,11 +80,11 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
         this.emails = emails;
     }
 
-    public List<String> getPhoneNumbers() {
+    public List<Integer> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<String> phoneNumbers) {
+    public void setPhoneNumbers(List<Integer> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 

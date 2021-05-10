@@ -14,7 +14,7 @@ public class AddFamilyMemberDTO {
     private String adminID;
     private String emailID;
     private String name;
-    private String birtDate;
+    private String birthDate;
     private int vatNumber;
     private Integer phone;
     private String street;
@@ -36,8 +36,8 @@ public class AddFamilyMemberDTO {
         return name;
     }
 
-    public String getBirtDate() {
-        return birtDate;
+    public String getBirthDate() {
+        return birthDate;
     }
 
     public int getVatNumber() {
@@ -76,8 +76,8 @@ public class AddFamilyMemberDTO {
         this.name = name;
     }
 
-    public void setBirtDate(String birtDate) {
-        this.birtDate = birtDate;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public void setVatNumber(int vatNumber) {
@@ -109,11 +109,11 @@ public class AddFamilyMemberDTO {
         if (this == o) return true;
         if (!(o instanceof AddFamilyMemberDTO)) return false;
         AddFamilyMemberDTO that = (AddFamilyMemberDTO) o;
-        return vatNumber == that.vatNumber && Objects.equals(adminID, that.adminID) && Objects.equals(emailID, that.emailID) && Objects.equals(name, that.name) && Objects.equals(birtDate, that.birtDate) && Objects.equals(phone, that.phone) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(houseNumber, that.houseNumber) && Objects.equals(zipCode, that.zipCode);
+        return vatNumber == that.vatNumber && Objects.equals(adminID, that.adminID) && Objects.equals(emailID, that.emailID) && Objects.equals(name, that.name) && Objects.equals(birthDate, that.birthDate) && Objects.equals(phone, that.phone) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(houseNumber, that.houseNumber) && Objects.equals(zipCode, that.zipCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(adminID, emailID, name, birtDate, vatNumber, phone, street, city, houseNumber, zipCode);
+        return Objects.hash(adminID, emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode);
     }
 }

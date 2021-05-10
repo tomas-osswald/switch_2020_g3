@@ -13,7 +13,7 @@ public class FamilyMemberExternalInternalAssembler {
         InternalFamilyMemberDTO.setAdminID(AddFamilyMemberDTO.getAdminID());
         InternalFamilyMemberDTO.setEmailID(AddFamilyMemberDTO.getEmailID());
         InternalFamilyMemberDTO.setName(AddFamilyMemberDTO.getName());
-        InternalFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirtDate());
+        InternalFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirthDate());
         InternalFamilyMemberDTO.setVatNumber(AddFamilyMemberDTO.getVatNumber());
         InternalFamilyMemberDTO.setPhone(AddFamilyMemberDTO.getPhone());
         InternalFamilyMemberDTO.setStreet(AddFamilyMemberDTO.getStreet());
