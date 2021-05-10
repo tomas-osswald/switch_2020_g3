@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.person;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

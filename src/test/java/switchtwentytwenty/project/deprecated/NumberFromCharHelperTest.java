@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.util;
+package switchtwentytwenty.project.deprecated;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

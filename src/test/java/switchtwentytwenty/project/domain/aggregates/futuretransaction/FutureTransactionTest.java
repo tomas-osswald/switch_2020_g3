@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.aggregates.futureTransaction;
+package switchtwentytwenty.project.domain.aggregates.futuretransaction;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.ID;
