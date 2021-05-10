@@ -1,10 +1,10 @@
-package switchtwentytwenty.project.dto;
+package switchtwentytwenty.project.dto.person;
 
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InternalGetProfileDTO {
+public class InputGetProfileDTO {
 
     @Setter
     private String id;

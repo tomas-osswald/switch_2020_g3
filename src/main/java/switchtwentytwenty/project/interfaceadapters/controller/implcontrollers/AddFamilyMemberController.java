@@ -2,9 +2,9 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInternalDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAddFamilyMemberController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 
@@ -12,7 +12,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 public class AddFamilyMemberController implements IAddFamilyMemberController {
 
     IAddFamilyMemberService addPersonService;
-    PersonInternalDTOAssembler addFamilyMemberAssembler;
+    PersonInputDTOAssembler addFamilyMemberAssembler;
 
     @Autowired
     public AddFamilyMemberController(IAddFamilyMemberService addPersonService) {
@@ -24,7 +24,7 @@ public class AddFamilyMemberController implements IAddFamilyMemberController {
     public boolean addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO) {
 
         boolean result;
-        InternalAddFamilyMemberDTO InternalAddFamilyMemberDTO = addFamilyMemberAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
+        InputAddFamilyMemberDTO InternalAddFamilyMemberDTO = addFamilyMemberAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
 
         //TODO: Substituir
         try {

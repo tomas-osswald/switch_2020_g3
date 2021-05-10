@@ -15,7 +15,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
@@ -57,8 +57,8 @@ class AddFamilyMemberServiceIntegrationTest {
     String houseNum = "239";
     String zipCode = "1111-222";
 
-    InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = new InternalAddFamilyMemberDTO(adminID,ID,name,birthDate,vat,phone,street,city,houseNum,zipCode);
-    InternalAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InternalAddFamilyMemberDTO(adminID,ID,invalidName,birthDate,vat,phone,street,city,houseNum,zipCode);
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID,ID,name,birthDate,vat,phone,street,city,houseNum,zipCode);
+    InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID,ID,invalidName,birthDate,vat,phone,street,city,houseNum,zipCode);
 
     @Disabled
     @Test

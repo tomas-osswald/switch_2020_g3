@@ -6,13 +6,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.AddFamilyAndSetAdminDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
@@ -27,12 +27,15 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private ICreateFamilyService createFamilyService;
 
-    private AddFamilyAndSetAdminDTOAssembler assembler;
+    private FamilyInputDTOAssembler familyAssembler;
+
+    private PersonInputDTOAssembler personAssembler;
 
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, AddFamilyAndSetAdminDTOAssembler assembler) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler) {
         this.createFamilyService = createFamilyService;
-        this.assembler = assembler;
+        this.familyAssembler = familyAssembler;
+        this.personAssembler = personAssembler;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -52,8 +55,8 @@ public class FamilyRESTController implements IFamilyRESTController {
      */
     @PostMapping
     public ResponseEntity<OutputFamilyDTO> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
-        InputPersonDTO inputPersonDTO = assembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
-        InputFamilyDTO inputFamilyDTO = assembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
+        InputPersonDTO inputPersonDTO = personAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
+        InputFamilyDTO inputFamilyDTO = familyAssembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
 
         HttpStatus status;
         OutputFamilyDTO outputFamilyDTO;

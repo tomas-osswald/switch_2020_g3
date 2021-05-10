@@ -14,7 +14,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
@@ -76,7 +76,7 @@ class AddFamilyMemberServiceTest {
     InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     // NEW DTO
-    InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = new InternalAddFamilyMemberDTO("TonyAdmin@gmail.com","tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO("TonyAdmin@gmail.com","tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");

@@ -8,5 +8,6 @@ public interface IAccountDTODomainAssembler {
 
     OutputAccountDTO toDTO(Account account);
 
-    Account toDomain(InputAccountDTO inputAccountDTO);
+
+    //TODO: método para cada value object
 }

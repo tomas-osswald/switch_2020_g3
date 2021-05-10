@@ -109,7 +109,7 @@ class CreateFamilyControllerIntegrationTest {
         when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA());
         when(personDataDomainAssembler.toDomain(any(PersonJPA.class))).thenReturn(new Person(new Name("Rui"), new BirthDate("12/12/1999"), new PersonID("email@here.com"), new VATNumber(123456789), new PhoneNumber(987654321), new Address("Rua", "Covilhã", "6200-000", "1"), new FamilyID("email@here.com")));
 
-        assertTrue(controller.createFamilyAndAdmin(VALIDCreateFamilyDTO, inputPersonDTO));
+        assertTrue(controller.createFamilyAndSetAdmin(VALIDCreateFamilyDTO, inputPersonDTO));
     }
 
 
@@ -132,8 +132,8 @@ class CreateFamilyControllerIntegrationTest {
         when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(new PersonJPA());
         when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA());
 
-        controller.createFamilyAndAdmin(VALIDCreateFamilyDTO, inputPersonDTO);
-        assertFalse(controller.createFamilyAndAdmin(VALIDCreateFamilyDTO, inputPersonDTO));
+        controller.createFamilyAndSetAdmin(VALIDCreateFamilyDTO, inputPersonDTO);
+        assertFalse(controller.createFamilyAndSetAdmin(VALIDCreateFamilyDTO, inputPersonDTO));
     }
 
     @DisplayName("Test if a family isn't created if the family name is null, void or empty")
@@ -147,7 +147,7 @@ class CreateFamilyControllerIntegrationTest {
         //personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
         controller = new CreateFamilyController(createFamilyService);
 
-        assertFalse(controller.createFamilyAndAdmin(INVALIDCreateFamilyDTO, inputPersonDTO));
+        assertFalse(controller.createFamilyAndSetAdmin(INVALIDCreateFamilyDTO, inputPersonDTO));
     }
 
 }

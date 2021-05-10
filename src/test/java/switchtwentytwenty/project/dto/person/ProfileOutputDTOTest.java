@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ProfileOutputDTOTest {
-    ProfileOutputDTO profileOutputDTO = new ProfileOutputDTO();
+    OutputProfileDTO profileOutputDTO = new OutputProfileDTO();
     String ID = "tony@gmail.com";
     String NAME = "Tony";
     String BIRTHDATE = "12/12/1222";
@@ -70,8 +70,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return true if two identical ProfileOutputDTO objects are compared with the equals method")
     void testEquals() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertEquals(profileOutputDTOOne, profileOutputDTOTwo);
         Assertions.assertNotSame(profileOutputDTOOne, profileOutputDTOTwo);
@@ -80,8 +80,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different emails are compared with the equals method")
     void testEqualsFalseDifferentEmail() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO("diffemail@gmail.com", NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO("diffemail@gmail.com", NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -89,8 +89,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different names are compared with the equals method")
     void testEqualsFalseDifferentName() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, "otherName", BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, "otherName", BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -98,8 +98,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different birthDates are compared with the equals method")
     void testEqualsFalseDifferentBirthDates() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, "01/01/1970", VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, "01/01/1970", VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -107,8 +107,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different VATNumbers are compared with the equals method")
     void testEqualsFalseDifferentVATNumbers() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, 111111111, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, 111111111, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -116,8 +116,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different PhoneNumbers are compared with the equals method")
     void testEqualsFalseDifferentPhoneNumbers() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, 111111111, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, 111111111, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -125,8 +125,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different streets are compared with the equals method")
     void testEqualsFalseDifferentStreets() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, "other street", CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, "other street", CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -134,8 +134,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different cities are compared with the equals method")
     void testEqualsFalseDifferentCity() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, "other City", HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, "other City", HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -143,8 +143,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different houseNumbers are compared with the equals method")
     void testEqualsFalseDifferentHouseNumber() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, "111C", ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, "111C", ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
@@ -152,23 +152,23 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two ProfileOutputDTO objects with different zipCodes are compared with the equals method")
     void testEqualsFalseDifferentZipCodes() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, "4000-001");
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, "4000-001");
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
 
     @Test
     void testEqualsSameProfileOutputDTO() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = profileOutputDTOOne;
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = profileOutputDTOOne;
 
         Assertions.assertEquals(profileOutputDTOOne, profileOutputDTOTwo);
     }
 
     @Test
     void testEqualsDifferentObjects() {
-        ProfileOutputDTO profileOutputDTO = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTO = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
         String notProfileOutputDTO = "test String";
 
         Assertions.assertNotEquals(profileOutputDTO, notProfileOutputDTO);
@@ -176,7 +176,7 @@ class ProfileOutputDTOTest {
 
     @Test
     void testEqualsDifferentFromNull() {
-        ProfileOutputDTO profileOutputDTO = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTO = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(null,profileOutputDTO);
     }
@@ -184,8 +184,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return true if two identical ProfileOutputDTO objects have their hashcodes compared")
     void testHashCode() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertEquals(profileOutputDTOOne.hashCode(), profileOutputDTOTwo.hashCode());
         Assertions.assertNotSame(profileOutputDTOOne, profileOutputDTOTwo);
@@ -194,8 +194,8 @@ class ProfileOutputDTOTest {
     @Test
     @DisplayName("Should return false if two different ProfileOutputDTO objects have their hashcodes compared")
     void testHashCodeFalse() {
-        ProfileOutputDTO profileOutputDTOOne = new ProfileOutputDTO("diffemail@gmail.com", NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
-        ProfileOutputDTO profileOutputDTOTwo = new ProfileOutputDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOOne = new OutputProfileDTO("diffemail@gmail.com", NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
+        OutputProfileDTO profileOutputDTOTwo = new OutputProfileDTO(EMAIL, NAME, BIRTHDATE, VAT, PHONE, STREET, CITY, HOUSENUMBER, ZIPCODE);
 
         Assertions.assertNotEquals(profileOutputDTOOne.hashCode(), profileOutputDTOTwo.hashCode());
     }

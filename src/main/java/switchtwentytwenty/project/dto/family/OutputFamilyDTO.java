@@ -1,9 +1,15 @@
 package switchtwentytwenty.project.dto.family;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
+@Setter
+@Getter
+@NoArgsConstructor
 public class OutputFamilyDTO extends RepresentationModel<OutputFamilyDTO> {
     private String familyName;
     private String familyID;
@@ -15,14 +21,6 @@ public class OutputFamilyDTO extends RepresentationModel<OutputFamilyDTO> {
         this.familyID = familyID;
         this.adminID = adminID;
         this.registrationDate = registrationDate;
-    }
-
-    public String getFamilyName() {
-        return familyName;
-    }
-
-    public String getAdminID() {
-        return adminID;
     }
 
     @Override

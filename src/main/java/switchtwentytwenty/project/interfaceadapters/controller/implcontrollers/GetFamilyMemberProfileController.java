@@ -2,7 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import switchtwentytwenty.project.dto.InternalGetProfileDTO;
+import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IGetFamilyMemberProfileController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
@@ -13,7 +13,7 @@ public class GetFamilyMemberProfileController implements IGetFamilyMemberProfile
     @Autowired
     IGetFamilyMemberProfileService getProfileService;
 
-    public OutputPersonDTO getFamilyMemberProfile(InternalGetProfileDTO internalGetProfileDTO){
+    public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO internalGetProfileDTO){
         OutputPersonDTO outputPersonDTO;
 
         outputPersonDTO = getProfileService.getFamilyMemberProfile(internalGetProfileDTO);

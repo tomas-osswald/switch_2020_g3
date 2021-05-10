@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.InternalEmailDTO;
+import switchtwentytwenty.project.dto.person.InputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -25,7 +25,7 @@ public class AddEmailService implements IAddEmailService {
      */
     //TODO alterar o addEmail porque tem de aceitar as duas classes
     @Override
-    public OutputEmailDTO addEmail(InternalEmailDTO internalEmailDTO) {
+    public OutputEmailDTO addEmail(InputEmailDTO internalEmailDTO) {
 
         PersonID loggedUserID = new PersonID(internalEmailDTO.unpackUserID());
 

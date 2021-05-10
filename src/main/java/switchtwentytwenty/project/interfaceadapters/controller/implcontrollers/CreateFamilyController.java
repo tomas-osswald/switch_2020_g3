@@ -23,7 +23,7 @@ public class CreateFamilyController  {
      * @param inputPersonDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    public boolean createFamilyAndAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
+    public boolean createFamilyAndSetAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         boolean result;
         try {
             createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
