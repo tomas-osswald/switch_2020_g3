@@ -7,5 +7,4 @@ public interface IAccountRepository extends Repository<Account, AccountID> {
 
     Account add(Account entity);
 
-    Account getById(AccountID id);
 }

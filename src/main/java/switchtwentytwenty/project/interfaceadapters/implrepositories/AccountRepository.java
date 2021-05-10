@@ -2,7 +2,6 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.domain.aggregates.account.Account;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
@@ -15,15 +14,20 @@ public class AccountRepository implements IAccountRepository {
 
     private IAccountDataDomainAssembler accountDataDomainAssembler;
 
+
+    @Override
+    public Account getByID(AccountID id) {
+        return retrieveAccountById(id);
+    }
+
+    private Account retrieveAccountById(AccountID accountID){
+
+        return null;
+    }
+
     public Account add(Account Account){
         return null;
     }
 
-    public Account getById(AccountID accountID){
-        return retrieveAccountById(accountID);
-    }
 
-    private Account retrieveAccountById(AccountID accountID){
-        AccountIDJPA accountIDJPA = accountDataDomainAssembler.toData(accountID);
-    }
 }
