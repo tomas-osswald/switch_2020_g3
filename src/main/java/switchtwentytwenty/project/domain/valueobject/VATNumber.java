@@ -16,9 +16,8 @@ public class VATNumber implements ValueObject {
 
     @Override
     public String toString() {
-        return "VATNumber{" +
-                "vat=" + vat +
-                '}';
+        return String.valueOf(this.vat);
+
     }
 
     private void validateData() {
