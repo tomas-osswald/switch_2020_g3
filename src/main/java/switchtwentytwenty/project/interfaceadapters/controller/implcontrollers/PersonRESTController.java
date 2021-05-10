@@ -6,10 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
-import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInternalDTOAssembler;
+import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.dto.person.PersonOptionsDTO;
@@ -29,12 +28,12 @@ public class PersonRESTController implements IPersonRESTController {
 
     private IAddFamilyMemberService addFamilyMemberService;
 
-    private FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler;
+    private PersonInternalDTOAssembler familyMemberExternalInternalAssembler;
 
-    private ProfileInternalExternalAssembler profileInternalExternalAssembler;
+    private PersonInternalDTOAssembler profileInternalExternalAssembler;
 
     @Autowired
-    public PersonRESTController(ProfileInternalExternalAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler) {
+    public PersonRESTController(PersonInternalDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInternalDTOAssembler familyMemberExternalInternalAssembler) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
         this.familyMemberExternalInternalAssembler = familyMemberExternalInternalAssembler;
@@ -62,13 +61,13 @@ public class PersonRESTController implements IPersonRESTController {
     @Override
     @PostMapping("/add/")
     public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
-        InternalFamilyMemberDTO internalFamilyMemberDTO = familyMemberExternalInternalAssembler.toInner(addFamilyMemberDTO);
+        InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = familyMemberExternalInternalAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
 
         HttpStatus status;
         OutputPersonDTO outputPersonDTO;
 
         try {
-            outputPersonDTO = addFamilyMemberService.addPerson(internalFamilyMemberDTO);
+            outputPersonDTO = addFamilyMemberService.addPerson(internalAddFamilyMemberDTO);
             status = HttpStatus.CREATED;
 
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withRel("Person Options");

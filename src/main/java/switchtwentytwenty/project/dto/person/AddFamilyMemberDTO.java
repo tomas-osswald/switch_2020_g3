@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto.family;
+package switchtwentytwenty.project.dto.person;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

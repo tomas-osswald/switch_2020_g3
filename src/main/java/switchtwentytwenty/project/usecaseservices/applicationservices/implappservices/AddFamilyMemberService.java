@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -25,11 +25,11 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
     }
 
     // o userID vem como string do controlador ou é logo lá é convertido em PersonID?
-    public OutputPersonDTO addPerson(InternalFamilyMemberDTO internalFamilyMemberDTO) {
+    public OutputPersonDTO addPerson(InternalAddFamilyMemberDTO internalAddFamilyMemberDTO) {
         PersonDTODomainAssembler personDTODomainAssembler = new PersonDTODomainAssembler();
-        PersonID loggedUserID = new PersonID(internalFamilyMemberDTO.getAdminID());
+        PersonID loggedUserID = new PersonID(internalAddFamilyMemberDTO.getAdminID());
         //familyRepository.verifyAdmin(loggedUserID);
-        Person aPerson = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
+        Person aPerson = personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO);
         Person addedPerson = personRepository.add(aPerson);
         OutputPersonDTO outputPersonDTO = personDTODomainAssembler.toDTO(addedPerson);
         return outputPersonDTO;
