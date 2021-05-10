@@ -2,6 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 
@@ -33,13 +35,22 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.assembler = assembler;
     }
 
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Object> familiesOptions(){
+        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("Add New Family").withSelfRel();
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Allow", "POST, OPTIONS");
+        return new ResponseEntity<>(linkToAddFamily,responseHeaders,HttpStatus.OK);
+    }
+
     /**
      * Method to create a family and add a person as administrator
      *
      * @param addFamilyAndSetAdminDTO
      * @return True if Family successfully created and added. False (by Exception e catch) if anything fails validation. False (by boolean false return on line 24) if admin email is already registered.
      */
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<OutputFamilyDTO> createFamilyAndSetAdmin(@RequestBody AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         InputPersonDTO inputPersonDTO = assembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
         InputFamilyDTO inputFamilyDTO = assembler.toInputFamilyDTO(addFamilyAndSetAdminDTO);
