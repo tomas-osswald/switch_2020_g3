@@ -7,7 +7,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import java.util.Objects;
 
 public class CategoryData {
-
+//TODO: isto vai ser uma abstract class que implementa category interface, ver account
     private CategoryName categoryName;
     private CategoryID categoryID;
     private CategoryID parentCategoryID;

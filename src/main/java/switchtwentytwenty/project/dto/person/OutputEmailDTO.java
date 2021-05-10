@@ -1,17 +1,18 @@
 package switchtwentytwenty.project.dto.person;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
+
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
-    @Setter
+
     private String email;
-    @Setter
+
     private String emailID;
 
     /**

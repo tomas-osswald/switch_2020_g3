@@ -27,7 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class PersonRESTControllerIntegrationTestITDB {
+class PersonRESTControllerITDB {
 
     @Autowired
     IPersonRESTController personRESTController;

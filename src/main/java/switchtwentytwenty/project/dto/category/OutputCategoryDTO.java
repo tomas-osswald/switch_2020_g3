@@ -1,11 +1,17 @@
 package switchtwentytwenty.project.dto.category;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Setter
+@Getter
+@NoArgsConstructor
 public class OutputCategoryDTO {
 
     private String categoryName;
-
     private String categoryID;
     private String parentID;
 
@@ -13,14 +19,6 @@ public class OutputCategoryDTO {
         this.categoryName = categoryName;
         this.categoryID = categoryID;
         this.parentID = parentID;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public String getCategoryID() {
-        return categoryID;
     }
 
     @Override
@@ -35,10 +33,5 @@ public class OutputCategoryDTO {
     public int hashCode() {
         return Objects.hash(categoryName, categoryID, parentID);
     }
-
-    public String getParentID() {
-        return parentID;
-    }
-
 
 }

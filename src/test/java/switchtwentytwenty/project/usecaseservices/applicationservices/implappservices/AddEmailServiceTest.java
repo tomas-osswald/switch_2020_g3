@@ -13,8 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.InternalEmailDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
+import switchtwentytwenty.project.dto.person.InputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
@@ -38,7 +38,7 @@ class AddEmailServiceTest {
     Person tonyZe;
 
     @Mock
-    InternalEmailDTO mockInternalEmailDTO;
+    InputEmailDTO mockInternalEmailDTO;
 
     @Mock
     OutputEmailDTO mockOutputEmailDTO;

@@ -1,10 +1,8 @@
-package switchtwentytwenty.project.dto.family;
-
-import switchtwentytwenty.project.dto.person.IinputPersonDTO;
+package switchtwentytwenty.project.dto.person;
 
 import java.util.Objects;
 
-public class InternalAddFamilyMemberDTO implements IinputPersonDTO {
+public class InputAddFamilyMemberDTO implements IinputPersonDTO {
 
     private String adminID;
     private String emailID;
@@ -18,7 +16,7 @@ public class InternalAddFamilyMemberDTO implements IinputPersonDTO {
     private String zipCode;
 
 
-    public InternalAddFamilyMemberDTO(String adminID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
+    public InputAddFamilyMemberDTO(String adminID, String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
         this.adminID = adminID;
         this.emailID = emailID;
         this.name = name;
@@ -32,7 +30,7 @@ public class InternalAddFamilyMemberDTO implements IinputPersonDTO {
     }
 
 
-    public InternalAddFamilyMemberDTO(){
+    public InputAddFamilyMemberDTO(){
 
     }
 
@@ -119,8 +117,8 @@ public class InternalAddFamilyMemberDTO implements IinputPersonDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InternalAddFamilyMemberDTO)) return false;
-        InternalAddFamilyMemberDTO that = (InternalAddFamilyMemberDTO) o;
+        if (!(o instanceof InputAddFamilyMemberDTO)) return false;
+        InputAddFamilyMemberDTO that = (InputAddFamilyMemberDTO) o;
         return unpackVAT() == that.unpackVAT() && Objects.equals(getAdminID(), that.getAdminID()) && Objects.equals(unpackEmail(), that.unpackEmail()) && Objects.equals(unpackName(), that.unpackName()) && Objects.equals(unpackBirthDate(), that.unpackBirthDate()) && Objects.equals(unpackPhone(), that.unpackPhone()) && Objects.equals(unpackStreet(), that.unpackStreet()) && Objects.equals(unpackCity(), that.unpackCity()) && Objects.equals(unpackHouseNumber(), that.unpackHouseNumber()) && Objects.equals(unpackZipCode(), that.unpackZipCode());
     }
 
