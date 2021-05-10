@@ -63,7 +63,7 @@ class AddFamilyMemberServiceIntegrationTest {
     @Disabled
     @Test
     void addPersonSuccess() {
-        AddFamilyMemberService service = new AddFamilyMemberService(personRepository);
+        AddFamilyMemberService service = new AddFamilyMemberService();
         Person familyMember = personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO);
         //personRepository.isPersonIDAlreadyRegistered(familyMember.id());
         PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
@@ -83,7 +83,7 @@ class AddFamilyMemberServiceIntegrationTest {
     @Disabled
     @Test
     void addPersonFail_PersonAlreadyRegistered(){
-        AddFamilyMemberService service = new AddFamilyMemberService(personRepository);
+        AddFamilyMemberService service = new AddFamilyMemberService();
         //Person familyMember = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
         //PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
         Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
@@ -95,7 +95,7 @@ class AddFamilyMemberServiceIntegrationTest {
     @Disabled
     @Test
     void addPersonFail_InvalidEmail(){
-        AddFamilyMemberService service = new AddFamilyMemberService(personRepository);
+        AddFamilyMemberService service = new AddFamilyMemberService();
 
         assertThrows(InvalidNameException.class,()-> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
