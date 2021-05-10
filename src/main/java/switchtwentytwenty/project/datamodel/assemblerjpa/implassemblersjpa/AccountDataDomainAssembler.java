@@ -2,16 +2,18 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.domain.aggregates.account.Account;
 
 @Component
 public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
+    @Override
     public AccountJPA toData(Account account){
 
-        AccountIDJPA accountIDJPA = new AccountIDJPA(account.getId());
+        // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
+
+        //AccountIDJPA accountIDJPA = new AccountIDJPA(account.getId());
 
         String ownerId = account.getOwnerId().toString();
         String designation = account.getDesignation().toString();
@@ -19,10 +21,15 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         String accountType = account.getAccountType().toString();
 
         // TODO: Verificar se é esta a ordem no construtor de AccountJPA
-        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, balance, designation, accountType);
+        //AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, balance, designation, accountType);
 
-        return accountJPA;
+        return null; //accountJPA;
     }
 
-    // ESTÁ VERMELHO PORQUE FALTA O ---- toDomain()
+    @Override
+    public Account toDomain(AccountJPA accountJPA) {
+        return null;
+    }
+
+
 }
