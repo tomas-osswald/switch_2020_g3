@@ -27,6 +27,7 @@ import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 
@@ -182,5 +183,22 @@ class PersonRESTControllerTest {
 
         assertEquals(expected, result);
     }
+
+    @Disabled
+    @Test
+    /*void failCaseInAddFamilyMemberWhenPersonisAlreadyRegistered() {
+        OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+        Mockito.when(mockAddFamilyMemberAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
+        Mockito.when(mockAddFamilyMemberService.addPerson(anInternalAddFamilyMemberDTO)).thenThrow(PersonAlreadyRegisteredException.class);
+
+        Link link = linkTo(methodOn(IPersonRESTController.class).addFamilyMember(addFamilyMemberDTO)).withSelfRel();
+        //expectedOutputPersonDTO.add(link);
+
+        ResponseEntity expected = new ResponseEntity("error message", HttpStatus.BAD_REQUEST);
+
+        ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
+
+        assertEquals(expected, result);
+    }*/
 
 }

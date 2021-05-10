@@ -336,6 +336,91 @@ end
 @enduml
 ````
 
+```puml
+@startuml
+autonumber
+header Sequence Diagram
+title US101 Add a Family Member - version 2
+
+participant ": IPersonController" as controller <<interface>>
+participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
+participant " anInternalAddFamilyMemberDTO\n :InternalAddFamilyMemberDTO" as aninaddassembler
+participant ": IAddFamilyMemberService" as FamilyMemberService <<interface>>
+participant " aPerson: Person " as person 
+participant ": FamilyMember\n InternalExternalAssembler" as inoutassembler
+participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
+participant ": IPersonRepository" as prepository  <<interface>>
+participant ": IPersonRepositoryJPA" as prepositoryJPA  <<interface>>
+'participant "aFamilyRepository\n : FamilyRepository" as frepository
+
+-> controller : addFamilyMember(addFamilyMemberDTO)
+activate controller
+controller -> outinassembler : toInner(addFamilyMemberDTO)
+activate outinassembler
+outinassembler -> aninaddassembler** : create
+outinassembler -> controller : anInternalAddFamilyMemberDTO
+deactivate
+controller -> FamilyMemberService : addPerson(anInternalAddFamilyMemberDTO)
+activate FamilyMemberService
+
+ref over FamilyMemberService
+assembler DTO to value objects
+
+end
+
+FamilyMemberService -> person** : create(with all value objects)
+FamilyMemberService -> prepository : add(aPerson)
+activate prepository
+
+prepository -> prepository : isPersonIDAlreadyRegistered()
+alt Person is already present
+prepository --> FamilyMemberService : failure
+
+FamilyMemberService -> controller : failure
+
+<-- controller : responseEntity(null, Httpstatus.BADREQUEST)
+else Person is not present
+ref over prepository
+assembler domain to data
+
+personJPA = personAssembler.toData(Person)
+end
+prepository -> prepositoryJPA : save(PersonJPA)
+activate prepositoryJPA
+return savedPersonJPA
+
+ref over prepository
+assembler data to domain
+
+savedPerson = personAssembler.toDomain(savedPersonJPA)
+end
+
+prepository -> FamilyMemberService : savedPerson
+deactivate prepository
+deactivate prepositoryJPA
+
+FamilyMemberService  -> inoutassembler : toDTO(savedPerson)
+activate inoutassembler 
+inoutassembler -> outputPersonDTO** : create (savedPersonDTO.getID(), savedPersonDTO.getName())
+inoutassembler ->  FamilyMemberService  : anOutputPersonDTO
+deactivate 
+deactivate prepository
+
+FamilyMemberService -> controller : anOutputPersonDTO
+deactivate FamilyMemberService 
+ref over controller
+ addSelfLink to anOutputPersonDTO
+
+end
+deactivate FamilyMemberService
+<-- controller : responseEntity(outputPersonDTO, Httpstatus.OK)
+deactivate controller
+
+end
+@enduml
+````
+
+
 ````puml
 @startuml
 title US101 FamilyMember = personDTODomainAssembler.toDomain
