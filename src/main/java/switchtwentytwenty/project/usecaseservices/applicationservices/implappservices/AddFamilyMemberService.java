@@ -3,7 +3,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
@@ -29,7 +29,16 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
         PersonDTODomainAssembler personDTODomainAssembler = new PersonDTODomainAssembler();
         PersonID loggedUserID = new PersonID(internalAddFamilyMemberDTO.getAdminID());
         //familyRepository.verifyAdmin(loggedUserID);
-        Person aPerson = personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO);
+        FamilyID familyID = personRepository.getByID(loggedUserID).getFamilyID();
+        Name name = personDTODomainAssembler.createName(internalAddFamilyMemberDTO);
+        BirthDate birthDate = personDTODomainAssembler.createBirthDate(internalAddFamilyMemberDTO);
+        VATNumber vat = personDTODomainAssembler.createVATNumber(internalAddFamilyMemberDTO);
+        PhoneNumber phone = personDTODomainAssembler.createPhoneNumber(internalAddFamilyMemberDTO);
+        Address address = personDTODomainAssembler.createAddress(internalAddFamilyMemberDTO);
+        PersonID personID = personDTODomainAssembler.createPersonID(internalAddFamilyMemberDTO);
+
+        Person aPerson = new Person(name, birthDate, personID, vat, phone, address, familyID);
+
         Person addedPerson = personRepository.add(aPerson);
         OutputPersonDTO outputPersonDTO = personDTODomainAssembler.toDTO(addedPerson);
         return outputPersonDTO;

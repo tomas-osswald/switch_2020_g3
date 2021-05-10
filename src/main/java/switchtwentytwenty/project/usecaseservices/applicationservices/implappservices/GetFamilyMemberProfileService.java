@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.dto.InternalProfileDTO;
+import switchtwentytwenty.project.dto.InternalGetProfileDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonToDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
@@ -19,8 +19,8 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
     @Autowired
     PersonToDTO personToDTO;
 
-    public OutputPersonDTO getFamilyMemberProfile(InternalProfileDTO internalProfileDTO){
-        PersonID personID = new PersonID(internalProfileDTO.unpackID());
+    public OutputPersonDTO getFamilyMemberProfile(InternalGetProfileDTO internalGetProfileDTO){
+        PersonID personID = new PersonID(internalGetProfileDTO.unpackID());
         Person person = personRepository.getByID(personID);
 
         return personToDTO.createPersonProfileDTO(person);

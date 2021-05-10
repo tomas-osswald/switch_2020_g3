@@ -1,8 +1,10 @@
 package switchtwentytwenty.project.dto.family;
 
+import switchtwentytwenty.project.dto.person.IinputPersonDTO;
+
 import java.util.Objects;
 
-public class InternalAddFamilyMemberDTO {
+public class InternalAddFamilyMemberDTO implements IinputPersonDTO {
 
     private String adminID;
     private String emailID;
@@ -38,39 +40,39 @@ public class InternalAddFamilyMemberDTO {
         return adminID;
     }
 
-    public String getEmailID() {
+    public String unpackEmail() {
         return emailID;
     }
 
-    public String getName() {
+    public String unpackName() {
         return name;
     }
 
-    public String getBirtDate() {
+    public String unpackBirthDate() {
         return birtDate;
     }
 
-    public int getVatNumber() {
+    public int unpackVAT() {
         return vatNumber;
     }
 
-    public Integer getPhone() {
+    public Integer unpackPhone() {
         return phone;
     }
 
-    public String getStreet() {
+    public String unpackStreet() {
         return street;
     }
 
-    public String getCity() {
+    public String unpackCity() {
         return city;
     }
 
-    public String getHouseNumber() {
+    public String unpackHouseNumber() {
         return houseNumber;
     }
 
-    public String getZipCode() {
+    public String unpackZipCode() {
         return zipCode;
     }
 
@@ -119,11 +121,11 @@ public class InternalAddFamilyMemberDTO {
         if (this == o) return true;
         if (!(o instanceof InternalAddFamilyMemberDTO)) return false;
         InternalAddFamilyMemberDTO that = (InternalAddFamilyMemberDTO) o;
-        return getVatNumber() == that.getVatNumber() && Objects.equals(getAdminID(), that.getAdminID()) && Objects.equals(getEmailID(), that.getEmailID()) && Objects.equals(getName(), that.getName()) && Objects.equals(getBirtDate(), that.getBirtDate()) && Objects.equals(getPhone(), that.getPhone()) && Objects.equals(getStreet(), that.getStreet()) && Objects.equals(getCity(), that.getCity()) && Objects.equals(getHouseNumber(), that.getHouseNumber()) && Objects.equals(getZipCode(), that.getZipCode());
+        return unpackVAT() == that.unpackVAT() && Objects.equals(getAdminID(), that.getAdminID()) && Objects.equals(unpackEmail(), that.unpackEmail()) && Objects.equals(unpackName(), that.unpackName()) && Objects.equals(unpackBirthDate(), that.unpackBirthDate()) && Objects.equals(unpackPhone(), that.unpackPhone()) && Objects.equals(unpackStreet(), that.unpackStreet()) && Objects.equals(unpackCity(), that.unpackCity()) && Objects.equals(unpackHouseNumber(), that.unpackHouseNumber()) && Objects.equals(unpackZipCode(), that.unpackZipCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAdminID(), getEmailID(), getName(), getBirtDate(), getVatNumber(), getPhone(), getStreet(), getCity(), getHouseNumber(), getZipCode());
+        return Objects.hash(getAdminID(), unpackEmail(), unpackName(), unpackBirthDate(), unpackVAT(), unpackPhone(), unpackStreet(), unpackCity(), unpackHouseNumber(), unpackZipCode());
     }
 }
