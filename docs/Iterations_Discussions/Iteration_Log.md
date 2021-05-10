@@ -699,3 +699,14 @@ Accounts - todas as accounts usam um DTO de entrada único. Apenas um serviço q
 Assim para a criação de qualquer tipo de account apenas existe um método em controller, serviço e repositório.
 
 Mais tarde se necessário diferenciar accounts pelos seus atributos (por exemplo bank account ter mais uma série de atributos que cash account), pode ser feito mais um pedido para adicionar a informação complementar.
+
+----
+### 10/05/2021 - Manhã -> Decisões naming e Assemblers
+
+Decidiu-se que no Controller haverá um Assembler por Agregado e que essa Class terá a responsabilidade de converter dados externos que chegam ao Controller em qualquer tipo de DTO necessário para as User Stories desse Agregado.
+
+### Naming
+
+Do Controller para o Service será usada a nomenclatura nos métodos do Assembler como _toInput{US}DTO()_
+
+O DTO que vai para o Service depois de convertido pelo Assembler do Controller -> _Input{US}DTO_

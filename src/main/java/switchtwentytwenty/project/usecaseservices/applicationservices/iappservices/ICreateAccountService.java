@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
-import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
+import switchtwentytwenty.project.dto.accounts.AccountInputDTO;
 
 public interface ICreateAccountService {
 
-    OutputAccountDTO createAccount(InputAccountDTO inputAccountDTO);
+    OutputAccountDTO createAccount(AccountInputDTO inputAccountDTO);
 }
