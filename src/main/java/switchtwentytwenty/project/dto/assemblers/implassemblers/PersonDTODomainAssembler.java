@@ -59,7 +59,10 @@ public class PersonDTODomainAssembler {
         outputPersonDTO.setName(savedPerson.getName().toString());
         outputPersonDTO.setBirthdate(savedPerson.getBirthdate().toString());
         outputPersonDTO.setVat(savedPerson.getVat().toString());
-        //outputPersonDTO.setAddress(savedPerson.getAddress().toString());
+        outputPersonDTO.setStreet(savedPerson.getAddress().getStreet());
+        outputPersonDTO.setCity(savedPerson.getAddress().getCity());
+        outputPersonDTO.setZipCode(savedPerson.getAddress().getZipCode());
+        outputPersonDTO.setDoorNumber(savedPerson.getAddress().getDoorNumber());
         outputPersonDTO.setFamilyID(savedPerson.getFamilyID().toString());
 
         outputPersonDTO.setEmails(getPersonStringEmailList(savedPerson));
