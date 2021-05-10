@@ -42,6 +42,7 @@ public class AccountRepository implements IAccountRepository {
 
      */
 
+    //este método também serve como update, certo?
     public Account add(Account account){
         AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
         accountRepositoryJPA.save(accountJPA);
