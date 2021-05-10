@@ -6,22 +6,26 @@ import switchtwentytwenty.project.exceptions.InvalidCharException;
 import switchtwentytwenty.project.util.NumberFromCharHelper;
 
 import java.util.Objects;
+
+/**
+ * @deprecated The CCNumber value object is no longer used in the application
+ */
 @Deprecated
-public class CCnumber implements ValueObject {
+public class CCNumber implements ValueObject {
 
-    private final static String INVALIDCC = "CC is not valid";
-    private String ccNumber;
+    private static final String INVALIDCCMESSAGE = "CC is not valid";
+    private final String cc;
 
 
-    public CCnumber(String ccNumber) {
+    public CCNumber(String ccNumber) {
         validateData(ccNumber);
-        String finalCC = ccNumber.toUpperCase().replaceAll("\\s", "");
-        this.ccNumber = finalCC.trim();
+        String finalCCNumber = ccNumber.toUpperCase().replaceAll("\\s", "");
+        this.cc = finalCCNumber.trim();
     }
 
     private void validateData(String ccNumber) {
         if (!validateCC(ccNumber)) {
-            throw new InvalidCCException(INVALIDCC);
+            throw new InvalidCCException(INVALIDCCMESSAGE);
         }
     }
 
@@ -37,8 +41,7 @@ public class CCnumber implements ValueObject {
         int sum = 0;
         int value;
         boolean secondDigit = false;
-        if (ccNumber == null || ccNumber.trim().
-                length() == 0 || ccNumber.isEmpty()) {
+        if (ccNumber == null || ccNumber.trim().length() == 0) {
             return false;
         }
         if (ccNumber.replaceAll("\\s", "").length() != 12)
@@ -67,15 +70,14 @@ public class CCnumber implements ValueObject {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CCnumber)) return false;
-        CCnumber that = (CCnumber) o;
-        return Objects.equals(ccNumber, that.ccNumber);
+        if (!(o instanceof CCNumber)) return false;
+        CCNumber that = (CCNumber) o;
+        return Objects.equals(cc, that.cc);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ccNumber);
+        return Objects.hash(cc);
     }
-
 
 }

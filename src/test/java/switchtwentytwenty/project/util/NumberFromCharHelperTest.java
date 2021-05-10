@@ -51,4 +51,10 @@ class NumberFromCharHelperTest {
 
         assertThrows(Exception.class, () -> NumberFromCharHelper.getNumberFromChar(invalidChar));
     }
+
+    @Test
+    void numberFromChar(){
+        NumberFromCharHelper helper = new NumberFromCharHelper();
+        assertNotNull(helper);
+    }
 }

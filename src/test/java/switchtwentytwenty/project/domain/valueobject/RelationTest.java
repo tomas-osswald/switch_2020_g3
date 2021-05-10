@@ -39,8 +39,9 @@ class RelationTest {
     @Test
     void equalsTestDifferentFromNull(){
         Relation relation = new Relation(personOneID,personTwoID,designation);
+        String nullString = null;
 
-        assertNotEquals(relation,null);
+        assertNotEquals(relation,nullString);
     }
 
     @Test

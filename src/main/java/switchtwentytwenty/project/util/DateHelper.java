@@ -9,6 +9,8 @@ import java.util.Calendar;
 
 public class DateHelper {
 
+    static final String DATE_IS_INVALID = "Date is in invalid format";
+
     private DateHelper() {
         throw new IllegalStateException("Utility class");
     }
@@ -21,7 +23,7 @@ public class DateHelper {
         try {
             calendar.setTime(format.parse(dateAndTime));
         } catch (ParseException e) {
-            throw new InvalidDateException("Date is in invalid format");
+            throw new InvalidDateException(DATE_IS_INVALID);
         }
         return calendar;
     }
@@ -33,9 +35,9 @@ public class DateHelper {
         try {
             calendar.setTime(format.parse(dateString));
         } catch (NullPointerException e) {
-            throw new InvalidDateException("Date is in invalid format");
+            throw new InvalidDateException(DATE_IS_INVALID);
         } catch (ParseException e) {
-            throw new InvalidDateException("Date is in invalid format");
+            throw new InvalidDateException(DATE_IS_INVALID);
         }
         return calendar;
     }
@@ -46,6 +48,5 @@ public class DateHelper {
                 && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
                 && calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
     }
-
 
 }
