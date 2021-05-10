@@ -241,18 +241,18 @@ title US150 Get my profile information
 
 
 participant ": IPersonController" as controller <<interface>>
-participant ": ProfileInternalExternalAssembler" as assembler
+participant ": PersonInternalDTOAssembler" as assembler
 participant "anInternalProfileDTO:\n InternalProfileDTO" as internalDTO
 participant ": IGetProfile\nInfoService" as service <<interface>>
 participant ": IPersonRepository" as repository <<interface>>
 participant ": aPersonIDJPA:\n PersonIDJPA" as personIDJPA
 participant ": IPersonRepositoryJPA" as repoJPA <<interface>>
 
--> controller : getProfileInfo(getProfileInfoDTO)
+-> controller : getProfileInfo(personID)
 activate controller
-controller -> assembler : toService(getProfileInfoDTO)
+controller -> assembler : toInternalProfileDTO(personID)
 activate assembler
-assembler -> internalDTO** : create(getProfileInfoDTO.\nunpackPersonID())
+assembler -> internalDTO** : create(personID)
 return anInternalProfileDTO
 controller -> service : getFamilyMemberProfile(anInternalProfileDTO)
 activate service
