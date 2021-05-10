@@ -1,10 +1,14 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
-import java.util.UUID;
 
 public class AccountID implements ID<Long> {
 
+    @Getter
+    @Setter
     private final Long accountID;
 
     public AccountID(Long accountID) {

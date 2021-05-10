@@ -1,12 +1,13 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.domain.aggregates.account.Account;
 
 @Component
-public class AccountDataDomainAssembler {
+public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     public AccountJPA toData(Account account){
 
@@ -22,4 +23,6 @@ public class AccountDataDomainAssembler {
 
         return accountJPA;
     }
+
+    // ESTÁ VERMELHO PORQUE FALTA O ---- toDomain()
 }
