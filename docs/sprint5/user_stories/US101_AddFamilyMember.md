@@ -268,7 +268,7 @@ title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
 participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
-participant " anInternalAddFamilyMemberDTO\n :InternalAddFamilyMemberDTO" as aninaddassembler
+participant " anInputAddFamilyMemberDTO\n :InputAddFamilyMemberDTO" as aninaddassembler
 participant ": IAddFamilyMemberService" as FamilyMemberService <<interface>>
 participant ": FamilyMember\n InternalExternalAssembler" as inoutassembler
 participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
@@ -281,7 +281,7 @@ activate controller
 controller -> outinassembler : toInner(addFamilyMemberDTO)
 activate outinassembler
 outinassembler -> aninaddassembler** : create
-outinassembler -> controller : anInternalAddFamilyMemberDTO
+outinassembler -> controller : anInputAddFamilyMemberDTO
 deactivate
 controller -> FamilyMemberService : addPerson(anInternalAddFamilyMemberDTO)
 activate FamilyMemberService
@@ -344,7 +344,7 @@ title US101 Add a Family Member - version 2
 
 participant ": IPersonController" as controller <<interface>>
 participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
-participant " anInternalAddFamilyMemberDTO\n :InternalAddFamilyMemberDTO" as aninaddassembler
+participant " anInputAddFamilyMemberDTO\n :InputAddFamilyMemberDTO" as aninaddassembler
 participant ": IAddFamilyMemberService" as FamilyMemberService <<interface>>
 participant " aPerson: Person " as person 
 participant ": FamilyMember\n InternalExternalAssembler" as inoutassembler
@@ -358,9 +358,9 @@ activate controller
 controller -> outinassembler : toInner(addFamilyMemberDTO)
 activate outinassembler
 outinassembler -> aninaddassembler** : create
-outinassembler -> controller : anInternalAddFamilyMemberDTO
+outinassembler -> controller : anInputAddFamilyMemberDTO
 deactivate
-controller -> FamilyMemberService : addPerson(anInternalAddFamilyMemberDTO)
+controller -> FamilyMemberService : addPerson(anInputAddFamilyMemberDTO)
 activate FamilyMemberService
 
 ref over FamilyMemberService

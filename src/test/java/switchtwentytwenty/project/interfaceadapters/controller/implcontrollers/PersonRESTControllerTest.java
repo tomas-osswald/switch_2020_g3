@@ -186,8 +186,9 @@ class PersonRESTControllerTest {
 
     @Disabled
     @Test
-    /*void failCaseInAddFamilyMemberWhenPersonisAlreadyRegistered() {
-        OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+    void failCaseInAddFamilyMemberWhenPersonisAlreadyRegistered() {
+//        OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
         Mockito.when(mockAddFamilyMemberAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
         Mockito.when(mockAddFamilyMemberService.addPerson(anInternalAddFamilyMemberDTO)).thenThrow(PersonAlreadyRegisteredException.class);
 
@@ -199,6 +200,6 @@ class PersonRESTControllerTest {
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
         assertEquals(expected, result);
-    }*/
+    }
 
 }
