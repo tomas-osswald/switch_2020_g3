@@ -1,4 +1,4 @@
-# US000 Check balance
+# US135,185,188 Check balance
 =======================================
 
 # 1. Requirements
@@ -47,6 +47,8 @@ GET/ "*/accounts/{accountID}"
 Only accounts the user has permission to check should be available from the client. Authentication and authorization will be made with a token provided by a request. An options request to an account will return the permissions a user has for this account, including whether he can check its balance.
 
 With an AccountID, an Account can be retrieved from persistence and its balance returned to the client.
+
+The request should return not only the balance of an account, but also its Designation.
 
 ## 3.2. Class Diagram
 

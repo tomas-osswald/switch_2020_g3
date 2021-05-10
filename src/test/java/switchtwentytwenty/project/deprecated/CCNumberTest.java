@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.valueobject;
+package switchtwentytwenty.project.deprecated;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

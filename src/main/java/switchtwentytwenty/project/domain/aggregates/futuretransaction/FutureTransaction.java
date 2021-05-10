@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.domain.aggregates.futureTransaction;
+package switchtwentytwenty.project.domain.aggregates.futuretransaction;
 
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.FutureTransactionID;
