@@ -159,7 +159,7 @@ class PersonRESTControllerTest {
         expectedOutputPersonDTO.add(link);
         ResponseEntity<OutputPersonDTO> expected = new ResponseEntity<OutputPersonDTO>(expectedOutputPersonDTO, HttpStatus.FOUND);
 
-        ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO);
+        ResponseEntity<OutputPersonDTO> result = personRESTController.getProfileInfo(getProfileInfoDTO.getPersonID());
 
         Assertions.assertEquals(expected.getStatusCode(), result.getStatusCode());
         Assertions.assertEquals(expected.getBody(), result.getBody());

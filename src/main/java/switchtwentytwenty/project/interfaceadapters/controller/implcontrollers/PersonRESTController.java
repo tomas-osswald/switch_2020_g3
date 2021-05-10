@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.GetProfileInfoDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyMemberExternalInternalAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.ProfileInternalExternalAssembler;
 import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
@@ -28,11 +29,16 @@ public class PersonRESTController implements IPersonRESTController {
 
     private IAddFamilyMemberService addFamilyMemberService;
 
+    private FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler;
+
+    private ProfileInternalExternalAssembler profileInternalExternalAssembler;
 
     @Autowired
-    public PersonRESTController(IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService) {
+    public PersonRESTController(ProfileInternalExternalAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
+        this.familyMemberExternalInternalAssembler = familyMemberExternalInternalAssembler;
+        this.profileInternalExternalAssembler = profileInternalExternalAssembler;
     }
 
     @Override
@@ -43,6 +49,7 @@ public class PersonRESTController implements IPersonRESTController {
     /**
      * Not a User Story method. This method exists to allow access to an added email. It's supposed to be an Options method
      * to be included after the addEmail method successfully adds an email to a person.
+     *
      * @param personID
      * @param emailID
      * @return A string with the person id to access the person resource and a string with the added email id to access the added resource.
@@ -55,7 +62,6 @@ public class PersonRESTController implements IPersonRESTController {
     @Override
     @PostMapping("/add/")
     public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
-        FamilyMemberExternalInternalAssembler familyMemberExternalInternalAssembler = new FamilyMemberExternalInternalAssembler();
         InternalFamilyMemberDTO internalFamilyMemberDTO = familyMemberExternalInternalAssembler.toInner(addFamilyMemberDTO);
 
         HttpStatus status;
@@ -65,7 +71,7 @@ public class PersonRESTController implements IPersonRESTController {
             outputPersonDTO = addFamilyMemberService.addPerson(internalFamilyMemberDTO);
             status = HttpStatus.CREATED;
 
-            Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withSelfRel();
+            Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
             return new ResponseEntity<>(outputPersonDTO, status);
         } catch (Exception e) {
@@ -78,15 +84,14 @@ public class PersonRESTController implements IPersonRESTController {
     @RequestMapping(value = "/{personID}", method = RequestMethod.OPTIONS)
     public ResponseEntity<PersonOptionsDTO> getPersonOptions(@PathVariable String personID) {
         PersonOptionsDTO personOptionsDTO = new PersonOptionsDTO();
-        Link getProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(new GetProfileInfoDTO(personID))).withRel("Get Profile Info").withType("GET");
+        Link getProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withRel("Get Profile Info").withType("GET");
         personOptionsDTO.add(getProfileInfo);
         return new ResponseEntity<PersonOptionsDTO>(personOptionsDTO, HttpStatus.OK);
     }
 
 
-    //TODO ver se DTO vem vazio se body do pedido for vazio
     @GetMapping(value = "/{personID}")
-    public ResponseEntity<OutputPersonDTO> getProfileInfo(GetProfileInfoDTO getProfileInfoDTO) {
+    public ResponseEntity<OutputPersonDTO> getProfileInfo(@PathVariable String personID) {
         return null;
     }
 
