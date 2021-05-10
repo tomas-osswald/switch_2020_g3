@@ -3,7 +3,7 @@ package switchtwentytwenty.project.domain.valueobject;
 import java.util.Objects;
 import java.util.UUID;
 
-public class AccountID implements ID {
+public class AccountID implements ID<Long> {
 
     private final Long accountID;
 
