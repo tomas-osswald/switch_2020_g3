@@ -8,6 +8,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.Account;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
+import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
 import java.util.Optional;
@@ -41,10 +42,8 @@ public class AccountRepository implements IAccountRepository {
             account = accountDataDomainAssembler.toDomain(accountJPA);
             return account;
         } else {
-            throw new
+            throw new AccountNotRegisteredException();
         }
-
-        return ;
     }
 
     public Account add(Account account){
