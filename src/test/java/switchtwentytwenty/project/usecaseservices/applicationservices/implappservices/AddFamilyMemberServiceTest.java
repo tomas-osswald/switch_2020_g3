@@ -14,7 +14,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.family.InternalFamilyMemberDTO;
+import switchtwentytwenty.project.dto.family.InternalAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
@@ -76,7 +76,7 @@ class AddFamilyMemberServiceTest {
     InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     // NEW DTO
-    InternalFamilyMemberDTO internalFamilyMemberDTO = new InternalFamilyMemberDTO("TonyAdmin@gmail.com","tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InternalAddFamilyMemberDTO internalAddFamilyMemberDTO = new InternalAddFamilyMemberDTO("TonyAdmin@gmail.com","tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
@@ -110,11 +110,11 @@ class AddFamilyMemberServiceTest {
 
 
         /** NEW VERSION **/
-        Mockito.when(personDTODomainAssembler.toDomain(internalFamilyMemberDTO)).thenReturn(familyMember);
+        Mockito.when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO)).thenReturn(familyMember);
         Mockito.when(personRepository.add(familyMember)).thenReturn(savedFamilyMember);
         Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
 
-        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(internalFamilyMemberDTO));
+        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
 
@@ -137,11 +137,11 @@ class AddFamilyMemberServiceTest {
     @DisplayName("Test failure where user is already registered")
     void addPersonFail_AlreadyRegistered() {
 
-        Mockito.when(personDTODomainAssembler.toDomain(internalFamilyMemberDTO)).thenReturn(familyMember);
+        Mockito.when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO)).thenReturn(familyMember);
         Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository.add(familyMember));
         Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
 
-        assertThrows(PersonAlreadyRegisteredException.class,() -> addFamilyMemberService.addPerson(internalFamilyMemberDTO));
+        assertThrows(PersonAlreadyRegisteredException.class,() -> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
 
@@ -154,11 +154,11 @@ class AddFamilyMemberServiceTest {
         //Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
         //assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(inputPersonDTOWrongName, "tonyze@latinas.com"));
 
-        Mockito.doThrow(InvalidNameException.class).when(personDTODomainAssembler.toDomain(internalFamilyMemberDTO));
+        Mockito.doThrow(InvalidNameException.class).when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO));
         Mockito.when(personRepository.add(familyMember)).thenReturn(savedFamilyMember);
         Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
 
-        assertThrows(InvalidNameException.class,()-> addFamilyMemberService.addPerson(internalFamilyMemberDTO));
+        assertThrows(InvalidNameException.class,()-> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
 

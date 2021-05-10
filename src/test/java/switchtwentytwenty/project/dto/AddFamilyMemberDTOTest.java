@@ -2,7 +2,7 @@ package switchtwentytwenty.project.dto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
+import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 
 class AddFamilyMemberDTOTest {
 

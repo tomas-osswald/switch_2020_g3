@@ -4,7 +4,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InternalProfileDTO {
+public class InternalGetProfileDTO {
 
     @Setter
     private String id;

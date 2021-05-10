@@ -4,12 +4,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-//import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.AddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
+
+//import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 
 
 @SpringBootApplication
@@ -25,10 +24,10 @@ FFMSpringBootApplication {
         return (args) -> {
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO("tonyze@latinlover.com","TonyZe","12/12/1969",123456789,919999999,"Rua do Charme","Cidade do Zexo","69 Esquerdo","1234-123","Antunes",null);
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO2 = new AddFamilyAndSetAdminDTO("rifens@ravens.com","Rifens","05/05/1920",987654321,911111111,"Rua do Sertin","Zelmin","223","1112-111","Ravens","01/01/2021");
-            AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("tonyze@latinlover.com","kvanessa@latina.com","Katia Vanessa","20/01/1970",777777777,921232323,"Rua do Charme","Cidade do Zexo","69 Esquerdo","1234-123");
+            //AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("tonyze@latinlover.com","kvanessa@latina.com","Katia Vanessa","20/01/1970",777777777,921232323,"Rua do Charme","Cidade do Zexo","69 Esquerdo","1234-123");
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
-            personRESTController.addFamilyMember(addFamilyMemberDTO);
+            //personRESTController.addFamilyMember(addFamilyMemberDTO);
         };
     }
 
