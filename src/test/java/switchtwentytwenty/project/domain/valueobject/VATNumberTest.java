@@ -82,7 +82,7 @@ class VATNumberTest {
     @Test
     void vatNumberToStringTest() {
         VATNumber vatNumber = new VATNumber(999999999);
-        String expected = "VATNumber{vat=999999999}";
+        String expected = "999999999";
 
         String result = vatNumber.toString();
 
