@@ -159,7 +159,6 @@ class PersonRESTControllerTest {
     @Disabled
     @Test
     void successCaseInAddFamilyMember() {
-//        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L","3L", "tony", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         Mockito.when(mockPersonInputDTOAssembler.toInputAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
         Mockito.when(mockAddFamilyMemberService.addPerson(anInternalAddFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
