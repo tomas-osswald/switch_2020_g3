@@ -8,11 +8,12 @@ import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -56,11 +57,9 @@ public class PersonRepository implements IPersonRepository {
 
     private Person retrievePersonFromRepository(PersonID id) {
         PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
-        //Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
         if (personRepositoryJPA.existsById(personIDJPA)) {
             Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
-            Person person = personAssembler.toDomain(personJPA.get());
-            return person;
+            return createPerson(personJPA.get());
         } else {
             throw new EmailNotRegisteredException();
         }
@@ -80,7 +79,7 @@ public class PersonRepository implements IPersonRepository {
         if (!isPersonIDAlreadyRegistered(person.id())) {
             PersonJPA personJPA = personAssembler.toData(person);
             registeredPersonJPA = personRepositoryJPA.save(personJPA);
-            savedPerson = personAssembler.toDomain(registeredPersonJPA);
+            savedPerson = createPerson(registeredPersonJPA);
         } else {
             throw new PersonAlreadyRegisteredException("Person is already registered in the database");
         }
@@ -91,9 +90,21 @@ public class PersonRepository implements IPersonRepository {
     public Person updatePerson(Person person) {
         PersonJPA personJPA = personAssembler.toData(person);
         PersonJPA updatedPersonJPA = personRepositoryJPA.save(personJPA);
-        Person updatedPerson = personAssembler.toDomain(updatedPersonJPA);
-        return updatedPerson;
+        return createPerson(updatedPersonJPA);
+    }
 
+    private Person createPerson(PersonJPA personJPA) {
+
+        PersonID personID = personAssembler.createPersonID(personJPA);
+        Name name = personAssembler.createName(personJPA);
+        BirthDate birthDate = personAssembler.createBirthDate(personJPA);
+        List<EmailAddress> emails = personAssembler.createEmailAdressList(personJPA);
+        VATNumber vat = personAssembler.createVATNumber(personJPA);
+        List<PhoneNumber> phoneNumbers = personAssembler.createPhoneNumberList(personJPA);
+        Address address = personAssembler.createAddress(personJPA);
+        FamilyID familyID = personAssembler.createFamilyID(personJPA);
+
+        return new Person(personID, name, birthDate, emails, vat, phoneNumbers, address, familyID);
     }
 
 }

@@ -27,6 +27,9 @@ import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.FamilyRepository;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -79,20 +82,36 @@ class CreateFamilyServiceIT {
     final String VALID_REGISTRATION_DATE = "01/03/1990";
     InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(VALID_FAMILY_NAME, VALID_REGISTRATION_DATE);
 
+    PhoneNumber phoneNumber = new PhoneNumber(VALIDPHONENUMBER);
+
 
     @Test
     @Tag("US010")
     void createFamilyAndAddAdminValidData() {
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(phoneNumber);
+
         // Arrange FamilyRepository
         when(familyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
         when(familyDataDomainAssembler.toData(any(Family.class))).thenReturn(new FamilyJPA());
         when(familyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(new FamilyJPA(new FamilyIDJPA(VALIDEMAIL), "Silva", "12/12/1999", new PersonIDJPA(VALIDEMAIL)));
-        when(familyDataDomainAssembler.toDomain(any(FamilyJPA.class))).thenReturn(new Family(new FamilyID(VALIDEMAIL), new FamilyName("Silva"), new RegistrationDate("12/12/1999"), new PersonID(VALIDEMAIL)));
+        when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(new FamilyID(VALIDEMAIL));
+        when(familyDataDomainAssembler.createFamilyName(any(FamilyJPA.class))).thenReturn(new FamilyName("Silva"));
+        when(familyDataDomainAssembler.createRegistrationDate(any(FamilyJPA.class))).thenReturn(new RegistrationDate("12/12/1999"));
+        when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(new PersonID(VALIDEMAIL));
+
         // Arrange PersonRepository
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
         when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(new PersonJPA());
         when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA(new PersonIDJPA(VALIDEMAIL), "TonyZe", "12/12/199", 123456789, new FamilyIDJPA(VALIDEMAIL)));
-        when(personDataDomainAssembler.toDomain(any(PersonJPA.class))).thenReturn(new Person(new Name("Rui"), new BirthDate("12/12/1999"), new PersonID("email@here.com"), new VATNumber(123456789), new PhoneNumber(987654321), new Address("Rua", "Covilhã", "6200-000", "1"), new FamilyID("email@here.com")));
+        when(personDataDomainAssembler.createPersonID(any(PersonJPA.class))).thenReturn(new PersonID("email@here.com"));
+        when(personDataDomainAssembler.createName(any(PersonJPA.class))).thenReturn(new Name("Rui"));
+        when(personDataDomainAssembler.createBirthDate(any(PersonJPA.class))).thenReturn(new BirthDate("12/12/1999"));
+        when(personDataDomainAssembler.createEmailAdressList(any(PersonJPA.class))).thenReturn(Collections.emptyList());
+        when(personDataDomainAssembler.createVATNumber(any(PersonJPA.class))).thenReturn(new VATNumber(123456789));
+        when(personDataDomainAssembler.createPhoneNumberList(any(PersonJPA.class))).thenReturn(phoneNumbers);
+        when(personDataDomainAssembler.createAddress(any(PersonJPA.class))).thenReturn(new Address("Rua", "Covilhã", "6200-000", "1"));
+        when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(new FamilyID("email@here.com"));
 
         createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
 
