@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 public class OutputAccountDTO {
 
-
     public OutputAccountDTO() {
     }
 
