@@ -9,7 +9,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.account.AbAccount;
-import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
@@ -22,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class CreateIAccountServiceTest {
+class CreateAccountServiceTest {
 
     @Mock
     IAccountRepository accountRepository;
@@ -50,7 +49,6 @@ class CreateIAccountServiceTest {
 
     CreateAccountDTO createAccountDTO = new CreateAccountDTO();
 
-
     @Disabled
     @Test
     void createAccountSuccessTest() {
@@ -77,6 +75,5 @@ class CreateIAccountServiceTest {
 
         assertThrows(AccountAlreadyRegisteredException.class, () -> createAccountService.createAccount(inputAccountDTO));
     }
-
 
 }
