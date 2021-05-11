@@ -55,11 +55,11 @@ public class PersonRESTController implements IPersonRESTController {
             outputEmailDTO = addEmailService.addEmail(inputEmailDTO);
             status = HttpStatus.OK;
 
-            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(inputEmailDTO.unpackUserID())).withSelfRel();
+            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getEmail(inputEmailDTO.unpackUserID(), inputEmailDTO.unpackEmail())).withSelfRel();
             outputEmailDTO.add(personSelfLink);
             return new ResponseEntity<>(outputEmailDTO, status);
         } catch (Exception e) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>("Error: " + e.getMessage(), status);
         }
     }
@@ -69,11 +69,12 @@ public class PersonRESTController implements IPersonRESTController {
      * to be included after the addEmail method successfully adds an email to a person.
      *
      * @param personID
-     * @param emailID
+     * @param email
      * @return A string with the person id to access the person resource and a string with the added email id to access the added resource.
      */
     @Override
-    public ResponseEntity<Object> getEmail(String personID, String emailID) {
+    @GetMapping(value = "/{personID}/emails/{email}")
+    public ResponseEntity<Object> getEmail(@PathVariable String personID, String email) {
         return null;
     }
 
@@ -94,7 +95,7 @@ public class PersonRESTController implements IPersonRESTController {
             return new ResponseEntity<OutputPersonDTO>(outputPersonDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity( status);
+            return new ResponseEntity(status);
         }
 
     }
