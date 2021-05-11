@@ -3,10 +3,7 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.IinputPersonDTO;
-import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.person.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,4 +128,7 @@ public class PersonDTODomainAssembler {
     }
 
 
+    public PersonID createPersonID(InputGetProfileDTO internalGetProfileDTO) {
+        return new PersonID(internalGetProfileDTO.unpackID());
+    }
 }
