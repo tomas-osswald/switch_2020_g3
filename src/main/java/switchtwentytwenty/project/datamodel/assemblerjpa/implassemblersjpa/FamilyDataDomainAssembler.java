@@ -33,11 +33,13 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
 
         return familyJPA;
     }
+
     /**
      * Assembler method to create a FamilyJPA data object into a Family domain object.
      * @param familyJPA data object
      * @return Family domain object
      */
+    @Deprecated
     public Family toDomain(FamilyJPA familyJPA) {
 
         FamilyID familyID = new FamilyID(familyJPA.getId().toString());
@@ -50,6 +52,21 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
         PersonID personID = new PersonID(familyJPA.getAdminID().toString());
         Family family = new Family(familyID, familyName, registrationDate, personID);
         return family;
+    }
 
+    public FamilyID createFamilyID(FamilyJPA familyJPA) {
+        return new FamilyID(familyJPA.getId().toString());
+    }
+
+    public FamilyName createFamilyName(FamilyJPA familyJPA) {
+        return new FamilyName(familyJPA.getFamilyName());
+    }
+
+    public RegistrationDate createRegistrationDate(FamilyJPA familyJPA) {
+        return new RegistrationDate(familyJPA.getRegistrationDate());
+    }
+
+    public PersonID createAdminID(FamilyJPA familyJPA) {
+        return new PersonID(familyJPA.getAdminID().toString());
     }
 }

@@ -7,11 +7,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersonRepositoryTest {
@@ -28,33 +34,26 @@ class PersonRepositoryTest {
     @Captor
     ArgumentCaptor<PersonIDJPA> captorPersonIDJPA;
 
-    final String VALIDNAME = "TonyZe";
-    final String VALIDEMAIL = "tonyze@latinlover.pt";
-    final int VALIDVATNUMBER = 999999999;
-    final int VALIDPHONENUMBER = 916969696;
-    final String VALIDSTREET = "Rua";
-    final String VALIDCITY = "Ermesinde";
-    final String VALIDZIPCODE = "4700-111";
-    final String VALIDADDRESSNUMBER = "69";
-    final String VALIDBIRTHDATE = "01/03/1990";
-    Name tonyZeName;
-    BirthDate tonyZeBirthDate;
-    PersonID tonyZeEmail;
-    VATNumber tonyZeVat;
-    PhoneNumber tonyZePhone;
-    Address tonyZeAddress;
-    FamilyID familyID;
+    // Person
+    String VALIDNAME = "TonyZe";
+    String VALIDEMAIL = "tonyze@latinlover.pt";
+    int VALIDVATNUMBER = 999999999;
+    int VALIDPHONENUMBER = 916969696;
+    String VALIDSTREET = "Rua";
+    String VALIDCITY = "Ermesinde";
+    String VALIDZIPCODE = "4700-111";
+    String VALIDADDRESSNUMBER = "69";
+    String VALIDBIRTHDATE = "01/03/1990";
 
-    @BeforeEach
-    void createValidPersonAttributtes() {
-        tonyZeName = new Name(VALIDNAME);
-        tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
-        tonyZeEmail = new PersonID(VALIDEMAIL);
-        tonyZeVat = new VATNumber(VALIDVATNUMBER);
-        tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
-        tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        familyID = new FamilyID(VALIDEMAIL);
-    }
+    Name tonyZeName= new Name(VALIDNAME);
+    BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+    PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+    VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+    PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+    Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+    FamilyID familyID = new FamilyID(VALIDEMAIL);
+
+    Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
     private AutoCloseable closeble;
 
@@ -76,7 +75,22 @@ class PersonRepositoryTest {
     }
 
     @Test
-    void addPerson() {
+    void addPersonDoesNotThrow() {
+        PersonJPA personJPA = new PersonJPA();
+
+        when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(personJPA);
+        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(personJPA);
+
+        assertDoesNotThrow(() -> personRepository.add(person));
+    }
+
+    @Test
+    void addPersonDoesThrow() {
+        PersonJPA personJPA = new PersonJPA();
+
+        when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
+
+        assertThrows(IllegalStateException.class, () -> personRepository.add(person));
     }
 
 }

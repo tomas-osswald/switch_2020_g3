@@ -93,7 +93,7 @@ public class PersonRepository implements IPersonRepository {
         return createPerson(updatedPersonJPA);
     }
 
-    public Person createPerson(PersonJPA personJPA) {
+    private Person createPerson(PersonJPA personJPA) {
 
         PersonID personID = personAssembler.createPersonID(personJPA);
         Name name = personAssembler.createName(personJPA);
