@@ -71,6 +71,14 @@ public class AccountJPATest {
         assertNotSame(accountJPAOne, accountJPATwo);
     }
     @Test
+    void equalsAccountJPAEqualAccountJPANoArgsTest() {
+        AccountJPA accountJPAOne = new AccountJPA();
+        AccountJPA accountJPAtwo = accountJPAOne;
+
+        assertEquals(accountJPAOne, accountJPAtwo);
+
+    }
+    @Test
     void equalsAccountJPAIsSameAccountJPA(){
         AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
         AccountJPA accountJPATwo = accountJPAOne;

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
+
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
+
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
@@ -107,7 +110,24 @@ public class PersonRESTController implements IPersonRESTController {
 
     @GetMapping(value = "/{personID}")
     public ResponseEntity<OutputPersonDTO> getProfileInfo(@PathVariable String personID) {
-        return null;
+
+        try {
+            InputGetProfileDTO inputGetProfileDTO = profileInternalExternalAssembler.toInternalGetProfileDTO(personID);
+
+            OutputPersonDTO outputPersonDTO = getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO);
+
+            Link link = linkTo(methodOn(PersonRESTController.class).getPersonOptions(personID)).withSelfRel();
+
+            outputPersonDTO.add(link);
+
+            return new ResponseEntity(outputPersonDTO, HttpStatus.FOUND);
+
+        } catch (EmailNotRegisteredException e) {
+
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+
+        }
+
     }
 
     public ResponseEntity<Object> getPersonID(GetProfileInfoDTO getProfileInfoDTO) {
