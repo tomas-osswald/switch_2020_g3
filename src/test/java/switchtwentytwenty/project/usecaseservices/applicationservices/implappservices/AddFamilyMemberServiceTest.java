@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
-import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,6 +120,8 @@ class AddFamilyMemberServiceTest {
         assertThrows(InvalidNameException.class,()-> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
+
+
 
 
     @Test

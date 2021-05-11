@@ -59,13 +59,17 @@ class PersonRESTControllerTest {
     //Person personToAddEmail;
 
     String emailAddressAsID = "tonyze@latinlover.com";
-    String emailToAdd = "tony@emailtoadd.com";
+
+    PersonID personID = new PersonID(emailAddressAsID);
+    String email = "tony@emailtoadd.com";
     String invalidEmailToAdd = "invalidemail.com";
-    InputEmailDTO internalEmailDTO = new InputEmailDTO(emailAddressAsID, emailToAdd);
+    String emailIDAfterAddingToDatabase = "3L";
+    InputEmailDTO internalEmailDTO = new InputEmailDTO(emailAddressAsID, email);
 
-    OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailToAdd);
 
-    AddEmailDTO addEmailDTO = new AddEmailDTO(emailAddressAsID, emailToAdd);
+    OutputEmailDTO outputEmailDTO = new OutputEmailDTO(email);
+
+    AddEmailDTO addEmailDTO = new AddEmailDTO(emailAddressAsID, email);
     AddEmailDTO INVALIDAddEmailDTO = new AddEmailDTO(emailAddressAsID, invalidEmailToAdd);
     InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(INVALIDAddEmailDTO.unpackUserID(), INVALIDAddEmailDTO.unpackEmail());
 
@@ -96,7 +100,6 @@ class PersonRESTControllerTest {
     OutputPersonDTO realOutPutPersonDTO = new OutputPersonDTO();
 
 
-    @Disabled
     @Test
     @DisplayName("Success case of adding an email to a Person")
     void successCaseInAddEmail() {
@@ -104,44 +107,41 @@ class PersonRESTControllerTest {
         when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
         when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
 
-
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID);
-        //    Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
-        //    expectedOutputEmailDTO.add(link);
+        Link link = linkTo(methodOn(PersonRESTController.class).getEmail(personID.toString(), email)).withSelfRel();
+        expectedOutputEmailDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputEmailDTO, HttpStatus.OK);
 
         ResponseEntity result = personRESTController.addEmail(addEmailDTO);
 
-        assertEquals(expected, result);
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
     }
 
-    @Disabled
     @DisplayName("Fail test when Email is already registered in the Person")
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsAlreadyRegisteredInThePerson() {
 
-        when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
-        when(mockAddEmailService.addEmail(internalEmailDTO)).thenThrow(EmailAlreadyRegisteredException.class);
+        when(mockPersonInputDTOAssembler.toInputEmailDTO(any(AddEmailDTO.class))).thenReturn(internalEmailDTO);
+        when(mockAddEmailService.addEmail(any(InputEmailDTO.class))).thenThrow(new EmailAlreadyRegisteredException());
 
-
-        ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: Email is already registered", HttpStatus.BAD_REQUEST);
 
         ResponseEntity result = personRESTController.addEmail(addEmailDTO);
 
         assertEquals(expected, result);
     }
 
-    @Disabled
     @DisplayName("Fail test when Email is in invalid format")
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsWrongfullyInsertedExpectingInvalidEmailException() {
 
-        when(mockPersonInputDTOAssembler.toInputEmailDTO(INVALIDAddEmailDTO)).thenReturn(INVALIDInternalEmailDTO);
-        when(mockAddEmailService.addEmail(INVALIDInternalEmailDTO)).thenThrow(InvalidEmailException.class);
+        when(mockPersonInputDTOAssembler.toInputEmailDTO(any(AddEmailDTO.class))).thenReturn(INVALIDInternalEmailDTO);
+        when(mockAddEmailService.addEmail(any(InputEmailDTO.class))).thenThrow(new InvalidEmailException("This Email is not valid"));
 
         //Sem certeza que Bad_Request se enquadra neste HttpStatus
-        ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: This Email is not valid", HttpStatus.BAD_REQUEST);
 
         ResponseEntity result = personRESTController.addEmail(INVALIDAddEmailDTO);
 

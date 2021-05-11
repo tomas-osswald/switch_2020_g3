@@ -112,15 +112,24 @@ class PersonRESTControllerIT {
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
         PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(tonyZePhone);
         Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
         FamilyID familyID = new FamilyID(VALIDEMAIL);
 
-        Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        //Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
         // Mocking
         when(iPersonRepositoryJPA.existsById(any(PersonIDJPA.class))).thenReturn(true);
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(personJPA));
-        when(personDataDomainAssembler.toDomain(any(PersonJPA.class))).thenReturn(person);
+        when(personDataDomainAssembler.createPersonID(any(PersonJPA.class))).thenReturn(tonyZeEmail);
+        when(personDataDomainAssembler.createName(any(PersonJPA.class))).thenReturn(tonyZeName);
+        when(personDataDomainAssembler.createBirthDate(any(PersonJPA.class))).thenReturn(tonyZeBirthDate);
+        when(personDataDomainAssembler.createEmailAdressList(any(PersonJPA.class))).thenReturn(Collections.emptyList());
+        when(personDataDomainAssembler.createVATNumber(any(PersonJPA.class))).thenReturn(tonyZeVat);
+        when(personDataDomainAssembler.createPhoneNumberList(any(PersonJPA.class))).thenReturn(phoneNumbers);
+        when(personDataDomainAssembler.createAddress(any(PersonJPA.class))).thenReturn(tonyZeAddress);
+        when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(familyID);
 
         // Expected
         List<String> expectedEmails = Collections.emptyList();
