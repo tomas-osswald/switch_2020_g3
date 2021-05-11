@@ -66,26 +66,6 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return birthDate;
     }
 
-    /**
-     * US101 - Assembler method that creates a Person domain object from a DTO
-     *
-     * @param anInternalAddFamilyMemberDTO
-     * @return Person
-     */
-    @Deprecated
-    public Person toDomain(InputAddFamilyMemberDTO anInternalAddFamilyMemberDTO) {
-        PersonID personID = new PersonID(anInternalAddFamilyMemberDTO.unpackEmail());
-        Name name = new Name(anInternalAddFamilyMemberDTO.unpackName());
-        BirthDate birthDate = new BirthDate(anInternalAddFamilyMemberDTO.unpackBirthDate());
-        VATNumber vat = new VATNumber(anInternalAddFamilyMemberDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(anInternalAddFamilyMemberDTO.unpackPhone());
-        Address address = new Address(anInternalAddFamilyMemberDTO.unpackStreet(), anInternalAddFamilyMemberDTO.unpackCity(), anInternalAddFamilyMemberDTO.unpackZipCode(), anInternalAddFamilyMemberDTO.unpackHouseNumber());
-        FamilyID familyID = new FamilyID(anInternalAddFamilyMemberDTO.getAdminID());
-
-        Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
-
-        return person;
-    }
 
     public OutputPersonDTO toDTO(Person savedPerson) {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
