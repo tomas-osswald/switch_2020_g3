@@ -28,6 +28,8 @@ public class AccountFactory {
             //Cria uma instancia do tipo especifico de conta
             newIAccount = (IAccount) Class.forName(classpath).newInstance();
 
+            //TODO: Já li os comentários! Alterei os construtores para manuais e protected para garantir que só o próprio package pode instanciar Accounts. Neste caso a Factory.
+
             // BATISTA !!!
             // Como já não ha build e não sabemos qual instancia de Account a "newAccount" se vai tornar,
             // usamos construtores vazios para instanciar qualquer tipo de Account e set's para adicionar os atributos
