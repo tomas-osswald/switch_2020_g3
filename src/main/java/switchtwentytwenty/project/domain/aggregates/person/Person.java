@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
+import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
+import switchtwentytwenty.project.domain.aggregates.account.CreditCardAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.*;
 

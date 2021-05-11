@@ -8,7 +8,6 @@ import switchtwentytwenty.project.domain.valueobject.*;
 import java.util.List;
 
 @Component
-@NoArgsConstructor
 @AllArgsConstructor
 public class CreditCardAccount extends AbNonCashAccount {
 
@@ -22,6 +21,9 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     private List<Movement> movements;
 
+    protected CreditCardAccount(){
+
+    }
 
     @Override
     public AccountID id() {

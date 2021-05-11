@@ -10,7 +10,6 @@ import java.util.List;
 
 
 @Component
-@NoArgsConstructor
 @AllArgsConstructor
 public class BankAccount extends AbNonCashAccount {
 
@@ -24,6 +23,9 @@ public class BankAccount extends AbNonCashAccount {
 
     private List<Movement> movements = new ArrayList<>();
 
+    protected BankAccount() {
+
+    }
 
     @Override
     public AccountID id() {

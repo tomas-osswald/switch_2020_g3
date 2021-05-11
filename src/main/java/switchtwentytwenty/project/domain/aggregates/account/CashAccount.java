@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@NoArgsConstructor
 @AllArgsConstructor
 public class CashAccount extends AbCashAccount{
 
@@ -24,6 +23,8 @@ public class CashAccount extends AbCashAccount{
 
     private List<Movement> movements = new ArrayList<>();
 
+    protected CashAccount(){
+    }
 
     @Override
     public AccountID id() {
