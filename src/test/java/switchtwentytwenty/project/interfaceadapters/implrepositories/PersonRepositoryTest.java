@@ -1,74 +1,96 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
+import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class PersonRepositoryTest {
 
-    final String VALIDNAME = "TonyZe";
-    final String VALIDEMAIL = "tonyze@latinlover.pt";
-    final int VALIDVATNUMBER = 999999999;
-    final int VALIDPHONENUMBER = 916969696;
-    final String VALIDSTREET = "Rua";
-    final String VALIDCITY = "Ermesinde";
-    final String VALIDZIPCODE = "4700-111";
-    final String VALIDADDRESSNUMBER = "69";
-    final String VALIDBIRTHDATE = "01/03/1990";
-    Name tonyZeName;
-    BirthDate tonyZeBirthDate;
-    PersonID tonyZeEmail;
-    VATNumber tonyZeVat;
-    PhoneNumber tonyZePhone;
-    Address tonyZeAddress;
-    FamilyID familyID;
+    @Mock
+    IPersonRepositoryJPA iPersonRepositoryJPA;
+
+    @Mock
+    PersonDataDomainAssembler personDataDomainAssembler;
+
+    @InjectMocks
+    PersonRepository personRepository;
+
+    @Captor
+    ArgumentCaptor<PersonIDJPA> captorPersonIDJPA;
+
+    // Person
+    String VALIDNAME = "TonyZe";
+    String VALIDEMAIL = "tonyze@latinlover.pt";
+    int VALIDVATNUMBER = 999999999;
+    int VALIDPHONENUMBER = 916969696;
+    String VALIDSTREET = "Rua";
+    String VALIDCITY = "Ermesinde";
+    String VALIDZIPCODE = "4700-111";
+    String VALIDADDRESSNUMBER = "69";
+    String VALIDBIRTHDATE = "01/03/1990";
+
+    Name tonyZeName= new Name(VALIDNAME);
+    BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+    PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+    VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+    PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+    Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+    FamilyID familyID = new FamilyID(VALIDEMAIL);
+
+    Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+    private AutoCloseable closeble;
 
     @BeforeEach
-    void createValidPersonAttributtes() {
-        tonyZeName = new Name(VALIDNAME);
-        tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
-        tonyZeEmail = new PersonID(VALIDEMAIL);
-        tonyZeVat = new VATNumber(VALIDVATNUMBER);
-        tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
-        tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        familyID = new FamilyID(VALIDEMAIL);
+    void setUp() {
+        closeble = MockitoAnnotations.openMocks(this);
     }
 
-
-
-
+    @AfterEach
+    void tearDown() throws Exception {
+        closeble.close();
+    }
 
     /* UNIT TESTS */
 
     @Test
     void getByID() {
+
     }
 
     @Test
-    void save() {
+    void addPersonDoesNotThrow() {
+        PersonJPA personJPA = new PersonJPA();
+
+        when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(personJPA);
+        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(personJPA);
+
+        assertDoesNotThrow(() -> personRepository.add(person));
     }
 
-    /*
     @Test
-    void shouldThrowNineTimesPersonIDAlreadyPresentInRepositoryTenThreads() throws InterruptedException {
-        PersonRepository personRepository = new PersonRepository();
-        AtomicInteger counter = new AtomicInteger();
-        int numberOfThreads = 10;
-        ExecutorService service = Executors.newFixedThreadPool(10);
-        CountDownLatch latch = new CountDownLatch(numberOfThreads);
-        for (int i = 0; i < numberOfThreads; i++) {
-            service.submit(() -> {
-                try {
-                    personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-                } catch (EmailAlreadyRegisteredException e) {
-                    counter.getAndIncrement();
-                }
-                latch.countDown();
-            });
-        }
-        latch.await();
-        assertEquals(9, counter.get());
+    void addPersonDoesThrow() {
+        PersonJPA personJPA = new PersonJPA();
+
+        when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
+
+        assertThrows(IllegalStateException.class, () -> personRepository.add(person));
     }
-    */
 
 }

@@ -7,16 +7,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.*;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
@@ -28,6 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
@@ -60,7 +57,6 @@ class FamilyRepositoryTest {
 
     // Family
 
-    UUID id = UUID.randomUUID();
     FamilyID familyID = new FamilyID("admin@gmail.com");
     String familyNameString = "Ribeiro";
     FamilyName familyName = new FamilyName(familyNameString);
@@ -98,4 +94,12 @@ class FamilyRepositoryTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void getByIDTestThrowsExceptionWhenIDJPANotPresent(){
+        FamilyID otherFamilyID = new FamilyID("otherFamily@gmail.com");
+
+        assertThrows(IllegalArgumentException.class,()->familyRepository.getByID(otherFamilyID));
+    }
+
 }

@@ -5,6 +5,7 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IPersonD
 import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.person.IInputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +50,54 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         return personJPA;
     }
 
+    public Address createAddress(PersonJPA personJPA) {
+        AddressJPA addressJPA = personJPA.getAddress();
+
+        String street = addressJPA.getStreet();
+        String city = addressJPA.getCity();
+        String zipCode = addressJPA.getZipCode();
+        String doorNumber = addressJPA.getDoorNumber();
+
+        Address address = new Address(street, city, zipCode, doorNumber);
+
+        return address;
+    }
+
+    public List<PhoneNumber> createPhoneNumberList(PersonJPA personJPA) {
+        return generatePhoneNumberList(personJPA.getPhones());
+    }
+
+    public List<EmailAddress> createEmailAdressList(PersonJPA personJPA) {
+        return generateEmailAddressList(personJPA.getEmails());
+    }
+
+    public VATNumber createVATNumber(PersonJPA personJPA) {
+        return new VATNumber(personJPA.getVat());
+    }
+
+    public PersonID createPersonID(PersonJPA personJPA) {
+        return new PersonID(personJPA.getId().toString());
+    }
+
+    public Name createName(PersonJPA personJPA) {
+        return new Name(personJPA.getName());
+    }
+
+    public BirthDate createBirthDate(PersonJPA personJPA) {
+        return new BirthDate(personJPA.getBirthdate());
+    }
+
+    public FamilyID createFamilyID(PersonJPA personJPA) {
+        return new FamilyID(personJPA.getFamilyid().toString());
+    }
+
     /**
      * Assembler method to convert a PersonJPA data object into a Person domain object
      *
      * @param personJPA data object to be converted
      * @return Person domain object corresponding the inputted personJPA.
      */
+    @Deprecated
     public Person toDomain(PersonJPA personJPA) {
         PersonID personID = new PersonID(personJPA.getId().toString());
         Name name = new Name(personJPA.getName());
