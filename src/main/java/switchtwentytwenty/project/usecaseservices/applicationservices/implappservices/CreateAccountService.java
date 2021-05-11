@@ -3,6 +3,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import switchtwentytwenty.project.dto.accounts.AccountInputDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
@@ -27,6 +28,4 @@ public class CreateAccountService implements ICreateAccountService {
         return null;
     }
 
-
-
- }
+}

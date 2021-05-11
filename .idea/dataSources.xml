@@ -38,5 +38,12 @@
       <jdbc-url>jdbc:sqlite:C:\reposml\dsoft-labproj\switch_2020_g3\docs\sprint4\Domain Model DDD_vpp\class_diag_g3_08_04.vpp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="class_diag_g3_22-04" uuid="3d39b390-6f62-4ce1-be37-4c2959ea8f58">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Switch\4_Curso\Projeto\switch_2020_g3\docs\sprint4\ClassDiagram.vpp\class_diag_g3_22-04.vpp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
