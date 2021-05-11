@@ -30,7 +30,6 @@ public class AccountRESTController implements IAccountRESTController {
     }
 
 
-    @Override
     @PostMapping
     public ResponseEntity<OutputAccountDTO> createAccount(@RequestBody CreateAccountDTO createAccountDTO) {
         AccountInputDTO accountInputDTO = accountInputDTOAssembler.toInputDTO(createAccountDTO);
