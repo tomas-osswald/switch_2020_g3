@@ -28,7 +28,7 @@ public class AccountJPA {
     @Getter
     private String accountType;
     @Getter
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.ALL)
     private List<MovementJPA> movements = new ArrayList<MovementJPA>();
 
     /**

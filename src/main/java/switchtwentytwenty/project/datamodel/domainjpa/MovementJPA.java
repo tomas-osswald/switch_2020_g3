@@ -23,7 +23,7 @@ public class MovementJPA {
 
     @Getter
     @ManyToOne()
-    @JoinColumn(name = "account")
+    @JoinColumn(name = "account", nullable=true)
     private AccountJPA account;
 
 
