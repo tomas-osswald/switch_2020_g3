@@ -13,11 +13,15 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileService {
 
-    @Autowired
     IPersonRepository personRepository;
 
-    @Autowired
     PersonDTODomainAssembler assembler;
+
+    @Autowired
+    public GetFamilyMemberProfileService(IPersonRepository iPersonRepository, PersonDTODomainAssembler personDTODomainAssembler) {
+        this.assembler = personDTODomainAssembler;
+        this.personRepository = iPersonRepository;
+    }
 
 
     public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO internalGetProfileDTO) {

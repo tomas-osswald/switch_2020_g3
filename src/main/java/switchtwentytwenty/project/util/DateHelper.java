@@ -11,9 +11,9 @@ public class DateHelper {
 
     static final String DATE_IS_INVALID = "Date is in invalid format";
 
-    private DateHelper() {
-        throw new IllegalStateException("Utility class");
-    }
+    //private DateHelper() {
+        //throw new IllegalStateException("Utility class");
+    //}
 
     public static Calendar parseDateAndTime(String dateString, String timeString) {
         String pattern = "dd/MM/yyyyHH:mm";
