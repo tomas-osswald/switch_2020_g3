@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
+import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Monetary;
 import switchtwentytwenty.project.domain.valueobject.OwnerID;
@@ -36,7 +37,10 @@ public class CreateAccountService implements ICreateAccountService {
         OwnerID ownerID = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
         String accountType = accountDTODomainAssembler.accountTypeToDomain(inputAccountDTO);
 
-        return null;
+        IAccount account = accountFactory.createAccount(designation, monetary, ownerID, accountType);
+        IAccount savedAccount = accountRepository.add(account);
+        OutputAccountDTO outputAccountDTO = accountDTODomainAssembler.toDTO(savedAccount);
+        return outputAccountDTO;
     }
 
 }

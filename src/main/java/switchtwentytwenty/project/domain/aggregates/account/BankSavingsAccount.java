@@ -1,9 +1,16 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.*;
 
 import java.util.List;
 
+
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class BankSavingsAccount extends AbNonCashAccount {
 
     private AccountID accountID;
@@ -45,5 +52,30 @@ public class BankSavingsAccount extends AbNonCashAccount {
     @Override
     public AccountType getAccountType() {
         return null;
+    }
+
+    @Override
+    public void setAccountID(AccountID accountID) {
+
+    }
+
+    @Override
+    public void setOwner(OwnerID ownerID) {
+
+    }
+
+    @Override
+    public void setDesignation(Designation designation) {
+
+    }
+
+    @Override
+    public void setMovements(List<Movement> movements) {
+
+    }
+
+    @Override
+    public void addMovement(Movement movement) {
+
     }
 }

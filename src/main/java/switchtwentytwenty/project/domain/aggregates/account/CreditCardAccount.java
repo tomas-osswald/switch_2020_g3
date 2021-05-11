@@ -1,10 +1,15 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 
 import java.util.List;
 
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreditCardAccount extends AbNonCashAccount {
 
     private AccountID accountID;
@@ -17,10 +22,6 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     private List<Movement> movements;
 
-
-    public OutputAccountDTO CreditCardAccount() {
-        return null;
-    }
 
     @Override
     public AccountID id() {
@@ -50,5 +51,30 @@ public class CreditCardAccount extends AbNonCashAccount {
     @Override
     public AccountType getAccountType() {
         return null;
+    }
+
+    @Override
+    public void setAccountID(AccountID accountID) {
+
+    }
+
+    @Override
+    public void setOwner(OwnerID ownerID) {
+
+    }
+
+    @Override
+    public void setDesignation(Designation designation) {
+
+    }
+
+    @Override
+    public void setMovements(List<Movement> movements) {
+
+    }
+
+    @Override
+    public void addMovement(Movement movement) {
+
     }
 }

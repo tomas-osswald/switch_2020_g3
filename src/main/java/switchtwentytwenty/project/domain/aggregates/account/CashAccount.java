@@ -24,14 +24,6 @@ public class CashAccount extends AbCashAccount{
     private List<Movement> movements = new ArrayList<>();
 
 
-    public CashAccount(AccountID accountID, OwnerID ownerID, Designation designation, Balance balance, Movement movement) {
-        this.accountID = accountID;
-        this.ownerID = ownerID;
-        this.designation = designation;
-        this.balance = balance;
-        movements.add(movement);
-    }
-
     @Override
     public AccountID id() {
         return this.accountID;
@@ -55,6 +47,31 @@ public class CashAccount extends AbCashAccount{
     @Override
     public AccountType getAccountType() {
         return null;
+    }
+
+    @Override
+    public void setAccountID(AccountID accountID) {
+        this.accountID = accountID;
+    }
+
+    @Override
+    public void setOwner(OwnerID ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    @Override
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    @Override
+    public void setMovements(List<Movement> movements) {
+        this.movements = movements;
+    }
+
+    @Override
+    public void addMovement(Movement movement){
+        movements.add(movement);
     }
 
 

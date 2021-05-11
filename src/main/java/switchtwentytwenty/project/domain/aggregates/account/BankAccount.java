@@ -1,9 +1,17 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class BankAccount extends AbNonCashAccount {
 
     private AccountID accountID;
@@ -14,17 +22,8 @@ public class BankAccount extends AbNonCashAccount {
 
     private Balance balance;
 
-    private List<Movement> movements;
+    private List<Movement> movements = new ArrayList<>();
 
-    public BankAccount(AccountID accountID, OwnerID ownerID, Designation designation, Movement movement) {
-        this.accountID = accountID;
-        this.ownerID = ownerID;
-        this.designation = designation;
-        movements.add(movement);
-    }
-
-    public BankAccount() {
-    }
 
     @Override
     public AccountID id() {
@@ -54,5 +53,30 @@ public class BankAccount extends AbNonCashAccount {
     @Override
     public AccountType getAccountType() {
         return null;
+    }
+
+    @Override
+    public void setAccountID(AccountID accountID) {
+        this.accountID = accountID;
+    }
+
+    @Override
+    public void setOwner(OwnerID ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    @Override
+    public void setDesignation(Designation designation) {
+
+    }
+
+    @Override
+    public void setMovements(List<Movement> movements) {
+
+    }
+
+    @Override
+    public void addMovement(Movement movement) {
+
     }
 }
