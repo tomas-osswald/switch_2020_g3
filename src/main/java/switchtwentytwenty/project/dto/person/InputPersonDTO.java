@@ -2,11 +2,11 @@ package switchtwentytwenty.project.dto.person;
 
 import java.util.Objects;
 
-public class InputPersonDTO implements IinputPersonDTO {
+public class InputPersonDTO implements IInputPersonDTO {
 
     private String emailID;
     private String name;
-    private String birtDate;
+    private String birthDate;
     private int vatNumber;
     private Integer phone;
     private String street;
@@ -20,11 +20,11 @@ public class InputPersonDTO implements IinputPersonDTO {
     // O userID vem na mesma no megaDTO externo mas é extraído à parte para obter a family e este não fica "poluído"(João Pinto).
     //TODO: retirar ID do admin pq não devemos "poluir" com informação que não é necessária para a criação de uma Person (aqui tivemos o nosso momento GRETA)
 
-    public InputPersonDTO(String emailID, String name, String birtDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
+    public InputPersonDTO(String emailID, String name, String birthDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
 
         this.emailID = emailID;
         this.name = name;
-        this.birtDate = birtDate;
+        this.birthDate = birthDate;
         this.vatNumber = vatNumber;
         this.phone = phone;
         this.street = street;
@@ -43,7 +43,7 @@ public class InputPersonDTO implements IinputPersonDTO {
     }
 
     public String unpackBirthDate() {
-        return this.birtDate;
+        return this.birthDate;
     }
 
     public int unpackVAT() {
@@ -75,11 +75,11 @@ public class InputPersonDTO implements IinputPersonDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InputPersonDTO that = (InputPersonDTO) o;
-        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birtDate.equals(that.birtDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode);
+        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emailID, name, birtDate, vatNumber, phone, street, city, houseNumber, zipCode);
+        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode);
     }
 }

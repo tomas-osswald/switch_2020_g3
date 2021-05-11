@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
-
 @NoArgsConstructor
 @Entity
 @Table(name = "accounts")

@@ -7,22 +7,22 @@ import switchtwentytwenty.project.dto.person.*;
 @Component
 public class PersonInputDTOAssembler {
 
-    public InputAddFamilyMemberDTO toInternalAddFamilyMemberDTO(AddFamilyMemberDTO AddFamilyMemberDTO) {
+    public InputAddFamilyMemberDTO toInputAddFamilyMemberDTO(AddFamilyMemberDTO AddFamilyMemberDTO) {
 
-        InputAddFamilyMemberDTO InternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO();
+        InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO();
 
-        InternalAddFamilyMemberDTO.setAdminID(AddFamilyMemberDTO.getAdminID());
-        InternalAddFamilyMemberDTO.setEmailID(AddFamilyMemberDTO.getEmailID());
-        InternalAddFamilyMemberDTO.setName(AddFamilyMemberDTO.getName());
-        InternalAddFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirthDate());
-        InternalAddFamilyMemberDTO.setVatNumber(AddFamilyMemberDTO.getVatNumber());
-        InternalAddFamilyMemberDTO.setPhone(AddFamilyMemberDTO.getPhone());
-        InternalAddFamilyMemberDTO.setStreet(AddFamilyMemberDTO.getStreet());
-        InternalAddFamilyMemberDTO.setCity(AddFamilyMemberDTO.getCity());
-        InternalAddFamilyMemberDTO.setHouseNumber(AddFamilyMemberDTO.getHouseNumber());
-        InternalAddFamilyMemberDTO.setZipCode(AddFamilyMemberDTO.getZipCode());
+        internalAddFamilyMemberDTO.setAdminID(AddFamilyMemberDTO.getAdminID());
+        internalAddFamilyMemberDTO.setEmailID(AddFamilyMemberDTO.getEmailID());
+        internalAddFamilyMemberDTO.setName(AddFamilyMemberDTO.getName());
+        internalAddFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirthDate());
+        internalAddFamilyMemberDTO.setVatNumber(AddFamilyMemberDTO.getVatNumber());
+        internalAddFamilyMemberDTO.setPhone(AddFamilyMemberDTO.getPhone());
+        internalAddFamilyMemberDTO.setStreet(AddFamilyMemberDTO.getStreet());
+        internalAddFamilyMemberDTO.setCity(AddFamilyMemberDTO.getCity());
+        internalAddFamilyMemberDTO.setHouseNumber(AddFamilyMemberDTO.getHouseNumber());
+        internalAddFamilyMemberDTO.setZipCode(AddFamilyMemberDTO.getZipCode());
 
-        return InternalAddFamilyMemberDTO;
+        return internalAddFamilyMemberDTO;
     }
 
     public InputGetProfileDTO toInternalGetProfileDTO(String personID){
@@ -36,7 +36,13 @@ public class PersonInputDTOAssembler {
      * @param addEmailDTO
      * @return InternalEmailDTO (Contains info required to add an Email to an already existing person)
      */
-    public InputEmailDTO toInternal (AddEmailDTO addEmailDTO) { return null;
+    public InputEmailDTO toInputEmailDTO(AddEmailDTO addEmailDTO) {
+        InputEmailDTO inputEmailDTO = new InputEmailDTO();
+
+        inputEmailDTO.setEmail(addEmailDTO.unpackEmail());
+        inputEmailDTO.setId(addEmailDTO.unpackUserID());
+
+        return inputEmailDTO;
     }
 
     public InputPersonDTO toInputPersonDTO(AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {

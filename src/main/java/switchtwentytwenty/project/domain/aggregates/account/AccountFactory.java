@@ -4,7 +4,6 @@ package switchtwentytwenty.project.domain.aggregates.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.domain.aggregates.account.Account;
 
 @Component
 public class AccountFactory {
@@ -13,14 +12,14 @@ public class AccountFactory {
     private Environment environment;
 
     //Isto nao aceita só uma String, aceita um DTO que tem lá o string do account type. Terá de ser adaptado
-    public Account createAccount(String accountType) {
-        Account newAccount;
+    public IAccount createAccount(String accountType) {
+        IAccount newIAccount;
         //Isto vai ao application.properties buscar o endereço da classe de acordo com o string que recebemos.
         //O toLowerCase() é para bater certo
         String classpath = environment.getProperty(accountType.toLowerCase());
         try {
             //Cria uma instancia do tipo especifico de conta
-            newAccount = (Account) Class.forName(classpath).newInstance();
+            newIAccount = (IAccount) Class.forName(classpath).newInstance();
             //E aqui usamos o metodo interno que ainda nao existe da conta, para a construir.
             //newAccount.build();
 
@@ -28,6 +27,6 @@ public class AccountFactory {
             //Isto é para apanhar todas as exceptions possiveis do string nao ser reconhecido ou processado corretamente pelo application.properties
             throw new IllegalArgumentException();
         }
-        return newAccount;
+        return newIAccount;
     }
 }

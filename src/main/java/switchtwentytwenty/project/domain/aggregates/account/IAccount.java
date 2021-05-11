@@ -1,9 +1,11 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 
-public interface Account extends AggregateRoot<AccountID> {
+@Component
+public interface IAccount extends AggregateRoot<AccountID> {
 
     AccountID getId();
 
@@ -14,4 +16,5 @@ public interface Account extends AggregateRoot<AccountID> {
     Balance getBalance();
 
     AccountType getAccountType();
+
 }

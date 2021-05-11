@@ -1,11 +1,16 @@
 package switchtwentytwenty.project.dto.person;
 
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Setter
+@NoArgsConstructor
 public class InputEmailDTO {
 
-    private final String id;
-    private final String email;
+    private String id;
+    private String email;
 
     public InputEmailDTO(String id, String email) {
         this.id = id;

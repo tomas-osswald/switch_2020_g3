@@ -6,6 +6,12 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@NoArgsConstructor
 public class OutputAccountDTO {
+
+    public OutputAccountDTO() {
+    }
+
+    public OutputAccountDTO getAccountID() {
+        return null;
+    }
 }

@@ -39,12 +39,12 @@ public class FamilyRESTController implements IFamilyRESTController {
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity<Object> familiesOptions(){
+    public ResponseEntity<Object> familiesOptions() {
         Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("Add New Family").withSelfRel();
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Allow", "POST, OPTIONS");
-        return new ResponseEntity<>(linkToAddFamily,responseHeaders,HttpStatus.OK);
+        return new ResponseEntity<>(linkToAddFamily, responseHeaders, HttpStatus.OK);
     }
 
     /**
@@ -67,7 +67,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(addFamilyAndSetAdminDTO.getFamilyName())).withSelfRel();
             outputFamilyDTO.add(selfLink);
-            return new ResponseEntity(outputFamilyDTO, status);
+            return new ResponseEntity<OutputFamilyDTO>(outputFamilyDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
@@ -77,7 +77,7 @@ public class FamilyRESTController implements IFamilyRESTController {
     }
 
     @RequestMapping(value = "/{familyID}", method = RequestMethod.OPTIONS)
-    public ResponseEntity<Object> getFamilyOptions(@PathVariable String familyID){
+    public ResponseEntity<Object> getFamilyOptions(@PathVariable String familyID) {
 
         // FamilyOptionsDTO e por ai em diante? que extende o RepresentationModel para colocarmos os varios links?
 
