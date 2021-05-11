@@ -22,8 +22,8 @@ import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,8 +32,6 @@ class AddFamilyMemberServiceTest {
     @Mock
     IPersonRepository personRepository;
 
-    @Mock
-    IFamilyRepository familyRepository;
 
     @Mock
     PersonDTODomainAssembler personDTODomainAssembler;
@@ -53,10 +51,6 @@ class AddFamilyMemberServiceTest {
     @Mock
     Person savedFamilyMember;
 
-    // Inserir class no diagram
-    @Mock
-    PersonDTODomainAssembler internalExternalAssembler;
-
     @Mock
     OutputPersonDTO outputPersonDTO;
 
@@ -72,95 +66,69 @@ class AddFamilyMemberServiceTest {
     AddFamilyMemberService addFamilyMemberService;
 
 
-    // OLD DTO
-    InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     // NEW DTO
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO("TonyAdmin@gmail.com","tonyze@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTOInvalidName = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
-    FamilyID familyID = new FamilyID("tonyze@latinas.com");
+    FamilyID familyID = new FamilyID("tonyze@latinlover.com");
+
 
     InputPersonDTO inputPersonDTOWrongName = new InputPersonDTO("tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
-    @Disabled
+    @DisplayName("Unit test of AddFamilyMemberService: Successfully added a person")
     @Test
     @Tag("US101")
     void addPersonSuccess() {
 
-        /** OLD VERSION **/
-        /*Mockito.when(addPersonDTO.unpackUserID()).thenReturn("tonyze@latinas.com");
-        Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
-        Mockito.when(addPersonDTO.unpackName()).thenReturn("tonyze@latinas.com");
-        Mockito.when(addPersonDTO.unpackBirthDate()).thenReturn("10/10/1999");
-        Mockito.when(addPersonDTO.unpackEmail()).thenReturn("tonyze@latinas.com");
-        Mockito.when(addPersonDTO.unpackVAT()).thenReturn(123456789);
-        Mockito.when(addPersonDTO.unpackPhone()).thenReturn(961962963);
-        Mockito.when(addPersonDTO.unpackStreet()).thenReturn("Rua das Irma's Beleza e do Primo Flavio");
-        Mockito.when(addPersonDTO.unpackCity()).thenReturn("Gaya");
-        Mockito.when(addPersonDTO.unpackZipCode()).thenReturn("1000");
-        Mockito.when(addPersonDTO.unpackHouseNumber()).thenReturn(666);
-        Mockito.when(personRepository.isPersonIDAlreadyRegistered(personID)).thenReturn(false);
-        Mockito.when(personRepository.getByID(loggedUserID)).thenReturn(admin);
+
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
-        Mockito.when(personDTODomainAssembler.toDomain(inputPersonDTO,familyID)).thenReturn(admin);
-        Mockito.when(personRepository.add(admin)).thenReturn(admin);
-        assertDoesNotThrow(() -> addFamilyMemberService.addPerson(inputPersonDTO, "tonyze@latinas.com"));*/
-
-
-        /** NEW VERSION **/
-        Mockito.when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO)).thenReturn(familyMember);
-        Mockito.when(personRepository.add(familyMember)).thenReturn(savedFamilyMember);
-        Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(personRepository.add(any(Person.class))).thenReturn(savedFamilyMember);
+        Mockito.when(personDTODomainAssembler.toDTO(savedFamilyMember)).thenReturn(outputPersonDTO);
 
         assertDoesNotThrow(() -> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
 
 
-    /** TEST NOT NEEDED ANYMORE **/
-    /*
-    @Test
-    @Tag("US101")
-    @DisplayName("Test failure where user is not admin")
-    void addPersonFail_NotAdmin() {
 
-        //Mockito.doThrow(UserIsNotAdminException.class).when(familyRepository).verifyAdmin(loggedUserID);
-        //assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(inputPersonDTO, "tonyze@latinas.com"));
-    }
-    */
 
-    @Disabled
     @Test
     @Tag("US101")
     @DisplayName("Test failure where user is already registered")
-    void addPersonFail_AlreadyRegistered() {
+    void addPersonFailAlreadyRegistered() {
 
-        Mockito.when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO)).thenReturn(familyMember);
-        Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository.add(familyMember));
-        Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personRepository.add(any(Person.class))).thenThrow(PersonAlreadyRegisteredException.class);
+
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
 
-    @Disabled
+
     @Test
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
-    void addPersonFail_invalidValueObject() {
+    void addPersonFailInvalidValueObject() {
 
-        /** OLD VERSION **/
-        //Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
-        //assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(inputPersonDTOWrongName, "tonyze@latinas.com"));
-
-        Mockito.doThrow(InvalidNameException.class).when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO));
-        Mockito.when(personRepository.add(familyMember)).thenReturn(savedFamilyMember);
-        Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personDTODomainAssembler.createName(internalAddFamilyMemberDTO)).thenThrow(InvalidNameException.class);
 
         assertThrows(InvalidNameException.class,()-> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
     }
 
 
+    @Test
+    @DisplayName("Test for the NoArgsConstructor tag")
+    void noArgsConstructorTest() {
+        AddFamilyMemberService addFamilyMemberService = new AddFamilyMemberService();
+        assertNotNull(addFamilyMemberService);
+
+    }
 }

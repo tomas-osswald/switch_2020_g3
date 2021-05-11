@@ -268,9 +268,12 @@ title US101 Add a Family Member
 
 participant ": IPersonController" as controller <<interface>>
 participant ": FamilyMember\n ExternalInternalAssembler" as outinassembler
+participant ": FamilyMember \n ExternalInternalAssembler" as outinassembler
 participant " anInputAddFamilyMemberDTO\n :InputAddFamilyMemberDTO" as aninaddassembler
 participant ": IAddFamilyMemberService" as FamilyMemberService <<interface>>
+participant ": aPerson \n Person" as person
 participant ": FamilyMember\n InternalExternalAssembler" as inoutassembler
+participant ": PersonDTODomainAssembler" as persondtoAss
 participant " anOutputPersonDTO\n : OutputPersonDTO" as outputPersonDTO
 participant ": IPersonRepository" as prepository  <<interface>>
 participant ": IPersonRepositoryJPA" as prepositoryJPA  <<interface>>
@@ -278,17 +281,22 @@ participant ": IPersonRepositoryJPA" as prepositoryJPA  <<interface>>
 
 -> controller : addFamilyMember(addFamilyMemberDTO)
 activate controller
-controller -> outinassembler : toInner(addFamilyMemberDTO)
+controller -> outinassembler : toInternalAddFamilyMemberDTO(addFamilyMemberDTO)
 activate outinassembler
 outinassembler -> aninaddassembler** : create
 outinassembler -> controller : anInputAddFamilyMemberDTO
 deactivate
-controller -> FamilyMemberService : addPerson(anInternalAddFamilyMemberDTO)
+controller -> FamilyMemberService : addPerson(anInputAddFamilyMemberDTO)
 activate FamilyMemberService
 
 ref over FamilyMemberService
 personDTODomainAssembler.toDomain
 end
+
+FamilyMemberService -> person**: create
+activate person
+person --> FamilyMemberService: aPerson
+deactivate person
 
 FamilyMemberService -> prepository : add(aPerson)
 activate prepository
@@ -315,10 +323,10 @@ prepository -> FamilyMemberService : savedPerson
 deactivate prepository
 deactivate prepositoryJPA
 
-FamilyMemberService  -> inoutassembler : toDTO(savedPerson)
-activate inoutassembler 
-inoutassembler -> outputPersonDTO** : create (savedPersonDTO.getID(), savedPersonDTO.getName())
-inoutassembler ->  FamilyMemberService  : anOutputPersonDTO
+FamilyMemberService  -> persondtoAss : toDTO(savedPerson)
+activate persondtoAss 
+persondtoAss -> outputPersonDTO** : create (savedPerson)
+persondtoAss ->  FamilyMemberService  : anOutputPersonDTO
 deactivate 
 deactivate prepository
 
@@ -438,19 +446,19 @@ participant "address : Address" as address
 participant "familyID : FamilyID" as familyID
 
 activate FamilyMemberService
-FamilyMemberService -> dtoToDomainAssembler : toDomain(anInternalAddFamilyMemberDTO)
+FamilyMemberService -> dtoToDomainAssembler : toDomain(anInputAddFamilyMemberDTO)
 activate dtoToDomainAssembler
-dtoToDomainAssembler -> personID** : create(anInternalAddFamilyMemberDTO.unpackPersonID())
-dtoToDomainAssembler -> name** : create(anInternalAddFamilyMemberDTO.unpackName())
-dtoToDomainAssembler -> birthDate** : create(anInternalAddFamilyMemberDTO.unpackBirthDate())
-dtoToDomainAssembler -> email** : create(anInternalAddFamilyMemberDTO.unpackEmail())
-dtoToDomainAssembler -> vat** : create(anInternalAddFamilyMemberDTO.unpackVAT())
-dtoToDomainAssembler -> phoneNumber** : create(anInternalAddFamilyMemberDTO.unpackPhone())
-dtoToDomainAssembler -> address** : create(anInternalAddFamilyMemberDTO.unpackStreet(), anInternalAddFamilyMemberDTO.unpackCity(), anInternalAddFamilyMemberDTO.unpackZipCode(), anInternalAddFamilyMemberDTO.unpackHouseNumber())
-dtoToDomainAssembler -> familyID** : create(anInternalAddFamilyMemberDTO.unpackFamilyID())
-dtoToDomainAssembler -> aPerson** : create(name, birthDate, personID, vat, phone, address, familyID)
+dtoToDomainAssembler -> personID** : create(anInputAddFamilyMemberDTO.unpackPersonID())
+dtoToDomainAssembler -> name** : create(anInputAddFamilyMemberDTO.unpackName())
+dtoToDomainAssembler -> birthDate** : create(anInputAddFamilyMemberDTO.unpackBirthDate())
+dtoToDomainAssembler -> email** : create(anInputAddFamilyMemberDTO.unpackEmail())
+dtoToDomainAssembler -> vat** : create(anInputAddFamilyMemberDTO.unpackVAT())
+dtoToDomainAssembler -> phoneNumber** : create(anInputAddFamilyMemberDTO.unpackPhone())
+dtoToDomainAssembler -> address** : create(anInputAddFamilyMemberDTO.unpackStreet(), anInputAddFamilyMemberDTO.unpackCity(), anInputAddFamilyMemberDTO.unpackZipCode(), anInputAddFamilyMemberDTO.unpackHouseNumber())
+dtoToDomainAssembler -> familyID** : create(anInputAddFamilyMemberDTO.unpackFamilyID())
 
-dtoToDomainAssembler -> FamilyMemberService : aPerson
+
+dtoToDomainAssembler -> FamilyMemberService : Value Objects
 deactivate dtoToDomainAssembler
 deactivate FamilyMemberService
 

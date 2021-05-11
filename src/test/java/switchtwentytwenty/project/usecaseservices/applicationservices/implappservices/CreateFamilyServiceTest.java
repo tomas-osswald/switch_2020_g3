@@ -58,6 +58,20 @@ class CreateFamilyServiceTest {
     String familyID = "@admin@gmail.com";
     String adminID = "admin@gmail.com";
     String registrationDate = "12/5/1999";
+    String name = "Margarida";
+    String birthDate = "10/02/1978";
+    int vat = 999333999;
+    Integer phone = 931321321;
+    String street = "Rua de Cima";
+    String city = "Porto";
+    String houseNumber = "64C";
+    String zipCode = "4000-001";
+    Name adminName = new Name(name);
+    BirthDate adminBirthDate = new BirthDate(birthDate);
+    VATNumber adminVat = new VATNumber(vat);
+    PhoneNumber adminPhone = new PhoneNumber(phone);
+    Address adminAddress = new Address(street,city,zipCode,houseNumber);
+
 
     @BeforeEach
     void setup(){
@@ -91,7 +105,7 @@ class CreateFamilyServiceTest {
     @DisplayName("createFamilyAndAdmin Test - Invalid person name, should throw exception")
     void createFamilyAndAddAdminTestInvalidName(){
         Mockito.when(personDTODomainAssembler.createName(any(InputPersonDTO.class))).thenThrow(InvalidNameException.class);
-        //Mockito.when(familyDTODomainAssembler.toDomain(any(InputFamilyDTO.class),any(FamilyID.class),any(PersonID.class))).thenReturn(family);
+
         Mockito.when(personRepository.add(any(Person.class))).thenReturn(admin);
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
         Mockito.when(familyDTODomainAssembler.toDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
@@ -103,8 +117,14 @@ class CreateFamilyServiceTest {
     @Tag("US010")
     @DisplayName("createFamilyAndAdmin Test - Person already registered throw exception")
     void createFamilyAndAddAdminTestPersonAlreadyRegistered(){
-        Mockito.when(personDTODomainAssembler.toDomain(any(InputPersonDTO.class),any(FamilyID.class))).thenReturn(admin);
-        Mockito.when(familyDTODomainAssembler.toDomain(any(InputFamilyDTO.class),any(FamilyID.class),any(PersonID.class))).thenReturn(family);
+        Mockito.when(inputPersonDTO.unpackEmail()).thenReturn("admin@gmail.com");
+
+        Mockito.when(personDTODomainAssembler.createName(any(InputPersonDTO.class))).thenReturn(adminName);
+        Mockito.when(personDTODomainAssembler.createBirthDate(any(InputPersonDTO.class))).thenReturn(adminBirthDate);
+        Mockito.when(personDTODomainAssembler.createVATNumber(any(InputPersonDTO.class))).thenReturn(adminVat);
+        Mockito.when(personDTODomainAssembler.createPhoneNumber(any(InputPersonDTO.class))).thenReturn(adminPhone);
+        Mockito.when(personDTODomainAssembler.createAddress(any(InputPersonDTO.class))).thenReturn(adminAddress);
+
         Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).add(any());
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
         Mockito.when(familyDTODomainAssembler.toDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
