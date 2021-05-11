@@ -51,10 +51,6 @@ class AddFamilyMemberServiceTest {
     @Mock
     Person savedFamilyMember;
 
-    // Inserir class no diagram
-    @Mock
-    PersonDTODomainAssembler internalExternalAssembler;
-
     @Mock
     OutputPersonDTO outputPersonDTO;
 
@@ -73,10 +69,12 @@ class AddFamilyMemberServiceTest {
 
     // NEW DTO
     InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTOInvalidName = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
-    FamilyID familyID = new FamilyID("tonyze@latinas.com");
+    FamilyID familyID = new FamilyID("tonyze@latinlover.com");
+
 
     InputPersonDTO inputPersonDTOWrongName = new InputPersonDTO("tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
 
@@ -85,7 +83,6 @@ class AddFamilyMemberServiceTest {
     @Tag("US101")
     void addPersonSuccess() {
 
-        FamilyID familyID = new FamilyID("tonyze@latinlover.com");
 
         Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
@@ -103,7 +100,6 @@ class AddFamilyMemberServiceTest {
     @Tag("US101")
     @DisplayName("Test failure where user is already registered")
     void addPersonFailAlreadyRegistered() {
-        FamilyID familyID = new FamilyID("tonyze@latinlover.com");
 
         Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
@@ -114,18 +110,14 @@ class AddFamilyMemberServiceTest {
 
     }
 
-    @Disabled
+
     @Test
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
-    void addPersonFail_invalidValueObject() {
+    void addPersonFailInvalidValueObject() {
 
-        /** OLD VERSION **/
-        //Mockito.doNothing().when(familyRepository).verifyAdmin(loggedUserID);
-        //assertThrows(InvalidNameException.class, () -> addFamilyMemberService.addPerson(inputPersonDTOWrongName, "tonyze@latinas.com"));
-
-        Mockito.doThrow(InvalidNameException.class).when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO));
-        Mockito.when(personRepository.add(familyMember)).thenReturn(savedFamilyMember);
-        Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personDTODomainAssembler.createName(internalAddFamilyMemberDTO)).thenThrow(InvalidNameException.class);
 
         assertThrows(InvalidNameException.class,()-> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
