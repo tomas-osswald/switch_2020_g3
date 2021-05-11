@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
-import switchtwentytwenty.project.domain.aggregates.account.Account;
+import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
@@ -23,7 +23,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public Account getByID(AccountID id) {
+    public IAccount getByID(AccountID id) {
         return null; // retrieveAccountById(id);;
     }
 
@@ -43,11 +43,11 @@ public class AccountRepository implements IAccountRepository {
      */
 
     //este método também serve como update, certo?
-    public Account add(Account account){
-        AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
+    public IAccount add(IAccount IAccount){
+        AccountJPA accountJPA = accountDataDomainAssembler.toData(IAccount);
         accountRepositoryJPA.save(accountJPA);
-        Account savedAccount = accountDataDomainAssembler.toDomain(accountJPA);
-        return savedAccount;
+        IAccount savedIAccount = accountDataDomainAssembler.toDomain(accountJPA);
+        return savedIAccount;
     }
 
 
