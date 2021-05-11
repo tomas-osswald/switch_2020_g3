@@ -2,7 +2,7 @@ package switchtwentytwenty.project.dto.person;
 
 import java.util.Objects;
 
-public class InputPersonDTO implements IinputPersonDTO {
+public class InputPersonDTO implements IInputPersonDTO {
 
     private String emailID;
     private String name;
