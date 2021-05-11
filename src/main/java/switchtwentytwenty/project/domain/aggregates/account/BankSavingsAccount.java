@@ -2,7 +2,20 @@ package switchtwentytwenty.project.domain.aggregates.account;
 
 import switchtwentytwenty.project.domain.valueobject.*;
 
-public class BankSavingsAccount extends NonCashAccount {
+import java.util.List;
+
+public class BankSavingsAccount extends AbNonCashAccount {
+
+    private AccountID accountID;
+
+    private OwnerID ownerID;
+
+    private Designation designation;
+
+    private Balance balance;
+
+    private List<Movement> movements;
+
 
     @Override
     public AccountID id() {
@@ -12,11 +25,6 @@ public class BankSavingsAccount extends NonCashAccount {
     @Override
     public boolean hasID(AccountID id) {
         return false;
-    }
-
-    @Override
-    public AccountID getId() {
-        return null;
     }
 
     @Override

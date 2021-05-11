@@ -7,8 +7,6 @@ import switchtwentytwenty.project.domain.valueobject.*;
 @Component
 public interface IAccount extends AggregateRoot<AccountID> {
 
-    AccountID getId();
-
     OwnerID getOwnerId();
 
     Designation getDesignation();

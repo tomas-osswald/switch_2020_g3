@@ -3,7 +3,20 @@ package switchtwentytwenty.project.domain.aggregates.account;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 
-public class CreditCardAccount extends NonCashAccount{
+import java.util.List;
+
+public class CreditCardAccount extends AbNonCashAccount {
+
+    private AccountID accountID;
+
+    private OwnerID ownerID;
+
+    private Designation designation;
+
+    private Balance balance;
+
+    private List<Movement> movements;
+
 
     public OutputAccountDTO CreditCardAccount() {
         return null;
@@ -17,11 +30,6 @@ public class CreditCardAccount extends NonCashAccount{
     @Override
     public boolean hasID(AccountID id) {
         return false;
-    }
-
-    @Override
-    public AccountID getId() {
-        return null;
     }
 
     @Override
