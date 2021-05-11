@@ -31,8 +31,7 @@ public class AccountIDJPA implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountIDJPA that = (AccountIDJPA) o;
-        return Objects.equals(id, that.id);
-    }
+        return Objects.equals(id, that.id); }
 
     @Override
     public int hashCode() {
