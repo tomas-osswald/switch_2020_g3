@@ -23,8 +23,7 @@ import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -58,7 +57,6 @@ class FamilyRepositoryTest {
 
     // Family
 
-    UUID id = UUID.randomUUID();
     FamilyID familyID = new FamilyID("admin@gmail.com");
     String familyNameString = "Ribeiro";
     FamilyName familyName = new FamilyName(familyNameString);
@@ -97,5 +95,11 @@ class FamilyRepositoryTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void getByIDTestThrowsExceptionWhenIDJPANotPresent(){
+        FamilyID otherFamilyID = new FamilyID("otherFamily@gmail.com");
+
+        assertThrows(IllegalArgumentException.class,()->familyRepository.getByID(otherFamilyID));
+    }
 
 }
