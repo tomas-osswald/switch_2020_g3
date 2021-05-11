@@ -11,6 +11,8 @@ public class AccountJPATest {
     String designation = "Conta do Ze";
     String accountType = "Current";
 
+    AccountIDJPA accountIDJPATwo = new AccountIDJPA(999999L);
+
     @Test
     void getAccountIDTest() {
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
@@ -61,11 +63,54 @@ public class AccountJPATest {
         assertEquals(expectedAccountType, result);
     }
     @Test
-    void AccountJPAEqualsTest() {
+    void equalsAccountJPAEqualAccountJPATest() {
         AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
         AccountJPA accountJPATwo = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
 
         assertEquals(accountJPAOne, accountJPATwo);
         assertNotSame(accountJPAOne, accountJPATwo);
+    }
+    @Test
+    void equalsAccountJPAIsSameAccountJPA(){
+        AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+        AccountJPA accountJPATwo = accountJPAOne;
+
+        assertEquals(accountJPAOne, accountJPATwo);
+        assertSame(accountJPAOne, accountJPATwo);
+    }
+    @Test
+    void equalsAccountJPADifferentAccountJPATest() {
+        AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+        AccountJPA accountJPATwo = new AccountJPA(accountIDJPATwo, balance, ownerIDJPA, designation, accountType);
+
+        assertNotEquals(accountJPAOne, accountJPATwo);
+    }
+    @Test
+    void equalsAccountJPADifferentClassTest() {
+        AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+
+        assertNotEquals(accountJPAOne, accountIDJPA);
+    }
+    @Test
+    void equalsAccountJPADifferentFromNullTest() {
+        AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+        String nullString = null;
+
+        assertNotEquals(accountJPAOne, nullString);
+    }
+    @Test
+    void hashCodeAccountJPAIsEquals(){
+        AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+        AccountJPA accountJPATwo = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+
+        assertEquals(accountJPAOne.hashCode(), accountJPATwo.hashCode());
+        assertNotSame(accountJPAOne, accountJPATwo);
+    }
+    @Test
+    void hashCodeAccountJPAIsDifferent(){
+        AccountJPA accountJPAOne = new AccountJPA(accountIDJPA, balance, ownerIDJPA, designation, accountType);
+        AccountJPA accountJPATwo = new AccountJPA(accountIDJPATwo, balance, ownerIDJPA, designation, accountType);
+
+        assertNotEquals(accountJPAOne.hashCode(), accountJPATwo.hashCode());
     }
 }
