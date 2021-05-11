@@ -17,14 +17,17 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
     IPersonRepository personRepository;
 
     @Autowired
-    PersonDTODomainAssembler personToDTO;
+    PersonDTODomainAssembler assembler;
 
-    public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO internalGetProfileDTO){
-        PersonID personID = new PersonID(internalGetProfileDTO.unpackID());
+
+    public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO internalGetProfileDTO) {
+        PersonID personID = assembler.createPersonID(internalGetProfileDTO);
+
         Person person = personRepository.getByID(personID);
 
-        return personToDTO.toDTO(person);
+        OutputPersonDTO outputPersonDTO = assembler.toDTO(person);
 
+        return outputPersonDTO;
     }
 
 }

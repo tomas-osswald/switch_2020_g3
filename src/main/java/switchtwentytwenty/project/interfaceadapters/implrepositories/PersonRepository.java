@@ -50,21 +50,21 @@ public class PersonRepository implements IPersonRepository {
 
 
     @Override
-    public Person getByID(PersonID email) {
-        return retrievePersonFromRepository(email);
+    public Person getByID(PersonID personID) {
+        return retrievePersonFromRepository(personID);
     }
 
     private Person retrievePersonFromRepository(PersonID id) {
         PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
-        Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
-        if(personJPA.isPresent()){
-        Person person = personAssembler.toDomain(personJPA.get());
-        return person;
-        }else{
+        //Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+        if (personRepositoryJPA.existsById(personIDJPA)) {
+            Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+            Person person = personAssembler.toDomain(personJPA.get());
+            return person;
+        } else {
             throw new EmailNotRegisteredException();
         }
     }
-
 
 
     /**
