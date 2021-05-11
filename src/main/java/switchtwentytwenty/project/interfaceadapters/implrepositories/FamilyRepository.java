@@ -5,17 +5,12 @@ import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.FamilyName;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
-import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
-import java.util.*;
+import java.util.Optional;
 
 @Repository
 public class FamilyRepository implements IFamilyRepository {
@@ -26,7 +21,7 @@ public class FamilyRepository implements IFamilyRepository {
 
     //private final Families families = new Families();
     @Autowired
-    public FamilyRepository (IFamilyRepositoryJPA iFamilyRepositoryJPA, FamilyDataDomainAssembler familyDataDomainAssembler) {
+    public FamilyRepository(IFamilyRepositoryJPA iFamilyRepositoryJPA, FamilyDataDomainAssembler familyDataDomainAssembler) {
         this.familyRepositoryJPA = iFamilyRepositoryJPA;
         this.familyAssembler = familyDataDomainAssembler;
     }
@@ -80,22 +75,6 @@ public class FamilyRepository implements IFamilyRepository {
         } else {
             throw new IllegalArgumentException("Family does not exists");
         }
-    }
-
-
-    public void verifyAdmin(PersonID loggedUserID) {
-        boolean result = false;
-
-        PersonIDJPA personIDJPA = new PersonIDJPA(loggedUserID.toString());
-
-        // Substitui para evitar instaciar-se todas as families, assim a query é já feita apenas pelo personID
-        result = familyRepositoryJPA.existsByAdminID(personIDJPA);
-
-        if (!result) {
-            throw new UserIsNotAdminException();
-        }
-
-
     }
 
 
