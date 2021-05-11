@@ -97,27 +97,18 @@ class AddFamilyMemberServiceTest {
     }
 
 
-    /** TEST NOT NEEDED ANYMORE **/
-    /*
-    @Test
-    @Tag("US101")
-    @DisplayName("Test failure where user is not admin")
-    void addPersonFail_NotAdmin() {
 
-        //Mockito.doThrow(UserIsNotAdminException.class).when(familyRepository).verifyAdmin(loggedUserID);
-        //assertThrows(UserIsNotAdminException.class, () -> addFamilyMemberService.addPerson(inputPersonDTO, "tonyze@latinas.com"));
-    }
-    */
 
-    @Disabled
     @Test
     @Tag("US101")
     @DisplayName("Test failure where user is already registered")
-    void addPersonFail_AlreadyRegistered() {
+    void addPersonFailAlreadyRegistered() {
+        FamilyID familyID = new FamilyID("tonyze@latinlover.com");
 
-        Mockito.when(personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO)).thenReturn(familyMember);
-        Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository.add(familyMember));
-        Mockito.when(internalExternalAssembler.toDTO(familyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personRepository.add(any(Person.class))).thenThrow(PersonAlreadyRegisteredException.class);
+
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
