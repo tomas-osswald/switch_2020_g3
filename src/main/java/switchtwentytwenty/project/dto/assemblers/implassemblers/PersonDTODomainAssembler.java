@@ -4,7 +4,9 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.person.*;
+import switchtwentytwenty.project.dto.person.IInputPersonDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,27 +14,6 @@ import java.util.List;
 @Component
 public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
 
-    /**
-     * US010 - Assembler method to create a Person domain object from a DTO.
-     *
-     * @param inputPersonDTO DTO that contains the Person's information
-     * @param familyID       Domain object representing the FamilyID of the Family of the Person to be created
-     * @return Person domain object
-     */
-    @Deprecated
-    public Person toDomain(InputPersonDTO inputPersonDTO, FamilyID familyID) {
-
-        PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
-        Name name = new Name(inputPersonDTO.unpackName());
-        BirthDate birthDate = new BirthDate(inputPersonDTO.unpackBirthDate());
-        VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
-        Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
-
-        Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
-
-        return person;
-    }
 
     public Address createAddress(IInputPersonDTO inputPersonDTO) {
         Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
@@ -107,9 +88,9 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return emails;
     }
 
-    public OutputEmailDTO toEmailDTO(Person savedPerson){
+    public OutputEmailDTO toEmailDTO(Person savedPerson) {
         OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
-        int index = savedPerson.getEmails().size()-1;
+        int index = savedPerson.getEmails().size() - 1;
 
         outputEmailDTO.setEmail(savedPerson.getEmails().get(index).toString());
         return outputEmailDTO;
