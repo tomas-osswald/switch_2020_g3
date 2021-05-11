@@ -75,7 +75,7 @@ public class PersonRESTController implements IPersonRESTController {
             return new ResponseEntity<>(outputPersonDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity("Error: " + e.getMessage(), status);
+            return new ResponseEntity( status);
         }
 
     }

@@ -105,6 +105,32 @@ class PersonRESTControllerITDB {
     }
 
     @Test
+    @DisplayName("Integration Test for Catching an Unprocessable Entity Exception")
+    void addFamilyMemberFailureExceptionIT() {
+
+        ResponseEntity expected = new ResponseEntity( HttpStatus.UNPROCESSABLE_ENTITY);
+
+        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
+        addFamilyMemberDTO.setAdminID("tonyze@latinlover.com");
+        addFamilyMemberDTO.setEmailID("kiko@@@@@gmail.com");
+        addFamilyMemberDTO.setName("Kiko");
+        addFamilyMemberDTO.setBirthDate("12/12/1222");
+        addFamilyMemberDTO.setVatNumber(123456789);
+        addFamilyMemberDTO.setPhone(919999999);
+        addFamilyMemberDTO.setStreet("rua");
+        addFamilyMemberDTO.setCity("cidade");
+        addFamilyMemberDTO.setHouseNumber("69");
+        addFamilyMemberDTO.setZipCode("1234-123");
+        ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
+
+
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+        assertNotSame(expected, result);
+
+
+    }
+
+    @Test
     @DisplayName("Integration Test for comparing wrong response links")
     void addFamilyMemberFailureIT() {
         List<Integer> phones = new ArrayList<>();
