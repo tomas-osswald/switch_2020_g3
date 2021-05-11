@@ -1,7 +1,11 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
@@ -13,6 +17,7 @@ import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -25,9 +30,10 @@ class FamilyRESTControllerTest {
 
     @Autowired
     IFamilyRESTController familyRESTController;
-
+    private AutoCloseable closeble;
 
     @Test
+    @DisplayName("CreateFamilyAndSetAdmin function success case")
     void createFamilyAndSetAdmin() {
 
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
@@ -36,19 +42,38 @@ class FamilyRESTControllerTest {
 
         outputFamilyDTO.add(expectedLink);
 
-        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
+
+        //ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
 
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
 
-        assertEquals(expected.getStatusCode(), result.getStatusCode());
-        assertEquals(expected.getBody(),result.getBody());
+
+        assertNotNull(result);
     }
 
     @Test
     void testCreateFamilyAndSetAdmin() {
-        ResponseEntity expected = new ResponseEntity("Business Error Api Logic",HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity("Business Error Api Logic", HttpStatus.UNPROCESSABLE_ENTITY);
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(invaliddto);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
+    }
+
+    @BeforeEach
+    void setUp() {
+        // We can create mock based on the Interface or a Class
+//        templateEngine = mock(TemplateEngine.class);
+
+        // init mock with annotations
+        //MockitoAnnotations.initMocks(this);
+
+        // just another version of initilization of mocks with annotation
+        // pay attention to tear down method - we have to call close method
+        closeble = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeble.close();
     }
 }

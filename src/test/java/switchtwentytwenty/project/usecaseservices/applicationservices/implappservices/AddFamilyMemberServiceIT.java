@@ -62,7 +62,6 @@ class AddFamilyMemberServiceIT {
         //TODO: teste que parte o jenkins
     void addPersonSuccess() {
 
-        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
 
         OutputPersonDTO expected = new OutputPersonDTO();
         expected.setId(ID);
@@ -78,6 +77,9 @@ class AddFamilyMemberServiceIT {
         expected.setZipCode(zipCode);
         expected.setDoorNumber(houseNum);
         expected.setFamilyID("@" + adminID);
+
+        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
+
         Assertions.assertNotNull(result);
         Assertions.assertEquals(expected, result);
         Assertions.assertNotSame(expected, result);

@@ -1,13 +1,11 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -167,8 +165,32 @@ class PersonRESTControllerTest {
 
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
+
+
         assertEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
+
+
+
+    }
+    private AutoCloseable closeble;
+
+    @BeforeEach
+    void setUp() {
+        // We can create mock based on the Interface or a Class
+//        templateEngine = mock(TemplateEngine.class);
+
+        // init mock with annotations
+        //MockitoAnnotations.initMocks(this);
+
+        // just another version of initilization of mocks with annotation
+        // pay attention to tear down method - we have to call close method
+        closeble = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeble.close();
     }
 
 
