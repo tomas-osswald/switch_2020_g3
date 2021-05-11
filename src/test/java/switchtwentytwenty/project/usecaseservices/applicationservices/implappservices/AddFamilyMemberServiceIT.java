@@ -52,7 +52,7 @@ class AddFamilyMemberServiceIT {
     InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, invalidName, birthDate, vat, phone, street, city, houseNum, zipCode);
     InputAddFamilyMemberDTO internalAddFamilyMemberDTOUserAlreadyExists = new InputAddFamilyMemberDTO(adminID, "kvanessa@latina.com", name, birthDate, vat, phone, street, city, houseNum, zipCode);
 
-
+    @Disabled
     @DisplayName("Integration test of AddFamilyMemberService with Repository: Successfully add a person")
     @Test
     void addPersonSuccess() {
