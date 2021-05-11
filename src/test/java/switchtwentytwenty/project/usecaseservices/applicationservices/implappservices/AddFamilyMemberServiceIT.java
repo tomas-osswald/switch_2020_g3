@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -85,10 +84,9 @@ class AddFamilyMemberServiceIT {
 
     }
 
-    @Disabled
+    @DisplayName("AddFamilyMemberService IT Test to check if an exception is thrown if an invalid Value object is attempted to be instanced")
     @Test
-    void addPersonFail_InvalidEmail() {
-        AddFamilyMemberService service = new AddFamilyMemberService();
+    void addPersonFail_InvalidName() {
 
         assertThrows(InvalidNameException.class, () -> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
