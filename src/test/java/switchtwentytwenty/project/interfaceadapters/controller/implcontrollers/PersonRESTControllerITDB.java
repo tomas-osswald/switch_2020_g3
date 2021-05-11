@@ -50,7 +50,7 @@ class PersonRESTControllerITDB {
     @Disabled
     @DisplayName("Success case in adding email using integration test with all components")
     void addEmailToFamilyMemberExpectingSuccess() {
-        OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailToAdd, addedEmailID);
+        OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailToAdd);
 
         Link expectedLink = linkTo(methodOn(PersonRESTController.class).getEmail(adminEmail, addedEmailID)).withSelfRel();
         expectedOutputEmailDTO.add(expectedLink);

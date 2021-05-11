@@ -81,7 +81,7 @@ class PersonRESTControllerTest {
     String invalidEmailToAdd = "invalidemail.com";
     String emailIDAfterAddingToDatabase = "3L";
     InputEmailDTO internalEmailDTO = new InputEmailDTO(emailAddressAsID, emailToAdd);
-    OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailToAdd, emailIDAfterAddingToDatabase);
+    OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailToAdd);
     AddEmailDTO addEmailDTO = new AddEmailDTO(emailAddressAsID,emailToAdd);
     AddEmailDTO INVALIDAddEmailDTO = new AddEmailDTO(emailAddressAsID, invalidEmailToAdd);
     InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(INVALIDAddEmailDTO.unpackUserID(), INVALIDAddEmailDTO.unpackEmail());
@@ -97,9 +97,9 @@ class PersonRESTControllerTest {
         Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
 
 
-        OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID, "3L");
-        Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
-        expectedOutputEmailDTO.add(link);
+        OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID);
+    //    Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
+    //    expectedOutputEmailDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputEmailDTO, HttpStatus.OK);
 

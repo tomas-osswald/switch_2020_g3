@@ -3,17 +3,14 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.IinputPersonDTO;
-import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.person.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDTODomainAssembler {
-
+public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
 
     /**
      * US010 - Assembler method to create a Person domain object from a DTO.
@@ -37,34 +34,34 @@ public class PersonDTODomainAssembler {
         return person;
     }
 
-    public Address createAddress(IinputPersonDTO inputPersonDTO) {
+    public Address createAddress(IInputPersonDTO inputPersonDTO) {
         Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
         return address;
     }
 
 
-    public PhoneNumber createPhoneNumber(IinputPersonDTO inputPersonDTO) {
+    public PhoneNumber createPhoneNumber(IInputPersonDTO inputPersonDTO) {
         PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
         return phone;
     }
 
-    public VATNumber createVATNumber(IinputPersonDTO inputPersonDTO) {
+    public VATNumber createVATNumber(IInputPersonDTO inputPersonDTO) {
         VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
         return vat;
     }
 
-    public PersonID createPersonID(IinputPersonDTO inputPersonDTO) {
+    public PersonID createPersonID(IInputPersonDTO inputPersonDTO) {
         PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
         return personID;
     }
 
 
-    public Name createName(IinputPersonDTO inputPersonDTO) {
+    public Name createName(IInputPersonDTO inputPersonDTO) {
         Name name = new Name(inputPersonDTO.unpackName());
         return name;
     }
 
-    public BirthDate createBirthDate(IinputPersonDTO inputPersonDTO) {
+    public BirthDate createBirthDate(IInputPersonDTO inputPersonDTO) {
         BirthDate birthDate = new BirthDate(inputPersonDTO.unpackBirthDate());
         return birthDate;
     }
@@ -130,5 +127,12 @@ public class PersonDTODomainAssembler {
         return emails;
     }
 
+    public OutputEmailDTO toEmailDTO(Person savedPerson){
+        OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
+        int index = savedPerson.getEmails().size()-1;
+
+        outputEmailDTO.setEmail(savedPerson.getEmails().get(index).toString());
+        return outputEmailDTO;
+    }
 
 }
