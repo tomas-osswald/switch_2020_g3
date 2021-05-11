@@ -74,4 +74,44 @@ class AccountIDTest {
 
         assertNotEquals(accountIDOne.hashCode(),accountIDTwo.hashCode());
     }
+
+    @Test
+    void getAccountSameID() {
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idOne);
+        Long result = accountIDOne.getAccountID();
+        Long expected = accountIDOne.getAccountID();
+
+        assertEquals(result, expected);
+        assertSame(result, expected);
+    }
+
+    @Test
+    void getAccountDifferentID(){
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idTwo);
+        Long result = accountIDOne.getAccountID();
+        Long expected = accountIDTwo.getAccountID();
+
+        assertNotEquals(result, expected);
+    }
+
+    @Test
+    void setAccountSameID(){
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idTwo);
+        accountIDTwo.setAccountID(idOne);
+
+        assertEquals(accountIDOne, accountIDTwo);
+        assertNotSame(accountIDOne, accountIDTwo);
+    }
+
+    @Test
+    void setAccountDifferentID(){
+        AccountID accountIDOne = new AccountID(idOne);
+        AccountID accountIDTwo = new AccountID(idOne);
+        accountIDTwo.setAccountID(idTwo);
+        
+        assertNotEquals(accountIDOne, accountIDTwo);
+    }
 }
