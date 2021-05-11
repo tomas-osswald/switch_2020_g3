@@ -19,10 +19,6 @@ public class OutputEmailDTO extends RepresentationModel<OutputEmailDTO> {
      * to be placed in the Response Entity.
      */
 
-    public String unpackEmail() {
-        return this.email;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
