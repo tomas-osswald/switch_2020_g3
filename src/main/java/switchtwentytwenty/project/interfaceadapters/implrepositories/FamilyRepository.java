@@ -13,7 +13,7 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
-import java.util.*;
+import java.util.Optional;
 
 @Repository
 public class FamilyRepository implements IFamilyRepository {
@@ -23,7 +23,7 @@ public class FamilyRepository implements IFamilyRepository {
     private final FamilyDataDomainAssembler familyAssembler;
 
     @Autowired
-    public FamilyRepository (IFamilyRepositoryJPA iFamilyRepositoryJPA, FamilyDataDomainAssembler familyDataDomainAssembler) {
+    public FamilyRepository(IFamilyRepositoryJPA iFamilyRepositoryJPA, FamilyDataDomainAssembler familyDataDomainAssembler) {
         this.familyRepositoryJPA = iFamilyRepositoryJPA;
         this.familyAssembler = familyDataDomainAssembler;
     }
@@ -60,22 +60,6 @@ public class FamilyRepository implements IFamilyRepository {
         } else {
             throw new IllegalArgumentException("Family does not exists");
         }
-    }
-
-
-    public void verifyAdmin(PersonID loggedUserID) {
-        boolean result = false;
-
-        PersonIDJPA personIDJPA = new PersonIDJPA(loggedUserID.toString());
-
-        // Substitui para evitar instaciar-se todas as families, assim a query é já feita apenas pelo personID
-        result = familyRepositoryJPA.existsByAdminID(personIDJPA);
-
-        if (!result) {
-            throw new UserIsNotAdminException();
-        }
-
-
     }
 
 
