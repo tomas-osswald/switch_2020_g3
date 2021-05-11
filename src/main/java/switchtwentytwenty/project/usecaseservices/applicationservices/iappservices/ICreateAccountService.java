@@ -3,10 +3,11 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.iappservi
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
-import switchtwentytwenty.project.dto.accounts.AccountInputDTO;
+import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 
 @Component
 public interface ICreateAccountService {
 
-    OutputAccountDTO createAccount(AccountInputDTO inputAccountDTO);
+    OutputAccountDTO createAccount(InputAccountDTO inputAccountDTO);
 }
+

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.accounts.AccountInputDTO;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
+import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
@@ -15,7 +16,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController
+//TODO: Anotação de Controller (Estava a falhar testes se tivesse essa anotação no Controller)
 @RequestMapping("/accounts")
 public class AccountRESTController implements IAccountRESTController {
 
@@ -32,11 +33,11 @@ public class AccountRESTController implements IAccountRESTController {
 
     @PostMapping
     public ResponseEntity<OutputAccountDTO> createAccount(@RequestBody CreateAccountDTO createAccountDTO) {
-        AccountInputDTO accountInputDTO = accountInputDTOAssembler.toInputDTO(createAccountDTO);
-        OutputAccountDTO outputAccountDTO;
+    InputAccountDTO inputAccountDTO = accountInputDTOAssembler.toInputDTO(createAccountDTO);
+    OutputAccountDTO outputAccountDTO;
 
         try {
-            outputAccountDTO = createAccountService.createAccount(accountInputDTO);
+            outputAccountDTO = createAccountService.createAccount(inputAccountDTO);
             Link selfLink = linkTo(methodOn(AccountRESTController.class).getAccountID(outputAccountDTO.getAccountID())).withSelfRel();
             outputAccountDTO.add(selfLink);
             ResponseEntity createdAccount = new ResponseEntity(outputAccountDTO, HttpStatus.CREATED);

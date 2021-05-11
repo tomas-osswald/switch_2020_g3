@@ -5,7 +5,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.OptionsDTO;

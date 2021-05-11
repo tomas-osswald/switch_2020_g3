@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +52,7 @@ class AddFamilyMemberServiceIT {
     InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, invalidName, birthDate, vat, phone, street, city, houseNum, zipCode);
     InputAddFamilyMemberDTO internalAddFamilyMemberDTOUserAlreadyExists = new InputAddFamilyMemberDTO(adminID, "kvanessa@latina.com", name, birthDate, vat, phone, street, city, houseNum, zipCode);
 
-
+    @Disabled
     @DisplayName("Integration test of AddFamilyMemberService with Repository: Successfully add a person")
     @Test
     void addPersonSuccess() {
@@ -69,6 +70,7 @@ class AddFamilyMemberServiceIT {
 
 
     @Test
+    @Disabled
     @DisplayName("Test to assert an already registered email can't be registered again")
     void addPersonFail_PersonAlreadyRegistered() {
 

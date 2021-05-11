@@ -3,9 +3,10 @@ package switchtwentytwenty.project.dto.assemblers.iassemblers;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.dto.accounts.AccountInputDTO;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
+import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 
 @Component
 public interface IAccountInputDTOAssembler {
 
-    AccountInputDTO toInputDTO (CreateAccountDTO createAccountDTO);
+    InputAccountDTO toInputDTO (CreateAccountDTO createAccountDTO);
 }

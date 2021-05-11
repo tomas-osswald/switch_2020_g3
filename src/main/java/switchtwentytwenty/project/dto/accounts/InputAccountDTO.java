@@ -1,7 +1,13 @@
 package switchtwentytwenty.project.dto.accounts;
 
-@Deprecated
-public class AccountInputDTO {
+import switchtwentytwenty.project.domain.valueobject.AccountType;
+import switchtwentytwenty.project.domain.valueobject.Designation;
+import switchtwentytwenty.project.domain.valueobject.Movement;
+import switchtwentytwenty.project.domain.valueobject.OwnerID;
+
+import java.util.Objects;
+
+public class InputAccountDTO {
 
     private final String designation;
     private final Integer initialAmount;
@@ -9,7 +15,7 @@ public class AccountInputDTO {
     private final String ownerID;
     private final String accountType;
 
-    public AccountInputDTO (String designation, Integer initialAmount, String currency, String ownerID, String accountType){
+    public InputAccountDTO(String designation, Integer initialAmount, String currency, String ownerID, String accountType) {
         this.designation = designation;
         this.initialAmount = initialAmount;
         this.currency = currency;
@@ -38,5 +44,6 @@ public class AccountInputDTO {
     public String getAccountType() {
         return accountType;
     }
-
 }
+
+
