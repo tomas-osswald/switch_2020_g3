@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountDTODomainAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
@@ -13,14 +14,13 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IAccountReposito
 public class CreateAccountService implements ICreateAccountService {
 
     private final IAccountRepository accountRepository;
-    private final IAccountDTODomainAssembler accountDTODomainAssembler;
+    private final AccountDTODomainAssembler accountDTODomainAssembler;
 
     @Autowired
-    public CreateAccountService(IAccountRepository accountRepository, IAccountDTODomainAssembler accountDTODomainAssembler) {
+    public CreateAccountService(IAccountRepository accountRepository, AccountDTODomainAssembler accountDTODomainAssembler) {
         this.accountRepository = accountRepository;
         this.accountDTODomainAssembler = accountDTODomainAssembler;
     }
-
 
     public OutputAccountDTO createAccount(InputAccountDTO inputAccountDTO){
 

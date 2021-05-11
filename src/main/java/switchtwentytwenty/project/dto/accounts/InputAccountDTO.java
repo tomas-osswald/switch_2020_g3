@@ -1,10 +1,7 @@
 package switchtwentytwenty.project.dto.accounts;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Objects;
 
-@Component
 public class InputAccountDTO {
 
     private String ownerID;
