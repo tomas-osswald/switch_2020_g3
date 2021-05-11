@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +16,8 @@ class FamilyDTODomainAssemblerTest {
 
 
     FamilyDTODomainAssembler familyDTODomainAssembler = new FamilyDTODomainAssembler();
+
+
 
     @Test
     void toDTO() {
@@ -34,5 +37,29 @@ class FamilyDTODomainAssemblerTest {
 
         assertEquals(expected, result);
         assertNotNull(result);
+    }
+
+    @Test
+    void createFamilyNameTest(){
+        String familyName = "Simpson";
+        String registrationDate = "11/09/2020";
+        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(familyName,registrationDate);
+        FamilyName expected = new FamilyName(familyName);
+
+        FamilyName result = familyDTODomainAssembler.createFamilyName(inputFamilyDTO);
+
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void createRegistrationDateTest(){
+        String familyName = "Simpson";
+        String registrationDate = "11/09/2020";
+        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(familyName,registrationDate);
+        RegistrationDate expected = new RegistrationDate(registrationDate);
+
+        RegistrationDate result = familyDTODomainAssembler.createRegistrationDate(inputFamilyDTO);
+
+        assertEquals(expected,result);
     }
 }

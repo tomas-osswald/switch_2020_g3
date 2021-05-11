@@ -3,89 +3,51 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.person.*;
+import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
+import switchtwentytwenty.project.dto.person.IInputPersonDTO;
+import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
+import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDTODomainAssembler {
+public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
 
 
-    /**
-     * US010 - Assembler method to create a Person domain object from a DTO.
-     *
-     * @param inputPersonDTO DTO that contains the Person's information
-     * @param familyID       Domain object representing the FamilyID of the Family of the Person to be created
-     * @return Person domain object
-     */
-    @Deprecated
-    public Person toDomain(InputPersonDTO inputPersonDTO, FamilyID familyID) {
-
-        PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
-        Name name = new Name(inputPersonDTO.unpackName());
-        BirthDate birthDate = new BirthDate(inputPersonDTO.unpackBirthDate());
-        VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
-        Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
-
-        Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
-
-        return person;
-    }
-
-    public Address createAddress(IinputPersonDTO inputPersonDTO) {
+    public Address createAddress(IInputPersonDTO inputPersonDTO) {
         Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
         return address;
     }
 
 
-    public PhoneNumber createPhoneNumber(IinputPersonDTO inputPersonDTO) {
+    public PhoneNumber createPhoneNumber(IInputPersonDTO inputPersonDTO) {
         PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
         return phone;
     }
 
-    public VATNumber createVATNumber(IinputPersonDTO inputPersonDTO) {
+    public VATNumber createVATNumber(IInputPersonDTO inputPersonDTO) {
         VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
         return vat;
     }
 
-    public PersonID createPersonID(IinputPersonDTO inputPersonDTO) {
+    public PersonID createPersonID(IInputPersonDTO inputPersonDTO) {
         PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
         return personID;
     }
 
 
-    public Name createName(IinputPersonDTO inputPersonDTO) {
+    public Name createName(IInputPersonDTO inputPersonDTO) {
         Name name = new Name(inputPersonDTO.unpackName());
         return name;
     }
 
-    public BirthDate createBirthDate(IinputPersonDTO inputPersonDTO) {
+    public BirthDate createBirthDate(IInputPersonDTO inputPersonDTO) {
         BirthDate birthDate = new BirthDate(inputPersonDTO.unpackBirthDate());
         return birthDate;
     }
 
-    /**
-     * US101 - Assembler method that creates a Person domain object from a DTO
-     *
-     * @param anInternalAddFamilyMemberDTO
-     * @return Person
-     */
-    @Deprecated
-    public Person toDomain(InputAddFamilyMemberDTO anInternalAddFamilyMemberDTO) {
-        PersonID personID = new PersonID(anInternalAddFamilyMemberDTO.unpackEmail());
-        Name name = new Name(anInternalAddFamilyMemberDTO.unpackName());
-        BirthDate birthDate = new BirthDate(anInternalAddFamilyMemberDTO.unpackBirthDate());
-        VATNumber vat = new VATNumber(anInternalAddFamilyMemberDTO.unpackVAT());
-        PhoneNumber phone = new PhoneNumber(anInternalAddFamilyMemberDTO.unpackPhone());
-        Address address = new Address(anInternalAddFamilyMemberDTO.unpackStreet(), anInternalAddFamilyMemberDTO.unpackCity(), anInternalAddFamilyMemberDTO.unpackZipCode(), anInternalAddFamilyMemberDTO.unpackHouseNumber());
-        FamilyID familyID = new FamilyID(anInternalAddFamilyMemberDTO.getAdminID());
-
-        Person person = new Person(name, birthDate, personID, vat, phone, address, familyID);
-
-        return person;
-    }
 
     public OutputPersonDTO toDTO(Person savedPerson) {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
@@ -127,6 +89,13 @@ public class PersonDTODomainAssembler {
         return emails;
     }
 
+    public OutputEmailDTO toEmailDTO(Person savedPerson) {
+        OutputEmailDTO outputEmailDTO = new OutputEmailDTO();
+        int index = savedPerson.getEmails().size() - 1;
+
+        outputEmailDTO.setEmail(savedPerson.getEmails().get(index).toString());
+        return outputEmailDTO;
+    }
 
     public PersonID createPersonID(InputGetProfileDTO internalGetProfileDTO) {
         return new PersonID(internalGetProfileDTO.unpackID());

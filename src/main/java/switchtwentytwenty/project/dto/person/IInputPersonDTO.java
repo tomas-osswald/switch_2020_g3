@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.dto.person;
 
-public interface IinputPersonDTO {
+public interface IInputPersonDTO {
     String unpackStreet();
 
     String unpackCity();

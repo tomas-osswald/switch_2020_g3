@@ -76,15 +76,15 @@ public class PersonRepository implements IPersonRepository {
     @Override
     public Person add(Person person) {
         PersonJPA registeredPersonJPA;
-        Person registeredPerson;
+        Person savedPerson;
         if (!isPersonIDAlreadyRegistered(person.id())) {
             PersonJPA personJPA = personAssembler.toData(person);
             registeredPersonJPA = personRepositoryJPA.save(personJPA);
-            registeredPerson = personAssembler.toDomain(registeredPersonJPA);
+            savedPerson = personAssembler.toDomain(registeredPersonJPA);
         } else {
             throw new PersonAlreadyRegisteredException("Person is already registered in the database");
         }
-        return registeredPerson;
+        return savedPerson;
     }
 
     @Override

@@ -1,30 +1,19 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
-import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
-import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
-import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,13 +28,12 @@ class AddFamilyMemberServiceIT {
     @Autowired
     PersonDataDomainAssembler personDataDomainAssembler;
 
-    @Mock
-    IPersonRepositoryJPA personRepositoryJPA;
 
-    @Mock
-    PersonJPA savedPersonJPA;
+    @Autowired
+    AddFamilyMemberService service;
 
-    String adminID = "tonyAdmin@gmail.com";
+
+    String adminID = "tonyze@latinlover.com";
     String ID = "tonyZe@gamil.com";
     String name = "Tony";
     String invalidName = "     ";
@@ -57,46 +45,25 @@ class AddFamilyMemberServiceIT {
     String houseNum = "239";
     String zipCode = "1111-222";
 
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID,ID,name,birthDate,vat,phone,street,city,houseNum,zipCode);
-    InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID,ID,invalidName,birthDate,vat,phone,street,city,houseNum,zipCode);
+    InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, invalidName, birthDate, vat, phone, street, city, houseNum, zipCode);
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTOUserAlreadyExists = new InputAddFamilyMemberDTO(adminID, "kvanessa@latina.com", name, birthDate, vat, phone, street, city, houseNum, zipCode);
 
-    @Disabled
+
+
+
+
     @Test
-    void addPersonSuccess() {
-        AddFamilyMemberService service = new AddFamilyMemberService();
-        Person familyMember = personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO);
-        //personRepository.isPersonIDAlreadyRegistered(familyMember.id());
-        PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
-        Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
-        Mockito.when(personRepositoryJPA.save(familyMemberJPA)).thenReturn(savedPersonJPA);
-        //Person savedFamilyMember = personDataDomainAssembler.toDomain(savedPersonJPA);
-        //OutputPersonDTO result = personDTODomainAssembler.toDTO(savedFamilyMember);
-        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
+    @DisplayName("Test to assert an already registered email can't be registered again")
+    void addPersonFail_PersonAlreadyRegistered() {
 
-        OutputPersonDTO expected = new OutputPersonDTO();
-        expected.setId(ID);
-        expected.setName(name);
-
-        Assertions.assertEquals(expected, result);
-    }
-
-    @Disabled
-    @Test
-    void addPersonFail_PersonAlreadyRegistered(){
-        AddFamilyMemberService service = new AddFamilyMemberService();
-        //Person familyMember = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
-        //PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
-        Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
-
-        assertThrows(PersonAlreadyRegisteredException.class,()-> service.addPerson(internalAddFamilyMemberDTO));
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> service.addPerson(internalAddFamilyMemberDTOUserAlreadyExists));
 
     }
 
-    @Disabled
+    @DisplayName("AddFamilyMemberService IT Test to check if an exception is thrown if an invalid Value object is attempted to be instanced")
     @Test
-    void addPersonFail_InvalidEmail(){
-        AddFamilyMemberService service = new AddFamilyMemberService();
+    void addPersonFail_InvalidName() {
 
-        assertThrows(InvalidNameException.class,()-> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
+        assertThrows(InvalidNameException.class, () -> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
 }
