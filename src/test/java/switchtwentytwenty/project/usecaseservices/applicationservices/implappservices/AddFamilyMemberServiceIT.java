@@ -2,6 +2,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -13,7 +14,6 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.Perso
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
-import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
@@ -45,7 +45,11 @@ class AddFamilyMemberServiceIT {
     @Mock
     PersonJPA savedPersonJPA;
 
-    String adminID = "tonyAdmin@gmail.com";
+    @Autowired
+    AddFamilyMemberService service;
+
+
+    String adminID = "tonyze@latinlover.com";
     String ID = "tonyZe@gamil.com";
     String name = "Tony";
     String invalidName = "     ";
@@ -57,46 +61,42 @@ class AddFamilyMemberServiceIT {
     String houseNum = "239";
     String zipCode = "1111-222";
 
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID,ID,name,birthDate,vat,phone,street,city,houseNum,zipCode);
-    InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID,ID,invalidName,birthDate,vat,phone,street,city,houseNum,zipCode);
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, name, birthDate, vat, phone, street, city, houseNum, zipCode);
+    InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, invalidName, birthDate, vat, phone, street, city, houseNum, zipCode);
 
-    @Disabled
+
+    @DisplayName("Integration test of AddFamilyMemberService with Repository: Successfully add a person")
     @Test
     void addPersonSuccess() {
-        AddFamilyMemberService service = new AddFamilyMemberService();
-        Person familyMember = personDTODomainAssembler.toDomain(internalAddFamilyMemberDTO);
-        //personRepository.isPersonIDAlreadyRegistered(familyMember.id());
-        PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
-        Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.empty());
-        Mockito.when(personRepositoryJPA.save(familyMemberJPA)).thenReturn(savedPersonJPA);
-        //Person savedFamilyMember = personDataDomainAssembler.toDomain(savedPersonJPA);
-        //OutputPersonDTO result = personDTODomainAssembler.toDTO(savedFamilyMember);
+
         OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
 
         OutputPersonDTO expected = new OutputPersonDTO();
         expected.setId(ID);
-        expected.setName(name);
+        expected.setName(name.toString());
 
-        Assertions.assertEquals(expected, result);
+        Assertions.assertEquals(expected.getId(), result.getId());
+        Assertions.assertEquals(expected.getName(), result.getName());
+        Assertions.assertNotSame(expected,result);
     }
 
     @Disabled
     @Test
-    void addPersonFail_PersonAlreadyRegistered(){
+    void addPersonFail_PersonAlreadyRegistered() {
         AddFamilyMemberService service = new AddFamilyMemberService();
         //Person familyMember = personDTODomainAssembler.toDomain(internalFamilyMemberDTO);
         //PersonJPA familyMemberJPA = personDataDomainAssembler.toData(familyMember);
         Mockito.when(personRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
 
-        assertThrows(PersonAlreadyRegisteredException.class,()-> service.addPerson(internalAddFamilyMemberDTO));
+        assertThrows(PersonAlreadyRegisteredException.class, () -> service.addPerson(internalAddFamilyMemberDTO));
 
     }
 
     @Disabled
     @Test
-    void addPersonFail_InvalidEmail(){
+    void addPersonFail_InvalidEmail() {
         AddFamilyMemberService service = new AddFamilyMemberService();
 
-        assertThrows(InvalidNameException.class,()-> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
+        assertThrows(InvalidNameException.class, () -> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
 }
