@@ -3,7 +3,7 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
-import switchtwentytwenty.project.domain.aggregates.account.Account;
+import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 
@@ -11,16 +11,16 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     @Override
-    public AccountJPA toData(Account account) {
+    public AccountJPA toData(IAccount IAccount) {
 
         // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
 
         //AccountIDJPA accountIDJPA = new AccountIDJPA(account.getId());
 
-        String ownerId = account.getOwnerId().toString();
-        String designation = account.getDesignation().toString();
-        String balance = account.getBalance().toString();
-        String accountType = account.getAccountType().toString();
+        String ownerId = IAccount.getOwnerId().toString();
+        String designation = IAccount.getDesignation().toString();
+        String balance = IAccount.getBalance().toString();
+        String accountType = IAccount.getAccountType().toString();
 
         // TODO: Verificar se é esta a ordem no construtor de AccountJPA
         //AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, balance, designation, accountType);
@@ -29,7 +29,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     @Override
-    public Account toDomain(AccountJPA accountJPA) {
+    public IAccount toDomain(AccountJPA accountJPA) {
 
         // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
         //coisas comentadas é porque ainda não estão implementadas em domínio
@@ -49,4 +49,3 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
 
 }
-

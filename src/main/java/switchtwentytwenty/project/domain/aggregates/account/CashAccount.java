@@ -1,21 +1,28 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
-import switchtwentytwenty.project.domain.valueobject.AccountID;
-import switchtwentytwenty.project.domain.valueobject.ID;
-/*
-public class CashAccount implements Account {
+import switchtwentytwenty.project.domain.valueobject.*;
 
-    private AccountData data;
+import java.util.List;
+
+public class CashAccount extends AbCashAccount{
+
+    /*private Monetary calculateBalance(List<Movement> movements) {
+        Monetary balance = new Monetary()
+        // for every movement in movements, balance.sum(movement)
+        return balance
+    }*/
+
+
+    public CashAccount(OwnerID ownerID, Designation designation, AccountID accountID, List<Movement> movements) {
+    }
 
     @Override
-    public ID id() {
+    public AccountID getId() {
         return null;
     }
 
     @Override
-    public boolean hasID(ID id) {
-        return false;
+    public AccountType getAccountType() {
+        return null;
     }
-
 }
-    */
