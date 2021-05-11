@@ -9,7 +9,7 @@ public class AccountID implements ID<Long> {
 
     @Getter
     @Setter
-    private final Long accountID;
+    private Long accountID;
 
     public AccountID(Long accountID) {
         this.accountID = accountID;
