@@ -18,7 +18,7 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     private Designation designation;
 
-    private Balance balance;
+    private Monetary balance;
 
     private List<Movement> movements;
 
@@ -44,7 +44,7 @@ public class CreditCardAccount extends AbNonCashAccount {
     }
 
     @Override
-    public Balance getBalance() {
+    public Monetary getBalance() {
         return null;
     }
 

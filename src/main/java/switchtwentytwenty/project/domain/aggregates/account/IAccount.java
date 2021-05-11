@@ -13,7 +13,7 @@ public interface IAccount extends AggregateRoot<AccountID> {
 
     Designation getDesignation();
 
-    Balance getBalance();
+    Monetary getBalance();
 
     String getAccountType();
 

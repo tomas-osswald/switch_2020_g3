@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.valueobject.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class CashAccount extends AbCashAccount{
 
     private Designation designation;
 
-    private Balance balance;
+    private Monetary balance;
 
     private List<Movement> movements = new ArrayList<>();
 
@@ -40,13 +41,13 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public Balance getBalance() {
+    public Monetary getBalance() {
         return this.balance;
     }
 
     @Override
     public String getAccountType() {
-        return null;
+        return "Cash Account";
     }
 
     @Override
@@ -78,4 +79,18 @@ public class CashAccount extends AbCashAccount{
     public boolean hasID(AccountID id) {
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CashAccount)) return false;
+        CashAccount that = (CashAccount) o;
+        return Objects.equals(accountID, that.accountID) && Objects.equals(ownerID, that.ownerID) && Objects.equals(getDesignation(), that.getDesignation()) && Objects.equals(getBalance(), that.getBalance()) && Objects.equals(movements, that.movements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountID, ownerID, getDesignation(), getBalance(), movements);
+    }
+
 }

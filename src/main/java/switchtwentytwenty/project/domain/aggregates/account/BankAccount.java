@@ -20,7 +20,7 @@ public class BankAccount extends AbNonCashAccount {
 
     private Designation designation;
 
-    private Balance balance;
+    private Monetary balance;
 
     private List<Movement> movements = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public Balance getBalance() {
+    public Monetary getBalance() {
         return null;
     }
 
