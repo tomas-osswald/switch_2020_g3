@@ -1,10 +1,32 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
+import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+@ExtendWith(MockitoExtension.class)
 class PersonRepositoryTest {
+
+    @Mock
+    IPersonRepositoryJPA iPersonRepositoryJPA;
+
+    @Mock
+    PersonDataDomainAssembler personDataDomainAssembler;
+
+    @InjectMocks
+    PersonRepository personRepository;
+
+    @Captor
+    ArgumentCaptor<PersonIDJPA> captorPersonIDJPA;
 
     final String VALIDNAME = "TonyZe";
     final String VALIDEMAIL = "tonyze@latinlover.pt";
@@ -34,41 +56,27 @@ class PersonRepositoryTest {
         familyID = new FamilyID(VALIDEMAIL);
     }
 
+    private AutoCloseable closeble;
 
+    @BeforeEach
+    void setUp() {
+        closeble = MockitoAnnotations.openMocks(this);
+    }
 
-
+    @AfterEach
+    void tearDown() throws Exception {
+        closeble.close();
+    }
 
     /* UNIT TESTS */
 
     @Test
     void getByID() {
+
     }
 
     @Test
-    void save() {
+    void addPerson() {
     }
-
-    /*
-    @Test
-    void shouldThrowNineTimesPersonIDAlreadyPresentInRepositoryTenThreads() throws InterruptedException {
-        PersonRepository personRepository = new PersonRepository();
-        AtomicInteger counter = new AtomicInteger();
-        int numberOfThreads = 10;
-        ExecutorService service = Executors.newFixedThreadPool(10);
-        CountDownLatch latch = new CountDownLatch(numberOfThreads);
-        for (int i = 0; i < numberOfThreads; i++) {
-            service.submit(() -> {
-                try {
-                    personRepository.createAndAdd(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-                } catch (EmailAlreadyRegisteredException e) {
-                    counter.getAndIncrement();
-                }
-                latch.countDown();
-            });
-        }
-        latch.await();
-        assertEquals(9, counter.get());
-    }
-    */
 
 }

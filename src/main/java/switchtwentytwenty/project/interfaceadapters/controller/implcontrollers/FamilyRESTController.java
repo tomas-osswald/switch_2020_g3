@@ -25,11 +25,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @CrossOrigin
 public class FamilyRESTController implements IFamilyRESTController {
 
-    private ICreateFamilyService createFamilyService;
+    private final ICreateFamilyService createFamilyService;
 
-    private FamilyInputDTOAssembler familyAssembler;
+    private final FamilyInputDTOAssembler familyAssembler;
 
-    private PersonInputDTOAssembler personAssembler;
+    private final PersonInputDTOAssembler personAssembler;
 
     @Autowired
     public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler) {
@@ -40,7 +40,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     public ResponseEntity<Object> familiesOptions() {
-        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("Add New Family").withSelfRel();
+        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("Add New Family");
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Allow", "POST, OPTIONS");
@@ -76,7 +76,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         }
     }
 
-    @RequestMapping(value = "/{familyID}", method = RequestMethod.OPTIONS)
+/*    @RequestMapping(value = "/{familyID}", method = RequestMethod.OPTIONS)
     public ResponseEntity<Object> getFamilyOptions(@PathVariable String familyID) {
 
         // FamilyOptionsDTO e por ai em diante? que extende o RepresentationModel para colocarmos os varios links?
@@ -92,17 +92,18 @@ public class FamilyRESTController implements IFamilyRESTController {
 
         return new ResponseEntity<>(optionOne, HttpStatus.OK);
 
-    }
+    }*/
 
     @RequestMapping(value = "/{familyID}/relations", method = RequestMethod.PATCH)
     public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO) {
+        throw new UnsupportedOperationException();
 
-        return new ResponseEntity<>(true, HttpStatus.OK);
+       // return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{familyName}", method = RequestMethod.GET)
     public ResponseEntity<Object> getFamilyName(@PathVariable String familyName) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }
