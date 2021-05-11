@@ -141,9 +141,6 @@ class PersonRESTControllerITDB {
 
         assertNotEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
-
-
-
     }
 
 }
