@@ -9,7 +9,6 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@ToString
 @NoArgsConstructor
 @Embeddable
 public class AccountIDJPA implements Serializable {

@@ -1,19 +1,19 @@
 package switchtwentytwenty.project.dto.accounts;
 
-import switchtwentytwenty.project.domain.valueobject.AccountType;
-import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Objects;
-
+@NoArgsConstructor
+@Getter
+@Setter
 public class InputAccountDTO {
 
-    private final String designation;
-    private final Integer initialAmount;
-    private final String currency;
-    private final String ownerID;
-    private final String accountType;
+    private String designation;
+    private Integer initialAmount;
+    private String currency;
+    private String ownerID;
+    private String accountType;
 
     public InputAccountDTO(String designation, Integer initialAmount, String currency, String ownerID, String accountType) {
         this.designation = designation;
@@ -23,27 +23,4 @@ public class InputAccountDTO {
         this.accountType = accountType;
     }
 
-    public String getDesignation() {
-        return designation;
     }
-
-    public Integer getInitialAmount() {
-        return initialAmount;
-    }
-
-
-    public String getCurrency() {
-        return currency;
-    }
-
-
-    public String getOwnerID() {
-        return ownerID;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-}
-
-

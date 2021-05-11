@@ -5,6 +5,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.IInputPersonDTO;
+import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
@@ -96,4 +97,7 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return outputEmailDTO;
     }
 
+    public PersonID createPersonID(InputGetProfileDTO internalGetProfileDTO) {
+        return new PersonID(internalGetProfileDTO.unpackID());
+    }
 }
