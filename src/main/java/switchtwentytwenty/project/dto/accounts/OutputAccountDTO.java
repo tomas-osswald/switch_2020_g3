@@ -3,17 +3,17 @@ package switchtwentytwenty.project.dto.accounts;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import switchtwentytwenty.project.domain.valueobject.AccountID;
+
+import org.springframework.hateoas.RepresentationModel;
+
 
 @Setter
 @Getter
-public class OutputAccountDTO {
+@NoArgsConstructor
+public class OutputAccountDTO extends RepresentationModel {
+
+    //Criado para não "partir" o getAccountID() do Rest Controller antes de juntar todas as partes.
+    private String accountID;
 
 
-    public OutputAccountDTO() {
-    }
-
-    public OutputAccountDTO getAccountID() {
-        return null;
-    }
 }
