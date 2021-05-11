@@ -12,7 +12,7 @@ public class AccountFactory {
     private Environment environment;
 
     //Isto nao aceita só uma String, aceita um DTO que tem lá o string do account type. Terá de ser adaptado
-    public IAccount createAccount(String accountType) {
+    public IAccount createCashAccount( String accountType) {
         IAccount newIAccount;
         //Isto vai ao application.properties buscar o endereço da classe de acordo com o string que recebemos.
         //O toLowerCase() é para bater certo
