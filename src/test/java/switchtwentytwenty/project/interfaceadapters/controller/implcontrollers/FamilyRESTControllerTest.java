@@ -9,15 +9,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -27,9 +28,9 @@ class FamilyRESTControllerTest {
     AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
     AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
-
     @Autowired
     IFamilyRESTController familyRESTController;
+
     private AutoCloseable closeble;
 
     @Test
@@ -43,12 +44,14 @@ class FamilyRESTControllerTest {
         outputFamilyDTO.add(expectedLink);
 
 
-        //ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
+        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
 
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
 
 
         assertNotNull(result);
+        assertEquals(result.getStatusCode(),HttpStatus.CREATED);
+        assertEquals(result,expected);
     }
 
     @Test
@@ -75,5 +78,31 @@ class FamilyRESTControllerTest {
     @AfterEach
     void tearDown() throws Exception {
         closeble.close();
+    }
+
+    @Test
+    void familiesOptionsTest() {
+        Link link =  linkTo(FamilyRESTController.class).withRel("Add New Family");
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "POST, OPTIONS");
+
+        ResponseEntity<Object> expected = new ResponseEntity<>(link,header,HttpStatus.OK);
+        ResponseEntity<Object> result = familyRESTController.familiesOptions();
+
+        assertEquals(result,expected);
+    }
+
+    @Test
+    void addRelationTest() {
+        AddRelationDTO addRelationDTO = new AddRelationDTO();
+
+        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO));
+    }
+
+    @Test
+    void getFamilyNameTest() {
+        String familyName = "Silva";
+
+        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamilyName(familyName));
     }
 }

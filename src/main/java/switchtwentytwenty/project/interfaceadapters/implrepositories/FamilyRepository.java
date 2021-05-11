@@ -5,12 +5,9 @@ import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.exceptions.UserIsNotAdminException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
 import java.util.Optional;
