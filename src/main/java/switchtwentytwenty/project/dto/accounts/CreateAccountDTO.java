@@ -13,14 +13,22 @@ public class CreateAccountDTO {
 
     private String designation;
     private Integer initialAmount;
-    private Currency currency;
+    private String currency;
+    private String ownerID;
+    private String accountType;
 
-    public CreateAccountDTO (String designation, Integer initialAmount, String currency){
+
+    public CreateAccountDTO (String designation, Integer initialAmount, String currency, String ownerID, String accountType){
         this.designation = designation;
         this.initialAmount = initialAmount;
-        this.currency = validateCurrency(currency);
+        this.currency = currency;
+        this.ownerID = ownerID;
+        this.accountType = accountType;
     }
 
+    /*
+    Estes métodos de validação vão para o Service para a instanciação de Currency
+     */
     private Currency validateCurrency(String currencyToCheck) {
         Currency currency;
         if (checkBlank(currencyToCheck) || checkNull(currencyToCheck)) {

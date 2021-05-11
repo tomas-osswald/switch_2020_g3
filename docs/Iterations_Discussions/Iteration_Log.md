@@ -710,3 +710,18 @@ Decidiu-se que no Controller haverá um Assembler por Agregado e que essa Class 
 Do Controller para o Service será usada a nomenclatura nos métodos do Assembler como _toInput{US}DTO()_
 
 O DTO que vai para o Service depois de convertido pelo Assembler do Controller -> _Input{US}DTO_
+
+
+---
+
+### Aula DSOFT - 11/05/2021
+
+Service instancia Objetos de Domínio recebendo Value Objects.
+
+Repository também vai instanciar Objetos de Domínio recebendo os Value Objects que o Assembler estrairá dos objectos JPA.
+
+Factories e Builder -> Prof referiu que o Builder não é necessário para o que estamos a fazer. Que as Factories cumprem o necessário.
+
+No entanto deixou em aberto que também gostaria de ver o Builder.
+
+# Decisão -> Factories vs Builder
