@@ -16,6 +16,12 @@ public class BankAccount extends AbNonCashAccount {
 
     private List<Movement> movements;
 
+    public BankAccount(AccountID accountID, OwnerID ownerID, Designation designation, Movement movement) {
+        this.accountID = accountID;
+        this.ownerID = ownerID;
+        this.designation = designation;
+        movements.add(movement);
+    }
 
     public BankAccount() {
     }
