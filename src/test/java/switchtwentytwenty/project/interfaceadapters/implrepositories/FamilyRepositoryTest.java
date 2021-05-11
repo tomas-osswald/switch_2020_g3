@@ -97,9 +97,5 @@ class FamilyRepositoryTest {
         assertEquals(expected, result);
     }
 
-    @Test
-    void verifyAdminSuccess() {
 
-        familyRepository.add(family);
-    }
 }

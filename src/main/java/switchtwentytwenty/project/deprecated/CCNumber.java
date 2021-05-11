@@ -35,7 +35,6 @@ public class CCNumber implements ValueObject {
      * @return true if ID valid
      */
 
-    //TODO: Modularizar posteriormente.
     private boolean validateCC(String ccNumber) {
         int sum = 0;
         int value;
