@@ -1,71 +1,108 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AccountIDJPATest {
+class AccountIDJPATest {
 
-    Long id = 3L;
-
-    Long otherID = 5L;
+    Long idOne = 127L;
+    Long idTwo = 721L;
 
     @Test
-    void equalsAccountIDJPAEqualAccountIDJPATest() {
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
-        AccountIDJPA accountIDJPATwo = new AccountIDJPA(id);
-
-        assertEquals(accountIDJPAOne, accountIDJPATwo);
-        assertNotSame(accountIDJPAOne, accountIDJPATwo);
+    void accountIDJPAValidObject(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        assertNotNull(accountIDOne);
     }
+
     @Test
-    void equalsAccountIDJPAEqualAccountIDJPANoArgsTest() {
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA();
-        AccountIDJPA accountIDJPATwo = accountIDJPAOne;
+    void getAccountIDJPASameID(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = new AccountIDJPA(idOne);
+        Long expected = accountIDOne.getId();
+        Long result = accountIDTwo.getId();
 
-        assertEquals(accountIDJPAOne, accountIDJPATwo);
+        assertEquals(expected, result);
+        assertSame(expected, result);
     }
+
     @Test
-    void equalsAccountIDJPAIsSameAccountIDJPA(){
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
-        AccountIDJPA accountIDJPATwo = accountIDJPAOne;
+    void getAccountIDJPADifferentID(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = new AccountIDJPA(idTwo);
+        Long expected = accountIDOne.getId();
+        Long result = accountIDTwo.getId();
 
-        assertEquals(accountIDJPAOne, accountIDJPATwo);
+        assertNotEquals(expected, result);
     }
+
     @Test
-    void equalsAccountIDJPADifferentAccountIDJPATest() {
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
-        AccountIDJPA accountIDJPATwo = new AccountIDJPA(otherID);
+    void setAccountIDJPADifferentObjectSameID(){
+        AccountIDJPA accountIDOne = new AccountIDJPA();
+        AccountIDJPA accountIDTwo = new AccountIDJPA(idTwo);
+        accountIDOne.setId(idTwo);
 
-        assertNotEquals(accountIDJPAOne, accountIDJPATwo);
-        assertNotSame(accountIDJPAOne, accountIDJPATwo);
+        assertEquals(accountIDOne, accountIDTwo);
+        assertNotSame(accountIDOne, accountIDTwo);
     }
+
     @Test
-    void equalsAccountIDJPADifferentClassTest() {
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
+    void setAccountIDJPADifferentObjectDifferentID(){
+        AccountIDJPA accountIDOne = new AccountIDJPA();
+        AccountIDJPA accountIDTwo = new AccountIDJPA();
+        accountIDOne.setId(idTwo);
+        accountIDTwo.setId(idOne);
 
-        assertNotEquals(accountIDJPAOne, id);
+        assertNotEquals(accountIDOne, accountIDTwo);
     }
+
     @Test
-    void equalsAccountIDJPADifferentFromNullTest() {
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
-        String nullString = null;
+    void equalsTestSameObject(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = accountIDOne;
 
-        assertNotEquals(accountIDJPAOne, nullString);
+        assertSame(accountIDOne, accountIDTwo);
     }
+
     @Test
-    void hashCodeAccountIDJPAIsEquals(){
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
-        AccountIDJPA accountIDJPATwo = new AccountIDJPA(id);
+    void hashCodeSameHashCode(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = new AccountIDJPA(idOne);
 
-        assertEquals(accountIDJPAOne.hashCode(), accountIDJPATwo.hashCode());
-        assertNotSame(accountIDJPAOne, accountIDJPATwo);
+        assertEquals(accountIDOne.hashCode(), accountIDTwo.hashCode());
+        assertNotSame(accountIDOne, accountIDTwo);
     }
+
     @Test
-    void hashCodeAccountJPAIsDifferent(){
-        AccountIDJPA accountIDJPAOne = new AccountIDJPA(id);
-        AccountIDJPA accountIDJPATwo = new AccountIDJPA(otherID);
+    void hashCodeDifferentHashCode(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = new AccountIDJPA(idTwo);
 
-        assertNotEquals(accountIDJPAOne.hashCode(), accountIDJPATwo.hashCode());
+        assertNotEquals(accountIDOne.hashCode(), accountIDTwo.hashCode());
     }
+
+    @Test
+    void toLongSameID(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = new AccountIDJPA(idOne);
+        Long expected = accountIDOne.toLong();
+        Long result = accountIDTwo.toLong();
+
+        assertEquals(expected, result);
+        assertSame(expected, result);
+    }
+
+    @Test
+    void toLongDifferentID(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        AccountIDJPA accountIDTwo = new AccountIDJPA();
+        Long expected = accountIDOne.toLong();
+        Long result = accountIDTwo.toLong();
+
+        assertNotEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+
+
 }
 

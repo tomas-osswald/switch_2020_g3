@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
@@ -11,6 +13,8 @@ import java.util.Objects;
 @Embeddable
 public class AccountIDJPA implements Serializable {
 
+    @Getter
+    @Setter
     private Long id;
 
     public AccountIDJPA (Long id) {
@@ -26,8 +30,7 @@ public class AccountIDJPA implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountIDJPA that = (AccountIDJPA) o;
-        return Objects.equals(id, that.id);
-    }
+        return Objects.equals(id, that.id); }
 
     @Override
     public int hashCode() {
