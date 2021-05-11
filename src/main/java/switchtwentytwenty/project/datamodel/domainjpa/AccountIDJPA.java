@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
@@ -12,6 +14,8 @@ import java.util.Objects;
 @Embeddable
 public class AccountIDJPA implements Serializable {
 
+    @Getter
+    @Setter
     private Long id;
 
     public AccountIDJPA (Long id) {
