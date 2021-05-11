@@ -1,10 +1,12 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.dto.accounts.AccountInputDTO;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
 
+@Component
 public class AccountInputDTOAssembler implements IAccountInputDTOAssembler {
 
     @Override

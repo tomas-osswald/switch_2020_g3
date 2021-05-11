@@ -4,9 +4,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InputEmailDTOTest {
+
+    @Test
+    void testConstructorWithNoArguments(){
+        InputEmailDTO inputEmailDTO = new InputEmailDTO();
+
+        assertNotNull(inputEmailDTO);
+    }
 
     @Test
     @DisplayName("Test to see if the unpacking method return the saved String in the DTO")
@@ -14,6 +21,16 @@ class InputEmailDTOTest {
         InputEmailDTO inputEmailDTO = new InputEmailDTO("tonyze@gmail.com", "tonyze@gmail.com");
         String expected = "tonyze@gmail.com";
         String result = inputEmailDTO.unpackEmail();
+
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Test to see if the unpacking method return the saved String in the DTO")
+    void unpackUserIDTest() {
+        InputEmailDTO inputEmailDTO = new InputEmailDTO("tonyze@gmail.com", "tonyze@gmail.com");
+        String expected = "tonyze@gmail.com";
+        String result = inputEmailDTO.unpackUserID();
 
         Assertions.assertEquals(expected, result);
     }
@@ -58,8 +75,9 @@ class InputEmailDTOTest {
     @Test
     void testEqualsDifferentFromNull() {
         InputEmailDTO inputEmailDTO = new InputEmailDTO("tonyze@gmail.com", "tony2ze@gmail.com");
+        String nullString = null;
 
-        assertNotEquals(null,inputEmailDTO);
+        assertNotEquals(inputEmailDTO,nullString);
     }
 
     @Test
@@ -80,5 +98,27 @@ class InputEmailDTOTest {
 
         Assertions.assertNotSame(inputEmailDTO, inputEmailDTO2);
         Assertions.assertNotEquals(inputEmailDTO.hashCode(),inputEmailDTO2.hashCode());
+    }
+
+    @Test
+    void setUserIDTest(){
+        InputEmailDTO inputEmailDTO = new InputEmailDTO("tonyze@gmail.com", "tonyze2@gmail.com");
+        inputEmailDTO.setId("email@email.com");
+        String expected = "email@email.com";
+
+        String result = inputEmailDTO.unpackUserID();
+
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void setEmailTest(){
+        InputEmailDTO inputEmailDTO = new InputEmailDTO("tonyze@gmail.com", "tonyze2@gmail.com");
+        inputEmailDTO.setEmail("email@email.com");
+        String expected = "email@email.com";
+
+        String result = inputEmailDTO.unpackEmail();
+
+        assertEquals(expected,result);
     }
 }
