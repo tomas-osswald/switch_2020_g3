@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -30,12 +28,11 @@ class FamilyRESTControllerTest {
 
 
     @Test
-    @Disabled
     void createFamilyAndSetAdmin() {
 
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
 
-        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
+        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "@tony@email.com", "tony@email.com", "12/12/2000");
 
         outputFamilyDTO.add(expectedLink);
 
@@ -43,7 +40,8 @@ class FamilyRESTControllerTest {
 
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
 
-        assertEquals(expected, result);
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+        assertEquals(expected.getBody(),result.getBody());
     }
 
     @Test
