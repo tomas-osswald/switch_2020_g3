@@ -77,7 +77,6 @@ class PersonRepositoryTest {
 
     @Test
     void addPerson() {
-        PersonJPA personJPA = new PersonJPA()
     }
 
 }
