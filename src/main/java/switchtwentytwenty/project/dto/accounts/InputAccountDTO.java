@@ -1,36 +1,41 @@
 package switchtwentytwenty.project.dto.accounts;
 
+import switchtwentytwenty.project.domain.valueobject.AccountType;
+import switchtwentytwenty.project.domain.valueobject.Designation;
+import switchtwentytwenty.project.domain.valueobject.Movement;
+import switchtwentytwenty.project.domain.valueobject.OwnerID;
+
 import java.util.Objects;
 
 public class InputAccountDTO {
 
-    private String ownerID;
-    private String movement;
-    private String designation;
-    private String accountType;
+    private OwnerID ownerID;
+    private Movement movement;
+    private Designation designation;
+    private AccountType accountType;
 
 
 
-    public InputAccountDTO(String ownerID, String movement, String designation, String accountType) {
+    public InputAccountDTO(OwnerID ownerID, Movement movement, Designation designation, AccountType accountType) {
         this.ownerID = ownerID;
         this.movement = movement;
         this.designation = designation;
         this.accountType = accountType;
     }
 
-    public String unpackOwnerID() {
+    public OwnerID unpackOwnerID() {
         return this.ownerID;
     }
 
-    public String unpackMovement() {
+    public Movement unpackMovement() {
         return this.movement;
     }
 
-    public String unpackDesignation() {
+    public Designation unpackDesignation() {
         return this.designation;
     }
 
-    public String unpackAccountType() {
+    public AccountType unpackAccountType() {
         return this.accountType;
     }
 

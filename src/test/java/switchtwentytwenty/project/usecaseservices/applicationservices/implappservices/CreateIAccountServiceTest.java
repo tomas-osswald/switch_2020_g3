@@ -55,7 +55,7 @@ class CreateIAccountServiceTest {
     @Test
     void createAccountSuccessTest() {
 
-        /*Mockito.when(accountInputDTOAssembler.toInputDTO(createAccountDTO)).thenReturn(inputAccountDTO);
+        Mockito.when(accountInputDTOAssembler.toInputDTO(createAccountDTO)).thenReturn(inputAccountDTO);
         Mockito.when(accountRepository.add(account)).thenReturn(savedAccount);
         Mockito.when(accountDTODomainAssembler.toDTO(savedAccount)).thenReturn(outputAccountDTO);
 
@@ -64,18 +64,18 @@ class CreateIAccountServiceTest {
         OutputAccountDTO result = createAccountService.createAccount(inputAccountDTO);
 
         assertNotSame(expected, result);
-        assertEquals(expected, result);*/
+        assertEquals(expected, result);
     }
 
     @Disabled
     @Test
     void createCashAccountFamilyFailWhenFamilyAlreadyHasOneCashAccount() {
 
-        /*Mockito.when(accountInputDTOAssembler.toInputDTO(createAccountDTO)).thenReturn(inputAccountDTO);
+        Mockito.when(accountInputDTOAssembler.toInputDTO(createAccountDTO)).thenReturn(inputAccountDTO);
         Mockito.doThrow(AccountAlreadyRegisteredException.class).when(accountRepository.add(account));
         Mockito.when(accountDTODomainAssembler.toDTO(savedAccount)).thenReturn(outputAccountDTO);
 
-        assertThrows(AccountAlreadyRegisteredException.class, () -> createAccountService.createAccount(inputAccountDTO));*/
+        assertThrows(AccountAlreadyRegisteredException.class, () -> createAccountService.createAccount(inputAccountDTO));
     }
 
 

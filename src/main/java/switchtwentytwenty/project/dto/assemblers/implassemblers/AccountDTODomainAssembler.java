@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.domain.aggregates.account.AbAccount;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountType;
 import switchtwentytwenty.project.domain.valueobject.Designation;
@@ -13,7 +14,7 @@ import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 public class AccountDTODomainAssembler {
 
    /* public OwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
-        OwnerID ownerID = inputAccountDTO.unpackOwnerID();
+        OwnerID ownerID = new OwnerID(inputAccountDTO.unpackOwnerID());
         return ownerID;
     }
 
@@ -32,7 +33,7 @@ public class AccountDTODomainAssembler {
 
     }*/
 
-    public OutputAccountDTO toDTO(IAccount savedIAccount) {
+    public OutputAccountDTO toDTO(AbAccount savedAccount) {
         return null;
     }
 
