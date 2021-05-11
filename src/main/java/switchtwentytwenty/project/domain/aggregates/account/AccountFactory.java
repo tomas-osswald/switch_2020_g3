@@ -28,12 +28,13 @@ public class AccountFactory {
             //Cria uma instancia do tipo especifico de conta
             newIAccount = (IAccount) Class.forName(classpath).newInstance();
 
-            // BATISTA!!! Como 
+            // BATISTA !!!
+            // Como já não ha build e não sabemos qual instancia de Account a "newAccount" se vai tornar,
+            // usamos construtores vazios para instanciar qualquer tipo de Account e set's para adicionar os atributos
+            // que são comuns a todas elas.
             newIAccount.setDesignation(designation);
             newIAccount.addMovement(movement);
             newIAccount.setOwner(ownerID);
-            //E aqui usamos o metodo interno que ainda nao existe da conta, para a construir.
-            //newAccount.build();
 
         }catch(ClassNotFoundException | InstantiationException | IllegalAccessException exception){
             //Isto é para apanhar todas as exceptions possiveis do string nao ser reconhecido ou processado corretamente pelo application.properties

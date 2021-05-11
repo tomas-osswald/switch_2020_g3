@@ -45,7 +45,7 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public AccountType getAccountType() {
+    public String getAccountType() {
         return null;
     }
 
@@ -73,7 +73,6 @@ public class CashAccount extends AbCashAccount{
     public void addMovement(Movement movement){
         movements.add(movement);
     }
-
 
     @Override
     public boolean hasID(AccountID id) {

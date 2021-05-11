@@ -15,7 +15,7 @@ public interface IAccount extends AggregateRoot<AccountID> {
 
     Balance getBalance();
 
-    AccountType getAccountType();
+    String getAccountType();
 
     void setAccountID(AccountID accountID);
 

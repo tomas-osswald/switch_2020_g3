@@ -51,7 +51,7 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public AccountType getAccountType() {
+    public String getAccountType() {
         return null;
     }
 
@@ -67,16 +67,16 @@ public class BankAccount extends AbNonCashAccount {
 
     @Override
     public void setDesignation(Designation designation) {
-
+        this.designation = designation;
     }
 
     @Override
     public void setMovements(List<Movement> movements) {
-
+        this.movements = movements;
     }
 
     @Override
     public void addMovement(Movement movement) {
-
+        this.movements.add(movement);
     }
 }
