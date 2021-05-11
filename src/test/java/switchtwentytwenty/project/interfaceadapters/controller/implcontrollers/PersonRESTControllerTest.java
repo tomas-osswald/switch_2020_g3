@@ -59,10 +59,8 @@ class PersonRESTControllerTest {
     //Person personToAddEmail;
 
     String emailAddressAsID = "tonyze@latinlover.com";
-    PersonID personID = new PersonID(emailAddressAsID);
     String emailToAdd = "tony@emailtoadd.com";
     String invalidEmailToAdd = "invalidemail.com";
-    String emailIDAfterAddingToDatabase = "3L";
     InputEmailDTO internalEmailDTO = new InputEmailDTO(emailAddressAsID, emailToAdd);
 
     OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailToAdd);
@@ -74,7 +72,7 @@ class PersonRESTControllerTest {
     AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L", "3L", "tony", "12/02/1999", 123456789, 961962963, "Rua da Estrada", "Porto", "12", "4000");
 
 
-    private AutoCloseable closeble;
+    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
@@ -86,12 +84,12 @@ class PersonRESTControllerTest {
 
         // just another version of initilization of mocks with annotation
         // pay attention to tear down method - we have to call close method
-        closeble = MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        closeble.close();
+        closeable.close();
     }
 
 
@@ -193,7 +191,7 @@ class PersonRESTControllerTest {
 
     }
 
-    @DisplayName("Controller-level Unit test for a sucess case in adding family member")
+    @DisplayName("Controller-level Unit test for a success case in adding family member")
     @Test
     void successCaseInAddFamilyMember() {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
