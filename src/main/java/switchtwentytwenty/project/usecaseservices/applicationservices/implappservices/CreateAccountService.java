@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,11 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
 @Service
+@NoArgsConstructor
 public class CreateAccountService implements ICreateAccountService {
 
-    private final IAccountRepository accountRepository;
-    private final AccountDTODomainAssembler accountDTODomainAssembler;
+    private IAccountRepository accountRepository;
+    private AccountDTODomainAssembler accountDTODomainAssembler;
 
     @Autowired
     public CreateAccountService(IAccountRepository accountRepository, AccountDTODomainAssembler accountDTODomainAssembler) {
