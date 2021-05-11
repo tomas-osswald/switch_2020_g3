@@ -33,11 +33,12 @@ public class PersonRESTController implements IPersonRESTController {
     private PersonInputDTOAssembler profileInternalExternalAssembler;
 
     @Autowired
-    public PersonRESTController(PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler) {
+    public PersonRESTController(PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
         this.personInputDTOAssembler = personInputDTOAssembler;
         this.profileInternalExternalAssembler = profileInternalExternalAssembler;
+        this.addEmailService = addEmailService;
     }
 
     @Override
