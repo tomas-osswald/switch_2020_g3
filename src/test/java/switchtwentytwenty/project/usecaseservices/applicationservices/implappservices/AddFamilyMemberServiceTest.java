@@ -22,8 +22,7 @@ import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -163,4 +162,11 @@ class AddFamilyMemberServiceTest {
     }
 
 
+    @Test
+    @DisplayName("Test for the NoArgsConstructor tag")
+    void noArgsConstructorTest() {
+        AddFamilyMemberService addFamilyMemberService = new AddFamilyMemberService();
+        assertNotNull(addFamilyMemberService);
+
+    }
 }
