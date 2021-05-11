@@ -3,6 +3,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -18,14 +19,15 @@ import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -55,6 +57,7 @@ class GetFamilyMemberProfileServiceTest {
     }
 
 
+    @DisplayName("Get Profile - Success")
     @Test
     void getFamilyMemberProfileTest() {
         // Arrange
@@ -120,4 +123,27 @@ class GetFamilyMemberProfileServiceTest {
         assertEquals(expectedOutputPersonDTO, resultOutputPersonDTO);
     }
 
+    @DisplayName("Get Profile - Failure - throw EmailNotRegisteredException")
+    @Test
+    void getFamilyMemberProfileTestFailure() {
+        // Arrange
+
+        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO("tonyze@gmail.com");
+
+        // PersonID
+        PersonID personID = new PersonID("tonyze@gmail.com");
+
+
+        // Mocking
+
+        when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
+
+        when(personRepository.getByID(any(PersonID.class))).thenThrow(EmailNotRegisteredException.class);
+
+        // Act & Assert
+
+        assertThrows(EmailNotRegisteredException.class, () -> getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO));
+
+
+    }
 }
