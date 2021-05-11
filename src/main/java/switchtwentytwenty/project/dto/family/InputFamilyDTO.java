@@ -6,11 +6,11 @@ public class InputFamilyDTO {
 
 
     private String familyName;
-    private String localDate;
+    private String registrationDate;
 
-    public InputFamilyDTO(String familyName, String localDate) {
+    public InputFamilyDTO(String familyName, String registrationDate) {
         this.familyName = familyName;
-        this.localDate = localDate;
+        this.registrationDate = registrationDate;
 
     }
 
@@ -19,8 +19,8 @@ public class InputFamilyDTO {
         return this.familyName;
     }
 
-    public String unpackLocalDate() {
-        return this.localDate;
+    public String unpackRegistrationDate() {
+        return this.registrationDate;
     }
 
     @Override

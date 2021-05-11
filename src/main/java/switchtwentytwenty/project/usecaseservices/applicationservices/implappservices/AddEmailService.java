@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.EmailAddress;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
@@ -14,8 +15,14 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class AddEmailService implements IAddEmailService {
 
+    private final IPersonRepository personRepository;
+    private final IPersonDTODomainAssembler personDTODomainAssembler;
+
     @Autowired
-    IPersonRepository personRepository;
+    public AddEmailService (IPersonRepository personRepository, IPersonDTODomainAssembler personDTODomainAssembler){
+        this.personRepository = personRepository;
+        this.personDTODomainAssembler = personDTODomainAssembler;
+    }
 
     /**
      * Method was changed because it was previously a void method. Now it receives an InternalEmailDTO (Converted from an addEmailDTO)
@@ -23,28 +30,17 @@ public class AddEmailService implements IAddEmailService {
      * @param internalEmailDTO
      * @return OutputEmailDTO
      */
-    //TODO alterar o addEmail porque tem de aceitar as duas classes
     @Override
-    public OutputEmailDTO addEmail(InputEmailDTO internalEmailDTO) {
+    public OutputEmailDTO addEmail(InputEmailDTO internalEmailDTO){
 
-        PersonID loggedUserID = new PersonID(internalEmailDTO.unpackUserID());
-
-        Person person = personRepository.getByID(loggedUserID);
         EmailAddress email = new EmailAddress(internalEmailDTO.unpackEmail());
 
+        PersonID loggedUserID = new PersonID(internalEmailDTO.unpackUserID());
+        Person person = personRepository.getByID(loggedUserID);
+
         person.addEmail(email);
-        personRepository.add(person);
+        Person savedPerson = personRepository.updatePerson(person);
 
-      /*  @Override
-        public void addEmail(InputEmailDTO inputEmailDTO, UserIDDTO userIDDTO) {
-
-            PersonID loggedUserID = new PersonID(userIDDTO.unpackUserID());
-            EmailAddress emailString = new EmailAddress(inputEmailDTO.unpackEmail());
-            Person person = personRepository.getByID(loggedUserID);
-
-            person.addEmail(emailString);
-            personRepository.add(person);*/
-        return null;
-
+        return personDTODomainAssembler.toEmailDTO(savedPerson);
     }
 }
