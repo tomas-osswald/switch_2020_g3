@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AccountIDTest {
+class IAccountIDTest {
 
     Long idOne = 100L;
     Long idTwo = 200L;

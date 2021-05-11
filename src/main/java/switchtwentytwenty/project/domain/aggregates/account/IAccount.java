@@ -5,7 +5,7 @@ import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 
 @Component
-public interface Account extends AggregateRoot<AccountID> {
+public interface IAccount extends AggregateRoot<AccountID> {
 
     AccountID getId();
 
