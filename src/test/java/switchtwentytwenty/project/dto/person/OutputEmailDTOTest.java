@@ -2,8 +2,11 @@ package switchtwentytwenty.project.dto.person;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.Link;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 class OutputEmailDTOTest {
 
@@ -14,7 +17,7 @@ class OutputEmailDTOTest {
         outputEmailDTO.setEmail("tonyze@gmail.com");
 
         String expected = "tonyze@gmail.com";
-        String result = outputEmailDTO.unpackEmail();
+        String result = outputEmailDTO.getEmail();
 
         assertEquals(expected, result);
     }
@@ -29,6 +32,18 @@ class OutputEmailDTOTest {
 
         assertEquals(outputEmailDTOOne, outputEmailDTOTwo);
         assertNotSame(outputEmailDTOOne, outputEmailDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentLinks() {
+        OutputEmailDTO outputEmailDTOOne = new OutputEmailDTO();
+        outputEmailDTOOne.setEmail("tonyze@gmail.com");
+        OutputEmailDTO outputEmailDTOTwo = new OutputEmailDTO();
+        outputEmailDTOTwo.setEmail("tonyze@gmail.com");
+        Link link = linkTo(FamilyRESTController.class).withRel("Add New Family");
+        outputEmailDTOTwo.add(link);
+
+        assertNotEquals(outputEmailDTOOne, outputEmailDTOTwo);
     }
 
     @Test
