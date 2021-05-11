@@ -5,14 +5,12 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import switchtwentytwenty.project.dto.person.GetProfileInfoDTO;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
-import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.AddEmailDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
@@ -28,21 +26,39 @@ public class PersonRESTController implements IPersonRESTController {
 
     private IAddFamilyMemberService addFamilyMemberService;
 
-    private PersonInputDTOAssembler familyMemberExternalInternalAssembler;
+    private IAddEmailService addEmailService;
+
+    private PersonInputDTOAssembler personInputDTOAssembler;
 
     private PersonInputDTOAssembler profileInternalExternalAssembler;
 
     @Autowired
-    public PersonRESTController(PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler familyMemberExternalInternalAssembler) {
+    public PersonRESTController(PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
-        this.familyMemberExternalInternalAssembler = familyMemberExternalInternalAssembler;
+        this.personInputDTOAssembler = personInputDTOAssembler;
         this.profileInternalExternalAssembler = profileInternalExternalAssembler;
     }
 
     @Override
-    public ResponseEntity<Object> addEmail(AddEmailDTO addEmailDTO) {
-        return null;
+    @PostMapping(value = "/{personID}/emails")
+    public ResponseEntity<Object> addEmail(@RequestBody AddEmailDTO addEmailDTO) {
+        InputEmailDTO inputEmailDTO = personInputDTOAssembler.toInputEmailDTO(addEmailDTO);
+
+        HttpStatus status;
+        OutputEmailDTO outputEmailDTO;
+
+        try {
+            outputEmailDTO = addEmailService.addEmail(inputEmailDTO);
+            status = HttpStatus.OK;
+
+            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(inputEmailDTO.unpackUserID())).withSelfRel();
+            outputEmailDTO.add(personSelfLink);
+            return new ResponseEntity<>(outputEmailDTO, status);
+        } catch (Exception e) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity<>("Error: " + e.getMessage(), status);
+        }
     }
 
     /**
@@ -61,7 +77,7 @@ public class PersonRESTController implements IPersonRESTController {
     @Override
     @PostMapping
     public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
-        InputAddFamilyMemberDTO internalAddFamilyMemberDTO = familyMemberExternalInternalAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO);
+        InputAddFamilyMemberDTO internalAddFamilyMemberDTO = personInputDTOAssembler.toInputAddFamilyMemberDTO(addFamilyMemberDTO);
 
         HttpStatus status;
         OutputPersonDTO outputPersonDTO;

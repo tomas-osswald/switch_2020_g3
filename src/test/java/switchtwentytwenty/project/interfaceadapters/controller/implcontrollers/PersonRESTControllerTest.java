@@ -93,7 +93,7 @@ class PersonRESTControllerTest {
     @Test
     @DisplayName("Success case of adding an email to a Person")
     void successCaseInAddEmail() {
-        Mockito.when(mockPersonInputDTOAssembler.toInternal(addEmailDTO)).thenReturn(internalEmailDTO);
+        Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
         Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
 
 
@@ -112,7 +112,7 @@ class PersonRESTControllerTest {
     @DisplayName("Fail test when Email is already registered in the Person")
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsAlreadyRegisteredInThePerson() {
-    Mockito.when(mockPersonInputDTOAssembler.toInternal(addEmailDTO)).thenReturn(internalEmailDTO);
+    Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
     Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenThrow(EmailAlreadyRegisteredException.class);
 
     ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
@@ -126,7 +126,7 @@ class PersonRESTControllerTest {
     @DisplayName("Fail test when Email is in invalid format")
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsWrongfullyInsertedExpectingInvalidEmailException() {
-    Mockito.when(mockPersonInputDTOAssembler.toInternal(INVALIDAddEmailDTO)).thenReturn(INVALIDInternalEmailDTO);
+    Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(INVALIDAddEmailDTO)).thenReturn(INVALIDInternalEmailDTO);
     Mockito.when(mockAddEmailService.addEmail(INVALIDInternalEmailDTO)).thenThrow(InvalidEmailException.class);
 
     //Sem certeza que Bad_Request se enquadra neste HttpStatus
@@ -161,7 +161,7 @@ class PersonRESTControllerTest {
     void successCaseInAddFamilyMember() {
 //        AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L","3L", "tony", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
-        Mockito.when(mockPersonInputDTOAssembler.toInternalAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
+        Mockito.when(mockPersonInputDTOAssembler.toInputAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
         Mockito.when(mockAddFamilyMemberService.addPerson(anInternalAddFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
 
         Link link = linkTo(methodOn(IPersonRESTController.class).addFamilyMember(addFamilyMemberDTO)).withSelfRel();
