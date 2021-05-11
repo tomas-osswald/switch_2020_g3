@@ -1,16 +1,11 @@
 package switchtwentytwenty.project.domain.aggregates.person;
 
-import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -121,6 +116,24 @@ class PersonTest {
         EmailAddress emailToAdd = new EmailAddress(VALIDEMAIL);
 
         assertThrows(EmailAlreadyRegisteredException.class, () -> tonyZe.addEmail(emailToAdd));
+    }
+
+    @Test
+    void addEmailTestAddingSecondEmail() {
+        Name tonyZeName = new Name(VALIDNAME);
+        BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        VATNumber tonyZeVat = new VATNumber(VALIDVATNUMBER);
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        tonyZe = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        String otherEmailOne = "otherEmail@gmail.com";
+        EmailAddress emailToAddOne = new EmailAddress(otherEmailOne);
+        tonyZe.addEmail(emailToAddOne);
+        String otherEmailTwo = "ThirdEmail@gmail.com";
+        EmailAddress emailToAddTwo = new EmailAddress(otherEmailTwo);
+
+        assertDoesNotThrow(() -> tonyZe.addEmail(emailToAddTwo));
     }
 
     @Test
