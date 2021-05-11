@@ -1,12 +1,16 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import switchtwentytwenty.project.domain.valueobject.Movement;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "accounts")
@@ -23,9 +27,12 @@ public class AccountJPA {
     private String designation;
     @Getter
     private String accountType;
+    @Getter
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+    private List<MovementJPA> movements = new ArrayList<MovementJPA>();
 
     /**
-     * Constructor for AccountJPA.
+     * Constructor for AccountJPA. Movements are set by the Repository.
      * @param id AccountIDJPA - it's own class to facilitate foreign key usage
      * @param balance Long - the balance currently in the account
      * @param ownerID PersonIDJPA - is a foreign key to PersonJPA

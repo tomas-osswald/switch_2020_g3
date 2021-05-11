@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.valueobject.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO Entity being instatied here - should be in Repository
 @Component
 public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
     /**
