@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -16,18 +15,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
-
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
-import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
-
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -35,8 +32,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RunWith(SpringRunner.class)
 class PersonRESTControllerTest {
 
-    @Autowired
-    IPersonRESTController personRESTController;
 
     @Mock
     PersonInputDTOAssembler mockPersonInputDTOAssembler;
@@ -70,7 +65,7 @@ class PersonRESTControllerTest {
     PersonInputDTOAssembler profileInternalExternalAssembler;
 
     @InjectMocks
-
+    PersonRESTController personRESTController;
     // Este Person precisa de ser instanciado para o email lhe ser adicionado após a implementação e poder testar se adiciona?
     //Ou pode ser mocked e o Spring faz magia negra e sabe que é o Tony e adiciona-lhe o email?
     Person personToAddEmail;
@@ -82,12 +77,12 @@ class PersonRESTControllerTest {
     String emailIDAfterAddingToDatabase = "3L";
     InputEmailDTO internalEmailDTO = new InputEmailDTO(emailAddressAsID, emailToAdd);
     OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailToAdd);
-    AddEmailDTO addEmailDTO = new AddEmailDTO(emailAddressAsID,emailToAdd);
+    AddEmailDTO addEmailDTO = new AddEmailDTO(emailAddressAsID, emailToAdd);
     AddEmailDTO INVALIDAddEmailDTO = new AddEmailDTO(emailAddressAsID, invalidEmailToAdd);
     InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(INVALIDAddEmailDTO.unpackUserID(), INVALIDAddEmailDTO.unpackEmail());
 
     AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L", "3L", "tony", "12/02/1999", 123456789, 961962963, "Rua da Estrada", "Porto", "12", "4000");
-
+    OutputPersonDTO realOutPutPersonDTO = new OutputPersonDTO();
 
     @Disabled
     @Test
@@ -98,8 +93,8 @@ class PersonRESTControllerTest {
 
 
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID);
-    //    Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
-    //    expectedOutputEmailDTO.add(link);
+        //    Link link = linkTo(methodOn(IPersonRESTController.class).getEmail(personID.toString(), outputEmailDTO.unpackEmailID())).withSelfRel();
+        //    expectedOutputEmailDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputEmailDTO, HttpStatus.OK);
 
@@ -112,29 +107,29 @@ class PersonRESTControllerTest {
     @DisplayName("Fail test when Email is already registered in the Person")
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsAlreadyRegisteredInThePerson() {
-    Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
-    Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenThrow(EmailAlreadyRegisteredException.class);
+        Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
+        Mockito.when(mockAddEmailService.addEmail(internalEmailDTO)).thenThrow(EmailAlreadyRegisteredException.class);
 
-    ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
 
-    ResponseEntity result = personRESTController.addEmail(addEmailDTO);
+        ResponseEntity result = personRESTController.addEmail(addEmailDTO);
 
-    assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Disabled
     @DisplayName("Fail test when Email is in invalid format")
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsWrongfullyInsertedExpectingInvalidEmailException() {
-    Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(INVALIDAddEmailDTO)).thenReturn(INVALIDInternalEmailDTO);
-    Mockito.when(mockAddEmailService.addEmail(INVALIDInternalEmailDTO)).thenThrow(InvalidEmailException.class);
+        Mockito.when(mockPersonInputDTOAssembler.toInputEmailDTO(INVALIDAddEmailDTO)).thenReturn(INVALIDInternalEmailDTO);
+        Mockito.when(mockAddEmailService.addEmail(INVALIDInternalEmailDTO)).thenThrow(InvalidEmailException.class);
 
-    //Sem certeza que Bad_Request se enquadra neste HttpStatus
-    ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
+        //Sem certeza que Bad_Request se enquadra neste HttpStatus
+        ResponseEntity expected = new ResponseEntity("Error message to be implemented", HttpStatus.BAD_REQUEST);
 
-    ResponseEntity result = personRESTController.addEmail(INVALIDAddEmailDTO);
+        ResponseEntity result = personRESTController.addEmail(INVALIDAddEmailDTO);
 
-    assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Disabled
@@ -156,23 +151,25 @@ class PersonRESTControllerTest {
     }
 
 
-    @Disabled
+    @DisplayName("Controller-level Unit test for a sucess case in adding family member")
     @Test
     void successCaseInAddFamilyMember() {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
+        expectedOutputPersonDTO.setId("id@gmail.com");
+        realOutPutPersonDTO.setId("id@gmail.com");
         Mockito.when(mockPersonInputDTOAssembler.toInputAddFamilyMemberDTO(addFamilyMemberDTO)).thenReturn(anInternalAddFamilyMemberDTO);
-        Mockito.when(mockAddFamilyMemberService.addPerson(anInternalAddFamilyMemberDTO)).thenReturn(anOutputPersonDTO);
+        Mockito.when(mockAddFamilyMemberService.addPerson(any(InputAddFamilyMemberDTO.class))).thenReturn(realOutPutPersonDTO);
 
-        Link link = linkTo(methodOn(IPersonRESTController.class).addFamilyMember(addFamilyMemberDTO)).withSelfRel();
+        Link link = linkTo(methodOn(PersonRESTController.class).getPersonOptions("id@gmail.com")).withRel("Person Options");
         expectedOutputPersonDTO.add(link);
 
-        ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
+        ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.CREATED);
 
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
-        assertEquals(expected, result);
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
     }
-
 
 
 }
