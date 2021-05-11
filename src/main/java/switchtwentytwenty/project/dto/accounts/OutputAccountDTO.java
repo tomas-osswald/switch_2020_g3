@@ -4,14 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.springframework.hateoas.RepresentationModel;
+
+
 @Setter
 @Getter
-public class OutputAccountDTO {
+@NoArgsConstructor
+public class OutputAccountDTO extends RepresentationModel {
 
-    public OutputAccountDTO() {
-    }
+    //Criado para não "partir" o getAccountID() do Rest Controller antes de juntar todas as partes.
+    private String accountID;
 
-    public OutputAccountDTO getAccountID() {
-        return null;
-    }
+
 }

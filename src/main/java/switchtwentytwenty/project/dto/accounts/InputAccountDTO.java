@@ -1,54 +1,26 @@
 package switchtwentytwenty.project.dto.accounts;
 
-import switchtwentytwenty.project.domain.valueobject.AccountType;
-import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Objects;
-
+@NoArgsConstructor
+@Getter
+@Setter
 public class InputAccountDTO {
 
-    private OwnerID ownerID;
-    private Movement movement;
-    private Designation designation;
-    private AccountType accountType;
+    private String designation;
+    private Integer initialAmount;
+    private String currency;
+    private String ownerID;
+    private String accountType;
 
-
-
-    public InputAccountDTO(OwnerID ownerID, Movement movement, Designation designation, AccountType accountType) {
-        this.ownerID = ownerID;
-        this.movement = movement;
+    public InputAccountDTO(String designation, Integer initialAmount, String currency, String ownerID, String accountType) {
         this.designation = designation;
+        this.initialAmount = initialAmount;
+        this.currency = currency;
+        this.ownerID = ownerID;
         this.accountType = accountType;
     }
 
-    public OwnerID unpackOwnerID() {
-        return this.ownerID;
     }
-
-    public Movement unpackMovement() {
-        return this.movement;
-    }
-
-    public Designation unpackDesignation() {
-        return this.designation;
-    }
-
-    public AccountType unpackAccountType() {
-        return this.accountType;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InputAccountDTO that = (InputAccountDTO) o;
-        return Objects.equals(ownerID, that.ownerID) && Objects.equals(movement, that.movement) && Objects.equals(designation, that.designation) && Objects.equals(accountType, that.accountType);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ownerID, movement, designation, accountType);
-    }
-}

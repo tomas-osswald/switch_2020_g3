@@ -1,7 +1,5 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 
@@ -48,29 +45,14 @@ class AddFamilyMemberServiceIT {
     String houseNum = "239";
     String zipCode = "1111-222";
 
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, name, birthDate, vat, phone, street, city, houseNum, zipCode);
     InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, invalidName, birthDate, vat, phone, street, city, houseNum, zipCode);
     InputAddFamilyMemberDTO internalAddFamilyMemberDTOUserAlreadyExists = new InputAddFamilyMemberDTO(adminID, "kvanessa@latina.com", name, birthDate, vat, phone, street, city, houseNum, zipCode);
 
-    @Disabled
-    @DisplayName("Integration test of AddFamilyMemberService with Repository: Successfully add a person")
-    @Test
-    void addPersonSuccess() {
 
-        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
 
-        OutputPersonDTO expected = new OutputPersonDTO();
-        expected.setId(ID);
-        expected.setName(name.toString());
-
-        Assertions.assertEquals(expected.getId(), result.getId());
-        Assertions.assertEquals(expected.getName(), result.getName());
-        Assertions.assertNotSame(expected,result);
-    }
 
 
     @Test
-    @Disabled
     @DisplayName("Test to assert an already registered email can't be registered again")
     void addPersonFail_PersonAlreadyRegistered() {
 
