@@ -16,6 +16,10 @@ import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidNameException;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(SpringRunner.class)
@@ -55,22 +59,34 @@ class AddFamilyMemberServiceIT {
     @Disabled
     @DisplayName("Integration test of AddFamilyMemberService with Repository: Successfully add a person")
     @Test
+        //TODO: teste que parte o jenkins
     void addPersonSuccess() {
 
-        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
 
         OutputPersonDTO expected = new OutputPersonDTO();
         expected.setId(ID);
-        expected.setName(name.toString());
+        expected.setName(name);
+        expected.setBirthdate(birthDate);
+        expected.setEmails(Collections.emptyList());
+        List<Integer> phones = new ArrayList<>();
+        phones.add(phone);
+        expected.setPhoneNumbers(phones);
+        expected.setVat(String.valueOf(vat));
+        expected.setStreet(street);
+        expected.setCity(city);
+        expected.setZipCode(zipCode);
+        expected.setDoorNumber(houseNum);
+        expected.setFamilyID("@" + adminID);
 
-        Assertions.assertEquals(expected.getId(), result.getId());
-        Assertions.assertEquals(expected.getName(), result.getName());
-        Assertions.assertNotSame(expected,result);
+        OutputPersonDTO result = service.addPerson(internalAddFamilyMemberDTO);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected, result);
+        Assertions.assertNotSame(expected, result);
     }
 
 
     @Test
-    @Disabled
     @DisplayName("Test to assert an already registered email can't be registered again")
     void addPersonFail_PersonAlreadyRegistered() {
 

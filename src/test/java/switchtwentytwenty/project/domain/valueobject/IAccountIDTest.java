@@ -80,7 +80,7 @@ class IAccountIDTest {
         AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = new AccountID(idOne);
         Long result = accountIDOne.getAccountID();
-        Long expected = accountIDOne.getAccountID();
+        Long expected = accountIDTwo.getAccountID();
 
         assertEquals(result, expected);
         assertSame(result, expected);
@@ -111,7 +111,7 @@ class IAccountIDTest {
         AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = new AccountID(idOne);
         accountIDTwo.setAccountID(idTwo);
-        
+
         assertNotEquals(accountIDOne, accountIDTwo);
     }
 }
