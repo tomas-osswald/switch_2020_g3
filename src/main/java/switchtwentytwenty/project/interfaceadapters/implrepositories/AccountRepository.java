@@ -42,7 +42,6 @@ public class AccountRepository implements IAccountRepository {
         Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountIDJPA);
         IAccount account;
         if (accountJPA.isPresent()){
-            //TODO: Descomentar assim que der e eliminar o null acima
             account = createAccount(accountJPA.get());
             return account;
         } else {

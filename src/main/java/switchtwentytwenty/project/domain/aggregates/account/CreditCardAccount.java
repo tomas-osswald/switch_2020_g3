@@ -3,14 +3,13 @@ package switchtwentytwenty.project.domain.aggregates.account;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import sun.security.krb5.internal.crypto.Des;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,7 +78,7 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     @Override
     public void setMovements(List<Movement> movements) {
-        this.movements = movements;
+        this.movements = Collections.unmodifiableList(movements);
     }
 
     @Override

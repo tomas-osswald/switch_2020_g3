@@ -9,6 +9,7 @@ import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -77,7 +78,8 @@ public class BankAccount extends AbNonCashAccount {
 
     @Override
     public void setMovements(List<Movement> movements) {
-        this.movements = movements;
+
+        this.movements = Collections.unmodifiableList(movements);
     }
 
     @Override
