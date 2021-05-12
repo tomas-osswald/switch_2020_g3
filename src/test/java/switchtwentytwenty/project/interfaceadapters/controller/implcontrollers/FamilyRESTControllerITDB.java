@@ -32,7 +32,7 @@ class FamilyRESTControllerITDB {
     @Test
     void createFamilyAndSetAdmin() {
 
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamily('@'+dto.getEmailID())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
 
@@ -51,7 +51,7 @@ class FamilyRESTControllerITDB {
     void createFamilyAndSetAdminSuccessCase() {
         AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("teste@hotmail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions('@'+dto.getEmailID())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "@teste@hotmail.com", "teste@hotmail.com", "12/12/2000");
 
@@ -64,7 +64,7 @@ class FamilyRESTControllerITDB {
 
         assertNotNull(result);
         assertEquals(result.getStatusCode(),HttpStatus.CREATED);
-        assertEquals(result,expected);
+        assertEquals(result.getBody().toString(),expected.getBody().toString());
     }
 
     @Test
@@ -79,14 +79,12 @@ class FamilyRESTControllerITDB {
     void addRelationTest() {
         AddRelationDTO addRelationDTO = new AddRelationDTO();
 
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO));
+        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO, "tony@email.com"));
     }
 
     @Test
     void getFamilyNameTest() {
-        String familyName = "Silva";
-
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamilyName(familyName));
+        //String familyName = "Silva";
+        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamily("@tony@email.com"));
     }
-
 }

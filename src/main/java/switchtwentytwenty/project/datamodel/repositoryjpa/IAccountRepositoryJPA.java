@@ -1,10 +1,7 @@
 package switchtwentytwenty.project.datamodel.repositoryjpa;
 
 import org.springframework.data.repository.CrudRepository;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
 import java.util.List;

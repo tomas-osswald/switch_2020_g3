@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
@@ -14,7 +15,10 @@ import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
-import javax.swing.text.html.Option;
+import switchtwentytwenty.project.domain.valueobject.Designation;
+import switchtwentytwenty.project.domain.valueobject.Movement;
+
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -49,13 +53,14 @@ public class AccountRepository implements IAccountRepository {
     }
 
     //este método também serve como update, certo?
+
     public IAccount add(IAccount account) {
         if (isAccountAlreadyRegistered(account)) {
             throw new AccountAlreadyRegisteredException();
         } else {
             AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
             accountRepositoryJPA.save(accountJPA);
-            IAccount savedAccount = accountDataDomainAssembler.toDomain(accountJPA);
+            IAccount savedAccount = createAccount(accountJPA);
             return savedAccount;
         }
     }
@@ -71,10 +76,20 @@ public class AccountRepository implements IAccountRepository {
         return isFamily;
     }
 
+    public IAccount createAccount(AccountJPA accountJPA){
+        AccountID accountID = accountDataDomainAssembler.createAccountID(accountJPA);
+        OwnerID ownerID = accountDataDomainAssembler.createOwnerID(accountJPA);
+        Designation designation = accountDataDomainAssembler.createDesignation(accountJPA);
+        List<Movement> movements = accountDataDomainAssembler.createMovements(accountJPA);
+
+        IAccount account = null;
+        return account;
+    }
+
     private boolean isAccountAlreadyRegistered(IAccount account) {
         boolean isAlreadyRegistered = false;
         if (isFamilyID(account)) {
-            OwnerIDJPA ownerIDJPA = new OwnerIDJPA(account.getOwnerId());
+            OwnerIDJPA ownerIDJPA = new OwnerIDJPA(account.getOwnerId().toString());
             Optional<AccountJPA> optional = accountRepositoryJPA.findByOwnerID(ownerIDJPA);
             if (optional.isPresent()) {
                 isAlreadyRegistered = true;

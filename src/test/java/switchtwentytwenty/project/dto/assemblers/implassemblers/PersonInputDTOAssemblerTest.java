@@ -33,10 +33,10 @@ class PersonInputDTOAssemblerTest {
 
     @Test
     void toInputEmailDTOTest() {
-        AddEmailDTO addEmailDTO = new AddEmailDTO("admin@gmail.com","otheremail@gmail.com");
+        AddEmailDTO addEmailDTO = new AddEmailDTO("otheremail@gmail.com");
         InputEmailDTO expected = new InputEmailDTO("admin@gmail.com","otheremail@gmail.com");
 
-        InputEmailDTO result = personInputDTOAssembler.toInputEmailDTO(addEmailDTO);
+        InputEmailDTO result = personInputDTOAssembler.toInputEmailDTO(addEmailDTO, "admin@gmail.com");
 
         assertEquals(expected,result);
     }

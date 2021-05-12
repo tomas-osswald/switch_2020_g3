@@ -45,7 +45,7 @@ public class Monetary {
 
     private Currency validateCurrency(String currencyToCheck) {
         Currency currency;
-        if (checkBlank(currencyToCheck) || checkNull(currencyToCheck)) {
+        if (checkNull(currencyToCheck) || checkBlank(currencyToCheck)) {
             currency = Currency.getInstance("EUR");
         } else {
             currency = Currency.getInstance(currencyToCheck);

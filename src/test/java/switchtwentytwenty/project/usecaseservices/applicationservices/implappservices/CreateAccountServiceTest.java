@@ -17,10 +17,10 @@ import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountInputDTOAssembler;
-import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
