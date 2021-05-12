@@ -13,7 +13,7 @@ public interface IPersonRESTController {
 
     ResponseEntity<OutputPersonDTO> getProfileInfo(String personID);
 
-    ResponseEntity<OptionsDTO> getPersonOptions(String personID);
+    ResponseEntity<OptionsDTO> personOptions(String personID);
 
     ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO);
 }
