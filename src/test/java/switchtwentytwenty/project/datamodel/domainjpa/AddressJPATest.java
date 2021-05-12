@@ -2,10 +2,6 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.AddressJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 
 import java.util.UUID;
 
@@ -32,13 +28,14 @@ class AddressJPATest {
     @Test
     @Tag("US010")
     void getId() {
-        Long expected = Long.valueOf(0);
+        Long expected = Long.valueOf(1);
 
         AddressJPA addressJPA = new AddressJPA(street, city, zip, doorNumber, personJPA);
-
+        addressJPA.setId(1L);
         Long result = addressJPA.getId();
 
         assertEquals(expected, result);
+        assertNotEquals(0L, result);
     }
 
     @Test
@@ -125,7 +122,7 @@ class AddressJPATest {
         AddressJPA addressJPATwo = new AddressJPA(street, city, zip, doorNumber, personJPA);
 
         assertEquals(addressJPAOne, addressJPATwo);
-        assertNotSame(addressJPAOne,addressJPATwo);
+        assertNotSame(addressJPAOne, addressJPATwo);
     }
 
     @Test
@@ -206,5 +203,6 @@ class AddressJPATest {
 
         assertNotEquals(addressJPA.hashCode(), addressJPATwo.hashCode());
     }
+
 
 }

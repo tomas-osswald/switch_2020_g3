@@ -10,11 +10,10 @@ import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -114,41 +113,115 @@ class PersonDataDomainAssemblerTest {
         assertEquals(expectedAddress, resultAddressJPA);
         assertEquals(expectedFamilyIDJPA, resultFamilyIDJPA);
         assertEquals(expectedPhone, resultPhones);
-        assert(!resultEmail.isEmpty());
-        assert(!resultPhones.isEmpty());
+        assertTrue(!resultEmail.isEmpty());
+        assertTrue(!resultPhones.isEmpty());
     }
-
 
 
     @Test
     void createAddress() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+        AddressJPA addressJPA = new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA);
+        personJPA.setAddress(addressJPA);
+        Address expected = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        Address result = personDataDomainAssembler.createAddress(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+
     }
 
     @Test
     void createPhoneNumberList() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+        List<PhoneNumberJPA> phonesJPAList = new ArrayList<>();
+        phonesJPAList.add(new PhoneNumberJPA(919999999, personJPA));
+        personJPA.setPhones(phonesJPAList);
+
+        List<PhoneNumber> expected = new ArrayList<>();
+        expected.add(new PhoneNumber(919999999));
+        List<PhoneNumber> result = personDataDomainAssembler.createPhoneNumberList(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
     void createEmailAdressList() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+        List<EmailAddressJPA> emailAddressJPAList = new ArrayList<>();
+        emailAddressJPAList.add(new EmailAddressJPA("email@email.com", personJPA));
+        personJPA.setEmails(emailAddressJPAList);
+
+        List<EmailAddress> expected = new ArrayList<>();
+        expected.add(new EmailAddress("email@email.com"));
+        List<EmailAddress> result = personDataDomainAssembler.createEmailAdressList(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
     void createVATNumber() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+
+        VATNumber expected = new VATNumber(VALIDVATNUMBER);
+        VATNumber result = personDataDomainAssembler.createVATNumber(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
     void createPersonID() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+
+        PersonID expected = new PersonID(VALIDEMAIL);
+        PersonID result = personDataDomainAssembler.createPersonID(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
     void createName() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+
+        Name expected = new Name(VALIDNAME);
+        Name result = personDataDomainAssembler.createName(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
     void createBirthDate() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+
+        BirthDate expected = new BirthDate(VALIDBIRTHDATE);
+        BirthDate result = personDataDomainAssembler.createBirthDate(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+
     }
 
     @Test
     void createFamilyID() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+
+        FamilyID expected = new FamilyID(VALIDEMAIL);
+        FamilyID result = personDataDomainAssembler.createFamilyID(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 }

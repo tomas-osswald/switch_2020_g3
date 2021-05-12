@@ -29,7 +29,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return null; //accountJPA;
     }
 
-    @Override
+
     @Deprecated
     public IAccount toDomain(AccountJPA accountJPA) {
 
@@ -64,7 +64,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     public AccountType createAccountType(AccountJPA accountJPA) {
-        AccountType accountType = new AccountType();
+        AccountType accountType = new AccountType(accountJPA.getAccountType());
         return accountType;
     }
 
