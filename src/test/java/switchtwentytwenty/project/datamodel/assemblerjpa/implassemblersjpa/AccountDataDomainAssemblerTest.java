@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.AccountType;
 import switchtwentytwenty.project.domain.valueobject.Designation;
@@ -16,8 +16,8 @@ class AccountDataDomainAssemblerTest {
     @Test
     void createAccountID() {
         AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
-        PersonIDJPA personIDJPA = new PersonIDJPA("email@email.com");
-        AccountJPA accountJPA = new AccountJPA(accountIDJPA, personIDJPA, "account", "cash");
+        OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
         AccountID result = accountDataDomainAssembler.createAccountID(accountJPA);
         AccountID expected = new AccountID(1L);
@@ -30,10 +30,10 @@ class AccountDataDomainAssemblerTest {
     @Test
     void createPersonID() {
         AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
-        PersonIDJPA personIDJPA = new PersonIDJPA("email@email.com");
-        AccountJPA accountJPA = new AccountJPA(accountIDJPA, personIDJPA, "account", "cash");
+        OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
-        PersonID result = accountDataDomainAssembler.createPersonID(accountJPA);
+        PersonID result = accountDataDomainAssembler.createOwnerID(accountJPA);
         PersonID expected = new PersonID("email@email.com");
 
         Assertions.assertNotNull(result);
@@ -45,8 +45,8 @@ class AccountDataDomainAssemblerTest {
     @Test
     void createDesignation() {
         AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
-        PersonIDJPA personIDJPA = new PersonIDJPA("email@email.com");
-        AccountJPA accountJPA = new AccountJPA(accountIDJPA, personIDJPA, "account", "cash");
+        OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
         Designation result = accountDataDomainAssembler.createDesignation(accountJPA);
         Designation expected = new Designation("account");
@@ -59,8 +59,8 @@ class AccountDataDomainAssemblerTest {
     @Test
     void createAccountType() {
         AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
-        PersonIDJPA personIDJPA = new PersonIDJPA("email@email.com");
-        AccountJPA accountJPA = new AccountJPA(accountIDJPA, personIDJPA, "account", "cash");
+        OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
         AccountType result = accountDataDomainAssembler.createAccountType(accountJPA);
         AccountType expected = new AccountType("cash");
