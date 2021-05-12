@@ -44,11 +44,12 @@ class BankAccountTest {
     void getOwnerIDTest() {
         IAccount bankAccount = new BankAccount(personID, designation);
 
-        OwnerID expected = personID;
+        OwnerID expected = new PersonID("tonyze@latinlover.com");
 
         OwnerID result = bankAccount.getOwnerId();
 
         assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
     @Test
     void getDesignationTest() {
@@ -79,7 +80,7 @@ class BankAccountTest {
     void getAccountTypeTest() {
         IAccount bankAccount = new BankAccount();
 
-        String expected = "BankAccount";
+        String expected = "Bank Account";
 
         String result = bankAccount.getAccountType();
 
