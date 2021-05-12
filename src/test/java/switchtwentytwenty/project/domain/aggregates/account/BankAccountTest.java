@@ -27,6 +27,7 @@ class BankAccountTest {
     Monetary monetaryTwo = new Monetary(currency, otherAmount);
     Movement movementTwo = new Movement(monetaryTwo);
     List<Movement> movementList = new ArrayList<>();
+    List<Movement> otherMovementList = new ArrayList<>();
 
     @Test
     void getAccountIDTest() {
@@ -49,16 +50,17 @@ class BankAccountTest {
 
         assertEquals(expected, result);
     }
-    /*@Test
+    @Test
     void getDesignationTest() {
-        IAccount bankAccount = new BankAccount(personID, designation);
+        IAccount bankAccount = new BankAccount();
+        bankAccount.setDesignation(designation);
 
         Designation expected = designation;
 
         Designation result = bankAccount.getDesignation();
 
         assertEquals(expected, result);
-    }*/
+    }
     @Test
     void getListOfMovementsTest() {
         IAccount bankAccount = new BankAccount(personID, designation);
@@ -70,6 +72,16 @@ class BankAccountTest {
         List<Movement> expected = movementList;
 
         List<Movement> result = bankAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+    @Test
+    void getAccountTypeTest() {
+        IAccount bankAccount = new BankAccount();
+
+        String expected = "BankAccount";
+
+        String result = bankAccount.getAccountType();
 
         assertEquals(expected, result);
     }
@@ -86,7 +98,7 @@ class BankAccountTest {
         assertNotSame(expected, result);
     }
     @Test
-    void setDesignationTest() {
+    void setDesignation() {
         IAccount bankAccountOne = new BankAccount();
         bankAccountOne.setDesignation(designation);
 

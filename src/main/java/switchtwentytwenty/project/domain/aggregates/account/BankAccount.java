@@ -55,7 +55,7 @@ public class BankAccount extends AbNonCashAccount {
 
     @Override
     public String getAccountType() {
-        return this.getClass().getName();
+        return this.getClass().getSimpleName();
     }
 
     @Override
