@@ -36,7 +36,7 @@ class AccountRESTControllerTest {
     String ownerID = "tonyze@latinlover.com";
     String accountType = "cash";
     String accountID = "3L";
-    CreateAccountDTO cashAccountDTO = new CreateAccountDTO(designation, amount, currency, ownerID, accountType);
+    CreateAccountDTO createCashAccountDTO = new CreateAccountDTO(designation, amount, currency, ownerID, accountType);
 
     InputAccountDTO inputAccountDTO = new InputAccountDTO(designation, amount, currency, ownerID, accountType);
 
@@ -46,7 +46,7 @@ class AccountRESTControllerTest {
     @Test
     @DisplayName("Success case in creating an Account")
     void createCashAccountWithSuccess() {
-        //Mockito.when(mockAccountInputDTOAssembler.toInputDTO());
+        Mockito.when(mockAccountInputDTOAssembler.toInputDTO(createCashAccountDTO));
 
 
 

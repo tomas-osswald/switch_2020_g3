@@ -10,11 +10,10 @@ import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -114,77 +113,115 @@ class PersonDataDomainAssemblerTest {
         assertEquals(expectedAddress, resultAddressJPA);
         assertEquals(expectedFamilyIDJPA, resultFamilyIDJPA);
         assertEquals(expectedPhone, resultPhones);
-        assert(!resultEmail.isEmpty());
-        assert(!resultPhones.isEmpty());
+        assertTrue(!resultEmail.isEmpty());
+        assertTrue(!resultPhones.isEmpty());
+    }
+
+
+    @Test
+    void createAddress() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+        AddressJPA addressJPA = new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA);
+        personJPA.setAddress(addressJPA);
+        Address expected = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
+        Address result = personDataDomainAssembler.createAddress(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+
     }
 
     @Test
-    void toDomainComparingEquals() {
+    void createPhoneNumberList() {
         PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
-        personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
+        List<PhoneNumberJPA> phonesJPAList = new ArrayList<>();
+        phonesJPAList.add(new PhoneNumberJPA(919999999, personJPA));
+        personJPA.setPhones(phonesJPAList);
 
-        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        List<PhoneNumber> expected = new ArrayList<>();
+        expected.add(new PhoneNumber(919999999));
+        List<PhoneNumber> result = personDataDomainAssembler.createPhoneNumberList(personJPA);
 
-        Person result = personDataDomainAssembler.toDomain(personJPA);
-
+        assertNotNull(result);
+        assertNotSame(expected, result);
         assertEquals(expected, result);
     }
 
     @Test
-    void toDomainComparingByAttribute() {
+    void createEmailAdressList() {
         PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
-        personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
+        List<EmailAddressJPA> emailAddressJPAList = new ArrayList<>();
+        emailAddressJPAList.add(new EmailAddressJPA("email@email.com", personJPA));
+        personJPA.setEmails(emailAddressJPAList);
 
-        List<PhoneNumberJPA> phoneNumberList = new ArrayList<>();
-        PhoneNumberJPA phoneNumber = new PhoneNumberJPA(VALIDPHONENUMBER, personJPA);
-        phoneNumberList.add(phoneNumber);
-        personJPA.setPhones(phoneNumberList);
+        List<EmailAddress> expected = new ArrayList<>();
+        expected.add(new EmailAddress("email@email.com"));
+        List<EmailAddress> result = personDataDomainAssembler.createEmailAdressList(personJPA);
 
-        List<EmailAddressJPA> emailAddressJPAS = new ArrayList<>();
-        emailAddressJPAS.add(new EmailAddressJPA(ANOTHERVALIDEMAIL, personJPA));
-        personJPA.setEmails(emailAddressJPAS);
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
 
-        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-        expected.addEmail(new EmailAddress(ANOTHERVALIDEMAIL));
+    @Test
+    void createVATNumber() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
 
-        Person result = personDataDomainAssembler.toDomain(personJPA);
+        VATNumber expected = new VATNumber(VALIDVATNUMBER);
+        VATNumber result = personDataDomainAssembler.createVATNumber(personJPA);
 
-        PersonID expectedPersonID = new PersonID(VALIDEMAIL);
-        PersonID resultPersonID = result.id();
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
 
-        Name expectedName = new Name(VALIDNAME);
-        Name resultName = result.getName();
+    @Test
+    void createPersonID() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
 
-        BirthDate expectedBirthDate = new BirthDate(VALIDBIRTHDATE);
-        BirthDate resultBirthDate = result.getBirthdate();
+        PersonID expected = new PersonID(VALIDEMAIL);
+        PersonID result = personDataDomainAssembler.createPersonID(personJPA);
 
-        List<EmailAddress> expectedEmailAddresses = new ArrayList<>();
-        expectedEmailAddresses.add(new EmailAddress(ANOTHERVALIDEMAIL));
-        List<EmailAddress> resultEmailAddresses = result.getEmails();
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
 
-        VATNumber expectedVatNumber = new VATNumber(VALIDVATNUMBER);
-        VATNumber resultVatNumber = result.getVat();
+    @Test
+    void createName() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
 
-        List<PhoneNumber> expectedPhoneNumbers = new ArrayList<PhoneNumber>();
-        PhoneNumber expectedPhone = new PhoneNumber(VALIDPHONENUMBER);
-        expectedPhoneNumbers.add(expectedPhone);
-        List<PhoneNumber> resultPhoneNumbers = result.getPhoneNumbers();
+        Name expected = new Name(VALIDNAME);
+        Name result = personDataDomainAssembler.createName(personJPA);
 
-        Address expectedAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        Address resultAddress = result.getAddress();
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
 
-        FamilyID expectedFamilyID = new FamilyID(VALIDEMAIL);
-        FamilyID resultFamilyID = result.getFamilyID();
+    @Test
+    void createBirthDate() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
 
+        BirthDate expected = new BirthDate(VALIDBIRTHDATE);
+        BirthDate result = personDataDomainAssembler.createBirthDate(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
         assertEquals(expected, result);
 
-        assertEquals(expectedPersonID, resultPersonID);
-        assertEquals(expectedName, resultName);
-        assertEquals(expectedBirthDate, resultBirthDate);
-        assertEquals(expectedEmailAddresses, resultEmailAddresses);
-        assertEquals(expectedVatNumber, resultVatNumber);
-        assertEquals(expectedPhoneNumbers, resultPhoneNumbers);
-        assertEquals(expectedAddress, resultAddress);
-        assertEquals(expectedFamilyID, resultFamilyID);
+    }
+
+    @Test
+    void createFamilyID() {
+        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
+
+        FamilyID expected = new FamilyID(VALIDEMAIL);
+        FamilyID result = personDataDomainAssembler.createFamilyID(personJPA);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 }
