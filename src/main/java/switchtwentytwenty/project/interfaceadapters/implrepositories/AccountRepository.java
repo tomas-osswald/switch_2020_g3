@@ -8,9 +8,13 @@ import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository
@@ -31,11 +35,11 @@ public class AccountRepository implements IAccountRepository {
         return retrieveAccountById(id);
     }
 
-    private IAccount retrieveAccountById(AccountID accountID){
+    private IAccount retrieveAccountById(AccountID accountID) {
         AccountIDJPA accountIDJPA = new AccountIDJPA(accountID.getAccountID());
         Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountIDJPA);
         IAccount account = null;
-        if (accountJPA.isPresent()){
+        if (accountJPA.isPresent()) {
             //TODO: Descomentar assim que der e eliminar o null acima
             //account = accountDataDomainAssembler.toDomain(accountJPA);
             return account;
@@ -45,12 +49,37 @@ public class AccountRepository implements IAccountRepository {
     }
 
     //este método também serve como update, certo?
-    public IAccount add(IAccount account){
-        AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
-        accountRepositoryJPA.save(accountJPA);
-        IAccount savedAccount = accountDataDomainAssembler.toDomain(accountJPA);
-        return savedAccount;
+    public IAccount add(IAccount account) {
+        if (isAccountAlreadyRegistered(account)) {
+            throw new AccountAlreadyRegisteredException();
+        } else {
+            AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
+            accountRepositoryJPA.save(accountJPA);
+            IAccount savedAccount = accountDataDomainAssembler.toDomain(accountJPA);
+            return savedAccount;
+        }
     }
 
+    private boolean isFamilyID(IAccount account) {
+        boolean isFamily;
+        OwnerID ownerID = account.getOwnerId();
+        if (ownerID instanceof FamilyID) {
+            isFamily = true;
+        } else {
+            isFamily = false;
+        }
+        return isFamily;
+    }
 
+    private boolean isAccountAlreadyRegistered(IAccount account) {
+        boolean isAlreadyRegistered = false;
+        if (isFamilyID(account)) {
+            OwnerIDJPA ownerIDJPA = new OwnerIDJPA(account.getOwnerId());
+            Optional<AccountJPA> optional = accountRepositoryJPA.findByOwnerID(ownerIDJPA);
+            if (optional.isPresent()) {
+                isAlreadyRegistered = true;
+            }
+        }
+        return isAlreadyRegistered;
+    }
 }

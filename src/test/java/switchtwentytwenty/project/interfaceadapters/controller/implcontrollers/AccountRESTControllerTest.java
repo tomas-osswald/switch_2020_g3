@@ -1,11 +1,18 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.hibernate.service.spi.InjectService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
@@ -13,11 +20,14 @@ import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAss
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@ExtendWith(MockitoExtension.class)
 class AccountRESTControllerTest {
 
     @Mock
@@ -27,7 +37,7 @@ class AccountRESTControllerTest {
     ICreateAccountService mockCreateAccountService;
 
     @InjectMocks
-    IAccountRESTController accountRESTController;
+    AccountRESTController accountRESTController;
 
     //Setup
     String designation = "Conta do tonyZe";
@@ -46,9 +56,36 @@ class AccountRESTControllerTest {
     @Test
     @DisplayName("Success case in creating an Account")
     void createCashAccountWithSuccess() {
-        Mockito.when(mockAccountInputDTOAssembler.toInputDTO(createCashAccountDTO));
+        OutputAccountDTO expectedOutputAccountDTO = new OutputAccountDTO(designation, ownerID, accountID);
+        Link link = linkTo(methodOn(AccountRESTController.class).getAccount(outputAccountDTO.getAccountID())).withSelfRel();
+        expectedOutputAccountDTO.add(link);
 
+        Mockito.when(mockAccountInputDTOAssembler.toInputDTO(createCashAccountDTO)).thenReturn(inputAccountDTO);
+        Mockito.when(mockCreateAccountService.createAccount(inputAccountDTO)).thenReturn(outputAccountDTO);
 
+        ResponseEntity expected = new ResponseEntity(expectedOutputAccountDTO, HttpStatus.CREATED);
 
+        ResponseEntity result = accountRESTController.createAccount(createCashAccountDTO);
+
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(result.getStatusCode(), result.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Fail case in creating an Account")
+    void failToCreateCashAccount() {
+        OutputAccountDTO expectedOutputAccountDTO = new OutputAccountDTO(designation, ownerID, accountID);
+        Link link = linkTo(methodOn(AccountRESTController.class).getAccount(outputAccountDTO.getAccountID())).withSelfRel();
+        expectedOutputAccountDTO.add(link);
+
+        Mockito.when(mockAccountInputDTOAssembler.toInputDTO(createCashAccountDTO)).thenReturn(inputAccountDTO);
+        Mockito.when(mockCreateAccountService.createAccount(inputAccountDTO)).thenReturn(outputAccountDTO);
+
+        ResponseEntity expected = new ResponseEntity(expectedOutputAccountDTO, HttpStatus.CREATED);
+
+        ResponseEntity result = accountRESTController.createAccount(createCashAccountDTO);
+
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(result.getStatusCode(), result.getStatusCode());
     }
 }

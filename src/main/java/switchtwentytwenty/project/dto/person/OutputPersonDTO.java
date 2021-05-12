@@ -46,7 +46,6 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
         if (o == null || getClass() != o.getClass()) return false;
         //if (!super.equals(o)) return false;
         OutputPersonDTO that = (OutputPersonDTO) o;
-        ((OutputPersonDTO) o).getLinks().toString().equals(this.getLinks().toString());
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(birthdate, that.birthdate) && Objects.equals(emails, that.emails) && Objects.equals(phoneNumbers, that.phoneNumbers) && Objects.equals(vat, that.vat) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(zipCode, that.zipCode) && Objects.equals(doorNumber, that.doorNumber) && Objects.equals(familyID, that.familyID);
 
     }
