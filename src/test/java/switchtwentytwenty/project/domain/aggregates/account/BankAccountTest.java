@@ -80,7 +80,7 @@ class BankAccountTest {
     void getAccountTypeTest() {
         IAccount bankAccount = new BankAccount();
 
-        String expected = "BankAccount";
+        String expected = "Bank Account";
 
         String result = bankAccount.getAccountType();
 
