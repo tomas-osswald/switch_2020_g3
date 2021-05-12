@@ -10,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
@@ -20,9 +22,9 @@ import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPersonOptionsService;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -48,6 +50,8 @@ class PersonRESTControllerTest {
     @Mock
     InputAddFamilyMemberDTO anInternalAddFamilyMemberDTO;
 
+    @Mock
+    IPersonOptionsService personOptionsService;
 
     @Mock
     PersonInputDTOAssembler profileInternalExternalAssembler;
@@ -77,8 +81,7 @@ class PersonRESTControllerTest {
     InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(emailAddressAsID, INVALIDAddEmailDTO.unpackEmail());
 
     AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L", "3L", "tony", "12/02/1999", 123456789, 961962963, "Rua da Estrada", "Porto", "12", "4000");
-
-
+    OutputPersonDTO realOutPutPersonDTO = new OutputPersonDTO();
     private AutoCloseable closeable;
 
     @BeforeEach
@@ -98,10 +101,6 @@ class PersonRESTControllerTest {
     void tearDown() throws Exception {
         closeable.close();
     }
-
-
-    OutputPersonDTO realOutPutPersonDTO = new OutputPersonDTO();
-
 
     @Test
     @DisplayName("Success case of adding an email to a Person")
@@ -217,6 +216,32 @@ class PersonRESTControllerTest {
         assertEquals(expected.getStatusCode(), result.getStatusCode());
 
 
+    }
+
+
+    @Test
+    void personOptionsSuccesCase() {
+        OptionsDTO expectedOptionsDTO = new OptionsDTO();
+        Link linkToPersonOptions = linkTo(methodOn(PersonRESTController.class).personOptions(personID.toString())).withSelfRel();
+        Link linkToAddEmail = linkTo(methodOn(PersonRESTController.class).addEmail(new AddEmailDTO(), personID.toString())).withRel("POST - Add new Email");
+        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID.toString())).withRel("GET - Get Profile Info");
+
+        expectedOptionsDTO.add(linkToPersonOptions);
+        expectedOptionsDTO.add(linkToAddEmail);
+        expectedOptionsDTO.add(linkToGetProfileInfo);
+
+        when(personOptionsService.getPersonOptions(personID.toString())).thenReturn(expectedOptionsDTO);
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "OPTIONS");
+
+        ResponseEntity expected = new ResponseEntity(expectedOptionsDTO, header, HttpStatus.OK);
+
+        ResponseEntity result = personRESTController.personOptions(personID.toString());
+
+        assertNotNull(result);
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
     }
 
 
