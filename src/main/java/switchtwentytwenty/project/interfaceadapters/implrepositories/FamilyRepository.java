@@ -8,6 +8,9 @@ import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.FamilyName;
+import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
 import java.util.Optional;
@@ -39,7 +42,7 @@ public class FamilyRepository implements IFamilyRepository {
         Family registeredFamily;
         FamilyJPA familyJPA = familyAssembler.toData(family);
         registeredFamilyJPA = familyRepositoryJPA.save(familyJPA);
-        registeredFamily = familyAssembler.toDomain(registeredFamilyJPA);
+        registeredFamily = createFamily(registeredFamilyJPA);
         return registeredFamily;
     }
 
@@ -53,10 +56,19 @@ public class FamilyRepository implements IFamilyRepository {
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
         Optional<FamilyJPA> familyJPA = familyRepositoryJPA.findById(familyIDJPA);
         if (familyJPA.isPresent()) {
-            return familyAssembler.toDomain(familyJPA.get());
+            return createFamily(familyJPA.get());
         } else {
             throw new IllegalArgumentException("Family does not exists");
         }
+    }
+
+    private Family createFamily(FamilyJPA familyJPA) {
+        FamilyID familyID = familyAssembler.createFamilyID(familyJPA);
+        FamilyName familyName = familyAssembler.createFamilyName(familyJPA);
+        RegistrationDate registrationDate = familyAssembler.createRegistrationDate(familyJPA);
+        PersonID adminEmail = familyAssembler.createAdminID(familyJPA);
+
+        return new Family(familyID, familyName, registrationDate, adminEmail);
     }
 
 

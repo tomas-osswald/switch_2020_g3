@@ -10,6 +10,7 @@ import switchtwentytwenty.project.dto.person.IInputPersonDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO Entity being instatied here - should be in Repository
 @Component
 public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
     /**

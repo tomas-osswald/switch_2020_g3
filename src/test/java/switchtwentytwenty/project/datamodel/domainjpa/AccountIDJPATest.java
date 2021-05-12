@@ -3,6 +3,7 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class AccountIDJPATest {
 
@@ -24,6 +25,14 @@ class AccountIDJPATest {
 
         assertEquals(expected, result);
         assertSame(expected, result);
+    }
+
+    @Test
+    void getAccountIDJPADifferentFromNull(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+        String nullString = null;
+
+        assertNotEquals(accountIDOne, nullString);
     }
 
     @Test
