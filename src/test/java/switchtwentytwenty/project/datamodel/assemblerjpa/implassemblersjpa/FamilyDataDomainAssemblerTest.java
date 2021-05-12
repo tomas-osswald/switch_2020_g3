@@ -37,25 +37,6 @@ class FamilyDataDomainAssemblerTest {
         assertNotNull(result);
     }
 
-    @Test
-    void toDomain() {
-        FamilyID familyID = new FamilyID("admin@gmail.com");
-        String familyNameString = "Ribeiro";
-        FamilyName familyName = new FamilyName(familyNameString);
-        String date = "12/12/1990";
-        RegistrationDate registrationDate = new RegistrationDate(date);
-        String emailString = "admin@gmail.com";
-        PersonID adminEmail = new PersonID(emailString);
-
-        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA(familyID.toString()), familyName.toString(), registrationDate.toString(), new PersonIDJPA(adminEmail.toString()));
-
-        Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
-
-        Family result = familyDataDomainAssembler.toDomain(familyJPA);
-
-        assertEquals(expected, result);
-        assertNotNull(result);
-    }
 
     @Test
     @DisplayName("Test to assert that the FamilyID is successfully created")
