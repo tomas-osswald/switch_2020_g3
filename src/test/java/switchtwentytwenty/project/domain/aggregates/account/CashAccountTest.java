@@ -107,17 +107,20 @@ class CashAccountTest {
         assertEquals(accountOne.getDesignation(), accountTwo.getDesignation());
     }
 
-    /*
     @Test
-    void setMovementsTest() {
-        IAccount accountOne = new CashAccount();
-        IAccount accountTwo = new CashAccount();
-        accountOne.setMovements(movements);
-        accountTwo.setMovements(movements);
+    void getListOfMovementsTest() {
+        IAccount accountOne = new CashAccount(ownerID, designation);
 
-        //assertNotEquals(accountOne, accountTwo);
+        movements.add(movement);
+        accountOne.setMovements(movements);
+
+        List<Movement> expected = movements;
+
+        List<Movement> result = accountOne.getListOfMovements();
+
+        Assertions.assertEquals(expected, result);
     }
-     */
+
 
     @Test
     void addMovementTest() {
