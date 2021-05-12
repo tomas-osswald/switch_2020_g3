@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
-
 
 @Setter
 @Getter

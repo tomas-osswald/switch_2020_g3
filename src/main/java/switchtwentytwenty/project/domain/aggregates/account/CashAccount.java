@@ -1,7 +1,9 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+import sun.security.krb5.internal.crypto.Des;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
@@ -13,6 +15,7 @@ import java.util.Objects;
 
 @Component
 @AllArgsConstructor
+@NoArgsConstructor
 public class CashAccount extends AbCashAccount{
 
     private AccountID accountID;
@@ -23,7 +26,9 @@ public class CashAccount extends AbCashAccount{
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected CashAccount(){
+    protected CashAccount(OwnerID ownerID, Designation designation){
+        this.ownerID = ownerID;
+        this.designation = designation;
     }
 
     @Override
@@ -79,7 +84,7 @@ public class CashAccount extends AbCashAccount{
 
     @Override
     public boolean hasID(AccountID id) {
-        return false;
+        return this.accountID == id;
     }
 
     @Override
@@ -87,7 +92,7 @@ public class CashAccount extends AbCashAccount{
         if (this == o) return true;
         if (!(o instanceof CashAccount)) return false;
         CashAccount that = (CashAccount) o;
-        return Objects.equals(accountID, that.accountID) && Objects.equals(ownerID, that.ownerID) && Objects.equals(getDesignation(), that.getDesignation()) && Objects.equals(movements, that.movements);
+        return Objects.equals(accountID, that.accountID);
     }
 
     @Override

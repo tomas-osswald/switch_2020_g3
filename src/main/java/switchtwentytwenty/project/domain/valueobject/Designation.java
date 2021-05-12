@@ -14,7 +14,7 @@ public class Designation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Designation)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Designation that = (Designation) o;
         return Objects.equals(designation, that.designation);
     }
