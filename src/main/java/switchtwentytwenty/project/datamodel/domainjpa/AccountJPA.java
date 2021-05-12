@@ -17,7 +17,6 @@ public class AccountJPA {
     @Id
     @Getter
     private AccountIDJPA id;
-
     @Getter
     private OwnerIDJPA ownerID;
     @Getter

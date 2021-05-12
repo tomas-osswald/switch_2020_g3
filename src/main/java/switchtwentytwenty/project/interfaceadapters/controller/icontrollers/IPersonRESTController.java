@@ -9,13 +9,11 @@ import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 public interface IPersonRESTController {
 
 
-    public ResponseEntity<Object> addEmail(AddEmailDTO addEmailDTO);
+    ResponseEntity<Object> addEmail(AddEmailDTO addEmailDTO, String personID);
 
-    public ResponseEntity<Object> getEmail(String personID, String emailID);
+    ResponseEntity<OutputPersonDTO> getProfileInfo(String personID);
 
-    public ResponseEntity<OutputPersonDTO> getProfileInfo(String personID);
+    ResponseEntity<OptionsDTO> personOptions(String personID);
 
-    public ResponseEntity<OptionsDTO> getPersonOptions(String personID);
-
-    public ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO);
+    ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO);
 }

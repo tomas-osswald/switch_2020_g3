@@ -54,7 +54,7 @@ public class BankSavingsAccount extends AbNonCashAccount {
 
     @Override
     public List<Movement> getListOfMovements() {
-        return null;
+        return this.movements;
     }
 
     @Override

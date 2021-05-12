@@ -121,4 +121,17 @@ class FamilyDataDomainAssemblerTest {
         assertNotSame(expected, result);
         assertEquals(expected, result);
     }
+
+    @Test
+    void createFamilyIDJPA() {
+        FamilyID familyID = new FamilyID("admin@gmail.com");
+
+        FamilyIDJPA expected = new FamilyIDJPA("@admin@gmail.com");
+        FamilyIDJPA result = familyDataDomainAssembler.createFamilyIDJPA(familyID);
+
+        assertNotNull(result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+
+    }
 }

@@ -2,7 +2,6 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.*;
 
 import java.util.UUID;
 
@@ -38,13 +37,15 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void getId() {
-        Long expected = Long.valueOf(0);
+        Long expected = Long.valueOf(1);
 
         EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        emailAddressJPA.setId(1L);
 
         Long result = emailAddressJPA.getId();
 
         assertEquals(expected, result);
+        assertNotEquals(0L, result);
     }
 
     @Test
@@ -131,7 +132,6 @@ class EmailAddressJPATest {
 
         assertNotEquals(emailAddressJPA.hashCode(), emailAddressJPATwo.hashCode());
     }
-
 
 
 }

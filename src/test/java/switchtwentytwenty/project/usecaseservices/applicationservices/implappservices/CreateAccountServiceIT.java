@@ -22,7 +22,7 @@ public class CreateAccountServiceIT {
     AccountDTODomainAssembler accountDTODomainAssembler;
 
     @Test
-    void createAccountSuccessCase() {
+    public void createAccountSuccessCase() {
 
 
     }

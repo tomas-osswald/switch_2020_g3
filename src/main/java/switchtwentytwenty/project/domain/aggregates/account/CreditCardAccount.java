@@ -46,7 +46,6 @@ public class CreditCardAccount extends AbNonCashAccount {
         return null;
     }
 
-
     @Override
     public String getAccountType() {
         return null;
@@ -54,7 +53,7 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     @Override
     public List<Movement> getListOfMovements() {
-        return null;
+        return this.movements;
     }
 
     @Override

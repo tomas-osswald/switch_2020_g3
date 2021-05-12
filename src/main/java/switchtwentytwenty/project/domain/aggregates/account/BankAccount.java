@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-@Component
 @AllArgsConstructor
+@NoArgsConstructor
+@Component
 public class BankAccount extends AbNonCashAccount {
 
     private AccountID accountID;
@@ -24,38 +25,42 @@ public class BankAccount extends AbNonCashAccount {
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected BankAccount() {
-
+    protected BankAccount(OwnerID ownerID, Designation designation) {
+        this.ownerID = ownerID;
+        this.designation = designation;
     }
 
     @Override
     public AccountID id() {
-        return null;
+        return this.accountID;
     }
 
     @Override
     public boolean hasID(AccountID id) {
+        if(this.accountID == id)
+            return true;
+
         return false;
     }
 
     @Override
     public OwnerID getOwnerId() {
-        return null;
+        return this.ownerID;
     }
 
     @Override
     public Designation getDesignation() {
-        return null;
+        return this.designation;
     }
 
     @Override
     public String getAccountType() {
-        return null;
+        return this.getClass().getSimpleName();
     }
 
     @Override
     public List<Movement> getListOfMovements() {
-        return null;
+        return this.movements;
     }
 
     @Override
@@ -88,11 +93,11 @@ public class BankAccount extends AbNonCashAccount {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount that = (BankAccount) o;
-        return Objects.equals(accountID, that.accountID) && Objects.equals(ownerID, that.ownerID) && Objects.equals(getDesignation(), that.getDesignation()) && Objects.equals(movements, that.movements);
+        return Objects.equals(accountID, that.accountID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountID, ownerID, getDesignation(), movements);
+        return Objects.hash(accountID, ownerID);
     }
 }

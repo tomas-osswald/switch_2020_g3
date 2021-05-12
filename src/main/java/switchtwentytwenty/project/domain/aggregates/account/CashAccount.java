@@ -42,14 +42,15 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
+    public List<Movement> getListOfMovements() {
+        return this.movements;
+    }
+
+    @Override
     public String getAccountType() {
         return "Cash Account";
     }
 
-    @Override
-    public List<Movement> getListOfMovements() {
-        return null;
-    }
 
     @Override
     public void setAccountID(AccountID accountID) {
