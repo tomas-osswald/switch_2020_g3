@@ -116,4 +116,14 @@ class PhoneNumberTest {
         assertEquals(expected,result);
     }
 
+    @Test
+    void toStringTest() {
+        PhoneNumber phoneNumber = new PhoneNumber(931234567);
+        String expected = "931234567";
+
+        String result = phoneNumber.toString();
+
+        assertEquals(expected,result);
+    }
+
 }

@@ -107,4 +107,16 @@ class AddEmailDTOTest {
         assertNotSame(addEmailDTO1, addEmailDTO2);
         assertNotEquals(addEmailDTO1.hashCode(), addEmailDTO2.hashCode());
     }
+
+    @Test
+    void setEmail() {
+        String email = "tonyze@latinlover.com";
+        AddEmailDTO resultDTO = new AddEmailDTO(email);
+        String newEmail = "newEmail@gmail.com";
+        resultDTO.setEmail(newEmail);
+
+        String result = resultDTO.unpackEmail();
+
+        assertEquals(newEmail, result);
+    }
 }

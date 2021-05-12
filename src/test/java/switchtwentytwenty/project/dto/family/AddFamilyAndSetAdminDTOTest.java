@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AddFamilyAndSetAdminDTOTest {
 
     @Test
-    @DisplayName("Should return true if two identical AddFamilyAndSetAdminDTO objetcs are compared with the equals method")
+    @DisplayName("Should return true if two identical AddFamilyAndSetAdminDTO objects are compared with the equals method")
     void testEquals() {
         AddFamilyAndSetAdminDTO dto1 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
         AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
@@ -18,7 +18,7 @@ class AddFamilyAndSetAdminDTOTest {
     }
 
     @Test
-    @DisplayName("Should return false if two different AddFamilyAndSetAdminDTO objetcs are compared with the equals method")
+    @DisplayName("Should return false if two different AddFamilyAndSetAdminDTO objects are compared with the equals method")
     void testEqualsFail() {
         AddFamilyAndSetAdminDTO dto1 = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
         AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
@@ -93,7 +93,7 @@ class AddFamilyAndSetAdminDTOTest {
     @Test
     void testEqualsFailDifferentFamilyName() {
         AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Costa", "12/12/2000");
-        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Silva", "12/12/2000");
 
         assertNotEquals(dtoOne,dtoTwo);
     }
@@ -101,7 +101,7 @@ class AddFamilyAndSetAdminDTOTest {
     @Test
     void testEqualsFailDifferentRegistrationDate() {
         AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Silva", "01/12/2000");
-        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dtoTwo = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4000-001", "Silva", "12/12/2000");
 
         assertNotEquals(dtoOne,dtoTwo);
     }

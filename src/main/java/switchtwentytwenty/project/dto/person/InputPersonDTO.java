@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public class InputPersonDTO implements IInputPersonDTO {
 
-    private String emailID;
-    private String name;
-    private String birthDate;
-    private int vatNumber;
-    private Integer phone;
-    private String street;
-    private String city;
-    private String houseNumber;
-    private String zipCode;
+    private final String emailID;
+    private final String name;
+    private final String birthDate;
+    private final int vatNumber;
+    private final Integer phone;
+    private final String street;
+    private final String city;
+    private final String houseNumber;
+    private final String zipCode;
 
 
     //TODO: Retirar o userID deste DTO.
