@@ -6,6 +6,7 @@ public class Designation {
 
     private String designation;
 
+    //TODO: Add validation of null or empty String
     public Designation(String designation) {
         this.designation = designation;
     }

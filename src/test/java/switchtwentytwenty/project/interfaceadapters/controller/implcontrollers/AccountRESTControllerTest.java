@@ -17,12 +17,14 @@ import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
+import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -72,20 +74,23 @@ class AccountRESTControllerTest {
     }
 
     @Test
-    @DisplayName("Fail case in creating an Account")
+    @DisplayName("Fail case in creating an Account because Family already has account")
     void failToCreateCashAccount() {
-        OutputAccountDTO expectedOutputAccountDTO = new OutputAccountDTO(designation, ownerID, accountID);
-        Link link = linkTo(methodOn(AccountRESTController.class).getAccount(outputAccountDTO.getAccountID())).withSelfRel();
-        expectedOutputAccountDTO.add(link);
-
         Mockito.when(mockAccountInputDTOAssembler.toInputDTO(createCashAccountDTO)).thenReturn(inputAccountDTO);
-        Mockito.when(mockCreateAccountService.createAccount(inputAccountDTO)).thenReturn(outputAccountDTO);
+        Mockito.when(mockCreateAccountService.createAccount(inputAccountDTO)).thenThrow(AccountAlreadyRegisteredException.class);
 
-        ResponseEntity expected = new ResponseEntity(expectedOutputAccountDTO, HttpStatus.CREATED);
+
+        ResponseEntity expected = new ResponseEntity("Could not create Account", HttpStatus.UNPROCESSABLE_ENTITY);
 
         ResponseEntity result = accountRESTController.createAccount(createCashAccountDTO);
 
-        assertEquals(expected.getBody(), result.getBody());
-        assertEquals(result.getStatusCode(), result.getStatusCode());
+        assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Obtain exception when trying to get account")
+    void throwUnsupportedOperationExceptionWhenTryingToGetAccount() {
+        assertThrows(UnsupportedOperationException.class, () -> accountRESTController.getAccount(accountID));
+
     }
 }

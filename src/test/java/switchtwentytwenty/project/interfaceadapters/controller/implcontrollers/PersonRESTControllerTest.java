@@ -105,14 +105,8 @@ class PersonRESTControllerTest {
     @Test
     @DisplayName("Success case of adding an email to a Person")
     void successCaseInAddEmail() {
-
-<<<<<<< HEAD
-       when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
-       when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
-=======
         when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO, emailAddressAsID)).thenReturn(internalEmailDTO);
         when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
->>>>>>> ebbc201d2c6d137fdc1ae42b035d70fbc2ae5e69
 
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID);
         Link link = linkTo(methodOn(PersonRESTController.class).getProfileInfo(emailAddressAsID)).withSelfRel();
