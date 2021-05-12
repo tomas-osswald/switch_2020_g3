@@ -22,7 +22,7 @@ public class AddFamilyAndSetAdminDTO  {
     private String zipCode;
 
     private String familyName;
-    private String localDate;
+    private String registrationDate;
 
     public String getEmailID() {
         return emailID;
@@ -64,8 +64,8 @@ public class AddFamilyAndSetAdminDTO  {
         return familyName;
     }
 
-    public String getLocalDate() {
-        return localDate;
+    public String getRegistrationDate() {
+        return registrationDate;
     }
 
     @Override
@@ -73,11 +73,11 @@ public class AddFamilyAndSetAdminDTO  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddFamilyAndSetAdminDTO that = (AddFamilyAndSetAdminDTO) o;
-        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode) && familyName.equals(that.familyName) && Objects.equals(localDate, that.localDate);
+        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode) && familyName.equals(that.familyName) && Objects.equals(registrationDate, that.registrationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode, familyName, localDate);
+        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode, familyName, registrationDate);
     }
 }
