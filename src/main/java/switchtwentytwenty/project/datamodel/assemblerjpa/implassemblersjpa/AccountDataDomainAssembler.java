@@ -69,11 +69,11 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountID;
     }
 
+    //TODO Fazer este metodo para o FamilyID e acrescentar no AccountRepository
     public PersonID createOwnerID(AccountJPA accountJPA) {
         PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
         return personID;
     }
-
 
     public Designation createDesignation(AccountJPA accountJPA) {
         Designation designation = new Designation(accountJPA.getDesignation().toString());
