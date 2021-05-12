@@ -9,6 +9,9 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.account.AbAccount;
+import switchtwentytwenty.project.domain.valueobject.Designation;
+import switchtwentytwenty.project.domain.valueobject.Monetary;
+import switchtwentytwenty.project.domain.valueobject.OwnerID;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
@@ -44,6 +47,15 @@ class CreateAccountServiceTest {
     @Mock
     OutputAccountDTO outputAccountDTO;
 
+    @Mock
+    Designation designation;
+
+    @Mock
+    Monetary initialAmount;
+
+    @Mock
+    OwnerID ownerID;
+
     @InjectMocks
     CreateAccountService createAccountService;
 
@@ -65,7 +77,7 @@ class CreateAccountServiceTest {
         assertEquals(expected, result);
     }
 
-    @Disabled
+   /* @Disabled
     @Test
     void createCashAccountFamilyFailWhenFamilyAlreadyHasOneCashAccount() {
 
@@ -78,6 +90,55 @@ class CreateAccountServiceTest {
 
     @Disabled
     @Test
-    void
+    void  getDesignationFromInputAccountDTOSuccess() {
+
+        Mockito.when(accountDTODomainAssembler.designationToDomain(inputAccountDTO)).thenReturn(designation);
+
+        Designation expected = new Designation("balelas");
+        Designation result = accountDTODomainAssembler.designationToDomain(inputAccountDTO);
+
+        assertEquals(expected, result);
+
+    }
+
+    @Disabled
+    @Test
+    void  getInitialAmmountFromInputAccountDTOSuccess() {
+
+        Mockito.when(accountDTODomainAssembler.initialAmountToDomain(inputAccountDTO)).thenReturn(initialAmount);
+
+        Monetary expected = new Monetary("EUR", 10.00);
+        Monetary result = accountDTODomainAssembler.initialAmountToDomain(inputAccountDTO);
+
+        assertEquals(expected, result);
+
+    }
+
+    @Disabled
+    @Test
+    void  geOwnerIDFromInputAccountDTOSuccess() {
+
+        Mockito.when(accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO)).thenReturn(ownerID);
+
+        OwnerID expected = new OwnerID("tonyze@latinlover.com");
+        OwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
+
+        assertEquals(expected, result);
+
+    }
+
+    @Disabled
+    @Test
+    void  geOwnerIDPersonFromInputAccountDTOSuccessWhenFamilyIDIsPassedFail() {
+
+        Mockito.when(accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO)).thenReturn(ownerID);
+
+        OwnerID expected = new OwnerID("tonyze@latinlover.com");
+        OwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
+
+        assertEquals(expected, result);
+
+    }*/
+
 
 }
