@@ -21,7 +21,6 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
         String ownerId = IAccount.getOwnerId().toString();
         String designation = IAccount.getDesignation().toString();
-        String balance = IAccount.getBalance().toString();
         String accountType = IAccount.getAccountType().toString();
 
         // TODO: Verificar se é esta a ordem no construtor de AccountJPA
@@ -40,7 +39,6 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
         AccountID accountID = new AccountID(accountJPA.getId().toLong());
         PersonID ownerID = new PersonID(accountJPA.getOwnerID().toString());
-        //Balance balance = new Balance(accountJPA.getBalance());
         //Designation designation = new Designation(accountJPA.getDesignation());
         //AccountType accountType = new AccountType(accountJPA.getAccountType());
 

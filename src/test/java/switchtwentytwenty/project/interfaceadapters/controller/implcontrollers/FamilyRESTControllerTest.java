@@ -51,36 +51,10 @@ class FamilyRESTControllerTest {
         closeable.close();
     }
 
-    @Test
-    @DisplayName("CreateFamilyAndSetAdmin function success case")
-    void createFamilyAndSetAdmin() {
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
-
-        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "@tony@email.com", "tony@email.com", "12/12/2000");
-
-        outputFamilyDTO.add(expectedLink);
-
-        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
-
-        ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
-
-
-        assertNotNull(result);
-        //assertEquals(result.getStatusCode(),HttpStatus.CREATED);
-        //assertEquals(result,expected);
-    }
-
-    @Test
-    void testCreateFamilyAndSetAdmin() {
-        ResponseEntity expected = new ResponseEntity("Business Error Api Logic", HttpStatus.UNPROCESSABLE_ENTITY);
-        ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(invaliddto);
-
-        assertEquals(expected, result);
-    }
 
     @Test
     void familiesOptionsTest() {
-        Link link =  linkTo(FamilyRESTController.class).withRel("Add New Family");
+        Link link =  linkTo(FamilyRESTController.class).withRel("POST - Add New Family");
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
 
@@ -88,19 +62,5 @@ class FamilyRESTControllerTest {
         ResponseEntity<Object> result = familyRESTController.familiesOptions();
 
         assertEquals(result,expected);
-    }
-
-    @Test
-    void addRelationTest() {
-        AddRelationDTO addRelationDTO = new AddRelationDTO();
-
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO));
-    }
-
-    @Test
-    void getFamilyNameTest() {
-        String familyName = "Silva";
-
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamilyName(familyName));
     }
 }
