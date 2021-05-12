@@ -54,7 +54,7 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("CreateFamilyAndSetAdmin function success case")
     void createFamilyAndSetAdmin() {
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamily(dto.getFamilyName())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "@tony@email.com", "tony@email.com", "12/12/2000");
 
@@ -84,23 +84,24 @@ class FamilyRESTControllerTest {
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
 
-        ResponseEntity<Object> expected = new ResponseEntity<>(link,header,HttpStatus.OK);
-        ResponseEntity<Object> result = familyRESTController.familiesOptions();
+        ResponseEntity expected = new ResponseEntity<>(link,header,HttpStatus.OK);
+        ResponseEntity result = familyRESTController.familiesOptions();
 
         assertEquals(result,expected);
     }
+
 
     @Test
     void addRelationTest() {
         AddRelationDTO addRelationDTO = new AddRelationDTO();
 
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO));
+        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO, "@tonize@gmail.com"));
     }
 
     @Test
     void getFamilyNameTest() {
         String familyName = "Silva";
 
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamilyName(familyName));
+        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamily(familyName));
     }
 }

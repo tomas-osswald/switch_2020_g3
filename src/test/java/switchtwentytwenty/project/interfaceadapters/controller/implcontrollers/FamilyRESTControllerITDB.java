@@ -28,7 +28,7 @@ class FamilyRESTControllerITDB {
     @Test
     void createFamilyAndSetAdmin() {
 
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(dto.getFamilyName())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamily('@'+dto.getEmailID())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
 
