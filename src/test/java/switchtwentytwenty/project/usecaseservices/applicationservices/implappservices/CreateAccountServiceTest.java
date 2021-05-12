@@ -76,4 +76,8 @@ class CreateAccountServiceTest {
         assertThrows(AccountAlreadyRegisteredException.class, () -> createAccountService.createAccount(inputAccountDTO));
     }
 
+    @Disabled
+    @Test
+    void
+
 }
