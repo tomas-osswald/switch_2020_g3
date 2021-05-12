@@ -6,6 +6,7 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccount
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
+import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
@@ -21,7 +22,7 @@ import java.util.Optional;
 public class AccountRepository implements IAccountRepository {
 
     private IAccountRepositoryJPA accountRepositoryJPA;
-
+    private AccountFactory accountFactory;
     private IAccountDataDomainAssembler accountDataDomainAssembler;
 
     @Autowired
@@ -61,8 +62,9 @@ public class AccountRepository implements IAccountRepository {
         OwnerID ownerID = accountDataDomainAssembler.createOwnerID(accountJPA);
         Designation designation = accountDataDomainAssembler.createDesignation(accountJPA);
         List<Movement> movements = accountDataDomainAssembler.createMovements(accountJPA);
+        String accountType = accountJPA.getAccountType();
 
-        IAccount account = null;
+        IAccount account = accountFactory.createAccount(accountID, movements, ownerID, designation, accountType);
         return account;
     }
 

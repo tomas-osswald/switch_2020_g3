@@ -45,7 +45,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
     }
 
     @Override
-    public OutputAccountDTO toDTO(IAccount IAccount) {
+    public OutputAccountDTO toDTO(IAccount account) {
         return null;
     }
 }
