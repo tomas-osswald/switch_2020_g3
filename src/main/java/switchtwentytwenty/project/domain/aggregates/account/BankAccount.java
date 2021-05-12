@@ -37,10 +37,7 @@ public class BankAccount extends AbNonCashAccount {
 
     @Override
     public boolean hasID(AccountID id) {
-        if(this.accountID == id)
-            return true;
-
-        return false;
+        return this.accountID == id;
     }
 
     @Override

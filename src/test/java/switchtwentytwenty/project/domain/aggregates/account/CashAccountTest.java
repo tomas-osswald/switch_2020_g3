@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
 
@@ -8,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class CashAccountTest {
 
@@ -21,19 +23,23 @@ class CashAccountTest {
     BigDecimal amount = new BigDecimal("3");
     Monetary monetary = new Monetary("EUR", amount);
     Movement movement = new Movement(monetary);
+    
+    AccountID otherAccountID = new AccountID(123L);
 
     @Test
-    void getOwnerId() {
-        PersonID personID = new PersonID("tonyZe@gmail.com");
+    void getOwnerIdTest() {
         IAccount accountOne = new CashAccount();
-        accountOne.setOwner(personID);
+        accountOne.setOwner(ownerID);
 
-        assertEquals(accountOne.getOwnerId(), ownerID);
-        assertNotSame(accountOne.getOwnerId(), ownerID);
+        OwnerID expected = new PersonID("tonyZe@gmail.com");
+        OwnerID result = accountOne.getOwnerId();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
 
     @Test
-    void getDesignation() {
+    void getDesignationTest() {
         Designation designationOne = new Designation("Fágêsse");
         IAccount accountOne = new CashAccount();
         accountOne.setDesignation(designationOne);
@@ -44,7 +50,7 @@ class CashAccountTest {
 
     // TODO: Add changeBalance method to CashAccount and complete de test
     @Test
-    void getBalanceSame() {
+    void getBalanceSameTest() {
         BigDecimal amount = new BigDecimal("3");
         Monetary balance = new Monetary("EUR",amount);
         IAccount accountOne = new CashAccount();
@@ -52,7 +58,7 @@ class CashAccountTest {
     }
 
     @Test
-    void getAccountType() {
+    void getAccountTypeTest() {
         String otherAccount = "Cash Account";
         IAccount accountOne = new CashAccount();
 
@@ -61,7 +67,7 @@ class CashAccountTest {
 
 
     @Test
-    void setAccountID() {
+    void setAccountIDTest() {
         IAccount accountOne = new CashAccount();
         IAccount accountTwo = new CashAccount();
         accountOne.setAccountID(accountID);
@@ -71,7 +77,7 @@ class CashAccountTest {
     }
 
     @Test
-    void setOwner() {
+    void setOwnerTest() {
         IAccount accountOne = new CashAccount();
         IAccount accountTwo = new CashAccount();
         accountOne.setOwner(ownerID);
@@ -81,7 +87,7 @@ class CashAccountTest {
     }
 
     @Test
-    void setDesignation() {
+    void setDesignationTest() {
         IAccount accountOne = new CashAccount();
         IAccount accountTwo = new CashAccount();
         accountOne.setDesignation(designation);
@@ -90,8 +96,9 @@ class CashAccountTest {
         assertEquals(accountOne.getDesignation(), accountTwo.getDesignation());
     }
 
+    /*
     @Test
-    void setMovements() {
+    void setMovementsTest() {
         IAccount accountOne = new CashAccount();
         IAccount accountTwo = new CashAccount();
         accountOne.setMovements(movements);
@@ -99,15 +106,107 @@ class CashAccountTest {
 
         //assertNotEquals(accountOne, accountTwo);
     }
+     */
 
     @Test
-    void addMovement() {
+    void addMovementTest() {
+        IAccount accountOne = new CashAccount(ownerID, designation);
+
+        movements.add(movement);
+        List<Movement> expected = movements;
+
+        accountOne.addMovement(movement);
+        List<Movement> result = accountOne.getListOfMovements();
+
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void hasIDTrueTest() {
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        accountOne.setAccountID(accountID);
+
+        assertTrue(accountOne.hasID(accountID));
+    }
+    @Test
+    void hasIDFalseTest() {
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        accountOne.setAccountID(accountID);
+
+        assertFalse(accountOne.hasID(otherAccountID));
+    }
+    @Test
+    void equalsCashAccountTest(){
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        IAccount accountTwo = new CashAccount(ownerID, designation);
+
+        Assertions.assertEquals(accountOne, accountTwo);
+        assertNotSame(accountOne, accountTwo);
+    }
+    @Test
+    void equalsCashAccountAllArgsTest(){
+        IAccount accountOne = new CashAccount(accountID, ownerID, designation, movements);
+        IAccount accountTwo = new CashAccount(accountID, ownerID, designation, movements);
+
+        Assertions.assertEquals(accountOne, accountTwo);
+        assertNotSame(accountOne, accountTwo);
+    }
+    @Test
+    void equalsCashAccountNoArgsTest(){
         IAccount accountOne = new CashAccount();
         IAccount accountTwo = new CashAccount();
-        accountOne.addMovement(movement);
-        accountTwo.addMovement(movement);
 
-        //assertNotEquals(accountOne, accountTwo);
+        Assertions.assertEquals(accountOne, accountTwo);
+        assertNotSame(accountOne, accountTwo);
+    }
+    @Test
+    void equalsCashAccountIsSameTest(){
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        IAccount accountTwo = accountOne;
+
+        Assertions.assertEquals(accountOne, accountTwo);
+        assertSame(accountOne, accountTwo);
+    }
+    @Test
+    void equalsCashAccountAllIsDifferentTest(){
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        accountOne.setAccountID(accountID);
+        IAccount accountTwo = new CashAccount(ownerID, designation);
+        accountTwo.setAccountID(otherAccountID);
+
+        assertNotEquals(accountOne, accountTwo);
+    }
+    @Test
+    void equalsCashAccountIsDifferentClassTest(){
+        IAccount accountOne = new CashAccount(ownerID, designation);
+
+        assertNotEquals(accountOne, accountID);
+        assertNotSame(accountOne, accountID);
+    }
+    @Test
+    void equalsCashAccountIsDifferentFromNullTest(){
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        String nullString = null;
+
+        assertNotEquals(accountOne, nullString);
+        assertNotSame(accountOne, nullString);
+    }
+    @Test
+    void hashCodeCashAccountIsEqualsTest() {
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        IAccount accountTwo = new CashAccount(ownerID, designation);
+
+        Assertions.assertEquals(accountOne.hashCode(), accountTwo.hashCode());
+        assertNotSame(accountOne, accountTwo);
+    }
+    @Test
+    void hashCodeCashAccountIsDifferentTest() {
+        IAccount accountOne = new CashAccount(ownerID, designation);
+        accountOne.setAccountID(accountID);
+        IAccount accountTwo = new CashAccount(ownerID, designation);
+        accountTwo.setAccountID(otherAccountID);
+
+        assertNotEquals(accountOne.hashCode(), accountTwo.hashCode());
     }
 
 }
