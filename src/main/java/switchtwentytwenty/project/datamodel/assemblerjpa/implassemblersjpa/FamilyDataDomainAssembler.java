@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.AssemblerDataDomain;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IFamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
@@ -34,25 +33,7 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
         return familyJPA;
     }
 
-    /**
-     * Assembler method to create a FamilyJPA data object into a Family domain object.
-     * @param familyJPA data object
-     * @return Family domain object
-     */
-    @Deprecated
-    public Family toDomain(FamilyJPA familyJPA) {
 
-        FamilyID familyID = new FamilyID(familyJPA.getId().toString());
-
-        FamilyName familyName = new FamilyName(familyJPA.getFamilyName());
-
-
-        RegistrationDate registrationDate = new RegistrationDate(familyJPA.getRegistrationDate());
-
-        PersonID personID = new PersonID(familyJPA.getAdminID().toString());
-        Family family = new Family(familyID, familyName, registrationDate, personID);
-        return family;
-    }
 
     public FamilyID createFamilyID(FamilyJPA familyJPA) {
         return new FamilyID(familyJPA.getId().toString());
