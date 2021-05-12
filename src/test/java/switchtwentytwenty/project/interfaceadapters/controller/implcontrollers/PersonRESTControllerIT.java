@@ -16,7 +16,6 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.Perso
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
-import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
@@ -25,6 +24,7 @@ import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepos
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMemberProfileService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +67,9 @@ class PersonRESTControllerIT {
     PersonInputDTOAssembler profileInternalExternalAssembler;
 
     @Autowired
+    PersonOptionsService personOptionsService;
+
+    @Autowired
     IAddFamilyMemberService iAddFamilyMemberService;
 
     private AutoCloseable closeable;
@@ -88,7 +91,7 @@ class PersonRESTControllerIT {
         // Init Classes
         GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
 
-        PersonRESTController personRESTController = new PersonRESTController(profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
+        PersonRESTController personRESTController = new PersonRESTController(personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
 
         // PersonID
         String personID = "tonyze@gmail.com";
@@ -139,7 +142,7 @@ class PersonRESTControllerIT {
 
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, expectedEmails, expectedPhones, "999999999", VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, VALIDEMAIL);
 
-        Link expectedLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(personID)).withSelfRel();
+        Link expectedLink = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
 
         expectedOutputPersonDTO.add(expectedLink);
 
@@ -159,7 +162,7 @@ class PersonRESTControllerIT {
         // Init Classes
         GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
 
-        PersonRESTController personRESTController = new PersonRESTController(profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
+        PersonRESTController personRESTController = new PersonRESTController(personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
 
         // PersonID
         String personID = "tonyze@gmail.com";

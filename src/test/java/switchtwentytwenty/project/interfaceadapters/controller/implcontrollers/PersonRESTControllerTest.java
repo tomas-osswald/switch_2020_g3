@@ -166,7 +166,7 @@ class PersonRESTControllerTest {
 
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
 
-        Link expectedLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(personID)).withSelfRel();
+        Link expectedLink = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
 
         expectedOutputPersonDTO.add(expectedLink);
 
@@ -205,7 +205,7 @@ class PersonRESTControllerTest {
         when(mockAddFamilyMemberService.addPerson(any(InputAddFamilyMemberDTO.class))).thenReturn(realOutPutPersonDTO);
 
 
-        Link link = linkTo(methodOn(PersonRESTController.class).getPersonOptions("id@gmail.com")).withRel("Person Options");
+        Link link = linkTo(methodOn(PersonRESTController.class).personOptions("id@gmail.com")).withRel("Person Options");
         expectedOutputPersonDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.CREATED);

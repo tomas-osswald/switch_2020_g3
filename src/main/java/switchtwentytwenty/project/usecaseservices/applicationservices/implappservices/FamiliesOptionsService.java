@@ -12,6 +12,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class FamiliesOptionsService implements IFamiliesOptionsService {
+
     @Override
     public OptionsDTO getFamiliesOptions() {
 
