@@ -1,12 +1,15 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.domain.valueobject.AccountID;
+import switchtwentytwenty.project.domain.valueobject.Designation;
+import switchtwentytwenty.project.domain.valueobject.Movement;
+import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Component
@@ -18,8 +21,6 @@ public class BankAccount extends AbNonCashAccount {
     private OwnerID ownerID;
 
     private Designation designation;
-
-    private Monetary balance;
 
     private List<Movement> movements = new ArrayList<>();
 
@@ -44,11 +45,6 @@ public class BankAccount extends AbNonCashAccount {
 
     @Override
     public Designation getDesignation() {
-        return null;
-    }
-
-    @Override
-    public Monetary getBalance() {
         return null;
     }
 
@@ -80,5 +76,18 @@ public class BankAccount extends AbNonCashAccount {
     @Override
     public void addMovement(Movement movement) {
         this.movements.add(movement);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BankAccount)) return false;
+        BankAccount that = (BankAccount) o;
+        return Objects.equals(accountID, that.accountID) && Objects.equals(ownerID, that.ownerID) && Objects.equals(getDesignation(), that.getDesignation()) && Objects.equals(movements, that.movements);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountID, ownerID, getDesignation(), movements);
     }
 }
