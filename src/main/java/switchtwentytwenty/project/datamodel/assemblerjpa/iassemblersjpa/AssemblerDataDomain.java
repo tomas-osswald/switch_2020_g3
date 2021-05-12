@@ -4,5 +4,4 @@ public interface AssemblerDataDomain<T, K> {
 
     T toData(K k);
 
-
 }
