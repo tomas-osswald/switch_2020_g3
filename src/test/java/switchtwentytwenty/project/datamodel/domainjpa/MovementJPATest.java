@@ -114,6 +114,13 @@ class MovementJPATest {
 
         assertNotEquals(movementOne, id);
     }
+    @Test
+    void equalsMovementSameClassMovementTest() {
+        MovementJPA movementOne = new MovementJPA(amount, currency, account);
+        MovementJPA movementTwo = new MovementJPA(amount, currency, otherAccount);
+
+        assertEquals(movementOne.getClass(), movementTwo.getClass());
+    }
 
     @Test
     void equalsMovementDifferentFromNullTest() {
