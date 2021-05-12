@@ -93,7 +93,7 @@ class EmailAddressJPATest {
         EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(emailID,email, personJPA);
         EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(otherEmailID,email, personJPA);
 
-        assertEquals(emailAddressJPAOne, emailAddressJPATwo);
+        assertNotEquals(emailAddressJPAOne, emailAddressJPATwo);
     }
 
     @Test
