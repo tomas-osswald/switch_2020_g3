@@ -91,7 +91,7 @@ class EmailAddressJPATest {
     @Tag("US010")
     void equalsTestEqualEmailAddressJPAsWithID() {
         EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(emailID,email, personJPA);
-        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(otherEmailID,email, personJPA);
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(emailID,email, personJPA);
 
         assertEquals(emailAddressJPAOne, emailAddressJPATwo);
     }
