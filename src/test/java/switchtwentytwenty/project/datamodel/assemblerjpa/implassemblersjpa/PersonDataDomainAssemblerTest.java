@@ -118,73 +118,37 @@ class PersonDataDomainAssemblerTest {
         assert(!resultPhones.isEmpty());
     }
 
+
+
     @Test
-    void toDomainComparingEquals() {
-        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
-        personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
-
-        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-
-        Person result = personDataDomainAssembler.toDomain(personJPA);
-
-        assertEquals(expected, result);
+    void createAddress() {
     }
 
     @Test
-    void toDomainComparingByAttribute() {
-        PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
-        personJPA.setAddress(new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
+    void createPhoneNumberList() {
+    }
 
-        List<PhoneNumberJPA> phoneNumberList = new ArrayList<>();
-        PhoneNumberJPA phoneNumber = new PhoneNumberJPA(VALIDPHONENUMBER, personJPA);
-        phoneNumberList.add(phoneNumber);
-        personJPA.setPhones(phoneNumberList);
+    @Test
+    void createEmailAdressList() {
+    }
 
-        List<EmailAddressJPA> emailAddressJPAS = new ArrayList<>();
-        emailAddressJPAS.add(new EmailAddressJPA(ANOTHERVALIDEMAIL, personJPA));
-        personJPA.setEmails(emailAddressJPAS);
+    @Test
+    void createVATNumber() {
+    }
 
-        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-        expected.addEmail(new EmailAddress(ANOTHERVALIDEMAIL));
+    @Test
+    void createPersonID() {
+    }
 
-        Person result = personDataDomainAssembler.toDomain(personJPA);
+    @Test
+    void createName() {
+    }
 
-        PersonID expectedPersonID = new PersonID(VALIDEMAIL);
-        PersonID resultPersonID = result.id();
+    @Test
+    void createBirthDate() {
+    }
 
-        Name expectedName = new Name(VALIDNAME);
-        Name resultName = result.getName();
-
-        BirthDate expectedBirthDate = new BirthDate(VALIDBIRTHDATE);
-        BirthDate resultBirthDate = result.getBirthdate();
-
-        List<EmailAddress> expectedEmailAddresses = new ArrayList<>();
-        expectedEmailAddresses.add(new EmailAddress(ANOTHERVALIDEMAIL));
-        List<EmailAddress> resultEmailAddresses = result.getEmails();
-
-        VATNumber expectedVatNumber = new VATNumber(VALIDVATNUMBER);
-        VATNumber resultVatNumber = result.getVat();
-
-        List<PhoneNumber> expectedPhoneNumbers = new ArrayList<PhoneNumber>();
-        PhoneNumber expectedPhone = new PhoneNumber(VALIDPHONENUMBER);
-        expectedPhoneNumbers.add(expectedPhone);
-        List<PhoneNumber> resultPhoneNumbers = result.getPhoneNumbers();
-
-        Address expectedAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
-        Address resultAddress = result.getAddress();
-
-        FamilyID expectedFamilyID = new FamilyID(VALIDEMAIL);
-        FamilyID resultFamilyID = result.getFamilyID();
-
-        assertEquals(expected, result);
-
-        assertEquals(expectedPersonID, resultPersonID);
-        assertEquals(expectedName, resultName);
-        assertEquals(expectedBirthDate, resultBirthDate);
-        assertEquals(expectedEmailAddresses, resultEmailAddresses);
-        assertEquals(expectedVatNumber, resultVatNumber);
-        assertEquals(expectedPhoneNumbers, resultPhoneNumbers);
-        assertEquals(expectedAddress, resultAddress);
-        assertEquals(expectedFamilyID, resultFamilyID);
+    @Test
+    void createFamilyID() {
     }
 }
