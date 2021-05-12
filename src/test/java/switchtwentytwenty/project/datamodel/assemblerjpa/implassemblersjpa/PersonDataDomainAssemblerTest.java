@@ -91,7 +91,7 @@ class PersonDataDomainAssemblerTest {
         List<EmailAddressJPA> resultEmail = result.getEmails();
 
         List<PhoneNumberJPA> expectedPhone = new ArrayList<>();
-        expectedPhone.add(new PhoneNumberJPA(VALIDPHONENUMBER, expected));
+        expectedPhone.add(new PhoneNumberJPA(null,VALIDPHONENUMBER, expected));
 
         List<PhoneNumberJPA> resultPhones = result.getPhones();
 
@@ -136,7 +136,7 @@ class PersonDataDomainAssemblerTest {
     void createPhoneNumberList() {
         PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
         List<PhoneNumberJPA> phonesJPAList = new ArrayList<>();
-        phonesJPAList.add(new PhoneNumberJPA(919999999, personJPA));
+        phonesJPAList.add(new PhoneNumberJPA(null,919999999, personJPA));
         personJPA.setPhones(phonesJPAList);
 
         List<PhoneNumber> expected = new ArrayList<>();

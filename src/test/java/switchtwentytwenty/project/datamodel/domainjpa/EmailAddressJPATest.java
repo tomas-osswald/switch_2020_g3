@@ -61,7 +61,7 @@ class EmailAddressJPATest {
         PersonJPA expected = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
         EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
-        PersonJPA result = emailAddressJPA.getPerson();
+        PersonJPA result = emailAddressJPA.getPersonID();
 
         assertEquals(expected, result);
     }

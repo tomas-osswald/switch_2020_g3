@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,8 +24,11 @@ public class PhoneNumberJPA {
     @JoinColumn(name = "person")
     private PersonJPA person;
 
-    public PhoneNumberJPA(int number, PersonJPA personJPA) {
+    public PhoneNumberJPA(Long id, int number, PersonJPA personJPA) {
         this.number = number;
+        if (id != null) {
+            this.id = id;
+        }
 
         this.person = personJPA;
     }
@@ -41,6 +43,6 @@ public class PhoneNumberJPA {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,number);
+        return Objects.hash(id, number);
     }
 }

@@ -30,6 +30,7 @@ FFMSpringBootApplication {
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
             personRESTController.addFamilyMember(addFamilyMemberDTO);
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@gmail.com"), "kvanessa@latina.com");
+            personRESTController.addEmail(new AddEmailDTO("KvanessaBackup2222@gmail.com"), "kvanessa@latina.com");
         };
     }
 

@@ -107,7 +107,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         List<PhoneNumberJPA> phoneNumberList = new ArrayList<>();
 
         for (PhoneNumber phoneNumber : numberJPAList) {
-            PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber.getNumber(), personJPA);
+            PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber.getId(), phoneNumber.getNumber(), personJPA);
             phoneNumberList.add(phoneNumberJPA);
         }
 
@@ -118,7 +118,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         List<PhoneNumber> phoneNumberList = new ArrayList<>();
 
         for (PhoneNumberJPA phoneNumberJPA : numberList) {
-            PhoneNumber phoneNumber = new PhoneNumber(phoneNumberJPA.getNumber());
+            PhoneNumber phoneNumber = new PhoneNumber(phoneNumberJPA.getId(), phoneNumberJPA.getNumber());
             phoneNumberList.add(phoneNumber);
         }
         return phoneNumberList;
