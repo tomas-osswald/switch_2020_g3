@@ -4,17 +4,27 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.util.List;
+
 @Component
 public interface IAccount extends AggregateRoot<AccountID> {
-
-    AccountID getId();
 
     OwnerID getOwnerId();
 
     Designation getDesignation();
 
-    Balance getBalance();
+    Monetary getBalance();
 
-    AccountType getAccountType();
+    String getAccountType();
+
+    void setAccountID(AccountID accountID);
+
+    void setOwner(OwnerID ownerID);
+
+    void setDesignation(Designation designation);
+
+    void setMovements(List<Movement> movements);
+
+    void addMovement(Movement movement);
 
 }
