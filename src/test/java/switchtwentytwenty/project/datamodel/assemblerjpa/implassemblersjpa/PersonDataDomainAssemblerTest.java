@@ -87,7 +87,7 @@ class PersonDataDomainAssemblerTest {
         String resultName = result.getName();
 
         List<EmailAddressJPA> expectedEmails = new ArrayList<>();
-        expectedEmails.add(new EmailAddressJPA(ANOTHERVALIDEMAIL, expected));
+        expectedEmails.add(new EmailAddressJPA(null,ANOTHERVALIDEMAIL, expected));
         List<EmailAddressJPA> resultEmail = result.getEmails();
 
         List<PhoneNumberJPA> expectedPhone = new ArrayList<>();
@@ -98,7 +98,7 @@ class PersonDataDomainAssemblerTest {
         Integer expectedVat = VALIDVATNUMBER;
         Integer resultVat = result.getVat();
 
-        AddressJPA expectedAddress = new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, expected);
+        AddressJPA expectedAddress = new AddressJPA(null,VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, expected);
         AddressJPA resultAddressJPA = result.getAddress();
 
         FamilyIDJPA expectedFamilyIDJPA = new FamilyIDJPA("@" + VALIDEMAIL);
@@ -121,7 +121,7 @@ class PersonDataDomainAssemblerTest {
     @Test
     void createAddress() {
         PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
-        AddressJPA addressJPA = new AddressJPA(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA);
+        AddressJPA addressJPA = new AddressJPA(null,VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA);
         personJPA.setAddress(addressJPA);
         Address expected = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
         Address result = personDataDomainAssembler.createAddress(personJPA);
@@ -152,7 +152,7 @@ class PersonDataDomainAssemblerTest {
     void createEmailAdressList() {
         PersonJPA personJPA = new PersonJPA(new PersonIDJPA(VALIDEMAIL), VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, new FamilyIDJPA(VALIDEMAIL));
         List<EmailAddressJPA> emailAddressJPAList = new ArrayList<>();
-        emailAddressJPAList.add(new EmailAddressJPA("email@email.com", personJPA));
+        emailAddressJPAList.add(new EmailAddressJPA(null,"email@email.com", personJPA));
         personJPA.setEmails(emailAddressJPAList);
 
         List<EmailAddress> expected = new ArrayList<>();
