@@ -45,11 +45,11 @@ public class AccountRepository implements IAccountRepository {
     }
 
     //este método também serve como update, certo?
-    public IAccount add(IAccount IAccount){
-        AccountJPA accountJPA = accountDataDomainAssembler.toData(IAccount);
+    public IAccount add(IAccount account){
+        AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
         accountRepositoryJPA.save(accountJPA);
-        IAccount savedIAccount = accountDataDomainAssembler.toDomain(accountJPA);
-        return savedIAccount;
+        IAccount savedAccount = accountDataDomainAssembler.toDomain(accountJPA);
+        return savedAccount;
     }
 
 

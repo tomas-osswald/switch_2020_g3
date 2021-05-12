@@ -1,8 +1,9 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,6 +12,9 @@ public class FamilyID implements OwnerID<String>, Serializable {
     @Getter
     @Setter
     private String familyID;
+    /**
+     * Arranjar forma mais elegante de distinguir o FamilyID do PersonID. Usar um boolean, por exemplo.
+     */
 
     /**
      * FamilyID value object. It is the same as the Family Admin ID but with an "@" automatically added to the start ( char at index 0) of the String.
