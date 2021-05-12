@@ -18,7 +18,6 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     @Override
     public AccountJPA toData(IAccount account) {
-        AccountJPA accountJPA;
         AccountIDJPA accountIDJPA = new AccountIDJPA();
 
         OwnerIDJPA ownerId = new OwnerIDJPA(account.getOwnerId().toString());
@@ -27,7 +26,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         String accountType = account.getAccountType();
         List<Movement> movements = account.getListOfMovements();
 
-        accountJPA = new AccountJPA(accountIDJPA, ownerId, designation, accountType);
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, designation, accountType);
 
         List<MovementJPA> movementJPAList = new ArrayList<>();
 
@@ -37,11 +36,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
             MovementJPA movementJPA = new MovementJPA(amount, currency, accountJPA);
             movementJPAList.add(movementJPA);
         }
-
         accountJPA.setMovements(movementJPAList);
-
-        // TODO: Verificar se é esta a ordem no construtor de AccountJPA
-
         return accountJPA;
     }
 
@@ -69,11 +64,11 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountID;
     }
 
+    //TODO Fazer este metodo para o FamilyID e acrescentar no AccountRepository
     public PersonID createOwnerID(AccountJPA accountJPA) {
         PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
         return personID;
     }
-
 
     public Designation createDesignation(AccountJPA accountJPA) {
         Designation designation = new Designation(accountJPA.getDesignation().toString());

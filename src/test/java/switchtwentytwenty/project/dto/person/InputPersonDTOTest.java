@@ -118,8 +118,9 @@ class InputPersonDTOTest {
     @Test
     void testEqualsDifferentFromNull() {
         InputPersonDTO inputPersonDTOOne = new InputPersonDTO("tonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123");
+        String nullString = null;
 
-        Assertions.assertNotEquals(null, inputPersonDTOOne);
+        Assertions.assertNotEquals(inputPersonDTOOne,nullString);
     }
 
     @Test

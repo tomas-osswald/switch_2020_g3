@@ -17,6 +17,16 @@ class AccountTypeTest {
     }
 
     @Test
+    void testEqualsTrueSameAccountType() {
+        AccountType accountTypeOne = new AccountType("cash");
+        AccountType accountTypeTwo = accountTypeOne;
+
+        assertEquals(accountTypeOne, accountTypeTwo);
+        assertSame(accountTypeOne, accountTypeTwo);
+    }
+
+
+    @Test
     void testEqualsFalse() {
         AccountType accountType1 = new AccountType("cash");
         AccountType accountType2 = new AccountType("cashhh");
@@ -46,5 +56,16 @@ class AccountTypeTest {
 
         assertNotEquals(accountType1.hashCode(), accountType2.hashCode());
 
+    }
+
+    @Test
+    void testAccountTypeSetter() {
+        AccountType accountType = new AccountType();
+        accountType.setType("cash");
+        String expected = "cash";
+
+        String result = accountType.getType();
+
+        assertEquals(expected,result);
     }
 }

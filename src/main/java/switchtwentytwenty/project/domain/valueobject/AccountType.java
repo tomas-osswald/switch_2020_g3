@@ -12,18 +12,18 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountType {
-    private String accountType;
+    private String type;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountType that = (AccountType) o;
-        return Objects.equals(accountType, that.accountType);
+        return Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountType);
+        return Objects.hash(type);
     }
 }

@@ -48,7 +48,7 @@ public class AccountFactory {
         IAccount account;
 
         String classpath = environment.getProperty(accountType.toLowerCase());
-        
+
         try {
             account = (IAccount) Class.forName(classpath).newInstance();
             account.setAccountID(accountID);

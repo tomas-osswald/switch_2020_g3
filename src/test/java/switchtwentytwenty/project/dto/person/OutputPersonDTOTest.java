@@ -3,9 +3,13 @@ package switchtwentytwenty.project.dto.person;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.Link;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 class OutputPersonDTOTest {
     OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
@@ -300,6 +304,16 @@ class OutputPersonDTOTest {
         Assertions.assertEquals(expected,result);
     }
 
+    @Test
+    void testEqualsDifferentRepresentationModel() {
+        OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT, STREET, CITY, ZIPCODE, DOORNUMBER,FAMILYID);
+        OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT, STREET, CITY, ZIPCODE, DOORNUMBER,FAMILYID);
+        Link link = linkTo(PersonRESTController.class).withSelfRel();
+
+        outputPersonDTOOne.add(link);
+
+        Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
+    }
 
 
 }
