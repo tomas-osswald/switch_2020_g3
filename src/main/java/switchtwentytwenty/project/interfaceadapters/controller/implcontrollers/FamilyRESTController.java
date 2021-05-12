@@ -19,12 +19,9 @@ import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFam
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.FamiliesOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.FamilyOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 
 @RestController
 @RequestMapping("/families")
