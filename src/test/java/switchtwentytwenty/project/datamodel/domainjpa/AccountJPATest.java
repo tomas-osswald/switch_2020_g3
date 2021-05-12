@@ -1,6 +1,10 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountJPATest {
@@ -9,8 +13,14 @@ public class AccountJPATest {
     PersonIDJPA ownerIDJPA = new PersonIDJPA("tonyze@latinlover.com");
     String designation = "Conta do Ze";
     String accountType = "Current";
+    List<MovementJPA> movements = new ArrayList<MovementJPA>();
 
     AccountIDJPA accountIDJPATwo = new AccountIDJPA(999999L);
+
+    Long amount = 33L;
+    String currency = "EUR";
+    Long otherAmount = 66L;
+
 
     @Test
     void getAccountIDTest() {
@@ -51,6 +61,24 @@ public class AccountJPATest {
         String result = accountJPA.getAccountType();
 
         assertEquals(expectedAccountType, result);
+    }
+    @Test
+    void getListOfMovementsTest() {
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, designation, accountType);
+        MovementJPA movementJPAOne = new MovementJPA(amount, currency, accountJPA);
+        MovementJPA movementJPATwo = new MovementJPA(otherAmount, currency, accountJPA);
+
+        movements.add(movementJPAOne);
+        movements.add(movementJPATwo);
+        accountJPA.setMovements(movements);
+
+        List<MovementJPA> expectedList = new ArrayList<>();
+        expectedList.add(movementJPAOne);
+        expectedList.add(movementJPATwo);
+
+        List<MovementJPA> result = accountJPA.getMovements();
+
+        assertEquals(expectedList, result);
     }
     @Test
     void equalsAccountJPAEqualAccountJPATest() {

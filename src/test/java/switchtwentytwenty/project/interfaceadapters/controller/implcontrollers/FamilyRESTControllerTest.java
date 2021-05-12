@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
@@ -80,14 +81,17 @@ class FamilyRESTControllerTest {
 
     @Test
     void familiesOptionsTest() {
-        Link link =  linkTo(FamilyRESTController.class).withRel("Add New Family");
+        OptionsDTO optionsDTO = new OptionsDTO();
+        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
+        optionsDTO.add(link);
+
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
 
-        ResponseEntity expected = new ResponseEntity<>(link,header,HttpStatus.OK);
+        ResponseEntity expected = new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
         ResponseEntity result = familyRESTController.familiesOptions();
 
-        assertEquals(result,expected);
+        assertEquals(result, expected);
     }
 
 
@@ -95,13 +99,14 @@ class FamilyRESTControllerTest {
     void addRelationTest() {
         AddRelationDTO addRelationDTO = new AddRelationDTO();
 
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.addRelation(addRelationDTO, "@tonize@gmail.com"));
+        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.addRelation(addRelationDTO, "@tonize@gmail.com"));
     }
 
     @Test
     void getFamilyNameTest() {
         String familyName = "Silva";
 
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamily(familyName));
+        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
     }
+
 }

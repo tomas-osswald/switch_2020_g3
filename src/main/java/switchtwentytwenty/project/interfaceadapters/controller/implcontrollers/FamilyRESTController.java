@@ -52,6 +52,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
         OptionsDTO options = familiesOptionsService.getFamiliesOptions();
 
+
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
 
