@@ -14,6 +14,8 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomain
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
+import java.util.Objects;
+
 @Service
 @NoArgsConstructor
 public class CreateAccountService implements ICreateAccountService {
@@ -43,4 +45,16 @@ public class CreateAccountService implements ICreateAccountService {
         return outputAccountDTO;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreateAccountService that = (CreateAccountService) o;
+        return Objects.equals(accountFactory, that.accountFactory) && Objects.equals(accountRepository, that.accountRepository) && Objects.equals(accountDTODomainAssembler, that.accountDTODomainAssembler);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountFactory, accountRepository, accountDTODomainAssembler);
+    }
 }
