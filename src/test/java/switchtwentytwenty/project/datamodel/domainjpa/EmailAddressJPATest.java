@@ -14,6 +14,9 @@ class EmailAddressJPATest {
     String id = "emaiil@email.com";
     PersonIDJPA personIDJPA = new PersonIDJPA(id);
 
+    Long emailID = 3L;
+    Long otherEmailID = 6L;
+
     String name = "TonyZe";
     String birthdate = "23/12/1992";
     Integer vat = 999999999;
@@ -80,6 +83,15 @@ class EmailAddressJPATest {
     void equalsTestEqualEmailAddressJPAs() {
         EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(null,email, personJPA);
         EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(null,email, personJPA);
+
+        assertEquals(emailAddressJPAOne, emailAddressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void equalsTestEqualEmailAddressJPAsWithID() {
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(emailID,email, personJPA);
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(otherEmailID,email, personJPA);
 
         assertEquals(emailAddressJPAOne, emailAddressJPATwo);
     }

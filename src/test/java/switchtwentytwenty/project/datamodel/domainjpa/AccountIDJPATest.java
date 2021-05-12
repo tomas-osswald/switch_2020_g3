@@ -45,6 +45,7 @@ class AccountIDJPATest {
         assertNotEquals(expected, result);
     }
 
+
     @Test
     void setAccountIDJPADifferentObjectSameID(){
         AccountIDJPA accountIDOne = new AccountIDJPA();
@@ -71,6 +72,13 @@ class AccountIDJPATest {
         AccountIDJPA accountIDTwo = accountIDOne;
 
         assertSame(accountIDOne, accountIDTwo);
+    }
+
+    @Test
+    void equalsTestDifferentClass(){
+        AccountIDJPA accountIDOne = new AccountIDJPA(idOne);
+
+        assertNotEquals(accountIDOne, idOne);
     }
 
     @Test
