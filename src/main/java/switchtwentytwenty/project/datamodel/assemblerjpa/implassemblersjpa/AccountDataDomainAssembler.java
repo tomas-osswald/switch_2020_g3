@@ -2,31 +2,39 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
-import switchtwentytwenty.project.domain.valueobject.AccountID;
-import switchtwentytwenty.project.domain.valueobject.AccountType;
-import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     @Override
-    public AccountJPA toData(IAccount IAccount) {
+    public AccountJPA toData(IAccount account) {
 
-        // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
+        AccountIDJPA accountIDJPA = new AccountIDJPA();
+        char validation = account.getOwnerId().toString().charAt(0);
+        String validationID = Character.toString(validation);
+        OwnerID ownerId;
 
-        //AccountIDJPA accountIDJPA = new AccountIDJPA(account.getId());
+        if( validationID == "@" ){
+           ownerId = (FamilyID) account.getOwnerId();
+        } else {
+            ownerId = (PersonID) account.getOwnerId();
+        }
 
-        String ownerId = IAccount.getOwnerId().toString();
-        String designation = IAccount.getDesignation().toString();
-        String accountType = IAccount.getAccountType().toString();
+        String designation = account.getDesignation().toString();
+        String accountType = account.getAccountType().toString();
 
+        AccountJPA accountJPA = null;
         // TODO: Verificar se é esta a ordem no construtor de AccountJPA
-        //AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, balance, designation, accountType);
+        //accountJPA = new AccountJPA(accountIDJPA, ownerId, designation, accountType);
 
-        return null; //accountJPA;
+        return accountJPA;
     }
 
     @Override
@@ -53,10 +61,11 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountID;
     }
 
-    public PersonID createPersonID(AccountJPA accountJPA) {
+    public PersonID createOwnerID(AccountJPA accountJPA) {
         PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
         return personID;
     }
+
 
     public Designation createDesignation(AccountJPA accountJPA) {
         Designation designation = new Designation(accountJPA.getDesignation().toString());
@@ -66,6 +75,13 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     public AccountType createAccountType(AccountJPA accountJPA) {
         AccountType accountType = new AccountType();
         return accountType;
+    }
+
+    public List<Movement> createMovements(AccountJPA accountJPA){
+        List<Movement> movements = new ArrayList<>();
+
+
+        return movements;
     }
 
 

@@ -53,6 +53,11 @@ public class BankSavingsAccount extends AbNonCashAccount {
     }
 
     @Override
+    public List<Movement> getListOfMovements() {
+        return null;
+    }
+
+    @Override
     public void setAccountID(AccountID accountID) {
         this.accountID = accountID;
     }

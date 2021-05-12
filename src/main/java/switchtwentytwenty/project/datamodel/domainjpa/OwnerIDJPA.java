@@ -5,35 +5,35 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
-import java.io.Serializable;
 import java.util.Objects;
 
 @NoArgsConstructor
 @Embeddable
-public class FamilyIDJPA implements Serializable {
+public class OwnerIDJPA {
+
     @Getter
     @Setter
-    private String familyID;
+    private String ownerID;
 
-    public FamilyIDJPA(String familyID) {
-        this.familyID = familyID;
+    public OwnerIDJPA(String ownerID){
+        this.ownerID = ownerID;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FamilyIDJPA that = (FamilyIDJPA) o;
-        return familyID.equals(that.familyID);
+        if (!(o instanceof OwnerIDJPA)) return false;
+        OwnerIDJPA that = (OwnerIDJPA) o;
+        return Objects.equals(getOwnerID(), that.getOwnerID());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(familyID);
+        return Objects.hash(getOwnerID());
     }
 
     @Override
     public String toString() {
-        return this.familyID;
+        return this.ownerID;
     }
 }
