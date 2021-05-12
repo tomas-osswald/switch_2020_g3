@@ -3,6 +3,7 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Data
+
 @NoArgsConstructor
 @Entity
 @Table(name = "accounts")
@@ -26,6 +27,7 @@ public class AccountJPA {
     @Getter
     private String accountType;
     @Getter
+    @Setter
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.ALL)
     private List<MovementJPA> movements = new ArrayList<MovementJPA>();
 
