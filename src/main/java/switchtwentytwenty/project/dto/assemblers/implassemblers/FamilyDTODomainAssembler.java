@@ -17,8 +17,7 @@ public class FamilyDTODomainAssembler {
      * @return FamilyName value object
      */
     public FamilyName createFamilyName(InputFamilyDTO inputFamilyDTO) {
-        FamilyName familyName = new FamilyName((inputFamilyDTO.unpackFamilyName()));
-        return familyName;
+        return new FamilyName((inputFamilyDTO.unpackFamilyName()));
     }
 
     /**
@@ -28,8 +27,7 @@ public class FamilyDTODomainAssembler {
      * @return RegistrationDate value object
      */
     public RegistrationDate createRegistrationDate(InputFamilyDTO inputFamilyDTO) {
-        RegistrationDate registrationDate = new RegistrationDate(inputFamilyDTO.unpackRegistrationDate());
-        return registrationDate;
+        return new RegistrationDate(inputFamilyDTO.unpackRegistrationDate());
     }
 
     /**

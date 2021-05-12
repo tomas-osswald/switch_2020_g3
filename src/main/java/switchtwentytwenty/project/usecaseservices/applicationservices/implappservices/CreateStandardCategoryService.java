@@ -9,6 +9,6 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 public class CreateStandardCategoryService implements ICreateStandardCategoryService {
     @Override
     public OutputCategoryDTO createStandardCategory(InputCategoryDTO inputCategoryDTO) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

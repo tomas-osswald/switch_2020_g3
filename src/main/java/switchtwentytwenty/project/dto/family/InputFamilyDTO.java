@@ -6,7 +6,7 @@ public class InputFamilyDTO {
 
 
     private String familyName;
-    private String registrationDate;
+    private final String registrationDate;
 
     public InputFamilyDTO(String familyName, String registrationDate) {
         this.familyName = familyName;

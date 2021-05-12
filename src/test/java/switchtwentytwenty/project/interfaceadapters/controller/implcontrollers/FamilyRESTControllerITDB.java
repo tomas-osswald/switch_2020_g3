@@ -63,8 +63,8 @@ class FamilyRESTControllerITDB {
 
 
         assertNotNull(result);
-        assertEquals(result.getStatusCode(),HttpStatus.CREATED);
-        assertEquals(result.getBody().toString(),expected.getBody().toString());
+        assertEquals(HttpStatus.CREATED,result.getStatusCode());
+        assertEquals(expected.getBody().toString(),result.getBody().toString());
     }
 
     @Test
