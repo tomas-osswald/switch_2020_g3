@@ -27,6 +27,17 @@ class CashAccountTest {
     AccountID otherAccountID = new AccountID(123L);
 
     @Test
+    void getIDTest() {
+        IAccount accountOne = new CashAccount();
+        accountOne.setAccountID(accountID);
+
+        AccountID expected = new AccountID(100L);
+        AccountID result = accountOne.id();
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+    }
+    @Test
     void getOwnerIdTest() {
         IAccount accountOne = new CashAccount();
         accountOne.setOwner(ownerID);
