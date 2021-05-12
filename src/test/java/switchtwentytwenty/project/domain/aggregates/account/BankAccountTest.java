@@ -110,6 +110,20 @@ class BankAccountTest {
         assertNotSame(expected, result);
     }
     @Test
+    void addMovementTest(){
+        IAccount bankAccount = new BankAccount(personID, designation);
+
+        movementList.add(movementOne);
+        movementList.add(movementTwo);
+        List<Movement> expected = movementList;
+
+        bankAccount.addMovement(movementOne);
+        bankAccount.addMovement(movementTwo);
+        List<Movement> result = bankAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+    @Test
     void hasIDTrueTest() {
         IAccount bankAccountOne = new BankAccount(personID, designation);
         bankAccountOne.setAccountID(accountID);
@@ -124,9 +138,17 @@ class BankAccountTest {
         assertFalse(bankAccountOne.hasID(otherAccountID));
     }
     @Test
-    void equalsBankAccountAllArgsTest(){
+    void equalsBankAccountTest(){
         IAccount bankAccountOne = new BankAccount(personID, designation);
         IAccount bankAccountTwo = new BankAccount(personID, designation);
+
+        assertEquals(bankAccountOne, bankAccountTwo);
+        assertNotSame(bankAccountOne, bankAccountTwo);
+    }
+    @Test
+    void equalsBankAccountAllArgsTest(){
+        IAccount bankAccountOne = new BankAccount(accountID, personID, designation, movementList);
+        IAccount bankAccountTwo = new BankAccount(accountID, personID, designation, movementList);
 
         assertEquals(bankAccountOne, bankAccountTwo);
         assertNotSame(bankAccountOne, bankAccountTwo);
