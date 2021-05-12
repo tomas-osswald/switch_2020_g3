@@ -1,9 +1,14 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+import java.util.Objects;
+@AllArgsConstructor
 public class Address implements ValueObject {
 
+    @Getter
+    private Long id;
     private final Street street;
     private final City city;
     private final ZipCode zipCode;

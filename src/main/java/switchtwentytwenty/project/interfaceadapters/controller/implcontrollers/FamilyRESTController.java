@@ -14,14 +14,14 @@ import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.FamiliesOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.FamilyOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 
 @RestController
 @RequestMapping("/families")
@@ -34,12 +34,12 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final PersonInputDTOAssembler personAssembler;
 
-    private final FamiliesOptionsService familiesOptionsService;
+    private final IFamiliesOptionsService familiesOptionsService;
 
-    private final FamilyOptionsService familyOptionsService;
+    private final IFamilyOptionsService familyOptionsService;
 
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, FamiliesOptionsService familiesOptionsService, FamilyOptionsService familyOptionsService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
@@ -80,7 +80,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamily(outputFamilyDTO.getFamilyID())).withSelfRel();
             outputFamilyDTO.add(selfLink);
             return new ResponseEntity(outputFamilyDTO, status);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | InvalidEmailException e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
             return new ResponseEntity("Business Error Api Logic", status);

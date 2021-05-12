@@ -2,10 +2,6 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PhoneNumberJPA;
 
 import java.util.UUID;
 
@@ -30,7 +26,7 @@ class PhoneNumberJPATest {
     void getIdTest() {
         Long expected = Long.valueOf(0);
 
-        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
         Long result = phoneNumberJPA.getId();
 
@@ -42,7 +38,7 @@ class PhoneNumberJPATest {
     void getPhoneNumberTest() {
         int expected = 963369963;
 
-        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null,phoneNumber, personJPA);
 
         int result = phoneNumberJPA.getNumber();
 
@@ -54,7 +50,7 @@ class PhoneNumberJPATest {
     void getPersonJPATest() {
         PersonJPA expected = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
-        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null,phoneNumber, personJPA);
 
         PersonJPA result = phoneNumberJPA.getPerson();
 
@@ -65,7 +61,7 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testEqualsSameObject() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
         PhoneNumberJPA phoneNumberJPATwo = phoneNumberJPAOne;
 
         assertEquals(phoneNumberJPAOne,phoneNumberJPATwo);
@@ -74,8 +70,8 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testEqualsNotSameObject() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,phoneNumber, personJPA);
 
         assertEquals(phoneNumberJPAOne,phoneNumberJPATwo);
         assertNotSame(phoneNumberJPAOne,phoneNumberJPATwo);
@@ -84,7 +80,7 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testEqualsDifferentTypeOfObject() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
 
         assertNotEquals(phoneNumberJPAOne,personJPA);
     }
@@ -92,7 +88,7 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testEqualsDifferentFromNull() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
         String nullString = null;
 
         assertNotEquals(phoneNumberJPAOne,nullString);
@@ -102,9 +98,9 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testEqualsNotEqual() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(otherPhoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,otherPhoneNumber, personJPA);
 
         assertNotEquals(phoneNumberJPAOne,phoneNumberJPATwo);
     }
@@ -113,8 +109,8 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testHashCodeEqualObjects() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,phoneNumber, personJPA);
 
         assertEquals(phoneNumberJPAOne.hashCode(),phoneNumberJPATwo.hashCode());
         assertNotSame(phoneNumberJPAOne,phoneNumberJPATwo);
@@ -123,9 +119,9 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testHashCodeDifferentObjects() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(otherPhoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,otherPhoneNumber, personJPA);
 
 
         assertNotEquals(phoneNumberJPAOne.hashCode(),phoneNumberJPATwo.hashCode());

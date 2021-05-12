@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
-import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
-import switchtwentytwenty.project.domain.aggregates.account.CreditCardAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.*;
 
@@ -30,9 +28,6 @@ public class Person implements AggregateRoot<PersonID> {
     @Setter
     private Address address;
     private FamilyID familyID;
-    //private List<AccountID> accounts = new ArrayList<>();
-    //private LedgerID ledger;
-    //private List<FutureTransactionID> futureTransactions = new ArrayList<>();
 
     public Person(Name name, BirthDate birthDate, PersonID personID, VATNumber vat, PhoneNumber phone, Address address, FamilyID familyID) {
         this.name = name;
@@ -123,14 +118,6 @@ public class Person implements AggregateRoot<PersonID> {
 
     public Address getAddress() {
         return this.address;
-    }
-
-    public void setEmailList(List<EmailAddress> emails) {
-        this.emails = emails;
-    }
-
-    public void setPhoneNumberList(List<PhoneNumber> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
     }
 
     @Override

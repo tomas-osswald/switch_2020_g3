@@ -1,13 +1,15 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import switchtwentytwenty.project.exceptions.*;
+import switchtwentytwenty.project.exceptions.InvalidPhoneNumberException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
-
+@AllArgsConstructor
 public class PhoneNumber implements ValueObject {
-
+    @Getter
+    private long id;
 
     @Getter
     private Integer number;

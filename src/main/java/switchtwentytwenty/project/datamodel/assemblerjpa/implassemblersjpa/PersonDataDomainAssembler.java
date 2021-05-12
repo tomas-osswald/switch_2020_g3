@@ -36,7 +36,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
 
         PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
-        AddressJPA addressJPA = new AddressJPA(address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA);
+        AddressJPA addressJPA = new AddressJPA(address.getId(), address.getStreet(), address.getCity(), address.getZipCode(), address.getDoorNumber(), personJPA);
 
         List<EmailAddressJPA> emailsJPA = generateEmailAddressJPAList(person.getEmails(), personJPA);
 
@@ -52,12 +52,13 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
     public Address createAddress(PersonJPA personJPA) {
         AddressJPA addressJPA = personJPA.getAddress();
 
-        String street = addressJPA.getStreet();
-        String city = addressJPA.getCity();
-        String zipCode = addressJPA.getZipCode();
-        String doorNumber = addressJPA.getDoorNumber();
+        Long id = addressJPA.getId();
+        Street street = new Street(addressJPA.getStreet());
+        City city = new City(addressJPA.getCity());
+        ZipCode zipCode = new ZipCode(addressJPA.getZipCode());
+        DoorNumber doorNumber = new DoorNumber(addressJPA.getDoorNumber());
 
-        Address address = new Address(street, city, zipCode, doorNumber);
+        Address address = new Address(id, street, city, zipCode, doorNumber);
 
         return address;
     }
@@ -95,7 +96,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         List<EmailAddressJPA> emailAddressJPAList = new ArrayList<>();
 
         for (EmailAddress email : emailAddressList) {
-            EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email.toString(), personJPA);
+            EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email.getId(), email.toString(), personJPA);
             emailAddressJPAList.add(emailAddressJPA);
 
         }
@@ -107,7 +108,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         List<PhoneNumberJPA> phoneNumberList = new ArrayList<>();
 
         for (PhoneNumber phoneNumber : numberJPAList) {
-            PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber.getNumber(), personJPA);
+            PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(phoneNumber.getId(), phoneNumber.getNumber(), personJPA);
             phoneNumberList.add(phoneNumberJPA);
         }
 
@@ -118,7 +119,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         List<PhoneNumber> phoneNumberList = new ArrayList<>();
 
         for (PhoneNumberJPA phoneNumberJPA : numberList) {
-            PhoneNumber phoneNumber = new PhoneNumber(phoneNumberJPA.getNumber());
+            PhoneNumber phoneNumber = new PhoneNumber(phoneNumberJPA.getId(), phoneNumberJPA.getNumber());
             phoneNumberList.add(phoneNumber);
         }
         return phoneNumberList;
@@ -128,7 +129,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         List<EmailAddress> emailAddressList = new ArrayList<>();
 
         for (EmailAddressJPA emailAddressJPA : emailList) {
-            EmailAddress emailAddress = new EmailAddress(emailAddressJPA.getEmail());
+            EmailAddress emailAddress = new EmailAddress(emailAddressJPA.getId(), emailAddressJPA.getEmail());
             emailAddressList.add(emailAddress);
         }
         return emailAddressList;

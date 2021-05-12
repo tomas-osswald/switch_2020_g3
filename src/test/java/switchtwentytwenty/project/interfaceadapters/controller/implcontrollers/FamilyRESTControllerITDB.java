@@ -87,5 +87,4 @@ class FamilyRESTControllerITDB {
         //String familyName = "Silva";
         assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamily("@tony@email.com"));
     }
-
 }

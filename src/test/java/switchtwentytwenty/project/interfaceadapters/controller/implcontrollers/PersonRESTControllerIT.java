@@ -143,8 +143,9 @@ class PersonRESTControllerIT {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, expectedEmails, expectedPhones, "999999999", VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, VALIDEMAIL);
 
         Link expectedLink = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
-
+        Link expectedLink2 = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID.getFamilyID())).withRel("Family Link");
         expectedOutputPersonDTO.add(expectedLink);
+        expectedOutputPersonDTO.add(expectedLink2);
 
 
         ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.FOUND);

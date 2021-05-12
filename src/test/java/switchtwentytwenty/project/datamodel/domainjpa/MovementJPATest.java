@@ -11,7 +11,7 @@ class MovementJPATest {
     String currency = "EUR";
 
     AccountIDJPA accountIDJPA = new AccountIDJPA(123456L);
-    PersonIDJPA ownerIDJPA = new PersonIDJPA("tonyze@latinlover.com");
+    OwnerIDJPA ownerIDJPA = new OwnerIDJPA("tonyze@latinlover.com");
     String designation = "Conta do Ze";
     String accountType = "Current";
     AccountJPA account = new AccountJPA(accountIDJPA, ownerIDJPA, designation, accountType);
