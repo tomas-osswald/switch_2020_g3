@@ -89,7 +89,6 @@ public class PersonRESTController implements IPersonRESTController {
         try {
             outputPersonDTO = addFamilyMemberService.addPerson(internalAddFamilyMemberDTO);
             status = HttpStatus.CREATED;
-
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
             return new ResponseEntity<>(outputPersonDTO, status);
