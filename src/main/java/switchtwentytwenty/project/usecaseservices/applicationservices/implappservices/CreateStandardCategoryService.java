@@ -9,8 +9,6 @@ import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateStandardCategoryService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
-import java.util.Locale;
-
 @Service
 @NoArgsConstructor
 public class CreateStandardCategoryService implements ICreateStandardCategoryService {
@@ -18,16 +16,9 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
     private CategoryDTODomainAssembler categoryDTODomainAssembler;
     private ICategoryRepository categoryRepository;
 
-    @Autowired
-    public CreateStandardCategoryService(ICategoryRepository categoryRepository, CategoryDTODomainAssembler categoryDTODomainAssembler) {
-        this.categoryRepository = categoryRepository;
-        this.categoryDTODomainAssembler = categoryDTODomainAssembler;
-    }
-
     @Override
     public OutputCategoryDTO createStandardCategory(InputCategoryDTO inputCategoryDTO) {
         throw new UnsupportedOperationException();
 
-        return null;
     }
 }
