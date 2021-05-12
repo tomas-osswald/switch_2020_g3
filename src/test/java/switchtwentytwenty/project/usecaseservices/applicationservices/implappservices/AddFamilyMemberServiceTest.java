@@ -79,8 +79,7 @@ class AddFamilyMemberServiceTest {
     @DisplayName("Unit test of AddFamilyMemberService: Successfully added a person")
     @Test
     @Tag("US101")
-    void addPersonSuccess() {
-
+    void addPersonSuccessDoesNotThrow() {
 
         Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
@@ -91,6 +90,21 @@ class AddFamilyMemberServiceTest {
 
     }
 
+    @DisplayName("Unit test of AddFamilyMemberService: Successfully added a person")
+    @Test
+    @Tag("US101")
+    void addPersonSuccess() {
+
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personRepository.add(any(Person.class))).thenReturn(savedFamilyMember);
+        Mockito.when(personDTODomainAssembler.toDTO(savedFamilyMember)).thenReturn(outputPersonDTO);
+
+        OutputPersonDTO expected = outputPersonDTO;
+        OutputPersonDTO result = addFamilyMemberService.addPerson(internalAddFamilyMemberDTO);
+
+        assertEquals(expected, result);
+    }
 
 
 

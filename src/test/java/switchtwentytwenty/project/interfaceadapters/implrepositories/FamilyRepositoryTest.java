@@ -98,6 +98,20 @@ class FamilyRepositoryTest {
     }
 
     @Test
+    void getByID() {
+        Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
+
+        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
+        when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(adminEmail);
+        when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(familyID);
+        when(familyDataDomainAssembler.createFamilyName(any(FamilyJPA.class))).thenReturn(familyName);
+        when(familyDataDomainAssembler.createRegistrationDate(any(FamilyJPA.class))).thenReturn(registrationDate);
+
+        Family result = familyRepository.getByID(familyID);
+        assertEquals(expected, result);
+    }
+
+    @Test
     void getByIDTestThrowsExceptionWhenIDJPANotPresent() {
         FamilyID otherFamilyID = new FamilyID("otherFamily@gmail.com");
 

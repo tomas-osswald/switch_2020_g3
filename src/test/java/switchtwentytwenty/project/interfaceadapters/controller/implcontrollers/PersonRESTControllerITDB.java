@@ -45,7 +45,7 @@ class PersonRESTControllerITDB {
     String addedEmailID = "3L";
     AddEmailDTO emailToAddDTO = new AddEmailDTO(emailToAdd);
 
-
+    //TODO: isto está disabled porquê?
     @Test
     @Disabled
     @DisplayName("Success case in adding email using integration test with all components")
@@ -120,7 +120,7 @@ class PersonRESTControllerITDB {
         addFamilyMemberDTO.setZipCode("1234-123");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
-        ResponseEntity expected = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         assertEquals(expected.getStatusCode(), result.getStatusCode());
         assertNotSame(expected, result);
@@ -145,7 +145,7 @@ class PersonRESTControllerITDB {
         addFamilyMemberDTO.setZipCode("1234-123");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
-        ResponseEntity expected = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         assertEquals(expected.getStatusCode(), result.getStatusCode());
         assertNotSame(expected, result);
@@ -157,7 +157,7 @@ class PersonRESTControllerITDB {
     @DisplayName("Integration Test for Catching an Unprocessable Entity Exception")
     void addFamilyMemberFailureExceptionIT() {
 
-        ResponseEntity expected = new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity(HttpStatus.BAD_REQUEST);
 
         AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
         addFamilyMemberDTO.setAdminID("tonyze@latinlover.com");
