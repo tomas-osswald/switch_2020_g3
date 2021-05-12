@@ -16,4 +16,6 @@ public interface IFamilyRepositoryJPA extends CrudRepository<FamilyJPA, FamilyID
 
     boolean existsByAdminID(PersonIDJPA personIDJPA);
 
+    boolean existsFamilyJPAById(FamilyIDJPA familyIDJPA);
+
 }
