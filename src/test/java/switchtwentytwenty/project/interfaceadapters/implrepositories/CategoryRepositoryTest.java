@@ -60,7 +60,6 @@ class CategoryRepositoryTest {
         CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, cat, parentID, familyIDJPA);
         StandardCategory category = new StandardCategory(catName, selfID, parentIDCat);
         when(categoryRepositoryJPA.findById(any(CategoryIDJPA.class))).thenReturn(Optional.of(categoryJPA));
-        when(categoryDataDomainAssembler.toDomain(categoryJPA)).thenReturn(category);
 
         CategoryID categoryID = new CategoryID(12L);
         Category expected = new StandardCategory(catName, selfID, parentIDCat);
