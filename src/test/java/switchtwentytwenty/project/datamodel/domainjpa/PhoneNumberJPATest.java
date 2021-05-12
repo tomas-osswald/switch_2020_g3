@@ -24,13 +24,14 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void getIdTest() {
-        Long expected = Long.valueOf(0);
+        Long expected = Long.valueOf(1);
 
-        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null, phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(1L, phoneNumber, personJPA);
 
         Long result = phoneNumberJPA.getId();
 
         assertEquals(expected, result);
+        assertNotEquals(0, result);
     }
 
     @Test
@@ -38,7 +39,7 @@ class PhoneNumberJPATest {
     void getPhoneNumberTest() {
         int expected = 963369963;
 
-        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
         int result = phoneNumberJPA.getNumber();
 
@@ -50,7 +51,7 @@ class PhoneNumberJPATest {
     void getPersonJPATest() {
         PersonJPA expected = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
-        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPA = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
         PersonJPA result = phoneNumberJPA.getPerson();
 
@@ -61,70 +62,73 @@ class PhoneNumberJPATest {
     @Test
     @Tag("US010")
     void testEqualsSameObject() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
         PhoneNumberJPA phoneNumberJPATwo = phoneNumberJPAOne;
 
-        assertEquals(phoneNumberJPAOne,phoneNumberJPATwo);
+        assertEquals(phoneNumberJPAOne, phoneNumberJPATwo);
     }
 
     @Test
     @Tag("US010")
     void testEqualsNotSameObject() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
-        assertEquals(phoneNumberJPAOne,phoneNumberJPATwo);
-        assertNotSame(phoneNumberJPAOne,phoneNumberJPATwo);
+        assertEquals(phoneNumberJPAOne, phoneNumberJPATwo);
+        assertNotSame(phoneNumberJPAOne, phoneNumberJPATwo);
     }
 
     @Test
     @Tag("US010")
     void testEqualsDifferentTypeOfObject() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
-        assertNotEquals(phoneNumberJPAOne,personJPA);
+        assertNotEquals(phoneNumberJPAOne, personJPA);
     }
 
     @Test
     @Tag("US010")
     void testEqualsDifferentFromNull() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
         String nullString = null;
 
-        assertNotEquals(phoneNumberJPAOne,nullString);
+        assertNotEquals(phoneNumberJPAOne, nullString);
     }
 
 
     @Test
     @Tag("US010")
     void testEqualsNotEqual() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,otherPhoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null, otherPhoneNumber, personJPA);
 
-        assertNotEquals(phoneNumberJPAOne,phoneNumberJPATwo);
+        assertNotEquals(phoneNumberJPAOne, phoneNumberJPATwo);
     }
 
 
     @Test
     @Tag("US010")
     void testHashCodeEqualObjects() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
-        assertEquals(phoneNumberJPAOne.hashCode(),phoneNumberJPATwo.hashCode());
-        assertNotSame(phoneNumberJPAOne,phoneNumberJPATwo);
+        assertEquals(phoneNumberJPAOne.hashCode(), phoneNumberJPATwo.hashCode());
+        assertNotSame(phoneNumberJPAOne, phoneNumberJPATwo);
     }
 
     @Test
     @Tag("US010")
     void testHashCodeDifferentObjects() {
-        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null,phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(null, phoneNumber, personJPA);
         int otherPhoneNumber = 147741147;
-        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null,otherPhoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null, otherPhoneNumber, personJPA);
 
 
-        assertNotEquals(phoneNumberJPAOne.hashCode(),phoneNumberJPATwo.hashCode());
+        assertNotEquals(phoneNumberJPAOne.hashCode(), phoneNumberJPATwo.hashCode());
     }
 
+    @Test
+    void getId() {
+    }
 }
