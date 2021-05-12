@@ -2,15 +2,18 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
+
 
 @NoArgsConstructor
 @Entity
 @Table(name = "Movements")
 public class MovementJPA {
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

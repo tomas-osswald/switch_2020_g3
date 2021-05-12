@@ -20,8 +20,6 @@ public class AccountJPA {
     private AccountIDJPA id;
 
     @Getter
-    private Long balance;
-    @Getter
     private PersonIDJPA ownerID;
     @Getter
     private String designation;
@@ -34,14 +32,12 @@ public class AccountJPA {
     /**
      * Constructor for AccountJPA. Movements are set by the Repository.
      * @param id AccountIDJPA - it's own class to facilitate foreign key usage
-     * @param balance Long - the balance currently in the account
      * @param ownerID PersonIDJPA - is a foreign key to PersonJPA
      * @param designation String - name of the account
      * @param accountType String - Type of account
      */
-    public AccountJPA (AccountIDJPA id, Long balance, PersonIDJPA ownerID, String designation, String accountType) {
+    public AccountJPA (AccountIDJPA id, PersonIDJPA ownerID, String designation, String accountType) {
         this.id = id;
-        this.balance = balance;
         this.ownerID = ownerID;
         this.designation = designation;
         this.accountType = accountType;
