@@ -69,4 +69,8 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
     public PersonID createAdminID(FamilyJPA familyJPA) {
         return new PersonID(familyJPA.getAdminID().toString());
     }
+
+    public FamilyIDJPA createFamilyIDJPA(FamilyID familyID) {
+        return new FamilyIDJPA(familyID.getFamilyID());
+    }
 }

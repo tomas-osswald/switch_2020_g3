@@ -9,8 +9,10 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
 
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 
+import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
@@ -45,8 +47,8 @@ public class PersonRESTController implements IPersonRESTController {
 
     @Override
     @PostMapping(value = "/{personID}/emails")
-    public ResponseEntity<Object> addEmail(@RequestBody AddEmailDTO addEmailDTO) {
-        InputEmailDTO inputEmailDTO = personInputDTOAssembler.toInputEmailDTO(addEmailDTO);
+    public ResponseEntity<Object> addEmail(@RequestBody AddEmailDTO addEmailDTO, @PathVariable String personID) {
+        InputEmailDTO inputEmailDTO = personInputDTOAssembler.toInputEmailDTO(addEmailDTO, personID);
 
         HttpStatus status;
         OutputEmailDTO outputEmailDTO;
@@ -55,27 +57,13 @@ public class PersonRESTController implements IPersonRESTController {
             outputEmailDTO = addEmailService.addEmail(inputEmailDTO);
             status = HttpStatus.OK;
 
-            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getEmail(inputEmailDTO.unpackUserID(), inputEmailDTO.unpackEmail())).withSelfRel();
+            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withSelfRel();
             outputEmailDTO.add(personSelfLink);
             return new ResponseEntity<>(outputEmailDTO, status);
-        } catch (Exception e) {
+        } catch (InvalidEmailException | EmailAlreadyRegisteredException e) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>("Error: " + e.getMessage(), status);
         }
-    }
-
-    /**
-     * Not a User Story method. This method exists to allow access to an added email. It's supposed to be an Options method
-     * to be included after the addEmail method successfully adds an email to a person.
-     *
-     * @param personID
-     * @param email
-     * @return A string with the person id to access the person resource and a string with the added email id to access the added resource.
-     */
-    @Override
-    @GetMapping(value = "/{personID}/emails/{email}")
-    public ResponseEntity<Object> getEmail(@PathVariable String personID, String email) {
-        return null;
     }
 
     @Override

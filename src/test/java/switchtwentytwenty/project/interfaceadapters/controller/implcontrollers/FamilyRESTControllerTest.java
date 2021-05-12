@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
@@ -51,16 +52,61 @@ class FamilyRESTControllerTest {
         closeable.close();
     }
 
+    @Test
+    @DisplayName("CreateFamilyAndSetAdmin function success case")
+    void createFamilyAndSetAdmin() {
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamily(dto.getFamilyName())).withSelfRel();
+
+        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "@tony@email.com", "tony@email.com", "12/12/2000");
+
+        outputFamilyDTO.add(expectedLink);
+
+        ResponseEntity expected = new ResponseEntity(outputFamilyDTO, HttpStatus.CREATED);
+
+        ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(dto);
+
+
+        assertNotNull(result);
+        //assertEquals(result.getStatusCode(),HttpStatus.CREATED);
+        //assertEquals(result,expected);
+    }
+
+    @Test
+    void testCreateFamilyAndSetAdmin() {
+        ResponseEntity expected = new ResponseEntity("Business Error Api Logic", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(invaliddto);
+
+        assertEquals(expected, result);
+    }
 
     @Test
     void familiesOptionsTest() {
-        Link link =  linkTo(FamilyRESTController.class).withRel("POST - Add New Family");
+        OptionsDTO optionsDTO = new OptionsDTO();
+        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
+        optionsDTO.add(link);
+
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
 
-        ResponseEntity<Object> expected = new ResponseEntity<>(link,header,HttpStatus.OK);
-        ResponseEntity<Object> result = familyRESTController.familiesOptions();
+        ResponseEntity expected = new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
+        ResponseEntity result = familyRESTController.familiesOptions();
 
-        assertEquals(result,expected);
+        assertEquals(result, expected);
     }
+
+
+    @Test
+    void addRelationTest() {
+        AddRelationDTO addRelationDTO = new AddRelationDTO();
+
+        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.addRelation(addRelationDTO, "@tonize@gmail.com"));
+    }
+
+    @Test
+    void getFamilyNameTest() {
+        String familyName = "Silva";
+
+        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
+    }
+
 }

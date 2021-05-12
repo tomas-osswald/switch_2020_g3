@@ -1,6 +1,9 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -69,9 +72,9 @@ class PersonRESTControllerTest {
 
     OutputEmailDTO outputEmailDTO = new OutputEmailDTO(email);
 
-    AddEmailDTO addEmailDTO = new AddEmailDTO(emailAddressAsID, email);
-    AddEmailDTO INVALIDAddEmailDTO = new AddEmailDTO(emailAddressAsID, invalidEmailToAdd);
-    InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(INVALIDAddEmailDTO.unpackUserID(), INVALIDAddEmailDTO.unpackEmail());
+    AddEmailDTO addEmailDTO = new AddEmailDTO(email);
+    AddEmailDTO INVALIDAddEmailDTO = new AddEmailDTO(invalidEmailToAdd);
+    InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(emailAddressAsID, INVALIDAddEmailDTO.unpackEmail());
 
     AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L", "3L", "tony", "12/02/1999", 123456789, 961962963, "Rua da Estrada", "Porto", "12", "4000");
 
@@ -104,16 +107,16 @@ class PersonRESTControllerTest {
     @DisplayName("Success case of adding an email to a Person")
     void successCaseInAddEmail() {
 
-        when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO)).thenReturn(internalEmailDTO);
+        when(mockPersonInputDTOAssembler.toInputEmailDTO(addEmailDTO, emailAddressAsID)).thenReturn(internalEmailDTO);
         when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
 
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID);
-        Link link = linkTo(methodOn(PersonRESTController.class).getEmail(personID.toString(), email)).withSelfRel();
+        Link link = linkTo(methodOn(PersonRESTController.class).getProfileInfo(emailAddressAsID)).withSelfRel();
         expectedOutputEmailDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputEmailDTO, HttpStatus.OK);
 
-        ResponseEntity result = personRESTController.addEmail(addEmailDTO);
+        ResponseEntity result = personRESTController.addEmail(addEmailDTO, emailAddressAsID);
 
         assertEquals(expected.getBody().toString(), result.getBody().toString());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
@@ -123,12 +126,12 @@ class PersonRESTControllerTest {
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsAlreadyRegisteredInThePerson() {
 
-        when(mockPersonInputDTOAssembler.toInputEmailDTO(any(AddEmailDTO.class))).thenReturn(internalEmailDTO);
+        when(mockPersonInputDTOAssembler.toInputEmailDTO(any(AddEmailDTO.class), any(String.class))).thenReturn(internalEmailDTO);
         when(mockAddEmailService.addEmail(any(InputEmailDTO.class))).thenThrow(new EmailAlreadyRegisteredException());
 
         ResponseEntity expected = new ResponseEntity("Error: Email is already registered", HttpStatus.BAD_REQUEST);
 
-        ResponseEntity result = personRESTController.addEmail(addEmailDTO);
+        ResponseEntity result = personRESTController.addEmail(addEmailDTO, emailAddressAsID);
 
         assertEquals(expected, result);
     }
@@ -137,13 +140,13 @@ class PersonRESTControllerTest {
     @Test
     void failCaseInAddEmailWhenProvidedEmailIsWrongfullyInsertedExpectingInvalidEmailException() {
 
-        when(mockPersonInputDTOAssembler.toInputEmailDTO(any(AddEmailDTO.class))).thenReturn(INVALIDInternalEmailDTO);
+        when(mockPersonInputDTOAssembler.toInputEmailDTO(any(AddEmailDTO.class), any(String.class))).thenReturn(INVALIDInternalEmailDTO);
         when(mockAddEmailService.addEmail(any(InputEmailDTO.class))).thenThrow(new InvalidEmailException("This Email is not valid"));
 
         //Sem certeza que Bad_Request se enquadra neste HttpStatus
         ResponseEntity expected = new ResponseEntity("Error: This Email is not valid", HttpStatus.BAD_REQUEST);
 
-        ResponseEntity result = personRESTController.addEmail(INVALIDAddEmailDTO);
+        ResponseEntity result = personRESTController.addEmail(INVALIDAddEmailDTO, emailAddressAsID);
 
         assertEquals(expected, result);
     }
