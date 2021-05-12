@@ -9,6 +9,8 @@ import switchtwentytwenty.project.domain.valueobject.Monetary;
 import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
+import java.util.List;
+
 @Component
 public class AccountFactory {
 
@@ -43,5 +45,12 @@ public class AccountFactory {
             throw new IllegalArgumentException();
         }
         return newIAccount;
+    }
+
+    public IAccount createAccount(Designation designation, List<Movement> movements, OwnerID ownerID, String accountType){
+        IAccount account;
+
+
+        return null;
     }
 }

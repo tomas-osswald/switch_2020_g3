@@ -111,8 +111,9 @@ public class PersonRESTController implements IPersonRESTController {
             OutputPersonDTO outputPersonDTO = getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO);
 
             Link link = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
-
+            Link familyLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(outputPersonDTO.getFamilyID())).withRel("Family Link");
             outputPersonDTO.add(link);
+            outputPersonDTO.add(familyLink);
 
             return new ResponseEntity(outputPersonDTO, HttpStatus.FOUND);
 

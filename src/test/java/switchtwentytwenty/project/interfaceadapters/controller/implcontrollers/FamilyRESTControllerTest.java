@@ -182,4 +182,9 @@ class FamilyRESTControllerTest {
 
         assertEquals(expectedResponse, resultResponse);
     }
+
+    @Test
+    void getCategoriesOption() {
+        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getCategoriesOptions("@tonyze@gmail.com"));
+    }
 }
