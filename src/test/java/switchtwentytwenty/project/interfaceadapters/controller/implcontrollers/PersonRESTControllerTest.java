@@ -166,8 +166,10 @@ class PersonRESTControllerTest {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
 
         Link expectedLink = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
+        Link familyLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(outputPersonDTO.getFamilyID())).withRel("Family Link");
 
         expectedOutputPersonDTO.add(expectedLink);
+        expectedOutputPersonDTO.add(familyLink);
 
         ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.FOUND);
 
