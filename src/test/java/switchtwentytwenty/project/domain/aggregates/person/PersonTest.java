@@ -251,7 +251,7 @@ class PersonTest {
     }
 
     @Test
-    void personConstructorTest(){
+    void constructorTest(){
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         Person result = new Person(tonyZeEmail, tonyZeName, tonyZeBirthDate, tonyZeVat, familyID);
 

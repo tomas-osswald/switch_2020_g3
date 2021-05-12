@@ -106,4 +106,14 @@ class PhoneNumberTest {
         assertEquals(expected,result);
     }
 
+    @Test
+    void getIDTest(){
+        PhoneNumber phoneNumber = new PhoneNumber(11L,931234567);
+        long expected = 11L;
+
+        long result = phoneNumber.getId();
+
+        assertEquals(expected,result);
+    }
+
 }

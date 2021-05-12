@@ -20,7 +20,7 @@ class MovementTest {
     }
 
     @Test
-    void setMonetary(){
+    void setMonetaryTest(){
         Monetary monetaryValue = new Monetary("EUR", BigDecimal.valueOf(100));
         Movement movement = new Movement(monetaryValue);
         Monetary expected = new Monetary("USD",BigDecimal.valueOf(200));

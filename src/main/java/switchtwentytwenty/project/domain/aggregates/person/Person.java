@@ -83,6 +83,11 @@ public class Person implements AggregateRoot<PersonID> {
         }
     }
 
+    /**
+     * Method that determines if a given email is present either as ID or in the email List
+     * @param email EmailAddress object to be verified
+     * @return true if email is already registered, false otherwise
+     */
     private boolean isEmailAlreadyRegistered(EmailAddress email) {
         boolean emailPresent = false;
         for (EmailAddress registeredEmail : emails) {
