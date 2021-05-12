@@ -138,9 +138,17 @@ class BankAccountTest {
         assertFalse(bankAccountOne.hasID(otherAccountID));
     }
     @Test
-    void equalsBankAccountAllArgsTest(){
+    void equalsBankAccountTest(){
         IAccount bankAccountOne = new BankAccount(personID, designation);
         IAccount bankAccountTwo = new BankAccount(personID, designation);
+
+        assertEquals(bankAccountOne, bankAccountTwo);
+        assertNotSame(bankAccountOne, bankAccountTwo);
+    }
+    @Test
+    void equalsBankAccountAllArgsTest(){
+        IAccount bankAccountOne = new BankAccount(accountID, personID, designation, movementList);
+        IAccount bankAccountTwo = new BankAccount(accountID, personID, designation, movementList);
 
         assertEquals(bankAccountOne, bankAccountTwo);
         assertNotSame(bankAccountOne, bankAccountTwo);
