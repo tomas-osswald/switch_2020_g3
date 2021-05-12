@@ -55,5 +55,6 @@ public class AccountJPA {
 
         return Objects.hash(id);
     }
+
 }
 

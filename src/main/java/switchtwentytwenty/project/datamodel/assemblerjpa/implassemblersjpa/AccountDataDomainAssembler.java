@@ -4,9 +4,12 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,24 +18,29 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     @Override
     public AccountJPA toData(IAccount account) {
-
+        AccountJPA accountJPA;
         AccountIDJPA accountIDJPA = new AccountIDJPA();
-        char validation = account.getOwnerId().toString().charAt(0);
-        String validationID = Character.toString(validation);
-        OwnerID ownerId;
 
-        if( validationID == "@" ){
-           ownerId = (FamilyID) account.getOwnerId();
-        } else {
-            ownerId = (PersonID) account.getOwnerId();
-        }
+        OwnerIDJPA ownerId = new OwnerIDJPA(account.getOwnerId().toString());
 
         String designation = account.getDesignation().toString();
-        String accountType = account.getAccountType().toString();
+        String accountType = account.getAccountType();
+        List<Movement> movements = account.getListOfMovements();
 
-        AccountJPA accountJPA = null;
+        accountJPA = new AccountJPA(accountIDJPA, ownerId, designation, accountType);
+
+        List<MovementJPA> movementJPAList = new ArrayList<>();
+
+        for (Movement movement: movements) {
+            String currency = movement.getMonetary().getCurrency().toString();
+            Long amount = movement.getMonetary().getAmount().longValue();
+            MovementJPA movementJPA = new MovementJPA(amount, currency, accountJPA);
+            movementJPAList.add(movementJPA);
+        }
+
+        accountJPA.setMovements(movementJPAList);
+
         // TODO: Verificar se é esta a ordem no construtor de AccountJPA
-        //accountJPA = new AccountJPA(accountIDJPA, ownerId, designation, accountType);
 
         return accountJPA;
     }
@@ -79,7 +87,15 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     public List<Movement> createMovements(AccountJPA accountJPA){
         List<Movement> movements = new ArrayList<>();
+        List<MovementJPA> movementJPAList = accountJPA.getMovements();
 
+        for (MovementJPA movementJPA: movementJPAList) {
+            String currency = movementJPA.getCurrency();
+            BigDecimal amount = new BigDecimal(movementJPA.getAmount());
+            Monetary monetary = new Monetary(currency, amount);
+            Movement movement = new Movement(monetary);
+            movements.add(movement);
+        }
 
         return movements;
     }
