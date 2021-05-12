@@ -40,7 +40,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     public ResponseEntity<Object> familiesOptions() {
-        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("Add New Family");
+        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("POST - Add New Family");
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Allow", "POST, OPTIONS");

@@ -13,8 +13,6 @@ public interface IAccount extends AggregateRoot<AccountID> {
 
     Designation getDesignation();
 
-    Monetary getBalance();
-
     String getAccountType();
 
     void setAccountID(AccountID accountID);
@@ -26,5 +24,10 @@ public interface IAccount extends AggregateRoot<AccountID> {
     void setMovements(List<Movement> movements);
 
     void addMovement(Movement movement);
+
+    /**
+     * Proximo sprint
+     */
+    //Monetary changeBalance(List<Movement> movements);
 
 }

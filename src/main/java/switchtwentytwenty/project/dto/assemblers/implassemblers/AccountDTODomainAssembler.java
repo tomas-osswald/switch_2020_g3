@@ -24,6 +24,9 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     public OwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
 
+        /**
+         * Alterar o @ no próximo sprint. Check FamilyID.
+         */
         char validation = inputAccountDTO.getOwnerID().charAt(0);
         String validationID = Character.toString(validation);
         OwnerID ownerID;
