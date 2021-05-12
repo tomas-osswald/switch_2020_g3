@@ -112,7 +112,7 @@ class AddFamilyAndSetAdminDTOTest {
 
         String expectedLocalDate = "12/12/2000";
 
-        String resultLocalDate = dto.getLocalDate();
+        String resultLocalDate = dto.getRegistrationDate();
 
         assertEquals(expectedLocalDate, resultLocalDate);
     }

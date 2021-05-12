@@ -5,6 +5,8 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccount
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
+import switchtwentytwenty.project.domain.valueobject.AccountType;
+import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 
 @Component
@@ -27,7 +29,8 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return null; //accountJPA;
     }
 
-    @Override
+
+    @Deprecated
     public IAccount toDomain(AccountJPA accountJPA) {
 
         // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
@@ -43,6 +46,26 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
         //return account;
         return null;
+    }
+
+    public AccountID createAccountID(AccountJPA accountJPA) {
+        AccountID accountID = new AccountID(accountJPA.getId().toLong());
+        return accountID;
+    }
+
+    public PersonID createPersonID(AccountJPA accountJPA) {
+        PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
+        return personID;
+    }
+
+    public Designation createDesignation(AccountJPA accountJPA) {
+        Designation designation = new Designation(accountJPA.getDesignation().toString());
+        return designation;
+    }
+
+    public AccountType createAccountType(AccountJPA accountJPA) {
+        AccountType accountType = new AccountType(accountJPA.getAccountType());
+        return accountType;
     }
 
 

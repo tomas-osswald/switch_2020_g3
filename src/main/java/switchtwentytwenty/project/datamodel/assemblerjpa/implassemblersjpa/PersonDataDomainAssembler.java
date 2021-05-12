@@ -5,7 +5,6 @@ import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IPersonD
 import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.person.IInputPersonDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,35 +90,6 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         return new FamilyID(personJPA.getFamilyid().toString());
     }
 
-    /**
-     * Assembler method to convert a PersonJPA data object into a Person domain object
-     *
-     * @param personJPA data object to be converted
-     * @return Person domain object corresponding the inputted personJPA.
-     */
-    @Deprecated
-    public Person toDomain(PersonJPA personJPA) {
-        PersonID personID = new PersonID(personJPA.getId().toString());
-        Name name = new Name(personJPA.getName());
-        BirthDate birthDate = new BirthDate(personJPA.getBirthdate());
-        VATNumber vatNumber = new VATNumber(personJPA.getVat());
-        FamilyID familyID = new FamilyID(personJPA.getFamilyid().toString());
-
-        AddressJPA addressJPA = personJPA.getAddress();
-        Address address = new Address(addressJPA.getStreet(), addressJPA.getCity(), addressJPA.getZipCode(), addressJPA.getDoorNumber());
-
-        Person person = new Person(personID, name, birthDate, vatNumber, familyID);
-
-        List<EmailAddress> emails = generateEmailAddressList(personJPA.getEmails());
-        List<PhoneNumber> phoneNumbers = generatePhoneNumberList(personJPA.getPhones());
-
-        person.setEmailList(emails);
-        person.setPhoneNumberList(phoneNumbers);
-
-        person.setAddress(address);
-
-        return person;
-    }
 
     private List<EmailAddressJPA> generateEmailAddressJPAList(List<EmailAddress> emailAddressList, PersonJPA personJPA) {
         List<EmailAddressJPA> emailAddressJPAList = new ArrayList<>();

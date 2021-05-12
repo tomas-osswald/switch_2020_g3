@@ -43,7 +43,7 @@ class PersonRESTControllerITDB {
 
     String emailToAdd = "tonynovomail@tvtel.com";
     String addedEmailID = "3L";
-    AddEmailDTO emailToAddDTO = new AddEmailDTO(adminID.toString(), emailToAdd);
+    AddEmailDTO emailToAddDTO = new AddEmailDTO(emailToAdd);
 
 
     @Test
@@ -52,12 +52,12 @@ class PersonRESTControllerITDB {
     void addEmailToFamilyMemberExpectingSuccess() {
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailToAdd);
 
-        Link expectedLink = linkTo(methodOn(PersonRESTController.class).getEmail(adminEmail, addedEmailID)).withSelfRel();
+        Link expectedLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(adminEmail)).withSelfRel();
         expectedOutputEmailDTO.add(expectedLink);
 
         ResponseEntity<Object> expected = new ResponseEntity<>(expectedOutputEmailDTO, HttpStatus.OK);
 
-        ResponseEntity<Object> result = personRESTController.addEmail(emailToAddDTO);
+        ResponseEntity<Object> result = personRESTController.addEmail(emailToAddDTO, adminID.toString());
 
         assertEquals(expected, result);
     }

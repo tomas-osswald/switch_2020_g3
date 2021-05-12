@@ -7,20 +7,19 @@ import switchtwentytwenty.project.dto.person.*;
 @Component
 public class PersonInputDTOAssembler {
 
-    public InputAddFamilyMemberDTO toInputAddFamilyMemberDTO(AddFamilyMemberDTO AddFamilyMemberDTO) {
+    public InputAddFamilyMemberDTO toInputAddFamilyMemberDTO(AddFamilyMemberDTO addFamilyMemberDTO) {
 
         InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO();
-
-        internalAddFamilyMemberDTO.setAdminID(AddFamilyMemberDTO.getAdminID());
-        internalAddFamilyMemberDTO.setEmailID(AddFamilyMemberDTO.getEmailID());
-        internalAddFamilyMemberDTO.setName(AddFamilyMemberDTO.getName());
-        internalAddFamilyMemberDTO.setBirtDate(AddFamilyMemberDTO.getBirthDate());
-        internalAddFamilyMemberDTO.setVatNumber(AddFamilyMemberDTO.getVatNumber());
-        internalAddFamilyMemberDTO.setPhone(AddFamilyMemberDTO.getPhone());
-        internalAddFamilyMemberDTO.setStreet(AddFamilyMemberDTO.getStreet());
-        internalAddFamilyMemberDTO.setCity(AddFamilyMemberDTO.getCity());
-        internalAddFamilyMemberDTO.setHouseNumber(AddFamilyMemberDTO.getHouseNumber());
-        internalAddFamilyMemberDTO.setZipCode(AddFamilyMemberDTO.getZipCode());
+        internalAddFamilyMemberDTO.setAdminID(addFamilyMemberDTO.getAdminID());
+        internalAddFamilyMemberDTO.setEmailID(addFamilyMemberDTO.getEmailID());
+        internalAddFamilyMemberDTO.setName(addFamilyMemberDTO.getName());
+        internalAddFamilyMemberDTO.setBirtDate(addFamilyMemberDTO.getBirthDate());
+        internalAddFamilyMemberDTO.setVatNumber(addFamilyMemberDTO.getVatNumber());
+        internalAddFamilyMemberDTO.setPhone(addFamilyMemberDTO.getPhone());
+        internalAddFamilyMemberDTO.setStreet(addFamilyMemberDTO.getStreet());
+        internalAddFamilyMemberDTO.setCity(addFamilyMemberDTO.getCity());
+        internalAddFamilyMemberDTO.setHouseNumber(addFamilyMemberDTO.getHouseNumber());
+        internalAddFamilyMemberDTO.setZipCode(addFamilyMemberDTO.getZipCode());
 
         return internalAddFamilyMemberDTO;
     }
@@ -36,11 +35,11 @@ public class PersonInputDTOAssembler {
      * @param addEmailDTO
      * @return InternalEmailDTO (Contains info required to add an Email to an already existing person)
      */
-    public InputEmailDTO toInputEmailDTO(AddEmailDTO addEmailDTO) {
+    public InputEmailDTO toInputEmailDTO(AddEmailDTO addEmailDTO, String personID) {
         InputEmailDTO inputEmailDTO = new InputEmailDTO();
 
         inputEmailDTO.setEmail(addEmailDTO.unpackEmail());
-        inputEmailDTO.setId(addEmailDTO.unpackUserID());
+        inputEmailDTO.setId(personID);
 
         return inputEmailDTO;
     }

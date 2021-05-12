@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
@@ -15,6 +16,8 @@ import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.FamiliesOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.FamilyOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -31,20 +34,29 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final PersonInputDTOAssembler personAssembler;
 
+    private final FamiliesOptionsService familiesOptionsService;
+
+    private final FamilyOptionsService familyOptionsService;
+
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, FamiliesOptionsService familiesOptionsService, FamilyOptionsService familyOptionsService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
+        this.familiesOptionsService = familiesOptionsService;
+        this.familyOptionsService = familyOptionsService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity<Object> familiesOptions() {
-        Link linkToAddFamily = linkTo(FamilyRESTController.class).withRel("POST - Add New Family");
+    public ResponseEntity<OptionsDTO> familiesOptions() {
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Allow", "POST, OPTIONS");
-        return new ResponseEntity<>(linkToAddFamily, responseHeaders, HttpStatus.OK);
+        OptionsDTO options = familiesOptionsService.getFamiliesOptions();
+
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "POST, OPTIONS");
+
+        return new ResponseEntity(options, header, HttpStatus.OK);
     }
 
     /**
@@ -65,9 +77,9 @@ public class FamilyRESTController implements IFamilyRESTController {
             outputFamilyDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
             status = HttpStatus.CREATED;
 
-            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyName(addFamilyAndSetAdminDTO.getFamilyName())).withSelfRel();
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamily(outputFamilyDTO.getFamilyID())).withSelfRel();
             outputFamilyDTO.add(selfLink);
-            return new ResponseEntity<OutputFamilyDTO>(outputFamilyDTO, status);
+            return new ResponseEntity(outputFamilyDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
@@ -76,34 +88,29 @@ public class FamilyRESTController implements IFamilyRESTController {
         }
     }
 
-/*    @RequestMapping(value = "/{familyID}", method = RequestMethod.OPTIONS)
-    public ResponseEntity<Object> getFamilyOptions(@PathVariable String familyID) {
+    @RequestMapping(value = "/{familyID}", method = RequestMethod.OPTIONS)
+    public ResponseEntity<OptionsDTO> getFamilyOptions(@PathVariable String familyID) {
 
-        // FamilyOptionsDTO e por ai em diante? que extende o RepresentationModel para colocarmos os varios links?
+        OptionsDTO options = familyOptionsService.getFamilyOptions(familyID);
 
-        Link optionOne = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO())).withRel("Add new Relation").withType("POST");
-        //Link selfLinkTwo = linkTo(methodOn(FamilyRESTController.class).changeRelation(relationInputDTO, familyID).withSelfRel();
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "OPTIONS");
 
-        //outputFamilyDTO.add(selfLink);
-
-        //List<Link> options = new ArrayList<>();
-
-        //options.add(optionOne);
-
-        return new ResponseEntity<>(optionOne, HttpStatus.OK);
-
-    }*/
-
-    @RequestMapping(value = "/{familyID}/relations", method = RequestMethod.PATCH)
-    public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO) {
-        throw new UnsupportedOperationException();
-
-       // return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(options, header, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{familyName}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getFamilyName(@PathVariable String familyName) {
+    @PostMapping("/{familyID}/relations")
+    public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO, @PathVariable String familyID) {
         throw new UnsupportedOperationException();
     }
 
+    @GetMapping("/{familyID}")
+    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
+        throw new UnsupportedOperationException();
+    }
+
+    @RequestMapping(value = "/{familyID}/categories", method = RequestMethod.OPTIONS)
+    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID){
+        throw new UnsupportedOperationException();
+    }
 }

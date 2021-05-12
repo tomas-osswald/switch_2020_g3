@@ -11,6 +11,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
 import java.util.Optional;
@@ -44,6 +45,15 @@ public class FamilyRepository implements IFamilyRepository {
         registeredFamilyJPA = familyRepositoryJPA.save(familyJPA);
         registeredFamily = createFamily(registeredFamilyJPA);
         return registeredFamily;
+    }
+
+    @Override
+    public void checkIfFamilyExists(FamilyID familyID) {
+        FamilyIDJPA familyIDJPA = familyAssembler.createFamilyIDJPA(familyID);
+
+        if (!familyRepositoryJPA.existsFamilyJPAById(familyIDJPA)){
+            throw new AccountNotRegisteredException();
+        }
     }
 
     /**
