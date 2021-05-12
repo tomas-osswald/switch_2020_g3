@@ -2,34 +2,50 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
-import switchtwentytwenty.project.domain.valueobject.AccountID;
-import switchtwentytwenty.project.domain.valueobject.AccountType;
-import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.valueobject.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
     @Override
-    public AccountJPA toData(IAccount IAccount) {
+    public AccountJPA toData(IAccount account) {
+        AccountJPA accountJPA;
+        AccountIDJPA accountIDJPA = new AccountIDJPA();
 
-        // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
+        OwnerIDJPA ownerId = new OwnerIDJPA(account.getOwnerId().toString());
 
-        //AccountIDJPA accountIDJPA = new AccountIDJPA(account.getId());
+        String designation = account.getDesignation().toString();
+        String accountType = account.getAccountType();
+        List<Movement> movements = account.getListOfMovements();
 
-        String ownerId = IAccount.getOwnerId().toString();
-        String designation = IAccount.getDesignation().toString();
-        String accountType = IAccount.getAccountType().toString();
+        accountJPA = new AccountJPA(accountIDJPA, ownerId, designation, accountType);
+
+        List<MovementJPA> movementJPAList = new ArrayList<>();
+
+        for (Movement movement: movements) {
+            String currency = movement.getMonetary().getCurrency().toString();
+            Long amount = movement.getMonetary().getAmount().longValue();
+            MovementJPA movementJPA = new MovementJPA(amount, currency, accountJPA);
+            movementJPAList.add(movementJPA);
+        }
+
+        accountJPA.setMovements(movementJPAList);
 
         // TODO: Verificar se é esta a ordem no construtor de AccountJPA
-        //AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerId, balance, designation, accountType);
 
-        return null; //accountJPA;
+        return accountJPA;
     }
 
-    @Override
+
     @Deprecated
     public IAccount toDomain(AccountJPA accountJPA) {
 
@@ -53,10 +69,11 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountID;
     }
 
-    public PersonID createPersonID(AccountJPA accountJPA) {
+    public PersonID createOwnerID(AccountJPA accountJPA) {
         PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
         return personID;
     }
+
 
     public Designation createDesignation(AccountJPA accountJPA) {
         Designation designation = new Designation(accountJPA.getDesignation().toString());
@@ -64,8 +81,23 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     public AccountType createAccountType(AccountJPA accountJPA) {
-        AccountType accountType = new AccountType();
+        AccountType accountType = new AccountType(accountJPA.getAccountType());
         return accountType;
+    }
+
+    public List<Movement> createMovements(AccountJPA accountJPA){
+        List<Movement> movements = new ArrayList<>();
+        List<MovementJPA> movementJPAList = accountJPA.getMovements();
+
+        for (MovementJPA movementJPA: movementJPAList) {
+            String currency = movementJPA.getCurrency();
+            BigDecimal amount = new BigDecimal(movementJPA.getAmount());
+            Monetary monetary = new Monetary(currency, amount);
+            Movement movement = new Movement(monetary);
+            movements.add(movement);
+        }
+
+        return movements;
     }
 
 

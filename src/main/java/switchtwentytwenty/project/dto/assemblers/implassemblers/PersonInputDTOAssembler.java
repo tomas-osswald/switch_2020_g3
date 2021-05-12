@@ -35,11 +35,11 @@ public class PersonInputDTOAssembler {
      * @param addEmailDTO
      * @return InternalEmailDTO (Contains info required to add an Email to an already existing person)
      */
-    public InputEmailDTO toInputEmailDTO(AddEmailDTO addEmailDTO) {
+    public InputEmailDTO toInputEmailDTO(AddEmailDTO addEmailDTO, String personID) {
         InputEmailDTO inputEmailDTO = new InputEmailDTO();
 
         inputEmailDTO.setEmail(addEmailDTO.unpackEmail());
-        inputEmailDTO.setId(addEmailDTO.unpackUserID());
+        inputEmailDTO.setId(personID);
 
         return inputEmailDTO;
     }

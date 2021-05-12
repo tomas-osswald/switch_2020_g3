@@ -49,7 +49,7 @@ class AddEmailServiceTest {
 
     PersonID IDTonyZe = new PersonID("tonyZe@gmail.com");
     EmailAddress tonyEmail = new EmailAddress("tonyZe@gmail.com");
-    AddEmailDTO emailDTO = new AddEmailDTO(IDTonyZe.toString(), tonyEmail.toString());
+    AddEmailDTO emailDTO = new AddEmailDTO(tonyEmail.toString());
 
     //AddEmailDTO tonyDTO = new AddEmailDTO("tonyZe@gmail.com","tonyZe@gmail.com");
     //AddEmailDTO tonyInvalidPersonID = new AddEmailDTO("tony.com", "tonyZe@gmail.com");

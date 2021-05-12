@@ -1,10 +1,8 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,9 +17,8 @@ public class AccountJPA {
     @Id
     @Getter
     private AccountIDJPA id;
-
     @Getter
-    private PersonIDJPA ownerID;
+    private OwnerIDJPA ownerID;
     @Getter
     private String designation;
     @Getter
@@ -38,7 +35,7 @@ public class AccountJPA {
      * @param designation String - name of the account
      * @param accountType String - Type of account
      */
-    public AccountJPA (AccountIDJPA id, PersonIDJPA ownerID, String designation, String accountType) {
+    public AccountJPA (AccountIDJPA id, OwnerIDJPA ownerID, String designation, String accountType) {
         this.id = id;
         this.ownerID = ownerID;
         this.designation = designation;
@@ -58,5 +55,6 @@ public class AccountJPA {
 
         return Objects.hash(id);
     }
+
 }
 

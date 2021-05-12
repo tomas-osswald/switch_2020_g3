@@ -36,7 +36,7 @@ class CreateAccountServiceTest {
     IAccountRepositoryJPA accountRepositoryJPA;
 
     @Mock
-    AccountInputDTOAssembler accountInputDTOAssembler;
+    AccountDTODomainAssembler accountDTODomainAssembler;
 
     @Mock
     AccountFactory accountFactory;
