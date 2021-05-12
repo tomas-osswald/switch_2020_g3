@@ -6,5 +6,5 @@ import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 public interface IAccountDataDomainAssembler extends AssemblerDataDomain<AccountJPA, IAccount>{
 
 
-
+    IAccount toDomain(AccountJPA accountJPA);
 }

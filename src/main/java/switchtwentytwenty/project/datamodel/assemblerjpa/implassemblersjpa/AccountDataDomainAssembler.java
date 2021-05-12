@@ -29,7 +29,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return null; //accountJPA;
     }
 
-    @Override
+    
     @Deprecated
     public IAccount toDomain(AccountJPA accountJPA) {
 
