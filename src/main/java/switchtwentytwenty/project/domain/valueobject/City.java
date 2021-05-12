@@ -7,7 +7,7 @@ import java.util.Objects;
 public class City implements ValueObject {
 
 
-    final String INVALIDCITY = "Invalid City Name";
+    static final String INVALIDCITY = "Invalid City Name";
     private final String city;
 
     public City(String city) {

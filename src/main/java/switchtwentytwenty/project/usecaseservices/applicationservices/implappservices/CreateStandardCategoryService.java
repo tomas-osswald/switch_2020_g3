@@ -26,6 +26,7 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
 
     @Override
     public OutputCategoryDTO createStandardCategory(InputCategoryDTO inputCategoryDTO) {
+        throw new UnsupportedOperationException();
 
         return null;
     }
