@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,8 +19,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IAccountReposito
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -54,6 +54,14 @@ class CreateAccountServiceTest {
     IAccount personalCashAccount = new CashAccount(accountID, ownerID, designation, null);
 
     @Test
+    void NoArgsConstructor() {
+
+            CreateAccountService createAccountService = new CreateAccountService();
+            assertNotNull(createAccountService);
+
+        }
+
+    @Test
     void createAccountSuccessTest() {
 
         IAccount account = new CashAccount(accountID, ownerID, designation, null);
@@ -75,16 +83,6 @@ class CreateAccountServiceTest {
         assertNotSame(expected, result);
 
     }
-
-    /*@Test
-    void createCashAccountFamilyFailWhenFamilyAlreadyHasOneCashAccount() {
-
-        IAccount account = new CashAccount(accountID, ownerID, designation, null);
-        Mockito.when(accountInputDTOAssembler.toInputDTO(any(CreateAccountDTO.class))).thenReturn(inputAccountDTO);
-        Mockito.doThrow(AccountAlreadyRegisteredException.class).when(accountRepository.add(account));
-
-        assertThrows(AccountAlreadyRegisteredException.class, () -> createAccountService.createAccount(inputAccountDTO));
-    }*/
 
     @Test
     void getDesignationFromInputAccountDTOSuccess() {
@@ -214,31 +212,5 @@ class CreateAccountServiceTest {
         assertEquals(expected, result);
 
     }
-
-   /* @Test
-    void addFamilyCashAccountToRepositorySuccessCase() {
-
-        Mockito.when(accountRepository.add(account)).thenReturn(savedAccount);
-
-        IAccount expected = new CashAccount(accountID, ownerID, designation, null);
-
-        IAccount result = accountRepository.add(personalCashAccount);
-
-        assertEquals(expected, result);
-
-    }*/
-
-    /*@Test
-    void geOwnerIDPersonFromInputAccountDTOSuccessWhenFamilyIDIsPassedFail() {
-
-        Mockito.when(accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO)).thenReturn(ownerID);
-
-        OwnerID expected = new FamilyID("admin@latinlover.com");
-        OwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
-
-        assertEquals(expected, result);
-
-    }*/
-
 
 }
