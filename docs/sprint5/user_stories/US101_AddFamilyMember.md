@@ -679,29 +679,33 @@ email is already registered in the application.
         }
    ```
 
-3. Before creating the Person, the email is validated in the Person Repository
+2. Before adding the Person, the email is validated in the PersonRepository
    in order to guarantee that it is Unique
 
 ```java
-      private boolean isEmailAlreadyRegistered(EmailAddress email){
-        boolean emailIsRegistered=false;
-        for(Person person:people){
-        if(person.isSameEmail(email)){
-        emailIsRegistered=true;
+     public Person add(Person person) {
+        PersonJPA registeredPersonJPA;
+        Person savedPerson;
+        if (!isPersonIDAlreadyRegistered(person.id())) {
+        PersonJPA personJPA = personAssembler.toData(person);
+        registeredPersonJPA = personRepositoryJPA.save(personJPA);
+        savedPerson = createPerson(registeredPersonJPA);
+        } else {
+        throw new PersonAlreadyRegisteredException("Person is already registered in the database");
         }
-        }
-        return emailIsRegistered;
+        return savedPerson;
         }
    ```
 
 ```java
-public synchronized void createAndAddPerson(Name name,BirthDate birthDate,EmailAddress email,VATNumber vat,PhoneNumber phone,Address address,FamilyID familyID){
-        if(!isEmailAlreadyRegistered(email)){
-        Person person=new Person(name,birthDate,email,vat,phone,address,familyID);
-        this.people.add(person);
-        }else{
-        throw new EmailAlreadyRegisteredException();
+@Override
+public boolean isPersonIDAlreadyRegistered(PersonID personID) {
+        boolean emailIsRegistered = false;
+        Optional<PersonJPA> optional = personRepositoryJPA.findById(new PersonIDJPA(personID.toString()));
+        if (optional.isPresent()) {
+        emailIsRegistered = true;
         }
+        return emailIsRegistered;
         }
 ```
 
@@ -710,9 +714,7 @@ public synchronized void createAndAddPerson(Name name,BirthDate birthDate,EmailA
 This functionality uses the same method to add the Person to the
 PersonRepository as the US010.
 
-In US010 we decided to separate the Person and Family DTO's in order to reuse
-the Person DTO in this US, avoiding code duplication.
 
 # 6. Observations
 
-The Person's unique ID is not a part of the email adress list.
+The Person's unique ID is not a part of the email address list. That email list will always be empty upon the Person's creation.
