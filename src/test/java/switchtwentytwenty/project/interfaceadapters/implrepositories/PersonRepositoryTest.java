@@ -13,10 +13,12 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,12 +87,60 @@ class PersonRepositoryTest {
     }
 
     @Test
+    void addPersonSuccess() {
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(tonyZePhone);
+        PersonJPA personJPA = new PersonJPA();
+
+        when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(personJPA);
+        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(personJPA);
+        when(personDataDomainAssembler.createPersonID(any(PersonJPA.class))).thenReturn(tonyZeEmail);
+        when(personDataDomainAssembler.createName(any(PersonJPA.class))).thenReturn(tonyZeName);
+        when(personDataDomainAssembler.createBirthDate(any(PersonJPA.class))).thenReturn(tonyZeBirthDate);
+        when(personDataDomainAssembler.createEmailAdressList(any(PersonJPA.class))).thenReturn(Collections.emptyList());
+        when(personDataDomainAssembler.createVATNumber(any(PersonJPA.class))).thenReturn(tonyZeVat);
+        when(personDataDomainAssembler.createPhoneNumberList(any(PersonJPA.class))).thenReturn(phoneNumbers);
+        when(personDataDomainAssembler.createAddress(any(PersonJPA.class))).thenReturn(tonyZeAddress);
+        when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(familyID);
+
+        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person result = personRepository.add(person);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
     void addPersonDoesThrow() {
         PersonJPA personJPA = new PersonJPA();
 
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(new PersonJPA()));
 
         assertThrows(IllegalStateException.class, () -> personRepository.add(person));
+    }
+
+    @Test
+    void updatePersonSuccess() {
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(tonyZePhone);
+        PersonJPA personJPA = new PersonJPA();
+
+        when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(personJPA);
+        when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(personJPA);
+        when(personDataDomainAssembler.createPersonID(any(PersonJPA.class))).thenReturn(tonyZeEmail);
+        when(personDataDomainAssembler.createName(any(PersonJPA.class))).thenReturn(tonyZeName);
+        when(personDataDomainAssembler.createBirthDate(any(PersonJPA.class))).thenReturn(tonyZeBirthDate);
+        when(personDataDomainAssembler.createEmailAdressList(any(PersonJPA.class))).thenReturn(Collections.emptyList());
+        when(personDataDomainAssembler.createVATNumber(any(PersonJPA.class))).thenReturn(tonyZeVat);
+        when(personDataDomainAssembler.createPhoneNumberList(any(PersonJPA.class))).thenReturn(phoneNumbers);
+        when(personDataDomainAssembler.createAddress(any(PersonJPA.class))).thenReturn(tonyZeAddress);
+        when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(familyID);
+
+        Person expected = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Person result = personRepository.updatePerson(person);
+
+        assertEquals(expected, result);
     }
 
 }

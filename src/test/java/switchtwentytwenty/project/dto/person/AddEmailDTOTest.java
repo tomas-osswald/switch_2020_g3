@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddEmailDTOTest {
 
+    String email = "123@gmail.com";
+
     @DisplayName("Verify unpack returns expected String")
     @Test
     void unpackEmail() {
@@ -32,7 +34,6 @@ class AddEmailDTOTest {
         assertNotEquals(notExpected, result);
         assertNotSame(notExpected, result);
     }
-
 
     @Test
     @DisplayName("Should return true, testing the Equals method")
@@ -101,7 +102,7 @@ class AddEmailDTOTest {
     @Test
     @DisplayName("Should return false, if two not Equal DTOs have a different hashcode")
     void testHashCodeFalse() {
-        AddEmailDTO addEmailDTO1 = new AddEmailDTO( "tonyzealt@gmail.com");
+        AddEmailDTO addEmailDTO1 = new AddEmailDTO("tonyzealt@gmail.com");
         AddEmailDTO addEmailDTO2 = new AddEmailDTO("tonyzealt@gamail.com");
 
         assertNotSame(addEmailDTO1, addEmailDTO2);
@@ -118,5 +119,16 @@ class AddEmailDTOTest {
         String result = resultDTO.unpackEmail();
 
         assertEquals(newEmail, result);
+    }
+
+    @DisplayName("Verify Get method")
+    @Test
+    void createAddEmailDTOTest() {
+        AddEmailDTO addEmailDTO = new AddEmailDTO(email);
+        String expected = email;
+
+        String result = addEmailDTO.getEmail();
+
+        assertEquals(expected, result);
     }
 }
