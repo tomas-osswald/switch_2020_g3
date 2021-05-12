@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.FamilyName;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -82,7 +84,7 @@ class FamilyRepositoryTest {
 
     @Test
     void captorFindByID() {
-        FamilyIDJPA expected = new FamilyIDJPA("@"+emailString);
+        FamilyIDJPA expected = new FamilyIDJPA("@" + emailString);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
 
@@ -96,10 +98,39 @@ class FamilyRepositoryTest {
     }
 
     @Test
-    void getByIDTestThrowsExceptionWhenIDJPANotPresent(){
+    void getByIDTestThrowsExceptionWhenIDJPANotPresent() {
         FamilyID otherFamilyID = new FamilyID("otherFamily@gmail.com");
 
-        assertThrows(IllegalArgumentException.class,()->familyRepository.getByID(otherFamilyID));
+        assertThrows(IllegalArgumentException.class, () -> familyRepository.getByID(otherFamilyID));
     }
 
+    @DisplayName("Check if Family Exists - Do Not Throw - Family Exists")
+    @Test
+    void checkIfFamilyExistsDoNotThrow() {
+        String stringFamilyID = "@family@id.com";
+
+        FamilyID familyID = new FamilyID(stringFamilyID);
+
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(stringFamilyID);
+
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
+        when(iFamilyRepositoryJPA.existsFamilyJPAById(any(FamilyIDJPA.class))).thenReturn(true);
+
+        assertDoesNotThrow(() -> familyRepository.checkIfFamilyExists(familyID));
+    }
+
+    @DisplayName("Check if Family Exists - Throws - Family Does Not Exists")
+    @Test
+    void checkIfFamilyExistsThrows() {
+        String stringFamilyID = "@family@id.com";
+
+        FamilyID familyID = new FamilyID(stringFamilyID);
+
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(stringFamilyID);
+
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
+        when(iFamilyRepositoryJPA.existsFamilyJPAById(any(FamilyIDJPA.class))).thenReturn(false);
+
+        assertThrows(AccountNotRegisteredException.class, () -> familyRepository.checkIfFamilyExists(familyID));
+    }
 }

@@ -27,7 +27,7 @@ class EmailAddressJPATest {
     void getEmail() {
         String expected = "email@email.com";
 
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
 
         String result = emailAddressJPA.getEmail();
 
@@ -39,7 +39,7 @@ class EmailAddressJPATest {
     void getId() {
         Long expected = Long.valueOf(1);
 
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
         emailAddressJPA.setId(1L);
 
         Long result = emailAddressJPA.getId();
@@ -60,8 +60,8 @@ class EmailAddressJPATest {
 
         PersonJPA expected = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
-        PersonJPA result = emailAddressJPA.getPerson();
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
+        PersonJPA result = emailAddressJPA.getPersonID();
 
         assertEquals(expected, result);
     }
@@ -69,7 +69,7 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void equalsTestSameEmailAddressJPA() {
-        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(null,email, personJPA);
         EmailAddressJPA emailAddressJPATwo = emailAddressJPAOne;
 
         assertEquals(emailAddressJPAOne, emailAddressJPATwo);
@@ -78,8 +78,8 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void equalsTestEqualEmailAddressJPAs() {
-        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(email, personJPA);
-        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(null,email, personJPA);
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(null,email, personJPA);
 
         assertEquals(emailAddressJPAOne, emailAddressJPATwo);
     }
@@ -87,9 +87,9 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void equalsTestDifferentEmailAddressJPAs() {
-        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPAOne = new EmailAddressJPA(null,email, personJPA);
         String otherEmail = "test@hotmail.com";
-        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(otherEmail, personJPA);
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(null,otherEmail, personJPA);
 
         assertNotEquals(emailAddressJPAOne, emailAddressJPATwo);
     }
@@ -97,7 +97,7 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void equalsTestDifferentObjects() {
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
         String notEmailAddressJPA = "test@hotmail.com";
 
         assertNotEquals(emailAddressJPA, notEmailAddressJPA);
@@ -106,7 +106,7 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void equalsTestDifferentFromNull() {
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
         String nullString = null;
 
         assertNotEquals(emailAddressJPA, nullString);
@@ -115,9 +115,9 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void hashCodeEqualObjects() {
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
 
-        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(null,email, personJPA);
 
         assertEquals(emailAddressJPA.hashCode(), emailAddressJPATwo.hashCode());
         assertNotSame(emailAddressJPA, emailAddressJPATwo);
@@ -126,9 +126,9 @@ class EmailAddressJPATest {
     @Test
     @Tag("US010")
     void hashCodeDifferentObjects() {
-        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(email, personJPA);
+        EmailAddressJPA emailAddressJPA = new EmailAddressJPA(null,email, personJPA);
 
-        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA("email", personJPA);
+        EmailAddressJPA emailAddressJPATwo = new EmailAddressJPA(null,"email", personJPA);
 
         assertNotEquals(emailAddressJPA.hashCode(), emailAddressJPATwo.hashCode());
     }

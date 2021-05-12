@@ -1,13 +1,15 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
-
+@AllArgsConstructor
 public class EmailAddress implements ValueObject {
-
-
+    @Getter
+    private long id;
     private String email;
 
     public EmailAddress(String email) {

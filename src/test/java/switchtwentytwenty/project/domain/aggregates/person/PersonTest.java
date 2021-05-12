@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
@@ -233,6 +236,26 @@ class PersonTest {
         Person person = new Person(tonyZeEmail,tonyZeName,tonyZeBirthDate,null,tonyZeVat,null,tonyZeAddress,familyID);
 
         assertNotNull(person);
+    }
+
+    @Test
+    void setAddressTest(){
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        Address otherAddress = new Address("otherStreet","otherCity","1111-111","12RC");
+        personOne.setAddress(otherAddress);
+
+        Address result = personOne.getAddress();
+
+        assertEquals(otherAddress,result);
+    }
+
+    @Test
+    void personConstructorTest(){
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person result = new Person(tonyZeEmail, tonyZeName, tonyZeBirthDate, tonyZeVat, familyID);
+
+        assertNotNull(result);
     }
 
 }
