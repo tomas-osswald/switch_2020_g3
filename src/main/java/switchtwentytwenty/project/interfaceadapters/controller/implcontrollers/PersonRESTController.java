@@ -92,7 +92,7 @@ public class PersonRESTController implements IPersonRESTController {
 
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
-            return new ResponseEntity<OutputPersonDTO>(outputPersonDTO, status);
+            return new ResponseEntity<>(outputPersonDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             return new ResponseEntity(status);
