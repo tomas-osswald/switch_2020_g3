@@ -80,7 +80,7 @@ class PersonRESTControllerITDB {
         expectedOutputPersonDTO.setFamilyID("@tonyze@latinlover.com");
         expectedOutputPersonDTO.setPhoneNumbers(phones);
         expectedOutputPersonDTO.setEmails(emails);
-        Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(expectedOutputPersonDTO.getId())).withRel("Person Options");
+        Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).personOptions(expectedOutputPersonDTO.getId())).withRel("Person Options");
         expectedOutputPersonDTO.add(personOptionsLink);
         ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.CREATED);
 
@@ -197,7 +197,7 @@ class PersonRESTControllerITDB {
         expectedOutputPersonDTO.setFamilyID("@tonyze@latinlover.com");
         expectedOutputPersonDTO.setPhoneNumbers(phones);
         expectedOutputPersonDTO.setEmails(emails);
-        Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(expectedOutputPersonDTO.getId())).withRel("PersonvgfdshabjnkmOptions");
+        Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).personOptions(expectedOutputPersonDTO.getId())).withRel("PersonvgfdshabjnkmOptions");
         expectedOutputPersonDTO.add(personOptionsLink);
         ResponseEntity expected = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.CREATED);
 

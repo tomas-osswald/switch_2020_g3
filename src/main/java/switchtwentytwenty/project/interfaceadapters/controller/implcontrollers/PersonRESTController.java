@@ -2,21 +2,22 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
-
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
-
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPersonOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -36,13 +37,16 @@ public class PersonRESTController implements IPersonRESTController {
 
     private PersonInputDTOAssembler profileInternalExternalAssembler;
 
+    private IPersonOptionsService personOptionsService;
+
     @Autowired
-    public PersonRESTController(PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
+    public PersonRESTController(PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
         this.personInputDTOAssembler = personInputDTOAssembler;
         this.profileInternalExternalAssembler = profileInternalExternalAssembler;
         this.addEmailService = addEmailService;
+        this.personOptionsService = personOptionsService;
     }
 
     @Override
@@ -77,8 +81,7 @@ public class PersonRESTController implements IPersonRESTController {
         try {
             outputPersonDTO = addFamilyMemberService.addPerson(internalAddFamilyMemberDTO);
             status = HttpStatus.CREATED;
-
-            Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).getPersonOptions(outputPersonDTO.getId())).withRel("Person Options");
+            Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).personOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
             return new ResponseEntity<>(outputPersonDTO, status);
         } catch (Exception e) {
@@ -89,11 +92,13 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @RequestMapping(value = "/{personID}", method = RequestMethod.OPTIONS)
-    public ResponseEntity<OptionsDTO> getPersonOptions(@PathVariable String personID) {
-        OptionsDTO optionsDTO = new OptionsDTO();
-        Link getProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withRel("Get Profile Info").withType("GET");
-        optionsDTO.add(getProfileInfo);
-        return new ResponseEntity<>(optionsDTO, HttpStatus.OK);
+    public ResponseEntity<OptionsDTO> personOptions(@PathVariable String personID) {
+        OptionsDTO optionsDTO = personOptionsService.getPersonOptions(personID);
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "OPTIONS");
+
+        return new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
     }
 
 
@@ -105,7 +110,7 @@ public class PersonRESTController implements IPersonRESTController {
 
             OutputPersonDTO outputPersonDTO = getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO);
 
-            Link link = linkTo(methodOn(PersonRESTController.class).getPersonOptions(personID)).withSelfRel();
+            Link link = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
 
             outputPersonDTO.add(link);
 
@@ -117,10 +122,6 @@ public class PersonRESTController implements IPersonRESTController {
 
         }
 
-    }
-
-    public ResponseEntity<Object> getPersonID(GetProfileInfoDTO getProfileInfoDTO) {
-        return null;
     }
 
 }

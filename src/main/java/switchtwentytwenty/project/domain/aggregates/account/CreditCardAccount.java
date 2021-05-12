@@ -46,10 +46,14 @@ public class CreditCardAccount extends AbNonCashAccount {
         return null;
     }
 
-
     @Override
     public String getAccountType() {
         return null;
+    }
+
+    @Override
+    public List<Movement> getListOfMovements() {
+        return this.movements;
     }
 
     @Override
