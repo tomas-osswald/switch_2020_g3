@@ -1,18 +1,21 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
 @Component
 @AllArgsConstructor
+@NoArgsConstructor
 public class BankSavingsAccount extends AbNonCashAccount {
 
     private AccountID accountID;
@@ -21,35 +24,36 @@ public class BankSavingsAccount extends AbNonCashAccount {
 
     private Designation designation;
 
-    private List<Movement> movements;
+    private List<Movement> movements = new ArrayList<>();
 
-    protected BankSavingsAccount() {
-
+    protected BankSavingsAccount(OwnerID ownerID, Designation designation) {
+        this.ownerID = ownerID;
+        this.designation = designation;
     }
 
     @Override
     public AccountID id() {
-        return null;
+        return this.accountID;
     }
 
     @Override
     public boolean hasID(AccountID id) {
-        return false;
+        return this.accountID == id;
     }
 
     @Override
     public OwnerID getOwnerId() {
-        return null;
+        return this.ownerID;
     }
 
     @Override
     public Designation getDesignation() {
-        return null;
+        return this.designation;
     }
 
     @Override
     public String getAccountType() {
-        return null;
+        return "Bank Savings Account";
     }
 
     @Override
@@ -81,17 +85,16 @@ public class BankSavingsAccount extends AbNonCashAccount {
     public void addMovement(Movement movement) {
         this.movements.add(movement);
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BankSavingsAccount)) return false;
         BankSavingsAccount that = (BankSavingsAccount) o;
-        return Objects.equals(accountID, that.accountID) && Objects.equals(ownerID, that.ownerID) && Objects.equals(getDesignation(), that.getDesignation()) && Objects.equals(movements, that.movements);
+        return Objects.equals(accountID, that.accountID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountID, ownerID, getDesignation(), movements);
+        return Objects.hash(accountID);
     }
 }
