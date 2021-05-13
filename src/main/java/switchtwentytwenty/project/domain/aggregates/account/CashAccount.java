@@ -88,6 +88,11 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
+    public AccountID getAccountId() {
+        return this.accountID;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CashAccount)) return false;

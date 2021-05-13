@@ -46,4 +46,9 @@ public class AccountID implements ID<Long> {
     public int hashCode() {
         return Objects.hash(accountID);
     }
+
+    @Override
+    public String toString(){
+        return this.accountID.toString();
+    }
 }

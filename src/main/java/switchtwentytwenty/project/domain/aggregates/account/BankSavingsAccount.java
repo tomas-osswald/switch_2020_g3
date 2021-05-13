@@ -86,6 +86,11 @@ public class BankSavingsAccount extends AbNonCashAccount {
     public void addMovement(Movement movement) {
         this.movements.add(movement);
     }
+
+    @Override
+    public AccountID getAccountId() {
+        return this.accountID;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
