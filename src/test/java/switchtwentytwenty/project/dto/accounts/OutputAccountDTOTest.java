@@ -86,7 +86,7 @@ class OutputAccountDTOTest {
     @Test
     void equalsIsDifferentObjectTest() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
-        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO();
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("not original accountID", "not original ownerID", "not original designation");
 
         assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
     }
@@ -94,7 +94,21 @@ class OutputAccountDTOTest {
     @Test
     void equalsAccountIDIsDifferentAccountID() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
-        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("barbaric", PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("not original accountID", PERSONOWNERID, DESIGNATION);
+
+        assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
+    }
+    @Test
+    void equalsAccountIDIsDifferentOwnerID() {
+        OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO(ACCOUNTID, "not original email", DESIGNATION);
+
+        assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
+    }
+    @Test
+    void equalsAccountIDIsDifferentDesignation() {
+        OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, "not original designation");
 
         assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
     }
@@ -118,11 +132,12 @@ class OutputAccountDTOTest {
         assertNotEquals(outputAccountDTOOne, notOutputAccountDTO);
     }
     @Test
-    void equalsIsDifferentTest() {
+    void equalsIsSameObjectTest() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
         OutputAccountDTO outputAccountDTOTwo = outputAccountDTOOne;
 
-        assertSame(outputAccountDTOOne, outputAccountDTOTwo);
+
+        assertSame(outputAccountDTOOne, outputAccountDTOOne);
     }
     @Test
     void hashCodeIsEqualTest() {
