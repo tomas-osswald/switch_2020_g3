@@ -137,8 +137,7 @@ class OutputAccountDTOTest {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
         OutputAccountDTO outputAccountDTOTwo = outputAccountDTOOne;
 
-
-        assertSame(outputAccountDTOOne, outputAccountDTOOne);
+        assertEquals(outputAccountDTOOne, outputAccountDTOOne);
     }
     @Test
     void hashCodeIsEqualTest() {
