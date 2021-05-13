@@ -3,8 +3,6 @@ package switchtwentytwenty.project.domain.valueobject;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyIDTest {
@@ -90,7 +88,7 @@ class FamilyIDTest {
         FamilyID familyID = new FamilyID();
         String expected = "admin@gmail.com";
 
-        familyID.setFamilyID("admin@gmail.com");
+        familyID.setId("admin@gmail.com");
         String result = familyID.toString();
 
         assertNotNull(familyID);
@@ -102,7 +100,7 @@ class FamilyIDTest {
         FamilyID familyID = new FamilyID("admin@gmail.com");
         String expected = "@admin@gmail.com";
 
-        String result = familyID.getFamilyID();
+        String result = familyID.getId();
 
         assertEquals(expected,result);
     }
@@ -112,7 +110,7 @@ class FamilyIDTest {
         FamilyID familyID = new FamilyID("@admin@gmail.com");
         String expected = "@admin@gmail.com";
 
-        String result = familyID.getFamilyID();
+        String result = familyID.getId();
 
         assertEquals(expected,result);
     }

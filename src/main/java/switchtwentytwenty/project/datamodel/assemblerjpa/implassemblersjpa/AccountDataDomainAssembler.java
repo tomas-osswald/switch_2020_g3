@@ -27,10 +27,10 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
         AccountJPA accountJPA;
 
-        if (account.getAccountId() == null) {
+        if (account.id() == null) {
             accountJPA = new AccountJPA(ownerId, designation, accountType);
         } else {
-            accountJPA = new AccountJPA(account.getAccountId().getAccountID(), ownerId, designation, accountType);
+            accountJPA = new AccountJPA(account.id().getId(), ownerId, designation, accountType);
         }
         List<MovementJPA> movementJPAList = new ArrayList<>();
 
@@ -44,43 +44,28 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountJPA;
     }
 
-    @Deprecated
-    public IAccount toDomain(AccountJPA accountJPA) {
-
-        // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
-        //coisas comentadas é porque ainda não estão implementadas em domínio
-
-
-        AccountID accountID = new AccountID(accountJPA.getId());
-        PersonID ownerID = new PersonID(accountJPA.getOwnerID().toString());
-        //Designation designation = new Designation(accountJPA.getDesignation());
-        //AccountType accountType = new AccountType(accountJPA.getAccountType());
-
-        //Account account = new Account(accountID, ownerID, balance, designation, accountType);
-
-        //return account;
-        return null;
-    }
-
     public AccountID createAccountID(AccountJPA accountJPA) {
-        AccountID accountID = new AccountID(accountJPA.getId());
-        return accountID;
+        return new AccountID(accountJPA.getId());
     }
 
-    //TODO Fazer este metodo para o FamilyID e acrescentar no AccountRepository
-    public PersonID createOwnerID(AccountJPA accountJPA) {
-        PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
-        return personID;
+    public IOwnerID createOwnerID(AccountJPA accountJPA){
+        char validation = accountJPA.getOwnerID().toString().charAt(0);
+        String validationID = Character.toString(validation);
+        IOwnerID ownerID;
+        if(validationID.equals("@")){
+            ownerID = new FamilyID(accountJPA.getOwnerID().toString());
+        } else {
+            ownerID = new PersonID(accountJPA.getOwnerID().toString());
+        }
+        return ownerID;
     }
 
     public Designation createDesignation(AccountJPA accountJPA) {
-        Designation designation = new Designation(accountJPA.getDesignation().toString());
-        return designation;
+        return new Designation(accountJPA.getDesignation().toString());
     }
 
     public AccountType createAccountType(AccountJPA accountJPA) {
-        AccountType accountType = new AccountType(accountJPA.getAccountType());
-        return accountType;
+        return new AccountType(accountJPA.getAccountType());
     }
 
     public List<Movement> createMovements(AccountJPA accountJPA) {

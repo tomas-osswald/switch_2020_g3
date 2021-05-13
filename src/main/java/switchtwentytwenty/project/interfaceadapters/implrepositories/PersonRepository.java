@@ -27,7 +27,7 @@ public class PersonRepository implements IPersonRepository {
 
 
     @Autowired
-    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) throws ReflectiveOperationException {
         this.personRepositoryJPA = iPersonRepositoryJPA;
         this.personAssembler = personDataDomainAssembler;
 

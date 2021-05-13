@@ -14,7 +14,7 @@ public class AccountFactory {
     @Autowired
     private Environment environment;
 
-    public IAccount createAccount(Designation designation, Monetary monetary, OwnerID ownerID, String accountType) {
+    public IAccount createAccount(Designation designation, Monetary monetary, IOwnerID ownerID, String accountType) {
         IAccount newIAccount;
         Movement movement = new Movement(monetary);
 
@@ -26,8 +26,6 @@ public class AccountFactory {
         try {
             newIAccount = (IAccount) Class.forName(classpath).newInstance();
 
-
-            //TODO: Já li os comentários! Alterei os construtores para manuais e protected para garantir que só o próprio package pode instanciar Accounts. Neste caso a Factory.
 
             // BATISTA !!!
             // Como já não ha build e não sabemos qual instancia de Account a "newAccount" se vai tornar,
@@ -44,10 +42,13 @@ public class AccountFactory {
         return newIAccount;
     }
 
-    public IAccount createAccount(AccountID accountID, List<Movement> movements, OwnerID ownerID, Designation designation, String accountType) {
+    public IAccount createAccount(AccountID accountID, List<Movement> movements, IOwnerID ownerID, Designation designation, String accountType) {
         IAccount account;
 
         String classpath = environment.getProperty(accountType.toLowerCase());
+
+        if (classpath == null)
+            throw new IllegalArgumentException("Unsupported Account type");
 
         try {
             account = (IAccount) Class.forName(classpath).newInstance();

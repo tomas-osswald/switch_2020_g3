@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,21 +20,15 @@ public class BankAccount extends AbNonCashAccount {
 
     private AccountID accountID;
 
-    private OwnerID ownerID;
+    private IOwnerID ownerID;
 
     private Designation designation;
 
     private List<Movement> movements = new ArrayList<>();
 
-    //TODO: Mudar nos construtores das diferentes accounts para o Environment não ser null nos testes.
-    public BankAccount(OwnerID ownerID, Designation designation) {
+   public BankAccount(IOwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
-    }
-
-    @Override
-    public AccountID id() {
-        return this.accountID;
     }
 
     @Override
@@ -43,13 +37,13 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public OwnerID getOwnerId() {
-        return this.ownerID;
+    public AccountID id() {
+        return this.accountID;
     }
 
     @Override
-    public Designation getDesignation() {
-        return this.designation;
+    public IOwnerID getOwnerId() {
+        return this.ownerID;
     }
 
     @Override
@@ -63,17 +57,8 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public List<Movement> getListOfMovements() {
-        List<Movement> copyMovements = new ArrayList<>();
-        if (!this.movements.isEmpty()) {
-            copyMovements.addAll(this.movements);
-        }
-        return copyMovements;
-    }
-
-    @Override
-    public AccountID getAccountId() {
-        return this.accountID;
+    public Designation getDesignation() {
+        return this.designation;
     }
 
     @Override
@@ -82,8 +67,16 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public void setOwner(OwnerID ownerID) {
+    public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
+    }
+    @Override
+    public List<Movement> getListOfMovements() {
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override

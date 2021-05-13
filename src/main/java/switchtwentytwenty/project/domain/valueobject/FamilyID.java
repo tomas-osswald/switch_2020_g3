@@ -8,10 +8,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @NoArgsConstructor
-public class FamilyID implements OwnerID<String>, Serializable {
+public class FamilyID implements IOwnerID<String>, Serializable {
     @Getter
     @Setter
-    private String familyID;
+    private String id;
     /**
      * Arranjar forma mais elegante de distinguir o FamilyID do PersonID. Usar um boolean, por exemplo.
      */
@@ -19,14 +19,14 @@ public class FamilyID implements OwnerID<String>, Serializable {
     /**
      * FamilyID value object. It is the same as the Family Admin ID but with an "@" automatically added to the start ( char at index 0) of the String.
      * Constructor calls a valdiation method to ensure that only one @ is added to the String
-     * @param familyID
+     * @param id
      */
-    public FamilyID(String familyID) {
-        validateID(familyID);
-        if (isAtPresent(familyID)) {
-            this.familyID = familyID.trim();
+    public FamilyID(String id) {
+        validateID(id);
+        if (isAtPresent(id)) {
+            this.id = id.trim();
         } else {
-            this.familyID = "@" + familyID.trim();
+            this.id = "@" + id.trim();
         }
 
 
@@ -40,7 +40,7 @@ public class FamilyID implements OwnerID<String>, Serializable {
 
     @Override
     public String toString() {
-        return this.familyID;
+        return this.id;
     }
 
      /**
@@ -69,12 +69,12 @@ public class FamilyID implements OwnerID<String>, Serializable {
         if (this == o) return true;
         if (!(o instanceof FamilyID)) return false;
         FamilyID familyID1 = (FamilyID) o;
-        return familyID.equals(familyID1.familyID);
+        return id.equals(familyID1.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(familyID);
+        return Objects.hash(id);
     }
 
 }

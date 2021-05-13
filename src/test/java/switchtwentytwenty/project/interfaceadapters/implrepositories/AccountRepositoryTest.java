@@ -10,8 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
+import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
@@ -22,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -51,6 +52,9 @@ class AccountRepositoryTest {
 
     @Mock
     IAccount savedAccount;
+
+    @Mock
+    IOwnerID mockFamilyID;
 
     @InjectMocks
     AccountRepository accountRepository;
@@ -100,22 +104,32 @@ class AccountRepositoryTest {
     @DisplayName("Check if Account Exists - Success, Account exists")
     @Test
     void getByIdSuccess() {
-        when(accountRepositoryJPA.findById(any(Long.class))).thenReturn(Optional.of(accountJPA));
-        when(accountDataDomainAssembler.createAccountID(accountJPA)).thenReturn(accountID);
-        when(accountDataDomainAssembler.createMovements(accountJPA)).thenReturn(movements);
-        when(accountDataDomainAssembler.createOwnerID(accountJPA)).thenReturn(ownerID);
-        when(accountDataDomainAssembler.createDesignation(accountJPA)).thenReturn(designation);
-        when(accountDataDomainAssembler.createAccountType(accountJPA)).thenReturn(accountType);
-        when(accountFactory.createAccount(accountID, movements, ownerID, designation, accType)).thenReturn(account);
+        when(accountRepositoryJPA.findById(any(Long.class))).thenReturn(Optional.of(new AccountJPA()));
+        when(accountDataDomainAssembler.createAccountID(any(AccountJPA.class))).thenReturn(accountID);
+        when(accountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(movements);
+        when(accountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
+        when(accountDataDomainAssembler.createDesignation(any(AccountJPA.class))).thenReturn(designation);
+        when(accountJPA.getAccountType()).thenReturn(accType);
+        when(accountFactory.createAccount(any(AccountID.class), any(), any(), any(Designation.class), any())).thenReturn(new BankAccount());
 
-        assertDoesNotThrow(() -> accountRepository.getByID(accountID));
+        IAccount returnedAccount = accountRepository.getByID(accountID);
 
+        assertNotNull(returnedAccount);
     }
 
     @DisplayName("Check if Account Exists - Throws error, Account does not exists")
     @Test
     void getByIdFailure() {
         when(accountRepositoryJPA.findById(any(Long.class))).thenThrow(AccountNotRegisteredException.class);
+        assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
+
+    }
+
+    @DisplayName("Check if Account Exists - Throws error, Account does not exists")
+    @Test
+    void getByIdFailureAccountNotRegisteredException() {
+        Optional<AccountJPA> optional = Optional.empty();
+        when(accountRepositoryJPA.findById(any(Long.class))).thenReturn(optional);
         assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
 
     }

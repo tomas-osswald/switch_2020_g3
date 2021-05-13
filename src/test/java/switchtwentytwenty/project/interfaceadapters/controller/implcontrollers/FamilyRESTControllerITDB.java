@@ -69,7 +69,7 @@ class FamilyRESTControllerITDB {
 
     @Test
     void testCreateFamilyAndSetAdmin() {
-        ResponseEntity expected = new ResponseEntity("Business Error Api Logic", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity("Error: This Email is not valid", HttpStatus.UNPROCESSABLE_ENTITY);
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(invaliddto);
 
         assertEquals(expected, result);

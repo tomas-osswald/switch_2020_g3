@@ -315,5 +315,11 @@ class OutputPersonDTOTest {
         Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
     }
 
+    @Test
+    void testConstructorWithNullEmailAndPhoneNumbers(){
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(ID,NAME,BIRTHDATE, null,null,VAT,STREET, CITY, ZIPCODE, DOORNUMBER,FAMILYID);
+
+        Assertions.assertNotNull(outputPersonDTO);
+    }
 
 }

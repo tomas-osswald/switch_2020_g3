@@ -7,7 +7,7 @@ import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Monetary;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
@@ -34,13 +34,12 @@ public class CreateAccountService implements ICreateAccountService {
 
         Designation designation = accountDTODomainAssembler.designationToDomain(inputAccountDTO);
         Monetary monetary = accountDTODomainAssembler.initialAmountToDomain(inputAccountDTO);
-        OwnerID ownerID = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
+        IOwnerID ownerID = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
         String accountType = accountDTODomainAssembler.accountTypeToDomain(inputAccountDTO);
 
         IAccount account = accountFactory.createAccount(designation, monetary, ownerID, accountType);
         IAccount savedAccount = accountRepository.add(account);
-        OutputAccountDTO outputAccountDTO = accountDTODomainAssembler.toDTO(savedAccount);
-        return outputAccountDTO;
+        return accountDTODomainAssembler.toDTO(savedAccount);
     }
 
 }

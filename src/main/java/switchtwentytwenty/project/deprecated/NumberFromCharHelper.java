@@ -3,10 +3,12 @@ package switchtwentytwenty.project.deprecated;
 import switchtwentytwenty.project.exceptions.InvalidCharException;
 
 /**
- * @Deprecated because CC Number is no longer in use
+ * @deprecated because CC Number is no longer in use
  */
 @Deprecated
 public class NumberFromCharHelper {
+
+    NumberFromCharHelper() {}
 
     public static int getNumberFromChar(char letter) {
         switch (letter) {

@@ -41,16 +41,16 @@ class AccountDTODomainAssemblerTest {
 
     @Test
     void ownerIDIsPersonToDomainSuccess() {
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
-        OwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTOa);
+        PersonID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTOa);
 
         assertEquals(expected, result);
     }
 
     @Test
     void ownerIDIsFamilyToDomainSuccess() {
-        OwnerID expected = new FamilyID("@tonyze@latinlover.com");
-        OwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTOe);
+        IOwnerID expected = new FamilyID("@tonyze@latinlover.com");
+        IOwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTOe);
 
         assertEquals(expected, result);
     }
@@ -93,11 +93,11 @@ class AccountDTODomainAssemblerTest {
         IAccountDTODomainAssembler accountDTODomainAssembler = new AccountDTODomainAssembler();
         //account A
         AccountID accountIDA = new AccountID(123L);
-        OwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
+        IOwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
         Designation designationA = new Designation("balelas");
         //account B
         AccountID accountIDB = new AccountID(456L);
-        OwnerID ownerIDB = new PersonID("katia@latinas.com");
+        IOwnerID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
         IAccount savedAccountA = new CashAccount(accountIDA, ownerIDA, designationA, null);
@@ -116,11 +116,11 @@ class AccountDTODomainAssemblerTest {
     void fromCreditCardAccountSavedtoDTO() {
         //account A
         AccountID accountIDA = new AccountID(123L);
-        OwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
+        IOwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
         Designation designationA = new Designation("balelas");
         //account B
         AccountID accountIDB = new AccountID(456L);
-        OwnerID ownerIDB = new PersonID("katia@latinas.com");
+        IOwnerID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
         IAccount savedAccountA = new CreditCardAccount(accountIDA, ownerIDA, designationA, null);
@@ -138,11 +138,11 @@ class AccountDTODomainAssemblerTest {
     void fromBankAccountSavedtoDTO() {
         //account A
         AccountID accountIDA = new AccountID(123L);
-        OwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
+        IOwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
         Designation designationA = new Designation("balelas");
         //account B
         AccountID accountIDB = new AccountID(456L);
-        OwnerID ownerIDB = new PersonID("katia@latinas.com");
+        IOwnerID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
         IAccount savedAccountA = new BankAccount(accountIDA, ownerIDA, designationA, null);
@@ -160,11 +160,11 @@ class AccountDTODomainAssemblerTest {
     void fromBankSavingsAccountSavedtoDTO() {
         //account A
         AccountID accountIDA = new AccountID(123L);
-        OwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
+        IOwnerID ownerIDA = new PersonID("tonyze@latinlover.com");
         Designation designationA = new Designation("balelas");
         //account B
         AccountID accountIDB = new AccountID(456L);
-        OwnerID ownerIDB = new PersonID("katia@latinas.com");
+        PersonID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
         IAccount savedAccountA = new BankSavingsAccount(accountIDA, ownerIDA, designationA, null);

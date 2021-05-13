@@ -18,7 +18,6 @@ public class Family implements AggregateRoot<FamilyID> {
     @Getter
     private PersonID admin;
     private List<Relation> relations = new ArrayList<>();
-    //private AccountID cashAccount;
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
         this.id = familyID;

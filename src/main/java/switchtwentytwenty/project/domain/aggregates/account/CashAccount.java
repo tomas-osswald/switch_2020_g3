@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,13 +20,13 @@ public class CashAccount extends AbCashAccount{
 
     private AccountID accountID;
 
-    private OwnerID ownerID;
+    private IOwnerID ownerID;
 
     private Designation designation;
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected CashAccount(OwnerID ownerID, Designation designation){
+    protected CashAccount(IOwnerID ownerID, Designation designation){
         this.ownerID = ownerID;
         this.designation = designation;
     }
@@ -37,7 +37,7 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public OwnerID getOwnerId() {
+    public IOwnerID getOwnerId() {
         return this.ownerID;
     }
 
@@ -60,27 +60,6 @@ public class CashAccount extends AbCashAccount{
         return "cash";
     }
 
-
-    @Override
-    public void setAccountID(AccountID accountID) {
-        this.accountID = accountID;
-    }
-
-    @Override
-    public void setOwner(OwnerID ownerID) {
-        this.ownerID = ownerID;
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
-    }
-
-    @Override
-    public void setMovements(List<Movement> movements) {
-        this.movements = Collections.unmodifiableList(movements);
-    }
-
     @Override
     public void addMovement(Movement movement){
         movements.add(movement);
@@ -92,8 +71,23 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public AccountID getAccountId() {
-        return this.accountID;
+    public void setAccountID(AccountID accountID) {
+        this.accountID = accountID;
+    }
+
+    @Override
+    public void setMovements(List<Movement> movements) {
+        this.movements = Collections.unmodifiableList(movements);
+    }
+
+    @Override
+    public void setOwner(IOwnerID ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    @Override
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
     }
 
     @Override

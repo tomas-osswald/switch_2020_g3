@@ -111,7 +111,7 @@ public class Person implements AggregateRoot<PersonID> {
 
     public List<EmailAddress> getEmails() {
         List<EmailAddress> copyEmails = new ArrayList<>();
-        if (!(this.emails==null)) {
+        if (this.emails!=null) {
             copyEmails.addAll(this.emails);
         }
         return copyEmails;
@@ -123,7 +123,7 @@ public class Person implements AggregateRoot<PersonID> {
 
     public List<PhoneNumber> getPhoneNumbers() {
         List<PhoneNumber> copyPhones = new ArrayList<>();
-        if (!(this.phoneNumbers==null)) {
+        if (this.phoneNumbers!=null) {
             copyPhones.addAll(this.phoneNumbers);
         }
         return copyPhones;
