@@ -2,12 +2,11 @@ package switchtwentytwenty.project.datamodel.repositoryjpa;
 
 import org.springframework.data.repository.CrudRepository;
 import switchtwentytwenty.project.datamodel.domainjpa.*;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IAccountRepositoryJPA extends CrudRepository<AccountJPA, AccountIDJPA> {
+public interface IAccountRepositoryJPA extends CrudRepository<AccountJPA, Long> {
 
     List<AccountJPA> findAll();
 

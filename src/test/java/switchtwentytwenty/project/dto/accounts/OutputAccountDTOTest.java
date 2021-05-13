@@ -7,6 +7,7 @@ import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.A
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+
 class OutputAccountDTOTest {
     String ACCOUNTID = "3";
     String PERSONOWNERID = "tonyZe@latinlover.com";
@@ -86,7 +87,7 @@ class OutputAccountDTOTest {
     @Test
     void equalsIsDifferentObjectTest() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
-        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO();
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("not original accountID", "not original ownerID", "not original designation");
 
         assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
     }
@@ -94,7 +95,21 @@ class OutputAccountDTOTest {
     @Test
     void equalsAccountIDIsDifferentAccountID() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
-        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("barbaric", PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("not original accountID", PERSONOWNERID, DESIGNATION);
+
+        assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
+    }
+    @Test
+    void equalsAccountIDIsDifferentOwnerID() {
+        OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO(ACCOUNTID, "not original email", DESIGNATION);
+
+        assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
+    }
+    @Test
+    void equalsAccountIDIsDifferentDesignation() {
+        OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, "not original designation");
 
         assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
     }
@@ -118,11 +133,11 @@ class OutputAccountDTOTest {
         assertNotEquals(outputAccountDTOOne, notOutputAccountDTO);
     }
     @Test
-    void equalsIsDifferentTest() {
+    void equalsIsSameObjectTest() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
         OutputAccountDTO outputAccountDTOTwo = outputAccountDTOOne;
 
-        assertSame(outputAccountDTOOne, outputAccountDTOTwo);
+        assertEquals(outputAccountDTOOne, outputAccountDTOOne);
     }
     @Test
     void hashCodeIsEqualTest() {

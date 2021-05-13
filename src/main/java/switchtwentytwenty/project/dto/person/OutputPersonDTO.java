@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,8 +17,8 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
     private String id;
     private String name;
     private String birthdate;
-    private List<String> emails;
-    private List<Integer> phoneNumbers;
+    private List<String> emails = new ArrayList<>();
+    private List<Integer> phoneNumbers = new ArrayList<>();
     private String vat;
     private String street;
     private String city;
@@ -29,8 +30,12 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
-        this.emails = emails;
-        this.phoneNumbers = phoneNumbers;
+        if (emails != null) {
+            this.emails.addAll(emails);
+        }
+        if (phoneNumbers != null) {
+            this.phoneNumbers.addAll(phoneNumbers);
+        }
         this.vat = vat;
         this.street = street;
         this.city = city;

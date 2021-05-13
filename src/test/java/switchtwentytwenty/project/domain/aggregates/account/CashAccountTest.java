@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class CashAccountTest {
 
     AccountID accountID = new AccountID(100L);
-    OwnerID ownerID = new PersonID("tonyZe@gmail.com");
+    IOwnerID ownerID = new PersonID("tonyZe@gmail.com");
     Designation designation = new Designation("Fágêsse");
     Balance balance = new Balance();
     List<Movement> movements = new ArrayList<>();
@@ -42,8 +42,8 @@ class CashAccountTest {
         IAccount accountOne = new CashAccount();
         accountOne.setOwner(ownerID);
 
-        OwnerID expected = new PersonID("tonyZe@gmail.com");
-        OwnerID result = accountOne.getOwnerId();
+        IOwnerID expected = new PersonID("tonyZe@gmail.com");
+        IOwnerID result = accountOne.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -70,7 +70,7 @@ class CashAccountTest {
 
     @Test
     void getAccountTypeTest() {
-        String otherAccount = "Cash Account";
+        String otherAccount = "cash";
         IAccount accountOne = new CashAccount();
 
         assertEquals(accountOne.getAccountType(), otherAccount);

@@ -10,7 +10,7 @@ public interface IAccountDataDomainAssembler extends AssemblerDataDomain<Account
 
     AccountID createAccountID(AccountJPA accountJPA);
 
-    PersonID createOwnerID(AccountJPA accountJPA);
+    IOwnerID createOwnerID(AccountJPA accountJPA);
 
     Designation createDesignation(AccountJPA accountJPA);
 

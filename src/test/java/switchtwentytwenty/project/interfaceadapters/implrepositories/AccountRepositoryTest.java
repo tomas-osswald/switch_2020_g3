@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
@@ -75,7 +74,7 @@ class AccountRepositoryTest {
 
     @DisplayName("AccountRepository adds the Account successfully")
     @Test
-    void addAccountSucess(){
+    void addAccountSucess() {
         when(accountDataDomainAssembler.toData(account)).thenReturn(accountJPA);
         when(accountRepositoryJPA.save(accountJPA)).thenReturn(savedAccountJPA);
         when(accountDataDomainAssembler.createAccountID(savedAccountJPA)).thenReturn(accountID);
@@ -83,43 +82,43 @@ class AccountRepositoryTest {
         when(accountDataDomainAssembler.createOwnerID(savedAccountJPA)).thenReturn(ownerID);
         when(accountDataDomainAssembler.createDesignation(savedAccountJPA)).thenReturn(designation);
         when(accountDataDomainAssembler.createAccountType(savedAccountJPA)).thenReturn(accountType);
-        when(accountFactory.createAccount( accountID, movements, ownerID, designation, accType )).thenReturn(savedAccount);
+        when(accountFactory.createAccount(accountID, movements, ownerID, designation, accType)).thenReturn(savedAccount);
 
-        assertDoesNotThrow(()->accountRepository.add(account));
+        assertDoesNotThrow(() -> accountRepository.add(account));
 
     }
 
     @DisplayName("AccountRepository fails to add the Account")
     @Test
-    void addAccountFailure(){
+    void addAccountFailure() {
         when(account.getOwnerId()).thenReturn(new FamilyID());
         when(accountRepositoryJPA.findByOwnerID(new OwnerIDJPA(account.getOwnerId().toString()))).thenReturn(Optional.of(realAccountJPA));
 
-        assertThrows(AccountAlreadyRegisteredException.class,()->accountRepository.add(account));
+        assertThrows(AccountAlreadyRegisteredException.class, () -> accountRepository.add(account));
     }
 
     @DisplayName("Check if Account Exists - Success, Account exists")
     @Test
-    void getByIdSuccess(){
-        when(accountRepositoryJPA.findById(any(AccountIDJPA.class))).thenReturn(Optional.of(accountJPA));
+    void getByIdSuccess() {
+        when(accountRepositoryJPA.findById(any(Long.class))).thenReturn(Optional.of(accountJPA));
         when(accountDataDomainAssembler.createAccountID(accountJPA)).thenReturn(accountID);
         when(accountDataDomainAssembler.createMovements(accountJPA)).thenReturn(movements);
         when(accountDataDomainAssembler.createOwnerID(accountJPA)).thenReturn(ownerID);
         when(accountDataDomainAssembler.createDesignation(accountJPA)).thenReturn(designation);
         when(accountDataDomainAssembler.createAccountType(accountJPA)).thenReturn(accountType);
-        when(accountFactory.createAccount( accountID, movements, ownerID, designation, accType )).thenReturn(account);
+        when(accountFactory.createAccount(accountID, movements, ownerID, designation, accType)).thenReturn(account);
 
-        assertDoesNotThrow(()->accountRepository.getByID(accountID));
+        assertDoesNotThrow(() -> accountRepository.getByID(accountID));
 
     }
 
     @DisplayName("Check if Account Exists - Throws error, Account does not exists")
     @Test
-    void getByIdFailure(){
-        when(accountRepositoryJPA.findById(new AccountIDJPA())).thenReturn(null);
-
-        assertThrows(AccountNotRegisteredException.class,()->accountRepository.getByID(accountID));
+    void getByIdFailure() {
+        when(accountRepositoryJPA.findById(any(Long.class))).thenThrow(AccountNotRegisteredException.class);
+        assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
 
     }
+
 
 }

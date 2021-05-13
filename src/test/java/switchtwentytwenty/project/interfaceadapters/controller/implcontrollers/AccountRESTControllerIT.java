@@ -10,13 +10,12 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.AccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
+import switchtwentytwenty.project.domain.aggregates.account.CashAccount;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
@@ -102,13 +101,22 @@ class AccountRESTControllerIT {
 
     //JPA
 
-    String familyAsOwnerIDJPA = "tonyze@latinlover.com";
+    String personAsOwnerIDJPA = "tonyze@latinlover.com";
 
-    AccountIDJPA accountIDJPA = new AccountIDJPA(accountIDLong);
-    OwnerIDJPA ownerIDJPA = new OwnerIDJPA(familyAsOwnerIDJPA);
+    //AccountIDJPA accountIDJPA = new AccountIDJPA(accountIDLong);
+    OwnerIDJPA ownerIDJPA = new OwnerIDJPA(personAsOwnerIDJPA);
+    Long accountIDJPALong = accountIDLong;
 
-    AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, designationString, accountTypeString);
-    AccountJPA accountJPATwo = new AccountJPA(accountIDJPA, ownerIDJPA, designationString, accountTypeString);
+    AccountJPA accountJPA = new AccountJPA(accountIDJPALong, ownerIDJPA, designationString, accountTypeString);
+    AccountJPA accountJPATwo = new AccountJPA(accountIDJPALong, ownerIDJPA, designationString, accountTypeString);
+
+    String familyOwnerIDString = "@tonyze@latinlover.com";
+    IOwnerID familyOwnerID = new FamilyID(familyOwnerIDString);
+    String cashAccountType = "cash";
+    List emptyMovements = new ArrayList();
+    OwnerIDJPA familyAsOwnerIDJPA = new OwnerIDJPA(familyOwnerIDString);
+    IAccount familyCashAccount = new CashAccount(accountID, familyOwnerID, designation, emptyMovements);
+    AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
 
 
     @Test
@@ -117,22 +125,15 @@ class AccountRESTControllerIT {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
-        List<Movement> movements = new ArrayList<>();
+       /* List<Movement> movements = new ArrayList<>();
         movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
-        List<MovementJPA> movementJPAList = accountJPA.getMovements();
 
-        for (MovementJPA movementJPA : movementJPAList) {
-            String currency = movementJPA.getCurrency();
-            BigDecimal amount = new BigDecimal(movementJPA.getAmount());
-            Monetary monetary = new Monetary(currency, amount);
-            Movement movement = new Movement(monetary);
-            movements.add(movement);
-        }
 
+        */
         IAccount account = new BankAccount();
         account.setAccountID(accountID);
         account.setDesignation(designation);
-        account.setMovements(movements);
+        //account.setMovements(movements);
         account.setOwner(ownerID);
 
         when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(accountJPA);
@@ -158,4 +159,39 @@ class AccountRESTControllerIT {
 
     }
 
-}
+   /* @Test
+    @DisplayName("Integration test expecting account already registered exception")
+    void failToCreateAccountWhenProvidingAlreadyExistingAccount() {
+        CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
+        AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
+
+        Optional<AccountJPA> optionalAccountJPA = Optional.of(accountJPA);
+
+        when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(familyAccountJPA);
+        when(mockRepositoryJPA.save(any(AccountJPA.class))).thenThrow(AccountAlreadyRegisteredException.class);
+        /*when(mockAccountDataDomainAssembler.createAccountID(any(AccountJPA.class))).thenReturn(accountID);
+        when(mockAccountDataDomainAssembler.createAccountType(any(AccountJPA.class))).thenReturn(accountType);
+        when(mockAccountDataDomainAssembler.createDesignation(any(AccountJPA.class))).thenReturn(designation);
+        when(mockAccountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
+        when(mockAccountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(new ArrayList<>());
+        when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
+        */
+
+        /*
+        OutputAccountDTO expectedOutputDTO = new OutputAccountDTO(accountIDString, ownerIDString, designationString);
+        Link link = linkTo(methodOn(AccountRESTController.class).getAccount(accountIDString)).withSelfRel();
+        expectedOutputDTO.add(link);
+         */
+
+        //assertThrows(AccountAlreadyRegisteredException.class, () -> accountRESTController.createAccount(createBankAccountDTO));
+
+        /*ResponseEntity expected = new ResponseEntity(expectedOutputDTO, HttpStatus.CREATED);
+
+        ResponseEntity result = accountRESTController.createAccount(createBankAccountDTO);
+
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+        */
+
+    }
+

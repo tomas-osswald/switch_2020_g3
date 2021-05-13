@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CreditCardAccountTest {
     Long id = 66L;
     AccountID accountID = new AccountID(id);
-    OwnerID personID = new PersonID("tonyze@latinlover.com");
+    IOwnerID personID = new PersonID("tonyze@latinlover.com");
     Designation designation = new Designation("noitadas");
 
     Long otherID = 99L;
@@ -43,9 +43,9 @@ class CreditCardAccountTest {
     void getOwnerIDTest() {
         IAccount creditCardAccount = new CreditCardAccount(personID, designation);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
 
-        OwnerID result = creditCardAccount.getOwnerId();
+        IOwnerID result = creditCardAccount.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -76,10 +76,21 @@ class CreditCardAccountTest {
         assertEquals(expected, result);
     }
     @Test
+    void getListOfMovementsTestEmptyList() {
+        IAccount creditCardAccount = new CreditCardAccount(personID, designation);
+
+        List<Movement> expected = new ArrayList<>();
+
+        List<Movement> result = creditCardAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
     void getAccountTypeTest() {
         IAccount creditCardAccount = new CreditCardAccount();
 
-        String expected = "Credit Card Account";
+        String expected = "credit";
 
         String result = creditCardAccount.getAccountType();
 
@@ -90,9 +101,9 @@ class CreditCardAccountTest {
         IAccount creditCardAccountOne = new CreditCardAccount();
         creditCardAccountOne.setOwner(personID);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
 
-        OwnerID result = creditCardAccountOne.getOwnerId();
+        IOwnerID result = creditCardAccountOne.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);

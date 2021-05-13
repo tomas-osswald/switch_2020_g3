@@ -2,7 +2,6 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
@@ -16,10 +15,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.AddRelationDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -64,8 +63,11 @@ class FamilyRESTControllerIT {
     @Test
     void familiesOptionsTest() {
         OptionsDTO optionsDTO = new OptionsDTO();
-        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
+        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withSelfRel();
+        Link linkToAddFamily = linkTo(methodOn(FamilyRESTController.class).createFamilyAndSetAdmin(new AddFamilyAndSetAdminDTO())).withRel("POST - Add new Family");
+
         optionsDTO.add(link);
+        optionsDTO.add(linkToAddFamily);
 
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
@@ -73,7 +75,12 @@ class FamilyRESTControllerIT {
         ResponseEntity expected = new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
         ResponseEntity result = familyRESTController.familiesOptions();
 
-        assertEquals(result, expected);
+        OptionsDTO resultDTO = (OptionsDTO)result.getBody();
+        OptionsDTO expectedDTO = (OptionsDTO)expected.getBody();
+
+        assertEquals(resultDTO.getLinks(),expectedDTO.getLinks());
+        assertEquals(result.getHeaders(), expected.getHeaders());
+        assertEquals(result.getStatusCode(), expected.getStatusCode());
     }
 
 

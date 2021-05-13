@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,14 +20,13 @@ public class BankAccount extends AbNonCashAccount {
 
     private AccountID accountID;
 
-    private OwnerID ownerID;
+    private IOwnerID ownerID;
 
     private Designation designation;
 
     private List<Movement> movements = new ArrayList<>();
 
-    //TODO: Mudar nos construtores das diferentes accounts para o Environment não ser null nos testes.
-   public BankAccount(OwnerID ownerID, Designation designation) {
+   public BankAccount(IOwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
     }
@@ -43,7 +42,7 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public OwnerID getOwnerId() {
+    public IOwnerID getOwnerId() {
         return this.ownerID;
     }
 
@@ -53,18 +52,22 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    @Override
     public String getAccountType() {
-        return "Bank Account";
+        return "bank";
     }
 
     @Override
     public List<Movement> getListOfMovements() {
-        return this.movements;
-    }
-
-    @Override
-    public AccountID getAccountId() {
-        return this.accountID;
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override
@@ -73,13 +76,8 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public void setOwner(OwnerID ownerID) {
+    public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
     }
 
     @Override

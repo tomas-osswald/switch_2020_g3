@@ -19,18 +19,17 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     public Monetary initialAmountToDomain(InputAccountDTO inputAccountDTO) {
         BigDecimal amount = inputAccountDTO.getInitialAmount();
-        Monetary monetary = new Monetary(inputAccountDTO.getCurrency(), amount);
-        return monetary;
+        return new Monetary(inputAccountDTO.getCurrency(), amount);
     }
 
-    public OwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
+    public IOwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
 
         /**
          * Alterar o @ no próximo sprint. Check FamilyID.
          */
         char validation = inputAccountDTO.getOwnerID().charAt(0);
         String validationID = Character.toString(validation);
-        OwnerID ownerID;
+        IOwnerID ownerID;
 
         if (validationID.equals("@")) {
             ownerID = new FamilyID(inputAccountDTO.getOwnerID());
@@ -47,7 +46,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     @Override
     public OutputAccountDTO toDTO(IAccount account) {
-        String accountID = account.getAccountId().toString();
+        String accountID = account.id().toString();
         String ownerID = account.getOwnerId().toString();
         String designation = account.getDesignation().toString();
 

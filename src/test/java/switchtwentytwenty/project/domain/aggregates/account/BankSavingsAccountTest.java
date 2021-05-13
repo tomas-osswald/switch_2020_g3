@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankSavingsAccountTest {
     Long id = 66L;
     AccountID accountID = new AccountID(id);
-    OwnerID personID = new PersonID("tonyze@latinlover.com");
+    PersonID personID = new PersonID("tonyze@latinlover.com");
     Designation designation = new Designation("noitadas");
 
     Long otherID = 99L;
@@ -43,9 +43,9 @@ class BankSavingsAccountTest {
     void getOwnerIDTest() {
         IAccount bankSavingsAccount = new BankSavingsAccount(personID, designation);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
 
-        OwnerID result = bankSavingsAccount.getOwnerId();
+        IOwnerID result = bankSavingsAccount.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -75,11 +75,23 @@ class BankSavingsAccountTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void getListOfMovementsTestEmptyList() {
+        IAccount bankSavingsAccount = new BankSavingsAccount(personID, designation);
+
+        List<Movement> expected = new ArrayList<>();
+
+        List<Movement> result = bankSavingsAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+
     @Test
     void getAccountTypeTest() {
         IAccount bankSavingsAccount = new BankSavingsAccount();
 
-        String expected = "Bank Savings Account";
+        String expected = "savings";
 
         String result = bankSavingsAccount.getAccountType();
 
@@ -90,9 +102,9 @@ class BankSavingsAccountTest {
         IAccount bankSavingsAccountOne = new BankSavingsAccount();
         bankSavingsAccountOne.setOwner(personID);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
 
-        OwnerID result = bankSavingsAccountOne.getOwnerId();
+        IOwnerID result = bankSavingsAccountOne.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);

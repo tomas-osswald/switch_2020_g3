@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,9 @@ import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
@@ -80,10 +83,10 @@ public class FamilyRESTController implements IFamilyRESTController {
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamily(outputFamilyDTO.getFamilyID())).withSelfRel();
             outputFamilyDTO.add(selfLink);
             return new ResponseEntity(outputFamilyDTO, status);
-        } catch (IllegalArgumentException | InvalidEmailException e) {
+        } catch (IllegalArgumentException | InvalidEmailException | InvalidDataAccessApiUsageException | EmailNotRegisteredException | PersonAlreadyRegisteredException e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
-            return new ResponseEntity("Business Error Api Logic", status);
+            return new ResponseEntity("Error: " + e.getMessage(), status);
 
         }
     }

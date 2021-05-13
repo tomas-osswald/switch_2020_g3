@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,13 +20,13 @@ public class CashAccount extends AbCashAccount{
 
     private AccountID accountID;
 
-    private OwnerID ownerID;
+    private IOwnerID ownerID;
 
     private Designation designation;
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected CashAccount(OwnerID ownerID, Designation designation){
+    protected CashAccount(IOwnerID ownerID, Designation designation){
         this.ownerID = ownerID;
         this.designation = designation;
     }
@@ -37,7 +37,7 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public OwnerID getOwnerId() {
+    public IOwnerID getOwnerId() {
         return this.ownerID;
     }
 
@@ -48,14 +48,17 @@ public class CashAccount extends AbCashAccount{
 
     @Override
     public List<Movement> getListOfMovements() {
-        return this.movements;
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override
     public String getAccountType() {
-        return "Cash Account";
+        return "cash";
     }
-
 
     @Override
     public void setAccountID(AccountID accountID) {
@@ -63,7 +66,7 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public void setOwner(OwnerID ownerID) {
+    public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
     }
 
@@ -87,10 +90,6 @@ public class CashAccount extends AbCashAccount{
         return this.accountID == id;
     }
 
-    @Override
-    public AccountID getAccountId() {
-        return this.accountID;
-    }
 
     @Override
     public boolean equals(Object o) {
