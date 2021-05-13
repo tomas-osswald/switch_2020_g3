@@ -50,6 +50,12 @@ class CreateAccountServiceTest {
     String accountType = inputAccountDTO.getAccountType();
     AccountID accountID = new AccountID(123L);
 
+    Designation designationB = new Designation(inputAccountDTO.getDesignation());
+    Monetary initialAmountB = new Monetary(inputAccountDTO.getCurrency(), inputAccountDTO.getInitialAmount());
+    OwnerID ownerIDB = new PersonID(inputAccountDTO.getOwnerID());
+    String accountTypeB = inputAccountDTO.getAccountType();
+    AccountID accountIDB = new AccountID(123L);
+
     OutputAccountDTO outputAccountDTO = new OutputAccountDTO("123", "tonyze@latinlover.com", "balelas");
     IAccount personalCashAccount = new CashAccount(accountID, ownerID, designation, null);
 
@@ -244,6 +250,38 @@ class CreateAccountServiceTest {
         IAccount accountB = accountA;
 
         assertEquals(accountA, accountB);
+    }
+
+    @Test
+    void notEqualsTestForDifferentCashAccount() {
+        IAccount accountA = new CashAccount(accountID, ownerID, designation, null);
+        IAccount accountB = new CashAccount(accountIDB, ownerIDB, designationB, null);
+
+        assertNotSame(accountA, accountB);
+    }
+
+    @Test
+    void notEqualsTestForDifferentCreditCardAccount() {
+        IAccount accountA = new CreditCardAccount(accountID, ownerID, designation, null);
+        IAccount accountB = new CreditCardAccount(accountIDB, ownerIDB, designationB, null);
+
+        assertNotSame(accountA, accountB);
+    }
+
+    @Test
+    void notEqualsTestForDifferentBankAccount() {
+        IAccount accountA = new BankAccount(accountID, ownerID, designation, null);
+        IAccount accountB = new BankAccount(accountID, ownerID, designation, null);
+
+        assertNotSame(accountA, accountB);
+    }
+
+    @Test
+    void notEqualsTestForDifferentBankSavingsAccount() {
+        IAccount accountA = new BankSavingsAccount(accountID, ownerID, designation, null);
+        IAccount accountB = new BankSavingsAccount(accountID, ownerID, designation, null);
+
+        assertNotSame(accountA, accountB);
     }
 
 }
