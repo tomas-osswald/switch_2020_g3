@@ -32,7 +32,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         Address address = person.getAddress();
         FamilyID familyID = person.getFamilyID();
 
-        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getFamilyID().toString());
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getFamilyID());
 
         PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 
@@ -58,9 +58,8 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         ZipCode zipCode = new ZipCode(addressJPA.getZipCode());
         DoorNumber doorNumber = new DoorNumber(addressJPA.getDoorNumber());
 
-        Address address = new Address(id, street, city, zipCode, doorNumber);
+        return new Address(id, street, city, zipCode, doorNumber);
 
-        return address;
     }
 
     public List<PhoneNumber> createPhoneNumberList(PersonJPA personJPA) {
