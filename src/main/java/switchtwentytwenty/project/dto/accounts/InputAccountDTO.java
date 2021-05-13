@@ -18,6 +18,7 @@ public class InputAccountDTO {
     private String ownerID;
     private String accountType;
 
+
     public InputAccountDTO(String designation, BigDecimal initialAmount, String currency, String ownerID, String accountType) {
         this.designation = designation;
         this.initialAmount = initialAmount;

@@ -54,7 +54,7 @@ class CategoryRepositoryTest {
     CategoryID parentIDCat = new CategoryID(0L);
 
 
-    @Test
+   /* @Test
     @Disabled
     void getByID() {
         CategoryJPA categoryJPA = new CategoryJPA(categoryDescription, cat, parentID, familyIDJPA);
@@ -68,10 +68,10 @@ class CategoryRepositoryTest {
 
         assertEquals(expected, result);
         assertNotNull(result);
-    }
+    }*/
 
 
-    @Test
+    /*@Test
     @Disabled
     void add() {
         StandardCategory category = new StandardCategory(catName, parentIDCat);
@@ -85,9 +85,9 @@ class CategoryRepositoryTest {
 
         assertEquals(expected, result);
         assertNotNull(result);
-    }
+    }*/
 
-    @Test
+    /*@Test
     @Disabled
     void testForCaptorFindByID() {
 
@@ -102,7 +102,7 @@ class CategoryRepositoryTest {
         CategoryIDJPA result = captor.getValue();
 
         assertEquals(expected, result);
-    }
+    }*/
 
     @Test
     void testGetByID() {
