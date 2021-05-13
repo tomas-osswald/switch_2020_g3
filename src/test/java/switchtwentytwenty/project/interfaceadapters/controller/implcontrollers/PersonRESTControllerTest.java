@@ -26,7 +26,8 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPersonOptionsService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -266,6 +267,7 @@ class PersonRESTControllerTest {
         assertEquals(expected.getStatusCode(), result.getStatusCode());
         assertEquals(expected.getHeaders(), result.getHeaders());
     }
+
 
 
 }
