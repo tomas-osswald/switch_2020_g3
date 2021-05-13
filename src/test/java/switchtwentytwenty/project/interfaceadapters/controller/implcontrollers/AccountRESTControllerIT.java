@@ -2,7 +2,6 @@ package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.AccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
@@ -44,7 +42,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 class AccountRESTControllerIT {
 
     @Mock
@@ -156,7 +153,7 @@ class AccountRESTControllerIT {
 
         ResponseEntity result = accountRESTController.createAccount(createBankAccountDTO);
 
-        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
 
     }
