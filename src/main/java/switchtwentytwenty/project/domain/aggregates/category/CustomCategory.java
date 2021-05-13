@@ -10,13 +10,15 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import java.util.Objects;
 
 @NoArgsConstructor
-@Getter
 @Setter
 public class CustomCategory implements Category {
 
     private CategoryID categoryID;
+    @Getter
     private CategoryID parentID;
+    @Getter
     private CategoryName categoryName;
+    @Getter
     private FamilyID familyID;
 
     public CustomCategory(CategoryID categoryID, CategoryName categoryName, FamilyID familyID) {
@@ -47,12 +49,12 @@ public class CustomCategory implements Category {
 
     @Override
     public CategoryID id() {
-        throw new UnsupportedOperationException();
+        return this.categoryID;
     }
 
     @Override
     public boolean hasID(CategoryID id) {
-        throw new UnsupportedOperationException();
+        return this.categoryID.equals(id);
     }
 
 
