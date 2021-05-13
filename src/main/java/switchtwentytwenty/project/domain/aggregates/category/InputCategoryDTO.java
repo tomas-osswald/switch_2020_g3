@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 public class InputCategoryDTO {
 
-    private String categoryID;
+    private Long categoryID;
     private String description;
-    private String parentID;
+    private Long parentID;
     private String familyID;
 
-    public InputCategoryDTO(String categoryID, String description, String parentID, String familyID) {
+    public InputCategoryDTO(Long categoryID, String description, Long parentID, String familyID) {
         this.categoryID = categoryID;
         this.description = description;
         this.parentID = parentID;
