@@ -112,7 +112,7 @@ class AccountDTODomainAssemblerTest {
         assertNotSame(expected, resultB);
     }
 
-   /* @Test
+    @Test
     void fromCreditCardAccountSavedtoDTO() {
         //account A
         AccountID accountIDA = new AccountID(123L);
@@ -176,6 +176,6 @@ class AccountDTODomainAssemblerTest {
 
         assertEquals(expected, resultA);
         assertNotSame(expected, resultB);
-    }*/
+    }
 
 }
