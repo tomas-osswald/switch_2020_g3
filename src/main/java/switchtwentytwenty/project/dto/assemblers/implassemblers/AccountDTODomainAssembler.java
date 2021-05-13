@@ -1,7 +1,7 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.domain.aggregates.account.CashAccount;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
@@ -10,6 +10,7 @@ import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountDTODomainAs
 
 import java.math.BigDecimal;
 
+
 @Component
 public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
@@ -17,7 +18,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
         return new Designation(inputAccountDTO.getDesignation());
     }
 
-    public Monetary initialAmountToDomain(InputAccountDTO inputAccountDTO){
+    public Monetary initialAmountToDomain(InputAccountDTO inputAccountDTO) {
         BigDecimal amount = inputAccountDTO.getInitialAmount();
         Monetary monetary = new Monetary(inputAccountDTO.getCurrency(), amount);
         return monetary;
@@ -32,7 +33,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
         String validationID = Character.toString(validation);
         OwnerID ownerID;
 
-        if ( validationID.equals("@") ){
+        if (validationID.equals("@")) {
             ownerID = new FamilyID(inputAccountDTO.getOwnerID());
         } else {
             ownerID = new PersonID(inputAccountDTO.getOwnerID());
@@ -47,7 +48,14 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     @Override
     public OutputAccountDTO toDTO(IAccount account) {
-        OutputAccountDTO outputAccountDTO = new OutputAccountDTO(account.getAccountId().toString(), account.getOwnerId().toString(), account.getDesignation().toString());
+        AccountID accountID = new AccountID(123L);
+        OwnerID ownerID = new PersonID("tonyze@latinlover.com");
+        Designation designation = new Designation("balelas");
+
+        IAccount savedAccount = new CashAccount(accountID, ownerID, designation, null);
+
+        OutputAccountDTO outputAccountDTO = new OutputAccountDTO();
+
         return outputAccountDTO;
     }
 }
