@@ -18,8 +18,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IAccountReposito
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -250,38 +249,6 @@ class CreateAccountServiceTest {
         IAccount accountB = accountA;
 
         assertEquals(accountA, accountB);
-    }
-
-    @Test
-    void notEqualsTestForDifferentCashAccount() {
-        IAccount accountA = new CashAccount(accountID, ownerID, designation, null);
-        IAccount accountB = new CashAccount(accountIDB, ownerIDB, designationB, null);
-
-        assertNotSame(accountA, accountB);
-    }
-
-    @Test
-    void notEqualsTestForDifferentCreditCardAccount() {
-        IAccount accountA = new CreditCardAccount(accountID, ownerID, designation, null);
-        IAccount accountB = new CreditCardAccount(accountIDB, ownerIDB, designationB, null);
-
-        assertNotSame(accountA, accountB);
-    }
-
-    @Test
-    void notEqualsTestForDifferentBankAccount() {
-        IAccount accountA = new BankAccount(accountID, ownerID, designation, null);
-        IAccount accountB = new BankAccount(accountID, ownerID, designation, null);
-
-        assertNotSame(accountA, accountB);
-    }
-
-    @Test
-    void notEqualsTestForDifferentBankSavingsAccount() {
-        IAccount accountA = new BankSavingsAccount(accountID, ownerID, designation, null);
-        IAccount accountB = new BankSavingsAccount(accountID, ownerID, designation, null);
-
-        assertNotSame(accountA, accountB);
     }
 
 }
