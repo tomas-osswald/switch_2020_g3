@@ -44,24 +44,6 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountJPA;
     }
 
-    @Deprecated
-    public IAccount toDomain(AccountJPA accountJPA) {
-
-        // ESTA COMENTADO PARA NÃO PARTIR. DESCOMENTAR QUANDO FOR NECESSÁRIO //
-        //coisas comentadas é porque ainda não estão implementadas em domínio
-
-
-        AccountID accountID = new AccountID(accountJPA.getId());
-        PersonID ownerID = new PersonID(accountJPA.getOwnerID().toString());
-        //Designation designation = new Designation(accountJPA.getDesignation());
-        //AccountType accountType = new AccountType(accountJPA.getAccountType());
-
-        //Account account = new Account(accountID, ownerID, balance, designation, accountType);
-
-        //return account;
-        return null;
-    }
-
     public AccountID createAccountID(AccountJPA accountJPA) {
         AccountID accountID = new AccountID(accountJPA.getId());
         return accountID;
