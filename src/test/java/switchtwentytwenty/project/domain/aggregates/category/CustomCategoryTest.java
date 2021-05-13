@@ -85,6 +85,7 @@ class CustomCategoryTest {
 
         assertNotSame(customCategory, customCategory2);
         assertEquals(customCategory.hashCode(), customCategory2.hashCode());
+        assertNotEquals(0,customCategory2.hashCode());
     }
 
     @Test
@@ -243,5 +244,38 @@ class CustomCategoryTest {
 
         assertNotNull(customCategory);
 
+    }
+
+    @Test
+    void testEqualsSameObject() {
+        CategoryID categoryID = new CategoryID(1L);
+        CategoryID parentID = new CategoryID(2L);
+        CategoryName categoryName = new CategoryName("name");
+        FamilyID familyID = new FamilyID("familyid@gmail.com");
+        CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
+
+        assertTrue(customCategory.equals(customCategory));
+    }
+
+    @Test
+    void testEqualsFalseCompareWithNull() {
+        CategoryID categoryID = new CategoryID(1L);
+        CategoryID parentID = new CategoryID(2L);
+        CategoryName categoryName = new CategoryName("name");
+        FamilyID familyID = new FamilyID("familyid@gmail.com");
+        CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
+        CustomCategory nullCustomCategory = null;
+        assertFalse(customCategory.equals(nullCustomCategory));
+    }
+
+    @Test
+    void testEqualsFalseDifferentClass() {
+        CategoryID categoryID = new CategoryID(1L);
+        CategoryID parentID = new CategoryID(2L);
+        CategoryName categoryName = new CategoryName("name");
+        FamilyID familyID = new FamilyID("familyid@gmail.com");
+        CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
+        String notACategory = "string";
+        assertFalse(customCategory.equals(notACategory));
     }
 }
