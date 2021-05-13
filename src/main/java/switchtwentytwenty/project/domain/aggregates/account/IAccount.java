@@ -17,6 +17,8 @@ public interface IAccount extends AggregateRoot<AccountID> {
 
     List<Movement> getListOfMovements();
 
+    AccountID getAccountId();
+
     void setAccountID(AccountID accountID);
 
     void setOwner(OwnerID ownerID);
