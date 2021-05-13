@@ -15,5 +15,7 @@ public interface IPersonRESTController {
 
     ResponseEntity<OptionsDTO> personOptions(String personID);
 
+    ResponseEntity<OptionsDTO> peopleOptions();
+
     ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO);
 }

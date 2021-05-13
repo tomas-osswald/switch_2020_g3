@@ -12,10 +12,7 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAs
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPersonOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -37,6 +34,8 @@ public class PersonRESTController implements IPersonRESTController {
     private PersonInputDTOAssembler profileInternalExternalAssembler;
 
     private IPersonOptionsService personOptionsService;
+
+    private IPeopleOptionsService peopleOptionsService;
 
     @Autowired
     public PersonRESTController(PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
@@ -88,6 +87,15 @@ public class PersonRESTController implements IPersonRESTController {
             return new ResponseEntity("Error: "+ e.getMessage(), status);
         }
 
+    }
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<OptionsDTO> peopleOptions() {
+        OptionsDTO optionsDTO = peopleOptionsService.getPeopleOptions();
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "POST, OPTIONS");
+
+        return new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{personID}", method = RequestMethod.OPTIONS)

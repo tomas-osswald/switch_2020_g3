@@ -3,19 +3,26 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPeopleOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-/*
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
-public class PeopleOptionsService {
+public class PeopleOptionsService implements IPeopleOptionsService {
 
     public OptionsDTO getPeopleOptions(){
         OptionsDTO optionsDTO = new OptionsDTO();
 
-        Link linkToPeopleOptions = linkTo(methodOn())
+        Link linkToPeopleOptions = linkTo(methodOn(PersonRESTController.class).peopleOptions()).withSelfRel();
+
+        optionsDTO.add(linkToPeopleOptions);
+
+        return optionsDTO;
 
     }
 
 }
-*/
+
 
