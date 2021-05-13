@@ -7,17 +7,17 @@ import java.util.regex.Pattern;
 
 public class ZipCode implements ValueObject {
 
-    private String zipCode;
+    private String code;
 
 
-    public ZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public ZipCode(String code) {
+        this.code = code;
         validateData();
     }
 
     @Override
     public String toString() {
-        return this.zipCode;
+        return this.code;
     }
 
     private void validateData() {
@@ -25,19 +25,19 @@ public class ZipCode implements ValueObject {
     }
 
     private void checkZipCode() {
-        String INVALIDZIPCODE = "Invalid Zip Code";
+        String invalidZipCode = "Invalid Zip Code";
         if (!validateZipCode()) {
-            throw new InvalidZipCodeException(INVALIDZIPCODE);
+            throw new InvalidZipCodeException(invalidZipCode);
         }
     }
 
     private boolean validateZipCode() {
         String regex = "\\d{4}(-\\d{3})?";
         boolean result;
-        if (zipCode == null || zipCode.trim().length() == 0) {
+        if (code == null || code.trim().length() == 0) {
             result = false;
         } else {
-            result = Pattern.matches(regex, zipCode);
+            result = Pattern.matches(regex, code);
         }
         return result;
     }
@@ -47,11 +47,11 @@ public class ZipCode implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ZipCode zipCode1 = (ZipCode) o;
-        return zipCode.equals(zipCode1.zipCode);
+        return code.equals(zipCode1.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(zipCode);
+        return Objects.hash(code);
     }
 }

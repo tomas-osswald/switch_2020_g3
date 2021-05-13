@@ -8,16 +8,16 @@ public class City implements ValueObject {
 
 
     static final String INVALIDCITY = "Invalid City Name";
-    private final String city;
+    private final String cityName;
 
-    public City(String city) {
-        this.city = city;
+    public City(String cityName) {
+        this.cityName = cityName;
         validateData();
     }
 
     @Override
     public String toString() {
-        return this.city;
+        return this.cityName;
     }
 
     private void validateData() {
@@ -32,7 +32,7 @@ public class City implements ValueObject {
 
     // Verificar com lógica de negócio
     private boolean validateCity() {
-        return city != null && city.trim().length() != 0;
+        return cityName != null && cityName.trim().length() != 0;
     }
 
     @Override
@@ -40,11 +40,11 @@ public class City implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city1 = (City) o;
-        return Objects.equals(city, city1.city);
+        return Objects.equals(cityName, city1.cityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(city);
+        return Objects.hash(cityName);
     }
 }

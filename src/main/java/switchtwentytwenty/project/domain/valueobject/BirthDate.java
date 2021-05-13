@@ -7,16 +7,16 @@ import java.util.Objects;
 
 
 public class BirthDate implements ValueObject {
-    private final Calendar birthDate;
+    private final Calendar date;
 
-    public BirthDate(String birthDate) {
-        this.birthDate = DateHelper.parseDateToCalendar(birthDate);
+    public BirthDate(String date) {
+        this.date = DateHelper.parseDateToCalendar(date);
 
     }
 
     @Override
     public String toString() {
-        return birthDate.get(Calendar.DAY_OF_MONTH)+"/"+ (birthDate.get(Calendar.MONTH)+1)+"/"+ birthDate.get(Calendar.YEAR);
+        return date.get(Calendar.DAY_OF_MONTH)+"/"+ (date.get(Calendar.MONTH)+1)+"/"+ date.get(Calendar.YEAR);
     }
 
     @Override
@@ -24,11 +24,11 @@ public class BirthDate implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BirthDate birthDate1 = (BirthDate) o;
-        return birthDate.equals(birthDate1.birthDate);
+        return date.equals(birthDate1.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(birthDate);
+        return Objects.hash(date);
     }
 }

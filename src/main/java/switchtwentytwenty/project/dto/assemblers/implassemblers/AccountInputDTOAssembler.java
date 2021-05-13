@@ -17,8 +17,7 @@ public class AccountInputDTOAssembler implements IAccountInputDTOAssembler {
         String currency = createAccountDTO.getCurrency();
         String ownerID = createAccountDTO.getOwnerID();
         String accountType = createAccountDTO.getAccountType();
-        InputAccountDTO inputAccountDTO = new InputAccountDTO(designation, initialAmount, currency, ownerID, accountType);
-        return inputAccountDTO;
+         return new InputAccountDTO(designation, initialAmount, currency, ownerID, accountType);
     }
 }
 

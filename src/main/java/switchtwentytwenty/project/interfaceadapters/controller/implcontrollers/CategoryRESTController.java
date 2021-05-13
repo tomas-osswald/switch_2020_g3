@@ -11,7 +11,4 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 @CrossOrigin
 public class CategoryRESTController {
 
-    private ICreateStandardCategoryService createStandardCategoryService;
-
-
 }
