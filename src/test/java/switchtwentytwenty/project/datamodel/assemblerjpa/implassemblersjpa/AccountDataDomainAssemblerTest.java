@@ -13,8 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AccountDataDomainAssemblerTest {
     AccountDataDomainAssembler accountDataDomainAssembler = new AccountDataDomainAssembler();
@@ -147,7 +146,11 @@ class AccountDataDomainAssemblerTest {
         movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(10))));
         account.setMovements(movements);
         AccountJPA result = accountDataDomainAssembler.toData(account);
+        List<MovementJPA> movementsJPA = new ArrayList<>();
+        movementsJPA.add(new MovementJPA(15L,"EUR",result));
+        movementsJPA.add(new MovementJPA(10L,"EUR",result));
 
         assertNotNull(result.getMovements());
+        assertEquals(result.getMovements(),movementsJPA);
     }
 }
