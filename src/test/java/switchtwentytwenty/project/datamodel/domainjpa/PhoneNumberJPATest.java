@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class PhoneNumberJPATest {
 
     int phoneNumber = 963369963;
+    Long phoneNumberID = 3L;
+    Long otherPhoneNumberID = 6L;
 
     String id = "email@email.com";
     PersonIDJPA personIDJPA = new PersonIDJPA(id);
@@ -75,6 +77,16 @@ class PhoneNumberJPATest {
         PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(null, phoneNumber, personJPA);
 
         assertEquals(phoneNumberJPAOne, phoneNumberJPATwo);
+        assertNotSame(phoneNumberJPAOne, phoneNumberJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testDifferentObjectWithIDs() {
+        PhoneNumberJPA phoneNumberJPAOne = new PhoneNumberJPA(phoneNumberID, phoneNumber, personJPA);
+        PhoneNumberJPA phoneNumberJPATwo = new PhoneNumberJPA(otherPhoneNumberID, phoneNumber, personJPA);
+
+        assertNotEquals(phoneNumberJPAOne, phoneNumberJPATwo);
         assertNotSame(phoneNumberJPAOne, phoneNumberJPATwo);
     }
 

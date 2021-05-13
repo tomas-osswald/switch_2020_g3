@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;

@@ -19,6 +19,7 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAs
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
@@ -215,8 +216,22 @@ class PersonRESTControllerTest {
 
         assertEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
+    }
+
+    @DisplayName("Controller-level Unit test for a failure case in adding family member")
+    @Test
+    void failCaseInAddFamilyMember() {
+        when(mockPersonInputDTOAssembler.toInputAddFamilyMemberDTO(any(AddFamilyMemberDTO.class))).thenReturn(anInternalAddFamilyMemberDTO);
+        when(mockAddFamilyMemberService.addPerson(any(InputAddFamilyMemberDTO.class))).thenThrow(new PersonAlreadyRegisteredException("Person is already registered in the database"));
 
 
+        ResponseEntity expected = new ResponseEntity("Error: Person is already registered in the database", HttpStatus.BAD_REQUEST);
+
+        ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
+
+
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
     }
 
 
@@ -243,6 +258,7 @@ class PersonRESTControllerTest {
         assertNotNull(result);
         assertEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
+        assertEquals(expected.getHeaders(), result.getHeaders());
     }
 
 

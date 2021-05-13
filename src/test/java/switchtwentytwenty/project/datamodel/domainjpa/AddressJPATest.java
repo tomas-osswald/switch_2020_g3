@@ -13,6 +13,8 @@ class AddressJPATest {
     String city = "Covilândia";
     String zip = "6215-000";
     String doorNumber = "1";
+    Long addressID = 3L;
+    Long otherAddressID = 6L;
 
     String id = "emaiil@email.com";
     PersonIDJPA personIDJPA = new PersonIDJPA(id);
@@ -131,6 +133,15 @@ class AddressJPATest {
         AddressJPA addressJPAOne = new AddressJPA(null,street, city, zip, doorNumber, personJPA);
         String otherStreet = "Rua de Baixo";
         AddressJPA addressJPATwo = new AddressJPA(null,otherStreet, city, zip, doorNumber, personJPA);
+
+        assertNotEquals(addressJPAOne, addressJPATwo);
+    }
+
+    @Test
+    @Tag("US010")
+    void testEqualsDifferentIDs() {
+        AddressJPA addressJPAOne = new AddressJPA(addressID,street, city, zip, doorNumber, personJPA);
+        AddressJPA addressJPATwo = new AddressJPA(otherAddressID,street, city, zip, doorNumber, personJPA);
 
         assertNotEquals(addressJPAOne, addressJPATwo);
     }
