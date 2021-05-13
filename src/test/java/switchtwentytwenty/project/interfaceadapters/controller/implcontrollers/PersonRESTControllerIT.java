@@ -173,7 +173,7 @@ class PersonRESTControllerIT {
 
         // Expected
 
-        ResponseEntity expectedResponse = new ResponseEntity("Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expectedResponse = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
 
         // Result
         ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);

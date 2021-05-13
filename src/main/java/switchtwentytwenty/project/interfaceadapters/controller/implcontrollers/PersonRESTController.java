@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
-import switchtwentytwenty.project.exceptions.InvalidEmailException;
-import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
@@ -121,7 +118,7 @@ public class PersonRESTController implements IPersonRESTController {
 
         } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
 
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity("Error: " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 
         }
 

@@ -18,6 +18,7 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
@@ -189,9 +190,14 @@ class PersonRESTControllerTest {
 
         when(profileInternalExternalAssembler.toInternalGetProfileDTO(any(String.class))).thenReturn(inputGetProfileDTO);
 
-        when(getFamilyMemberProfileService.getFamilyMemberProfile(any(InputGetProfileDTO.class))).thenThrow(EmailAlreadyRegisteredException.class);
+        when(getFamilyMemberProfileService.getFamilyMemberProfile(any(InputGetProfileDTO.class))).thenThrow(new EmailNotRegisteredException());
 
-        assertThrows(EmailAlreadyRegisteredException.class, () -> personRESTController.getProfileInfo(personID));
+        ResponseEntity expected = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity result = personRESTController.getProfileInfo(personID);
+
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
 
     }
 
