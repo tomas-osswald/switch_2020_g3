@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.*;
+
 import java.util.List;
 
 @Component
@@ -13,37 +14,24 @@ public class AccountFactory {
     @Autowired
     private Environment environment;
 
-    //Isto nao aceita só uma String, aceita um DTO que tem lá o string do account type. Terá de ser adaptado
     public IAccount createAccount(Designation designation, Monetary monetary, OwnerID ownerID, String accountType) {
         IAccount newIAccount;
         Movement movement = new Movement(monetary);
 
-        //Isto vai ao application.properties buscar o endereço da classe de acordo com o string que recebemos.
-        //O toLowerCase() é para bater certo
-
         String classpath = environment.getProperty(accountType.toLowerCase());
         try {
-            //Cria uma instancia do tipo especifico de conta
             newIAccount = (IAccount) Class.forName(classpath).newInstance();
-
-            //TODO: Já li os comentários! Alterei os construtores para manuais e protected para garantir que só o próprio package pode instanciar Accounts. Neste caso a Factory.
-
-            // BATISTA !!!
-            // Como já não ha build e não sabemos qual instancia de Account a "newAccount" se vai tornar,
-            // usamos construtores vazios para instanciar qualquer tipo de Account e set's para adicionar os atributos
-            // que são comuns a todas elas.
             newIAccount.setDesignation(designation);
             newIAccount.addMovement(movement);
             newIAccount.setOwner(ownerID);
 
-        }catch(ClassNotFoundException | InstantiationException | IllegalAccessException exception){
-            //Isto é para apanhar todas as exceptions possiveis do string nao ser reconhecido ou processado corretamente pelo application.properties
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException exception) {
             throw new IllegalArgumentException();
         }
         return newIAccount;
     }
 
-    public IAccount createAccount(AccountID accountID, List<Movement> movements, OwnerID ownerID,Designation designation, String accountType){
+    public IAccount createAccount(AccountID accountID, List<Movement> movements, OwnerID ownerID, Designation designation, String accountType) {
         IAccount account;
 
         String classpath = environment.getProperty(accountType.toLowerCase());
@@ -54,11 +42,9 @@ public class AccountFactory {
             account.setDesignation(designation);
             account.setMovements(movements);
             account.setOwner(ownerID);
-
-        } catch(ClassNotFoundException | InstantiationException | IllegalAccessException exception){
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException exception) {
             throw new IllegalArgumentException();
         }
-
         return account;
     }
 }
