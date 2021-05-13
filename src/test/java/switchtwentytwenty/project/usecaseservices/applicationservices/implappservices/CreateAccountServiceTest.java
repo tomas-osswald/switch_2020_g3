@@ -45,13 +45,13 @@ class CreateAccountServiceTest {
     InputAccountDTO inputAccountDTO = new InputAccountDTO("balelas", BigDecimal.valueOf(10), "EUR", "tonyze@latinlover.com", "CashAccount");
     Designation designation = new Designation(inputAccountDTO.getDesignation());
     Monetary initialAmount = new Monetary(inputAccountDTO.getCurrency(), inputAccountDTO.getInitialAmount());
-    OwnerID ownerID = new PersonID(inputAccountDTO.getOwnerID());
+    IOwnerID ownerID = new PersonID(inputAccountDTO.getOwnerID());
     String accountType = inputAccountDTO.getAccountType();
     AccountID accountID = new AccountID(123L);
 
     Designation designationB = new Designation(inputAccountDTO.getDesignation());
     Monetary initialAmountB = new Monetary(inputAccountDTO.getCurrency(), inputAccountDTO.getInitialAmount());
-    OwnerID ownerIDB = new PersonID(inputAccountDTO.getOwnerID());
+    IOwnerID ownerIDB = new PersonID(inputAccountDTO.getOwnerID());
     String accountTypeB = inputAccountDTO.getAccountType();
     AccountID accountIDB = new AccountID(123L);
 
@@ -76,7 +76,7 @@ class CreateAccountServiceTest {
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
         Mockito.when(accountDTODomainAssembler.ownerIDToDomain(any(InputAccountDTO.class))).thenReturn(ownerID);
         Mockito.when(accountDTODomainAssembler.accountTypeToDomain(any(InputAccountDTO.class))).thenReturn(accountType);
-        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(OwnerID.class), any(String.class))).thenReturn(account);
+        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(IOwnerID.class), any(String.class))).thenReturn(account);
         Mockito.when(accountRepository.add(any(IAccount.class))).thenReturn(savedAccount);
         Mockito.when(accountDTODomainAssembler.toDTO(any(IAccount.class))).thenReturn(outputAccountDTO);
 
@@ -118,8 +118,8 @@ class CreateAccountServiceTest {
 
         Mockito.when(accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO)).thenReturn(ownerID);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
-        OwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID result = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
 
         assertEquals(expected, result);
 
@@ -135,7 +135,7 @@ class CreateAccountServiceTest {
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
         Mockito.when(accountDTODomainAssembler.ownerIDToDomain(any(InputAccountDTO.class))).thenReturn(ownerID);
         Mockito.when(accountDTODomainAssembler.accountTypeToDomain(any(InputAccountDTO.class))).thenReturn(accountType);
-        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(OwnerID.class), any(String.class))).thenReturn(account);
+        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(IOwnerID.class), any(String.class))).thenReturn(account);
         Mockito.when(accountRepository.add(any(IAccount.class))).thenReturn(savedAccount);
         Mockito.when(accountDTODomainAssembler.toDTO(any(IAccount.class))).thenReturn(outputAccountDTO);
 
@@ -158,7 +158,7 @@ class CreateAccountServiceTest {
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
         Mockito.when(accountDTODomainAssembler.ownerIDToDomain(any(InputAccountDTO.class))).thenReturn(ownerID);
         Mockito.when(accountDTODomainAssembler.accountTypeToDomain(any(InputAccountDTO.class))).thenReturn(accountType);
-        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(OwnerID.class), any(String.class))).thenReturn(account);
+        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(IOwnerID.class), any(String.class))).thenReturn(account);
         Mockito.when(accountRepository.add(any(IAccount.class))).thenReturn(savedAccount);
         Mockito.when(accountDTODomainAssembler.toDTO(any(IAccount.class))).thenReturn(outputAccountDTO);
 
@@ -181,7 +181,7 @@ class CreateAccountServiceTest {
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
         Mockito.when(accountDTODomainAssembler.ownerIDToDomain(any(InputAccountDTO.class))).thenReturn(ownerID);
         Mockito.when(accountDTODomainAssembler.accountTypeToDomain(any(InputAccountDTO.class))).thenReturn(accountType);
-        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(OwnerID.class), any(String.class))).thenReturn(account);
+        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(IOwnerID.class), any(String.class))).thenReturn(account);
         Mockito.when(accountRepository.add(any(IAccount.class))).thenReturn(savedAccount);
         Mockito.when(accountDTODomainAssembler.toDTO(any(IAccount.class))).thenReturn(outputAccountDTO);
 
@@ -204,7 +204,7 @@ class CreateAccountServiceTest {
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
         Mockito.when(accountDTODomainAssembler.ownerIDToDomain(any(InputAccountDTO.class))).thenReturn(ownerID);
         Mockito.when(accountDTODomainAssembler.accountTypeToDomain(any(InputAccountDTO.class))).thenReturn(accountType);
-        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(OwnerID.class), any(String.class))).thenReturn(account);
+        Mockito.when(accountFactory.createAccount(any(Designation.class), any(Monetary.class), any(IOwnerID.class), any(String.class))).thenReturn(account);
         Mockito.when(accountRepository.add(any(IAccount.class))).thenReturn(savedAccount);
         Mockito.when(accountDTODomainAssembler.toDTO(any(IAccount.class))).thenReturn(outputAccountDTO);
 

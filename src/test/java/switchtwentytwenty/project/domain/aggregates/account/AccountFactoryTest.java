@@ -23,7 +23,7 @@ public class AccountFactoryTest {
 
     Designation designation = new Designation("Compras");
     Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
-    OwnerID ownerID = new PersonID("toni@emial.com");
+    IOwnerID ownerID = new PersonID("toni@emial.com");
     String bankAccountType = "bank";
     String cashAccountType = "cash";
     AccountID accountID = new AccountID(3L);
@@ -62,11 +62,54 @@ public class AccountFactoryTest {
         IAccount result = accountFactory.createAccount(accountID, movements, ownerID, designation, cashAccountType);
 
         assertEquals(expected, result);
+        assertEquals(expected.getDesignation(), result.getDesignation());
+        assertEquals(expected.getListOfMovements(), result.getListOfMovements());
+        assertEquals(expected.getOwnerId(),result.getOwnerId());
     }
 
-    @DisplayName("Account fails with Monetary - Account type dont match")
     @Test
-    public void createAccountWithListOfMovementsFailsAccount() {
-        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(accountID, movements, ownerID, designation, "baank"));
+    public void createAccountTestExistingAccount() {
+        Designation designation = new Designation("Compras");
+        Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
+        Movement movement = new Movement(monetary);
+        List<Movement> movementList = new ArrayList<>();
+        movementList.add(movement);
+        IOwnerID ownerID = new PersonID("toni@emial.com");
+        String accountType = "bank";
+
+        IAccount expected = new BankAccount();
+        expected.setAccountID(new AccountID(0L));
+        expected.setDesignation(new Designation("Compras"));
+        expected.addMovement(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
+        expected.setOwner(new PersonID("toni@emial.com"));
+
+        IAccount result = accountFactory.createAccount(new AccountID(0L), movementList, ownerID, designation, accountType);
+
+        assertEquals(expected, result);
+        assertEquals(expected.getDesignation(), result.getDesignation());
+        assertEquals(expected.getListOfMovements(), result.getListOfMovements());
+        assertEquals(expected.getOwnerId(),result.getOwnerId());
     }
+
+    @Test
+    public void createAccountTestNewAccount() {
+        Designation designation = new Designation("Compras");
+        Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
+        IOwnerID ownerID = new PersonID("toni@emial.com");
+        String accountType = "bank";
+
+        IAccount expected = new BankAccount();
+        expected.setDesignation(new Designation("Compras"));
+        expected.addMovement(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
+        expected.setOwner(new PersonID("toni@emial.com"));
+
+        IAccount result = accountFactory.createAccount(designation,monetary, ownerID , accountType);
+
+        assertEquals(expected, result);
+        assertEquals(expected.getDesignation(), result.getDesignation());
+        assertEquals(expected.getListOfMovements(), result.getListOfMovements());
+        assertEquals(expected.getOwnerId(),result.getOwnerId());
+    }
+
+
 }

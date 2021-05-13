@@ -5,13 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="categories")
+@Table(name = "categories")
 public class CategoryJPA {
 
     @Getter

@@ -28,9 +28,9 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
         PersonID adminID = family.getAdmin();
         PersonIDJPA adminIDJPA = new PersonIDJPA(adminID.toString());
 
-        FamilyJPA familyJPA = new FamilyJPA(familyIDJPA, name, registrationDate, adminIDJPA);
+        return new FamilyJPA(familyIDJPA, name, registrationDate, adminIDJPA);
 
-        return familyJPA;
+
     }
 
 

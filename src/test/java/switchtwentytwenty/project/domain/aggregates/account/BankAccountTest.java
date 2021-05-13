@@ -13,7 +13,7 @@ class BankAccountTest {
 
     Long id = 66L;
     AccountID accountID = new AccountID(id);
-    OwnerID personID = new PersonID("tonyze@latinlover.com");
+    IOwnerID personID = new PersonID("tonyze@latinlover.com");
     Designation designation = new Designation("noitadas");
 
     Long otherID = 99L;
@@ -44,9 +44,9 @@ class BankAccountTest {
     void getOwnerIDTest() {
         IAccount bankAccount = new BankAccount(personID, designation);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
 
-        OwnerID result = bankAccount.getOwnerId();
+        IOwnerID result = bankAccount.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -77,6 +77,17 @@ class BankAccountTest {
         assertEquals(expected, result);
     }
     @Test
+    void getListOfMovementsEmptyListTest() {
+        IAccount bankAccount = new BankAccount(personID, designation);
+
+        List<Movement> expected = new ArrayList<>();
+
+        List<Movement> result = bankAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
     void getAccountTypeTest() {
         IAccount bankAccount = new BankAccount();
 
@@ -91,9 +102,9 @@ class BankAccountTest {
         IAccount bankAccountOne = new BankAccount();
         bankAccountOne.setOwner(personID);
 
-        OwnerID expected = new PersonID("tonyze@latinlover.com");
+        IOwnerID expected = new PersonID("tonyze@latinlover.com");
 
-        OwnerID result = bankAccountOne.getOwnerId();
+        IOwnerID result = bankAccountOne.getOwnerId();
 
         assertEquals(expected, result);
         assertNotSame(expected, result);

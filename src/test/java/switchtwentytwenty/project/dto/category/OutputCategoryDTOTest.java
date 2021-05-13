@@ -42,7 +42,30 @@ class OutputCategoryDTOTest {
         Assertions.assertEquals(outputCategoryDTO1, outputCategoryDTO2);
         Assertions.assertNotSame(outputCategoryDTO1, outputCategoryDTO2);
     }
+    @Test
+    @DisplayName("Should return true if it compares two of the same OutputCategoryDTO objects")
+    void testEqualsSameObject() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Name", 2L, 3L);
+        OutputCategoryDTO outputCategoryDTO2 = outputCategoryDTO1;
 
+        Assertions.assertEquals(outputCategoryDTO1, outputCategoryDTO2);
+    }
+    @Test
+    @DisplayName("Should return false if it compares OutputCategoryDTO to an object of another class")
+    void testEqualsDifferentClass() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Name", 2L, 3L);
+        String otherClass = "This is another class";
+
+        Assertions.assertNotEquals(outputCategoryDTO1, otherClass);
+    }
+    @Test
+    @DisplayName("Should return false if it compares OutputCategoryDTO to a null object")
+    void testEqualsWithNullObject() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Name", 2L, 3L);
+        String nullString = null;
+
+        Assertions.assertNotEquals(outputCategoryDTO1, nullString);
+    }
     @Test
     @DisplayName("Should return false if two different OutputCategoryDTO objects are compared using the equals method")
     void testEqualsFail() {
@@ -51,6 +74,30 @@ class OutputCategoryDTOTest {
 
         Assertions.assertNotEquals(outputCategoryDTO1, outputCategoryDTO2);
         Assertions.assertNotSame(outputCategoryDTO1, outputCategoryDTO2);
+    }
+    @Test
+    @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different categoryName")
+    void testEqualsDifferentCategoryName() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Name", 2L, 3L);
+        OutputCategoryDTO outputCategoryDTO2 = new OutputCategoryDTO("otherName", 2L, 3L);
+
+        Assertions.assertNotEquals(outputCategoryDTO1, outputCategoryDTO2);
+    }
+    @Test
+    @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different categoryID")
+    void testEqualsDifferentCategoryID() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Name", 2L, 3L);
+        OutputCategoryDTO outputCategoryDTO2 = new OutputCategoryDTO("Name", 5L, 3L);
+
+        Assertions.assertNotEquals(outputCategoryDTO1, outputCategoryDTO2);
+    }
+    @Test
+    @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different parentID")
+    void testEqualsDifferentParentID() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Name", 2L, 3L);
+        OutputCategoryDTO outputCategoryDTO2 = new OutputCategoryDTO("Name", 2L, 5L);
+
+        Assertions.assertNotEquals(outputCategoryDTO1, outputCategoryDTO2);
     }
 
     @Test

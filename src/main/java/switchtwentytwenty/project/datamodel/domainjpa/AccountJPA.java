@@ -14,6 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "accounts")
 public class AccountJPA {
+
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class AccountJPA {
     @Getter
     @Setter
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.ALL)
-    private List<MovementJPA> movements = new ArrayList<MovementJPA>();
+    private List<MovementJPA> movements = new ArrayList<>();
 
     /**
      * Constructor for AccountJPA. Movements are set by the Repository.

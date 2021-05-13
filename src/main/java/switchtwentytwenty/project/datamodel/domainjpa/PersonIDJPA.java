@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @NoArgsConstructor
 @Embeddable
 public class PersonIDJPA implements Serializable {

@@ -17,6 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "persons")
 public class PersonJPA {
+
     @Id
     private PersonIDJPA id;
 
