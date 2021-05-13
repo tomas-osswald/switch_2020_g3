@@ -42,9 +42,19 @@ class InputCategoryDTOTest {
 
     @Test
     @DisplayName("Should return false if two different InputCategoryDTO objects are compared using the equals method")
-    void testEqualsFalse() {
+    void testEqualsFalseDifferentParentID() {
         InputCategoryDTO inputCategoryDTO1 = new InputCategoryDTO("House", "1");
         InputCategoryDTO inputCategoryDTO2 = new InputCategoryDTO("House", "2");
+
+        assertNotEquals(inputCategoryDTO1, inputCategoryDTO2);
+        assertNotSame(inputCategoryDTO1, inputCategoryDTO2);
+
+    }
+    @Test
+    @DisplayName("Should return false if two different InputCategoryDTO objects are compared using the equals method")
+    void testEqualsFalseDifferentCategoryName() {
+        InputCategoryDTO inputCategoryDTO1 = new InputCategoryDTO("House", "1");
+        InputCategoryDTO inputCategoryDTO2 = new InputCategoryDTO("otherHouse", "1");
 
         assertNotEquals(inputCategoryDTO1, inputCategoryDTO2);
         assertNotSame(inputCategoryDTO1, inputCategoryDTO2);
