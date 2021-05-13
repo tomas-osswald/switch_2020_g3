@@ -45,7 +45,6 @@ class PersonRESTControllerITDB {
     AddEmailDTO emailToAddDTO = new AddEmailDTO(emailToAdd);
 
 
-
     @Test
     @DisplayName("Success case in adding email using integration test with all components")
     void addEmailToFamilyMemberExpectingSuccess() {
