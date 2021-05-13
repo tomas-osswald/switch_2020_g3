@@ -37,7 +37,7 @@ public class AccountRESTController implements IAccountRESTController {
 
         try {
             outputAccountDTO = createAccountService.createAccount(inputAccountDTO);
-            Link selfLink = linkTo(methodOn(AccountRESTController.class).getAccountID(outputAccountDTO.getAccountID())).withSelfRel();
+            Link selfLink = linkTo(methodOn(AccountRESTController.class).getAccount(outputAccountDTO.getAccountID())).withSelfRel();
             outputAccountDTO.add(selfLink);
             ResponseEntity createdAccount = new ResponseEntity(outputAccountDTO, HttpStatus.CREATED);
             return createdAccount;
@@ -49,9 +49,10 @@ public class AccountRESTController implements IAccountRESTController {
 
 
 
-
     @RequestMapping(value = "/{accountID}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAccountID (@PathVariable String accountID){
+    public ResponseEntity<Object> getAccount(@PathVariable String accountID){
         throw new UnsupportedOperationException();
     }
+
+
 }

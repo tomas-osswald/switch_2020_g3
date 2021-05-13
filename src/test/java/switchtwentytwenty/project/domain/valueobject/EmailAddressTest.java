@@ -144,13 +144,23 @@ public class EmailAddressTest {
     }
 
     @Test
-    void testToString(){
+    void testToString() {
         EmailAddress email = new EmailAddress("1120717@isep.ipp.pt");
         String expected = "1120717@isep.ipp.pt";
 
         String result = email.toString();
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
+    @Test
+    void getId() {
+        EmailAddress emailAddress = new EmailAddress(2L, "email@email.com");
+        Long expected = 2L;
+        Long result = emailAddress.getId();
+
+        assertNotNull(result);
+        assertEquals(expected, result);
+        assertNotEquals(0L, result);
+    }
 }

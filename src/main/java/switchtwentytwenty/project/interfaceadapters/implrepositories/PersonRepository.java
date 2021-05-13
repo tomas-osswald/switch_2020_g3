@@ -23,13 +23,15 @@ public class PersonRepository implements IPersonRepository {
 
     private PersonDataDomainAssembler personAssembler;
 
+
+
+
     @Autowired
     public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         this.personRepositoryJPA = iPersonRepositoryJPA;
         this.personAssembler = personDataDomainAssembler;
 
     }
-
 
     /**
      * Method to check if a PersonID is already registered in the database
@@ -49,7 +51,6 @@ public class PersonRepository implements IPersonRepository {
         return emailIsRegistered;
     }
 
-
     @Override
     public Person getByID(PersonID personID) {
         return retrievePersonFromRepository(personID);
@@ -57,14 +58,14 @@ public class PersonRepository implements IPersonRepository {
 
     private Person retrievePersonFromRepository(PersonID id) {
         PersonIDJPA personIDJPA = new PersonIDJPA(id.toString());
-        if (personRepositoryJPA.existsById(personIDJPA)) {
-            Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+        Optional<PersonJPA> personJPA = personRepositoryJPA.findById(personIDJPA);
+        if (personJPA.isPresent()) {
             return createPerson(personJPA.get());
         } else {
             throw new EmailNotRegisteredException();
         }
-    }
 
+    }
 
     /**
      * Method to add the inputted Person domain object into the repository.
