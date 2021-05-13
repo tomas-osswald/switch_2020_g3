@@ -61,8 +61,8 @@ public class AccountRepository implements IAccountRepository {
             throw new AccountAlreadyRegisteredException();
         } else {
             AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
-            accountRepositoryJPA.save(accountJPA);
-            IAccount savedAccount = createAccount(accountJPA);
+            AccountJPA savedAccountJPA = accountRepositoryJPA.save(accountJPA);
+            IAccount savedAccount = createAccount(savedAccountJPA);
             return savedAccount;
         }
     }

@@ -31,7 +31,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
         String validationID = Character.toString(validation);
         OwnerID ownerID;
 
-        if ( validationID == "@" ){
+        if ( validationID.equals("@") ){
             ownerID = new FamilyID(inputAccountDTO.getOwnerID());
         } else {
             ownerID = new PersonID(inputAccountDTO.getOwnerID());

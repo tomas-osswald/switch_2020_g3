@@ -26,7 +26,8 @@ public class BankAccount extends AbNonCashAccount {
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected BankAccount(OwnerID ownerID, Designation designation) {
+    //TODO: Mudar nos construtores das diferentes accounts para o Environment não ser null nos testes.
+   public BankAccount(OwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
     }
