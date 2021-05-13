@@ -7,6 +7,7 @@ import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.A
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+
 class OutputAccountDTOTest {
     String ACCOUNTID = "3";
     String PERSONOWNERID = "tonyZe@latinlover.com";
