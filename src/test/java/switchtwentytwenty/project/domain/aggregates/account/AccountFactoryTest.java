@@ -67,12 +67,6 @@ public class AccountFactoryTest {
         assertEquals(expected.getOwnerId(),result.getOwnerId());
     }
 
-    @DisplayName("Account fails with Monetary - Account type dont match")
-    @Test
-    public void createAccountWithListOfMovementsFailsAccount() {
-        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(accountID, movements, ownerID, designation, "baank"));
-    }
-
     @Test
     public void createAccountTestExistingAccount() {
         Designation designation = new Designation("Compras");
