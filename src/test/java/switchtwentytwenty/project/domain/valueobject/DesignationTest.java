@@ -2,6 +2,8 @@ package switchtwentytwenty.project.domain.valueobject;
 
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,5 +55,13 @@ class DesignationTest {
         Designation designation = new Designation("cash");
         String result = designation.toString();
         assertNotNull(result);
+        assertTrue(result.length()>0);
+    }
+
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testToStringNullEmpty(String value) {
+        assertThrows(IllegalArgumentException.class, ()->new Designation(value));
     }
 }
