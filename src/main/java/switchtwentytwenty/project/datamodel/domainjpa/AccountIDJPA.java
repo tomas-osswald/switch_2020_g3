@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,6 +16,7 @@ public class AccountIDJPA implements Serializable {
 
     @Getter
     @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public AccountIDJPA (Long id) {

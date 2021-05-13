@@ -4,11 +4,10 @@ package switchtwentytwenty.project.domain.aggregates.person;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.exceptions.*;
+import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class Person implements AggregateRoot<PersonID> {
     }
 
     private void addPhone(PhoneNumber phone) {
-        if (phone!=null) {
+        if (phone != null) {
             this.phoneNumbers.add(phone);
         }
     }
@@ -85,6 +84,7 @@ public class Person implements AggregateRoot<PersonID> {
 
     /**
      * Method that determines if a given email is present either as ID or in the email List
+     *
      * @param email EmailAddress object to be verified
      * @return true if email is already registered, false otherwise
      */
@@ -110,7 +110,11 @@ public class Person implements AggregateRoot<PersonID> {
     }
 
     public List<EmailAddress> getEmails() {
-        return this.emails;
+        List<EmailAddress> copyEmails = new ArrayList<>();
+        if (!(this.emails==null)) {
+            copyEmails.addAll(this.emails);
+        }
+        return copyEmails;
     }
 
     public VATNumber getVat() {
@@ -118,7 +122,11 @@ public class Person implements AggregateRoot<PersonID> {
     }
 
     public List<PhoneNumber> getPhoneNumbers() {
-        return this.phoneNumbers;
+        List<PhoneNumber> copyPhones = new ArrayList<>();
+        if (!(this.phoneNumbers==null)) {
+            copyPhones.addAll(this.phoneNumbers);
+        }
+        return copyPhones;
     }
 
     public Address getAddress() {

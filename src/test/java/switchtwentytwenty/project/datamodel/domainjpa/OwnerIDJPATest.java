@@ -92,7 +92,7 @@ class OwnerIDJPATest {
         OwnerIDJPA ownerIDJPAOne = new OwnerIDJPA(personOwnerID);
         OwnerIDJPA ownerIDJPATwo = new OwnerIDJPA("test@gmail.com");
 
-        assertNotEquals(ownerIDJPAOne, ownerIDJPATwo);
+        assertNotEquals(ownerIDJPAOne.hashCode(), ownerIDJPATwo.hashCode());
     }
 
 }

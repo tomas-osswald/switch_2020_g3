@@ -103,4 +103,18 @@ class CategoryRepositoryTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void testGetByID() {
+        CategoryID categoryID = new CategoryID(12L);
+
+        assertThrows(UnsupportedOperationException.class, ()-> categoryRepository.getByID(categoryID));
+    }
+
+    @Test
+    void testAdd() {
+        CategoryID categoryID = new CategoryID(12L);
+    Category category = new StandardCategory(new CategoryName("house"));
+        assertThrows(UnsupportedOperationException.class, ()-> categoryRepository.add(category));
+    }
 }

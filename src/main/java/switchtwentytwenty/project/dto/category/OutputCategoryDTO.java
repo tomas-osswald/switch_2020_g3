@@ -12,10 +12,10 @@ import java.util.Objects;
 public class OutputCategoryDTO {
 
     private String categoryName;
-    private String categoryID;
-    private String parentID;
+    private Long categoryID;
+    private Long parentID;
 
-    public OutputCategoryDTO(String categoryName, String categoryID, String parentID) {
+    public OutputCategoryDTO(String categoryName, Long categoryID, Long parentID) {
         this.categoryName = categoryName;
         this.categoryID = categoryID;
         this.parentID = parentID;
