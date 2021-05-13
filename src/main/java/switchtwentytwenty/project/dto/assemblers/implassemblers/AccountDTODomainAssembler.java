@@ -47,6 +47,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     @Override
     public OutputAccountDTO toDTO(IAccount account) {
-        return null;
+        OutputAccountDTO outputAccountDTO = new OutputAccountDTO(account.getAccountId().toString(), account.getOwnerId().toString(), account.getDesignation().toString());
+        return outputAccountDTO;
     }
 }
