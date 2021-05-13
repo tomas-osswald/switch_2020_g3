@@ -4,11 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
-import switchtwentytwenty.project.domain.valueobject.AccountID;
-import switchtwentytwenty.project.domain.valueobject.AccountType;
-import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
+import switchtwentytwenty.project.domain.aggregates.account.CashAccount;
+import switchtwentytwenty.project.domain.aggregates.account.IAccount;
+import switchtwentytwenty.project.domain.valueobject.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 class AccountDataDomainAssemblerTest {
     AccountDataDomainAssembler accountDataDomainAssembler = new AccountDataDomainAssembler();
@@ -69,4 +73,35 @@ class AccountDataDomainAssemblerTest {
         Assertions.assertNotSame(expected, result);
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    void toDataTest(){
+        AccountID accountID = new AccountID(12L);
+        OwnerID ownerID = new PersonID("administrator@email.com");
+        Designation designation = new Designation("Cash Account");
+        List<Movement> movements = new ArrayList<>();
+        IAccount account = new CashAccount(accountID,ownerID,designation,movements);
+        AccountJPA expected = new AccountJPA(new AccountIDJPA(),new OwnerIDJPA(),"Cash Account","Cash Account");
+
+        AccountJPA result = accountDataDomainAssembler.toData(account);
+
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void createMovementsTest(){
+        AccountJPA accountJPA = new AccountJPA(new AccountIDJPA(),new OwnerIDJPA(),"Cash Account","Cash Account");
+        List<Movement> expected = new ArrayList<>();
+        Movement movement = new Movement(new Monetary("EUR",BigDecimal.valueOf(100)));
+        expected.add(movement);
+        List<MovementJPA> movementsJPA = new ArrayList<>();
+        MovementJPA movementJPA = new MovementJPA(100L,"EUR",accountJPA);
+        movementsJPA.add(movementJPA);
+
+        accountJPA.setMovements(movementsJPA);
+        List<Movement> result = accountDataDomainAssembler.createMovements(accountJPA);
+
+        Assertions.assertEquals(expected,result);
+    }
+
 }
