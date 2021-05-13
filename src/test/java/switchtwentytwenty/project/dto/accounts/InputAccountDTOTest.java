@@ -52,4 +52,9 @@ class InputAccountDTOTest {
         String result = inputAccountDTO.getAccountType();
         assertEquals(expected, result);
     }
+
+    @Test
+    void testEquals(){
+
+    }
 }
