@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.AccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
@@ -23,6 +24,7 @@ import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
+import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.AccountRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
@@ -32,6 +34,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -117,7 +120,7 @@ class AccountRESTControllerIT {
     List emptyMovements = new ArrayList();
     OwnerIDJPA familyAsOwnerIDJPA = new OwnerIDJPA(familyOwnerIDString);
     IAccount familyCashAccount = new CashAccount(accountID, familyOwnerID, designation, emptyMovements);
-    AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
+
 
 
     @Test
@@ -160,16 +163,33 @@ class AccountRESTControllerIT {
 
     }
 
-   /* @Test
+   @Test
     @DisplayName("Integration test expecting account already registered exception")
     void failToCreateAccountWhenProvidingAlreadyExistingAccount() {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
-        Optional<AccountJPA> optionalAccountJPA = Optional.of(accountJPA);
+       AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
+       CreateAccountDTO createBankAccountDTO = new CreateAccountDTO(designationString, amount, currency, "@tonyze@cenas.com", accountTypeString);
 
+        //Optional<AccountJPA> optionalAccountJPA = Optional.of(accountJPA);
+        AccountJPA realAccountJPA = new AccountJPA();
         when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(familyAccountJPA);
-        when(mockRepositoryJPA.save(any(AccountJPA.class))).thenThrow(AccountAlreadyRegisteredException.class);
+        when(mockRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(Optional.of(realAccountJPA));
+
+        //NÃO PODE SER THROWS!!!!!!!!
+        //ResponseEntity ->
+        assertThrows(AccountAlreadyRegisteredException.class, () -> accountRESTController.createAccount(createBankAccountDTO));
+
+
+    /*   when(account.getOwnerId()).thenReturn(new FamilyID());
+       when(accountRepositoryJPA.findByOwnerID(new OwnerIDJPA(account.getOwnerId().toString()))).thenReturn(Optional.of(realAccountJPA));
+
+       assertThrows(AccountAlreadyRegisteredException.class, () -> accountRepository.add(account));
+
+      */
+
+
         /*when(mockAccountDataDomainAssembler.createAccountID(any(AccountJPA.class))).thenReturn(accountID);
         when(mockAccountDataDomainAssembler.createAccountType(any(AccountJPA.class))).thenReturn(accountType);
         when(mockAccountDataDomainAssembler.createDesignation(any(AccountJPA.class))).thenReturn(designation);
@@ -178,13 +198,13 @@ class AccountRESTControllerIT {
         when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
         */
 
-        /*
+       /*
         OutputAccountDTO expectedOutputDTO = new OutputAccountDTO(accountIDString, ownerIDString, designationString);
         Link link = linkTo(methodOn(AccountRESTController.class).getAccount(accountIDString)).withSelfRel();
         expectedOutputDTO.add(link);
          */
 
-        //assertThrows(AccountAlreadyRegisteredException.class, () -> accountRESTController.createAccount(createBankAccountDTO));
+
 
         /*ResponseEntity expected = new ResponseEntity(expectedOutputDTO, HttpStatus.CREATED);
 
@@ -192,7 +212,9 @@ class AccountRESTControllerIT {
 
         assertEquals(expected.getBody().toString(), result.getBody().toString());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
-        */
+
+         */
+        }
 
     }
 
