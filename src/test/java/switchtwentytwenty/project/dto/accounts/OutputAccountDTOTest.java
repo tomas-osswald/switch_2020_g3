@@ -80,20 +80,27 @@ class OutputAccountDTOTest {
         assertNotSame(outputAccountDTOOne, outputAccountDTOTwo);
     }
     @Test
-    void equalsTestIsDifferentObject() {
+    void equalsIsDifferentObjectTest() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
         OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO();
 
         assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
-    }
-    @Test
-    void equalsTestIsDifferentClass() {
+    }    @Test
+    void equalsAccountIDIsDifferent() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("barbaric", PERSONOWNERID, DESIGNATION);
 
-        assertNotEquals(outputAccountDTOOne, ACCOUNTID);
+        assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
     }
     @Test
-    void equalsTestIsDifferent() {
+    void equalsIsDifferentClassTest() {
+        OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
+        String notOutputAccountDTO = "I'm not an OutputAccountDTO object";
+
+        assertNotEquals(outputAccountDTOOne, notOutputAccountDTO);
+    }
+    @Test
+    void equalsIsDifferentTest() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
         OutputAccountDTO outputAccountDTOTwo = outputAccountDTOOne;
 
