@@ -82,7 +82,7 @@ class OutputAccountDTOTest {
     @Test
     void equalsTestIsDifferentObject() {
         OutputAccountDTO outputAccountDTOOne = new OutputAccountDTO(ACCOUNTID, PERSONOWNERID, DESIGNATION);
-        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO("5", PERSONOWNERID, DESIGNATION);
+        OutputAccountDTO outputAccountDTOTwo = new OutputAccountDTO();
 
         assertNotEquals(outputAccountDTOOne, outputAccountDTOTwo);
     }
