@@ -15,18 +15,7 @@ public class DateHelper {
         //throw new IllegalStateException("Utility class");
     //}
 
-    public static Calendar parseDateAndTime(String dateString, String timeString) {
-        String pattern = "dd/MM/yyyyHH:mm";
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        String dateAndTime = dateString + timeString;
-        Calendar calendar = Calendar.getInstance();
-        try {
-            calendar.setTime(format.parse(dateAndTime));
-        } catch (ParseException e) {
-            throw new InvalidDateException(DATE_IS_INVALID);
-        }
-        return calendar;
-    }
+
 
     public static Calendar parseDateToCalendar(String dateString) {
         String pattern = "dd/MM/yyyy";
