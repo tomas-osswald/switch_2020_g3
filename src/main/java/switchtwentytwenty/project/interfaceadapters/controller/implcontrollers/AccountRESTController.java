@@ -9,6 +9,8 @@ import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
+import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
+import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
 
@@ -42,7 +44,7 @@ public class AccountRESTController implements IAccountRESTController {
             ResponseEntity createdAccount = new ResponseEntity(outputAccountDTO, HttpStatus.CREATED);
             return createdAccount;
         }
-        catch(Exception exception) {
+        catch(IllegalArgumentException | AccountNotRegisteredException exception) {
             return new ResponseEntity("Could not create Account", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
