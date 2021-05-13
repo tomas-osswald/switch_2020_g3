@@ -26,7 +26,7 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected CreditCardAccount(OwnerID ownerID, Designation designation){
+    protected CreditCardAccount(OwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
     }
@@ -52,13 +52,22 @@ public class CreditCardAccount extends AbNonCashAccount {
     }
 
     @Override
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    @Override
     public String getAccountType() {
         return "Credit Card Account";
     }
 
     @Override
     public List<Movement> getListOfMovements() {
-        return this.movements;
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override
@@ -69,11 +78,6 @@ public class CreditCardAccount extends AbNonCashAccount {
     @Override
     public void setOwner(OwnerID ownerID) {
         this.ownerID = ownerID;
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
     }
 
     @Override
