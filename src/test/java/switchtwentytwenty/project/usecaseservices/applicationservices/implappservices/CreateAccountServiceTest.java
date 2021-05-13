@@ -18,8 +18,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IAccountReposito
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -57,8 +56,7 @@ class CreateAccountServiceTest {
     void NoArgsConstructor() {
 
         CreateAccountService createAccountServiceA = new CreateAccountService();
-        CreateAccountService createAccountServiceB = new CreateAccountService();
-        assertEquals(createAccountServiceA, createAccountServiceB);
+        assertNotNull(createAccountServiceA);
 
     }
 

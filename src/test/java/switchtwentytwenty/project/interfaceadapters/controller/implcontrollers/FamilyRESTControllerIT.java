@@ -63,8 +63,11 @@ class FamilyRESTControllerIT {
     @Test
     void familiesOptionsTest() {
         OptionsDTO optionsDTO = new OptionsDTO();
-        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
+        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withSelfRel();
+        Link linkToAddFamily = linkTo(methodOn(FamilyRESTController.class).createFamilyAndSetAdmin(new AddFamilyAndSetAdminDTO())).withRel("POST - Add new Family");
+
         optionsDTO.add(link);
+        optionsDTO.add(linkToAddFamily);
 
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
@@ -72,7 +75,12 @@ class FamilyRESTControllerIT {
         ResponseEntity expected = new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
         ResponseEntity result = familyRESTController.familiesOptions();
 
-        assertEquals(result, expected);
+        OptionsDTO resultDTO = (OptionsDTO)result.getBody();
+        OptionsDTO expectedDTO = (OptionsDTO)expected.getBody();
+
+        assertEquals(resultDTO.getLinks(),expectedDTO.getLinks());
+        assertEquals(result.getHeaders(), expected.getHeaders());
+        assertEquals(result.getStatusCode(), expected.getStatusCode());
     }
 
 
