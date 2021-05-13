@@ -81,7 +81,7 @@ class PersonIDJPATest {
         PersonIDJPA personIDJPAOne = new PersonIDJPA(personID);
         PersonIDJPA personIDJPATwo = new PersonIDJPA("test@gmail.com");
 
-        assertNotEquals(personIDJPAOne, personIDJPATwo);
+        assertNotEquals(personIDJPAOne.hashCode(), personIDJPATwo.hashCode());
     }
 
 }
