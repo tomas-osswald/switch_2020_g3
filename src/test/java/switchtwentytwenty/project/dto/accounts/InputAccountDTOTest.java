@@ -54,7 +54,8 @@ class InputAccountDTOTest {
     }
 
     @Test
-    void testEquals(){
+    void testDifferentAttributesExpectingNotEquals(){
+
 
     }
 }
