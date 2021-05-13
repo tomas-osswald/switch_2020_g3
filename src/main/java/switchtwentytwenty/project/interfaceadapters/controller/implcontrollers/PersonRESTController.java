@@ -84,7 +84,7 @@ public class PersonRESTController implements IPersonRESTController {
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).personOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
             return new ResponseEntity<>(outputPersonDTO, status);
-        } catch (Exception e) {
+        } catch (EmailAlreadyRegisteredException | InvalidEmailException e) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity("Error: "+ e.getMessage(), status);
         }
