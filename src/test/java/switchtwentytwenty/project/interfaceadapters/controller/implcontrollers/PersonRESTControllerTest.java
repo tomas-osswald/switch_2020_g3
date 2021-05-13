@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
@@ -25,6 +26,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPersonOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PeopleOptionsService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -59,6 +61,8 @@ class PersonRESTControllerTest {
     @Mock
     PersonInputDTOAssembler profileInternalExternalAssembler;
 
+    @Mock
+    PeopleOptionsService peopleOptionsServiceMock;
     //@Mock
     //OutputPersonDTO anOutputPersonDTO;
 
@@ -268,6 +272,30 @@ class PersonRESTControllerTest {
         assertEquals(expected.getHeaders(), result.getHeaders());
     }
 
+    @Test
+    void peopleOptionsTest() {
+        OptionsDTO optionsDTO = new OptionsDTO();
+
+        Link linkToPeopleOptions = linkTo(methodOn(PersonRESTController.class).peopleOptions()).withSelfRel();
+
+        optionsDTO.add(linkToPeopleOptions);
+
+        when(peopleOptionsServiceMock.getPeopleOptions()).thenReturn(optionsDTO);
+
+        OptionsDTO expectedOptionsDTO = new OptionsDTO();
+
+        Link expectedLinkToPeopleOptions = linkTo(methodOn(PersonRESTController.class).peopleOptions()).withSelfRel();
+
+        expectedOptionsDTO.add(expectedLinkToPeopleOptions);
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "POST, OPTIONS");
+
+        ResponseEntity expected = new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
+        ResponseEntity result = personRESTController.peopleOptions();
+
+        assertEquals(result, expected);
+    }
 
 
 }
