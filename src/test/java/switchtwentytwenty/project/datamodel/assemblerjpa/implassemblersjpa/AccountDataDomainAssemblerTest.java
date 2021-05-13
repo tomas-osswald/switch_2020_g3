@@ -88,6 +88,21 @@ class AccountDataDomainAssemblerTest {
     }
 
     @Test
+    void toDataVariousMovementsTest(){
+        AccountID accountID = new AccountID(12L);
+        OwnerID ownerID = new PersonID("administrator@email.com");
+        Designation designation = new Designation("Cash Account");
+        List<Movement> movements = new ArrayList<>();
+        movements.add(new Movement(new Monetary("EUR",BigDecimal.valueOf(100))));
+        IAccount account = new CashAccount(accountID,ownerID,designation,movements);
+        AccountJPA expected = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
+
+        AccountJPA result = accountDataDomainAssembler.toData(account);
+
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
     void createMovementsTest(){
         AccountJPA accountJPA = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
         List<Movement> expected = new ArrayList<>();
