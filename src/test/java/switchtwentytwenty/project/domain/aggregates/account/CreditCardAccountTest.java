@@ -76,10 +76,21 @@ class CreditCardAccountTest {
         assertEquals(expected, result);
     }
     @Test
+    void getListOfMovementsTestEmptyList() {
+        IAccount creditCardAccount = new CreditCardAccount(personID, designation);
+
+        List<Movement> expected = new ArrayList<>();
+
+        List<Movement> result = creditCardAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
     void getAccountTypeTest() {
         IAccount creditCardAccount = new CreditCardAccount();
 
-        String expected = "Credit Card Account";
+        String expected = "credit";
 
         String result = creditCardAccount.getAccountType();
 

@@ -75,11 +75,23 @@ class BankSavingsAccountTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void getListOfMovementsTestEmptyList() {
+        IAccount bankSavingsAccount = new BankSavingsAccount(personID, designation);
+
+        List<Movement> expected = new ArrayList<>();
+
+        List<Movement> result = bankSavingsAccount.getListOfMovements();
+
+        assertEquals(expected, result);
+    }
+
     @Test
     void getAccountTypeTest() {
         IAccount bankSavingsAccount = new BankSavingsAccount();
 
-        String expected = "Bank Savings Account";
+        String expected = "savings";
 
         String result = bankSavingsAccount.getAccountType();
 

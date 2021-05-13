@@ -6,9 +6,16 @@ public class Designation {
 
     private String designation;
 
-    //TODO: Add validation of null or empty String
+
     public Designation(String designation) {
+        validateDesignation(designation);
         this.designation = designation;
+    }
+
+    private void validateDesignation(String designation) {
+        if(designation==null || designation.trim().length()==0){
+            throw new IllegalArgumentException("Designation can't be null or empty");
+        }
     }
 
     @Override
@@ -22,5 +29,9 @@ public class Designation {
     @Override
     public int hashCode() {
         return Objects.hash(designation);
+    }
+
+    public String toString(){
+        return this.designation;
     }
 }

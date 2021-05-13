@@ -26,7 +26,6 @@ public class BankAccount extends AbNonCashAccount {
 
     private List<Movement> movements = new ArrayList<>();
 
-    //TODO: Mudar nos construtores das diferentes accounts para o Environment não ser null nos testes.
    public BankAccount(IOwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
@@ -53,13 +52,22 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    @Override
     public String getAccountType() {
-        return "Bank Account";
+        return "bank";
     }
 
     @Override
     public List<Movement> getListOfMovements() {
-        return this.movements;
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override
@@ -75,11 +83,6 @@ public class BankAccount extends AbNonCashAccount {
     @Override
     public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
     }
 
     @Override
