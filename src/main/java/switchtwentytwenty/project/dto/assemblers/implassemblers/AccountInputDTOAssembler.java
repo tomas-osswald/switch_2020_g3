@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Component
 public class AccountInputDTOAssembler implements IAccountInputDTOAssembler {
 
-    @Override
+     @Override
     public InputAccountDTO toInputDTO(CreateAccountDTO createAccountDTO) {
         String designation = createAccountDTO.getDesignation();
         BigDecimal initialAmount = createAccountDTO.getInitialAmount();
