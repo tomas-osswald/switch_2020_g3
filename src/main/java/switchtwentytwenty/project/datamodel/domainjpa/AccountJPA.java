@@ -27,7 +27,7 @@ public class AccountJPA {
     @Getter
     @Setter
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.ALL)
-    private List<MovementJPA> movements = new ArrayList<MovementJPA>();
+    private List<MovementJPA> movements = new ArrayList<>();
 
     /**
      * Constructor for AccountJPA. Movements are set by the Repository.
