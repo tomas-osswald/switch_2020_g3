@@ -23,4 +23,8 @@ public class Designation {
     public int hashCode() {
         return Objects.hash(designation);
     }
+
+    public String toString(){
+        return this.designation;
+    }
 }

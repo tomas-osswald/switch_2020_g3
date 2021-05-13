@@ -9,15 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.Objects;
-
+/*
 @NoArgsConstructor
 @Embeddable
 public class AccountIDJPA implements Serializable {
 
     @Getter
     @Setter
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id = Long.getLong("12");
 
     public AccountIDJPA (Long id) {
         this.id = id;
@@ -41,3 +41,6 @@ public class AccountIDJPA implements Serializable {
         return Objects.hash(id);
     }
 }
+
+
+ */
