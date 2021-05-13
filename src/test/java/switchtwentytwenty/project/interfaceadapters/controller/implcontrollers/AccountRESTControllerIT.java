@@ -152,8 +152,9 @@ class AccountRESTControllerIT {
 
         ResponseEntity result = accountRESTController.createAccount(createBankAccountDTO);
 
-        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
 
     }
+
 }

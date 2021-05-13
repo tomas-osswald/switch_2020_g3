@@ -9,15 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -67,9 +70,11 @@ class AccountRepositoryTest {
     Designation designation = new Designation(desig);
     AccountType accountType = new AccountType(accType);
 
-    @DisplayName("Test if AccountRepository adds the Account")
+    AccountJPA realAccountJPA = new AccountJPA();
+
+    @DisplayName("AccountRepository adds the Account successfully")
     @Test
-    void addAccountSucess(){
+    void addAccountSucess() {
         when(accountDataDomainAssembler.toData(account)).thenReturn(accountJPA);
         when(accountRepositoryJPA.save(accountJPA)).thenReturn(savedAccountJPA);
         when(accountDataDomainAssembler.createAccountID(savedAccountJPA)).thenReturn(accountID);
@@ -77,18 +82,41 @@ class AccountRepositoryTest {
         when(accountDataDomainAssembler.createOwnerID(savedAccountJPA)).thenReturn(ownerID);
         when(accountDataDomainAssembler.createDesignation(savedAccountJPA)).thenReturn(designation);
         when(accountDataDomainAssembler.createAccountType(savedAccountJPA)).thenReturn(accountType);
-        when(accountFactory.createAccount( accountID, movements, ownerID, designation, accType )).thenReturn(savedAccount);
+        when(accountFactory.createAccount(accountID, movements, ownerID, designation, accType)).thenReturn(savedAccount);
 
-        assertDoesNotThrow(()->accountRepository.add(account));
+        assertDoesNotThrow(() -> accountRepository.add(account));
+
+    }
+
+    @DisplayName("AccountRepository fails to add the Account")
+    @Test
+    void addAccountFailure() {
+        when(account.getOwnerId()).thenReturn(new FamilyID());
+        when(accountRepositoryJPA.findByOwnerID(new OwnerIDJPA(account.getOwnerId().toString()))).thenReturn(Optional.of(realAccountJPA));
+
+        assertThrows(AccountAlreadyRegisteredException.class, () -> accountRepository.add(account));
+    }
+
+    @DisplayName("Check if Account Exists - Success, Account exists")
+    @Test
+    void getByIdSuccess() {
+        when(accountRepositoryJPA.findById(any(Long.class))).thenReturn(Optional.of(accountJPA));
+        when(accountDataDomainAssembler.createAccountID(accountJPA)).thenReturn(accountID);
+        when(accountDataDomainAssembler.createMovements(accountJPA)).thenReturn(movements);
+        when(accountDataDomainAssembler.createOwnerID(accountJPA)).thenReturn(ownerID);
+        when(accountDataDomainAssembler.createDesignation(accountJPA)).thenReturn(designation);
+        when(accountDataDomainAssembler.createAccountType(accountJPA)).thenReturn(accountType);
+        when(accountFactory.createAccount(accountID, movements, ownerID, designation, accType)).thenReturn(account);
+
+        assertDoesNotThrow(() -> accountRepository.getByID(accountID));
 
     }
 
     @DisplayName("Check if Account Exists - Throws error, Account does not exists")
     @Test
-    void getByIdFailure(){
+    void getByIdFailure() {
         when(accountRepositoryJPA.findById(any(Long.class))).thenThrow(AccountNotRegisteredException.class);
-
-        assertThrows(AccountNotRegisteredException.class,()->accountRepository.getByID(accountID));
+        assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
 
     }
 

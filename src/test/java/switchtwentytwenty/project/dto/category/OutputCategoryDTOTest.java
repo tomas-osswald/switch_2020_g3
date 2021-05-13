@@ -81,7 +81,7 @@ class OutputCategoryDTOTest {
         String expected = "NewName";
         String result = outputCategoryDTO1.getCategoryName();
 
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
@@ -90,7 +90,7 @@ class OutputCategoryDTOTest {
         outputCategoryDTO1.setCategoryID(5L);
         Long expected = 5L;
         Long result = outputCategoryDTO1.getCategoryID();
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
 
     }
 
@@ -100,6 +100,13 @@ class OutputCategoryDTOTest {
         outputCategoryDTO1.setParentID(5L);
         Long expected = 5L;
         Long result = outputCategoryDTO1.getParentID();
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void noArgsConstructorTest() {
+        OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO();
+        outputCategoryDTO.setCategoryID(3L);
+        Assertions.assertNotNull(outputCategoryDTO);
     }
 }

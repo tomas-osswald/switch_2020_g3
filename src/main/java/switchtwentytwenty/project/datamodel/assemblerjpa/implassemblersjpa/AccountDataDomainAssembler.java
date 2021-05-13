@@ -2,7 +2,6 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
-
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
@@ -44,7 +43,6 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         accountJPA.setMovements(movementJPAList);
         return accountJPA;
     }
-
 
     @Deprecated
     public IAccount toDomain(AccountJPA accountJPA) {
