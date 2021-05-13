@@ -7,7 +7,6 @@ import switchtwentytwenty.project.exceptions.InvalidZipCodeException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class AddressTest {
 
@@ -27,7 +26,7 @@ class AddressTest {
 
     @Test
     @Tag("US010")
-    void constructorValidData(){
+    void constructorValidData() {
         Address result = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
 
         assertNotNull(result);
@@ -35,74 +34,74 @@ class AddressTest {
 
     @Test
     @Tag("US010")
-    void constructorInvalidData(){
+    void constructorInvalidData() {
         String invalidZipCode = "";
 
-        assertThrows(InvalidZipCodeException.class,()-> new Address(VALIDSTREET, VALIDCITY, invalidZipCode, VALIDDOORNUMBER));
+        assertThrows(InvalidZipCodeException.class, () -> new Address(VALIDSTREET, VALIDCITY, invalidZipCode, VALIDDOORNUMBER));
     }
 
     @Test
     @Tag("US010")
-    void equalsTestSameAddresses(){
+    void equalsTestSameAddresses() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = addressOne;
 
-        assertEquals(addressOne,addressTwo);
+        assertEquals(addressOne, addressTwo);
     }
 
     @Test
     @Tag("US010")
-    void equalsTestDifferentTypesOfObject(){
+    void equalsTestDifferentTypesOfObject() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
-        LocalDate notACity = LocalDate.of(2001,1,1);
+        LocalDate notACity = LocalDate.of(2001, 1, 1);
 
-        assertNotEquals(addressOne,notACity);
+        assertNotEquals(addressOne, notACity);
     }
 
     @Test
     @Tag("US010")
-    void equalsTestEqualAddresses(){
+    void equalsTestEqualAddresses() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
 
-        assertEquals(addressOne,addressTwo);
-        assertNotSame(addressOne,addressTwo);
+        assertEquals(addressOne, addressTwo);
+        assertNotSame(addressOne, addressTwo);
     }
 
     @Test
     @Tag("US010")
-    void equalsTestDifferentStreets(){
+    void equalsTestDifferentStreets() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = new Address("Rua de Baixo", VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
 
-        assertNotEquals(addressOne,addressTwo);
+        assertNotEquals(addressOne, addressTwo);
     }
 
     @Test
     @Tag("US010")
-    void equalsTestDifferentCities(){
+    void equalsTestDifferentCities() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = new Address(VALIDSTREET, "Matosinhos", VALIDZIPCODE, VALIDDOORNUMBER);
 
-        assertNotEquals(addressOne,addressTwo);
+        assertNotEquals(addressOne, addressTwo);
     }
 
     @Test
     @Tag("US010")
-    void equalsTestDifferentZipCodes(){
+    void equalsTestDifferentZipCodes() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = new Address(VALIDSTREET, VALIDCITY, "4000-001", VALIDDOORNUMBER);
 
-        assertNotEquals(addressOne,addressTwo);
+        assertNotEquals(addressOne, addressTwo);
     }
 
     @Test
     @Tag("US010")
-    void equalsTestDifferentDoorNumbers(){
+    void equalsTestDifferentDoorNumbers() {
         Address addressOne = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
         Address addressTwo = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, "58A");
 
-        assertNotEquals(addressOne,addressTwo);
+        assertNotEquals(addressOne, addressTwo);
     }
 
     @Test
@@ -112,7 +111,7 @@ class AddressTest {
         Address addressTwo = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDDOORNUMBER);
 
         assertEquals(addressOne.hashCode(), addressTwo.hashCode());
-        assertNotSame(addressOne,addressTwo);
+        assertNotSame(addressOne, addressTwo);
     }
 
     @Test
@@ -122,5 +121,17 @@ class AddressTest {
         Address addressTwo = new Address(VALIDSTREET, "Matosinhos", VALIDZIPCODE, VALIDDOORNUMBER);
 
         assertNotEquals(addressOne.hashCode(), addressTwo.hashCode());
+    }
+
+    @Test
+    void getIdSuccess() {
+        Address address = new Address(1L, new Street("rua"), new City("cidade"), new ZipCode("1234-123"), new DoorNumber("12"));
+        Long expected = 1L;
+        Long result = address.getId();
+
+        assertNotNull(result);
+        assertEquals(expected, result);
+        assertNotEquals(0L, result);
+
     }
 }
