@@ -54,8 +54,54 @@ class InputAccountDTOTest {
     }
 
     @Test
-    void testDifferentAttributesExpectingNotEquals(){
+    void testEqualsDifferentDesignationsInInputAccountDTO(){
+        InputAccountDTO inputAccountDTOOne = new InputAccountDTO();
+        inputAccountDTOOne.setDesignation("My Account");
+        InputAccountDTO inputAccountDTOTwo = new InputAccountDTO();
+        inputAccountDTOTwo.setDesignation("My New Account");
 
-
+        assertNotEquals(inputAccountDTOOne,inputAccountDTOTwo);
     }
+
+    @Test
+    void testEqualsDifferentInitialAmountInInputAccountDTO(){
+        InputAccountDTO inputAccountDTOOne = new InputAccountDTO();
+        inputAccountDTOOne.setInitialAmount(BigDecimal.valueOf(100));
+        InputAccountDTO inputAccountDTOTwo = new InputAccountDTO();
+        inputAccountDTOTwo.setInitialAmount(BigDecimal.valueOf(130));
+
+        assertNotEquals(inputAccountDTOOne,inputAccountDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentCurrencyInInputAccountDTO(){
+        InputAccountDTO inputAccountDTOOne = new InputAccountDTO();
+        inputAccountDTOOne.setCurrency("USD");
+        InputAccountDTO inputAccountDTOTwo = new InputAccountDTO();
+        inputAccountDTOTwo.setCurrency("EUR");
+
+        assertNotEquals(inputAccountDTOOne,inputAccountDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentOwnerIDsInInputAccountDTO(){
+        InputAccountDTO inputAccountDTOOne = new InputAccountDTO();
+        inputAccountDTOOne.setOwnerID("fernando@hotmail.com");
+        InputAccountDTO inputAccountDTOTwo = new InputAccountDTO();
+        inputAccountDTOTwo.setOwnerID("pinto@aeiou.pt");
+
+        assertNotEquals(inputAccountDTOOne,inputAccountDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentAccountTypesInInputAccountDTO(){
+        InputAccountDTO inputAccountDTOOne = new InputAccountDTO();
+        inputAccountDTOOne.setAccountType("Cash");
+        InputAccountDTO inputAccountDTOTwo = new InputAccountDTO();
+        inputAccountDTOTwo.setAccountType("Credit");
+
+        assertNotEquals(inputAccountDTOOne,inputAccountDTOTwo);
+    }
+
+
 }

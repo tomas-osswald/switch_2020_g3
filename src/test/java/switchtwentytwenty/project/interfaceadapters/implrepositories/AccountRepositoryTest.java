@@ -10,12 +10,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,6 +54,9 @@ class AccountRepositoryTest {
 
     @Mock
     IAccount savedAccount;
+
+    @Mock
+    IOwnerID mockFamilyID;
 
     @InjectMocks
     AccountRepository accountRepository;
@@ -119,6 +125,5 @@ class AccountRepositoryTest {
         assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
 
     }
-
 
 }

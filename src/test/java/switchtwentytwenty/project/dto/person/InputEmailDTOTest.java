@@ -55,6 +55,15 @@ class InputEmailDTOTest {
     }
 
     @Test
+    @DisplayName("Should return false, if two different InputEmailDTOs are compared")
+    void testEqualsDifferentIDsInInputEmailDTO() {
+        InputEmailDTO inputEmailDTOOne = new InputEmailDTO("tonyze2@gmail.com", "tonyze@gmail.com");
+        InputEmailDTO inputEmailDTOTwo = new InputEmailDTO("tonyze@gmail.com", "tonyze@gmail.com");
+
+        Assertions.assertNotEquals(inputEmailDTOOne, inputEmailDTOTwo);
+    }
+
+    @Test
     @DisplayName("Should return true, if it is the same object")
     void testEqualsSameInputEmailDTO() {
         InputEmailDTO inputEmailDTOOne = new InputEmailDTO("tonyze@gmail.com", "tonyze@gmail.com");

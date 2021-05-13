@@ -12,6 +12,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,11 +71,6 @@ class PersonRepositoryTest {
     }
 
     /* UNIT TESTS */
-
-    @Test
-    void getByID() {
-
-    }
 
     @Test
     void addPersonDoesNotThrow() {
@@ -141,6 +137,15 @@ class PersonRepositoryTest {
         Person result = personRepository.updatePerson(person);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void getByIDTestPersonNotFoundThrowEmailNotRegisteredException() {
+        Optional<PersonJPA> optional = Optional.empty();
+
+        when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(optional);
+
+        assertThrows(EmailNotRegisteredException.class,()->personRepository.getByID(new PersonID("notregistered@gmail.com")));
     }
 
 }

@@ -60,6 +60,7 @@ class PersonRESTControllerITDB {
         ResponseEntity result = personRESTController.peopleOptions();
 
         assertEquals(expected, result);
+        assertNotNull(result.getHeaders());
     }
     @Test
     @DisplayName("Success case in adding email using integration test with all components")
