@@ -61,8 +61,23 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
+    public void addMovement(Movement movement){
+        movements.add(movement);
+    }
+
+    @Override
+    public boolean hasID(AccountID id) {
+        return this.accountID == id;
+    }
+
+    @Override
     public void setAccountID(AccountID accountID) {
         this.accountID = accountID;
+    }
+
+    @Override
+    public void setMovements(List<Movement> movements) {
+        this.movements = Collections.unmodifiableList(movements);
     }
 
     @Override
@@ -74,22 +89,6 @@ public class CashAccount extends AbCashAccount{
     public void setDesignation(Designation designation) {
         this.designation = designation;
     }
-
-    @Override
-    public void setMovements(List<Movement> movements) {
-        this.movements = Collections.unmodifiableList(movements);
-    }
-
-    @Override
-    public void addMovement(Movement movement){
-        movements.add(movement);
-    }
-
-    @Override
-    public boolean hasID(AccountID id) {
-        return this.accountID == id;
-    }
-
 
     @Override
     public boolean equals(Object o) {
