@@ -47,4 +47,11 @@ class DesignationTest {
         assertNotEquals(designation.hashCode(), designation1.hashCode());
 
     }
+
+    @Test
+    void testToString() {
+        Designation designation = new Designation("cash");
+        String result = designation.toString();
+        assertNotNull(result);
+    }
 }
