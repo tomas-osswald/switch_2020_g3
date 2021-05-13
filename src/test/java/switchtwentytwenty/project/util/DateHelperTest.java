@@ -9,30 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DateHelperTest {
 
-    @Test
-    void parseDateAndTimeTestInvalidDateFormat() {
-        String dateString = "10-10-2000";
-        String timeString = "12:30";
 
-        assertThrows(InvalidDateException.class, () -> DateHelper.parseDateAndTime(dateString, timeString));
-    }
-
-    @Test
-    void parseDateAndTimeTestInvalidTimeFormat() {
-        String dateString = "10/10/2000";
-        String timeString = "12h30";
-
-        assertThrows(InvalidDateException.class, () -> DateHelper.parseDateAndTime(dateString, timeString));
-    }
-
-    @Test
-    void parseDateAndTimeTest() {
-        String dateString = "10/10/2000";
-        String timeString = "12:30";
-        Calendar calendar = DateHelper.parseDateAndTime(dateString, timeString);
-
-        assertNotNull(calendar);
-    }
 
 
     @Test
@@ -83,15 +60,5 @@ class DateHelperTest {
         assertFalse(result);
     }
 
-    @Test
-    void parseDateAndTimeTimeTest() {
-        String dateString = "10/10/2000";
-        String timeString = "12:30";
-        Calendar result = DateHelper.parseDateAndTime(dateString, timeString);
-        Calendar nullCalendar = Calendar.getInstance();
 
-        assertNotNull(result);
-        assertNotSame(nullCalendar, result);
-
-    }
 }
