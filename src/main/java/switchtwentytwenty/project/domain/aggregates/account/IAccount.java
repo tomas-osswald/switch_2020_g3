@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public interface IAccount extends AggregateRoot<AccountID> {
 
-    OwnerID getOwnerId();
+    IOwnerID getOwnerId();
 
     Designation getDesignation();
 
@@ -21,7 +21,7 @@ public interface IAccount extends AggregateRoot<AccountID> {
 
     void setAccountID(AccountID accountID);
 
-    void setOwner(OwnerID ownerID);
+    void setOwner(IOwnerID ownerID);
 
     void setDesignation(Designation designation);
 

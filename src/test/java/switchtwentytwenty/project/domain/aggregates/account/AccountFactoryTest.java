@@ -24,7 +24,7 @@ public class AccountFactoryTest {
 
     Designation designation = new Designation("Compras");
     Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
-    OwnerID ownerID = new PersonID("toni@emial.com");
+    IOwnerID ownerID = new PersonID("toni@emial.com");
     String bankAccountType = "bank";
     String cashAccountType = "cash";
     AccountID accountID = new AccountID(3L);

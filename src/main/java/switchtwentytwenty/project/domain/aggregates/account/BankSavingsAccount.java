@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.Movement;
-import switchtwentytwenty.project.domain.valueobject.OwnerID;
+import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,13 +21,13 @@ public class BankSavingsAccount extends AbNonCashAccount {
 
     private AccountID accountID;
 
-    private OwnerID ownerID;
+    private IOwnerID ownerID;
 
     private Designation designation;
 
     private List<Movement> movements = new ArrayList<>();
 
-    protected BankSavingsAccount(OwnerID ownerID, Designation designation) {
+    protected BankSavingsAccount(IOwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
     }
@@ -43,7 +43,7 @@ public class BankSavingsAccount extends AbNonCashAccount {
     }
 
     @Override
-    public OwnerID getOwnerId() {
+    public IOwnerID getOwnerId() {
         return this.ownerID;
     }
 
@@ -68,7 +68,7 @@ public class BankSavingsAccount extends AbNonCashAccount {
     }
 
     @Override
-    public void setOwner(OwnerID ownerID) {
+    public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
     }
 

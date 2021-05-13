@@ -37,7 +37,7 @@ class AccountDataDomainAssemblerTest {
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
-        PersonID result = accountDataDomainAssembler.createOwnerID(accountJPA);
+        IOwnerID result = accountDataDomainAssembler.createOwnerID(accountJPA);
         PersonID expected = new PersonID("email@email.com");
 
         Assertions.assertNotNull(result);
@@ -77,7 +77,7 @@ class AccountDataDomainAssemblerTest {
     @Test
     void toDataTest(){
         AccountID accountID = new AccountID(12L);
-        OwnerID ownerID = new PersonID("administrator@email.com");
+        IOwnerID ownerID = new PersonID("administrator@email.com");
         Designation designation = new Designation("Cash Account");
         List<Movement> movements = new ArrayList<>();
         IAccount account = new CashAccount(accountID,ownerID,designation,movements);

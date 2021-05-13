@@ -14,7 +14,7 @@ public class AccountFactory {
     @Autowired
     private Environment environment;
 
-    public IAccount createAccount(Designation designation, Monetary monetary, OwnerID ownerID, String accountType) {
+    public IAccount createAccount(Designation designation, Monetary monetary, IOwnerID ownerID, String accountType) {
         IAccount newIAccount;
         Movement movement = new Movement(monetary);
 
@@ -31,7 +31,7 @@ public class AccountFactory {
         return newIAccount;
     }
 
-    public IAccount createAccount(AccountID accountID, List<Movement> movements, OwnerID ownerID, Designation designation, String accountType) {
+    public IAccount createAccount(AccountID accountID, List<Movement> movements, IOwnerID ownerID, Designation designation, String accountType) {
         IAccount account;
 
         String classpath = environment.getProperty(accountType.toLowerCase());

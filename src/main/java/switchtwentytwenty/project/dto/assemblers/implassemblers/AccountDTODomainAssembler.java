@@ -23,14 +23,14 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
         return monetary;
     }
 
-    public OwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
+    public IOwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
 
         /**
          * Alterar o @ no próximo sprint. Check FamilyID.
          */
         char validation = inputAccountDTO.getOwnerID().charAt(0);
         String validationID = Character.toString(validation);
-        OwnerID ownerID;
+        IOwnerID ownerID;
 
         if (validationID.equals("@")) {
             ownerID = new FamilyID(inputAccountDTO.getOwnerID());
