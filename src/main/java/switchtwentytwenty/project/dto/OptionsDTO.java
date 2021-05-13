@@ -1,8 +1,8 @@
 package switchtwentytwenty.project.dto;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 
-@Data
+@EqualsAndHashCode
 public class OptionsDTO extends RepresentationModel<OptionsDTO> {
 }
