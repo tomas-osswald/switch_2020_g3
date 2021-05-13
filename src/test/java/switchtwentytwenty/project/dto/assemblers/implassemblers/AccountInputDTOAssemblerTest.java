@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
+import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 
 import java.math.BigDecimal;
 
@@ -61,5 +62,35 @@ class AccountInputDTOAssemblerTest {
         InputAccountDTO result = accountInputDTOAssembler.toInputDTO(createAccountDTO);
 
         assertNotEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
+    @DisplayName("Test same object expecting Equals")
+    void verifySameObjectsExpectingEquals() {
+        InputAccountDTO expected = new InputAccountDTO(designationTwo, initialAmount, currency, ownerID, accountType);
+
+        InputAccountDTO result = expected;
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Test different objects expecting NotEquals")
+    void verifyNullObjectExpectingNotEquals() {
+        InputAccountDTO expected = new InputAccountDTO(designationTwo, initialAmount, currency, ownerID, accountType);
+
+        String result = null;
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Test same object expecting Equals")
+    void verifyDifferentObjectsExpectingNotEquals() {
+        InputAccountDTO expected = new InputAccountDTO(designationTwo, initialAmount, currency, ownerID, accountType);
+
+        String result = "3";
+
+        assertNotEquals(expected, result);
     }
 }

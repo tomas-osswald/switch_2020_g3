@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -45,9 +44,8 @@ class PersonRESTControllerITDB {
     String addedEmailID = "3L";
     AddEmailDTO emailToAddDTO = new AddEmailDTO(emailToAdd);
 
-    //TODO: isto está disabled porquê?
+
     @Test
-    @Disabled
     @DisplayName("Success case in adding email using integration test with all components")
     void addEmailToFamilyMemberExpectingSuccess() {
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailToAdd);

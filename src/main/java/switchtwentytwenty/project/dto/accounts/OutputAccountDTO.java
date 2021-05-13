@@ -21,11 +21,10 @@ public class OutputAccountDTO extends RepresentationModel<OutputAccountDTO> {
         this.designation = designation;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof OutputAccountDTO)) return false;
         if (!super.equals(o)) return false;
         OutputAccountDTO that = (OutputAccountDTO) o;
         return Objects.equals(accountID, that.accountID);
@@ -33,7 +32,6 @@ public class OutputAccountDTO extends RepresentationModel<OutputAccountDTO> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), accountID, ownerID, designation);
+        return Objects.hash(super.hashCode(), accountID);
     }
-
 }
