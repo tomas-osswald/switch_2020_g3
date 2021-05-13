@@ -40,7 +40,11 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         return accountJPA;
     }
 
-
+    /**
+     * @deprecated because assemblers should not create domain entities
+     * @param accountJPA
+     * @return
+     */
     @Deprecated
     public IAccount toDomain(AccountJPA accountJPA) {
 
