@@ -27,7 +27,7 @@ public class OutputAccountDTO extends RepresentationModel<OutputAccountDTO> {
         if (!(o instanceof OutputAccountDTO)) return false;
         if (!super.equals(o)) return false;
         OutputAccountDTO that = (OutputAccountDTO) o;
-        return Objects.equals(accountID, that.accountID);
+        return accountID.equals(that.accountID) && ownerID.equals(that.ownerID) && designation.equals(that.designation);
     }
 
     @Override

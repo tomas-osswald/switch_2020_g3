@@ -214,4 +214,36 @@ class CreateAccountServiceTest {
 
     }
 
+    @Test
+    void equalsTestForSameCashAccount() {
+        IAccount accountA = new CashAccount(accountID, ownerID, designation, null);
+        IAccount accountB = accountA;
+
+        assertEquals(accountA, accountB);
+    }
+
+    @Test
+    void equalsTestForSameCreditCardAccount() {
+        IAccount accountA = new CreditCardAccount(accountID, ownerID, designation, null);
+        IAccount accountB = accountA;
+
+        assertEquals(accountA, accountB);
+    }
+
+    @Test
+    void equalsTestForSameBankAccount() {
+        IAccount accountA = new BankAccount(accountID, ownerID, designation, null);
+        IAccount accountB = accountA;
+
+        assertEquals(accountA, accountB);
+    }
+
+    @Test
+    void equalsTestForSameBankSavingsAccount() {
+        IAccount accountA = new BankSavingsAccount(accountID, ownerID, designation, null);
+        IAccount accountB = accountA;
+
+        assertEquals(accountA, accountB);
+    }
+
 }
