@@ -71,11 +71,6 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public AccountID getAccountId() {
-        return this.accountID;
-    }
-
-    @Override
     public void setAccountID(AccountID accountID) {
         this.accountID = accountID;
     }

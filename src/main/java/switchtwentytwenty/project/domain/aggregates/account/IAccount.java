@@ -17,8 +17,6 @@ public interface IAccount extends AggregateRoot<AccountID> {
 
     List<Movement> getListOfMovements();
 
-    AccountID getAccountId();
-
     void setAccountID(AccountID accountID);
 
     void setOwner(IOwnerID ownerID);
@@ -32,6 +30,5 @@ public interface IAccount extends AggregateRoot<AccountID> {
     /**
      * Proximo sprint
      */
-    //Monetary changeBalance(List<Movement> movements);
 
 }

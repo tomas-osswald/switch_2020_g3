@@ -19,8 +19,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     public Monetary initialAmountToDomain(InputAccountDTO inputAccountDTO) {
         BigDecimal amount = inputAccountDTO.getInitialAmount();
-        Monetary monetary = new Monetary(inputAccountDTO.getCurrency(), amount);
-        return monetary;
+        return new Monetary(inputAccountDTO.getCurrency(), amount);
     }
 
     public IOwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
@@ -47,7 +46,7 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
 
     @Override
     public OutputAccountDTO toDTO(IAccount account) {
-        String accountID = account.getAccountId().toString();
+        String accountID = account.id().toString();
         String ownerID = account.getOwnerId().toString();
         String designation = account.getDesignation().toString();
 

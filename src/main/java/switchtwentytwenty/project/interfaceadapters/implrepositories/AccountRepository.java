@@ -24,9 +24,9 @@ import java.util.Optional;
 @Repository
 public class AccountRepository implements IAccountRepository {
 
-    private IAccountRepositoryJPA accountRepositoryJPA;
-    private AccountFactory accountFactory;
-    private IAccountDataDomainAssembler accountDataDomainAssembler;
+    private final IAccountRepositoryJPA accountRepositoryJPA;
+    private final AccountFactory accountFactory;
+    private final IAccountDataDomainAssembler accountDataDomainAssembler;
 
     @Autowired
     public AccountRepository(IAccountRepositoryJPA accountRepositoryJPA, AccountFactory accountFactory, IAccountDataDomainAssembler accountDataDomainAssembler) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -42,10 +42,8 @@ public class AccountRepository implements IAccountRepository {
 
     private IAccount retrieveAccountById(AccountID accountID) {
         Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountID.getAccountID());
-        IAccount account;
         if (accountJPA.isPresent()){
-            account = createAccount(accountJPA.get());
-            return account;
+            return createAccount(accountJPA.get());
         } else {
             throw new AccountNotRegisteredException();
         }
@@ -57,21 +55,20 @@ public class AccountRepository implements IAccountRepository {
         } else {
             AccountJPA accountJPA = accountDataDomainAssembler.toData(account);
             AccountJPA savedAccountJPA = accountRepositoryJPA.save(accountJPA);
-            IAccount savedAccount = createAccount(savedAccountJPA);
-            return savedAccount;
+            return createAccount(savedAccountJPA);
         }
     }
 
     private boolean isFamilyID(IAccount account){
-            boolean isFamily;
-            IOwnerID ownerID = account.getOwnerId();
-            if (ownerID instanceof FamilyID) {
-                isFamily = true;
-            } else {
-                isFamily = false;
-            }
-            return isFamily;
+        boolean isFamily;
+        IOwnerID ownerID = account.getOwnerId();
+        if (ownerID instanceof FamilyID) {
+            isFamily = true;
+        } else {
+            isFamily = false;
         }
+        return isFamily;
+    }
 
     public IAccount createAccount(AccountJPA accountJPA){
         AccountID accountID = accountDataDomainAssembler.createAccountID(accountJPA);
@@ -79,8 +76,7 @@ public class AccountRepository implements IAccountRepository {
         Designation designation = accountDataDomainAssembler.createDesignation(accountJPA);
         List<Movement> movements = accountDataDomainAssembler.createMovements(accountJPA);
         String accountType = accountJPA.getAccountType();
-        IAccount account = accountFactory.createAccount(accountID, movements, ownerID, designation, accountType);
-        return account;
+        return accountFactory.createAccount(accountID, movements, ownerID, designation, accountType);
     }
 
     private boolean isAccountAlreadyRegistered(IAccount account) {

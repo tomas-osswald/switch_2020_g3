@@ -27,10 +27,10 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
 
         AccountJPA accountJPA;
 
-        if (account.getAccountId() == null) {
+        if (account.id() == null) {
             accountJPA = new AccountJPA(ownerId, designation, accountType);
         } else {
-            accountJPA = new AccountJPA(account.getAccountId().getAccountID(), ownerId, designation, accountType);
+            accountJPA = new AccountJPA(account.id().getAccountID(), ownerId, designation, accountType);
         }
         List<MovementJPA> movementJPAList = new ArrayList<>();
 

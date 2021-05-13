@@ -60,7 +60,6 @@ public class CashAccount extends AbCashAccount{
         return "cash";
     }
 
-
     @Override
     public void setAccountID(AccountID accountID) {
         this.accountID = accountID;
@@ -91,10 +90,6 @@ public class CashAccount extends AbCashAccount{
         return this.accountID == id;
     }
 
-    @Override
-    public AccountID getAccountId() {
-        return this.accountID;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -90,11 +90,6 @@ public class CreditCardAccount extends AbNonCashAccount {
         this.movements.add(movement);
     }
 
-    @Override
-    public AccountID getAccountId() {
-        return this.accountID;
-    }
-
 
     @Override
     public boolean equals(Object o) {
