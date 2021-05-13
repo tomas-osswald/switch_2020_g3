@@ -48,6 +48,7 @@ public class CreateAccountService implements ICreateAccountService {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (this != o) return false;
         if (o == null || getClass() != o.getClass()) return false;
         CreateAccountService that = (CreateAccountService) o;
         return Objects.equals(accountFactory, that.accountFactory) && Objects.equals(accountRepository, that.accountRepository) && Objects.equals(accountDTODomainAssembler, that.accountDTODomainAssembler);
