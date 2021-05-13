@@ -14,11 +14,15 @@ class OptionsDTOTest {
     void testEquals() {
         OptionsDTO optionsDTO1 = new OptionsDTO();
         OptionsDTO optionsDTO2 = new OptionsDTO();
+        OptionsDTO optionsDTO3 = new OptionsDTO();
+
         Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
         optionsDTO1.add(link);
         optionsDTO2.add(link);
 
+
         assertEquals(optionsDTO1, optionsDTO2);
+        assertNotEquals(optionsDTO1,optionsDTO3);
     }
 
     @Test
@@ -47,16 +51,6 @@ class OptionsDTOTest {
         assertFalse(optionsDTO1.equals(notADTO));
     }
 
-    @Test
-    void canEqual() {
-        OptionsDTO optionsDTO1 = new OptionsDTO();
-        String notADTO = "string";
-        Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
-        optionsDTO1.add(link);
-
-        assertFalse(optionsDTO1.canEqual(notADTO));
-
-    }
 
     @Test
     void testHashCode() {
@@ -69,4 +63,9 @@ class OptionsDTOTest {
         assertEquals(optionsDTO1.hashCode(), optionsDTO2.hashCode());
         assertNotEquals(0, optionsDTO1.hashCode());
     }
+
+    @Test
+    void testEquals1() {
+    }
+
 }

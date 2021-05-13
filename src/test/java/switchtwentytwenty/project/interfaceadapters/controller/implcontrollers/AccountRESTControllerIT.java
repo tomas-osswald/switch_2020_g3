@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,7 +10,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.AccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
@@ -25,7 +23,6 @@ import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
-import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.AccountRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
@@ -35,7 +32,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -108,11 +104,12 @@ class AccountRESTControllerIT {
 
     String personAsOwnerIDJPA = "tonyze@latinlover.com";
 
-    AccountIDJPA accountIDJPA = new AccountIDJPA(accountIDLong);
+    //AccountIDJPA accountIDJPA = new AccountIDJPA(accountIDLong);
     OwnerIDJPA ownerIDJPA = new OwnerIDJPA(personAsOwnerIDJPA);
+    Long accountIDJPALong = accountIDLong;
 
-    AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, designationString, accountTypeString);
-    AccountJPA accountJPATwo = new AccountJPA(accountIDJPA, ownerIDJPA, designationString, accountTypeString);
+    AccountJPA accountJPA = new AccountJPA(accountIDJPALong, ownerIDJPA, designationString, accountTypeString);
+    AccountJPA accountJPATwo = new AccountJPA(accountIDJPALong, ownerIDJPA, designationString, accountTypeString);
 
     String familyOwnerIDString = "@tonyze@latinlover.com";
     OwnerID familyOwnerID = new FamilyID(familyOwnerIDString);
@@ -120,7 +117,7 @@ class AccountRESTControllerIT {
     List emptyMovements = new ArrayList();
     OwnerIDJPA familyAsOwnerIDJPA = new OwnerIDJPA(familyOwnerIDString);
     IAccount familyCashAccount = new CashAccount(accountID, familyOwnerID, designation, emptyMovements);
-    AccountJPA familyAccountJPA = new AccountJPA(accountIDJPA, familyAsOwnerIDJPA, designationString, cashAccountType);
+    AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
 
 
     @Test

@@ -10,13 +10,13 @@ class MovementJPATest {
     Long amount = 33L;
     String currency = "EUR";
 
-    AccountIDJPA accountIDJPA = new AccountIDJPA(123456L);
+    Long accountIDJPA = 123456L;
     OwnerIDJPA ownerIDJPA = new OwnerIDJPA("tonyze@latinlover.com");
     String designation = "Conta do Ze";
     String accountType = "Current";
     AccountJPA account = new AccountJPA(accountIDJPA, ownerIDJPA, designation, accountType);
 
-    AccountIDJPA otherAccountIDJPA = new AccountIDJPA(99999L);
+    Long otherAccountIDJPA = 99999L;
     AccountJPA otherAccount = new AccountJPA(otherAccountIDJPA, ownerIDJPA, designation, accountType);
     Long otherID = new Long(6L);
 

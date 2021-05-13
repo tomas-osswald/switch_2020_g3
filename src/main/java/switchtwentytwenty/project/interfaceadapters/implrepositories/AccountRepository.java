@@ -3,7 +3,6 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
@@ -42,8 +41,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     private IAccount retrieveAccountById(AccountID accountID) {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(accountID.getAccountID());
-        Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountIDJPA);
+        Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountID.getAccountID());
         IAccount account;
         if (accountJPA.isPresent()){
             account = createAccount(accountJPA.get());

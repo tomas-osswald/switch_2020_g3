@@ -16,7 +16,8 @@ import java.util.Objects;
 public class AccountJPA {
     @Id
     @Getter
-    private AccountIDJPA id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Getter
     private OwnerIDJPA ownerID;
     @Getter
@@ -26,7 +27,7 @@ public class AccountJPA {
     @Getter
     @Setter
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.ALL)
-    private List<MovementJPA> movements = new ArrayList<MovementJPA>();
+    private List<MovementJPA> movements = new ArrayList<>();
 
     /**
      * Constructor for AccountJPA. Movements are set by the Repository.
@@ -35,8 +36,14 @@ public class AccountJPA {
      * @param designation String - name of the account
      * @param accountType String - Type of account
      */
-    public AccountJPA (AccountIDJPA id, OwnerIDJPA ownerID, String designation, String accountType) {
+    public AccountJPA (Long id, OwnerIDJPA ownerID, String designation, String accountType) {
         this.id = id;
+        this.ownerID = ownerID;
+        this.designation = designation;
+        this.accountType = accountType;
+    }
+
+    public AccountJPA (OwnerIDJPA ownerID, String designation, String accountType) {
         this.ownerID = ownerID;
         this.designation = designation;
         this.accountType = accountType;
