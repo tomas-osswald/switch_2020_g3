@@ -51,7 +51,9 @@ class PersonRESTControllerITDB {
 
         OptionsDTO optionsDTO = new OptionsDTO();
         Link linkToPeopleOptions = linkTo(methodOn(PersonRESTController.class).peopleOptions()).withSelfRel();
+        Link linkToPOST = linkTo(methodOn(PersonRESTController.class).addFamilyMember(new AddFamilyMemberDTO())).withRel("POST - Add Family Member");
         optionsDTO.add(linkToPeopleOptions);
+        optionsDTO.add(linkToPOST);
         HttpHeaders header = new HttpHeaders();
         header.set("Allow", "POST, OPTIONS");
 
@@ -60,6 +62,7 @@ class PersonRESTControllerITDB {
         ResponseEntity result = personRESTController.peopleOptions();
 
         assertEquals(expected, result);
+        assertNotNull(result.getHeaders());
     }
     @Test
     @DisplayName("Success case in adding email using integration test with all components")
