@@ -40,8 +40,6 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
     }
 
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
