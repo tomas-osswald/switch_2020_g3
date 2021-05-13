@@ -28,7 +28,7 @@ public class InputEmailDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InputEmailDTO that = (InputEmailDTO) o;
-        return Objects.equals(email, that.email);
+        return Objects.equals(email, that.email) && Objects.equals(id, that.id);
     }
 
     @Override
