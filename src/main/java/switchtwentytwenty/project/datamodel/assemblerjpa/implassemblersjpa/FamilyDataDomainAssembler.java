@@ -52,6 +52,6 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
     }
 
     public FamilyIDJPA createFamilyIDJPA(FamilyID familyID) {
-        return new FamilyIDJPA(familyID.getFamilyID());
+        return new FamilyIDJPA(familyID.getId());
     }
 }

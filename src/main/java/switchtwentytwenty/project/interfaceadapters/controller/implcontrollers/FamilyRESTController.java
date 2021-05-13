@@ -82,7 +82,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamily(outputFamilyDTO.getFamilyID())).withSelfRel();
             outputFamilyDTO.add(selfLink);
-            return new ResponseEntity(outputFamilyDTO, status);
+            return new ResponseEntity<>(outputFamilyDTO, status);
         } catch (IllegalArgumentException | InvalidEmailException | InvalidDataAccessApiUsageException | EmailNotRegisteredException | PersonAlreadyRegisteredException e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 

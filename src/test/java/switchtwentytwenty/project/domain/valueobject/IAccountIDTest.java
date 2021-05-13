@@ -79,8 +79,8 @@ class IAccountIDTest {
     void getAccountSameID() {
         AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = new AccountID(idOne);
-        Long result = accountIDOne.getAccountID();
-        Long expected = accountIDTwo.getAccountID();
+        Long result = accountIDOne.getId();
+        Long expected = accountIDTwo.getId();
 
         assertEquals(result, expected);
         assertSame(result, expected);
@@ -90,8 +90,8 @@ class IAccountIDTest {
     void getAccountDifferentID(){
         AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = new AccountID(idTwo);
-        Long result = accountIDOne.getAccountID();
-        Long expected = accountIDTwo.getAccountID();
+        Long result = accountIDOne.getId();
+        Long expected = accountIDTwo.getId();
 
         assertNotEquals(result, expected);
     }
@@ -100,7 +100,7 @@ class IAccountIDTest {
     void setAccountSameID(){
         AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = new AccountID(idTwo);
-        accountIDTwo.setAccountID(idOne);
+        accountIDTwo.setId(idOne);
 
         assertEquals(accountIDOne, accountIDTwo);
         assertNotSame(accountIDOne, accountIDTwo);
@@ -110,7 +110,7 @@ class IAccountIDTest {
     void setAccountDifferentID(){
         AccountID accountIDOne = new AccountID(idOne);
         AccountID accountIDTwo = new AccountID(idOne);
-        accountIDTwo.setAccountID(idTwo);
+        accountIDTwo.setId(idTwo);
 
         assertNotEquals(accountIDOne, accountIDTwo);
     }

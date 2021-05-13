@@ -15,10 +15,8 @@ public class InputPersonDTO implements IInputPersonDTO {
     private final String zipCode;
 
 
-    //TODO: Retirar o userID deste DTO.
     // Partimos do pressuposto que quem está a usar esta funcionalidade tem autenticação efetuada corretamente.
     // O userID vem na mesma no megaDTO externo mas é extraído à parte para obter a family e este não fica "poluído"(João Pinto).
-    //TODO: retirar ID do admin pq não devemos "poluir" com informação que não é necessária para a criação de uma Person (aqui tivemos o nosso momento GRETA)
 
     public InputPersonDTO(String emailID, String name, String birthDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
 

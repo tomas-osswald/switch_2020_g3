@@ -37,6 +37,8 @@ public class PersonRESTController implements IPersonRESTController {
 
     private IPeopleOptionsService peopleOptionsService;
 
+    private static final String ERROR = "Error: ";
+
     @Autowired
     public PersonRESTController(PeopleOptionsService peopleOptionsService, PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
@@ -65,7 +67,7 @@ public class PersonRESTController implements IPersonRESTController {
             return new ResponseEntity<>(outputEmailDTO, status);
         } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>("Error: " + e.getMessage(), status);
+            return new ResponseEntity<>(ERROR + e.getMessage(), status);
         }
     }
 
@@ -85,7 +87,7 @@ public class PersonRESTController implements IPersonRESTController {
             return new ResponseEntity<>(outputPersonDTO, status);
         } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity("Error: " + e.getMessage(), status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
         }
 
     }
@@ -124,11 +126,11 @@ public class PersonRESTController implements IPersonRESTController {
             outputPersonDTO.add(link);
             outputPersonDTO.add(familyLink);
 
-            return new ResponseEntity(outputPersonDTO, HttpStatus.FOUND);
+            return new ResponseEntity<>(outputPersonDTO, HttpStatus.FOUND);
 
         } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
 
-            return new ResponseEntity("Error: " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity(ERROR + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 
         }
 

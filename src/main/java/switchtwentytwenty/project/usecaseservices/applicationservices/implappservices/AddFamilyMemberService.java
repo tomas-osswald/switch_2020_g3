@@ -43,7 +43,6 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
         Person aPerson = new Person(name, birthDate, personID, vat, phone, address, familyID);
 
         Person addedPerson = personRepository.add(aPerson);
-        OutputPersonDTO outputPersonDTO = personDTODomainAssembler.toDTO(addedPerson);
-        return outputPersonDTO;
+        return personDTODomainAssembler.toDTO(addedPerson);
     }
 }

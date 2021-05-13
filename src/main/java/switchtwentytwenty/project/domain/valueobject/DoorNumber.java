@@ -6,17 +6,17 @@ import java.util.Objects;
 
 public class DoorNumber implements ValueObject {
 
-    private String doorNumber;
+    private String number;
 
 
-    public DoorNumber(String doorNumber) {
-        this.doorNumber = doorNumber;
+    public DoorNumber(String number) {
+        this.number = number;
         validateData();
     }
 
     @Override
     public String toString() {
-        return this.doorNumber;
+        return this.number;
     }
 
     private void validateData() {
@@ -24,9 +24,9 @@ public class DoorNumber implements ValueObject {
     }
 
     private void checkNumber() {
-        String INVALIDADDRESSNUMBER = "Invalid Address Number";
-        if (this.doorNumber == null || this.doorNumber.isEmpty() || this.doorNumber.trim().length()==0) {
-            throw new InvalidAddressNumberException(INVALIDADDRESSNUMBER);
+        String invalidAddressNumber = "Invalid Address Number";
+        if (this.number == null || this.number.isEmpty() || this.number.trim().length()==0) {
+            throw new InvalidAddressNumberException(invalidAddressNumber);
         }
     }
 
@@ -36,12 +36,12 @@ public class DoorNumber implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DoorNumber that = (DoorNumber) o;
-        return Objects.equals(doorNumber, that.doorNumber);
+        return Objects.equals(number, that.number);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(doorNumber);
+        return Objects.hash(number);
     }
 
 

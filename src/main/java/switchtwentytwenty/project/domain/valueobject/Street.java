@@ -6,11 +6,11 @@ import java.util.Objects;
 
 public class Street implements ValueObject {
 
-    private final String street;
+    private final String streetName;
 
 
-    public Street(String street) {
-        this.street = street;
+    public Street(String streetName) {
+        this.streetName = streetName;
         validateData();
     }
 
@@ -20,15 +20,15 @@ public class Street implements ValueObject {
 
 
     private void checkStreet() {
-        String INVALIDSTREET = "Invalid Street Name";
+        String invalidStreet = "Invalid Street Name";
         if (!validateStreet()) {
-            throw new InvalidStreetException(INVALIDSTREET);
+            throw new InvalidStreetException(invalidStreet);
         }
     }
 
     // Verificar com lógica de negócio
     private boolean validateStreet() {
-        return street != null && street.trim().length() != 0;
+        return streetName != null && streetName.trim().length() != 0;
     }
 
     @Override
@@ -36,16 +36,16 @@ public class Street implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Street street1 = (Street) o;
-        return Objects.equals(street, street1.street);
+        return Objects.equals(streetName, street1.streetName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(street);
+        return Objects.hash(streetName);
     }
 
     @Override
     public String toString() {
-        return this.street;
+        return this.streetName;
     }
 }

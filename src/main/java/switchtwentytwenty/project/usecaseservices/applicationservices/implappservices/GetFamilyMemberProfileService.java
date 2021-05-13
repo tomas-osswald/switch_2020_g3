@@ -29,9 +29,7 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
 
         Person person = personRepository.getByID(personID);
 
-        OutputPersonDTO outputPersonDTO = assembler.toDTO(person);
-
-        return outputPersonDTO;
+        return assembler.toDTO(person);
     }
 
 }
