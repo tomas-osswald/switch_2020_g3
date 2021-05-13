@@ -10,7 +10,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.AccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
@@ -104,7 +103,7 @@ class AccountRESTControllerIT {
 
     String familyAsOwnerIDJPA = "tonyze@latinlover.com";
 
-    AccountIDJPA accountIDJPA = new AccountIDJPA(accountIDLong);
+    Long accountIDJPA = accountIDLong;
     OwnerIDJPA ownerIDJPA = new OwnerIDJPA(familyAsOwnerIDJPA);
 
     AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, designationString, accountTypeString);

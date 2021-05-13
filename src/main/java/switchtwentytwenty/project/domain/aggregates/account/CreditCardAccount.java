@@ -58,7 +58,7 @@ public class CreditCardAccount extends AbNonCashAccount {
 
     @Override
     public String getAccountType() {
-        return "Credit Card Account";
+        return "credit";
     }
 
     @Override

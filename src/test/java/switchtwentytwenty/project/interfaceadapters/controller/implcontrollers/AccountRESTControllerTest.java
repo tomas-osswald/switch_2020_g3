@@ -80,7 +80,7 @@ class AccountRESTControllerTest {
         Mockito.when(mockCreateAccountService.createAccount(inputAccountDTO)).thenThrow(AccountAlreadyRegisteredException.class);
 
 
-        ResponseEntity expected = new ResponseEntity("Could not create Account", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity( HttpStatus.UNPROCESSABLE_ENTITY);
 
         ResponseEntity result = accountRESTController.createAccount(createCashAccountDTO);
 

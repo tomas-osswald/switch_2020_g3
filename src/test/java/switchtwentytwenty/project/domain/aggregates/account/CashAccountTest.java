@@ -70,7 +70,7 @@ class CashAccountTest {
 
     @Test
     void getAccountTypeTest() {
-        String otherAccount = "Cash Account";
+        String otherAccount = "cash";
         IAccount accountOne = new CashAccount();
 
         assertEquals(accountOne.getAccountType(), otherAccount);
