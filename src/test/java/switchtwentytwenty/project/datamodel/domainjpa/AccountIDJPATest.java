@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+/*
 class AccountIDJPATest {
 
     Long idOne = 127L;
@@ -122,4 +122,6 @@ class AccountIDJPATest {
 
 
 }
+
+ */
 

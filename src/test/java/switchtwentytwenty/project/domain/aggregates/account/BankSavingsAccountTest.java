@@ -91,7 +91,7 @@ class BankSavingsAccountTest {
     void getAccountTypeTest() {
         IAccount bankSavingsAccount = new BankSavingsAccount();
 
-        String expected = "Bank Savings Account";
+        String expected = "savings";
 
         String result = bankSavingsAccount.getAccountType();
 

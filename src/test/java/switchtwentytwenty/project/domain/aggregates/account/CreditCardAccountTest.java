@@ -90,7 +90,7 @@ class CreditCardAccountTest {
     void getAccountTypeTest() {
         IAccount creditCardAccount = new CreditCardAccount();
 
-        String expected = "Credit Card Account";
+        String expected = "credit";
 
         String result = creditCardAccount.getAccountType();
 

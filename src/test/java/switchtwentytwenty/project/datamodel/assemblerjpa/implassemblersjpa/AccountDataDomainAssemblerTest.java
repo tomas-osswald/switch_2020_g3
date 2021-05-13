@@ -2,7 +2,6 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.MovementJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
@@ -19,7 +18,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createAccountID() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -33,7 +32,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createPersonID() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -48,7 +47,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createDesignation() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -62,7 +61,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createAccountType() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -81,7 +80,7 @@ class AccountDataDomainAssemblerTest {
         Designation designation = new Designation("Cash Account");
         List<Movement> movements = new ArrayList<>();
         IAccount account = new CashAccount(accountID,ownerID,designation,movements);
-        AccountJPA expected = new AccountJPA(new AccountIDJPA(),new OwnerIDJPA(),"Cash Account","Cash Account");
+        AccountJPA expected = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
 
         AccountJPA result = accountDataDomainAssembler.toData(account);
 
@@ -90,7 +89,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createMovementsTest(){
-        AccountJPA accountJPA = new AccountJPA(new AccountIDJPA(),new OwnerIDJPA(),"Cash Account","Cash Account");
+        AccountJPA accountJPA = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
         List<Movement> expected = new ArrayList<>();
         Movement movement = new Movement(new Monetary("EUR",BigDecimal.valueOf(100)));
         expected.add(movement);

@@ -54,7 +54,7 @@ public class BankSavingsAccount extends AbNonCashAccount {
 
     @Override
     public String getAccountType() {
-        return "Bank Savings Account";
+        return "savings";
     }
 
     @Override
