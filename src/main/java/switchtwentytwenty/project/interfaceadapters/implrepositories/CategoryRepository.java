@@ -12,11 +12,12 @@ public class CategoryRepository implements ICategoryRepository {
 
     @Override
     public Category getByID(CategoryID id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Category add(Category entity) {
-        return null;
+
+        throw new UnsupportedOperationException();
     }
 }
