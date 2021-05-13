@@ -4,12 +4,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
+
+import java.math.BigDecimal;
 
 
 @SpringBootApplication
@@ -31,7 +34,8 @@ FFMSpringBootApplication {
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
             personRESTController.addFamilyMember(addFamilyMemberDTO);
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@yahoo.com"), "kvanessa@latina.com");
-            //iAccountRESTController.createAccount(new CreateAccountDTO("conta", ""))
+            iAccountRESTController.createAccount(new CreateAccountDTO("Conta para fugir do TonyZe",BigDecimal.valueOf(1034.54),"EUR","kvanessa@latina.com","bank"));
+            iAccountRESTController.createAccount(new CreateAccountDTO("Lavagem de dinheiro",BigDecimal.valueOf(12.3),"EUR","tonyze@latinlover.com","cash"));
         };
     }
 
