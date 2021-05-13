@@ -51,7 +51,7 @@ class CreateAccountServiceTest {
 
     Designation designationB = new Designation(inputAccountDTO.getDesignation());
     Monetary initialAmountB = new Monetary(inputAccountDTO.getCurrency(), inputAccountDTO.getInitialAmount());
-    OwnerID ownerIDB = new PersonID(inputAccountDTO.getOwnerID());
+    IOwnerID ownerIDB = new PersonID(inputAccountDTO.getOwnerID());
     String accountTypeB = inputAccountDTO.getAccountType();
     AccountID accountIDB = new AccountID(123L);
 

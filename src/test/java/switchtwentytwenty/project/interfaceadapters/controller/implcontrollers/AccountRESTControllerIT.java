@@ -34,7 +34,6 @@ import java.util.Currency;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -112,7 +111,7 @@ class AccountRESTControllerIT {
     AccountJPA accountJPATwo = new AccountJPA(accountIDJPALong, ownerIDJPA, designationString, accountTypeString);
 
     String familyOwnerIDString = "@tonyze@latinlover.com";
-    OwnerID familyOwnerID = new FamilyID(familyOwnerIDString);
+    IOwnerID familyOwnerID = new FamilyID(familyOwnerIDString);
     String cashAccountType = "cash";
     List emptyMovements = new ArrayList();
     OwnerIDJPA familyAsOwnerIDJPA = new OwnerIDJPA(familyOwnerIDString);

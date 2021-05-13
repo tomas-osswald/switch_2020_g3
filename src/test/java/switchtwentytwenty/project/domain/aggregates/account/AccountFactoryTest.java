@@ -74,7 +74,7 @@ public class AccountFactoryTest {
         Movement movement = new Movement(monetary);
         List<Movement> movementList = new ArrayList<>();
         movementList.add(movement);
-        OwnerID ownerID = new PersonID("toni@emial.com");
+        IOwnerID ownerID = new PersonID("toni@emial.com");
         String accountType = "bank";
 
         IAccount expected = new BankAccount();
@@ -95,7 +95,7 @@ public class AccountFactoryTest {
     public void createAccountTestNewAccount() {
         Designation designation = new Designation("Compras");
         Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
-        OwnerID ownerID = new PersonID("toni@emial.com");
+        IOwnerID ownerID = new PersonID("toni@emial.com");
         String accountType = "bank";
 
         IAccount expected = new BankAccount();

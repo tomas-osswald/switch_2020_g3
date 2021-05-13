@@ -92,7 +92,7 @@ class AccountDataDomainAssemblerTest {
     @Test
     void toDataVariousMovementsTest(){
         AccountID accountID = new AccountID(12L);
-        OwnerID ownerID = new PersonID("administrator@email.com");
+        IOwnerID ownerID = new PersonID("administrator@email.com");
         Designation designation = new Designation("Cash Account");
         List<Movement> movements = new ArrayList<>();
         movements.add(new Movement(new Monetary("EUR",BigDecimal.valueOf(100))));
@@ -123,7 +123,7 @@ class AccountDataDomainAssemblerTest {
     @Test
     void toDataNoIDJPA() {
         CashAccount account = new CashAccount();
-        OwnerID ownerID = new PersonID("tonyze@latinlover.com");
+        IOwnerID ownerID = new PersonID("tonyze@latinlover.com");
         account.setOwner(ownerID);
         account.setDesignation(new Designation("des"));
         List<Movement> movements = new ArrayList<>();
@@ -138,7 +138,7 @@ class AccountDataDomainAssemblerTest {
     @Test
     void toDataMovementaNotNullINJPA() {
         CashAccount account = new CashAccount();
-        OwnerID ownerID = new PersonID("tonyze@latinlover.com");
+        IOwnerID ownerID = new PersonID("tonyze@latinlover.com");
         account.setOwner(ownerID);
         account.setDesignation(new Designation("des"));
         List<Movement> movements = new ArrayList<>();
