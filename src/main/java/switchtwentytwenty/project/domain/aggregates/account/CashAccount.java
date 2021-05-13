@@ -48,7 +48,11 @@ public class CashAccount extends AbCashAccount{
 
     @Override
     public List<Movement> getListOfMovements() {
-        return this.movements;
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override
