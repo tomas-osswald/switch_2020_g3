@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 class AccountDataDomainAssemblerTest {
     AccountDataDomainAssembler accountDataDomainAssembler = new AccountDataDomainAssembler();
 
@@ -25,7 +28,7 @@ class AccountDataDomainAssemblerTest {
         AccountID result = accountDataDomainAssembler.createAccountID(accountJPA);
         AccountID expected = new AccountID(1L);
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertNotSame(expected, result);
         Assertions.assertEquals(expected, result);
     }
@@ -39,7 +42,7 @@ class AccountDataDomainAssemblerTest {
         PersonID result = accountDataDomainAssembler.createOwnerID(accountJPA);
         PersonID expected = new PersonID("email@email.com");
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertNotSame(expected, result);
         Assertions.assertEquals(expected, result);
 
@@ -54,7 +57,7 @@ class AccountDataDomainAssemblerTest {
         Designation result = accountDataDomainAssembler.createDesignation(accountJPA);
         Designation expected = new Designation("account");
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertNotSame(expected, result);
         Assertions.assertEquals(expected, result);
     }
@@ -68,19 +71,19 @@ class AccountDataDomainAssemblerTest {
         AccountType result = accountDataDomainAssembler.createAccountType(accountJPA);
         AccountType expected = new AccountType("cash");
 
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         Assertions.assertNotSame(expected, result);
         Assertions.assertEquals(expected, result);
     }
 
     @Test
-    void toDataTest(){
+    void toDataTest() {
         AccountID accountID = new AccountID(12L);
         OwnerID ownerID = new PersonID("administrator@email.com");
         Designation designation = new Designation("Cash Account");
         List<Movement> movements = new ArrayList<>();
-        IAccount account = new CashAccount(accountID,ownerID,designation,movements);
-        AccountJPA expected = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
+        IAccount account = new CashAccount(accountID, ownerID, designation, movements);
+        AccountJPA expected = new AccountJPA(new Long(12L), new OwnerIDJPA(), "Cash Account", "Cash Account");
 
         AccountJPA result = accountDataDomainAssembler.toData(account);
 
@@ -88,19 +91,48 @@ class AccountDataDomainAssemblerTest {
     }
 
     @Test
-    void createMovementsTest(){
-        AccountJPA accountJPA = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
+    void createMovementsTest() {
+        AccountJPA accountJPA = new AccountJPA(new Long(12L), new OwnerIDJPA(), "Cash Account", "Cash Account");
         List<Movement> expected = new ArrayList<>();
-        Movement movement = new Movement(new Monetary("EUR",BigDecimal.valueOf(100)));
+        Movement movement = new Movement(new Monetary("EUR", BigDecimal.valueOf(100)));
         expected.add(movement);
         List<MovementJPA> movementsJPA = new ArrayList<>();
-        MovementJPA movementJPA = new MovementJPA(100L,"EUR",accountJPA);
+        MovementJPA movementJPA = new MovementJPA(100L, "EUR", accountJPA);
         movementsJPA.add(movementJPA);
 
         accountJPA.setMovements(movementsJPA);
         List<Movement> result = accountDataDomainAssembler.createMovements(accountJPA);
 
-        Assertions.assertEquals(expected,result);
+        Assertions.assertEquals(expected, result);
     }
 
+    @Test
+    void toDataNoIDJPA() {
+        CashAccount account = new CashAccount();
+        OwnerID ownerID = new PersonID("tonyze@latinlover.com");
+        account.setOwner(ownerID);
+        account.setDesignation(new Designation("des"));
+        List<Movement> movements = new ArrayList<>();
+        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(15))));
+        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(10))));
+        account.setMovements(movements);
+        AccountJPA result = accountDataDomainAssembler.toData(account);
+
+        assertNull(result.getId());
+    }
+
+    @Test
+    void toDataMovementaNotNullINJPA() {
+        CashAccount account = new CashAccount();
+        OwnerID ownerID = new PersonID("tonyze@latinlover.com");
+        account.setOwner(ownerID);
+        account.setDesignation(new Designation("des"));
+        List<Movement> movements = new ArrayList<>();
+        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(15))));
+        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(10))));
+        account.setMovements(movements);
+        AccountJPA result = accountDataDomainAssembler.toData(account);
+
+        assertNotNull(result.getMovements());
+    }
 }
