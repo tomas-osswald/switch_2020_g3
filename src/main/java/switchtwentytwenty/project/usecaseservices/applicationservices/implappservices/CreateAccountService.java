@@ -45,16 +45,4 @@ public class CreateAccountService implements ICreateAccountService {
         return outputAccountDTO;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CreateAccountService that = (CreateAccountService) o;
-        return Objects.equals(accountFactory, that.accountFactory) && Objects.equals(accountRepository, that.accountRepository) && Objects.equals(accountDTODomainAssembler, that.accountDTODomainAssembler);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(accountFactory, accountRepository, accountDTODomainAssembler);
-    }
 }
