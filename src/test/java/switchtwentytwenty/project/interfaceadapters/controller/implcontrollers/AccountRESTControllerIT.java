@@ -157,4 +157,5 @@ class AccountRESTControllerIT {
         assertEquals(expected.getStatusCode(), result.getStatusCode());
 
     }
+
 }
