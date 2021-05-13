@@ -41,24 +41,24 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     public AccountID createAccountID(AccountJPA accountJPA) {
-        AccountID accountID = new AccountID(accountJPA.getId().toLong());
-        return accountID;
+        return new AccountID(accountJPA.getId().toLong());
+
     }
 
-    //TODO Fazer este metodo para o FamilyID e acrescentar no AccountRepository
+
     public PersonID createOwnerID(AccountJPA accountJPA) {
-        PersonID personID = new PersonID(accountJPA.getOwnerID().toString());
-        return personID;
+        return new PersonID(accountJPA.getOwnerID().toString());
+
     }
 
     public Designation createDesignation(AccountJPA accountJPA) {
-        Designation designation = new Designation(accountJPA.getDesignation().toString());
-        return designation;
+        return new Designation(accountJPA.getDesignation());
+
     }
 
     public AccountType createAccountType(AccountJPA accountJPA) {
-        AccountType accountType = new AccountType(accountJPA.getAccountType());
-        return accountType;
+        return new AccountType(accountJPA.getAccountType());
+
     }
 
     public List<Movement> createMovements(AccountJPA accountJPA){
