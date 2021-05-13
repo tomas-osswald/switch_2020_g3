@@ -24,12 +24,12 @@ public class OwnerIDJPA {
         if (this == o) return true;
         if (!(o instanceof OwnerIDJPA)) return false;
         OwnerIDJPA that = (OwnerIDJPA) o;
-        return Objects.equals(getOwnerID(), that.getOwnerID());
+        return Objects.equals(ownerID, that.ownerID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerID());
+        return Objects.hash(ownerID);
     }
 
     @Override
