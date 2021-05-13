@@ -7,13 +7,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DateHelper {
+public final class DateHelper {
 
     static final String DATE_IS_INVALID = "Date is in invalid format";
 
-    //private DateHelper() {
-        //throw new IllegalStateException("Utility class");
-    //}
+    private DateHelper() {
+    }
 
 
 
@@ -23,9 +22,7 @@ public class DateHelper {
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(format.parse(dateString));
-        } catch (NullPointerException e) {
-            throw new InvalidDateException(DATE_IS_INVALID);
-        } catch (ParseException e) {
+        } catch (NullPointerException | ParseException e) {
             throw new InvalidDateException(DATE_IS_INVALID);
         }
         return calendar;

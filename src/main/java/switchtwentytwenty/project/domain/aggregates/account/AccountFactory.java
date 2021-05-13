@@ -49,6 +49,9 @@ public class AccountFactory {
 
         String classpath = environment.getProperty(accountType.toLowerCase());
 
+        if (classpath == null)
+            throw new IllegalArgumentException("Unsupported Account type");
+
         try {
             account = (IAccount) Class.forName(classpath).newInstance();
             account.setAccountID(accountID);
