@@ -53,7 +53,7 @@ public class CashAccount extends AbCashAccount{
 
     @Override
     public String getAccountType() {
-        return "Cash Account";
+        return "cash";
     }
 
 

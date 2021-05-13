@@ -45,7 +45,7 @@ public class AccountRESTController implements IAccountRESTController {
             return createdAccount;
         }
         catch(IllegalArgumentException | AccountNotRegisteredException exception) {
-            return new ResponseEntity("Could not create Account", HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity(exception.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 

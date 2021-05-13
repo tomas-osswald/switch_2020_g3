@@ -22,9 +22,14 @@ public class AccountFactory {
         //O toLowerCase() é para bater certo
 
         String classpath = environment.getProperty(accountType.toLowerCase());
+
+        if(classpath == null)
+            throw new IllegalArgumentException("Unsupported Account type");
+
         try {
             //Cria uma instancia do tipo especifico de conta
             newIAccount = (IAccount) Class.forName(classpath).newInstance();
+
 
             //TODO: Já li os comentários! Alterei os construtores para manuais e protected para garantir que só o próprio package pode instanciar Accounts. Neste caso a Factory.
 

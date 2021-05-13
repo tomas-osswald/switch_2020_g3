@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountJPATest {
 
-    AccountIDJPA accountIDJPA = new AccountIDJPA(123456L);
+    Long accountIDJPA = 123456L;
     OwnerIDJPA ownerIDJPA = new OwnerIDJPA("tonyze@latinlover.com");
     String designation = "Conta do Ze";
     String accountType = "Current";
     List<MovementJPA> movements = new ArrayList<MovementJPA>();
 
-    AccountIDJPA accountIDJPATwo = new AccountIDJPA(999999L);
+    Long accountIDJPATwo = 999999L;
 
     Long amount = 33L;
     String currency = "EUR";
@@ -26,8 +26,8 @@ public class AccountJPATest {
     void getAccountIDTest() {
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, designation, accountType);
 
-        AccountIDJPA expectedAccountIDJPA = new AccountIDJPA(123456L);
-        AccountIDJPA result = accountJPA.getId();
+        Long expectedAccountIDJPA = 123456L;
+        Long result = accountJPA.getId();
 
         assertEquals(expectedAccountIDJPA, result);
     }

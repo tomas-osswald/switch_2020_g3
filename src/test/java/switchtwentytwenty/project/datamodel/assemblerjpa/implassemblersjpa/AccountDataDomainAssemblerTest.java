@@ -2,7 +2,6 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
@@ -15,7 +14,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createAccountID() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -29,7 +28,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createPersonID() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -44,7 +43,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createDesignation() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
@@ -58,7 +57,7 @@ class AccountDataDomainAssemblerTest {
 
     @Test
     void createAccountType() {
-        AccountIDJPA accountIDJPA = new AccountIDJPA(1L);
+        Long accountIDJPA = 1L;
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 

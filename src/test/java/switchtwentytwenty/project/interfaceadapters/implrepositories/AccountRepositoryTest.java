@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.AccountIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
@@ -87,7 +86,7 @@ class AccountRepositoryTest {
     @DisplayName("Check if Account Exists - Throws error, Account does not exists")
     @Test
     void getByIdFailure(){
-        when(accountRepositoryJPA.findById(any(AccountIDJPA.class))).thenThrow(AccountNotRegisteredException.class);
+        when(accountRepositoryJPA.findById(any(Long.class))).thenThrow(AccountNotRegisteredException.class);
 
         assertThrows(AccountNotRegisteredException.class,()->accountRepository.getByID(accountID));
 
