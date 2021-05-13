@@ -9,13 +9,13 @@ import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import java.util.Objects;
 
 @NoArgsConstructor
-@Getter
 @Setter
 public class StandardCategory implements Category {
 
-
+    @Getter
     private CategoryName categoryName;
     private CategoryID categoryID;
+    @Getter
     private CategoryID parentID;
 
     public StandardCategory(CategoryName categoryName) {
@@ -39,12 +39,12 @@ public class StandardCategory implements Category {
 
     @Override
     public CategoryID id() {
-        throw new UnsupportedOperationException();
+        return this.categoryID;
     }
 
     @Override
     public boolean hasID(CategoryID id) {
-        throw new UnsupportedOperationException();
+       return this.categoryID.equals(id);
     }
 
     @Override
