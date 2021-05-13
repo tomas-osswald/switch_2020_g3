@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
+import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
@@ -64,7 +66,7 @@ public class PersonRESTController implements IPersonRESTController {
             Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withSelfRel();
             outputEmailDTO.add(personSelfLink);
             return new ResponseEntity<>(outputEmailDTO, status);
-        } catch (InvalidEmailException | EmailAlreadyRegisteredException e) {
+        } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>("Error: " + e.getMessage(), status);
         }
@@ -84,7 +86,7 @@ public class PersonRESTController implements IPersonRESTController {
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).personOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
             return new ResponseEntity<>(outputPersonDTO, status);
-        } catch (EmailAlreadyRegisteredException | InvalidEmailException e) {
+        } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity("Error: "+ e.getMessage(), status);
         }
@@ -117,7 +119,7 @@ public class PersonRESTController implements IPersonRESTController {
 
             return new ResponseEntity(outputPersonDTO, HttpStatus.FOUND);
 
-        } catch (EmailNotRegisteredException e) {
+        } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
 
             return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 
