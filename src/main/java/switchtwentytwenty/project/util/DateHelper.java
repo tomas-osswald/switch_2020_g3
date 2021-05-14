@@ -12,6 +12,9 @@ public class DateHelper {
     static final String DATE_IS_INVALID = "Date is in invalid format";
 
 
+    private DateHelper() {
+    }
+
 
     public static Calendar parseDateToCalendar(String dateString) {
         String pattern = "dd/MM/yyyy";

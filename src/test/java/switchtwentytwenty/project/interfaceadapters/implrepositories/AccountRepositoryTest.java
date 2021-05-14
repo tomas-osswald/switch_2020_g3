@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
@@ -120,6 +121,15 @@ class AccountRepositoryTest {
     @Test
     void getByIdFailure() {
         when(accountRepositoryJPA.findById(any(Long.class))).thenThrow(AccountNotRegisteredException.class);
+        assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
+
+    }
+
+    @DisplayName("Check if Account Exists - Throws error, Account does not exists")
+    @Test
+    void getByIdFailureAccountNotRegisteredException() {
+        Optional<AccountJPA> optional = Optional.empty();
+        when(accountRepositoryJPA.findById(any(Long.class))).thenReturn(optional);
         assertThrows(AccountNotRegisteredException.class, () -> accountRepository.getByID(accountID));
 
     }
