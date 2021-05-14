@@ -61,7 +61,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     public Designation createDesignation(AccountJPA accountJPA) {
-        return new Designation(accountJPA.getDesignation().toString());
+        return new Designation(accountJPA.getDesignation());
     }
 
     public AccountType createAccountType(AccountJPA accountJPA) {
