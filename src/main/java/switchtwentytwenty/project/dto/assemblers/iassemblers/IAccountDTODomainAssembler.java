@@ -5,7 +5,7 @@ import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 
 public interface IAccountDTODomainAssembler {
 
-    public OutputAccountDTO toDTO(IAccount Account);
+    OutputAccountDTO toDTO(IAccount iAccount);
 
 
 }

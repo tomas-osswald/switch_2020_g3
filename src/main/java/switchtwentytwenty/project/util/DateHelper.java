@@ -11,10 +11,9 @@ public class DateHelper {
 
     static final String DATE_IS_INVALID = "Date is in invalid format";
 
-    //private DateHelper() {
-        //throw new IllegalStateException("Utility class");
-    //}
 
+    private DateHelper() {
+    }
 
 
     public static Calendar parseDateToCalendar(String dateString) {
@@ -23,9 +22,7 @@ public class DateHelper {
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(format.parse(dateString));
-        } catch (NullPointerException e) {
-            throw new InvalidDateException(DATE_IS_INVALID);
-        } catch (ParseException e) {
+        } catch (NullPointerException | ParseException e) {
             throw new InvalidDateException(DATE_IS_INVALID);
         }
         return calendar;

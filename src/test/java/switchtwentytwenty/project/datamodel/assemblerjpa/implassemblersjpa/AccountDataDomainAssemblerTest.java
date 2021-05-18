@@ -76,6 +76,34 @@ class AccountDataDomainAssemblerTest {
     }
 
     @Test
+    void createOwnerIDReturnFamilyID() {
+        Long accountIDJPA = 1L;
+        OwnerIDJPA ownerIDJPA = new OwnerIDJPA("@email@email.com");
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
+
+        IOwnerID<FamilyID> result = accountDataDomainAssembler.createOwnerID(accountJPA);
+        FamilyID expected = new FamilyID("@email@email.com");
+
+        assertNotNull(result);
+        Assertions.assertNotSame(expected, result);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void createOwnerIDReturnPersonID() {
+        Long accountIDJPA = 1L;
+        OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
+        AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
+
+        IOwnerID<PersonID> result = accountDataDomainAssembler.createOwnerID(accountJPA);
+        PersonID expected = new PersonID("email@email.com");
+
+        assertNotNull(result);
+        Assertions.assertNotSame(expected, result);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
     void toDataTest() {
         AccountID accountID = new AccountID(12L);
         IOwnerID ownerID = new PersonID("administrator@email.com");

@@ -30,7 +30,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         if (account.id() == null) {
             accountJPA = new AccountJPA(ownerId, designation, accountType);
         } else {
-            accountJPA = new AccountJPA(account.id().getAccountID(), ownerId, designation, accountType);
+            accountJPA = new AccountJPA(account.id().getId(), ownerId, designation, accountType);
         }
         List<MovementJPA> movementJPAList = new ArrayList<>();
 
@@ -45,8 +45,7 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     public AccountID createAccountID(AccountJPA accountJPA) {
-        AccountID accountID = new AccountID(accountJPA.getId());
-        return accountID;
+        return new AccountID(accountJPA.getId());
     }
 
     public IOwnerID createOwnerID(AccountJPA accountJPA){
@@ -62,13 +61,11 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
     }
 
     public Designation createDesignation(AccountJPA accountJPA) {
-        Designation designation = new Designation(accountJPA.getDesignation().toString());
-        return designation;
+        return new Designation(accountJPA.getDesignation());
     }
 
     public AccountType createAccountType(AccountJPA accountJPA) {
-        AccountType accountType = new AccountType(accountJPA.getAccountType());
-        return accountType;
+        return new AccountType(accountJPA.getAccountType());
     }
 
     public List<Movement> createMovements(AccountJPA accountJPA) {

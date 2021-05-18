@@ -24,6 +24,7 @@ import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepos
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMemberProfileService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PeopleOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
 
 import java.util.ArrayList;
@@ -90,8 +91,8 @@ class PersonRESTControllerIT {
     void integrationTestSuccessCase() {
         // Init Classes
         GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
-
-        PersonRESTController personRESTController = new PersonRESTController(personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
+        PeopleOptionsService peopleOptionsService = new PeopleOptionsService();
+        PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
 
         // PersonID
         String personID = "tonyze@gmail.com";
@@ -143,7 +144,7 @@ class PersonRESTControllerIT {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, expectedEmails, expectedPhones, "999999999", VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, VALIDEMAIL);
 
         Link expectedLink = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
-        Link expectedLink2 = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID.getFamilyID())).withRel("Family Link");
+        Link expectedLink2 = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID.getId())).withRel("Family Link");
         expectedOutputPersonDTO.add(expectedLink);
         expectedOutputPersonDTO.add(expectedLink2);
 
@@ -162,8 +163,8 @@ class PersonRESTControllerIT {
     void integrationTestFailureCaseEmailNotRegistred() {
         // Init Classes
         GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
-
-        PersonRESTController personRESTController = new PersonRESTController(personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
+        PeopleOptionsService peopleOptionsService = new PeopleOptionsService();
+        PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
 
         // PersonID
         String personID = "tonyze@gmail.com";
@@ -173,7 +174,7 @@ class PersonRESTControllerIT {
 
         // Expected
 
-        ResponseEntity expectedResponse = new ResponseEntity("Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expectedResponse = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
 
         // Result
         ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);
@@ -181,4 +182,6 @@ class PersonRESTControllerIT {
         // Assert
         assertEquals(expectedResponse.toString(), resultResponse.toString());
     }
+
+
 }

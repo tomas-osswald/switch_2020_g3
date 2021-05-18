@@ -9,7 +9,6 @@ import switchtwentytwenty.project.domain.valueobject.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Entity being instatied here - should be in Repository
 @Component
 public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
     /**
@@ -32,7 +31,7 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         Address address = person.getAddress();
         FamilyID familyID = person.getFamilyID();
 
-        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getFamilyID());
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getId());
 
         PersonJPA personJPA = new PersonJPA(personIDJPA, name, birthdate, vat, familyIDJPA);
 

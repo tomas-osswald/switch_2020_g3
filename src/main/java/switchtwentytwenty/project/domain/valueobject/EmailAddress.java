@@ -27,9 +27,9 @@ public class EmailAddress implements ValueObject {
     }
 
     private void checkEmail() {
-        String INVALIDEMAIL = "This Email is not valid";
+        String invalidEmail = "This Email is not valid";
         if (!isValidEmail())
-            throw new InvalidEmailException(INVALIDEMAIL);
+            throw new InvalidEmailException(invalidEmail);
     }
 
     private boolean isValidEmail() {

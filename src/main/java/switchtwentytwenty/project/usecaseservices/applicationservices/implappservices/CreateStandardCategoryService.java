@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.category.InputCategoryDTO;

@@ -10,15 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.person.*;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
-import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
-import switchtwentytwenty.project.exceptions.InvalidEmailException;
-import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IPersonOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PeopleOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -41,14 +35,19 @@ public class PersonRESTController implements IPersonRESTController {
 
     private IPersonOptionsService personOptionsService;
 
+    private IPeopleOptionsService peopleOptionsService;
+
+    private static final String ERROR = "Error: ";
+
     @Autowired
-    public PersonRESTController(PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
+    public PersonRESTController(PeopleOptionsService peopleOptionsService, PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
         this.personInputDTOAssembler = personInputDTOAssembler;
         this.profileInternalExternalAssembler = profileInternalExternalAssembler;
         this.addEmailService = addEmailService;
         this.personOptionsService = personOptionsService;
+        this.peopleOptionsService = peopleOptionsService;
     }
 
     @Override
@@ -66,9 +65,9 @@ public class PersonRESTController implements IPersonRESTController {
             Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withSelfRel();
             outputEmailDTO.add(personSelfLink);
             return new ResponseEntity<>(outputEmailDTO, status);
-        } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
+        } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>("Error: " + e.getMessage(), status);
+            return new ResponseEntity<>(ERROR + e.getMessage(), status);
         }
     }
 
@@ -86,11 +85,21 @@ public class PersonRESTController implements IPersonRESTController {
             Link personOptionsLink = linkTo(methodOn(PersonRESTController.class).personOptions(outputPersonDTO.getId())).withRel("Person Options");
             outputPersonDTO.add(personOptionsLink);
             return new ResponseEntity<>(outputPersonDTO, status);
-        } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
+        } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity("Error: "+ e.getMessage(), status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
         }
 
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<OptionsDTO> peopleOptions() {
+        OptionsDTO optionsDTO = peopleOptionsService.getPeopleOptions();
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "POST, OPTIONS");
+
+        return new ResponseEntity<>(optionsDTO, header, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{personID}", method = RequestMethod.OPTIONS)
@@ -117,11 +126,11 @@ public class PersonRESTController implements IPersonRESTController {
             outputPersonDTO.add(link);
             outputPersonDTO.add(familyLink);
 
-            return new ResponseEntity(outputPersonDTO, HttpStatus.FOUND);
+            return new ResponseEntity<>(outputPersonDTO, HttpStatus.FOUND);
 
-        } catch (IllegalArgumentException  | InvalidDataAccessApiUsageException | IllegalStateException e) {
+        } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
 
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity(ERROR + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 
         }
 

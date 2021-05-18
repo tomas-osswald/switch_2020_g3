@@ -18,6 +18,7 @@ import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
@@ -86,6 +87,7 @@ class FamilyRESTControllerTest {
         assertEquals(result, expected);
     }
 
+
     @Test
     void testCreateFamilyAndSetAdmin() {
         InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123");
@@ -94,13 +96,15 @@ class FamilyRESTControllerTest {
 
         when(personAssembler.toInputPersonDTO(any(AddFamilyAndSetAdminDTO.class))).thenReturn(inputPersonDTO);
         when(familyAssembler.toInputFamilyDTO(any(AddFamilyAndSetAdminDTO.class))).thenReturn(inputFamilyDTO);
-        when(createFamilyService.createFamilyAndAddAdmin(any(), any())).thenThrow(IllegalArgumentException.class);
+        when(createFamilyService.createFamilyAndAddAdmin(any(), any())).thenThrow(InvalidEmailException.class);
 
-        ResponseEntity expected = new ResponseEntity("Business Error Api Logic", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity("Error: " + null, HttpStatus.UNPROCESSABLE_ENTITY);
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(invaliddto);
 
-        assertEquals(expected, result);
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
     }
+
 
     @Test
     void familiesOptionsTest() {

@@ -29,7 +29,7 @@ public class AccountRepository implements IAccountRepository {
     private final IAccountDataDomainAssembler accountDataDomainAssembler;
 
     @Autowired
-    public AccountRepository(IAccountRepositoryJPA accountRepositoryJPA, AccountFactory accountFactory, IAccountDataDomainAssembler accountDataDomainAssembler) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public AccountRepository(IAccountRepositoryJPA accountRepositoryJPA, AccountFactory accountFactory, IAccountDataDomainAssembler accountDataDomainAssembler) throws ReflectiveOperationException {
         this.accountRepositoryJPA = accountRepositoryJPA;
         this.accountDataDomainAssembler = accountDataDomainAssembler;
         this.accountFactory = accountFactory;
@@ -41,7 +41,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     private IAccount retrieveAccountById(AccountID accountID) {
-        Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountID.getAccountID());
+        Optional<AccountJPA> accountJPA = accountRepositoryJPA.findById(accountID.getId());
         if (accountJPA.isPresent()){
             return createAccount(accountJPA.get());
         } else {

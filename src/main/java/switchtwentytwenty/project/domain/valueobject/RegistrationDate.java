@@ -7,19 +7,19 @@ import java.util.Objects;
 
 public class RegistrationDate implements ValueObject {
 
-    private Calendar registrationDate;
+    private Calendar date;
 
     /**
      * Constructor for a RegistrationDate Object, if the argument registrationDate is null the registration date will be the current date
      *
-     * @param registrationDate a LocalDate object that will represent the date of the registration
+     * @param date a LocalDate object that will represent the date of the registration
      */
-    public RegistrationDate(String registrationDate) {
-        if (isDateNull(registrationDate)) {
-            this.registrationDate = Calendar.getInstance();
+    public RegistrationDate(String date) {
+        if (isDateNull(date)) {
+            this.date = Calendar.getInstance();
         } else {
 
-            this.registrationDate = DateHelper.parseDateToCalendar(registrationDate);
+            this.date = DateHelper.parseDateToCalendar(date);
         }
     }
 
@@ -37,16 +37,16 @@ public class RegistrationDate implements ValueObject {
         if (this == o) return true;
         if (!(o instanceof RegistrationDate)) return false;
         RegistrationDate that = (RegistrationDate) o;
-        return registrationDate.equals(that.registrationDate);
+        return date.equals(that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(registrationDate);
+        return Objects.hash(date);
     }
 
     @Override
     public String toString() {
-        return registrationDate.get(Calendar.DAY_OF_MONTH)+"/"+ (registrationDate.get(Calendar.MONTH)+1)+"/"+ registrationDate.get(Calendar.YEAR);
+        return date.get(Calendar.DAY_OF_MONTH)+"/"+ (date.get(Calendar.MONTH)+1)+"/"+ date.get(Calendar.YEAR);
     }
 }

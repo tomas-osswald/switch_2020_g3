@@ -7,11 +7,11 @@ import java.util.Objects;
 public class Name implements ValueObject {
 
 
-    private final String name;
+    private final String thisName;
 
-    public Name(String name) {
-        validateData(name);
-        this.name = name.trim();
+    public Name(String thisName) {
+        validateData(thisName);
+        this.thisName = thisName.trim();
     }
 
     private void validateData(String name) {
@@ -19,9 +19,9 @@ public class Name implements ValueObject {
     }
 
     private void checkName(String name) {
-        String INVALIDNAME = "Name is not valid";
+        String invalidName = "Name is not valid";
         if(!isValidName(name))
-            throw new InvalidNameException(INVALIDNAME);
+            throw new InvalidNameException(invalidName);
     }
 
     // Falta Verificação com regras de negócio
@@ -31,7 +31,7 @@ public class Name implements ValueObject {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.thisName;
     }
 
     @Override
@@ -39,11 +39,11 @@ public class Name implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Name name1 = (Name) o;
-        return name.equals(name1.name);
+        return thisName.equals(name1.thisName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(thisName);
     }
 }

@@ -17,35 +17,29 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
 
 
     public Address createAddress(IInputPersonDTO inputPersonDTO) {
-        Address address = new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
-        return address;
+        return new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
     }
 
 
     public PhoneNumber createPhoneNumber(IInputPersonDTO inputPersonDTO) {
-        PhoneNumber phone = new PhoneNumber(inputPersonDTO.unpackPhone());
-        return phone;
+        return new PhoneNumber(inputPersonDTO.unpackPhone());
     }
 
     public VATNumber createVATNumber(IInputPersonDTO inputPersonDTO) {
-        VATNumber vat = new VATNumber(inputPersonDTO.unpackVAT());
-        return vat;
+        return new VATNumber(inputPersonDTO.unpackVAT());
     }
 
     public PersonID createPersonID(IInputPersonDTO inputPersonDTO) {
-        PersonID personID = new PersonID(inputPersonDTO.unpackEmail());
-        return personID;
+        return new PersonID(inputPersonDTO.unpackEmail());
     }
 
 
     public Name createName(IInputPersonDTO inputPersonDTO) {
-        Name name = new Name(inputPersonDTO.unpackName());
-        return name;
+        return new Name(inputPersonDTO.unpackName());
     }
 
     public BirthDate createBirthDate(IInputPersonDTO inputPersonDTO) {
-        BirthDate birthDate = new BirthDate(inputPersonDTO.unpackBirthDate());
-        return birthDate;
+        return new BirthDate(inputPersonDTO.unpackBirthDate());
     }
 
 

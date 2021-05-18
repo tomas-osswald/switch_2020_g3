@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class FamilyName implements ValueObject {
 
-    private final String familyName;
+    private final String name;
 
-    public FamilyName(String familyName) {
-        validateName(familyName);
-        this.familyName = familyName.trim();
+    public FamilyName(String name) {
+        validateName(name);
+        this.name = name.trim();
     }
 
     /**
@@ -46,16 +46,16 @@ public class FamilyName implements ValueObject {
         if (this == o) return true;
         if (!(o instanceof FamilyName)) return false;
         FamilyName that = (FamilyName) o;
-        return familyName.equals(that.familyName);
+        return name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(familyName);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
-        return this.familyName;
+        return this.name;
     }
 }

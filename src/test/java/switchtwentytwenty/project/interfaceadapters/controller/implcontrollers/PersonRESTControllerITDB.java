@@ -6,11 +6,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
@@ -44,7 +46,24 @@ class PersonRESTControllerITDB {
     String addedEmailID = "3L";
     AddEmailDTO emailToAddDTO = new AddEmailDTO(emailToAdd);
 
+    @Test
+    void peopleOptions() {
 
+        OptionsDTO optionsDTO = new OptionsDTO();
+        Link linkToPeopleOptions = linkTo(methodOn(PersonRESTController.class).peopleOptions()).withSelfRel();
+        Link linkToPOST = linkTo(methodOn(PersonRESTController.class).addFamilyMember(new AddFamilyMemberDTO())).withRel("POST - Add Family Member");
+        optionsDTO.add(linkToPeopleOptions);
+        optionsDTO.add(linkToPOST);
+        HttpHeaders header = new HttpHeaders();
+        header.set("Allow", "POST, OPTIONS");
+
+        ResponseEntity expected = new ResponseEntity(optionsDTO, header, HttpStatus.OK);
+
+        ResponseEntity result = personRESTController.peopleOptions();
+
+        assertEquals(expected, result);
+        assertNotNull(result.getHeaders());
+    }
     @Test
     @DisplayName("Success case in adding email using integration test with all components")
     void addEmailToFamilyMemberExpectingSuccess() {

@@ -39,8 +39,7 @@ public class CreateAccountService implements ICreateAccountService {
 
         IAccount account = accountFactory.createAccount(designation, monetary, ownerID, accountType);
         IAccount savedAccount = accountRepository.add(account);
-        OutputAccountDTO outputAccountDTO = accountDTODomainAssembler.toDTO(savedAccount);
-        return outputAccountDTO;
+        return accountDTODomainAssembler.toDTO(savedAccount);
     }
 
 }

@@ -13,6 +13,4 @@ public interface IPersonRepositoryJPA extends CrudRepository<PersonJPA, PersonID
 
     Optional<PersonJPA> findById(PersonIDJPA id);
 
-    // boolean existsPersonJPAById_PersonID(PersonIDJPA personIDJPA);
-
 }
