@@ -6,11 +6,4 @@ import java.util.List;
 
 public abstract class AbAccount implements IAccount {
 
-    private Designation designation;
-
-    private AccountID accountID;
-
-    private List<Movement> movements;
-
-
 }
