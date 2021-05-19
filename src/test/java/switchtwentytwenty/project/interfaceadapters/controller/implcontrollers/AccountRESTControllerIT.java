@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.AccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
@@ -24,7 +23,6 @@ import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomainAssembler;
-import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.AccountRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateAccountService;
@@ -94,9 +92,6 @@ class AccountRESTControllerIT {
 
     OutputAccountDTO outputAccountDTO = new OutputAccountDTO(designationString, ownerIDString, accountIDString);
 
-
-    //AccountFactory accountFactory = new AccountFactory();
-
     Currency currencyObject = Currency.getInstance(currency);
     Monetary monetary = new Monetary(currency, amount);
 
@@ -121,22 +116,15 @@ class AccountRESTControllerIT {
     IAccount familyCashAccount = new CashAccount(accountID, familyOwnerID, designation, emptyMovements);
 
 
-
     @Test
     @DisplayName("Integration test with success creating an account")
     void createAccount() {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
-       /* List<Movement> movements = new ArrayList<>();
-        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
-
-
-        */
         IAccount account = new BankAccount();
         account.setAccountID(accountID);
         account.setDesignation(designation);
-        //account.setMovements(movements);
         account.setOwner(ownerID);
 
         when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(accountJPA);
@@ -162,58 +150,27 @@ class AccountRESTControllerIT {
 
     }
 
-   @Test
-    @DisplayName("Integration test expecting account already registered exception")
+    @Test
+    @DisplayName("Integration test expecting Unprocessable Entity because account is already registered")
     void failToCreateAccountWhenProvidingAlreadyExistingAccount() {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
-       AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
-       CreateAccountDTO createBankAccountDTO = new CreateAccountDTO(designationString, amount, currency, "@tonyze@cenas.com", accountTypeString);
+        AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
+        CreateAccountDTO createBankAccountDTO = new CreateAccountDTO(designationString, amount, currency, "@tonyze@cenas.com", accountTypeString);
 
-        //Optional<AccountJPA> optionalAccountJPA = Optional.of(accountJPA);
+
         AccountJPA realAccountJPA = new AccountJPA();
         when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(familyAccountJPA);
         when(mockRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(Optional.of(realAccountJPA));
 
-        //NÃO PODE SER THROWS!!!!!!!!
-        //ResponseEntity ->
-        assertThrows(AccountAlreadyRegisteredException.class, () -> accountRESTController.createAccount(createBankAccountDTO));
-
-
-    /*   when(account.getOwnerId()).thenReturn(new FamilyID());
-       when(accountRepositoryJPA.findByOwnerID(new OwnerIDJPA(account.getOwnerId().toString()))).thenReturn(Optional.of(realAccountJPA));
-
-       assertThrows(AccountAlreadyRegisteredException.class, () -> accountRepository.add(account));
-
-      */
-
-
-        /*when(mockAccountDataDomainAssembler.createAccountID(any(AccountJPA.class))).thenReturn(accountID);
-        when(mockAccountDataDomainAssembler.createAccountType(any(AccountJPA.class))).thenReturn(accountType);
-        when(mockAccountDataDomainAssembler.createDesignation(any(AccountJPA.class))).thenReturn(designation);
-        when(mockAccountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
-        when(mockAccountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(new ArrayList<>());
-        when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
-        */
-
-       /*
-        OutputAccountDTO expectedOutputDTO = new OutputAccountDTO(accountIDString, ownerIDString, designationString);
-        Link link = linkTo(methodOn(AccountRESTController.class).getAccount(accountIDString)).withSelfRel();
-        expectedOutputDTO.add(link);
-         */
-
-
-
-        /*ResponseEntity expected = new ResponseEntity(expectedOutputDTO, HttpStatus.CREATED);
+        ResponseEntity expected = new ResponseEntity("Account is already registered", HttpStatus.UNPROCESSABLE_ENTITY);
 
         ResponseEntity result = accountRESTController.createAccount(createBankAccountDTO);
 
-        assertEquals(expected.getBody().toString(), result.getBody().toString());
+        assertEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
-
-         */
-        }
-
     }
+
+}
 
