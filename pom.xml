@@ -215,6 +215,7 @@
                     </targetTests>
                     <excludedTestClasses>
                         <excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
+                        <excludedTestClass>switchtwentytwenty.project.**.FFMSpringBootApplicationTest</excludedTestClass>
                         <!--<param>switchtwentytwenty.project.**.*ITDB</param>-->
                     </excludedTestClasses>
                     <outputFormats>
