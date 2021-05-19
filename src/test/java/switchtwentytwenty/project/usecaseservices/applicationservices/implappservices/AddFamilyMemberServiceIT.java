@@ -15,6 +15,7 @@ import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepos
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class AddFamilyMemberServiceIT {
@@ -67,3 +68,5 @@ class AddFamilyMemberServiceIT {
         assertThrows(InvalidNameException.class, () -> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
 }
+
+ */
