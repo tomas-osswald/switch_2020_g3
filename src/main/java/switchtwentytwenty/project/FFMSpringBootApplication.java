@@ -33,12 +33,15 @@ FFMSpringBootApplication {
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO(TONYZEEMAIL, "TonyZe", "12/12/1969", 123456789, 919999999, "Rua do Charme", "Cidade do Zexo", "69 Esquerdo", "1234-123", "Antunes", null);
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO2 = new AddFamilyAndSetAdminDTO("rifens@ravens.com", "Rifens", "05/05/1920", 987654321, 911111111, "Rua do Sertin", "Zelmin", "223", "1112-111", "Ravens", "01/01/2021");
             AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(TONYZEEMAIL, KATIAVANESSAEMIAL, "Katia Vanessa", "20/01/1970", 777777777, 921232323, "Rua do Charme", "Cidade do Zexo", "69 Esquerdo", "1234-123");
+            CreateAccountDTO vanessaAccount = new CreateAccountDTO("Conta para fugir do TonyZe", BigDecimal.valueOf(1034.54), "EUR", KATIAVANESSAEMIAL, "bank");
+            CreateAccountDTO tonyaccount = new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", TONYZEEMAIL, "cash");
+
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
             personRESTController.addFamilyMember(addFamilyMemberDTO);
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@yahoo.com"), KATIAVANESSAEMIAL);
-            iAccountRESTController.createAccount(new CreateAccountDTO("Conta para fugir do TonyZe", BigDecimal.valueOf(1034.54), "EUR", KATIAVANESSAEMIAL, "bank"));
-            iAccountRESTController.createAccount(new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", TONYZEEMAIL, "cash"));
+            iAccountRESTController.createAccount(vanessaAccount);
+            iAccountRESTController.createAccount(tonyaccount);
         };
     }
 
