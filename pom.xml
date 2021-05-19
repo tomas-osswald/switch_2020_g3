@@ -208,22 +208,10 @@
                         <param>lapr.project.utils.*</param>
                     </inScopeClasses>-->
                     <targetClasses>
-                        <param>switchtwentytwenty.project.domain.*</param>
-                        <param>switchtwentytwenty.project.datamodel.*</param>
-                        <param>switchtwentytwenty.project.dto.*</param>
-                        <param>switchtwentytwenty.project.interfaceadapters.*</param>
-                        <param>switchtwentytwenty.project.usecaseservices.*</param>
-                        <param>switchtwentytwenty.project.util.*</param>
-                        <param>switchtwentytwenty.project.exceptions.*</param>
+                        <param>switchtwentytwenty.project.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>switchtwentytwenty.project.domain.*</param>
-                        <param>switchtwentytwenty.project.datamodel.*</param>
-                        <param>switchtwentytwenty.project.dto.*</param>
-                        <param>switchtwentytwenty.project.interfaceadapters.*</param>
-                        <param>switchtwentytwenty.project.usecaseservices.*</param>
-                        <param>switchtwentytwenty.project.util.*</param>
-                        <param>switchtwentytwenty.project.exceptions.*</param>
+                        <param>switchtwentytwenty.project.*</param>
                     </targetTests>
                     <excludedTestClasses>
                         <excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
