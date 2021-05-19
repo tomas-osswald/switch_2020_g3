@@ -15,7 +15,7 @@ import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepos
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/*
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class AddFamilyMemberServiceIT {
@@ -47,19 +47,7 @@ class AddFamilyMemberServiceIT {
     String zipCode = "1111-222";
 
     InputAddFamilyMemberDTO invalidNameInternalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, invalidName, birthDate, vat, phone, street, city, houseNum, zipCode);
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTOUserAlreadyExists = new InputAddFamilyMemberDTO(adminID, "kvanessa@latina.com", name, birthDate, vat, phone, street, city, houseNum, zipCode);
 
-
-
-
-
-    @Test
-    @DisplayName("Test to assert an already registered email can't be registered again")
-    void addPersonFail_PersonAlreadyRegistered() {
-
-        assertThrows(InvalidDataAccessApiUsageException.class, () -> service.addPerson(internalAddFamilyMemberDTOUserAlreadyExists));
-
-    }
 
     @DisplayName("AddFamilyMemberService IT Test to check if an exception is thrown if an invalid Value object is attempted to be instanced")
     @Test
@@ -68,5 +56,3 @@ class AddFamilyMemberServiceIT {
         assertThrows(InvalidNameException.class, () -> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
 }
-
- */

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
@@ -17,10 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class AddFamilyMemberServiceITDB {
 
-
     @Autowired
     AddFamilyMemberService service;
-
 
     String adminID = "tonyze@latinlover.com";
     String ID = "tonyZe@gamil.com";
@@ -34,6 +33,9 @@ public class AddFamilyMemberServiceITDB {
     String houseNum = "239";
     String zipCode = "1111-222";
     InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO(adminID, ID, name, birthDate, vat, phone, street, city, houseNum, zipCode);
+
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTOUserAlreadyExists = new InputAddFamilyMemberDTO(adminID, "kvanessa@latina.com", name, birthDate, vat, phone, street, city, houseNum, zipCode);
+
 
     @Test
     @DisplayName("Integration test of AddFamilyMemberService with Repository: Successfully add a person")
@@ -58,6 +60,14 @@ public class AddFamilyMemberServiceITDB {
         assertNotNull(result);
         assertEquals(expected, result);
         assertNotSame(expected, result);
+    }
+
+    @Test
+    @DisplayName("Test to assert an already registered email can't be registered again")
+    void addPersonFail_PersonAlreadyRegistered() {
+
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> service.addPerson(internalAddFamilyMemberDTOUserAlreadyExists));
+
     }
 
 }
