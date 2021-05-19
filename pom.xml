@@ -214,6 +214,7 @@
                         <param>switchtwentytwenty.project.interfaceadapters.*</param>
                         <param>switchtwentytwenty.project.usecaseservices.*</param>
                         <param>switchtwentytwenty.project.util.*</param>
+                        <param>switchtwentytwenty.project.exceptions.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>switchtwentytwenty.project.domain.*</param>
@@ -222,7 +223,7 @@
                         <param>switchtwentytwenty.project.interfaceadapters.*</param>
                         <param>switchtwentytwenty.project.usecaseservices.*</param>
                         <param>switchtwentytwenty.project.util.*</param>
-
+                        <param>switchtwentytwenty.project.exceptions.*</param>
                     </targetTests>
                     <excludedTestClasses>
                         <excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
