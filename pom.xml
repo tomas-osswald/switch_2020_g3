@@ -208,16 +208,35 @@
                         <param>lapr.project.utils.*</param>
                     </inScopeClasses>-->
                     <targetClasses>
-                        <param>switchtwentytwenty.project.*</param>
+                        <param>switchtwentytwenty.project.datamodel.*</param>
+                        <param>switchtwentytwenty.project.domain.*</param>
+                        <param>switchtwentytwenty.project.dto.*</param>
+                        <param>switchtwentytwenty.project.exceptions.*</param>
+                        <param>switchtwentytwenty.project.interfaceadapters.*</param>
+                        <param>switchtwentytwenty.project.usecaseservices.*</param>
+                        <param>switchtwentytwenty.project.util.*</param>
                     </targetClasses>
+
+                    <!--<excludedClasses>
+                        <excludedClass>switchtwentytwenty.project.FFMSpringBootApplication</excludedClass>
+                    </excludedClasses> -->
+
                     <targetTests>
-                        <param>switchtwentytwenty.project.*</param>
+                        <param>switchtwentytwenty.project.datamodel.*</param>
+                        <param>switchtwentytwenty.project.domain.*</param>
+                        <param>switchtwentytwenty.project.dto.*</param>
+                        <param>switchtwentytwenty.project.exceptions.*</param>
+                        <param>switchtwentytwenty.project.interfaceadapters.*</param>
+                        <param>switchtwentytwenty.project.usecaseservices.*</param>
+                        <param>switchtwentytwenty.project.util.*</param>
                     </targetTests>
+
                     <excludedTestClasses>
                         <excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
                         <excludedTestClass>switchtwentytwenty.project.*ITDB</excludedTestClass>
                         <!--<param>switchtwentytwenty.project.**.*ITDB</param>-->
                     </excludedTestClasses>
+
                     <outputFormats>
                         <outputFormat>XML</outputFormat>
                         <outputFormat>HTML</outputFormat>
