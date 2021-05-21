@@ -10,7 +10,6 @@ public class Relation implements ValueObject {
     private final RelationDesignation relationDesignation;
 
     public Relation (EmailAddress memberA, EmailAddress memberB, String designation) {
-        //validateRelation();
         this.memberA = memberA;
         this.memberB = memberB;
         this.relationDesignation = new RelationDesignation(designation);

@@ -44,13 +44,13 @@ public class Monetary {
     }
 
     private Currency validateCurrency(String currencyToCheck) {
-        Currency currency;
+        Currency currencyCheck;
         if (checkNull(currencyToCheck) || checkBlank(currencyToCheck)) {
-            currency = Currency.getInstance("EUR");
+            currencyCheck = Currency.getInstance("EUR");
         } else {
-            currency = Currency.getInstance(currencyToCheck);
+            currencyCheck = Currency.getInstance(currencyToCheck);
         }
-        return currency;
+        return currencyCheck;
     }
 
     private boolean checkBlank (String currency){

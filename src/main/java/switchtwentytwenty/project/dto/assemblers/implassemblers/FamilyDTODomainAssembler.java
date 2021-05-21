@@ -37,8 +37,7 @@ public class FamilyDTODomainAssembler {
      * @return OutputFamilyDTO - object containing the family name, family administrator and the registration date
      */
     public OutputFamilyDTO toDTO(Family family) {
-        OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO(family.getName().toString(), family.id().toString(), family.getAdmin().toString(), family.getRegistrationDate().toString());
-        return outputFamilyDTO;
+        return new OutputFamilyDTO(family.getName().toString(), family.id().toString(), family.getAdmin().toString(), family.getRegistrationDate().toString());
     }
 
 }

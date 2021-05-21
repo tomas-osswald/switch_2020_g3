@@ -32,6 +32,20 @@ public class CreditCardAccount extends AbNonCashAccount {
     }
 
     @Override
+    public Designation getDesignation() {
+        return this.designation;
+    }
+
+    @Override
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    @Override
+    public String getAccountType() {
+        return "credit";
+    }
+    @Override
     public AccountID id() {
         return this.accountID;
     }
@@ -47,30 +61,6 @@ public class CreditCardAccount extends AbNonCashAccount {
     }
 
     @Override
-    public Designation getDesignation() {
-        return this.designation;
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
-    }
-
-    @Override
-    public String getAccountType() {
-        return "credit";
-    }
-
-    @Override
-    public List<Movement> getListOfMovements() {
-        List<Movement> copyMovements = new ArrayList<>();
-        if (!this.movements.isEmpty()) {
-            copyMovements.addAll(this.movements);
-        }
-        return copyMovements;
-    }
-
-    @Override
     public void setAccountID(AccountID accountID) {
         this.accountID = accountID;
     }
@@ -83,6 +73,15 @@ public class CreditCardAccount extends AbNonCashAccount {
     @Override
     public void setMovements(List<Movement> movements) {
         this.movements = Collections.unmodifiableList(movements);
+    }
+
+    @Override
+    public List<Movement> getListOfMovements() {
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override

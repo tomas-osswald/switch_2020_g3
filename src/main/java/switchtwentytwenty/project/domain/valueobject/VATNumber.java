@@ -25,9 +25,9 @@ public class VATNumber implements ValueObject {
     }
 
     private void checkVatNumber() {
-        String INVALIDVAT = "Invalid VAT";
+        String invalidVat = "Invalid VAT";
         if (!isValidVAT())
-            throw new InvalidVATException(INVALIDVAT);
+            throw new InvalidVATException(invalidVat);
     }
 
     private boolean isValidVAT() {

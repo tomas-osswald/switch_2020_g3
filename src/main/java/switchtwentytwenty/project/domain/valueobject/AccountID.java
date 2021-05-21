@@ -9,10 +9,10 @@ public class AccountID implements ID<Long> {
 
     @Getter
     @Setter
-    private Long accountID;
+    private Long id;
 
-    public AccountID(Long accountID) {
-        this.accountID = accountID;
+    public AccountID(Long id) {
+        this.id = id;
         validateID();
     }
 
@@ -31,7 +31,7 @@ public class AccountID implements ID<Long> {
      * @return boolean, true if ID is valid, false otherwise
      */
     private boolean isIDValid() {
-        return this.accountID != null;
+        return this.id != null;
     }
 
     @Override
@@ -39,16 +39,16 @@ public class AccountID implements ID<Long> {
         if (this == o) return true;
         if (!(o instanceof AccountID)) return false;
         AccountID accountID1 = (AccountID) o;
-        return accountID.equals(accountID1.accountID);
+        return id.equals(accountID1.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountID);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString(){
-        return this.accountID.toString();
+        return this.id.toString();
     }
 }

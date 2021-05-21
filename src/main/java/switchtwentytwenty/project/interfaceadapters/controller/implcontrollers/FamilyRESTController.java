@@ -82,7 +82,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamily(outputFamilyDTO.getFamilyID())).withSelfRel();
             outputFamilyDTO.add(selfLink);
-            return new ResponseEntity(outputFamilyDTO, status);
+            return new ResponseEntity<>(outputFamilyDTO, status);
         } catch (IllegalArgumentException | InvalidEmailException | InvalidDataAccessApiUsageException | EmailNotRegisteredException | PersonAlreadyRegisteredException e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
@@ -102,13 +102,16 @@ public class FamilyRESTController implements IFamilyRESTController {
         return new ResponseEntity<>(options, header, HttpStatus.OK);
     }
 
-    @PostMapping("/{familyID}/relations")
-    public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO, @PathVariable String familyID) {
-        throw new UnsupportedOperationException();
-    }
 
     @GetMapping("/{familyID}")
     public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
+        throw new UnsupportedOperationException();
+    }
+
+
+
+    @PostMapping("/{familyID}/relations")
+    public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO, @PathVariable String familyID) {
         throw new UnsupportedOperationException();
     }
 

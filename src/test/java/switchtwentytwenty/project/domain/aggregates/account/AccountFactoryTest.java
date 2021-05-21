@@ -24,11 +24,13 @@ public class AccountFactoryTest {
     Designation designation = new Designation("Compras");
     Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
     IOwnerID ownerID = new PersonID("toni@emial.com");
+    String invalidAccountType = "CryptoAccount";
     String bankAccountType = "bank";
     String cashAccountType = "cash";
     AccountID accountID = new AccountID(3L);
     List<Movement> movements = new ArrayList<>();
     Movement movement = new Movement(monetary);
+
 
     @DisplayName("Account is successfully created with Monetary")
     @Test
@@ -46,8 +48,8 @@ public class AccountFactoryTest {
 
     @DisplayName("Account fails with Monetary - Account type dont match")
     @Test
-    public void createAccountWithMonetaryFailsAccount() {
-        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(designation, monetary, ownerID, "baank"));
+    public void createAccountWithMonetaryFailsInvalidAccountType() {
+        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(designation, monetary, ownerID, invalidAccountType));
     }
 
     @DisplayName("Account is successfully created with List of Movements")
@@ -109,6 +111,13 @@ public class AccountFactoryTest {
         assertEquals(expected.getDesignation(), result.getDesignation());
         assertEquals(expected.getListOfMovements(), result.getListOfMovements());
         assertEquals(expected.getOwnerId(),result.getOwnerId());
+    }
+
+    @DisplayName("Account with Movements fails with Monetary - Account type dont match")
+    @Test
+    public void createAccountWithListOfMovementsFailInvalidAccountType(){
+        movements.add(movement);
+        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(accountID, movements, ownerID, designation, invalidAccountType));
     }
 
 

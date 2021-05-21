@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public class Designation {
 
-    private String designation;
+    private String thisDesignation;
 
 
-    public Designation(String designation) {
-        validateDesignation(designation);
-        this.designation = designation;
+    public Designation(String thisDesignation) {
+        validateDesignation(thisDesignation);
+        this.thisDesignation = thisDesignation;
     }
 
     private void validateDesignation(String designation) {
@@ -23,15 +23,15 @@ public class Designation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Designation that = (Designation) o;
-        return Objects.equals(designation, that.designation);
+        return Objects.equals(thisDesignation, that.thisDesignation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(designation);
+        return Objects.hash(thisDesignation);
     }
 
     public String toString(){
-        return this.designation;
+        return this.thisDesignation;
     }
 }

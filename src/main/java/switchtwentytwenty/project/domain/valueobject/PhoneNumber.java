@@ -31,9 +31,9 @@ public class PhoneNumber implements ValueObject {
     }
 
     private void checkNumber() {
-        String INVALIDPHONE = "Phone number is not valid";
+        String invalidPhone = "Phone number is not valid";
         if (!isPhoneNumberValid())
-            throw new InvalidPhoneNumberException(INVALIDPHONE);
+            throw new InvalidPhoneNumberException(invalidPhone);
     }
 
     // Definir lógica de negócio

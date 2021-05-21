@@ -1,15 +1,10 @@
 package switchtwentytwenty.project.domain.aggregates.futuretransaction;
 
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
-import switchtwentytwenty.project.domain.valueobject.FutureTransactionID;
-import switchtwentytwenty.project.domain.valueobject.InvoiceID;
 import switchtwentytwenty.project.domain.valueobject.ID;
 
 public class FutureTransaction implements AggregateRoot {
 
-
-    private FutureTransactionID id;
-    private InvoiceID invoice;
 
     @Override
     public ID id() {

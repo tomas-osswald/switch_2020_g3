@@ -48,10 +48,7 @@ public class PersonJPA {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
-        //this.emails = emails;
         this.vat = vat;
-        //this.phones = phones;
-        this.address = address;
         this.familyid = familyid;
     }
 

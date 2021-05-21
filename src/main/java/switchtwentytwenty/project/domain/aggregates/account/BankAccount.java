@@ -32,23 +32,18 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public AccountID id() {
-        return this.accountID;
-    }
-
-    @Override
     public boolean hasID(AccountID id) {
         return this.accountID == id;
     }
 
     @Override
-    public IOwnerID getOwnerId() {
-        return this.ownerID;
+    public AccountID id() {
+        return this.accountID;
     }
 
     @Override
-    public Designation getDesignation() {
-        return this.designation;
+    public IOwnerID getOwnerId() {
+        return this.ownerID;
     }
 
     @Override
@@ -62,12 +57,8 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public List<Movement> getListOfMovements() {
-        List<Movement> copyMovements = new ArrayList<>();
-        if (!this.movements.isEmpty()) {
-            copyMovements.addAll(this.movements);
-        }
-        return copyMovements;
+    public Designation getDesignation() {
+        return this.designation;
     }
 
     @Override
@@ -78,6 +69,14 @@ public class BankAccount extends AbNonCashAccount {
     @Override
     public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
+    }
+    @Override
+    public List<Movement> getListOfMovements() {
+        List<Movement> copyMovements = new ArrayList<>();
+        if (!this.movements.isEmpty()) {
+            copyMovements.addAll(this.movements);
+        }
+        return copyMovements;
     }
 
     @Override
