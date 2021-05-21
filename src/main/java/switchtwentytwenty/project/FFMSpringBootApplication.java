@@ -18,8 +18,8 @@ import java.math.BigDecimal;
 @SpringBootApplication
 public class
 FFMSpringBootApplication {
-    private final String TONY_ZE_EMAIL = "tonyze@latinlover.com";
-    private final String KATIA_VANESSA_EMAIL = "kvanessa@latina.com";
+    private static final String TONY_ZE_EMAIL = "tonyze@latinlover.com";
+    private static final String KATIA_VANESSA_EMAIL = "kvanessa@latina.com";
 
     public static void main(String[] args) {
         SpringApplication.run(FFMSpringBootApplication.class, args);
