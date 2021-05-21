@@ -64,10 +64,8 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
     private List<Integer> getPersonStringPhoneNumberList(Person savedPerson) {
         List<Integer> phoneNumbers = new ArrayList<>();
         List<PhoneNumber> phoneNumbersObjects = savedPerson.getPhoneNumbers();
-        if (phoneNumbersObjects != null) {
-            for (PhoneNumber phoneNumberObject : phoneNumbersObjects) {
-                phoneNumbers.add(phoneNumberObject.getNumber());
-            }
+        for (PhoneNumber phoneNumberObject : phoneNumbersObjects) {
+            phoneNumbers.add(phoneNumberObject.getNumber());
         }
         return phoneNumbers;
     }
@@ -75,10 +73,8 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
     private List<String> getPersonStringEmailList(Person savedPerson) {
         List<String> emails = new ArrayList<>();
         List<EmailAddress> emailObjects = savedPerson.getEmails();
-        if (emailObjects != null) {
-            for (EmailAddress emailObject : emailObjects) {
-                emails.add(emailObject.toString());
-            }
+        for (EmailAddress emailObject : emailObjects) {
+            emails.add(emailObject.toString());
         }
         return emails;
     }

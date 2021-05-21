@@ -3,8 +3,8 @@ package switchtwentytwenty.project.dto.category;
 import java.util.Objects;
 
 public class InputCategoryDTO {
-    private String categoryName;
-    private String parentID;
+    private final String categoryName;
+    private final String parentID;
 
     public InputCategoryDTO(String categoryName, String parentID) {
         this.categoryName = categoryName;
