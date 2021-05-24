@@ -789,3 +789,29 @@ No entanto deixou em aberto que também gostaria de ver o Builder.
 - US111v2 As a Family Administrator, I want to add a custom category to the family’s category tree "extended" from either external or internal standard categories.
   
 - US080 As a System User, I want to login into the application in order to use it.
+
+
+### Aula Labproj 24/05/2021
+
+Relativamente à questão das configurações de sistemas externos.
+
+Previsto sermos capazes de importar Categories de outros grupos. 
+Temos de aplicar o padrão Adapter para poder traduzir toda a informação proveniente dos grupos para adaptar aquilo que os outros disponibilizam na API deles, para aquilo que precisamos para a nossa aplicação.
+
+
+
+Autowired desnecessário no Construtor:
+![img.png](img.png)
+
+Anotação Component desncessária nos Assemblers (Assemblers deixam de ser Autowired porque pode haver várias instâncias de Assembler e não precisa de ser só uma específica - Que é o que se consegue com Autowired)
+
+![img_1.png](img_1.png)
+
+
+Em vez de usar o unpack Cenas mais unpack outras cenas, usar uma variável para ambas:
+
+![img_2.png](img_2.png)
+
+Garantir que o email que é usado para identificar o admin é o proveniente da persistência e não aquele que é passado inicialmente. 
+
+![img_3.png](img_3.png)
