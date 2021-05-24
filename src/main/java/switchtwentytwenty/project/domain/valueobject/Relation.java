@@ -1,15 +1,20 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Objects;
 
+@AllArgsConstructor
 public class Relation implements ValueObject {
-
-    private final EmailAddress memberA;
-    private final EmailAddress memberB;
+    private final PersonID memberA;
+    private final PersonID memberB;
     private final RelationDesignation relationDesignation;
+    @Getter
+    private long id;
 
-    public Relation (EmailAddress memberA, EmailAddress memberB, String designation) {
+    public Relation(PersonID memberA, PersonID memberB, String designation) {
         this.memberA = memberA;
         this.memberB = memberB;
         this.relationDesignation = new RelationDesignation(designation);

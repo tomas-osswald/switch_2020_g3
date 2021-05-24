@@ -725,3 +725,67 @@ Factories e Builder -> Prof referiu que o Builder não é necessário para o que
 No entanto deixou em aberto que também gostaria de ver o Builder.
 
 # Decisão -> Factories vs Builder
+
+# Sprint 6
+
+## Discussão de implementação das USs em atraso
+
+- US001 As a system manager, I want to create a standard category{
+ + CategoryRESTController + metodo  
+ + CreateStandardCategoryDTO (o que vem de fora)
+ + InputCreateStandardCategoryDTO
+ + Assembler para o DTO acima
+ + Create Standard Category Service
+ + Assembler com metodos toDomain para criar value objects e que cria o Output tambem
+ + Factory (?)
+ + Repositório de Categorias (standard e custom)
+ + Assembler to Data (JPA) que faz o reverse tambem
+ + Mirror objects em JPA
+ + StandardCategoryOutputDTO para levar info + links
+}
+   
+- US002 As a system manager, I want to get the standard categories tree.{
+ + Metodo no Controller  
+ + GetStandardCategoryTreeService
+ + StandardCategoryTreeOutputDTO
+ + O OutputDTO acima seria feito pelo mesmo assembler da US anterior
+}
+
+- US110 As a family administrator, I want to get the list of the categories on the family’s category tree.{
++ Metodo no controller da Family
++ InputGetFamilyCategoryTreeDTO 
++ Assembler para fazer o DTO acima (poderá ser o assembler da Family)
++ GetFamilyCategoryService (vai interagir com o repositorio de categorias)
++ OutputCustomCategoriesDTO
++ DTO acima será feito pelo good ol' assembler de categorias
+}
+   
+- US105 As a family administrator, I want to create a relation between two family members.{
++ Metodo no family Controller
++ CreateRelationDTO
++ InputRelationDTO
++ Assembler para o dto acima
++ CreateRelationService (vai interagir com o repo da Familia para a updatar)
++ Assembler para fazer os ValueObjects (pode ser o assembler da Familia?)
++ RelationJPA e tudo o resto em termos de mirror que seja preciso
++ OutputRelationDTO (criado com o assembler que ja existe da Familia)
+  (Verificação de ambos os membros na mesma familia + não é relação com o proprio)
+}
+
+- US104 As a family administrator, I want to get the list of family members and their relations.{
++ Metodo no family Controller
++ InputRelationListDTO
++ Assembler (provavelmente o que ja existe)
++ GetRelationListService
++ DomainService para ir buscar as pessoas
++ OutputRelationListDTO
++ DTO acima usa o assembler existente
+}
+  
+
+###Novas:
+- US003 As a System Manager I want that the list of standard categories to include those loaded (whenever needed) from a complementary system defined by configuration. => Perguntar ao Professor NB
+  
+- US111v2 As a Family Administrator, I want to add a custom category to the family’s category tree "extended" from either external or internal standard categories.
+  
+- US080 As a System User, I want to login into the application in order to use it.
