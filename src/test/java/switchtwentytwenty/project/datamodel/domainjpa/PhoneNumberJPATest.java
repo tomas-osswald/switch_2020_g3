@@ -140,7 +140,4 @@ class PhoneNumberJPATest {
         assertNotEquals(phoneNumberJPAOne.hashCode(), phoneNumberJPATwo.hashCode());
     }
 
-    @Test
-    void getId() {
-    }
 }

@@ -98,8 +98,4 @@ class FamilyRESTControllerIT {
         assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
     }
 
-    @Test
-    void getFamilyOptionsTest() {
-
-    }
 }

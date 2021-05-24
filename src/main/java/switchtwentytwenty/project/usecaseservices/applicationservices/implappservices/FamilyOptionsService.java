@@ -17,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FamilyOptionsService implements IFamilyOptionsService {
 
 
-    private IFamilyRepository iFamilyRepository;
+    private final IFamilyRepository iFamilyRepository;
 
     @Autowired
     public FamilyOptionsService(IFamilyRepository iFamilyRepository){
