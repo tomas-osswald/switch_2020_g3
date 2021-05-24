@@ -21,8 +21,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class AccountRESTController implements IAccountRESTController {
 
 
-    private ICreateAccountService createAccountService;
-    private IAccountInputDTOAssembler accountInputDTOAssembler;
+    private final ICreateAccountService createAccountService;
+    private final IAccountInputDTOAssembler accountInputDTOAssembler;
 
     @Autowired
     public AccountRESTController (ICreateAccountService createAccountService, IAccountInputDTOAssembler accountInputDTOAssembler) {

@@ -10,14 +10,14 @@ import java.util.Objects;
 
 public class Family implements AggregateRoot<FamilyID> {
 
-    private FamilyID id;
+    private final FamilyID id;
     @Getter
     private FamilyName name;
     @Getter
     private RegistrationDate registrationDate;
     @Getter
     private PersonID admin;
-    private List<Relation> relations = new ArrayList<>();
+    private final List<Relation> relations = new ArrayList<>();
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
         this.id = familyID;

@@ -46,12 +46,15 @@ public class CreateFamilyService implements ICreateFamilyService {
         VATNumber vat = personDTODomainAssembler.createVATNumber(inputPersonDTO);
         PhoneNumber phone = personDTODomainAssembler.createPhoneNumber(inputPersonDTO);
         Address address = personDTODomainAssembler.createAddress(inputPersonDTO);
-        Person admin = new Person(name, birthDate, adminID, vat, phone, address, familyID);
 
         FamilyName familyName = familyDTODomainAssembler.createFamilyName(inputFamilyDTO);
         RegistrationDate registrationDate = familyDTODomainAssembler.createRegistrationDate(inputFamilyDTO);
-        Family family = new Family(familyID, familyName, registrationDate, adminID);
 
+        Person admin = new Person(name, birthDate, adminID, vat, phone, address, familyID);
+        Family family = new Family(familyID, familyName, registrationDate, adminID);
+        //TODO Usar Domain Service para a criação da Pessoa e da Family (unit of work)  - Factory for Family
+
+        //TODO Unit of work
         personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
 

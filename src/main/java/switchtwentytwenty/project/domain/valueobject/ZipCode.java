@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class ZipCode implements ValueObject {
 
-    private String code;
+    private final String code;
 
 
     public ZipCode(String code) {

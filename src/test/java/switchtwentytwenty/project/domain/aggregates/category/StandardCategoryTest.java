@@ -175,6 +175,8 @@ class StandardCategoryTest {
 
         CategoryID expected = new CategoryID(1L);
         CategoryID result = standardCategory.id();
+
+        assertEquals(expected,result);
     }
 
     @Test
@@ -185,9 +187,8 @@ class StandardCategoryTest {
 
         CategoryID expected = new CategoryID(1L);
         CategoryID result = standardCategory.getParentID();
+
+        assertEquals(expected,result);
     }
 
-    @Test
-    void testEquals() {
-    }
 }
