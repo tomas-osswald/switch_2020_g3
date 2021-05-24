@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 class AddFamilyMemberServiceIT {
 
+    AddFamilyMemberService service;
+
     @Autowired
     PersonRepository personRepository;
 
@@ -28,10 +30,6 @@ class AddFamilyMemberServiceIT {
 
     @Autowired
     PersonDataDomainAssembler personDataDomainAssembler;
-
-
-    @Autowired
-    AddFamilyMemberService service;
 
 
     String adminID = "tonyze@latinlover.com";
