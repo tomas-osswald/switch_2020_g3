@@ -23,12 +23,13 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         Category category;
         CategoryID categoryID = new CategoryID(categoryJPA.getCategoryIDJPA());
         CategoryID parentID = new CategoryID(categoryJPA.getParentID());
-        FamilyID familyID = new FamilyID(categoryJPA.getFamilyIDJPA().getFamilyID());
+
         CategoryName categoryName = new CategoryName(categoryJPA.getCategoryName());
 
         if (categoryJPA.getFamilyIDJPA() == null) {
             category = new StandardCategory(categoryName, categoryID, parentID);
         } else {
+            FamilyID familyID = new FamilyID(categoryJPA.getFamilyIDJPA().getFamilyID());
             category = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
         }
