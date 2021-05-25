@@ -9,7 +9,10 @@ import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
+import switchtwentytwenty.project.domain.aggregates.category.CustomCategory;
+import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
+import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
@@ -74,7 +77,17 @@ public class CategoryRepository implements ICategoryRepository {
     private List<Category> convertCategoryJPAListToCategoryList(List<CategoryJPA> categoryJPAList) {
         List<Category> categoryList = new ArrayList<>();
         for (CategoryJPA jpa : categoryJPAList) {
-            categoryList.add(categoryAssembler.toDomain(jpa));
+            Category category;
+            CategoryName categoryName = categoryAssembler.createCategoryName(jpa);
+            CategoryID categoryID = categoryAssembler.createCategoryID(jpa);
+            CategoryID parentID = categoryAssembler.createParentID(jpa);
+            if (jpa.isStandard()) {
+                category = new StandardCategory(categoryName, categoryID, parentID);
+            } else {
+                FamilyID familyID = categoryAssembler.createFamilyID(jpa);
+                category = new CustomCategory(categoryID, parentID, categoryName, familyID);
+            }
+            categoryList.add(category);
         }
         return categoryList;
     }
