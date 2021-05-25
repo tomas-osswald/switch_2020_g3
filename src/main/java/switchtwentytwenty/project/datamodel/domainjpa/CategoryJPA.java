@@ -21,7 +21,7 @@ public class CategoryJPA {
 
     @Getter
     @Id
-    private CategoryIDJPA categoryIDJPA;
+    private Long categoryIDJPA;
 
     @Getter
     private Long parentID;
@@ -37,6 +37,10 @@ public class CategoryJPA {
         return categoryIDJPA.equals(that.categoryIDJPA);
     }
 
+    public boolean isStandard() {
+        return this.familyIDJPA == null;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(categoryIDJPA);
@@ -45,7 +49,7 @@ public class CategoryJPA {
     public static class Builder {
 
         private String categoryName;
-        private CategoryIDJPA categoryIDJPA;
+        private Long categoryIDJPA;
         private Long parentID;
         private FamilyIDJPA familyIDJPA;
 
@@ -53,7 +57,7 @@ public class CategoryJPA {
             this.categoryName = categoryName;
         }
 
-        public Builder withCategoryIDJPA(CategoryIDJPA categoryIDJPA) {
+        public Builder withCategoryIDJPA(Long categoryIDJPA) {
             this.categoryIDJPA = categoryIDJPA;
             return this;
         }

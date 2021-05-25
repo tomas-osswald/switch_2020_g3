@@ -26,7 +26,6 @@ FFMSpringBootApplication {
     }
 
     @Bean
-
     public CommandLineRunner demo(IFamilyRESTController familyRESTController, IPersonRESTController personRESTController, IAccountRESTController iAccountRESTController) {
         return args -> {
 
