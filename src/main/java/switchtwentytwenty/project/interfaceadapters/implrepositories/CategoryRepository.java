@@ -14,6 +14,7 @@ import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class CategoryRepository implements ICategoryRepository {
             Category category;
             CategoryName categoryName = categoryAssembler.createCategoryName(jpa);
             CategoryID categoryID = categoryAssembler.createCategoryID(jpa);
-            CategoryID parentID = categoryAssembler.createParentID(jpa);
+            ParentCategoryPath parentID = categoryAssembler.createParentID(jpa);
             if (jpa.isStandard()) {
                 category = new StandardCategory(categoryName, categoryID, parentID);
             } else {
