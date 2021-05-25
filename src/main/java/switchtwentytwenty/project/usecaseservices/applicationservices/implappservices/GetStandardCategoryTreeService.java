@@ -3,8 +3,9 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
-import switchtwentytwenty.project.dto.category.CategoryTreeDTO;
+
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
@@ -21,24 +22,23 @@ public class GetStandardCategoryTreeService implements IGetStandardCategoryTreeS
         this.categoryDTODomainAssembler = new CategoryDTODomainAssembler();
     }
 
-    public CategoryTreeDTO getStandardCategoryTree(){
+    public OutputCategoryTreeDTO getStandardCategoryTree(){
         List<Category> categoryList = categoryRepository.getStandardCategoryList();
 
-        CategoryTreeDTO categoryTreeDTO = createStandardCategoryTreeDTO(categoryList);
+        OutputCategoryTreeDTO outputCategoryTreeDTO = createStandardCategoryTreeDTO(categoryList);
 
-        return categoryTreeDTO;
+        return outputCategoryTreeDTO;
     }
 
-    private CategoryTreeDTO createStandardCategoryTreeDTO(List<Category> categoryList){
-        CategoryTreeDTO categoryTreeDTO = new CategoryTreeDTO();
+    private OutputCategoryTreeDTO createStandardCategoryTreeDTO(List<Category> categoryList){
+        OutputCategoryTreeDTO outputCategoryTreeDTO = new OutputCategoryTreeDTO();
 
         for (Category category: categoryList) {
-
             OutputCategoryDTO outputCategoryDTO = categoryDTODomainAssembler.toDTO(category);
-            categoryTreeDTO.getCategoryTreeDTO().add(outputCategoryDTO);
+            outputCategoryTreeDTO.addOutputCategoryDTO(outputCategoryDTO);
         }
 
-        return categoryTreeDTO;
+        return outputCategoryTreeDTO;
     }
 
 }
