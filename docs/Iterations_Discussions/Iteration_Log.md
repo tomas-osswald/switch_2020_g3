@@ -835,3 +835,42 @@ Garantir que o email que é usado para identificar o admin é o proveniente da p
 - Outra opção é o RelationID serem as duas pessoas envolvidas na relação. Entra aquele ponto de só poder haver uma relação entre duas pessoas (não pode haver de A para B e B para A, são a mesma relação). 
   
 Poderia haver um RelationID cujos atributos são dois PersonIDs e haver um método compareTo que diz que uma relação é igual a outra se as pessoas envolvidas forem as mesmas, independentemente da ordem. No entanto, a ordem dos PersonIDs é importante para saber a quem se refere a relação, isto é: Se a relação de A para B é pai, então A é o pai de B. Num json de saída, esta relação deve aparecer no membro A. Se tentarmos criar uma relação de B para A, deve dar erro porque já existe uma relação entre eles.
+
+
+
+# Decisões Relations - 25/02/2021
+
+Decisão -> Relations permanecem na Family.
+
+Não pode haver uma relação inversa entre dois membros. Isto é garantido pelo nosso Equals da Relation:
+
+Valida se A == B && B == A || A==B && B==A.
+
+Relation tem ID que é gerado por nós na Aplicação através do hashcode do objeto Relation. 
+
+Garante-se que não há hashcodes repetidos graças ao equals (Validação é responsabilidade da Family no momento do family.addRelation()).
+
+
+
+### Reunião com Prof. Nuno Silva - 25/05/2021
+
+Quando o Serviço fizer o pedido de Categorias vai ter de verificar em 2 repositórios diferentes. O nosso e um de outro Grupo.
+
+Por configuração vamos definir que em dado momento esteja a aceder ao Repositório de Categorias de um Grupo. O que temos de preparar é as duas configurações para que, quando quisermos, alternamos de uma para a outra.
+
+
+Vamos aceder a um Repositório HTTP dos outros grupos (Ver slide 11 de _Something About Layers and Onions_)
+
+O Service vai definir uma Interface de Repository HTTP que vai ter lá um equivalente a um findAll 
+
+A configuração é que vai dizer ao Spring qual é a implementação da Interface RepositoryHTTP que o Service vai "escolher".
+
+_Full Qualified Names_ -> Endereço HTTP para um recurso.
+
+A Categoria já não vai ser reconhecida pelo seu ID mas sim pelo seu endereço "completo", ou seja "http/cenas/cenas/grupo3/categories/id"
+
+Podemos ter o "problema" de estar ligados ao Grupo 1 e termos uma custom category que é filha de uma relação anterior com o Grupo 2. Aqui as Customs Categories vão guardar o URL inteiro como o seu "ParentID" (Ou parentLink) para que se consiga sempre conhecer a localização da Parent Category. 
+
+
+
+findAllCategories

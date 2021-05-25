@@ -11,6 +11,7 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
@@ -26,6 +27,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateRelationService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -49,15 +51,22 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final ICreateRelationService createRelationService;
 
+    private final IGetCustomCategoriesService customCategoriesService;
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, RelationInputDTOAssembler relationAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, RelationInputDTOAssembler relationAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
+
+
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
         this.relationAssembler = relationAssembler;
         this.familiesOptionsService = familiesOptionsService;
         this.familyOptionsService = familyOptionsService;
+
         this.createRelationService = createRelationService;
+
+        this.customCategoriesService = customCategoriesService;
+
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -133,16 +142,31 @@ public class FamilyRESTController implements IFamilyRESTController {
     }
 
 
-
-
-
-    @RequestMapping(value = "/{familyID}/categories", method = RequestMethod.OPTIONS)
-    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID) {
+    @GetMapping("/{familyID}")
+    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
         throw new UnsupportedOperationException();
     }
 
-    @GetMapping("/{familyID}")
-    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
+    @GetMapping("/{familyID}/categories")
+    public ResponseEntity<Object> getCategories(@PathVariable String familyID) {
+        HttpStatus status;
+        OutputCategoryTreeDTO outputCategoryTreeDTO;
+
+        try {
+            outputCategoryTreeDTO = customCategoriesService.getCustomCategories(familyID);
+            status = HttpStatus.OK;
+
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
+            outputCategoryTreeDTO.add(selfLink);
+            return new ResponseEntity<>(outputCategoryTreeDTO, status);
+        } catch (Exception e){
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity("Error: " + e.getMessage(), status);
+        }
+    }
+
+    @RequestMapping(value = "/{familyID}/categories", method = RequestMethod.OPTIONS)
+    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID){
         throw new UnsupportedOperationException();
     }
 }

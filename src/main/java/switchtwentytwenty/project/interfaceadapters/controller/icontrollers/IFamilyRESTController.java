@@ -19,4 +19,6 @@ public interface IFamilyRESTController {
     ResponseEntity<Object> createRelation(CreateRelationDTO createRelationDTO, String familyID);
 
     ResponseEntity<Object> getFamily(String familyName);
+
+    ResponseEntity<Object> getCategories(String familyID);
 }
