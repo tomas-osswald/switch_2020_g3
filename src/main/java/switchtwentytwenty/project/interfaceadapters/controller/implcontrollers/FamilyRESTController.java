@@ -102,13 +102,10 @@ public class FamilyRESTController implements IFamilyRESTController {
         return new ResponseEntity<>(options, header, HttpStatus.OK);
     }
 
-
     @GetMapping("/{familyID}")
     public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
         throw new UnsupportedOperationException();
     }
-
-
 
     @PostMapping("/{familyID}/relations")
     public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO, @PathVariable String familyID) {

@@ -10,7 +10,7 @@ class CreateStandardCategoryServiceTest {
     @Test
     void createStandardCategory() {
         CreateStandardCategoryService service = new CreateStandardCategoryService();
-        assertThrows(UnsupportedOperationException.class,()-> service.createStandardCategory(new InputCategoryDTO("x","x")));
+        assertThrows(UnsupportedOperationException.class,()-> service.createStandardCategory(new InputCategoryDTO("x",12L)));
     }
 
 }

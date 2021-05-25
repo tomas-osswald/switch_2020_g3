@@ -19,7 +19,7 @@ public class FamiliesOptionsService implements IFamiliesOptionsService {
         OptionsDTO optionsDTO = new OptionsDTO();
 
         Link linkToFamilyOptions = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withSelfRel();
-        Link linkToAddFamily = linkTo(methodOn(FamilyRESTController.class).createFamilyAndSetAdmin(new AddFamilyAndSetAdminDTO())).withRel("POST - Add new Family");
+        Link linkToAddFamily = linkTo(methodOn(FamilyRESTController.class).createFamilyAndSetAdmin(new AddFamilyAndSetAdminDTO())).withRel("Add new Family");
 
         optionsDTO.add(linkToFamilyOptions);
         optionsDTO.add(linkToAddFamily);

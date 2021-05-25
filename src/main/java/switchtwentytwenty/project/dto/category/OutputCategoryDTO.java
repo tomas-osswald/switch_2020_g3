@@ -3,13 +3,14 @@ package switchtwentytwenty.project.dto.category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
 @Setter
 @Getter
 @NoArgsConstructor
-public class OutputCategoryDTO {
+public class OutputCategoryDTO extends RepresentationModel {
 
     private String categoryName;
     private Long categoryID;

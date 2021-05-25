@@ -39,8 +39,8 @@ class FamilyOptionsServiceTest {
         // Expected
         OptionsDTO options = new OptionsDTO();
         Link optionOne = linkTo(methodOn(FamilyRESTController.class).getFamily(familyID)).withSelfRel();
-        Link optionTwo = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO(), familyID)).withRel("OPTIONS - relations");
-        Link optionThree = linkTo(methodOn(FamilyRESTController.class).getCategoriesOptions(familyID)).withRel("OPTIONS - categories");
+        Link optionTwo = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO(), familyID)).withRel("relations");
+        Link optionThree = linkTo(methodOn(FamilyRESTController.class).getCategoriesOptions(familyID)).withRel("categories");
 
         options.add(optionOne);
         options.add(optionTwo);
