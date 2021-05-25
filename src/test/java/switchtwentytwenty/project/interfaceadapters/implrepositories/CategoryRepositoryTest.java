@@ -1,12 +1,8 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
@@ -18,13 +14,13 @@ import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -108,13 +104,30 @@ class CategoryRepositoryTest {
     void testGetByID() {
         CategoryID categoryID = new CategoryID(12L);
 
-        assertThrows(UnsupportedOperationException.class, ()-> categoryRepository.getByID(categoryID));
+        assertThrows(UnsupportedOperationException.class, () -> categoryRepository.getByID(categoryID));
     }
 
     @Test
     void testAdd() {
         CategoryID categoryID = new CategoryID(12L);
-    Category category = new StandardCategory(new CategoryName("house"));
-        assertThrows(UnsupportedOperationException.class, ()-> categoryRepository.add(category));
+        Category category = new StandardCategory(new CategoryName("house"));
+        assertThrows(UnsupportedOperationException.class, () -> categoryRepository.add(category));
+    }
+
+    @Test
+    void getStandardCategoryList() {
+        List<Category> expected = new ArrayList<>();
+        Category cat1 = new StandardCategory(new CategoryName("name"),new CategoryID(11L), new ParentCategoryPath("12"));
+        expected.add(cat1);
+
+        List<CategoryJPA> returnList = new ArrayList<>();
+        CategoryJPA cat1Clone = new CategoryJPA("name",11L,"12",null);
+
+        returnList.add(cat1Clone);
+        Mockito.when(categoryRepositoryJPA.findAllByFamilyIDJPAIsNull()).thenReturn(returnList);
+
+        List<Category> result = categoryRepository.getStandardCategoryList();
+
+        assertEquals(expected,result);
     }
 }

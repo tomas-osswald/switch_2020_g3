@@ -14,6 +14,7 @@ import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
 import java.util.ArrayList;
@@ -23,14 +24,13 @@ import java.util.List;
 public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
-    private final CategoryDataDomainAssembler categoryAssembler;
-    private final FamilyDataDomainAssembler familyAssembler;
+    private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
+    private final FamilyDataDomainAssembler familyAssembler = new FamilyDataDomainAssembler();
 
     @Autowired
-    public CategoryRepository(FamilyDataDomainAssembler familyAssembler, ICategoryRepositoryJPA categoryRepositoryJPA, CategoryDataDomainAssembler categoryAssembler) {
-        this.familyAssembler = familyAssembler;
+    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
+
         this.categoryRepositoryJPA = categoryRepositoryJPA;
-        this.categoryAssembler = categoryAssembler;
     }
 
 
@@ -47,7 +47,7 @@ public class CategoryRepository implements ICategoryRepository {
 
     public List<Category> getStandardCategoryList() {
         List<CategoryJPA> categoryListJPA;
-        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPA(null);
+        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPAIsNull();
 
         return convertCategoryJPAListToCategoryList(categoryListJPA);
     }
@@ -70,7 +70,7 @@ public class CategoryRepository implements ICategoryRepository {
             Category category;
             CategoryName categoryName = categoryAssembler.createCategoryName(jpa);
             CategoryID categoryID = categoryAssembler.createCategoryID(jpa);
-            CategoryID parentID = categoryAssembler.createParentID(jpa);
+            ParentCategoryPath parentID = categoryAssembler.createParentID(jpa);
             if (jpa.isStandard()) {
                 category = new StandardCategory(categoryName, categoryID, parentID);
             } else {
