@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.dto.category.CategoryTreeDTO;
 
 @Service
-public interface IGetStandardCategroyTreeService {
+public interface IGetStandardCategoryTreeService {
 
     CategoryTreeDTO getStandardCategoryTree();
 

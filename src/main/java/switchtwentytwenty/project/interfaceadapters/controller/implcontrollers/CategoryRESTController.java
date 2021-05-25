@@ -16,7 +16,7 @@ import switchtwentytwenty.project.dto.category.InputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICategoriesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateStandardCategoryService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategroyTreeService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -32,14 +32,14 @@ public class CategoryRESTController {
 
     private final ICategoryDTODomainAssembler categoryAssembler;
 
-    private final IGetStandardCategroyTreeService getStandardCategroyTreeService;
+    private final IGetStandardCategoryTreeService getStandardCategoryTreeService;
 
     @Autowired
-    public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategroyTreeService getStandardCategroyTreeService ) {
+    public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategoryTreeService getStandardCategroyTreeService ) {
         this.createStandardCategoryService = createStandardCategoryService;
         this.categoriesOptionsService = categoryOptionsService;
         this.categoryAssembler = new CategoryDTODomainAssembler();
-        this.getStandardCategroyTreeService = getStandardCategroyTreeService;
+        this.getStandardCategoryTreeService = getStandardCategroyTreeService;
 
     }
 
@@ -98,9 +98,9 @@ public class CategoryRESTController {
 
         HttpStatus status;
         try {
-            CategoryTreeDTO categoryTreeDTO = getStandardCategroyTreeService.getStandardCategoryTree();
+            CategoryTreeDTO categoryTreeDTO = getStandardCategoryTreeService.getStandardCategoryTree();
             status = HttpStatus.CREATED;
-            //Link selfLink = linkTo(methodOn(CategoryRESTController.class));
+            //Link selfLink = linkTo(methodOn(CategoryRESTController.class)); Inserir Options
 
             return new ResponseEntity(categoryTreeDTO,status);
 
