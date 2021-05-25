@@ -64,7 +64,7 @@ class FamilyRESTControllerIT {
     void familiesOptionsTest() {
         OptionsDTO optionsDTO = new OptionsDTO();
         Link link = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withSelfRel();
-        Link linkToAddFamily = linkTo(methodOn(FamilyRESTController.class).createFamilyAndSetAdmin(new AddFamilyAndSetAdminDTO())).withRel("POST - Add new Family");
+        Link linkToAddFamily = linkTo(methodOn(FamilyRESTController.class).createFamilyAndSetAdmin(new AddFamilyAndSetAdminDTO())).withRel("Add new Family");
 
         optionsDTO.add(link);
         optionsDTO.add(linkToAddFamily);

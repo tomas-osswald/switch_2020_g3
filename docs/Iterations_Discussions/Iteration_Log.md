@@ -817,7 +817,7 @@ Garantir que o email que é usado para identificar o admin é o proveniente da p
 ![img_3.png](img_3.png)
 
 
-### Discussões - Relations
+### Discussões - Relations / Histórias Maravilhosas de Superação
 
 1º Relation no domínio
 
@@ -837,6 +837,7 @@ Garantir que o email que é usado para identificar o admin é o proveniente da p
 Poderia haver um RelationID cujos atributos são dois PersonIDs e haver um método compareTo que diz que uma relação é igual a outra se as pessoas envolvidas forem as mesmas, independentemente da ordem. No entanto, a ordem dos PersonIDs é importante para saber a quem se refere a relação, isto é: Se a relação de A para B é pai, então A é o pai de B. Num json de saída, esta relação deve aparecer no membro A. Se tentarmos criar uma relação de B para A, deve dar erro porque já existe uma relação entre eles.
 
 
+
 # Decisões Relations - 25/02/2021
 
 Decisão -> Relations permanecem na Family.
@@ -848,3 +849,4 @@ Valida se A == B && B == A || A==B && B==A.
 Relation tem ID que é gerado por nós na Aplicação através do hashcode do objeto Relation. 
 
 Garante-se que não há hashcodes repetidos graças ao equals (Validação é responsabilidade da Family no momento do family.addRelation()).
+

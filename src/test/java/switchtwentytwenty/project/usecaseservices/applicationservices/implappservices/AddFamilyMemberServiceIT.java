@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class AddFamilyMemberServiceIT {
+
     @Autowired
     AddFamilyMemberService service;
 
