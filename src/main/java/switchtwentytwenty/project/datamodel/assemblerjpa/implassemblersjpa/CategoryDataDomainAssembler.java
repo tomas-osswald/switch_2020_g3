@@ -7,6 +7,7 @@ import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
 @Component
 public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler {
@@ -25,8 +26,8 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         return new CategoryName(categoryJPA.getCategoryName());
     }
 
-    public CategoryID createParentID(CategoryJPA categoryJPA) {
-        return new CategoryID(categoryJPA.getParentID());
+    public ParentCategoryPath createParentID(CategoryJPA categoryJPA) {
+        return new ParentCategoryPath(categoryJPA.getParentID());
     }
 
     public FamilyID createFamilyID(CategoryJPA categoryJPA) {

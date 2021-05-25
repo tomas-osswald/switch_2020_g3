@@ -24,7 +24,7 @@ public class CategoryJPA {
     private Long categoryIDJPA;
 
     @Getter
-    private Long parentID;
+    private String parentID;
 
     @Getter
     private FamilyIDJPA familyIDJPA;
@@ -50,7 +50,7 @@ public class CategoryJPA {
 
         private String categoryName;
         private Long categoryIDJPA;
-        private Long parentID;
+        private String parentID;
         private FamilyIDJPA familyIDJPA;
 
         public Builder(String categoryName) {
@@ -62,7 +62,7 @@ public class CategoryJPA {
             return this;
         }
 
-        public Builder withParentID(Long parentID) {
+        public Builder withParentID(String parentID) {
             this.parentID = parentID;
             return this;
         }
