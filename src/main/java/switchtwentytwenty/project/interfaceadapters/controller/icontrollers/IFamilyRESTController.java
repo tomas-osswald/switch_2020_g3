@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
-import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 
 
 public interface IFamilyRESTController {

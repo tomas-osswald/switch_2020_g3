@@ -4,8 +4,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
-import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
-import switchtwentytwenty.project.dto.relation.InputRelationDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.InputRelationDTO;
 
 @Component
 @NoArgsConstructor

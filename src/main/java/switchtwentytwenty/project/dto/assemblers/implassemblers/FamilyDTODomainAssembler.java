@@ -5,8 +5,8 @@ import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
-import switchtwentytwenty.project.dto.relation.InputRelationDTO;
-import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.InputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 
 @Component
 public class FamilyDTODomainAssembler {

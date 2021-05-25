@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationDTODomainAssembler;
-import switchtwentytwenty.project.dto.relation.InputRelationDTO;
-import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.InputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateRelationService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
@@ -16,23 +15,22 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepositor
 public class CreateRelationService implements ICreateRelationService {
 
     private IFamilyRepository familyRepository;
-    private RelationDTODomainAssembler relationDTODomainAssembler;
     private FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Autowired
-    public CreateRelationService(IFamilyRepository familyRepository, RelationDTODomainAssembler relationDTODomainAssembler) {
+    public CreateRelationService(IFamilyRepository familyRepository, FamilyDTODomainAssembler familyDTODomainAssembler) {
         this.familyRepository = familyRepository;
-        this.relationDTODomainAssembler = relationDTODomainAssembler;
+        this.familyDTODomainAssembler = familyDTODomainAssembler;
     }
 
     @Override
     public OutputRelationDTO createRelation(InputRelationDTO inputRelationDTO){
 
         //creating Domain valueobjects
-        PersonID personIDOne = relationDTODomainAssembler.personIDOneToDomain(inputRelationDTO);
-        PersonID personIDTwo = relationDTODomainAssembler.personIDTwoToDomain(inputRelationDTO);
-        RelationDesignation relationDesignation = relationDTODomainAssembler.relationDesignationToDomain(inputRelationDTO);
-        FamilyID familyID = relationDTODomainAssembler.familyIDToDomain(inputRelationDTO);
+        PersonID personIDOne = familyDTODomainAssembler.personIDOneToDomain(inputRelationDTO);
+        PersonID personIDTwo = familyDTODomainAssembler.personIDTwoToDomain(inputRelationDTO);
+        RelationDesignation relationDesignation = familyDTODomainAssembler.relationDesignationToDomain(inputRelationDTO);
+        FamilyID familyID = familyDTODomainAssembler.familyIDToDomain(inputRelationDTO);
 
         //creating Relation in Domain
         Relation relation = new Relation(personIDOne, personIDTwo, relationDesignation);
@@ -44,6 +42,6 @@ public class CreateRelationService implements ICreateRelationService {
         RelationID relationID = relation.getId();
         Relation savedRelation = savedFamily.getRelationByID(relationID);
 
-        return relationDTODomainAssembler.toDTO(savedRelation);
+        return familyDTODomainAssembler.toDTO(savedRelation);
     }
 }
