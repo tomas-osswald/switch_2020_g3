@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.CategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
@@ -29,7 +29,7 @@ class CategoryRepositoryTest {
     @Mock
     ICategoryRepositoryJPA categoryRepositoryJPA;
     @Mock
-    ICategoryDataDomainAssembler categoryDataDomainAssembler;
+    CategoryDataDomainAssembler categoryDataDomainAssembler;
 
     @InjectMocks
     CategoryRepository categoryRepository;
@@ -105,13 +105,6 @@ class CategoryRepositoryTest {
         CategoryID categoryID = new CategoryID(12L);
 
         assertThrows(UnsupportedOperationException.class, () -> categoryRepository.getByID(categoryID));
-    }
-
-    @Test
-    void testAdd() {
-        CategoryID categoryID = new CategoryID(12L);
-        Category category = new StandardCategory(new CategoryName("house"));
-        assertThrows(UnsupportedOperationException.class, () -> categoryRepository.add(category));
     }
 
     @Test

@@ -30,7 +30,7 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
         CategoryName categoryName = categoryDTODomainAssembler.createCategoryName(inputCategoryDTO.getCategoryName());
         ParentCategoryPath parentCategory = categoryDTODomainAssembler.createParentCategoryPath(inputCategoryDTO.getParentID());
 
-        Category category = new StandardCategory(categoryName,parentCategory);
+        Category category = new StandardCategory(categoryName,parentCategory); //TODO: Factory for Categories
 
         Category savedStandardCategory = categoryRepository.add(category);
 

@@ -3,20 +3,48 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
+import java.util.Optional;
+
 @Component
 public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler {
 
     @Override
     public CategoryJPA toData(Category category) {
-        return null;
+        String categoryName = category.getCategoryName().toString();
+        Long categoryID = Long.valueOf(category.id().toString());
+        String parentPath = category.getParentCategoryPath().toString();
+        Optional<FamilyID> familyID = category.getFamilyID();
+        FamilyIDJPA familyIDJPA;
+        if (familyID.isPresent()) {
+            String familyIDString = category.getFamilyID().toString();
+            familyIDJPA = new FamilyIDJPA(familyIDString);
+        } else {
+            familyIDJPA = null;
+        }
+
+        CategoryJPA categoryJPA;
+        if(categoryID==null){
+            categoryJPA = new CategoryJPA.Builder(categoryName).withParentID(parentPath).withFamilyIDJPA(familyIDJPA).build();
+        } else {
+            categoryJPA = new CategoryJPA.Builder(categoryName).withParentID(parentPath).withFamilyIDJPA(familyIDJPA).withCategoryIDJPA(categoryID).build();
+        }
+
+        return categoryJPA;
     }
 
+    @Override
+    public FamilyIDJPA toData(FamilyID familyID) {
+        String familyIDString = familyID.toString();
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyIDString);
+        return familyIDJPA;
+    }
 
     public CategoryID createCategoryID(CategoryJPA categoryJPA) {
         return new CategoryID(categoryJPA.getCategoryIDJPA());
@@ -30,7 +58,13 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         return new ParentCategoryPath(categoryJPA.getParentID());
     }
 
-    public FamilyID createFamilyID(CategoryJPA categoryJPA) {
-        return new FamilyID(categoryJPA.getFamilyIDJPA().getFamilyID());
+    public Optional<FamilyID> createFamilyID(CategoryJPA categoryJPA) {
+        Optional<FamilyID> familyID;
+        if (categoryJPA.getFamilyIDJPA() == null) {
+            familyID = Optional.empty();
+        } else {
+            familyID = Optional.of(new FamilyID(categoryJPA.getFamilyIDJPA().getFamilyID()));
+        }
+        return familyID;
     }
 }
