@@ -8,6 +8,8 @@ import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 
@@ -48,7 +50,7 @@ class CategoryDataDomainAssemblerTest {
     @Test
     void createFamilyID() {
         FamilyID expected = new FamilyID("@famid@famid.com");
-        FamilyID result = categoryDataDomainAssembler.createFamilyID(customCategoryJPA);
+        FamilyID result = categoryDataDomainAssembler.createFamilyID(customCategoryJPA).get();
 
         assertNotSame(expected, result);
         assertEquals(expected, result);

@@ -111,10 +111,4 @@ class CategoryRepositoryTest {
         assertThrows(UnsupportedOperationException.class, ()-> categoryRepository.getByID(categoryID));
     }
 
-    @Test
-    void testAdd() {
-        CategoryID categoryID = new CategoryID(12L);
-    Category category = new StandardCategory(new CategoryName("house"));
-        assertThrows(UnsupportedOperationException.class, ()-> categoryRepository.add(category));
-    }
 }

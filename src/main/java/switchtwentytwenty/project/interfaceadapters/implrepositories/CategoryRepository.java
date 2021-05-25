@@ -19,6 +19,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryReposit
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CategoryRepository implements ICategoryRepository {
@@ -41,9 +42,29 @@ public class CategoryRepository implements ICategoryRepository {
     }
 
     @Override
-    public Category add(Category entity) {
+    public Category add(Category category) {
+        CategoryJPA categoryJPA = categoryAssembler.toData(category);
+        CategoryJPA registeredCategoryJPA = categoryRepositoryJPA.save(categoryJPA);
 
-        throw new UnsupportedOperationException();
+        Category savedCategory = createCategory(registeredCategoryJPA);
+
+        return savedCategory;
+    }
+
+    private Category createCategory(CategoryJPA registeredCategoryJPA) {
+        //TODO: Feito numa Factory
+        CategoryID id = categoryAssembler.createCategoryID(registeredCategoryJPA);
+        CategoryName name = categoryAssembler.createCategoryName(registeredCategoryJPA);
+        ParentCategoryPath parentID = categoryAssembler.createParentID(registeredCategoryJPA);
+        Optional<FamilyID> familyID = categoryAssembler.createFamilyID(registeredCategoryJPA);
+        Category category;
+        if(familyID.isPresent()){
+            category = new CustomCategory(id,parentID,name,familyID.get());
+        } else {
+            category = new StandardCategory(name,id,parentID);
+        }
+
+        return category;
     }
 
     public List<Category> getStandardCategoryList() {
@@ -66,6 +87,7 @@ public class CategoryRepository implements ICategoryRepository {
     }
 
     private List<Category> convertCategoryJPAListToCategoryList(List<CategoryJPA> categoryJPAList) {
+        //TODO Chamar metodo createCategory dentro do ciclo
         List<Category> categoryList = new ArrayList<>();
         for (CategoryJPA jpa : categoryJPAList) {
             Category category;
@@ -75,7 +97,7 @@ public class CategoryRepository implements ICategoryRepository {
             if (jpa.isStandard()) {
                 category = new StandardCategory(categoryName, categoryID, parentID);
             } else {
-                FamilyID familyID = categoryAssembler.createFamilyID(jpa);
+                FamilyID familyID = categoryAssembler.createFamilyID(jpa).get();
                 category = new CustomCategory(categoryID, parentID, categoryName, familyID);
             }
             categoryList.add(category);

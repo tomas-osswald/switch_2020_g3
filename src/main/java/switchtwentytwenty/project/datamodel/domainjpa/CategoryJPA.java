@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -21,6 +19,7 @@ public class CategoryJPA {
 
     @Getter
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryIDJPA;
 
     @Getter
@@ -37,7 +36,7 @@ public class CategoryJPA {
         return categoryIDJPA.equals(that.categoryIDJPA);
     }
 
-    public boolean isStandard() {
+    public boolean isStandard() { //TODO Remover metodo
         return this.familyIDJPA == null;
     }
 

@@ -21,6 +21,10 @@ public class ParentCategoryPath {
         }
     }
 
+    @Override
+    public String toString() {
+        return parentCategory;
+    }
 
     private boolean isNull() {
         return parentCategory == null;
