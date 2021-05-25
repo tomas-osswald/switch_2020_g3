@@ -16,13 +16,13 @@ public class Relation implements ValueObject, Serializable {
     @Getter
     private final RelationDesignation relationDesignation;
     @Getter
-    private int id;
+    private RelationID id;
 
     public Relation(PersonID memberA, PersonID memberB, RelationDesignation designation) {
         this.memberA = memberA;
         this.memberB = memberB;
         this.relationDesignation = designation;
-        this.id = this.hashCode();
+        this.id = new RelationID(hashCode());
     }
 
     //private void validateRelation() { } //member A and member B cannot be the same

@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.domain.valueobject.Relation;
 import switchtwentytwenty.project.domain.valueobject.RelationDesignation;
@@ -20,6 +21,9 @@ public class RelationDTODomainAssembler {
     }
     public RelationDesignation relationDesignationToDomain(InputRelationDTO inputRelationDTO) {
         return new RelationDesignation(inputRelationDTO.getDesignation());
+    }
+    public FamilyID familyIDToDomain(InputRelationDTO inputRelationDTO) {
+        return new FamilyID(inputRelationDTO.getFamilyID());
     }
 
     public OutputRelationDTO toDTO(Relation relation) {
