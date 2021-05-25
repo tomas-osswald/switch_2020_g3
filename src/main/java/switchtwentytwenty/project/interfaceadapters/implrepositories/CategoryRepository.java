@@ -4,7 +4,6 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.CategoryDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
@@ -44,9 +43,8 @@ public class CategoryRepository implements ICategoryRepository {
         throw new UnsupportedOperationException();
     }
 
-
     @Override
-    public List<Category> getCustomCategoryList (FamilyID familyID) {
+    public List<Category> getCustomCategoryList(FamilyID familyID) {
         FamilyIDJPA familyIDJPA = categoryAssembler.toData(familyID);
         List<CategoryJPA> customCategoryJPAList = categoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
         List<Category> aFamilyCategoriesList = convertCategoryJPAListToCategoryList(customCategoryJPAList);
@@ -57,10 +55,7 @@ public class CategoryRepository implements ICategoryRepository {
     public List<Category> getStandardCategoryList() {
         List<CategoryJPA> categoryListJPA;
         categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPAIsNull();
-
         return convertCategoryJPAListToCategoryList(categoryListJPA);
-
-
     }
 
     private List<Category> convertCategoryJPAListToCategoryList(List<CategoryJPA> categoryJPAList) {

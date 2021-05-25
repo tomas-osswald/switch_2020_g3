@@ -11,7 +11,5 @@ public interface ICategoryRepositoryJPA extends CrudRepository<CategoryJPA, Cate
 
     List<CategoryJPA> findAllByFamilyIDJPA(FamilyIDJPA familyIDJPA);
 
-
     List<CategoryJPA> findAllByFamilyIDJPAIsNull();
-
 }
