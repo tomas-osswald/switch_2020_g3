@@ -23,12 +23,11 @@ import java.util.List;
 public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
-    private final CategoryDataDomainAssembler categoryAssembler;
+    private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
 
     @Autowired
-    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA, CategoryDataDomainAssembler categoryAssembler) {
+    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
         this.categoryRepositoryJPA = categoryRepositoryJPA;
-        this.categoryAssembler = categoryAssembler;
     }
 
 
