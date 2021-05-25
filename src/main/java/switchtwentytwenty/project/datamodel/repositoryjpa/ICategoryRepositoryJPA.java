@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ICategoryRepositoryJPA extends CrudRepository<CategoryJPA, CategoryIDJPA> {
 
-    List<CategoryJPA> findAllByFamilyID(FamilyIDJPA familyIDJPA);
+    List<CategoryJPA> findAllByFamilyIDJPA(FamilyIDJPA familyIDJPA);
 }

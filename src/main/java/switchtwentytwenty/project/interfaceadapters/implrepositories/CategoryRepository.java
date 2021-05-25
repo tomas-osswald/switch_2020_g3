@@ -6,15 +6,15 @@ import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.CategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
-import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class CategoryRepository implements ICategoryRepository {
@@ -44,7 +44,7 @@ public class CategoryRepository implements ICategoryRepository {
 
     public List<Category> getStandardCategoryList() {
         List<CategoryJPA> categoryListJPA;
-        categoryListJPA = categoryRepositoryJPA.findAllByFamilyID(null);
+        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPA(null);
 
         return convertCategoryJPAListToCategoryList(categoryListJPA);
     }
@@ -54,8 +54,9 @@ public class CategoryRepository implements ICategoryRepository {
 
         FamilyIDJPA familyIDJPA = familyAssembler.createFamilyIDJPA(familyID);
 
-        categoryListJPA = categoryRepositoryJPA.findAllByFamilyID(familyIDJPA);
-        return categoryList = convertCategoryJPAListToCategoryList(categoryListJPA);
+        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
+        return null;
+        //categoryList = convertCategoryJPAListToCategoryList(categoryListJPA);
 
 
     }
