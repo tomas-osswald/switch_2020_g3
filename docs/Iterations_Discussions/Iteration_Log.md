@@ -817,7 +817,7 @@ Garantir que o email que é usado para identificar o admin é o proveniente da p
 ![img_3.png](img_3.png)
 
 
-### Discussões - Relations
+### Discussões - Relations / Histórias Maravilhosas de Superação
 
 1º Relation no domínio
 
