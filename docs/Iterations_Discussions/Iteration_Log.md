@@ -815,3 +815,23 @@ Em vez de usar o unpack Cenas mais unpack outras cenas, usar uma variável para 
 Garantir que o email que é usado para identificar o admin é o proveniente da persistência e não aquele que é passado inicialmente. 
 
 ![img_3.png](img_3.png)
+
+
+### Discussões - Relations / Histórias Maravilhosas de Superação
+
+1º Relation no domínio
+
+- Manter Relation na Family implica que para a user story de obter as pessoas e as suas relações temos de ir ao agregado da família e das pessoas. Isto é demasiado?  
+  
+- Se relation estivesse no agregado das pessoas poupavamos entrar num dos agregados. No entanto ao criar uma relação, teríamos de a adicionar às duas pessoas para que as duas saibam que têm uma relação.  
+  
+- Um terceiro agregado Relation também seria uma solução, mas se calhar implicava mais complicações?  
+
+
+2º Identidade da Relation
+
+- Ao criar uma Relation, se quisermos que o ID venha da persistência, temos de obter primeiro a família, fazer set da Relation na família, guardar a família, obter a família guardada e ir buscar a Relation com o ID à família guardada e de alguma forma não perder a relation que acabamos de criar na lista de relations da família
+  
+- Outra opção é o RelationID serem as duas pessoas envolvidas na relação. Entra aquele ponto de só poder haver uma relação entre duas pessoas (não pode haver de A para B e B para A, são a mesma relação). 
+  
+Poderia haver um RelationID cujos atributos são dois PersonIDs e haver um método compareTo que diz que uma relação é igual a outra se as pessoas envolvidas forem as mesmas, independentemente da ordem. No entanto, a ordem dos PersonIDs é importante para saber a quem se refere a relação, isto é: Se a relação de A para B é pai, então A é o pai de B. Num json de saída, esta relação deve aparecer no membro A. Se tentarmos criar uma relação de B para A, deve dar erro porque já existe uma relação entre eles.

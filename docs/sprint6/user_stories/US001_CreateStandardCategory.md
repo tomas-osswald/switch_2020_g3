@@ -176,13 +176,13 @@ The CategoryService then creates a new StandardCategory Object and adds it to th
     
     participant ": ICategoryDTODomainAssembler" as assembler
     participant "aCategoryName : \n CategoryName" as name
-    participant "aParentID : \n CateogryID" as id
+    
     
     -> assembler: inputStandardCategoryDTO
     activate assembler
     assembler -> name** : create( inputStandardCategoryDTO.unpackCategoryName)
-    assembler -> id** : create( inputStandardCategoryDTO.unpackParentID)
-    <- assembler : Value Objects
+   
+    <- assembler : aCategoryName
     deactivate assembler
 
 @endpuml
