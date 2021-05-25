@@ -39,6 +39,12 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         return categoryJPA;
     }
 
+    @Override
+    public FamilyIDJPA toData(FamilyID familyID) {
+        String familyIDString = familyID.toString();
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyIDString);
+        return familyIDJPA;
+    }
 
     public CategoryID createCategoryID(CategoryJPA categoryJPA) {
         return new CategoryID(categoryJPA.getCategoryIDJPA());

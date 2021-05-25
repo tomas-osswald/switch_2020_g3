@@ -850,3 +850,27 @@ Relation tem ID que é gerado por nós na Aplicação através do hashcode do ob
 
 Garante-se que não há hashcodes repetidos graças ao equals (Validação é responsabilidade da Family no momento do family.addRelation()).
 
+
+
+### Reunião com Prof. Nuno Silva - 25/05/2021
+
+Quando o Serviço fizer o pedido de Categorias vai ter de verificar em 2 repositórios diferentes. O nosso e um de outro Grupo.
+
+Por configuração vamos definir que em dado momento esteja a aceder ao Repositório de Categorias de um Grupo. O que temos de preparar é as duas configurações para que, quando quisermos, alternamos de uma para a outra.
+
+
+Vamos aceder a um Repositório HTTP dos outros grupos (Ver slide 11 de _Something About Layers and Onions_)
+
+O Service vai definir uma Interface de Repository HTTP que vai ter lá um equivalente a um findAll 
+
+A configuração é que vai dizer ao Spring qual é a implementação da Interface RepositoryHTTP que o Service vai "escolher".
+
+_Full Qualified Names_ -> Endereço HTTP para um recurso.
+
+A Categoria já não vai ser reconhecida pelo seu ID mas sim pelo seu endereço "completo", ou seja "http/cenas/cenas/grupo3/categories/id"
+
+Podemos ter o "problema" de estar ligados ao Grupo 1 e termos uma custom category que é filha de uma relação anterior com o Grupo 2. Aqui as Customs Categories vão guardar o URL inteiro como o seu "ParentID" (Ou parentLink) para que se consiga sempre conhecer a localização da Parent Category. 
+
+
+
+findAllCategories

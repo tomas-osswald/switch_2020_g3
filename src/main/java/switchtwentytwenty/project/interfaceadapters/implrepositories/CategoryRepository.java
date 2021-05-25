@@ -4,7 +4,6 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.CategoryDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
@@ -26,11 +25,9 @@ public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
     private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
-    private final FamilyDataDomainAssembler familyAssembler = new FamilyDataDomainAssembler();
 
     @Autowired
     public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
-
         this.categoryRepositoryJPA = categoryRepositoryJPA;
     }
 
@@ -66,23 +63,19 @@ public class CategoryRepository implements ICategoryRepository {
         return category;
     }
 
+    @Override
+    public List<Category> getCustomCategoryList(FamilyID familyID) {
+        FamilyIDJPA familyIDJPA = categoryAssembler.toData(familyID);
+        List<CategoryJPA> customCategoryJPAList = categoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
+        List<Category> aFamilyCategoriesList = convertCategoryJPAListToCategoryList(customCategoryJPAList);
+        return aFamilyCategoriesList;
+    }
+
+
     public List<Category> getStandardCategoryList() {
         List<CategoryJPA> categoryListJPA;
         categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPAIsNull();
-
         return convertCategoryJPAListToCategoryList(categoryListJPA);
-    }
-
-    public List<Category> getCustomCategoryList(FamilyID familyID) {
-        List<CategoryJPA> categoryListJPA;
-
-        FamilyIDJPA familyIDJPA = familyAssembler.createFamilyIDJPA(familyID);
-
-        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
-        return null;
-        //categoryList = convertCategoryJPAListToCategoryList(categoryListJPA);
-
-
     }
 
     private List<Category> convertCategoryJPAListToCategoryList(List<CategoryJPA> categoryJPAList) {
@@ -103,4 +96,5 @@ public class CategoryRepository implements ICategoryRepository {
         }
         return categoryList;
     }
+
 }
