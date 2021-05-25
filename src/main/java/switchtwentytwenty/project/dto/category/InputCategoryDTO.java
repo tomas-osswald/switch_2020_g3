@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class InputCategoryDTO {
     private final String categoryName;
-    private final String parentID;
+    private final Long parentID;
 
-    public InputCategoryDTO(String categoryName, String parentID) {
+    public InputCategoryDTO(String categoryName, Long parentID) {
         this.categoryName = categoryName;
         this.parentID = parentID;
     }
@@ -15,7 +15,7 @@ public class InputCategoryDTO {
         return categoryName;
     }
 
-    public String getParentID() {
+    public Long getParentID() {
         return parentID;
     }
 
