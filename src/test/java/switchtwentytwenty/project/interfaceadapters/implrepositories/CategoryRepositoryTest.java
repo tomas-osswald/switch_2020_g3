@@ -14,6 +14,7 @@ import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,14 +117,14 @@ class CategoryRepositoryTest {
     @Test
     void getStandardCategoryList() {
         List<Category> expected = new ArrayList<>();
-        Category cat1 = new StandardCategory(new CategoryName("name"),new CategoryID(11L),new CategoryID(12L));
+        Category cat1 = new StandardCategory(new CategoryName("name"),new CategoryID(11L), new ParentCategoryPath("12"));
         expected.add(cat1);
 
         List<CategoryJPA> returnList = new ArrayList<>();
-        CategoryJPA cat1Clone = new CategoryJPA("name",11L,12L,null);
+        CategoryJPA cat1Clone = new CategoryJPA("name",11L,"12",null);
 
         returnList.add(cat1Clone);
-        Mockito.when(categoryRepositoryJPA.findAllByFamilyIDJPA(null)).thenReturn(returnList);
+        Mockito.when(categoryRepositoryJPA.findAllByFamilyIDJPAIsNull()).thenReturn(returnList);
 
         List<Category> result = categoryRepository.getStandardCategoryList();
 
