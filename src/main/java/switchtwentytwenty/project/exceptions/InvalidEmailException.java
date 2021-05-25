@@ -6,7 +6,4 @@ public class InvalidEmailException extends IllegalStateException {
         super(errorMessage);
     }
 
-    public InvalidEmailException() {
-        super("This Email is not valid");
-    }
 }
