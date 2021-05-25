@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
+import switchtwentytwenty.project.dto.category.CategoryTreeDTO;
 import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
 import switchtwentytwenty.project.dto.category.InputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICategoriesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateStandardCategoryService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategroyTreeService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,11 +32,14 @@ public class CategoryRESTController {
 
     private final ICategoryDTODomainAssembler categoryAssembler;
 
+    private final IGetStandardCategroyTreeService getStandardCategroyTreeService;
+
     @Autowired
-    public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService) {
+    public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategroyTreeService getStandardCategroyTreeService ) {
         this.createStandardCategoryService = createStandardCategoryService;
         this.categoriesOptionsService = categoryOptionsService;
         this.categoryAssembler = new CategoryDTODomainAssembler();
+        this.getStandardCategroyTreeService = getStandardCategroyTreeService;
 
     }
 
@@ -86,5 +91,24 @@ public class CategoryRESTController {
     @GetMapping("/{categoryID}")
     public ResponseEntity<Object> getCategory(@PathVariable String categoryID) {
         throw new UnsupportedOperationException();
+    }
+
+    @GetMapping()
+    public ResponseEntity<Object> getCategoryTree(){
+
+        HttpStatus status;
+        try {
+            CategoryTreeDTO categoryTreeDTO = getStandardCategroyTreeService.getStandardCategoryTree();
+            status = HttpStatus.CREATED;
+            //Link selfLink = linkTo(methodOn(CategoryRESTController.class));
+
+            return new ResponseEntity(categoryTreeDTO,status);
+
+        } catch(Exception e){
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+
+            return new ResponseEntity("Error: " + e.getMessage(),status);
+        }
+
     }
 }
