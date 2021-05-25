@@ -2,6 +2,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
+import switchtwentytwenty.project.domain.valueobject.Relation;
 import switchtwentytwenty.project.dto.relation.InputRelationDTO;
 import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateRelationService;
