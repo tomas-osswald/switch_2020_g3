@@ -43,7 +43,7 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         return new CategoryName(categoryJPA.getCategoryName());
     }
 
-    public CategoryID createparentID(CategoryJPA categoryJPA){
+    public CategoryID createParentID(CategoryJPA categoryJPA){
         return new CategoryID(categoryJPA.getParentID());
     }
 
