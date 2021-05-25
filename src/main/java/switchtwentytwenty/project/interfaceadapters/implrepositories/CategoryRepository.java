@@ -25,14 +25,13 @@ import java.util.Optional;
 public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
-    private final CategoryDataDomainAssembler categoryAssembler;
-    private final FamilyDataDomainAssembler familyAssembler;
+    private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
+    private final FamilyDataDomainAssembler familyAssembler = new FamilyDataDomainAssembler();
 
     @Autowired
-    public CategoryRepository(FamilyDataDomainAssembler familyAssembler, ICategoryRepositoryJPA categoryRepositoryJPA, CategoryDataDomainAssembler categoryAssembler) {
-        this.familyAssembler = familyAssembler;
+    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
+
         this.categoryRepositoryJPA = categoryRepositoryJPA;
-        this.categoryAssembler = categoryAssembler;
     }
 
 
@@ -69,7 +68,7 @@ public class CategoryRepository implements ICategoryRepository {
 
     public List<Category> getStandardCategoryList() {
         List<CategoryJPA> categoryListJPA;
-        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPA(null);
+        categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPAIsNull();
 
         return convertCategoryJPAListToCategoryList(categoryListJPA);
     }
