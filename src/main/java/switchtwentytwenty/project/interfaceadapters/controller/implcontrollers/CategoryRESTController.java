@@ -14,6 +14,7 @@ import switchtwentytwenty.project.dto.category.CategoryTreeDTO;
 import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
 import switchtwentytwenty.project.dto.category.InputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.ICategoryRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICategoriesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateStandardCategoryService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
@@ -24,7 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin
-public class CategoryRESTController {
+public class CategoryRESTController implements ICategoryRESTController {
 
     private final ICreateStandardCategoryService createStandardCategoryService;
 
