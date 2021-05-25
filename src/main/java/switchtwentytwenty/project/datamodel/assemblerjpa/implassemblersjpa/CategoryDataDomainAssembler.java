@@ -35,4 +35,19 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         }
         return category;
     }
+    public CategoryID createCategoryID(CategoryJPA categoryJPA){
+        return new CategoryID(categoryJPA.getCategoryIDJPA());
+    }
+
+    public CategoryName createCategoryName(CategoryJPA categoryJPA){
+        return new CategoryName(categoryJPA.getCategoryName());
+    }
+
+    public CategoryID createparentID(CategoryJPA categoryJPA){
+        return new CategoryID(categoryJPA.getParentID());
+    }
+
+    public FamilyID createFamilyID(CategoryJPA categoryJPA){
+        return new FamilyID(categoryJPA.getFamilyIDJPA().getFamilyID());
+    }
 }
