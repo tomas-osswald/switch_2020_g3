@@ -10,16 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.AddRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
+import switchtwentytwenty.project.dto.relation.InputRelationDTO;
+import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateRelationService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
 
@@ -37,17 +41,23 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final PersonInputDTOAssembler personAssembler;
 
+    private final RelationInputDTOAssembler relationAssembler;
+
     private final IFamiliesOptionsService familiesOptionsService;
 
     private final IFamilyOptionsService familyOptionsService;
 
+    private final ICreateRelationService createRelationService;
+
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, RelationInputDTOAssembler relationAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
+        this.relationAssembler = relationAssembler;
         this.familiesOptionsService = familiesOptionsService;
         this.familyOptionsService = familyOptionsService;
+        this.createRelationService = createRelationService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -102,18 +112,37 @@ public class FamilyRESTController implements IFamilyRESTController {
         return new ResponseEntity<>(options, header, HttpStatus.OK);
     }
 
-    @GetMapping("/{familyID}")
-    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
-        throw new UnsupportedOperationException();
+    @PostMapping("/{familyID}/relations")
+    public ResponseEntity<Object> createRelation(@RequestBody CreateRelationDTO createRelationDTO, @PathVariable String familyID) {
+        InputRelationDTO inputRelationDTO = relationAssembler.toInputRelationDTO(createRelationDTO, familyID);
+        HttpStatus status;
+        OutputRelationDTO outputRelationDTO;
+
+        try {
+            outputRelationDTO = createRelationService.createRelation(inputRelationDTO);
+            status = HttpStatus.CREATED;
+            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
+            outputRelationDTO.add(optionsLink);
+            return new ResponseEntity<> (outputRelationDTO, status);
+        } catch (IllegalArgumentException e) {
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity("Error: " + e.getMessage(), status);
+
+        }
+
     }
 
-    @PostMapping("/{familyID}/relations")
-    public ResponseEntity<Object> addRelation(@RequestBody AddRelationDTO addRelationDTO, @PathVariable String familyID) {
-        throw new UnsupportedOperationException();
-    }
+
+
+
 
     @RequestMapping(value = "/{familyID}/categories", method = RequestMethod.OPTIONS)
-    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID){
+    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID) {
+        throw new UnsupportedOperationException();
+    }
+
+    @GetMapping("/{familyID}")
+    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
         throw new UnsupportedOperationException();
     }
 }

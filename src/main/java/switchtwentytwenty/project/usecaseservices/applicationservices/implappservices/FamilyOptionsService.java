@@ -5,7 +5,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.dto.OptionsDTO;
-import switchtwentytwenty.project.dto.family.AddRelationDTO;
+import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
@@ -33,7 +33,7 @@ public class FamilyOptionsService implements IFamilyOptionsService {
 
         OptionsDTO options = new OptionsDTO();
         Link optionOne = linkTo(methodOn(FamilyRESTController.class).getFamily(familyID)).withSelfRel();
-        Link optionTwo = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO(), familyID)).withRel("relations");
+        Link optionTwo = linkTo(methodOn(FamilyRESTController.class).createRelation(new CreateRelationDTO(), familyID)).withRel("relations");
         Link optionThree = linkTo(methodOn(FamilyRESTController.class).getCategoriesOptions(familyID)).withRel("categories");
 
         options.add(optionOne);
