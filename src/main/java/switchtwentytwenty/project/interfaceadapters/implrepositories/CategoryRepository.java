@@ -45,8 +45,8 @@ public class CategoryRepository implements ICategoryRepository {
 
     @Override
     public List<Category> getByFamilyID (FamilyID familyID) {
-        FamilyIDJPA familyIDJPA = categoryDataDomainAssembler.toData(familyID);
-        List<CategoryJPA> customCategoryJPA = iCategoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
+        FamilyIDJPA familyIDJPA = categoryAssembler.toData(familyID);
+        List<CategoryJPA> customCategoryJPA = CategoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
         List<Category> aFamilyCategoriesList = new ArrayList<>();
 
     }

@@ -24,18 +24,18 @@ public class GetCustomCategoriesService implements IGetCustomCategoriesService {
     public OutputCategoryTreeDTO getCustomCategories(String stringFamilyID) {
         FamilyID familyID = new FamilyID(stringFamilyID);
 
-        // List<Category> standardCategories = categoryRepository.getStandardCategories();
+        // List<Category> standardCategories = categoryRepository.getStandardCategoryList();
         List<Category> customCategories = categoryRepository.getByFamilyID(familyID);
 
         OutputCategoryTreeDTO outputCategoryTreeDTO = new OutputCategoryTreeDTO();
 
-        for (Category category : customCategories) {
-            outputCategoryTreeDTO.addOutputCategoryDTO(this.categoryDTODomainAssembler.toDTO(category));
-        }
-
         /*for (Category category : standardCategories) {
             outputCategoryTreeDTO.add(this.categoryDTODomainAssembler.toDTO(category));
         }*/
+
+        for (Category category : customCategories) {
+            outputCategoryTreeDTO.addOutputCategoryDTO(this.categoryDTODomainAssembler.toDTO(category));
+        }
 
         return outputCategoryTreeDTO;
     }
