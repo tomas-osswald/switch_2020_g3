@@ -10,6 +10,5 @@ public interface ICategoryRepository extends Repository<Category, CategoryID> {
 
     Category add(Category category);
 
-    List<Category> getByFamilyID(FamilyID familyID);
-
+    List<Category> getCustomCategoryList(FamilyID familyID);
 }

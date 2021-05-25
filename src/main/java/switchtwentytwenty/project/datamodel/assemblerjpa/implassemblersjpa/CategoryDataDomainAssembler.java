@@ -2,7 +2,6 @@ package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
-import switchtwentytwenty.project.datamodel.domainjpa.CategoryIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
@@ -17,11 +16,6 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
     @Override
     public CategoryJPA toData(Category category) {
         return null;
-    }
-
-    @Override
-    public CategoryIDJPA toData(CategoryID categoryID) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
