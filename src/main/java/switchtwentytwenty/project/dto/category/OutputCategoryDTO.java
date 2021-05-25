@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.dto.category;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,13 +11,15 @@ import java.util.Objects;
 @Setter
 @Getter
 @NoArgsConstructor
-public class OutputCategoryDTO extends RepresentationModel {
+@AllArgsConstructor
+public class OutputCategoryDTO extends RepresentationModel<OutputCategoryDTO> {
 
     private String categoryName;
-    private Long categoryID;
-    private Long parentID;
+    private String categoryID;
+    private String parentID;
+    private String familyID;
 
-    public OutputCategoryDTO(String categoryName, Long categoryID, Long parentID) {
+    public OutputCategoryDTO(String categoryName, String categoryID, String parentID) {
         this.categoryName = categoryName;
         this.categoryID = categoryID;
         this.parentID = parentID;
