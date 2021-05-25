@@ -302,8 +302,8 @@ participant ": RelationDTODomainAssembler" as dtoDomain
 participant "aRelation\n : Relation" as relation
 participant ": FamilyRepository" as repository <<interface>>
 participant ": RelationDataDomainAssembler" as dataDomain
-participant ": RelationRepositoryJPA" as repositoryJPA <<interface>>
-participant "savedRelation\n : Relation" as savedRelation
+participant ": FamilyRepositoryJPA" as repositoryJPA <<interface>>
+participant "savedFamily\n : Family" as savedFamily
 
 
 -> controller : createRelation(CreateRelationDTO)
@@ -325,27 +325,33 @@ Validations
 end
 service -> relation ** : create(aPersonID, anotherPersonID, relationDesignation)
 
-service -> repository : add(relation)
+ref over service
+Fazer um getByID da Family ao familyRepository, obter a família e fazer add relation.
+A Family deve ter este método add relation que corre todas as relations existentes para garantir que não há uma igual.
+end
+
+service -> repository : add(aFamily)
 activate repository
 
 ref over repository, dataDomain
-Assemble Relation to RelationJPA
+Assemble Family to FamilyJPA
 end
 
-repository -> repositoryJPA : save(relationJPA)
+repository -> repositoryJPA : save(aFamilyJPA)
 activate repositoryJPA
-return savedRelationJPA
+return savedFamilyJPA
 
 ref over repository, dataDomain
-Assemble RelationJPA to Value Objects
+Assemble FamilyJPA to Value Objects
 end
 
-repository -> savedRelation ** : create(aPersonID, anotherPersonID, relationDesignation, relationID)
+repository -> savedFamily ** : create(VOs)
 
-return savedRelation
+return savedFamily
 
 ref over service, dtoDomain
-Assemble Relation to OutputDTO
+Get Relation from savedFamily
+Assemble Relation to OutputRelationDTO
 end
 
 return outputRelationDTO
