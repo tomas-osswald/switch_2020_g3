@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DateHelper {
+public final class DateHelper {
 
     static final String DATE_IS_INVALID = "Date is in invalid format";
 
