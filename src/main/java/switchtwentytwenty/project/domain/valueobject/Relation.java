@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 @AllArgsConstructor
-public class Relation implements ValueObject, Comparable<Relation> {
+public class Relation implements ValueObject {
     private final PersonID memberA;
     private final PersonID memberB;
     private final RelationDesignation relationDesignation;
@@ -33,14 +33,5 @@ public class Relation implements ValueObject, Comparable<Relation> {
     @Override
     public int hashCode() {
         return Objects.hash(memberA, memberB);
-    }
-
-    //TODO: rever isto sff, Johny Sins
-    @Override
-    public int compareTo(Relation o) {
-        int result = -1;
-        if (this.memberA.equals(o.memberB) && this.memberB.equals(o.memberA)) result = 0;
-        if (this.memberA.equals(o.memberA) && this.memberB.equals(o.memberB)) result = 0;
-        return result;
     }
 }
