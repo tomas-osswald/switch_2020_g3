@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.valueobject;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,6 +48,15 @@ class RelationTest {
     void equalsTestEqualRelations() {
         Relation relationOne = new Relation(personOneID, personTwoID, designation);
         Relation relationTwo = new Relation(personOneID, personTwoID, designation);
+
+        assertEquals(relationOne, relationTwo);
+        assertNotSame(relationOne, relationTwo);
+    }
+
+    @Test
+    void equalsTestEqualRelationsInvertedPositions() {
+        Relation relationOne = new Relation(personOneID, personTwoID, designation);
+        Relation relationTwo = new Relation(personTwoID, personOneID, designation);
 
         assertEquals(relationOne, relationTwo);
         assertNotSame(relationOne, relationTwo);
@@ -100,16 +110,17 @@ class RelationTest {
     @Test
     void hashCodeTest_sameHashCode() {
         Relation relationOne = new Relation(personOneID, personTwoID, designation);
-        Relation relationTwo = new Relation(personOneID, personTwoID, designation);
+        int expected = relationOne.getId();
+        int result = Objects.hash(personOneID, personTwoID);
 
-        assertEquals(relationOne.hashCode(), relationTwo.hashCode());
-        assertNotSame(relationOne, relationTwo);
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
 
     @Test
     void hashCodeTest_differentHashCode() {
         Relation relationOne = new Relation(personOneID, personTwoID, designation);
-        PersonID otherPersonOneID = new PersonID("otheremail@hotmail.com");
+                PersonID otherPersonOneID = new PersonID("otheremail@hotmail.com");
         Relation relationTwo = new Relation(otherPersonOneID, personTwoID, designation);
 
         assertNotEquals(relationOne.hashCode(), relationTwo.hashCode());
@@ -118,10 +129,11 @@ class RelationTest {
     @Test
     void getId() {
         RelationDesignation designationObject = new RelationDesignation(designation);
-        Relation relationOne = new Relation(personOneID, personTwoID, designationObject, 13L);
+        Relation relationOne = new Relation(personOneID, personTwoID, designationObject, 13);
         long expected = 13L;
         long result = relationOne.getId();
         assertEquals(expected, result);
         assertNotEquals(0L, result);
     }
+
 }

@@ -12,12 +12,13 @@ public class Relation implements ValueObject {
     private final PersonID memberB;
     private final RelationDesignation relationDesignation;
     @Getter
-    private long id;
+    private int id;
 
     public Relation(PersonID memberA, PersonID memberB, String designation) {
         this.memberA = memberA;
         this.memberB = memberB;
         this.relationDesignation = new RelationDesignation(designation);
+        this.id = this.hashCode();
     }
 
     //private void validateRelation() { } //member A and member B cannot be the same
