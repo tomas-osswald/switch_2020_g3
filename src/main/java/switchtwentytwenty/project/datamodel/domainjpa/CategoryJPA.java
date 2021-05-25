@@ -37,6 +37,10 @@ public class CategoryJPA {
         return categoryIDJPA.equals(that.categoryIDJPA);
     }
 
+    public boolean isStandard() {
+        return this.familyIDJPA == null;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(categoryIDJPA);

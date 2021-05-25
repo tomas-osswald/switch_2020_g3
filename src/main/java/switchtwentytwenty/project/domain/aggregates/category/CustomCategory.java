@@ -6,19 +6,20 @@ import lombok.Setter;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Setter
 public class CustomCategory implements Category {
 
     private CategoryID categoryID;
-    @Getter
-    private CategoryID parentID;
+    private ParentCategoryPath parentID;
     @Getter
     private CategoryName categoryName;
-    @Getter
+
     private FamilyID familyID;
 
     public CustomCategory(CategoryID categoryID, CategoryName categoryName, FamilyID familyID) {
@@ -27,7 +28,7 @@ public class CustomCategory implements Category {
         this.familyID = familyID;
     }
 
-    public CustomCategory(CategoryID categoryID, CategoryID parentID, CategoryName categoryName, FamilyID familyID) {
+    public CustomCategory(CategoryID categoryID, ParentCategoryPath parentID, CategoryName categoryName, FamilyID familyID) {
         this.categoryID = categoryID;
         this.parentID = parentID;
         this.categoryName = categoryName;
@@ -58,4 +59,11 @@ public class CustomCategory implements Category {
     }
 
 
+    public ParentCategoryPath getParentCategoryPath(){
+        return this.parentID;
+    }
+
+    public Optional<FamilyID> getFamilyID(){
+        return Optional.of(this.familyID);
+    }
 }

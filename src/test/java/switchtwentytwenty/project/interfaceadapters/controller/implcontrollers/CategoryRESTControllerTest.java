@@ -57,7 +57,7 @@ class CategoryRESTControllerTest {
 
     @Test
     void createStandardCategoryTestInvalidCategoryObject() {
-        CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("",1L,2L);
+        CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("","2L");
         when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenThrow(new IllegalArgumentException(""));
         ResponseEntity expected = new ResponseEntity("Error: ", HttpStatus.UNPROCESSABLE_ENTITY);
 
@@ -68,9 +68,9 @@ class CategoryRESTControllerTest {
 
     @Test
     void createStandardCategoryTest() {
-        CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa",1L,2L);
-        when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenReturn(new OutputCategoryDTO("Casa",1L,2L));
-        OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa",1L,2L);
+        CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa","2L");
+        when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenReturn(new OutputCategoryDTO("Casa","1L","2L"));
+        OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1L","2L");
         expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1")).withSelfRel());
         ResponseEntity expected = new ResponseEntity(expectedDTO, HttpStatus.CREATED);
 

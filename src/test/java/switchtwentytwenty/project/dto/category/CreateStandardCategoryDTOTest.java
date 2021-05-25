@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CreateStandardCategoryDTOTest {
 
-    CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("desc", 1L, 2L);
+    CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("desc","2L");
 
 
     @Test
@@ -17,18 +17,11 @@ class CreateStandardCategoryDTOTest {
         assertEquals(expected, result);
     }
 
-    @Test
-    void getCategoryID() {
-        Long expected = 1L;
-        Long result = createStandardCategoryDTO.getCategoryID();
-        assertEquals(expected, result);
-
-    }
 
     @Test
     void getParentID() {
-        Long expected = 2L;
-        Long result = createStandardCategoryDTO.getParentID();
+        String expected = "2L";
+        String result = createStandardCategoryDTO.getParentCategory();
         assertEquals(expected, result);
     }
 
@@ -41,26 +34,17 @@ class CreateStandardCategoryDTOTest {
     }
 
     @Test
-    void setCategoryID() {
-        createStandardCategoryDTO.setCategoryID(5L);
-        Long expected = 5L;
-        Long result = createStandardCategoryDTO.getCategoryID();
-        assertEquals(expected, result);
-    }
-
-    @Test
     void setParentID() {
-        createStandardCategoryDTO.setParentID(5L);
-        Long expected = 5L;
-        Long result = createStandardCategoryDTO.getParentID();
+        createStandardCategoryDTO.setParentCategory("5L");
+        String expected = "5L";
+        String result = createStandardCategoryDTO.getParentCategory();
         assertEquals(expected, result);
     }
 
     @Test
     void noArgsConstructorTest() {
         CreateStandardCategoryDTO noArgsDTO = new CreateStandardCategoryDTO();
-        noArgsDTO.setParentID(1L);
-        noArgsDTO.setCategoryID(2L);
+        noArgsDTO.setParentCategory("1L");
         noArgsDTO.setCategoryDescription("desc");
 
         assertNotNull(noArgsDTO);
