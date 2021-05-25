@@ -8,13 +8,13 @@ class CategoryJPATest {
 
     // CategoryJPA data 1
     String categoryName = "compras";
-    CategoryIDJPA categoryIDJPA = new CategoryIDJPA(13L);
+    Long categoryIDJPA = 13L;
     Long parentID = new Long(12L);
     FamilyIDJPA familyIDJPA = new FamilyIDJPA();
 
     // CategoryJPA data 2
     String categoryNameTwo = "vendas";
-    CategoryIDJPA categoryIDJPATwo = new CategoryIDJPA(1L);
+    Long categoryIDJPATwo = 1L;
     Long parentIDTwo = new Long(0L);
     FamilyIDJPA familyIDJPATwo = new FamilyIDJPA("email@email.com");
 
@@ -62,9 +62,9 @@ class CategoryJPATest {
     @Test
     void getCategoryIDTest() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        CategoryIDJPA expected = new CategoryIDJPA(13L);
+        Long expected = 13L;
 
-        CategoryIDJPA result = categoryJpa.getCategoryIDJPA();
+        Long result = categoryJpa.getCategoryIDJPA();
 
         assertEquals(expected, result);
     }
@@ -74,7 +74,7 @@ class CategoryJPATest {
         CategoryJPA categoryJpa = new CategoryJPA(categoryNameTwo, categoryIDJPATwo, parentIDTwo, familyIDJPATwo);
         CategoryIDJPA expected = new CategoryIDJPA(13L);
 
-        CategoryIDJPA result = categoryJpa.getCategoryIDJPA();
+        Long result = categoryJpa.getCategoryIDJPA();
 
         assertNotEquals(expected, result);
     }
