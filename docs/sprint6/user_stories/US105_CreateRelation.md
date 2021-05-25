@@ -306,7 +306,7 @@ participant ": FamilyRepositoryJPA" as repositoryJPA <<interface>>
 participant "savedFamily\n : Family" as savedFamily
 
 
--> controller : createRelation(CreateRelationDTO)
+-> controller : POST /{FamilyID}/relations \ncreateRelation(CreateRelationDTO)
 activate controller
 
 ref over controller, inputDto

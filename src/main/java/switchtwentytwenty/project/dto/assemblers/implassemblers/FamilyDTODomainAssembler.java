@@ -2,10 +2,11 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
-import switchtwentytwenty.project.domain.valueobject.FamilyName;
-import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.dto.relation.InputRelationDTO;
+import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
 
 @Component
 public class FamilyDTODomainAssembler {
@@ -38,6 +39,34 @@ public class FamilyDTODomainAssembler {
      */
     public OutputFamilyDTO toDTO(Family family) {
         return new OutputFamilyDTO(family.getName().toString(), family.id().toString(), family.getAdmin().toString(), family.getRegistrationDate().toString());
+    }
+
+    public PersonID personIDOneToDomain(InputRelationDTO inputRelationDTO) {
+
+        return new PersonID(inputRelationDTO.getPersonIDOne());
+    }
+    public PersonID personIDTwoToDomain(InputRelationDTO inputRelationDTO) {
+
+        return new PersonID(inputRelationDTO.getPersonIDTwo());
+    }
+    public RelationDesignation relationDesignationToDomain(InputRelationDTO inputRelationDTO) {
+        return new RelationDesignation(inputRelationDTO.getDesignation());
+    }
+    public FamilyID familyIDToDomain(InputRelationDTO inputRelationDTO) {
+        return new FamilyID(inputRelationDTO.getFamilyID());
+    }
+
+    public OutputRelationDTO toDTO(Relation relation) {
+        String personIDOne = relation.getMemberA().toString();
+        String personIDTwo = relation.getMemberB().toString();
+        String designation = relation.getRelationDesignation().toString();
+
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO();
+        outputRelationDTO.setPersonIDOne(personIDOne);
+        outputRelationDTO.setPersonIDTwo(personIDTwo);
+        outputRelationDTO.setDesignation(designation);
+
+        return outputRelationDTO;
     }
 
 }

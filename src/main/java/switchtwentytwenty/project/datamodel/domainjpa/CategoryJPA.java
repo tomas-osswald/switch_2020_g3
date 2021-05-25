@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -21,10 +19,11 @@ public class CategoryJPA {
 
     @Getter
     @Id
-    private CategoryIDJPA categoryIDJPA;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long categoryIDJPA;
 
     @Getter
-    private Long parentID;
+    private String parentID;
 
     @Getter
     private FamilyIDJPA familyIDJPA;
@@ -37,6 +36,10 @@ public class CategoryJPA {
         return categoryIDJPA.equals(that.categoryIDJPA);
     }
 
+    public boolean isStandard() { //TODO Remover metodo
+        return this.familyIDJPA == null;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(categoryIDJPA);
@@ -45,20 +48,20 @@ public class CategoryJPA {
     public static class Builder {
 
         private String categoryName;
-        private CategoryIDJPA categoryIDJPA;
-        private Long parentID;
+        private Long categoryIDJPA;
+        private String parentID;
         private FamilyIDJPA familyIDJPA;
 
         public Builder(String categoryName) {
             this.categoryName = categoryName;
         }
 
-        public Builder withCategoryIDJPA(CategoryIDJPA categoryIDJPA) {
+        public Builder withCategoryIDJPA(Long categoryIDJPA) {
             this.categoryIDJPA = categoryIDJPA;
             return this;
         }
 
-        public Builder withParentID(Long parentID) {
+        public Builder withParentID(String parentID) {
             this.parentID = parentID;
             return this;
         }

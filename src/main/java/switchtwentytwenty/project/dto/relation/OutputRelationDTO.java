@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.dto.relation;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,3 +14,4 @@ public class OutputRelationDTO extends RepresentationModel<OutputRelationDTO> {
     private String personIDTwo;
     private String designation;
 }
+

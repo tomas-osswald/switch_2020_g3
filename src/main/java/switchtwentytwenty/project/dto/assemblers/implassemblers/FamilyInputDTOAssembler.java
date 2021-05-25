@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
+import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
+import switchtwentytwenty.project.dto.relation.InputRelationDTO;
 
 @Component
 @NoArgsConstructor
@@ -14,5 +16,16 @@ public class FamilyInputDTOAssembler {
     public InputFamilyDTO toInputFamilyDTO(AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO) {
         return new InputFamilyDTO(addFamilyAndSetAdminDTO.getFamilyName(), addFamilyAndSetAdminDTO.getRegistrationDate());
 
+    }
+
+    public InputRelationDTO toInputRelationDTO(CreateRelationDTO createRelationDTO, String familyID) {
+        InputRelationDTO inputRelationDTO = new InputRelationDTO();
+
+        inputRelationDTO.setPersonIDOne(createRelationDTO.getMemberOneID());
+        inputRelationDTO.setPersonIDTwo(createRelationDTO.getMemberTwoID());
+        inputRelationDTO.setDesignation(createRelationDTO.getRelationDesignation());
+        inputRelationDTO.setFamilyID(familyID);
+
+        return inputRelationDTO;
     }
 }
