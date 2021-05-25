@@ -23,14 +23,13 @@ import java.util.List;
 public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
-    private final CategoryDataDomainAssembler categoryAssembler;
-    private final FamilyDataDomainAssembler familyAssembler;
+    private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
+    private final FamilyDataDomainAssembler familyAssembler = new FamilyDataDomainAssembler();
 
     @Autowired
-    public CategoryRepository(FamilyDataDomainAssembler familyAssembler, ICategoryRepositoryJPA categoryRepositoryJPA, CategoryDataDomainAssembler categoryAssembler) {
-        this.familyAssembler = familyAssembler;
+    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
+
         this.categoryRepositoryJPA = categoryRepositoryJPA;
-        this.categoryAssembler = categoryAssembler;
     }
 
 
