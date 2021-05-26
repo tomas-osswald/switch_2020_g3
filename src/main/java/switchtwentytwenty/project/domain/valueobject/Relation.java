@@ -26,7 +26,11 @@ public class Relation implements ValueObject, Serializable {
         this.id = new RelationID(hashCode());
     }
 
-    //private void validateRelation() { } //member A and member B cannot be the same
+    private void validateRelation() {
+        if (memberA == memberB)
+            throw new IllegalArgumentException("must be different");
+    }
+
 
     @Override
     public boolean equals(Object o) {

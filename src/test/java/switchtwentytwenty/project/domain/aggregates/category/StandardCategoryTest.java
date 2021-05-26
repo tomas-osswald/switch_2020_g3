@@ -3,7 +3,10 @@ package switchtwentytwenty.project.domain.aggregates.category;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -168,4 +171,12 @@ class StandardCategoryTest {
         assertEquals(expected,result);
     }
 
+    @Test
+    void getFamilyID() {
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
+        CategoryName categoryName = new CategoryName("name");
+        StandardCategory standardCategory = new StandardCategory(categoryName, parentID);
+        Optional<FamilyID> result = standardCategory.getFamilyID();
+        assertFalse(result.isPresent());
+    }
 }

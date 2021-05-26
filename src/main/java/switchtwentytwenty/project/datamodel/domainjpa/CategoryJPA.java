@@ -36,9 +36,6 @@ public class CategoryJPA {
         return categoryIDJPA.equals(that.categoryIDJPA);
     }
 
-    public boolean isStandard() { //TODO Remover metodo
-        return this.familyIDJPA == null;
-    }
 
     @Override
     public int hashCode() {
