@@ -20,8 +20,6 @@ public class AccountFactory {
 
         String classpath = environment.getProperty(accountType.toLowerCase());
 
-        if (classpath == null)
-            throw new IllegalArgumentException("Unsupported Account type");
 
         try {
             newIAccount = (IAccount) Class.forName(classpath).newInstance();
@@ -36,8 +34,8 @@ public class AccountFactory {
             newIAccount.addMovement(movement);
             newIAccount.setOwner(ownerID);
 
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException exception) {
-            throw new IllegalArgumentException();
+        } catch (NullPointerException | ClassNotFoundException | InstantiationException | IllegalAccessException exception) {
+            throw new IllegalArgumentException("Unsupported Account type");
         }
         return newIAccount;
     }
@@ -47,8 +45,9 @@ public class AccountFactory {
 
         String classpath = environment.getProperty(accountType.toLowerCase());
 
-        if (classpath == null)
-            throw new IllegalArgumentException("Unsupported Account type");
+        //Removi isto para ser o try-catch em baixo a lidar com a situação. Desta maneira, ele pode ser testado e coberto
+        /*if (classpath == null)
+            throw new IllegalArgumentException("Unsupported Account type");*/
 
         try {
             account = (IAccount) Class.forName(classpath).newInstance();
@@ -56,8 +55,8 @@ public class AccountFactory {
             account.setDesignation(designation);
             account.setMovements(movements);
             account.setOwner(ownerID);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException exception) {
-            throw new IllegalArgumentException();
+        } catch (NullPointerException | ClassNotFoundException | InstantiationException | IllegalAccessException exception) {
+            throw new IllegalArgumentException("Unsupported Account type");
         }
         return account;
     }
