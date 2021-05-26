@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -83,7 +84,7 @@ class FamilyRESTControllerIT {
     }
 
 
-    /*@Test
+  /*  @Test
     void addRelationTest() {
         CreateRelationDTO createRelationDTO = new CreateRelationDTO();
 
