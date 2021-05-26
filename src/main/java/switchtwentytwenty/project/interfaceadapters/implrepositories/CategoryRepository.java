@@ -10,11 +10,14 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
+import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CategoryRepository implements ICategoryRepository {
@@ -69,7 +72,13 @@ public class CategoryRepository implements ICategoryRepository {
     }
 
     private Category createCategory(CategoryJPA categoryJPA) {
-        return categoryFactory.createCategory(categoryJPA);
+
+        CategoryID id = categoryAssembler.createCategoryID(categoryJPA);
+        CategoryName name = categoryAssembler.createCategoryName(categoryJPA);
+        ParentCategoryPath parentID = categoryAssembler.createParentID(categoryJPA);
+        Optional<FamilyID> familyID = categoryAssembler.createFamilyID(categoryJPA);
+
+        return categoryFactory.createCategory(id, name, parentID, familyID);
     }
 
 }

@@ -3,7 +3,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
-import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
+import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
@@ -18,11 +18,13 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
 
     private ICategoryDTODomainAssembler categoryDTODomainAssembler;
     private ICategoryRepository categoryRepository;
-    
+    private CategoryFactory categoryFactory;
+
     @Autowired
-    public CreateStandardCategoryService(ICategoryRepository categoryRepository){
+    public CreateStandardCategoryService(ICategoryRepository categoryRepository, CategoryFactory categoryFactory){
         this.categoryRepository = categoryRepository;
         this.categoryDTODomainAssembler = new CategoryDTODomainAssembler();
+        this.categoryFactory = categoryFactory;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
         CategoryName categoryName = categoryDTODomainAssembler.createCategoryName(inputCategoryDTO.getCategoryName());
         ParentCategoryPath parentCategory = categoryDTODomainAssembler.createParentCategoryPath(inputCategoryDTO.getParentID());
 
-        Category category = new StandardCategory(categoryName,parentCategory); //TODO: Factory for Categories
+        Category category = categoryFactory.createCategory(categoryName, parentCategory);
 
         Category savedStandardCategory = categoryRepository.add(category);
 
