@@ -60,7 +60,7 @@ public class CategoryRESTController implements ICategoryRESTController {
         try {
             outputCategoryDTO = createStandardCategoryService.createStandardCategory(inputCategoryDTO);
             status = HttpStatus.CREATED;
-            Link selfLink = linkTo(methodOn(CategoryRESTController.class).getCategory(outputCategoryDTO.getCategoryID().toString())).withSelfRel();
+            Link selfLink = linkTo(methodOn(CategoryRESTController.class).getCategory(outputCategoryDTO.getCategoryID())).withSelfRel();
             outputCategoryDTO.add(selfLink);
             return new ResponseEntity<>(outputCategoryDTO, status);
 
