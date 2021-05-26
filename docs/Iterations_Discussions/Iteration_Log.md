@@ -725,3 +725,152 @@ Factories e Builder -> Prof referiu que o Builder não é necessário para o que
 No entanto deixou em aberto que também gostaria de ver o Builder.
 
 # Decisão -> Factories vs Builder
+
+# Sprint 6
+
+## Discussão de implementação das USs em atraso
+
+- US001 As a system manager, I want to create a standard category{
+ + CategoryRESTController + metodo  
+ + CreateStandardCategoryDTO (o que vem de fora)
+ + InputCreateStandardCategoryDTO
+ + Assembler para o DTO acima
+ + Create Standard Category Service
+ + Assembler com metodos toDomain para criar value objects e que cria o Output tambem
+ + Factory (?)
+ + Repositório de Categorias (standard e custom)
+ + Assembler to Data (JPA) que faz o reverse tambem
+ + Mirror objects em JPA
+ + StandardCategoryOutputDTO para levar info + links
+}
+   
+- US002 As a system manager, I want to get the standard categories tree.{
+ + Metodo no Controller  
+ + GetStandardCategoryTreeService
+ + StandardCategoryTreeOutputDTO
+ + O OutputDTO acima seria feito pelo mesmo assembler da US anterior
+}
+
+- US110 As a family administrator, I want to get the list of the categories on the family’s category tree.{
++ Metodo no controller da Family
++ InputGetFamilyCategoryTreeDTO 
++ Assembler para fazer o DTO acima (poderá ser o assembler da Family)
++ GetFamilyCategoryService (vai interagir com o repositorio de categorias)
++ OutputCustomCategoriesDTO
++ DTO acima será feito pelo good ol' assembler de categorias
+}
+   
+- US105 As a family administrator, I want to create a relation between two family members.{
++ Metodo no family Controller
++ CreateRelationDTO
++ InputRelationDTO
++ Assembler para o dto acima
++ CreateRelationService (vai interagir com o repo da Familia para a updatar)
++ Assembler para fazer os ValueObjects (pode ser o assembler da Familia?)
++ RelationJPA e tudo o resto em termos de mirror que seja preciso
++ OutputRelationDTO (criado com o assembler que ja existe da Familia)
+  (Verificação de ambos os membros na mesma familia + não é relação com o proprio)
+}
+
+- US104 As a family administrator, I want to get the list of family members and their relations.{
++ Metodo no family Controller
++ InputRelationListDTO
++ Assembler (provavelmente o que ja existe)
++ GetRelationListService
++ DomainService para ir buscar as pessoas
++ OutputRelationListDTO
++ DTO acima usa o assembler existente
+}
+  
+
+###Novas:
+- US003 As a System Manager I want that the list of standard categories to include those loaded (whenever needed) from a complementary system defined by configuration. => Perguntar ao Professor NB
+  
+- US111v2 As a Family Administrator, I want to add a custom category to the family’s category tree "extended" from either external or internal standard categories.
+  
+- US080 As a System User, I want to login into the application in order to use it.
+
+
+### Aula Labproj 24/05/2021
+
+Relativamente à questão das configurações de sistemas externos.
+
+Previsto sermos capazes de importar Categories de outros grupos. 
+Temos de aplicar o padrão Adapter para poder traduzir toda a informação proveniente dos grupos para adaptar aquilo que os outros disponibilizam na API deles, para aquilo que precisamos para a nossa aplicação.
+
+
+
+Autowired desnecessário no Construtor:
+![img.png](img.png)
+
+Anotação Component desncessária nos Assemblers (Assemblers deixam de ser Autowired porque pode haver várias instâncias de Assembler e não precisa de ser só uma específica - Que é o que se consegue com Autowired)
+
+![img_1.png](img_1.png)
+
+
+Em vez de usar o unpack Cenas mais unpack outras cenas, usar uma variável para ambas:
+
+![img_2.png](img_2.png)
+
+Garantir que o email que é usado para identificar o admin é o proveniente da persistência e não aquele que é passado inicialmente. 
+
+![img_3.png](img_3.png)
+
+
+### Discussões - Relations / Histórias Maravilhosas de Superação
+
+1º Relation no domínio
+
+- Manter Relation na Family implica que para a user story de obter as pessoas e as suas relações temos de ir ao agregado da família e das pessoas. Isto é demasiado?  
+  
+- Se relation estivesse no agregado das pessoas poupavamos entrar num dos agregados. No entanto ao criar uma relação, teríamos de a adicionar às duas pessoas para que as duas saibam que têm uma relação.  
+  
+- Um terceiro agregado Relation também seria uma solução, mas se calhar implicava mais complicações?  
+
+
+2º Identidade da Relation
+
+- Ao criar uma Relation, se quisermos que o ID venha da persistência, temos de obter primeiro a família, fazer set da Relation na família, guardar a família, obter a família guardada e ir buscar a Relation com o ID à família guardada e de alguma forma não perder a relation que acabamos de criar na lista de relations da família
+  
+- Outra opção é o RelationID serem as duas pessoas envolvidas na relação. Entra aquele ponto de só poder haver uma relação entre duas pessoas (não pode haver de A para B e B para A, são a mesma relação). 
+  
+Poderia haver um RelationID cujos atributos são dois PersonIDs e haver um método compareTo que diz que uma relação é igual a outra se as pessoas envolvidas forem as mesmas, independentemente da ordem. No entanto, a ordem dos PersonIDs é importante para saber a quem se refere a relação, isto é: Se a relação de A para B é pai, então A é o pai de B. Num json de saída, esta relação deve aparecer no membro A. Se tentarmos criar uma relação de B para A, deve dar erro porque já existe uma relação entre eles.
+
+
+
+# Decisões Relations - 25/02/2021
+
+Decisão -> Relations permanecem na Family.
+
+Não pode haver uma relação inversa entre dois membros. Isto é garantido pelo nosso Equals da Relation:
+
+Valida se A == B && B == A || A==B && B==A.
+
+Relation tem ID que é gerado por nós na Aplicação através do hashcode do objeto Relation. 
+
+Garante-se que não há hashcodes repetidos graças ao equals (Validação é responsabilidade da Family no momento do family.addRelation()).
+
+
+
+### Reunião com Prof. Nuno Silva - 25/05/2021
+
+Quando o Serviço fizer o pedido de Categorias vai ter de verificar em 2 repositórios diferentes. O nosso e um de outro Grupo.
+
+Por configuração vamos definir que em dado momento esteja a aceder ao Repositório de Categorias de um Grupo. O que temos de preparar é as duas configurações para que, quando quisermos, alternamos de uma para a outra.
+
+
+Vamos aceder a um Repositório HTTP dos outros grupos (Ver slide 11 de _Something About Layers and Onions_)
+
+O Service vai definir uma Interface de Repository HTTP que vai ter lá um equivalente a um findAll 
+
+A configuração é que vai dizer ao Spring qual é a implementação da Interface RepositoryHTTP que o Service vai "escolher".
+
+_Full Qualified Names_ -> Endereço HTTP para um recurso.
+
+A Categoria já não vai ser reconhecida pelo seu ID mas sim pelo seu endereço "completo", ou seja "http/cenas/cenas/grupo3/categories/id"
+
+Podemos ter o "problema" de estar ligados ao Grupo 1 e termos uma custom category que é filha de uma relação anterior com o Grupo 2. Aqui as Customs Categories vão guardar o URL inteiro como o seu "ParentID" (Ou parentLink) para que se consiga sempre conhecer a localização da Parent Category. 
+
+
+
+findAllCategories

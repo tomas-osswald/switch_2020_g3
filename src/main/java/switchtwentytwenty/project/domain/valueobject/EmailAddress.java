@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
 @AllArgsConstructor
-public class EmailAddress implements ValueObject {
+public class EmailAddress implements ValueObject, Serializable {
+
     @Getter
     private long id;
     private String email;

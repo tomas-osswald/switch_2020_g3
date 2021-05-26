@@ -4,18 +4,18 @@ import java.util.Objects;
 
 public class Movement implements ValueObject {
 
-    private Monetary monetary;
+    private MonetaryValue monetaryValue;
 
-    public Movement(Monetary monetary) {
-        this.monetary = monetary;
+    public Movement(MonetaryValue monetaryValue) {
+        this.monetaryValue = monetaryValue;
     }
 
-    public Monetary getMonetary() {
-        return monetary;
+    public MonetaryValue getMonetaryValue() {
+        return monetaryValue;
     }
 
-    public void setMonetary(Monetary monetary) {
-        this.monetary = monetary;
+    public void setMonetary(MonetaryValue monetaryValue) {
+        this.monetaryValue = monetaryValue;
     }
 
     @Override
@@ -23,11 +23,11 @@ public class Movement implements ValueObject {
         if (this == o) return true;
         if (!(o instanceof Movement)) return false;
         Movement movement = (Movement) o;
-        return Objects.equals(getMonetary(), movement.getMonetary());
+        return Objects.equals(getMonetaryValue(), movement.getMonetaryValue());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMonetary());
+        return Objects.hash(getMonetaryValue());
     }
 }

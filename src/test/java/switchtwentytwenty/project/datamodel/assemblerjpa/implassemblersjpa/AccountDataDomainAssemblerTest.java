@@ -123,7 +123,7 @@ class AccountDataDomainAssemblerTest {
         IOwnerID ownerID = new PersonID("administrator@email.com");
         Designation designation = new Designation("Cash Account");
         List<Movement> movements = new ArrayList<>();
-        movements.add(new Movement(new Monetary("EUR",BigDecimal.valueOf(100))));
+        movements.add(new Movement(new MonetaryValue("EUR",BigDecimal.valueOf(100))));
         IAccount account = new CashAccount(accountID,ownerID,designation,movements);
         AccountJPA expected = new AccountJPA(new Long(12L),new OwnerIDJPA(),"Cash Account","Cash Account");
 
@@ -136,7 +136,7 @@ class AccountDataDomainAssemblerTest {
     void createMovementsTest() {
         AccountJPA accountJPA = new AccountJPA(new Long(12L), new OwnerIDJPA(), "Cash Account", "Cash Account");
         List<Movement> expected = new ArrayList<>();
-        Movement movement = new Movement(new Monetary("EUR", BigDecimal.valueOf(100)));
+        Movement movement = new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(100)));
         expected.add(movement);
         List<MovementJPA> movementsJPA = new ArrayList<>();
         MovementJPA movementJPA = new MovementJPA(100L, "EUR", accountJPA);
@@ -155,8 +155,8 @@ class AccountDataDomainAssemblerTest {
         account.setOwner(ownerID);
         account.setDesignation(new Designation("des"));
         List<Movement> movements = new ArrayList<>();
-        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(15))));
-        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(10))));
+        movements.add(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(15))));
+        movements.add(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(10))));
         account.setMovements(movements);
         AccountJPA result = accountDataDomainAssembler.toData(account);
 
@@ -170,8 +170,8 @@ class AccountDataDomainAssemblerTest {
         account.setOwner(ownerID);
         account.setDesignation(new Designation("des"));
         List<Movement> movements = new ArrayList<>();
-        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(15))));
-        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(10))));
+        movements.add(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(15))));
+        movements.add(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(10))));
         account.setMovements(movements);
         AccountJPA result = accountDataDomainAssembler.toData(account);
         List<MovementJPA> movementsJPA = new ArrayList<>();

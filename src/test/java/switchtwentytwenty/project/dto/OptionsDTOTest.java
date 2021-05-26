@@ -64,8 +64,4 @@ class OptionsDTOTest {
         assertNotEquals(0, optionsDTO1.hashCode());
     }
 
-    @Test
-    void testEquals1() {
-    }
-
 }

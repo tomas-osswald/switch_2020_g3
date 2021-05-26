@@ -3,12 +3,12 @@ package switchtwentytwenty.project.dto.category;
 import java.util.Objects;
 
 public class InputCategoryDTO {
-    private String categoryName;
-    private String parentID;
+    private final String categoryName;
+    private final String parentCategory;
 
     public InputCategoryDTO(String categoryName, String parentID) {
         this.categoryName = categoryName;
-        this.parentID = parentID;
+        this.parentCategory = parentID;
     }
 
     public String getCategoryName() {
@@ -16,7 +16,7 @@ public class InputCategoryDTO {
     }
 
     public String getParentID() {
-        return parentID;
+        return parentCategory;
     }
 
     @Override
@@ -24,11 +24,11 @@ public class InputCategoryDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InputCategoryDTO that = (InputCategoryDTO) o;
-        return categoryName.equals(that.categoryName) && parentID.equals(that.parentID);
+        return categoryName.equals(that.categoryName) && parentCategory.equals(that.parentCategory);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryName, parentID);
+        return Objects.hash(categoryName, parentCategory);
     }
 }

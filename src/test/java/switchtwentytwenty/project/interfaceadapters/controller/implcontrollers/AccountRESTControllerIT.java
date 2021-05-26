@@ -32,6 +32,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -91,11 +92,8 @@ class AccountRESTControllerIT {
 
     OutputAccountDTO outputAccountDTO = new OutputAccountDTO(designationString, ownerIDString, accountIDString);
 
-
-    //AccountFactory accountFactory = new AccountFactory();
-
     Currency currencyObject = Currency.getInstance(currency);
-    Monetary monetary = new Monetary(currency, amount);
+    MonetaryValue monetaryValue = new MonetaryValue(currency, amount);
 
     IAccount account = new BankAccount(ownerID, designation);
 
@@ -116,7 +114,6 @@ class AccountRESTControllerIT {
     List emptyMovements = new ArrayList();
     OwnerIDJPA familyAsOwnerIDJPA = new OwnerIDJPA(familyOwnerIDString);
     IAccount familyCashAccount = new CashAccount(accountID, familyOwnerID, designation, emptyMovements);
-    AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
 
 
     @Test
@@ -125,15 +122,9 @@ class AccountRESTControllerIT {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
-       /* List<Movement> movements = new ArrayList<>();
-        movements.add(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
-
-
-        */
         IAccount account = new BankAccount();
         account.setAccountID(accountID);
         account.setDesignation(designation);
-        //account.setMovements(movements);
         account.setOwner(ownerID);
 
         when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(accountJPA);
@@ -159,39 +150,27 @@ class AccountRESTControllerIT {
 
     }
 
-   /* @Test
-    @DisplayName("Integration test expecting account already registered exception")
+    @Test
+    @DisplayName("Integration test expecting Unprocessable Entity because account is already registered")
     void failToCreateAccountWhenProvidingAlreadyExistingAccount() {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
-        Optional<AccountJPA> optionalAccountJPA = Optional.of(accountJPA);
+        AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
+        CreateAccountDTO createBankAccountDTO = new CreateAccountDTO(designationString, amount, currency, "@tonyze@cenas.com", accountTypeString);
 
+
+        AccountJPA realAccountJPA = new AccountJPA();
         when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(familyAccountJPA);
-        when(mockRepositoryJPA.save(any(AccountJPA.class))).thenThrow(AccountAlreadyRegisteredException.class);
-        /*when(mockAccountDataDomainAssembler.createAccountID(any(AccountJPA.class))).thenReturn(accountID);
-        when(mockAccountDataDomainAssembler.createAccountType(any(AccountJPA.class))).thenReturn(accountType);
-        when(mockAccountDataDomainAssembler.createDesignation(any(AccountJPA.class))).thenReturn(designation);
-        when(mockAccountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
-        when(mockAccountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(new ArrayList<>());
-        when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
-        */
+        when(mockRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(Optional.of(realAccountJPA));
 
-        /*
-        OutputAccountDTO expectedOutputDTO = new OutputAccountDTO(accountIDString, ownerIDString, designationString);
-        Link link = linkTo(methodOn(AccountRESTController.class).getAccount(accountIDString)).withSelfRel();
-        expectedOutputDTO.add(link);
-         */
-
-        //assertThrows(AccountAlreadyRegisteredException.class, () -> accountRESTController.createAccount(createBankAccountDTO));
-
-        /*ResponseEntity expected = new ResponseEntity(expectedOutputDTO, HttpStatus.CREATED);
+        ResponseEntity expected = new ResponseEntity("Account is already registered", HttpStatus.UNPROCESSABLE_ENTITY);
 
         ResponseEntity result = accountRESTController.createAccount(createBankAccountDTO);
 
-        assertEquals(expected.getBody().toString(), result.getBody().toString());
+        assertEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
-        */
-
     }
+
+}
 

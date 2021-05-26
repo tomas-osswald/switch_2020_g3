@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.hateoas.Link;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.dto.OptionsDTO;
-import switchtwentytwenty.project.dto.family.AddRelationDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
@@ -39,8 +39,8 @@ class FamilyOptionsServiceTest {
         // Expected
         OptionsDTO options = new OptionsDTO();
         Link optionOne = linkTo(methodOn(FamilyRESTController.class).getFamily(familyID)).withSelfRel();
-        Link optionTwo = linkTo(methodOn(FamilyRESTController.class).addRelation(new AddRelationDTO(), familyID)).withRel("OPTIONS - relations");
-        Link optionThree = linkTo(methodOn(FamilyRESTController.class).getCategoriesOptions(familyID)).withRel("OPTIONS - categories");
+        Link optionTwo = linkTo(methodOn(FamilyRESTController.class).createRelation(new CreateRelationDTO(), familyID)).withRel("relations");
+        Link optionThree = linkTo(methodOn(FamilyRESTController.class).getCategoriesOptions(familyID)).withRel("categories");
 
         options.add(optionOne);
         options.add(optionTwo);

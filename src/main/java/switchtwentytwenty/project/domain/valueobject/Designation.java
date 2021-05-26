@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Designation {
 
-    private String thisDesignation;
+    private final String thisDesignation;
 
 
     public Designation(String thisDesignation) {

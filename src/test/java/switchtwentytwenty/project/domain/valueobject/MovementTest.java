@@ -10,30 +10,30 @@ class MovementTest {
 
     @Test
     void getMonetaryTest(){
-        Monetary monetaryValue = new Monetary("EUR", BigDecimal.valueOf(100));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(100));
         Movement movement = new Movement(monetaryValue);
-        Monetary expected = new Monetary("EUR",BigDecimal.valueOf(100));
+        MonetaryValue expected = new MonetaryValue("EUR",BigDecimal.valueOf(100));
 
-        Monetary result = movement.getMonetary();
+        MonetaryValue result = movement.getMonetaryValue();
 
         assertEquals(expected,result);
     }
 
     @Test
     void setMonetaryTest(){
-        Monetary monetaryValue = new Monetary("EUR", BigDecimal.valueOf(100));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(100));
         Movement movement = new Movement(monetaryValue);
-        Monetary expected = new Monetary("USD",BigDecimal.valueOf(200));
+        MonetaryValue expected = new MonetaryValue("USD",BigDecimal.valueOf(200));
 
-        movement.setMonetary(new Monetary("USD",BigDecimal.valueOf(200)));
-        Monetary result = movement.getMonetary();
+        movement.setMonetary(new MonetaryValue("USD",BigDecimal.valueOf(200)));
+        MonetaryValue result = movement.getMonetaryValue();
 
         assertEquals(expected,result);
     }
 
     @Test
     void equalsTestEqualMovements(){
-        Monetary monetaryValue = new Monetary("EUR",BigDecimal.valueOf(200));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR",BigDecimal.valueOf(200));
         Movement movementOne = new Movement(monetaryValue);
         Movement movementTwo = new Movement(monetaryValue);
 
@@ -43,7 +43,7 @@ class MovementTest {
 
     @Test
     void equalsTestSameMovement(){
-        Monetary monetaryValue = new Monetary("EUR",BigDecimal.valueOf(200));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR",BigDecimal.valueOf(200));
         Movement movementOne = new Movement(monetaryValue);
         Movement movementTwo = movementOne;
 
@@ -52,17 +52,17 @@ class MovementTest {
 
     @Test
     void equalsTestDifferentMovements(){
-        Monetary monetaryValueOne = new Monetary("EUR",BigDecimal.valueOf(200));
-        Movement movementOne = new Movement(monetaryValueOne);
-        Monetary monetaryValueTwo = new Monetary("USD",BigDecimal.valueOf(100));
-        Movement movementTwo = new Movement(monetaryValueTwo);
+        MonetaryValue monetaryValueValueOne = new MonetaryValue("EUR",BigDecimal.valueOf(200));
+        Movement movementOne = new Movement(monetaryValueValueOne);
+        MonetaryValue monetaryValueValueTwo = new MonetaryValue("USD",BigDecimal.valueOf(100));
+        Movement movementTwo = new Movement(monetaryValueValueTwo);
 
         assertNotEquals(movementOne,movementTwo);
     }
 
     @Test
     void equalsTestDifferentObjects(){
-        Monetary monetaryValue = new Monetary("EUR",BigDecimal.valueOf(200));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR",BigDecimal.valueOf(200));
         Movement movement = new Movement(monetaryValue);
         String notAMovement = "not a movement";
 
@@ -71,7 +71,7 @@ class MovementTest {
 
     @Test
     void equalsTestDifferentFromNull(){
-        Monetary monetaryValue = new Monetary("EUR",BigDecimal.valueOf(200));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR",BigDecimal.valueOf(200));
         Movement movement = new Movement(monetaryValue);
         String nullString = null;
 
@@ -80,7 +80,7 @@ class MovementTest {
 
     @Test
     void hashCodeTestSameHashCode() {
-        Monetary monetaryValue = new Monetary("EUR",BigDecimal.valueOf(200));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR",BigDecimal.valueOf(200));
         Movement movementOne = new Movement(monetaryValue);
         Movement movementTwo = new Movement(monetaryValue);
 
@@ -90,10 +90,10 @@ class MovementTest {
 
     @Test
     void hashCodeTestDifferentHashCodes() {
-        Monetary monetaryValueOne = new Monetary("EUR",BigDecimal.valueOf(200));
-        Movement movementOne = new Movement(monetaryValueOne);
-        Monetary monetaryValueTwo = new Monetary("USD",BigDecimal.valueOf(100));
-        Movement movementTwo = new Movement(monetaryValueTwo);
+        MonetaryValue monetaryValueValueOne = new MonetaryValue("EUR",BigDecimal.valueOf(200));
+        Movement movementOne = new Movement(monetaryValueValueOne);
+        MonetaryValue monetaryValueValueTwo = new MonetaryValue("USD",BigDecimal.valueOf(100));
+        Movement movementTwo = new Movement(monetaryValueValueTwo);
 
         assertNotEquals(movementOne.hashCode(),movementTwo.hashCode());
     }

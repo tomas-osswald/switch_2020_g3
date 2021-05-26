@@ -10,12 +10,10 @@ import lombok.Setter;
 public class CreateStandardCategoryDTO {
 
     private String categoryDescription;
-    private Long categoryID;
-    private Long parentID;
+    private String parentCategory;
 
-    public CreateStandardCategoryDTO(String categoryDescription, Long categoryID, Long parentID) {
+    public CreateStandardCategoryDTO(String categoryDescription, String parentCategory) {
         this.categoryDescription = categoryDescription;
-        this.categoryID = categoryID;
-        this.parentID = parentID;
+        this.parentCategory = parentCategory;
     }
 }

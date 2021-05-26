@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class DoorNumber implements ValueObject {
 
-    private String number;
+    private final String number;
 
 
     public DoorNumber(String number) {

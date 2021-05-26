@@ -17,7 +17,8 @@ import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -225,4 +226,26 @@ class PersonDTODomainAssemblerTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void getPersonEmailsList() {
+        Person person = new Person(personID, name, birthdate, null, vat, null, address, familyID);
+        List<String> expected = new ArrayList<>();
+
+        List<String> result = personToDTO.toDTO(person).getEmails();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getPersonPhoneNumberList() {
+        Person person = new Person(personID, name, birthdate, null, vat, null, address, familyID);
+        List<Integer> expected = new ArrayList<>();
+
+        List<Integer> result = personToDTO.toDTO(person).getPhoneNumbers();
+
+        assertEquals(expected, result);
+    }
+
+
 }

@@ -3,6 +3,10 @@ package switchtwentytwenty.project.domain.aggregates.category;
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +15,7 @@ class StandardCategoryTest {
     @Test
     void id() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
 
@@ -25,7 +29,7 @@ class StandardCategoryTest {
     @Test
     void hasID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
 
@@ -40,7 +44,7 @@ class StandardCategoryTest {
     @Test
     void testEqualsSuccess() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
         StandardCategory standardCategory2 = new StandardCategory(categoryName, categoryID, parentID);
@@ -52,7 +56,7 @@ class StandardCategoryTest {
     @Test
     void testEqualsSucessSelfCompare() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
         StandardCategory standardCategory2 = new StandardCategory(categoryName, categoryID, parentID);
@@ -64,7 +68,7 @@ class StandardCategoryTest {
     @Test
     void testEqualsFailCompareWithNull() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
         StandardCategory standardCategory2 = null;
@@ -76,7 +80,7 @@ class StandardCategoryTest {
     @Test
     void testEqualsSucessFailNotSameClass() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
         String notACategory = "string";
@@ -85,36 +89,12 @@ class StandardCategoryTest {
     }
 
     @Test
-    void testEqualsFalseCategoryName() {
-        CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
-        CategoryName categoryName = new CategoryName("name");
-        StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
-        StandardCategory standardCategory2 = new StandardCategory(new CategoryName("newname"), categoryID, parentID);
-
-        assertNotSame(standardCategory, standardCategory2);
-        assertNotEquals(standardCategory, standardCategory2);
-    }
-
-    @Test
     void testEqualsFalseCategoryID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
         StandardCategory standardCategory2 = new StandardCategory(categoryName, new CategoryID(7L), parentID);
-
-        assertNotSame(standardCategory, standardCategory2);
-        assertNotEquals(standardCategory, standardCategory2);
-    }
-
-    @Test
-    void testEqualsFalseParentID() {
-        CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
-        CategoryName categoryName = new CategoryName("name");
-        StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
-        StandardCategory standardCategory2 = new StandardCategory(categoryName, categoryID, new CategoryID(7L));
 
         assertNotSame(standardCategory, standardCategory2);
         assertNotEquals(standardCategory, standardCategory2);
@@ -124,7 +104,7 @@ class StandardCategoryTest {
     @Test
     void testHashCode() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
         StandardCategory standardCategory2 = new StandardCategory(categoryName, categoryID, parentID);
@@ -147,12 +127,12 @@ class StandardCategoryTest {
     @Test
     void getParentID() {
 
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, parentID);
 
-        CategoryID expected = new CategoryID(2L);
-        CategoryID result = standardCategory.getParentID();
+        ParentCategoryPath expected = new ParentCategoryPath("2L");
+        ParentCategoryPath result = standardCategory.getParentCategoryPath();
         assertEquals(expected, result);
     }
 
@@ -175,19 +155,28 @@ class StandardCategoryTest {
 
         CategoryID expected = new CategoryID(1L);
         CategoryID result = standardCategory.id();
+
+        assertEquals(expected,result);
     }
 
     @Test
     void setParentID() {
-        CategoryID parentID = new CategoryID(1L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         StandardCategory standardCategory = new StandardCategory();
         standardCategory.setParentID(parentID);
 
-        CategoryID expected = new CategoryID(1L);
-        CategoryID result = standardCategory.getParentID();
+        ParentCategoryPath expected = new ParentCategoryPath("2L");
+        ParentCategoryPath result = standardCategory.getParentCategoryPath();
+
+        assertEquals(expected,result);
     }
 
     @Test
-    void testEquals() {
+    void getFamilyID() {
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
+        CategoryName categoryName = new CategoryName("name");
+        StandardCategory standardCategory = new StandardCategory(categoryName, parentID);
+        Optional<FamilyID> result = standardCategory.getFamilyID();
+        assertFalse(result.isPresent());
     }
 }

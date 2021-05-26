@@ -5,7 +5,7 @@ import java.util.Objects;
 public class InputFamilyDTO {
 
 
-    private String familyName;
+    private final String familyName;
     private final String registrationDate;
 
     public InputFamilyDTO(String familyName, String registrationDate) {

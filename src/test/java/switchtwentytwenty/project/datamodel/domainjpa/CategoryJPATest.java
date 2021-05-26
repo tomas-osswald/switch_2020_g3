@@ -8,14 +8,14 @@ class CategoryJPATest {
 
     // CategoryJPA data 1
     String categoryName = "compras";
-    CategoryIDJPA categoryIDJPA = new CategoryIDJPA(13L);
-    Long parentID = new Long(12L);
+    Long categoryIDJPA = 13L;
+    String parentID = "12L";
     FamilyIDJPA familyIDJPA = new FamilyIDJPA();
 
     // CategoryJPA data 2
     String categoryNameTwo = "vendas";
-    CategoryIDJPA categoryIDJPATwo = new CategoryIDJPA(1L);
-    Long parentIDTwo = new Long(0L);
+    Long categoryIDJPATwo = 1L;
+    String parentIDTwo = "0";
     FamilyIDJPA familyIDJPATwo = new FamilyIDJPA("email@email.com");
 
     @Test
@@ -62,9 +62,9 @@ class CategoryJPATest {
     @Test
     void getCategoryIDTest() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        CategoryIDJPA expected = new CategoryIDJPA(13L);
+        Long expected = 13L;
 
-        CategoryIDJPA result = categoryJpa.getCategoryIDJPA();
+        Long result = categoryJpa.getCategoryIDJPA();
 
         assertEquals(expected, result);
     }
@@ -74,7 +74,7 @@ class CategoryJPATest {
         CategoryJPA categoryJpa = new CategoryJPA(categoryNameTwo, categoryIDJPATwo, parentIDTwo, familyIDJPATwo);
         CategoryIDJPA expected = new CategoryIDJPA(13L);
 
-        CategoryIDJPA result = categoryJpa.getCategoryIDJPA();
+        Long result = categoryJpa.getCategoryIDJPA();
 
         assertNotEquals(expected, result);
     }
@@ -82,9 +82,9 @@ class CategoryJPATest {
     @Test
     void getParentIDTest() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        Long expected = new Long(12L);
+        String expected = "12L";
 
-        Long result = categoryJpa.getParentID();
+        String result = categoryJpa.getParentID();
 
         assertEquals(expected, result);
     }
@@ -92,9 +92,9 @@ class CategoryJPATest {
     @Test
     void getParentIDSecondTest() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryNameTwo, categoryIDJPATwo, parentIDTwo, familyIDJPATwo);
-        Long expected = new Long(0L);
+        String expected = "0";
 
-        Long result = categoryJpa.getParentID();
+        String result = categoryJpa.getParentID();
 
         assertEquals(expected, result);
     }
