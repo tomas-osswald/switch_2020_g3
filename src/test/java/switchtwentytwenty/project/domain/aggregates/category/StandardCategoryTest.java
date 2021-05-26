@@ -177,8 +177,6 @@ class StandardCategoryTest {
         CategoryName categoryName = new CategoryName("name");
         StandardCategory standardCategory = new StandardCategory(categoryName, parentID);
         Optional<FamilyID> result = standardCategory.getFamilyID();
-        // no java 1.8 não existe isEmpty()
-        // assertTrue(result.isEmpty());
         assertFalse(result.isPresent());
     }
 }
