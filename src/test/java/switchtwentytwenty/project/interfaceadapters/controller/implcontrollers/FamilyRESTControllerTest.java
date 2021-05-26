@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
@@ -22,6 +23,9 @@ import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
+
+import java.awt.image.RescaleOp;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,6 +53,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IFamilyOptionsService familyOptionsService;
+
+    @Mock
+    IGetCustomCategoriesService getCustomCategoriesService;
 
     @InjectMocks
     FamilyRESTController familyRESTController;
@@ -190,5 +197,34 @@ class FamilyRESTControllerTest {
     @Test
     void getCategoriesOption() {
         assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getCategoriesOptions("@tonyze@gmail.com"));
+    }
+
+    @Test
+    void getCategoriesSuccess() {
+        String familyID = "@tonize@gmail.com";
+
+        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
+        expectedOutputCategoryTreeDTO.add(expectedLink);
+        ResponseEntity expected = new ResponseEntity(expectedOutputCategoryTreeDTO, HttpStatus.OK);
+
+        when(getCustomCategoriesService.getCustomCategories(any(String.class))).thenReturn(new OutputCategoryTreeDTO());
+
+        ResponseEntity result = familyRESTController.getCategories(familyID);
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    void getCategoriesFail() {
+        String familyID = "@tonize@gmail.com";
+
+        ResponseEntity expected = new ResponseEntity("Error: Invalid ID", HttpStatus.BAD_REQUEST);
+
+        when(getCustomCategoriesService.getCustomCategories(any(String.class))).thenThrow(new IllegalArgumentException("Invalid ID"));
+
+        ResponseEntity result = familyRESTController.getCategories(familyID);
+
+        assertEquals(result, expected);
     }
 }

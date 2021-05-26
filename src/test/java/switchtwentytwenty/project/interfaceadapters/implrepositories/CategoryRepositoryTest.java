@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -11,16 +12,21 @@ import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
+import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -30,6 +36,9 @@ class CategoryRepositoryTest {
     ICategoryRepositoryJPA categoryRepositoryJPA;
     @Mock
     CategoryDataDomainAssembler categoryDataDomainAssembler;
+
+    @Mock
+    CategoryFactory categoryFactory;
 
     @InjectMocks
     CategoryRepository categoryRepository;
@@ -83,7 +92,7 @@ class CategoryRepositoryTest {
         assertNotNull(result);
     }*/
 
-    /*@Test
+    @Test
     @Disabled
     void testForCaptorFindByID() {
 
@@ -98,7 +107,7 @@ class CategoryRepositoryTest {
         CategoryIDJPA result = captor.getValue();
 
         assertEquals(expected, result);
-    }*/
+    }
 
     @Test
     void testGetByID() {
@@ -118,9 +127,38 @@ class CategoryRepositoryTest {
 
         returnList.add(cat1Clone);
         Mockito.when(categoryRepositoryJPA.findAllByFamilyIDJPAIsNull()).thenReturn(returnList);
+        when(categoryDataDomainAssembler.createCategoryID(any(CategoryJPA.class))).thenReturn(new CategoryID(2l));
+        when(categoryDataDomainAssembler.createCategoryName(any(CategoryJPA.class))).thenReturn(new CategoryName("Casa"));
+        when(categoryDataDomainAssembler.createParentID(any(CategoryJPA.class))).thenReturn(new ParentCategoryPath("/casdsa"));
+        when(categoryDataDomainAssembler.createFamilyID(any(CategoryJPA.class))).thenReturn(Optional.empty());
+
+
+        when(categoryFactory.createCategory(any(CategoryID.class), any(CategoryName.class), any(ParentCategoryPath.class), any(Optional.class))).thenReturn(cat1);
 
         List<Category> result = categoryRepository.getStandardCategoryList();
 
         assertEquals(expected,result);
+    }
+
+    @Test
+    void addCategoryTestSuccess() {
+        Category category = new StandardCategory(new CategoryName("Casa"), new CategoryID(2l), new ParentCategoryPath("/casdsa"));
+
+        when(categoryDataDomainAssembler.toData(any(Category.class))).thenReturn(new CategoryJPA());
+        when(categoryRepositoryJPA.save(any(CategoryJPA.class))).thenReturn(new CategoryJPA());
+        when(categoryDataDomainAssembler.createCategoryID(any(CategoryJPA.class))).thenReturn(new CategoryID(2l));
+        when(categoryDataDomainAssembler.createCategoryName(any(CategoryJPA.class))).thenReturn(new CategoryName("Casa"));
+        when(categoryDataDomainAssembler.createParentID(any(CategoryJPA.class))).thenReturn(new ParentCategoryPath("/casdsa"));
+        when(categoryDataDomainAssembler.createFamilyID(any(CategoryJPA.class))).thenReturn(Optional.empty());
+
+
+        when(categoryFactory.createCategory(any(CategoryID.class), any(CategoryName.class), any(ParentCategoryPath.class), any(Optional.class))).thenReturn(category);
+
+        Category expected = new StandardCategory(new CategoryName("Casa"), new CategoryID(2l), new ParentCategoryPath("/casdsa"));
+
+        Category result = categoryRepository.add(new StandardCategory());
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
 }

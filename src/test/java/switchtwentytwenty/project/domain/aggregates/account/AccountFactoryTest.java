@@ -34,7 +34,7 @@ public class AccountFactoryTest {
 
     @DisplayName("Account is successfully created with Monetary")
     @Test
-    public void createAccountWithMonetarySuccess() {
+    public void createAccountWithMonetarySuccess() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         IAccount expected = new BankAccount();
         expected.setDesignation(new Designation("Compras"));
@@ -54,7 +54,7 @@ public class AccountFactoryTest {
 
     @DisplayName("Account is successfully created with List of Movements")
     @Test
-    public void createAccountWithListOfMovementsSuccess(){
+    public void createAccountWithListOfMovementsSuccess() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         IAccount expected = new CashAccount();
         expected.setAccountID(accountID);
         expected.setDesignation(designation);
@@ -70,7 +70,7 @@ public class AccountFactoryTest {
     }
 
     @Test
-    public void createAccountTestExistingAccount() {
+    public void createAccountTestExistingAccount() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Designation designation = new Designation("Compras");
         MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
         Movement movement = new Movement(monetaryValue);
@@ -94,7 +94,7 @@ public class AccountFactoryTest {
     }
 
     @Test
-    public void createAccountTestNewAccount() {
+    public void createAccountTestNewAccount() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Designation designation = new Designation("Compras");
         MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
         IOwnerID ownerID = new PersonID("toni@emial.com");
@@ -121,4 +121,25 @@ public class AccountFactoryTest {
     }
 
 
+    @Test
+    void createAccountClassNotFoundExceptionNoID() {
+        Designation designation = new Designation("Compras");
+        MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
+        IOwnerID ownerID = new PersonID("toni@emial.com");
+        String invalidAccountType = "santander";
+        assertThrows(IllegalArgumentException.class,()-> accountFactory.createAccount(designation,monetaryValue,ownerID,invalidAccountType));
+    }
+
+    @Test
+    void testCreateAccountClassNotFoundExceptionWithID() {
+        Designation designation = new Designation("Compras");
+        MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
+        IOwnerID ownerID = new PersonID("toni@emial.com");
+        String invalidAccountType = "santander";
+        AccountID accountID = new AccountID(2L);
+        Movement movement = new Movement(monetaryValue);
+        List<Movement> listOfMovements = new ArrayList<>();
+        listOfMovements.add(movement);
+        assertThrows(IllegalArgumentException.class,()-> accountFactory.createAccount(accountID,listOfMovements,ownerID,designation,invalidAccountType));
+    }
 }

@@ -30,7 +30,7 @@ class CategoryIDTest {
         CategoryID idOne = new CategoryID(categoryID);
         CategoryID idTwo = new CategoryID(categoryID);
         assertEquals(idOne, idTwo);
-        assertNotSame(idOne,idTwo);
+        assertNotSame(idOne, idTwo);
     }
 
     @Test
@@ -61,7 +61,15 @@ class CategoryIDTest {
         CategoryID idOne = new CategoryID(categoryID);
         CategoryID idTwo = new CategoryID(categoryID);
         assertEquals(idOne.hashCode(), idTwo.hashCode());
-        assertNotSame(idOne,idTwo);
+        assertNotSame(idOne, idTwo);
     }
 
+    @Test
+    void testToString() {
+        CategoryID id = new CategoryID(categoryID);
+        String expected = "1";
+        String result = id.toString();
+
+        assertEquals(expected, result);
+    }
 }

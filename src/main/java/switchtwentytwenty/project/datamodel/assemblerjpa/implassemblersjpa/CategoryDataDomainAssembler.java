@@ -18,7 +18,10 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
     @Override
     public CategoryJPA toData(Category category) {
         String categoryName = category.getCategoryName().toString();
-        Long categoryID = Long.valueOf(category.id().toString());
+        Long categoryID = null;
+        if (category.id() != null) {
+            categoryID = Long.valueOf(category.id().toString());
+        }
         String parentPath = category.getParentCategoryPath().toString();
         Optional<FamilyID> familyID = category.getFamilyID();
         FamilyIDJPA familyIDJPA;
@@ -30,7 +33,7 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         }
 
         CategoryJPA categoryJPA;
-        if(categoryID==null){
+        if (categoryID == null) {
             categoryJPA = new CategoryJPA.Builder(categoryName).withParentID(parentPath).withFamilyIDJPA(familyIDJPA).build();
         } else {
             categoryJPA = new CategoryJPA.Builder(categoryName).withParentID(parentPath).withFamilyIDJPA(familyIDJPA).withCategoryIDJPA(categoryID).build();
@@ -42,8 +45,7 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
     @Override
     public FamilyIDJPA toData(FamilyID familyID) {
         String familyIDString = familyID.toString();
-        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyIDString);
-        return familyIDJPA;
+        return new FamilyIDJPA(familyIDString);
     }
 
     public CategoryID createCategoryID(CategoryJPA categoryJPA) {

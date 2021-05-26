@@ -9,6 +9,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
@@ -85,5 +86,30 @@ class FamilyRESTControllerITDB {
     void getFamilyNameTest() {
         //String familyName = "Silva";
         assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamily("@tony@email.com"));
+    }
+
+    @Test
+    void getCategoriesSuccess() {
+        String familyID = "@tonize@gmail.com";
+
+        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
+        expectedOutputCategoryTreeDTO.add(expectedLink);
+        ResponseEntity expected = new ResponseEntity(expectedOutputCategoryTreeDTO, HttpStatus.OK);
+
+        ResponseEntity result = familyRESTController.getCategories(familyID);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getCategoriesFail() {
+        String familyID = null;
+
+        ResponseEntity expected = new ResponseEntity("Error: Invalid ID", HttpStatus.BAD_REQUEST);
+
+        ResponseEntity result = familyRESTController.getCategories(familyID);
+
+        assertEquals(expected, result);
     }
 }
