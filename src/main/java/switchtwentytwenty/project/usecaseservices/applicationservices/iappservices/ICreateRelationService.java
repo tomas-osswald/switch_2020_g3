@@ -1,12 +1,11 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.iappservices;
 
-import switchtwentytwenty.project.dto.relation.InputRelationDTO;
-import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
-import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
+import org.springframework.stereotype.Component;
+import switchtwentytwenty.project.dto.family.InputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 
+@Component
 public interface ICreateRelationService {
 
     OutputRelationDTO createRelation(InputRelationDTO inputRelationDTO);
-
-
 }

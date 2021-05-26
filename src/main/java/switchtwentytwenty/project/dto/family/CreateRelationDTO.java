@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.dto.relation;
+package switchtwentytwenty.project.dto.family;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

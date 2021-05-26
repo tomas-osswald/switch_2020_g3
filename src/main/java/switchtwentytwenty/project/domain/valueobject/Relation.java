@@ -4,24 +4,32 @@ package switchtwentytwenty.project.domain.valueobject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @AllArgsConstructor
-public class Relation implements ValueObject {
+public class Relation implements ValueObject, Serializable {
+    @Getter
     private final PersonID memberA;
+    @Getter
     private final PersonID memberB;
+    @Getter
     private final RelationDesignation relationDesignation;
     @Getter
-    private int id;
+    private RelationID id;
 
-    public Relation(PersonID memberA, PersonID memberB, String designation) {
+    public Relation(PersonID memberA, PersonID memberB, RelationDesignation designation) {
         this.memberA = memberA;
         this.memberB = memberB;
-        this.relationDesignation = new RelationDesignation(designation);
-        this.id = this.hashCode();
+        this.relationDesignation = designation;
+        this.id = new RelationID(hashCode());
     }
 
-    //private void validateRelation() { } //member A and member B cannot be the same
+    private void validateRelation() {
+        if (memberA == memberB)
+            throw new IllegalArgumentException("must be different");
+    }
+
 
     @Override
     public boolean equals(Object o) {

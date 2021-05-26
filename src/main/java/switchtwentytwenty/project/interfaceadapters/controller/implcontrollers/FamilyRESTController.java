@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
-import switchtwentytwenty.project.dto.relation.InputRelationDTO;
-import switchtwentytwenty.project.dto.relation.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.InputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
@@ -43,8 +42,6 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final PersonInputDTOAssembler personAssembler;
 
-    private final RelationInputDTOAssembler relationAssembler;
-
     private final IFamiliesOptionsService familiesOptionsService;
 
     private final IFamilyOptionsService familyOptionsService;
@@ -53,18 +50,15 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final IGetCustomCategoriesService customCategoriesService;
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, RelationInputDTOAssembler relationAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
 
 
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
-        this.relationAssembler = relationAssembler;
         this.familiesOptionsService = familiesOptionsService;
         this.familyOptionsService = familyOptionsService;
-
         this.createRelationService = createRelationService;
-
         this.customCategoriesService = customCategoriesService;
 
     }
@@ -123,7 +117,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     @PostMapping("/{familyID}/relations")
     public ResponseEntity<Object> createRelation(@RequestBody CreateRelationDTO createRelationDTO, @PathVariable String familyID) {
-        InputRelationDTO inputRelationDTO = relationAssembler.toInputRelationDTO(createRelationDTO, familyID);
+        InputRelationDTO inputRelationDTO = familyAssembler.toInputRelationDTO(createRelationDTO, familyID);
         HttpStatus status;
         OutputRelationDTO outputRelationDTO;
 

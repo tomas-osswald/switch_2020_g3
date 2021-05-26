@@ -5,7 +5,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.dto.OptionsDTO;
-import switchtwentytwenty.project.dto.relation.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
