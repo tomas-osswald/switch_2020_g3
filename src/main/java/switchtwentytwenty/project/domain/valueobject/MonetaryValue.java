@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
 
-public class Monetary {
+public class MonetaryValue {
 
     private Currency currency;
     private BigDecimal amount;
 
-    public Monetary(String currency, BigDecimal amount) {
+    public MonetaryValue(String currency, BigDecimal amount) {
         this.currency = validateCurrency(currency);
         this.amount = amount;
     }
@@ -33,9 +33,9 @@ public class Monetary {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Monetary)) return false;
-        Monetary monetary = (Monetary) o;
-        return Objects.equals(getCurrency(), monetary.getCurrency()) && Objects.equals(getAmount(), monetary.getAmount());
+        if (!(o instanceof MonetaryValue)) return false;
+        MonetaryValue monetaryValue = (MonetaryValue) o;
+        return Objects.equals(getCurrency(), monetaryValue.getCurrency()) && Objects.equals(getAmount(), monetaryValue.getAmount());
     }
 
     @Override

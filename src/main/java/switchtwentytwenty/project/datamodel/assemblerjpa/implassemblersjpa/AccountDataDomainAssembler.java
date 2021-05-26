@@ -35,8 +35,8 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         List<MovementJPA> movementJPAList = new ArrayList<>();
 
         for (Movement movement : movements) {
-            String currency = movement.getMonetary().getCurrency().toString();
-            Long amount = movement.getMonetary().getAmount().longValue();
+            String currency = movement.getMonetaryValue().getCurrency().toString();
+            Long amount = movement.getMonetaryValue().getAmount().longValue();
             MovementJPA movementJPA = new MovementJPA(amount, currency, accountJPA);
             movementJPAList.add(movementJPA);
         }
@@ -75,8 +75,8 @@ public class AccountDataDomainAssembler implements IAccountDataDomainAssembler {
         for (MovementJPA movementJPA : movementJPAList) {
             String currency = movementJPA.getCurrency();
             BigDecimal amount = new BigDecimal(movementJPA.getAmount());
-            Monetary monetary = new Monetary(currency, amount);
-            Movement movement = new Movement(monetary);
+            MonetaryValue monetaryValue = new MonetaryValue(currency, amount);
+            Movement movement = new Movement(monetaryValue);
             movements.add(movement);
         }
 

@@ -14,9 +14,9 @@ public class AccountFactory {
     @Autowired
     private Environment environment;
 
-    public IAccount createAccount(Designation designation, Monetary monetary, IOwnerID ownerID, String accountType) {
+    public IAccount createAccount(Designation designation, MonetaryValue monetaryValue, IOwnerID ownerID, String accountType) {
         IAccount newIAccount;
-        Movement movement = new Movement(monetary);
+        Movement movement = new Movement(monetaryValue);
 
         String classpath = environment.getProperty(accountType.toLowerCase());
 

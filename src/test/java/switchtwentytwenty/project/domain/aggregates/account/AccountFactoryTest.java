@@ -22,14 +22,14 @@ public class AccountFactoryTest {
     AccountFactory accountFactory;
 
     Designation designation = new Designation("Compras");
-    Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
+    MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
     IOwnerID ownerID = new PersonID("toni@emial.com");
     String invalidAccountType = "CryptoAccount";
     String bankAccountType = "bank";
     String cashAccountType = "cash";
     AccountID accountID = new AccountID(3L);
     List<Movement> movements = new ArrayList<>();
-    Movement movement = new Movement(monetary);
+    Movement movement = new Movement(monetaryValue);
 
 
     @DisplayName("Account is successfully created with Monetary")
@@ -38,10 +38,10 @@ public class AccountFactoryTest {
 
         IAccount expected = new BankAccount();
         expected.setDesignation(new Designation("Compras"));
-        expected.addMovement(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
+        expected.addMovement(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(20.00))));
         expected.setOwner(new PersonID("toni@emial.com"));
 
-        IAccount result = accountFactory.createAccount(designation, monetary, ownerID, bankAccountType);
+        IAccount result = accountFactory.createAccount(designation, monetaryValue, ownerID, bankAccountType);
 
         assertEquals(expected, result);
     }
@@ -49,7 +49,7 @@ public class AccountFactoryTest {
     @DisplayName("Account fails with Monetary - Account type dont match")
     @Test
     public void createAccountWithMonetaryFailsInvalidAccountType() {
-        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(designation, monetary, ownerID, invalidAccountType));
+        assertThrows(IllegalArgumentException.class,()->accountFactory.createAccount(designation, monetaryValue, ownerID, invalidAccountType));
     }
 
     @DisplayName("Account is successfully created with List of Movements")
@@ -72,8 +72,8 @@ public class AccountFactoryTest {
     @Test
     public void createAccountTestExistingAccount() {
         Designation designation = new Designation("Compras");
-        Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
-        Movement movement = new Movement(monetary);
+        MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
+        Movement movement = new Movement(monetaryValue);
         List<Movement> movementList = new ArrayList<>();
         movementList.add(movement);
         IOwnerID ownerID = new PersonID("toni@emial.com");
@@ -82,7 +82,7 @@ public class AccountFactoryTest {
         IAccount expected = new BankAccount();
         expected.setAccountID(new AccountID(0L));
         expected.setDesignation(new Designation("Compras"));
-        expected.addMovement(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
+        expected.addMovement(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(20.00))));
         expected.setOwner(new PersonID("toni@emial.com"));
 
         IAccount result = accountFactory.createAccount(new AccountID(0L), movementList, ownerID, designation, accountType);
@@ -96,16 +96,16 @@ public class AccountFactoryTest {
     @Test
     public void createAccountTestNewAccount() {
         Designation designation = new Designation("Compras");
-        Monetary monetary = new Monetary("EUR", BigDecimal.valueOf(20.00));
+        MonetaryValue monetaryValue = new MonetaryValue("EUR", BigDecimal.valueOf(20.00));
         IOwnerID ownerID = new PersonID("toni@emial.com");
         String accountType = "bank";
 
         IAccount expected = new BankAccount();
         expected.setDesignation(new Designation("Compras"));
-        expected.addMovement(new Movement(new Monetary("EUR", BigDecimal.valueOf(20.00))));
+        expected.addMovement(new Movement(new MonetaryValue("EUR", BigDecimal.valueOf(20.00))));
         expected.setOwner(new PersonID("toni@emial.com"));
 
-        IAccount result = accountFactory.createAccount(designation,monetary, ownerID , accountType);
+        IAccount result = accountFactory.createAccount(designation, monetaryValue, ownerID , accountType);
 
         assertEquals(expected, result);
         assertEquals(expected.getDesignation(), result.getDesignation());
