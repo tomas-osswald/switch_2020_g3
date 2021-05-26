@@ -1,11 +1,11 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.hibernate.result.Output;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,13 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
 import switchtwentytwenty.project.dto.category.InputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICategoriesOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateStandardCategoryService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -30,6 +33,9 @@ class CategoryRESTControllerTest {
 
     @Mock
     ICreateStandardCategoryService createStandardCategoryService;
+
+    @Mock
+    IGetStandardCategoryTreeService mockGetStandardCategoryTreeService;
 
     @InjectMocks
     CategoryRESTController controller;
@@ -90,5 +96,38 @@ class CategoryRESTControllerTest {
         ResponseEntity<OutputCategoryDTO> result = controller.createStandardCategory(createStandardCategoryDTO);
 
         assertEquals(expected,result);
+    }
+
+    @Test
+    void getCategoryTreeSuccess() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Bebidas","30","3");
+        OutputCategoryDTO outputCategoryDTO2 = new OutputCategoryDTO("Tacho","29","4");
+        OutputCategoryTreeDTO outputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        outputCategoryTreeDTO.addOutputCategoryDTO(outputCategoryDTO1);
+        outputCategoryTreeDTO.addOutputCategoryDTO(outputCategoryDTO2);
+
+        when(mockGetStandardCategoryTreeService.getStandardCategoryTree()).thenReturn(outputCategoryTreeDTO);
+        Link optionsLink = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
+        outputCategoryTreeDTO.add(optionsLink);
+
+        ResponseEntity expected = new ResponseEntity(outputCategoryTreeDTO, HttpStatus.CREATED);
+
+        ResponseEntity result = controller.getCategoryTree();
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void getCategoryTreeThrowsException() {
+
+        when(mockGetStandardCategoryTreeService.getStandardCategoryTree()).thenThrow(new IllegalArgumentException("Not found"));
+
+        ResponseEntity expected = new ResponseEntity("Error: Not found", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity result = controller.getCategoryTree();
+
+        assertEquals(expected, result);
+
     }
 }

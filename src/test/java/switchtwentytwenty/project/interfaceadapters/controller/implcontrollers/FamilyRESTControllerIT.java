@@ -21,7 +21,6 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
-import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
@@ -44,7 +43,7 @@ class FamilyRESTControllerIT {
     ICategoryRepositoryJPA categoryRepositoryJPA;
 
     @InjectMocks
-    CategoryRepository categoryRepository;
+    ICategoryRepository categoryRepository;
 
     @Autowired
     IGetCustomCategoriesService getCustomCategoriesService;

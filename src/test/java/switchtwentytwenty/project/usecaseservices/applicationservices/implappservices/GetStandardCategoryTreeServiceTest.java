@@ -90,14 +90,13 @@ class GetStandardCategoryTreeServiceTest {
     void getStandardCategoryTree_Success() {
 
         when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListx);
-
+        OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
         when(mockCategoryDTODomainAssembler.toDTO(any(Category.class))).thenReturn(outputCategoryDTO1).thenReturn(outputCategoryDTO2);
 
-        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTree();
-
-        OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
         expected.addOutputCategoryDTO(outputCategoryDTO1);
         expected.addOutputCategoryDTO(outputCategoryDTO2);
+
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTree();
 
         //assertEquals(expected, result);
         assertEquals(expected.getOutputCategoryDTOList(), result.getOutputCategoryDTOList());
@@ -105,8 +104,16 @@ class GetStandardCategoryTreeServiceTest {
 
     }
 
+
     @Test
     @DisplayName("Fail to get Standard category Tree")
     void getStandardCategoryTree_Fail() {
+        when(mockCategoryRepository.getStandardCategoryList()).thenThrow();
+        OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
+
+
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTree();
+
+        //assertEquals(expected, result);
     }
 }
