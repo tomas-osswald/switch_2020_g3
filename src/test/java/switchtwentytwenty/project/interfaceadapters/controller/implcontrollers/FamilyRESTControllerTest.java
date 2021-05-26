@@ -1,10 +1,12 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.apache.tomcat.util.file.ConfigurationSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
@@ -13,17 +15,12 @@ import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
-import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.InputFamilyDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
 
 import java.awt.image.RescaleOp;
 
@@ -53,6 +50,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IFamilyOptionsService familyOptionsService;
+
+    @Mock
+    ICreateRelationService createRelationService;
 
     @Mock
     IGetCustomCategoriesService getCustomCategoriesService;
@@ -227,4 +227,30 @@ class FamilyRESTControllerTest {
 
         assertEquals(result, expected);
     }
+
+    @Test
+    @DisplayName("Create Relation success")
+    void createRelationSuccessCase() {
+        CreateRelationDTO createRelationDTO = new CreateRelationDTO("tonyze@gmail.com","katia@gmail.com", "BFF");
+        String familyID = createRelationDTO.getMemberOneID();
+        InputRelationDTO inputRelationDTO = new InputRelationDTO(createRelationDTO, "tonyze@gmail.com");
+
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze","katia", "BFF", "3");
+
+        Mockito.when(familyAssembler.toInputRelationDTO(any(CreateRelationDTO.class),any(String.class))).thenReturn(inputRelationDTO);
+        Mockito.when(createRelationService.createRelation(any(InputRelationDTO.class))).thenReturn(outputRelationDTO);
+
+        Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
+
+        OutputRelationDTO expectedRelationDTO = outputRelationDTO.add(optionsLink);
+
+        ResponseEntity expected = new ResponseEntity(expectedRelationDTO, HttpStatus.CREATED);
+
+        ResponseEntity result = familyRESTController.createRelation(createRelationDTO, familyID);
+
+        assertNotNull(result);
+        assertEquals(expected, result);
+    }
+
+
 }

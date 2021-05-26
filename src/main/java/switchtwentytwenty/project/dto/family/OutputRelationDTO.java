@@ -33,9 +33,4 @@ public class OutputRelationDTO extends RepresentationModel<OutputRelationDTO> {
         OutputRelationDTO that = (OutputRelationDTO) o;
         return memberOneID.equals(that.memberOneID) && memberTwoID.equals(that.memberTwoID) && relationDesignation.equals(that.relationDesignation) && relationID.equals(that.relationID);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), memberOneID, memberTwoID, relationDesignation, relationID);
-    }
 }
