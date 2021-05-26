@@ -23,12 +23,14 @@ import java.util.Optional;
 public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
-    private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
-    private final CategoryFactory categoryFactory = new CategoryFactory();
+    private final CategoryDataDomainAssembler categoryAssembler;
+    private final CategoryFactory categoryFactory;
 
     @Autowired
-    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
+    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA, CategoryDataDomainAssembler categoryAssembler, CategoryFactory categoryFactory) {
         this.categoryRepositoryJPA = categoryRepositoryJPA;
+        this.categoryAssembler = categoryAssembler;
+        this.categoryFactory = categoryFactory;
     }
 
 

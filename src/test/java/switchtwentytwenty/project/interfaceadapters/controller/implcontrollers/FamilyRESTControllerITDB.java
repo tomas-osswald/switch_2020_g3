@@ -104,12 +104,9 @@ class FamilyRESTControllerITDB {
 
     @Test
     void getCategoriesFail() {
-        String familyID = "not a family ID";
+        String familyID = null;
 
-        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
-        expectedOutputCategoryTreeDTO.add(expectedLink);
-        ResponseEntity expected = new ResponseEntity(expectedOutputCategoryTreeDTO, HttpStatus.OK);
+        ResponseEntity expected = new ResponseEntity("Error: Invalid ID", HttpStatus.BAD_REQUEST);
 
         ResponseEntity result = familyRESTController.getCategories(familyID);
 

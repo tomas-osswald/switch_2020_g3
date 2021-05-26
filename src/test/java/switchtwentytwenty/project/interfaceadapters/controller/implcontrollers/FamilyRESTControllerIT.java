@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,13 +14,24 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
+import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
+import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
+import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -27,6 +40,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 class FamilyRESTControllerIT {
     AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
     AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+
+    @Mock
+    ICategoryRepositoryJPA categoryRepositoryJPA;
+
+    @InjectMocks
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    IGetCustomCategoriesService getCustomCategoriesService;
 
     @Autowired
     IFamilyRESTController familyRESTController;
@@ -96,6 +118,23 @@ class FamilyRESTControllerIT {
         String familyName = "Silva";
 
         assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
+    }
+
+    @Test
+    void getCategoriesSuccess() {
+        String familyID = "@tonize@gmail.com";
+
+        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
+        expectedOutputCategoryTreeDTO.add(expectedLink);
+        ResponseEntity expected = new ResponseEntity(expectedOutputCategoryTreeDTO, HttpStatus.OK);
+
+        when(categoryRepositoryJPA.findAllByFamilyIDJPA(any(FamilyIDJPA.class))).thenReturn(new ArrayList<CategoryJPA>());
+        when(categoryRepositoryJPA.findAllByFamilyIDJPAIsNull()).thenReturn(new ArrayList<CategoryJPA>());
+
+        ResponseEntity result = familyRESTController.getCategories(familyID);
+
+        assertEquals(expected, result);
     }
 
 }
