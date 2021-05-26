@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class OutputCategoryDTOTest {
 
     @Test
@@ -42,6 +44,7 @@ class OutputCategoryDTOTest {
         Assertions.assertEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
         Assertions.assertNotSame(outputCategoryDTOOne, outputCategoryDTOTwo);
     }
+
     @Test
     @DisplayName("Should return true if it compares two of the same OutputCategoryDTO objects")
     void testEqualsSameObject() {
@@ -50,6 +53,7 @@ class OutputCategoryDTOTest {
 
         Assertions.assertEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
     }
+
     @Test
     @DisplayName("Should return false if it compares OutputCategoryDTO to an object of another class")
     void testEqualsDifferentClass() {
@@ -58,6 +62,7 @@ class OutputCategoryDTOTest {
 
         Assertions.assertNotEquals(outputCategoryDTOOne, otherClass);
     }
+
     @Test
     @DisplayName("Should return false if it compares OutputCategoryDTO to a null object")
     void testEqualsWithNullObject() {
@@ -66,6 +71,7 @@ class OutputCategoryDTOTest {
 
         Assertions.assertNotEquals(outputCategoryDTOOne, nullString);
     }
+
     @Test
     @DisplayName("Should return false if two different OutputCategoryDTO objects are compared using the equals method")
     void testEqualsFail() {
@@ -75,6 +81,7 @@ class OutputCategoryDTOTest {
         Assertions.assertNotEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
         Assertions.assertNotSame(outputCategoryDTOOne, outputCategoryDTOTwo);
     }
+
     @Test
     @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different categoryName")
     void testEqualsDifferentCategoryName() {
@@ -83,6 +90,7 @@ class OutputCategoryDTOTest {
 
         Assertions.assertNotEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
     }
+
     @Test
     @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different categoryID")
     void testEqualsDifferentCategoryID() {
@@ -91,6 +99,7 @@ class OutputCategoryDTOTest {
 
         Assertions.assertNotEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
     }
+
     @Test
     @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different parentID")
     void testEqualsDifferentParentID() {
@@ -154,6 +163,12 @@ class OutputCategoryDTOTest {
     void noArgsConstructorTest() {
         OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO();
         outputCategoryDTO.setCategoryID("3L");
-        Assertions.assertNotNull(outputCategoryDTO);
+        assertNotNull(outputCategoryDTO);
+    }
+
+    @Test
+    void AllArgsConstructor() {
+        OutputCategoryDTO result = new OutputCategoryDTO("name", "2", "1", "@family@id.com");
+        assertNotNull(result);
     }
 }
