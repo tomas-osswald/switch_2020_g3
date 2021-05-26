@@ -20,6 +20,7 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
@@ -104,7 +105,7 @@ class FamilyRESTControllerIT {
     }
 
 
-    /*@Test
+  /*  @Test
     void addRelationTest() {
         CreateRelationDTO createRelationDTO = new CreateRelationDTO();
 
