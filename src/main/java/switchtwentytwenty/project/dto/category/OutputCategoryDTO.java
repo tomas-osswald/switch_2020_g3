@@ -25,6 +25,11 @@ public class OutputCategoryDTO extends RepresentationModel<OutputCategoryDTO> {
         this.parentID = parentID;
     }
 
+    public OutputCategoryDTO(String categoryName, String categoryID) {
+        this.categoryName = categoryName;
+        this.categoryID = categoryID;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
