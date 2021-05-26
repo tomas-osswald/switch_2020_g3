@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
+import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +13,7 @@ class CustomCategoryTest {
     @Test
     void testEquals() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -25,7 +26,7 @@ class CustomCategoryTest {
     @Test
     void testEqualsFalseCategoryID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -38,11 +39,11 @@ class CustomCategoryTest {
     @Test
     void testEqualsFalseParentID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
-        CustomCategory customCategory2 = new CustomCategory(categoryID, new CategoryID(6l), categoryName, familyID);
+        CustomCategory customCategory2 = new CustomCategory(categoryID, new ParentCategoryPath("6L"), categoryName, familyID);
 
         assertNotSame(customCategory, customCategory2);
         assertNotEquals(customCategory, customCategory2);
@@ -51,7 +52,7 @@ class CustomCategoryTest {
     @Test
     void testEqualsFalseCategoryName() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -64,7 +65,7 @@ class CustomCategoryTest {
     @Test
     void testEqualsFalseFamilyID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -119,23 +120,21 @@ class CustomCategoryTest {
     @Test
     void getParentID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
-        CategoryID expected = new CategoryID(2L);
-        CategoryID result = customCategory.getParentID();
-
+        ParentCategoryPath expected = new ParentCategoryPath("2L");
+        ParentCategoryPath result = customCategory.getParentCategoryPath();
 
         assertEquals(expected, result);
-
     }
 
     @Test
     void getCategoryName() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -149,23 +148,22 @@ class CustomCategoryTest {
     @Test
     void getFamilyID() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
         FamilyID expected = new FamilyID("familyid@gmail.com");
-        FamilyID result = customCategory.getFamilyID();
+        FamilyID result = customCategory.getFamilyID().get();
 
         assertEquals(expected, result);
-
     }
 
     @Test
     void setCategoryID() {
         CategoryID newID = new CategoryID(6L);
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -181,16 +179,16 @@ class CustomCategoryTest {
 
     @Test
     void setParentID() {
-        CategoryID newID = new CategoryID(6L);
+        ParentCategoryPath newID = new ParentCategoryPath("6L");
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
         customCategory.setParentID(newID);
-        CategoryID expected = new CategoryID(6L);
-        CategoryID result = customCategory.getParentID();
+        ParentCategoryPath expected = new ParentCategoryPath("6L");
+        ParentCategoryPath result = customCategory.getParentCategoryPath();
 
         assertEquals(expected, result);
     }
@@ -199,7 +197,7 @@ class CustomCategoryTest {
     void setCategoryName() {
         CategoryName newName = new CategoryName("6L");
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -216,14 +214,14 @@ class CustomCategoryTest {
     void setFamilyID() {
         FamilyID newFamilyID = new FamilyID("newid@gmail.com");
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
         customCategory.setFamilyID(newFamilyID);
         FamilyID expected = new FamilyID("newid@gmail.com");
-        FamilyID result = customCategory.getFamilyID();
+        FamilyID result = customCategory.getFamilyID().get();
 
         assertEquals(expected, result);
     }
@@ -232,7 +230,7 @@ class CustomCategoryTest {
     void noArgsConstructorTest() {
 
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory();
@@ -249,7 +247,7 @@ class CustomCategoryTest {
     @Test
     void testEqualsSameObject() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -260,7 +258,7 @@ class CustomCategoryTest {
     @Test
     void testEqualsFalseCompareWithNull() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
@@ -271,7 +269,7 @@ class CustomCategoryTest {
     @Test
     void testEqualsFalseDifferentClass() {
         CategoryID categoryID = new CategoryID(1L);
-        CategoryID parentID = new CategoryID(2L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
         CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);

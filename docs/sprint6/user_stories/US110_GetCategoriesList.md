@@ -250,13 +250,14 @@ header Sequence Diagram - part 1
 title US110 Get categories list
 
 
-participant ": ICategoryController" as controller <<interface>>
+participant ": IFamilyController" as controller <<interface>>
 participant ": CategoryListDTOAssembler" as assembler
 participant "anInternalFamilyCategoriesListDTO:\n InternalFamilyCategoriesListDTO" as internalFamilyCategoriesListDTO
 participant ": IGetFamilyCategoriesListService" as service <<interface>>
 participant ": ICategoryRepository" as repository <<interface>>
 participant ": aFamilyDJPA:\n FamilyIDJPA" as familyIDJPA
 participant ": ICategoryRepositoryJPA" as repoJPA <<interface>>
+participant "categoriesList: List<Category>" as categoriesList
 
 -> controller : getFamilyCategoriesList\n(getFamilyCategoryListDTO)
 activate controller
@@ -275,23 +276,26 @@ service -> repository : getByFamilyID(familyID)
 
 activate repository
 repository -> familyIDJPA** : create(famylyID.toString())
-loop while 
+
 repository -> repoJPA : findAllByID(familyIDJPA)
 
 activate repoJPA 
-return aCategoryListJPA
+return aCustomCategoryListJPA
 
-'ref over repository 
-'Creation of aCategoryList
-'end
-'end
-'return aCategoryList
 
-return aFamilyCategoriesListOutputDTO
+repository -> categoriesList** : create()
+ 
+repository -> repoJPA : findAllByFamilyIDIsNull(familyIDJPA)
+activate repoJPA
+return aStandardCategoryListJPA
+repository -> categoriesList : addToCategoriesList()
+activate categoriesList
+return aFamilyCategoriesList
+repository -> service : aFamilyCategoriesList
+deactivate repository 
 ref over service
 Creation of aFamilyCategoriesListOutputDTO
 end 
-
 service -> controller : familyCategoriesListOutputDTO
 deactivate service
 ref over controller

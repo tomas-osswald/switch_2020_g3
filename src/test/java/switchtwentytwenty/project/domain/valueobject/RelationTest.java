@@ -3,6 +3,7 @@ package switchtwentytwenty.project.domain.valueobject;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +11,7 @@ class RelationTest {
 
     PersonID personOneID = new PersonID("admin@gmail.com");
     PersonID personTwoID = new PersonID("parent@gmail.com");
-    String designation = "Parent";
+    RelationDesignation designation = new RelationDesignation("Parent");
 
     @Test
     void constructorTest() {
@@ -51,6 +52,7 @@ class RelationTest {
         assertEquals(relationOne, relationTwo);
         assertNotSame(relationOne, relationTwo);
     }
+
 
     @Test
     void equalsTestEqualRelationsMembersInDifferentOrder() {
@@ -100,10 +102,11 @@ class RelationTest {
     @Test
     void hashCodeTest_sameHashCode() {
         Relation relationOne = new Relation(personOneID, personTwoID, designation);
-        Relation relationTwo = new Relation(personOneID, personTwoID, designation);
+        int expected = relationOne.hashCode();
+        int result = Objects.hash(personOneID, personTwoID);
 
-        assertEquals(relationOne.hashCode(), relationTwo.hashCode());
-        assertNotSame(relationOne, relationTwo);
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
     }
 
     @Test
@@ -117,11 +120,14 @@ class RelationTest {
 
     @Test
     void getId() {
-        RelationDesignation designationObject = new RelationDesignation(designation);
-        Relation relationOne = new Relation(personOneID, personTwoID, designationObject, 13L);
-        long expected = 13L;
-        long result = relationOne.getId();
+        Relation relationOne = new Relation(personOneID, personTwoID, designation);
+
+        RelationID expected = new RelationID(Objects.hash(personOneID, personTwoID));
+
+        RelationID result = relationOne.getId();
+
         assertEquals(expected, result);
-        assertNotEquals(0L, result);
+        assertNotSame(expected, result);
     }
+
 }
