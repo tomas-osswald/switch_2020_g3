@@ -142,7 +142,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    void getCustomCategoryList() {
+    void getCustomCategoryListSuccessCase() {
         FamilyID familyID = new FamilyID("@tonyze@latinlover.com");
         FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getId());
         Mockito.when(categoryDataDomainAssembler.toData(familyID)).thenReturn(familyIDJPA);
@@ -170,6 +170,37 @@ class CategoryRepositoryTest {
         List<Category> result = categoryRepository.getCustomCategoryList(familyID);
 
         assertEquals(expected, result);
+
+    }
+
+    @Test
+    void getCustomCategoryListFailureCase() {
+        FamilyID familyID = new FamilyID("@tonyze@latinlover.com");
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.getId());
+        Mockito.when(categoryDataDomainAssembler.toData(familyID)).thenReturn(familyIDJPA);
+        CategoryName name = new CategoryName("category");
+        CategoryID categoryID = new CategoryID(3L);
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath("categoryParent");
+        Category category = new CustomCategory(categoryID, parentCategoryPath, name, familyID);
+        List<Category> expected = new ArrayList<>();
+
+        CategoryJPA categoryJPA = new CategoryJPA(name.toString(), 3L, parentCategoryPath.toString(), familyIDJPA);
+
+        List<CategoryJPA> categoryJPAList = new ArrayList<>();
+        categoryJPAList.add(categoryJPA);
+
+        Mockito.when(categoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA)).thenReturn(categoryJPAList);
+        when(categoryDataDomainAssembler.createCategoryID(any(CategoryJPA.class))).thenReturn(categoryID);
+        when(categoryDataDomainAssembler.createCategoryName(any(CategoryJPA.class))).thenReturn(name);
+        when(categoryDataDomainAssembler.createParentID(any(CategoryJPA.class))).thenReturn(parentCategoryPath);
+        when(categoryDataDomainAssembler.createFamilyID(any(CategoryJPA.class))).thenReturn(Optional.of(familyID));
+
+        when(categoryFactory.createCategory(any(CategoryID.class), any(CategoryName.class), any(ParentCategoryPath.class), any(Optional.class))).thenReturn(category);
+
+
+        List<Category> result = categoryRepository.getCustomCategoryList(familyID);
+
+        assertNotEquals(expected, result);
 
     }
 
