@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.IAccountDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.AccountJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
@@ -62,7 +61,7 @@ class AccountRepositoryTest {
     Long id = 3L;
     String currency = "EUR";
     BigDecimal amount = new BigDecimal("3");
-    Monetary monetary = new Monetary(currency, amount);
+    MonetaryValue monetaryValue = new MonetaryValue(currency, amount);
     String email = "tonyZe@gamil.com";
     String desig = "x";
     String accType = "CashAccount";

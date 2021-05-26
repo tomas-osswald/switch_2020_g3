@@ -21,10 +21,10 @@ class CreditCardAccountTest {
     String currency = new String("EUR");
     BigDecimal amount = new BigDecimal("66.6");
     BigDecimal otherAmount = new BigDecimal("99.9");
-    Monetary monetaryOne = new Monetary(currency, amount);
-    Movement movementOne = new Movement(monetaryOne);
-    Monetary monetaryTwo = new Monetary(currency, otherAmount);
-    Movement movementTwo = new Movement(monetaryTwo);
+    MonetaryValue monetaryValueOne = new MonetaryValue(currency, amount);
+    Movement movementOne = new Movement(monetaryValueOne);
+    MonetaryValue monetaryValueTwo = new MonetaryValue(currency, otherAmount);
+    Movement movementTwo = new Movement(monetaryValueTwo);
     List<Movement> movementList = new ArrayList<>();
     List<Movement> otherMovementList = new ArrayList<>();
 

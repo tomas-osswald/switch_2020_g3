@@ -8,6 +8,8 @@ import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 
@@ -17,21 +19,38 @@ class CategoryFactoryTest {
 
     @Test
     void createStandardCategory() {
-        CategoryJPA standardCategoryJPA = new CategoryJPA("name", 1L, "2", null);
-        Category expected = new StandardCategory(new CategoryName("name"),new CategoryID(1L),new ParentCategoryPath("2"));
-        Category result = categoryFactory.createCategory(standardCategoryJPA);
+        CategoryName categoryName = new CategoryName("Casa");
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath("2");
+        Category expected = new StandardCategory(new CategoryName("Casa"), new ParentCategoryPath("2"));
+        Category result = categoryFactory.createCategory(categoryName, parentCategoryPath);
 
-        assertNotSame(expected,result);
-        assertEquals(expected,result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createStandardCategoryFamilyIDEmpty() {
+        CategoryID categoryID = new CategoryID(2L);
+        CategoryName categoryName = new CategoryName("Casa");
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath("2");
+        Optional<FamilyID> familyID = Optional.empty();
+        Category expected = new StandardCategory(new CategoryName("Casa"), new CategoryID(2L), new ParentCategoryPath("2"));
+        Category result = categoryFactory.createCategory(categoryID, categoryName, parentCategoryPath, familyID);
+
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
     void createCustomCategory() {
-        CategoryJPA customCategoryJPA = new CategoryJPA("name", 1L, "2", new FamilyIDJPA("@family@id.com"));
-        Category expected = new CustomCategory(new CategoryID(1L),new ParentCategoryPath("2"),new CategoryName("name"),new FamilyID("@family@id.com"));
-        Category result = categoryFactory.createCategory(customCategoryJPA);
+        CategoryID categoryID = new CategoryID(2L);
+        CategoryName categoryName = new CategoryName("Casa");
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath("2");
+        Optional<FamilyID> familyID = Optional.of(new FamilyID("@family@id.com"));
+        Category expected = new CustomCategory(new CategoryID(2L), new ParentCategoryPath("2"), new CategoryName("Casa"), new FamilyID("@family@id.com"));
+        Category result = categoryFactory.createCategory(categoryID, categoryName, parentCategoryPath, familyID);
 
-        assertNotSame(expected,result);
-        assertEquals(expected,result);
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
     }
 }

@@ -61,7 +61,7 @@ public class StandardCategory implements Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StandardCategory that = (StandardCategory) o;
-        return Objects.equals(categoryID, that.categoryID);
+        return Objects.equals(categoryID, that.categoryID) && this.categoryName.equals(that.categoryName);
     }
 
     @Override

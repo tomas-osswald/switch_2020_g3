@@ -21,8 +21,8 @@ class CashAccountTest {
     List<Movement> movements = new ArrayList<>();
     String accountType = "CashAccount";
     BigDecimal amount = new BigDecimal("3");
-    Monetary monetary = new Monetary("EUR", amount);
-    Movement movement = new Movement(monetary);
+    MonetaryValue monetaryValue = new MonetaryValue("EUR", amount);
+    Movement movement = new Movement(monetaryValue);
     
     AccountID otherAccountID = new AccountID(123L);
 
@@ -63,7 +63,7 @@ class CashAccountTest {
     @Test
     void getBalanceSameTest() {
         BigDecimal amount = new BigDecimal("3");
-        Monetary balance = new Monetary("EUR",amount);
+        MonetaryValue balance = new MonetaryValue("EUR",amount);
         IAccount accountOne = new CashAccount();
 
     }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.Monetary;
+import switchtwentytwenty.project.domain.valueobject.MonetaryValue;
 import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 import switchtwentytwenty.project.dto.accounts.InputAccountDTO;
 import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
@@ -33,11 +33,11 @@ public class CreateAccountService implements ICreateAccountService {
     public OutputAccountDTO createAccount(InputAccountDTO inputAccountDTO){
 
         Designation designation = accountDTODomainAssembler.designationToDomain(inputAccountDTO);
-        Monetary monetary = accountDTODomainAssembler.initialAmountToDomain(inputAccountDTO);
+        MonetaryValue monetaryValue = accountDTODomainAssembler.initialAmountToDomain(inputAccountDTO);
         IOwnerID ownerID = accountDTODomainAssembler.ownerIDToDomain(inputAccountDTO);
         String accountType = accountDTODomainAssembler.accountTypeToDomain(inputAccountDTO);
 
-        IAccount account = accountFactory.createAccount(designation, monetary, ownerID, accountType);
+        IAccount account = accountFactory.createAccount(designation, monetaryValue, ownerID, accountType);
         IAccount savedAccount = accountRepository.add(account);
         return accountDTODomainAssembler.toDTO(savedAccount);
     }

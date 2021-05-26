@@ -171,4 +171,35 @@ class OutputCategoryDTOTest {
         OutputCategoryDTO result = new OutputCategoryDTO("name", "2", "1", "@family@id.com");
         assertNotNull(result);
     }
+
+    @Test
+    void allArgsConstructorTest(){
+        OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO("Home","20040", "api/categories/20020","@tonyze@gmail.com");
+        Assertions.assertNotNull(outputCategoryDTO);
+    }
+
+    @Test
+    void getFamilyIDTest() {
+        OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO("Home","20040", "api/categories/20020","@tonyze@gmail.com");
+        String expected = "@tonyze@gmail.com";
+
+        String result = outputCategoryDTO.getFamilyID();
+
+        Assertions.assertEquals(expected,result);
+    }
+
+    @Test
+    void setFamilyIDTest() {
+        OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO();
+        String expected = "@tonyze@gmail.com";
+
+        outputCategoryDTO.setFamilyID("@tonyze@gmail.com");
+        String result = outputCategoryDTO.getFamilyID();
+
+        Assertions.assertEquals(expected,result);
+    }
+
+
+
+
 }
