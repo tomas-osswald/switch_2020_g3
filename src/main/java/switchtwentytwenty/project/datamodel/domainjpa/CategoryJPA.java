@@ -44,7 +44,7 @@ public class CategoryJPA {
 
     public static class Builder {
 
-        private String categoryName;
+        private final String categoryName;
         private Long categoryIDJPA;
         private String parentID;
         private FamilyIDJPA familyIDJPA;

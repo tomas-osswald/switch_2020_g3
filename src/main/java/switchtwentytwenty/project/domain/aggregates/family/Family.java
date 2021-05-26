@@ -56,8 +56,9 @@ public class Family implements AggregateRoot<FamilyID> {
     public void addRelation(Relation relation) {
         if(!isRelationAlreadyRegistered(relation)) {
             this.relations.add(relation);
+        } else {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
 
     }
 
