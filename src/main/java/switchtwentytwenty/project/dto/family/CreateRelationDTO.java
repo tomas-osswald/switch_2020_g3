@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CreateRelationDTO {
 
-    private  String memberOneID;
-    private  String memberTwoID;
-    private  String relationDesignation;
+    private String memberOneID;
+    private String memberTwoID;
+    private String relationDesignation;
 
 }

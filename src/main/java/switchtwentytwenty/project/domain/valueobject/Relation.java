@@ -22,14 +22,15 @@ public class Relation implements ValueObject, Serializable {
     public Relation(PersonID memberA, PersonID memberB, RelationDesignation designation) {
         this.memberA = memberA;
         this.memberB = memberB;
+        //validateRelation();
         this.relationDesignation = designation;
         this.id = new RelationID(hashCode());
     }
 
-    private void validateRelation() {
+    /*private void validateRelation() {
         if (memberA == memberB)
-            throw new IllegalArgumentException("must be different");
-    }
+            throw new IllegalArgumentException("You entered the same person twice. A relation requires two different people");
+    }*/
 
 
     @Override
