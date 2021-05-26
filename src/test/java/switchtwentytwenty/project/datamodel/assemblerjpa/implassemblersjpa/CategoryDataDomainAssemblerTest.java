@@ -55,4 +55,12 @@ class CategoryDataDomainAssemblerTest {
         assertNotSame(expected, result);
         assertEquals(expected, result);
     }
+
+    @Test
+    void toData() {
+    }
+
+    @Test
+    void testToData() {
+    }
 }
