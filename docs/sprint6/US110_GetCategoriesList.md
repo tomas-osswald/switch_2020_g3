@@ -268,7 +268,7 @@ controller -> service : getFamilyCategoriesList\n(anInternalFamilyCategoriesList
 activate service
 
 ref over service
-InternalFamilyCatergoriesListDTO to VO
+InternalFamilyCategoriesListDTO to VO
 end
 
 service -> repository : getByFamilyID(familyID)
@@ -287,11 +287,13 @@ return aCategoryListJPA
 'end
 'return aCategoryList
 
+return aFamilyCategoriesListOutputDTO
 ref over service
 Creation of aFamilyCategoriesListOutputDTO
 end 
-return aFamilyCategoriesListOutputDTO
+
 service -> controller : familyCategoriesListOutputDTO
+deactivate service
 ref over controller
 Link creation
 end
