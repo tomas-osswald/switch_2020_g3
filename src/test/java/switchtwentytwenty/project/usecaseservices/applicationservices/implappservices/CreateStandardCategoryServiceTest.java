@@ -34,7 +34,7 @@ class CreateStandardCategoryServiceTest {
     @InjectMocks
     CreateStandardCategoryService createStandardCategoryService;
 
-    @Test
+    /*@Test
     void createStandardCategorySuccess() {
         CategoryName categoryName = new CategoryName("Casa");
         when(categoryDTODomainAssembler.createCategoryName(anyString())).thenReturn(categoryName);
@@ -42,5 +42,5 @@ class CreateStandardCategoryServiceTest {
         when(categoryFactory.createCategory(any(CategoryName.class), any(ParentCategoryPath.class))).thenReturn(new StandardCategory());
         when(categoryRepository.add(any(Category.class))).thenReturn(new StandardCategory());
 
-    }
+    }*/
 }
