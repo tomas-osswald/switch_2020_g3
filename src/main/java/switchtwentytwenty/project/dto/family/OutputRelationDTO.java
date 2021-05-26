@@ -25,6 +25,7 @@ public class OutputRelationDTO extends RepresentationModel<OutputRelationDTO> {
         this.relationID = relationID;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,5 +33,10 @@ public class OutputRelationDTO extends RepresentationModel<OutputRelationDTO> {
         if (!super.equals(o)) return false;
         OutputRelationDTO that = (OutputRelationDTO) o;
         return memberOneID.equals(that.memberOneID) && memberTwoID.equals(that.memberTwoID) && relationDesignation.equals(that.relationDesignation) && relationID.equals(that.relationID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), memberOneID, memberTwoID, relationDesignation, relationID);
     }
 }
