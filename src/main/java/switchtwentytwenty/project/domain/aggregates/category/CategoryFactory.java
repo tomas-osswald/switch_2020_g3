@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Component
 public class CategoryFactory {
-    private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
 
     public Category createCategory(CategoryID id, CategoryName name, ParentCategoryPath parentID, Optional<FamilyID> familyID) {
 
