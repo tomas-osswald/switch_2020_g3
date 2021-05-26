@@ -180,4 +180,5 @@ class OutputRelationDTOTest {
 
         assertNotEquals(outputRelationDTOOne.hashCode(), outputRelationDTOTwo.hashCode());
     }
+
 }
