@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @AllArgsConstructor
+
 public class Relation implements ValueObject, Serializable {
     @Getter
     private final PersonID memberA;
@@ -39,4 +40,5 @@ public class Relation implements ValueObject, Serializable {
     public int hashCode() {
         return Objects.hash(memberA, memberB);
     }
+
 }

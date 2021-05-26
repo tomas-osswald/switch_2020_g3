@@ -269,7 +269,7 @@ controller -> service : getFamilyCategoriesList\n(anInternalFamilyCategoriesList
 activate service
 
 ref over service
-InternalFamilyCatergoriesListDTO to VO
+InternalFamilyCategoriesListDTO to VO
 end
 
 service -> repository : getByFamilyID(familyID)
@@ -281,6 +281,7 @@ repository -> repoJPA : findAllByID(familyIDJPA)
 
 activate repoJPA 
 return aCustomCategoryListJPA
+
 
 repository -> categoriesList** : create()
  
