@@ -219,12 +219,9 @@ class FamilyRESTControllerTest {
     void getCategoriesFail() {
         String familyID = "@tonize@gmail.com";
 
-        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
-        expectedOutputCategoryTreeDTO.add(expectedLink);
-        ResponseEntity expected = new ResponseEntity("Error: No such family", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: Invalid ID", HttpStatus.BAD_REQUEST);
 
-        when(getCustomCategoriesService.getCustomCategories(any(String.class))).thenThrow(new IllegalArgumentException("No such family"));
+        when(getCustomCategoriesService.getCustomCategories(any(String.class))).thenThrow(new IllegalArgumentException("Invalid ID"));
 
         ResponseEntity result = familyRESTController.getCategories(familyID);
 
