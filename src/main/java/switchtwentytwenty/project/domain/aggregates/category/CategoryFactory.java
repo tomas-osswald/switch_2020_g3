@@ -22,10 +22,10 @@ public class CategoryFactory {
         ParentCategoryPath parentID = categoryAssembler.createParentID(registeredCategoryJPA);
         Optional<FamilyID> familyID = categoryAssembler.createFamilyID(registeredCategoryJPA);
         Category category;
-        if(familyID.isPresent()){
-            category = new CustomCategory(id,parentID,name,familyID.get());
+        if (familyID.isPresent()) {
+            category = new CustomCategory(id, parentID, name, familyID.get());
         } else {
-            category = new StandardCategory(name,id,parentID);
+            category = new StandardCategory(name, id, parentID);
         }
 
         return category;

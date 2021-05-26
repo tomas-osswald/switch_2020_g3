@@ -22,6 +22,7 @@ public class CategoryRepository implements ICategoryRepository {
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
     private final CategoryDataDomainAssembler categoryAssembler = new CategoryDataDomainAssembler();
     private final CategoryFactory categoryFactory = new CategoryFactory();
+
     @Autowired
     public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA) {
         this.categoryRepositoryJPA = categoryRepositoryJPA;
@@ -38,11 +39,10 @@ public class CategoryRepository implements ICategoryRepository {
         CategoryJPA categoryJPA = categoryAssembler.toData(category);
         CategoryJPA registeredCategoryJPA = categoryRepositoryJPA.save(categoryJPA);
 
-        Category savedCategory = categoryFactory.createCategory(registeredCategoryJPA);
+        Category savedCategory = createCategory(registeredCategoryJPA);
 
         return savedCategory;
     }
-
 
 
     @Override
@@ -63,9 +63,13 @@ public class CategoryRepository implements ICategoryRepository {
     private List<Category> convertCategoryJPAListToCategoryList(List<CategoryJPA> categoryJPAList) {
         List<Category> categoryList = new ArrayList<>();
         for (CategoryJPA jpa : categoryJPAList) {
-            categoryList.add(categoryFactory.createCategory(jpa));
+            categoryList.add(createCategory(jpa));
         }
         return categoryList;
+    }
+
+    private Category createCategory(CategoryJPA categoryJPA) {
+        return categoryFactory.createCategory(categoryJPA);
     }
 
 }
