@@ -93,7 +93,7 @@ class AccountRESTControllerIT {
     OutputAccountDTO outputAccountDTO = new OutputAccountDTO(designationString, ownerIDString, accountIDString);
 
     Currency currencyObject = Currency.getInstance(currency);
-    Monetary monetary = new Monetary(currency, amount);
+    MonetaryValue monetaryValue = new MonetaryValue(currency, amount);
 
     IAccount account = new BankAccount(ownerID, designation);
 

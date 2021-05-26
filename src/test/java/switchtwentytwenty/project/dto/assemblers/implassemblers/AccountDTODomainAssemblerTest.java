@@ -32,8 +32,8 @@ class AccountDTODomainAssemblerTest {
 
     @Test
     void initialAmountToDomainSuccess() {
-        Monetary expected = new Monetary("EUR", BigDecimal.valueOf(10));
-        Monetary result = accountDTODomainAssembler.initialAmountToDomain(inputAccountDTOa);
+        MonetaryValue expected = new MonetaryValue("EUR", BigDecimal.valueOf(10));
+        MonetaryValue result = accountDTODomainAssembler.initialAmountToDomain(inputAccountDTOa);
 
         assertEquals(expected, result);
 

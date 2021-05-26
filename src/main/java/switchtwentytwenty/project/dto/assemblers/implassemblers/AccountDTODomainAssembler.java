@@ -17,9 +17,9 @@ public class AccountDTODomainAssembler implements IAccountDTODomainAssembler {
         return new Designation(inputAccountDTO.getDesignation());
     }
 
-    public Monetary initialAmountToDomain(InputAccountDTO inputAccountDTO) {
+    public MonetaryValue initialAmountToDomain(InputAccountDTO inputAccountDTO) {
         BigDecimal amount = inputAccountDTO.getInitialAmount();
-        return new Monetary(inputAccountDTO.getCurrency(), amount);
+        return new MonetaryValue(inputAccountDTO.getCurrency(), amount);
     }
 
     public IOwnerID ownerIDToDomain(InputAccountDTO inputAccountDTO) {
