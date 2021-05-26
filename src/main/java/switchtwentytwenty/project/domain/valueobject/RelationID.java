@@ -1,7 +1,12 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Getter
 public class RelationID implements ID<Integer>{
     private final int id;
 
