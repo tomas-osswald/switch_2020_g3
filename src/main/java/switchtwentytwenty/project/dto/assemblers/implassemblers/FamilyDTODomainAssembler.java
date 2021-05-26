@@ -63,9 +63,6 @@ public class FamilyDTODomainAssembler {
         String relationID = relation.getId().toString();
 
         OutputRelationDTO outputRelationDTO = new OutputRelationDTO(personIDOne, personIDTwo, designation, relationID);
-        outputRelationDTO.setPersonIDOne(personIDOne);
-        outputRelationDTO.setPersonIDTwo(personIDTwo);
-        outputRelationDTO.setDesignation(designation);
         outputRelationDTO.setRelationID(relationID);
 
         return outputRelationDTO;

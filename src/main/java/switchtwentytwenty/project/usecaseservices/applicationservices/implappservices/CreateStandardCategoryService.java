@@ -21,7 +21,7 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
     private CategoryFactory categoryFactory;
 
     @Autowired
-    public CreateStandardCategoryService(ICategoryRepository categoryRepository, CategoryFactory categoryFactory, CategoryDTODomainAssembler categoryDTODomainAssembler){
+    public CreateStandardCategoryService(ICategoryRepository categoryRepository, CategoryFactory categoryFactory, ICategoryDTODomainAssembler categoryDTODomainAssembler){
         this.categoryRepository = categoryRepository;
         this.categoryDTODomainAssembler = categoryDTODomainAssembler;
         this.categoryFactory = categoryFactory;

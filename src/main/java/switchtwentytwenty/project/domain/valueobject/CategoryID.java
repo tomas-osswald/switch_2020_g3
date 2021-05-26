@@ -9,12 +9,7 @@ public class CategoryID implements ID<Long> {
     public CategoryID(long categoryID) {
         this.id = categoryID;
     }
-
-    @Override
-    public String toString() {
-        return String.valueOf(id);
-    }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
