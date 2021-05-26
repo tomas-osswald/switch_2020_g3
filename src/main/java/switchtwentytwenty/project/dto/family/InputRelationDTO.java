@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.dto.family;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class InputRelationDTO {
 
     private String personIDOne;
@@ -14,11 +16,5 @@ public class InputRelationDTO {
     private String designation;
     private String familyID;
 
-    public InputRelationDTO(CreateRelationDTO createRelationDTO, String familyID) {
-        this.personIDOne = createRelationDTO.getMemberOneID();
-        this.personIDTwo = createRelationDTO.getMemberTwoID();
-        this.designation = createRelationDTO.getRelationDesignation();
-        this.familyID = familyID;
-    }
 }
 
