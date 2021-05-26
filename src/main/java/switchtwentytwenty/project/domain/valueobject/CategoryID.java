@@ -11,6 +11,11 @@ public class CategoryID implements ID<Long> {
     }
 
     @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CategoryID)) return false;
