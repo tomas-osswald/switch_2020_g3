@@ -112,4 +112,17 @@ class FamilyRESTControllerITDB {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void getRelationsFail() {
+        String familyID = null;
+
+        ResponseEntity expected = new ResponseEntity("Error: No FamilyID", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity result = familyRESTController.createRelation(null, familyID);
+
+        assertEquals(expected, result);
+
+        //assertThrows(IllegalArgumentException.class, () -> familyRESTController.createRelation(null, null));
+    }
 }
