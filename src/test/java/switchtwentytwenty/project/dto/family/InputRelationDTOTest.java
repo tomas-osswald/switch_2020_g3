@@ -16,9 +16,22 @@ class InputRelationDTOTest {
 
     @Test
     void testHashCode() {
+        expected.setPersonIDOne(personIDOne);
+
         InputRelationDTO result = expected;
 
         assertEquals(expected.hashCode(), result.hashCode());
+    }
+
+    @Test
+    void testHashCodeDifferentObjects() {
+        expected.setPersonIDOne(personIDOne);
+
+        InputRelationDTO result = new InputRelationDTO();
+
+        result.setDesignation(designation);
+
+        assertNotEquals(expected.hashCode(), result.hashCode());
     }
 
     @Test
