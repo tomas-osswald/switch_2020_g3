@@ -89,34 +89,49 @@ class InputRelationDTOTest {
     }
 
     @Test
-    void EqualsWithDifferentMemberTwoExpectingNotSame() {
-        expected.setPersonIDOne(personIDOne);
-        expected.setPersonIDTwo(personIDTwo);
-
-        InputRelationDTO result = new InputRelationDTO();
-
-        assertNotEquals(expected, result);
-    }
-
-    @Test
-    void EqualsWithDifferentFamilyIDExpectingNotSame() {
-        expected.setPersonIDOne(personIDOne);
-        expected.setPersonIDTwo(personIDTwo);
-        expected.setFamilyID(familyID);
-
-        InputRelationDTO result = new InputRelationDTO();
-
-        assertNotEquals(expected, result);
-    }
-
-    @Test
-    void EqualsWithDifferentDesignationExpectingNotSame() {
+    void EqualsWithDifferentPersonIdTwoExpectingFalse() {
         expected.setPersonIDOne(personIDOne);
         expected.setPersonIDTwo(personIDTwo);
         expected.setFamilyID(familyID);
         expected.setDesignation(designation);
 
         InputRelationDTO result = new InputRelationDTO();
+        result.setPersonIDOne(personIDOne);
+        result.setPersonIDTwo(personIDOne);
+        result.setFamilyID(familyID);
+        result.setDesignation(designation);
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentFamilyID() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+        expected.setDesignation(designation);
+
+        InputRelationDTO result = new InputRelationDTO();
+        result.setPersonIDOne(personIDOne);
+        result.setPersonIDTwo(personIDTwo);
+        result.setFamilyID("@katia@tony.com");
+        result.setDesignation(designation);
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentPersonIdOne() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+        expected.setDesignation(designation);
+
+        InputRelationDTO result = new InputRelationDTO();
+        result.setPersonIDOne(personIDOne);
+        result.setPersonIDTwo(personIDTwo);
+        result.setFamilyID(familyID);
+        result.setDesignation("designationTwo");
 
         assertNotEquals(expected, result);
     }
