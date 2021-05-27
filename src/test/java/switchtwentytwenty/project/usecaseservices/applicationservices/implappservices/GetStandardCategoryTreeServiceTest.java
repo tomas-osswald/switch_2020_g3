@@ -76,10 +76,6 @@ class GetStandardCategoryTreeServiceTest {
     @Test
     @DisplayName("Get Standard category Tree successfully")
     void getStandardCategoryTree_Success() {
-        /**
-         * Aproveitar este teste. Erro no Autowired de Category.
-         */
-
         List<Category> categoryListx = new ArrayList<>();
         categoryListx.add(category1);
         categoryListx.add(category2);
@@ -94,8 +90,6 @@ class GetStandardCategoryTreeServiceTest {
 
 
         assertEquals(expected, result);
-        //assertEquals(expected.getOutputCategoryDTOList(), result.getOutputCategoryDTOList());
-        //assertEquals(expected.getLinks(), result.getLinks());
 
     }
 
@@ -103,15 +97,7 @@ class GetStandardCategoryTreeServiceTest {
     @Test
     @DisplayName("Fail to get Standard category Tree")
     void getStandardCategoryTree_Fail() {
-        /**
-         * Aproveitar este teste. Erro no Autowired de Category.
-         */
-
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
-
         assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTree());
-
-
-
     }
 }
