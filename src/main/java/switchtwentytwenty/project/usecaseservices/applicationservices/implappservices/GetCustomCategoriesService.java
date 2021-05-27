@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
+import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
@@ -15,10 +15,10 @@ import java.util.List;
 public class GetCustomCategoriesService implements IGetCustomCategoriesService {
 
     ICategoryRepository categoryRepository;
-    CategoryDTODomainAssembler categoryDTODomainAssembler;
+    ICategoryDTODomainAssembler categoryDTODomainAssembler;
 
     @Autowired
-    public GetCustomCategoriesService(ICategoryRepository categoryRepository, CategoryDTODomainAssembler categoryDTODomainAssembler) {
+    public GetCustomCategoriesService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler) {
         this.categoryRepository = categoryRepository;
         this.categoryDTODomainAssembler = categoryDTODomainAssembler;
     }
