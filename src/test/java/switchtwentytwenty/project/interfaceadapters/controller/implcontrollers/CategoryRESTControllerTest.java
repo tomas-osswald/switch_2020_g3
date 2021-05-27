@@ -70,8 +70,8 @@ class CategoryRESTControllerTest {
     void createStandardCategoryTest() {
         CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa","2L");
         when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenReturn(new OutputCategoryDTO("Casa","1L","2L"));
-        OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1","2L");
-        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1")).withSelfRel());
+        OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1L","2L");
+        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1L")).withSelfRel());
         ResponseEntity expected = new ResponseEntity(expectedDTO, HttpStatus.CREATED);
 
         ResponseEntity<OutputCategoryDTO> result = controller.createStandardCategory(createStandardCategoryDTO);
@@ -83,8 +83,8 @@ class CategoryRESTControllerTest {
     void createStandardCategoryTestNullParentCategory() {
         CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa",null);
         when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenReturn(new OutputCategoryDTO("Casa","1L" ));
-        OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1");
-        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1")).withSelfRel());
+        OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1L");
+        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1L")).withSelfRel());
         ResponseEntity expected = new ResponseEntity(expectedDTO, HttpStatus.CREATED);
 
         ResponseEntity<OutputCategoryDTO> result = controller.createStandardCategory(createStandardCategoryDTO);
