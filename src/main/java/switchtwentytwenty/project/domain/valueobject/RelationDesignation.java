@@ -23,4 +23,9 @@ public class RelationDesignation implements ValueObject {
     public int hashCode() {
         return Objects.hash(description);
     }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }
