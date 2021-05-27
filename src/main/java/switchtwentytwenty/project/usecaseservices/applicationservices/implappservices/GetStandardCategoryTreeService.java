@@ -1,9 +1,9 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
-
+import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
@@ -15,11 +15,12 @@ import java.util.List;
 public class GetStandardCategoryTreeService implements IGetStandardCategoryTreeService {
 
     private final ICategoryRepository categoryRepository;
-    private final CategoryDTODomainAssembler categoryDTODomainAssembler;
+    private final ICategoryDTODomainAssembler categoryDTODomainAssembler;
 
-    public GetStandardCategoryTreeService(ICategoryRepository categoryRepository) {
+    @Autowired
+    public GetStandardCategoryTreeService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler) {
         this.categoryRepository = categoryRepository;
-        this.categoryDTODomainAssembler = new CategoryDTODomainAssembler();
+        this.categoryDTODomainAssembler = categoryDTODomainAssembler;
     }
 
     public OutputCategoryTreeDTO getStandardCategoryTree(){

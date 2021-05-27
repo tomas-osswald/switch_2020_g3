@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-import javafx.scene.Parent;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
