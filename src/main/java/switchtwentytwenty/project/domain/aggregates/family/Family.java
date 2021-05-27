@@ -69,7 +69,7 @@ public class Family implements AggregateRoot<FamilyID> {
     public Relation getRelationByID(RelationID relationID) {
 
         for (Relation registeredRelation : relations) {
-            if (relationID == registeredRelation.getId()) {
+            if (relationID.equals(registeredRelation.getId())) {
                 return registeredRelation;
             }
         }
