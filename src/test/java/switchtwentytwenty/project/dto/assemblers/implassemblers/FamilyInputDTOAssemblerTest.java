@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
+import switchtwentytwenty.project.dto.family.InputRelationDTO;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -20,7 +23,6 @@ class FamilyInputDTOAssemblerTest {
 
     @Autowired
     PersonInputDTOAssembler personAssembler;
-
 
 
     @Test
@@ -47,5 +49,44 @@ class FamilyInputDTOAssemblerTest {
 
         assertEquals(expected, result);
         assertNotNull(result);
+    }
+
+    @Test
+    void toInputRelationSetPersonOneID() {
+
+        CreateRelationDTO createRelationDTO = new CreateRelationDTO("tonyze", "katia", "BFF");
+        InputRelationDTO inputRelationDTO = new InputRelationDTO(createRelationDTO, "@tonyze");
+        String memberOneID = createRelationDTO.getMemberOneID();
+        InputRelationDTO expected = new InputRelationDTO(createRelationDTO, "@tonyze");
+        CreateRelationDTO createRelationDTO1 = new CreateRelationDTO(memberOneID, "katia", "BFF");
+        InputRelationDTO result = familyAssembler.toInputRelationDTO(createRelationDTO1, "@tonyze");
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void toInputRelationSetPersonTwoID() {
+
+        CreateRelationDTO createRelationDTO = new CreateRelationDTO("tonyze", "katia", "BFF");
+        InputRelationDTO inputRelationDTO = new InputRelationDTO(createRelationDTO, "@tonyze");
+        String memberTwoID = createRelationDTO.getMemberTwoID();
+        InputRelationDTO expected = new InputRelationDTO(createRelationDTO, "@tonyze");
+        CreateRelationDTO createRelationDTO1 = new CreateRelationDTO("tonyze", memberTwoID, "BFF");
+        InputRelationDTO result = familyAssembler.toInputRelationDTO(createRelationDTO1, "@tonyze");
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void toInputRelationSetDesignation() {
+
+        CreateRelationDTO createRelationDTO = new CreateRelationDTO("tonyze", "katia", "BFF");
+        InputRelationDTO inputRelationDTO = new InputRelationDTO(createRelationDTO, "@tonyze");
+        String designation = createRelationDTO.getRelationDesignation();
+        InputRelationDTO expected = new InputRelationDTO(createRelationDTO, "@tonyze");
+        CreateRelationDTO createRelationDTO1 = new CreateRelationDTO("tonyze", "katia", designation);
+        InputRelationDTO result = familyAssembler.toInputRelationDTO(createRelationDTO1, "@tonyze");
+
+        assertEquals(expected, result);
     }
 }
