@@ -23,6 +23,7 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
     void getMemberIDOneTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -33,6 +34,7 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
     void getMemberIDTwoTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -43,6 +45,7 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
     void getDesignationTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -53,8 +56,9 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
-    void setRelationIDTest(){
+    void setRelationIDTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO();
         outputRelationDTOOne.setRelationID(RELATIONID);
 
@@ -64,8 +68,9 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
-    void setMemberIDOneTest(){
+    void setMemberIDOneTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO();
         outputRelationDTOOne.setMemberOneID(PERSONIDONE);
 
@@ -75,8 +80,9 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
-    void setMemberIDTwoTest(){
+    void setMemberIDTwoTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO();
         outputRelationDTOOne.setMemberTwoID(PERSONIDTWO);
 
@@ -86,8 +92,9 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
-    void setDesignationTest(){
+    void setDesignationTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO();
         outputRelationDTOOne.setRelationDesignation(DESIGNATION);
 
@@ -97,6 +104,7 @@ class OutputRelationDTOTest {
 
         assertEquals(expected, result);
     }
+
     @Test
     void equalsTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -105,6 +113,7 @@ class OutputRelationDTOTest {
         assertEquals(outputRelationDTOOne, outputRelationDTOTwo);
         assertNotSame(outputRelationDTOOne, outputRelationDTOTwo);
     }
+
     @Test
     void equalsIsDifferentObjectTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -120,6 +129,7 @@ class OutputRelationDTOTest {
 
         assertNotEquals(outputRelationDTOOne, outputRelationDTOTwo);
     }
+
     @Test
     void equalsRelationIDIsDifferentMemberIDTwo() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -127,6 +137,7 @@ class OutputRelationDTOTest {
 
         assertNotEquals(outputRelationDTOOne, outputRelationDTOTwo);
     }
+
     @Test
     void equalsRelationIDIsDifferentDesignation() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -134,6 +145,7 @@ class OutputRelationDTOTest {
 
         assertNotEquals(outputRelationDTOOne, outputRelationDTOTwo);
     }
+
     @Test
     void equalsRelationIsDifferentRelationID() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -160,12 +172,22 @@ class OutputRelationDTOTest {
 
         assertNotEquals(outputRelationDTOOne, notOutputRelationDTO);
     }
+
+    @Test
+    void equalsTestDifferentFromNull() {
+        OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
+        String nullString = null;
+
+        assertNotEquals(outputRelationDTOOne, nullString);
+    }
+
     @Test
     void equalsIsSameObjectTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
 
         assertEquals(outputRelationDTOOne, outputRelationDTOOne);
     }
+
     @Test
     void hashCodeIsEqualTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
@@ -173,6 +195,7 @@ class OutputRelationDTOTest {
 
         assertEquals(outputRelationDTOOne.hashCode(), outputRelationDTOTwo.hashCode());
     }
+
     @Test
     void hashCodeIsDifferentTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);

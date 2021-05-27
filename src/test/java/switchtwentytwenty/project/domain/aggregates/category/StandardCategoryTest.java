@@ -100,6 +100,17 @@ class StandardCategoryTest {
         assertNotEquals(standardCategory, standardCategory2);
     }
 
+    @Test
+    void testEqualsDifferentCategoryName() {
+        CategoryID categoryID = new CategoryID(1L);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
+        CategoryName categoryName = new CategoryName("name");
+        StandardCategory standardCategory = new StandardCategory(categoryName, categoryID, parentID);
+        StandardCategory standardCategory2 = new StandardCategory(new CategoryName("Casa"), categoryID, parentID);
+
+        assertNotSame(standardCategory, standardCategory2);
+        assertNotEquals(standardCategory, standardCategory2);
+    }
 
     @Test
     void testHashCode() {

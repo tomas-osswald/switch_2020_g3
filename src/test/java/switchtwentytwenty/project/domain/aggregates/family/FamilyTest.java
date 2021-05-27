@@ -312,4 +312,65 @@ class FamilyTest {
 
         assertThrows(IllegalArgumentException.class, () -> {expected.getRelationByID(new RelationID(3));});
     }
+
+    @Test
+    void isRelationAlreadyRegisteredTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+        family.addRelation(relation);
+
+        boolean result = family.isRelationAlreadyRegistered(relation);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void isRelationAlreadyRegisteredNotRegisteredYetEmptyListTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+
+        boolean result = family.isRelationAlreadyRegistered(relation);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void isRelationAlreadyRegisteredNotRegisteredYetNotEmptyListTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"),new PersonID("teste2@gmail.com"),new RelationDesignation("Friends"),new RelationID(10));
+        family.addRelation(relationTwo);
+
+        boolean result = family.isRelationAlreadyRegistered(relation);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void getRelationByIDTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(1));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"),new PersonID("teste2@gmail.com"),new RelationDesignation("Friends"),new RelationID(2));
+        family.addRelation(relationOne);
+        family.addRelation(relationTwo);
+
+        Relation result = family.getRelationByID(new RelationID(1));
+
+        assertEquals(relationOne,result);
+    }
+
+    @Test
+    void getRelationByIDRelationNotFoundTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(1));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"),new PersonID("teste2@gmail.com"),new RelationDesignation("Friends"),new RelationID(2));
+        family.addRelation(relationOne);
+        family.addRelation(relationTwo);
+
+        assertThrows(IllegalArgumentException.class, ()-> family.getRelationByID(new RelationID(20)));
+
+
+    }
+
+
 }
