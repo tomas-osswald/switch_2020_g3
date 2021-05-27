@@ -11,6 +11,8 @@ import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -104,5 +106,14 @@ class CategoryDataDomainAssemblerTest {
 
         assertNotSame(expected, result);
         assertEquals(expected, result);
+    }
+
+    @Test
+    void testCreateFamilyID() {
+        CategoryJPA categoryJPA = new CategoryJPA("Casa",12L,"/external/20040",null);
+
+        Optional<FamilyID> result = categoryDataDomainAssembler.createFamilyID(categoryJPA);
+
+        assertFalse(result.isPresent());
     }
 }
