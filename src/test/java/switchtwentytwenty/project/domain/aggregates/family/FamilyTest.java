@@ -312,4 +312,26 @@ class FamilyTest {
 
         assertThrows(IllegalArgumentException.class, () -> {expected.getRelationByID(new RelationID(3));});
     }
+
+    @Test
+    void isRelationAlreadyRegisteredTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+        family.addRelation(relation);
+
+        boolean result = family.isRelationAlreadyRegistered(relation);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void isRelationAlreadyRegisteredNotRegisteredYetTest(){
+        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+
+        boolean result = family.isRelationAlreadyRegistered(relation);
+
+        assertFalse(result);
+    }
+
 }
