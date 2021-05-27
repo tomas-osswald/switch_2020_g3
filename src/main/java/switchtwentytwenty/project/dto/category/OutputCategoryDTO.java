@@ -33,14 +33,14 @@ public class OutputCategoryDTO extends RepresentationModel<OutputCategoryDTO> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof OutputCategoryDTO)) return false;
+        if (!super.equals(o)) return false;
         OutputCategoryDTO that = (OutputCategoryDTO) o;
-        return Objects.equals(categoryName, that.categoryName) && Objects.equals(categoryID, that.categoryID) && Objects.equals(parentID, that.parentID);
+        return Objects.equals(categoryName, that.categoryName) && Objects.equals(categoryID, that.categoryID) && Objects.equals(parentID, that.parentID) && Objects.equals(familyID, that.familyID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryName, categoryID, parentID);
+        return Objects.hash(super.hashCode(), categoryName, categoryID, parentID, familyID);
     }
-
 }

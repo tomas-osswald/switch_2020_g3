@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.hibernate.result.Output;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -71,7 +70,7 @@ class CategoryRESTControllerTest {
         CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa","2L");
         when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenReturn(new OutputCategoryDTO("Casa","1L","2L"));
         OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1L","2L");
-        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1")).withSelfRel());
+        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1L")).withSelfRel());
         ResponseEntity expected = new ResponseEntity(expectedDTO, HttpStatus.CREATED);
 
         ResponseEntity<OutputCategoryDTO> result = controller.createStandardCategory(createStandardCategoryDTO);
@@ -84,7 +83,7 @@ class CategoryRESTControllerTest {
         CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa",null);
         when(createStandardCategoryService.createStandardCategory(any(InputCategoryDTO.class))).thenReturn(new OutputCategoryDTO("Casa","1L" ));
         OutputCategoryDTO expectedDTO = new OutputCategoryDTO("Casa","1L");
-        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1")).withSelfRel());
+        expectedDTO.add(linkTo(methodOn(CategoryRESTController.class).getCategory("1L")).withSelfRel());
         ResponseEntity expected = new ResponseEntity(expectedDTO, HttpStatus.CREATED);
 
         ResponseEntity<OutputCategoryDTO> result = controller.createStandardCategory(createStandardCategoryDTO);
