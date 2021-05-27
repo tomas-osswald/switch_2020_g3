@@ -1,11 +1,15 @@
 package switchtwentytwenty.project.dto.category;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.Link;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.CategoryRESTController;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 class OutputCategoryTreeDTOTest {
 
@@ -96,6 +100,40 @@ class OutputCategoryTreeDTOTest {
         List<OutputCategoryDTO> result = outputCategoryTreeDTO1.getOutputCategoryDTOList();
 
         assertEquals(outputDtoList, result);
+    }
+
+    @Test
+    void testEqualsDifferentLinks() {
+        OutputCategoryDTO output = new OutputCategoryDTO("name", "2", "1", "@family@id.com");
+        Link link1 = linkTo(methodOn(CategoryRESTController.class).getCategory("1")).withSelfRel();
+        Link link2 = linkTo(methodOn(CategoryRESTController.class).getCategory("2")).withSelfRel();
+
+        OutputCategoryTreeDTO list1 = new OutputCategoryTreeDTO();
+        OutputCategoryTreeDTO list2 = new OutputCategoryTreeDTO();
+
+        list1.addOutputCategoryDTO(output);
+        list1.add(link1);
+
+        list2.addOutputCategoryDTO(output);
+        list2.add(link2);
+
+        assertNotEquals(list1,list2);
+    }
+
+    @Test
+    void testEqualsDifferentList(){
+        OutputCategoryDTO output1 = new OutputCategoryDTO("name1", "2", "1", "@family@id.com");
+        OutputCategoryDTO output2 = new OutputCategoryDTO("name2", "3", "1", "@family@id.com");
+
+        OutputCategoryTreeDTO list1 = new OutputCategoryTreeDTO();
+        OutputCategoryTreeDTO list2 = new OutputCategoryTreeDTO();
+
+        list1.addOutputCategoryDTO(output1);
+        list1.addOutputCategoryDTO(output2);
+
+        list2.addOutputCategoryDTO(output1);
+
+        assertNotEquals(list1, list2);
     }
 }
 
