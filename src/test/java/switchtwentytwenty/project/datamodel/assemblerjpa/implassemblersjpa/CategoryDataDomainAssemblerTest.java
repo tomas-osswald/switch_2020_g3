@@ -77,6 +77,16 @@ class CategoryDataDomainAssemblerTest {
     }
 
     @Test
+    void toDataCategoryJPAWithFamilyID() {
+        CategoryJPA expected = new CategoryJPA("catName", 12L, "11", new FamilyIDJPA("@admin@gmail.com"));
+        Category category = new CustomCategory(new CategoryID(12L),new ParentCategoryPath("11") ,new CategoryName("catName"),new FamilyID("@admin@gmail.com"));
+        CategoryJPA result = categoryDataDomainAssembler.toData(category);
+
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
     void toDataCategoryJPANoCategoryID() {
         CategoryJPA expected = new CategoryJPA("catName", null, "11", null);
         Category category = new StandardCategory(new CategoryName("catName"), null, new ParentCategoryPath("11"));

@@ -2,10 +2,9 @@ package switchtwentytwenty.project.domain.aggregates.family;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.FamilyName;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -235,4 +234,82 @@ class FamilyTest {
         assertFalse(result);
     }
 
+    @Test
+    void addRelation() {
+        FamilyID familyID = new FamilyID("@admin@gmail.com");
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        PersonID adminEmail = new PersonID("admin@gmail.com");
+        String emailString = "other@gmail.com";
+        Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
+        Name memberAName = new Name("memberA");
+        Name memberBName = new Name("memberB");
+        BirthDate birthDate = new BirthDate("20/02/1990");
+        VATNumber vatNumber = new VATNumber(111222333);
+
+        Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
+        Person memberB = new Person(adminEmail, memberBName, birthDate, vatNumber, familyID);
+        RelationDesignation relationDesignation = new RelationDesignation("BFFs");
+        Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
+
+        expected.addRelation(relation);
+
+        Family result = new Family(familyID, familyName, registrationDate, adminEmail);
+        result.addRelation(relation);
+
+        assertEquals(expected.getRelationByID(relation.getId()), result.getRelationByID(relation.getId()));
+
+    }
+
+    @Test
+    void addRelationExpectingThrows() {
+        FamilyID familyID = new FamilyID("@admin@gmail.com");
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        PersonID adminEmail = new PersonID("admin@gmail.com");
+        String emailString = "other@gmail.com";
+        Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
+        Name memberAName = new Name("memberA");
+        Name memberBName = new Name("memberB");
+        BirthDate birthDate = new BirthDate("20/02/1990");
+        VATNumber vatNumber = new VATNumber(111222333);
+
+        Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
+        Person memberB = new Person(adminEmail, memberBName, birthDate, vatNumber, familyID);
+        RelationDesignation relationDesignation = new RelationDesignation("BFFs");
+        Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
+
+        expected.addRelation(relation);
+
+        assertThrows(RelationAlreadyRegisteredException.class, () -> {expected.addRelation(relation);});
+
+    }
+
+    @Test
+    void getRelationByID() {
+        FamilyID familyID = new FamilyID("@admin@gmail.com");
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        PersonID adminEmail = new PersonID("admin@gmail.com");
+        Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
+        Name memberAName = new Name("memberA");
+        Name memberBName = new Name("memberB");
+        BirthDate birthDate = new BirthDate("20/02/1990");
+        VATNumber vatNumber = new VATNumber(111222333);
+
+        Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
+        Person memberB = new Person(adminEmail, memberBName, birthDate, vatNumber, familyID);
+        RelationDesignation relationDesignation = new RelationDesignation("BFFs");
+        Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
+
+        expected.addRelation(relation);
+
+        assertThrows(IllegalArgumentException.class, () -> {expected.getRelationByID(new RelationID(3));});
+    }
 }
