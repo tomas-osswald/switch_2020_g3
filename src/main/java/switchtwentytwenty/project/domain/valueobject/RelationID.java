@@ -5,11 +5,11 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public class RelationID implements ID<Integer>{
+public class RelationID implements ID<Integer> {
     private final int id;
 
     public RelationID(int relationID) {
-        this.id=relationID;
+        this.id = relationID;
     }
 
     @Override
