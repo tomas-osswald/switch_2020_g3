@@ -16,8 +16,8 @@ import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
+import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
-import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ class GetStandardCategoryTreeServiceIT {
     IGetStandardCategoryTreeService service;
 
     @InjectMocks
-    ICategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
 
     @Mock
     ICategoryRepositoryJPA categoryRepositoryJPA;
