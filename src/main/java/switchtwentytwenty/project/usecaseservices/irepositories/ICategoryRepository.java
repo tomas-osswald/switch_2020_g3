@@ -6,7 +6,8 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 
 import java.util.List;
 
-public interface ICategoryRepository extends Repository<Category, CategoryID>{
+public interface ICategoryRepository extends Repository<Category, CategoryID> {
+
     Category add(Category category);
 
     List<Category> getStandardCategoryList();
