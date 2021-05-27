@@ -23,22 +23,29 @@ class CategoryDTODomainAssemblerTest {
     void testToDTOStandardCategory() {
         Category category = new StandardCategory(name,id,parentID);
         CategoryDTODomainAssembler assembler = new CategoryDTODomainAssembler();
-        OutputCategoryDTO expected = new OutputCategoryDTO("Casa","20030","/external/20040");
+        OutputCategoryDTO expected = new OutputCategoryDTO("CASA","20030","/external/20040");
 
         OutputCategoryDTO result = assembler.toDTO(category);
 
         assertEquals(expected.toString(),result.toString());
+        assertEquals(expected.getCategoryID(),result.getCategoryID());
+        assertEquals(expected.getParentID(),result.getParentID());
+        assertEquals(expected.getCategoryName(),result.getCategoryName());
     }
 
     @Test
     void testToDTOCustomCategory() {
         Category category = new CustomCategory(id,parentID,name,familyID);
         CategoryDTODomainAssembler assembler = new CategoryDTODomainAssembler();
-        OutputCategoryDTO expected = new OutputCategoryDTO("Casa","20030","/external/20040","@admin@gmail.com");
+        OutputCategoryDTO expected = new OutputCategoryDTO("CASA","20030","/external/20040","@admin@gmail.com");
 
         OutputCategoryDTO result = assembler.toDTO(category);
 
         assertEquals(expected.toString(),result.toString());
+        assertEquals(expected.getCategoryID(),result.getCategoryID());
+        assertEquals(expected.getParentID(),result.getParentID());
+        assertEquals(expected.getFamilyID(),result.getFamilyID());
+        assertEquals(expected.getCategoryName(),result.getCategoryName());
     }
 
     @Test

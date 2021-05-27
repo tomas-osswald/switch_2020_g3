@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.hibernate.result.Output;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
