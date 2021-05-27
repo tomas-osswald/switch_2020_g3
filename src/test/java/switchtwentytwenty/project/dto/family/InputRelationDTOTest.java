@@ -22,6 +22,28 @@ class InputRelationDTOTest {
     }
 
     @Test
+    void testEqualsSameObject() {
+        InputRelationDTO result = expected;
+
+        assertEquals(expected, result);
+        assertEquals(expected, expected);
+    }
+
+    @Test
+    void testEqualsWithANullObject() {
+        InputRelationDTO result = null;
+
+        assertNotEquals(expected, result); }
+
+    @Test
+    void testEqualsDifferentObjects() {
+        String result = "3";
+
+        assertNotEquals(expected, result);
+    }
+
+
+    @Test
     void getPersonIDOne() {
         expected.setPersonIDOne(personIDOne);
 
@@ -55,5 +77,48 @@ class InputRelationDTOTest {
         String result = "@tonyze@latinlover.com";
 
         assertEquals(expected.getFamilyID(), result);
-            }
+    }
+
+    @Test
+    void EqualsWithDifferentMemberOneExpectingNotSame() {
+        expected.setPersonIDOne(personIDOne);
+
+        InputRelationDTO result = new InputRelationDTO();
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentMemberTwoExpectingNotSame() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+
+        InputRelationDTO result = new InputRelationDTO();
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentFamilyIDExpectingNotSame() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+
+        InputRelationDTO result = new InputRelationDTO();
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentDesignationExpectingNotSame() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+        expected.setDesignation(designation);
+
+        InputRelationDTO result = new InputRelationDTO();
+
+        assertNotEquals(expected, result);
+    }
+
 }
