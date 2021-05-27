@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
@@ -18,11 +17,7 @@ import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateFamilyService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateRelationService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamiliesOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IFamilyOptionsService;
-import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -45,10 +40,9 @@ public class FamilyRESTController implements IFamilyRESTController {
     private final ICreateRelationService createRelationService;
 
     private final IGetCustomCategoriesService customCategoriesService;
+
     @Autowired
     public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
-
-
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;

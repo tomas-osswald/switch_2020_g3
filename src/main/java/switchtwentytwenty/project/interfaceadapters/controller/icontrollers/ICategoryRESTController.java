@@ -14,4 +14,6 @@ public interface ICategoryRESTController {
 
     ResponseEntity<Object> getCategory(String categoryID);
 
+    ResponseEntity<Object> getCategoryTree();
+
 }

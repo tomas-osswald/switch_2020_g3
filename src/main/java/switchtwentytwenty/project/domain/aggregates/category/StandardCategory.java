@@ -21,7 +21,6 @@ public class StandardCategory implements Category {
     private ParentCategoryPath parentID;
 
     public StandardCategory(CategoryName categoryName) {
-
         this.categoryName = categoryName;
     }
 
