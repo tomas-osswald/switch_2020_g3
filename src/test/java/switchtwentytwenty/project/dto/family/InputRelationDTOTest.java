@@ -22,6 +22,28 @@ class InputRelationDTOTest {
     }
 
     @Test
+    void testEqualsSameObject() {
+        InputRelationDTO result = expected;
+
+        assertEquals(expected, result);
+        assertEquals(expected, expected);
+    }
+
+    @Test
+    void testEqualsWithANullObject() {
+        InputRelationDTO result = null;
+
+        assertNotEquals(expected, result); }
+
+    @Test
+    void testEqualsDifferentObjects() {
+        String result = "3";
+
+        assertNotEquals(expected, result);
+    }
+
+
+    @Test
     void getPersonIDOne() {
         expected.setPersonIDOne(personIDOne);
 
@@ -55,5 +77,63 @@ class InputRelationDTOTest {
         String result = "@tonyze@latinlover.com";
 
         assertEquals(expected.getFamilyID(), result);
-            }
+    }
+
+    @Test
+    void EqualsWithDifferentMemberOneExpectingNotSame() {
+        expected.setPersonIDOne(personIDOne);
+
+        InputRelationDTO result = new InputRelationDTO();
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentPersonIdTwoExpectingFalse() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+        expected.setDesignation(designation);
+
+        InputRelationDTO result = new InputRelationDTO();
+        result.setPersonIDOne(personIDOne);
+        result.setPersonIDTwo(personIDOne);
+        result.setFamilyID(familyID);
+        result.setDesignation(designation);
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentFamilyID() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+        expected.setDesignation(designation);
+
+        InputRelationDTO result = new InputRelationDTO();
+        result.setPersonIDOne(personIDOne);
+        result.setPersonIDTwo(personIDTwo);
+        result.setFamilyID("@katia@tony.com");
+        result.setDesignation(designation);
+
+        assertNotEquals(expected, result);
+    }
+
+    @Test
+    void EqualsWithDifferentPersonIdOne() {
+        expected.setPersonIDOne(personIDOne);
+        expected.setPersonIDTwo(personIDTwo);
+        expected.setFamilyID(familyID);
+        expected.setDesignation(designation);
+
+        InputRelationDTO result = new InputRelationDTO();
+        result.setPersonIDOne(personIDOne);
+        result.setPersonIDTwo(personIDTwo);
+        result.setFamilyID(familyID);
+        result.setDesignation("designationTwo");
+
+        assertNotEquals(expected, result);
+    }
+
 }
