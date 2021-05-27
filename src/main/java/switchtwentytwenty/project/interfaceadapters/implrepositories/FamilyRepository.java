@@ -7,13 +7,11 @@ import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.FamilyName;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -77,8 +75,9 @@ public class FamilyRepository implements IFamilyRepository {
         FamilyName familyName = familyAssembler.createFamilyName(familyJPA);
         RegistrationDate registrationDate = familyAssembler.createRegistrationDate(familyJPA);
         PersonID adminEmail = familyAssembler.createAdminID(familyJPA);
+        List<Relation> relationList = familyAssembler.createRelationList(familyJPA);
 
-        return new Family(familyID, familyName, registrationDate, adminEmail);
+        return new Family(familyID, familyName, registrationDate, adminEmail, relationList);
     }
 
 }

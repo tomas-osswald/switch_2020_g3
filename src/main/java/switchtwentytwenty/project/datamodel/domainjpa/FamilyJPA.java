@@ -1,27 +1,35 @@
 package switchtwentytwenty.project.datamodel.domainjpa;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "families")
 public class FamilyJPA {
 
-    @Getter
+
     @Id
     private FamilyIDJPA id;
-    @Getter
+
     private String familyName;
-    @Getter
+
     private String registrationDate;
-    @Getter
+
     private PersonIDJPA adminID;
+
+    @OneToMany
+    private List<RelationJPA> relationList = new ArrayList<>();
 
     public FamilyJPA(FamilyIDJPA id, String familyName, String registrationDate, PersonIDJPA adminID) {
         this.id = id;

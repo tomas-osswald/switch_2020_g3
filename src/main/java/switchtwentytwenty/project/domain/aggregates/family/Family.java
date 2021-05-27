@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.domain.aggregates.family;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
@@ -9,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@AllArgsConstructor
 public class Family implements AggregateRoot<FamilyID> {
 
-    private final FamilyID id;
-    private final List<Relation> relations = new ArrayList<>();
+    private FamilyID id;
     @Getter
-    private final FamilyName name;
+    private FamilyName name;
     @Getter
-    private final RegistrationDate registrationDate;
+    private RegistrationDate registrationDate;
     @Getter
-    private final PersonID admin;
+    private PersonID admin;
+    @Getter
+    private List<Relation> relations = new ArrayList<>();
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
         this.id = familyID;
