@@ -25,6 +25,7 @@ public class OutputRelationDTO extends RepresentationModel<OutputRelationDTO> {
         this.relationID = relationID;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

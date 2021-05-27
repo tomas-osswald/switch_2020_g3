@@ -176,7 +176,7 @@ class OutputRelationDTOTest {
     @Test
     void hashCodeIsDifferentTest() {
         OutputRelationDTO outputRelationDTOOne = new OutputRelationDTO(PERSONIDONE, PERSONIDTWO, DESIGNATION, RELATIONID);
-        OutputRelationDTO outputRelationDTOTwo = new OutputRelationDTO("5", PERSONIDTWO, DESIGNATION, RELATIONID);
+        OutputRelationDTO outputRelationDTOTwo = new OutputRelationDTO("7", PERSONIDTWO, DESIGNATION, RELATIONID);
 
         assertNotEquals(outputRelationDTOOne.hashCode(), outputRelationDTOTwo.hashCode());
     }

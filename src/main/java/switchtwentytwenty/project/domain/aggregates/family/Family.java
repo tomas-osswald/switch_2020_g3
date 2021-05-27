@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +62,8 @@ public class Family implements AggregateRoot<FamilyID> {
         if(!isRelationAlreadyRegistered(relation)) {
             this.relations.add(relation);
         } else {
-            throw new IllegalArgumentException();
+            throw new RelationAlreadyRegisteredException();
         }
-
     }
 
     public Relation getRelationByID(RelationID relationID) {

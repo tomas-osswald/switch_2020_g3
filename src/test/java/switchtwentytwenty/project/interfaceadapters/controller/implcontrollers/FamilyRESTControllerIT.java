@@ -20,11 +20,9 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetCustomCategoriesService;
-import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
 import java.util.ArrayList;
 
