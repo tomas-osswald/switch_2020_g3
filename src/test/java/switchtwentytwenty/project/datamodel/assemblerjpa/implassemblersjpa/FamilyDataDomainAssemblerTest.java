@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.RelationJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
-import switchtwentytwenty.project.domain.valueobject.FamilyName;
-import switchtwentytwenty.project.domain.valueobject.PersonID;
-import switchtwentytwenty.project.domain.valueobject.RegistrationDate;
+import switchtwentytwenty.project.domain.valueobject.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -131,6 +132,58 @@ class FamilyDataDomainAssemblerTest {
 
         assertNotNull(result);
         assertNotSame(expected, result);
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void generateRelationsJPAList() {
+
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        String emailString = "tony@gmail.com";
+        PersonID adminEmail = new PersonID(emailString);
+        FamilyID familyID = new FamilyID(emailString);
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA(familyID.toString()), familyName.toString(), registrationDate.toString(), new PersonIDJPA(adminEmail.toString()));
+
+        PersonID memberOneID = new PersonID("tonyze@gmail.com");
+        PersonID memberTwoID = new PersonID("katia@gmail.com");
+        RelationDesignation relationDesignation = new RelationDesignation("BFF");
+        RelationID relationID = new RelationID(13);
+        Relation relation = new Relation(memberOneID, memberTwoID, relationDesignation, relationID);
+        List<Relation> relations = new ArrayList<>();
+        relations.add(relation);
+        int expected = 1;
+        int result = familyDataDomainAssembler.generateRelationsJPAList(relations, familyJPA).size();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void generateRelationList() {
+        List<RelationJPA> relationsJPA = new ArrayList<>();
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        String emailString = "tony@gmail.com";
+        PersonID adminEmail = new PersonID(emailString);
+        FamilyID familyID = new FamilyID(emailString);
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA(familyID.toString()), familyName.toString(), registrationDate.toString(), new PersonIDJPA(adminEmail.toString()));
+
+        String memberOneJPAID = "tonyze@gmail.com";
+        String memberTwoJPAID = "katia@gmail.com";
+        String relationJPADesignation = "BFF";
+        int relationJPAID = 23;
+
+        RelationJPA relationJPA = new RelationJPA(memberOneJPAID, memberTwoJPAID, relationJPADesignation, relationJPAID, familyJPA);
+        relationsJPA.add(relationJPA);
+
+        int expected = 1;
+        int result = familyDataDomainAssembler.generateRelationList(relationsJPA).size();
+
         assertEquals(expected, result);
 
     }
