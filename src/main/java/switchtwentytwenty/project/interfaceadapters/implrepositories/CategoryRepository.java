@@ -3,7 +3,7 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.CategoryDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
@@ -23,11 +23,11 @@ import java.util.Optional;
 public class CategoryRepository implements ICategoryRepository {
 
     private final ICategoryRepositoryJPA categoryRepositoryJPA;
-    private final CategoryDataDomainAssembler categoryAssembler;
+    private final ICategoryDataDomainAssembler categoryAssembler;
     private final CategoryFactory categoryFactory;
 
     @Autowired
-    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA, CategoryDataDomainAssembler categoryAssembler, CategoryFactory categoryFactory) {
+    public CategoryRepository(ICategoryRepositoryJPA categoryRepositoryJPA, ICategoryDataDomainAssembler categoryAssembler, CategoryFactory categoryFactory) {
         this.categoryRepositoryJPA = categoryRepositoryJPA;
         this.categoryAssembler = categoryAssembler;
         this.categoryFactory = categoryFactory;
