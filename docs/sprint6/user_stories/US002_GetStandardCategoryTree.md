@@ -25,7 +25,7 @@ participant ": ICategoryRepository" as repo <<interface>>
 participant "categoryList : List<<Category>>" as catList
 participant "category : Category" as category <<interface>>
 participant ": ICategoryDataDomainAssembler" as dataassembler <<interface>>
-participant ": ICategoryRepository" as jparepo <<interface>>
+participant ": ICategoryRepositoryJPA" as jparepo <<interface>>
 
 
 -> controller : getStandardCategoryTree()

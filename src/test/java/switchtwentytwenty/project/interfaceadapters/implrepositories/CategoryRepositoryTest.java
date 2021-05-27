@@ -19,6 +19,7 @@ import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
+import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ class CategoryRepositoryTest {
     CategoryFactory categoryFactory;
 
     @InjectMocks
-    CategoryRepository categoryRepository;
+    ICategoryRepository categoryRepository;
 
     @Captor
     ArgumentCaptor<CategoryIDJPA> captor;
