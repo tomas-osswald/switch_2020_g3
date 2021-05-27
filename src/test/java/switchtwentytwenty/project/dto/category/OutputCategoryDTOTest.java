@@ -3,8 +3,12 @@ package switchtwentytwenty.project.dto.category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.Link;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 class OutputCategoryDTOTest {
 
@@ -110,6 +114,28 @@ class OutputCategoryDTOTest {
     }
 
     @Test
+    @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different FamilyID")
+    void testEqualsDifferentFamilyID() {
+        OutputCategoryDTO outputCategoryDTOOne = new OutputCategoryDTO("Name", "2L", "3L","@admin@gmail.com");
+        OutputCategoryDTO outputCategoryDTOTwo = new OutputCategoryDTO("Name", "2L", "3L","@notAdmin@gmail.com");
+
+        Assertions.assertNotEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
+    }
+
+    @Test
+    @DisplayName("Should return false if two OutputCategoryDTO objects are compared while having different links added")
+    void testEqualsDifferentLinks() {
+        OutputCategoryDTO outputCategoryDTOOne = new OutputCategoryDTO("Name", "2L", "3L","@admin@gmail.com");
+        Link linkOne = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("POST - Add New Family");
+        outputCategoryDTOOne.add(linkOne);
+        OutputCategoryDTO outputCategoryDTOTwo = new OutputCategoryDTO("Name", "2L", "3L","@admin@gmail.com");
+        Link linkTwo = linkTo(methodOn(FamilyRESTController.class).familiesOptions()).withRel("Add New Family");
+        outputCategoryDTOOne.add(linkTwo);
+
+        Assertions.assertNotEquals(outputCategoryDTOOne, outputCategoryDTOTwo);
+    }
+
+    @Test
     @DisplayName("Should return true if two identical OutputCategoryDTO objects are compared using their hashcodes")
     void testHashCode() {
         OutputCategoryDTO outputCategoryDTOOne = new OutputCategoryDTO("Name", "2L", "3L");
@@ -128,7 +154,6 @@ class OutputCategoryDTOTest {
         Assertions.assertNotEquals(outputCategoryDTOOne.hashCode(), outputCategoryDTOTwo.hashCode());
         Assertions.assertNotSame(outputCategoryDTOOne, outputCategoryDTOTwo);
     }
-
 
     @Test
     void setCategoryName() {
