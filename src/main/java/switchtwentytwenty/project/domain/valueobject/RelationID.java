@@ -1,8 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Objects;
 
