@@ -25,9 +25,10 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepositor
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
-@RunWith(SpringRunner.class)
+@Disabled
 @SpringBootTest
-public class CreateRelationServiceIT {
+@RunWith(SpringRunner.class)
+class CreateRelationServiceIT {
     CreateRelationService createRelationService;
 
     @Mock
@@ -49,7 +50,6 @@ public class CreateRelationServiceIT {
     String familyID = "@tonyze@latinlover.com";
     InputRelationDTO inputRelationDTO = new InputRelationDTO(personIDOne, personIDTwo, designation, familyID);
 
-    @Disabled
     @DisplayName("Successfully create a relation using valid data.")
     @Test
     void createRelationServiceSuccess() {
