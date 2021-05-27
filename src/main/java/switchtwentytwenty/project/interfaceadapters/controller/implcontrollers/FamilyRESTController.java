@@ -117,7 +117,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
             outputRelationDTO.add(optionsLink);
             return new ResponseEntity<> (outputRelationDTO, status);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             return new ResponseEntity("Error: " + e.getMessage(), status);
 

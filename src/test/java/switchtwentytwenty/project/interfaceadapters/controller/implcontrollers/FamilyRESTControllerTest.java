@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.apache.tomcat.util.file.ConfigurationSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,14 +14,11 @@ import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
-
-import java.awt.image.RescaleOp;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -143,13 +139,6 @@ class FamilyRESTControllerTest {
     }
 
 
- /*   @Test
-    void addRelationTest() {
-        CreateRelationDTO createRelationDTO = new CreateRelationDTO();
-
-        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.createRelation(createRelationDTO, "@tonize@gmail.com"));
-    }*/
-
     @Test
     void getFamilyNameTest() {
         String familyName = "Silva";
@@ -231,13 +220,13 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("Create Relation success")
     void createRelationSuccessCase() {
-        CreateRelationDTO createRelationDTO = new CreateRelationDTO("tonyze@gmail.com","katia@gmail.com", "BFF");
+        CreateRelationDTO createRelationDTO = new CreateRelationDTO("tonyze@gmail.com", "katia@gmail.com", "BFF");
         String familyID = createRelationDTO.getMemberOneID();
         InputRelationDTO inputRelationDTO = new InputRelationDTO(createRelationDTO, "tonyze@gmail.com");
 
-        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze","katia", "BFF", "3");
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze", "katia", "BFF", "3");
 
-        Mockito.when(familyAssembler.toInputRelationDTO(any(CreateRelationDTO.class),any(String.class))).thenReturn(inputRelationDTO);
+        Mockito.when(familyAssembler.toInputRelationDTO(any(CreateRelationDTO.class), any(String.class))).thenReturn(inputRelationDTO);
         Mockito.when(createRelationService.createRelation(any(InputRelationDTO.class))).thenReturn(outputRelationDTO);
 
         Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
@@ -250,6 +239,23 @@ class FamilyRESTControllerTest {
 
         assertNotNull(result);
         assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Create Relation failure")
+        void createRelationFailureCase() {
+        InputRelationDTO inputRelationDTO = new InputRelationDTO(null, null, "BFF", "@tony");
+        CreateRelationDTO createRelationDTO = new CreateRelationDTO(null, null, "BFF");
+        Mockito.when(familyAssembler.toInputRelationDTO(any(CreateRelationDTO.class), any(String.class))).thenReturn(inputRelationDTO);
+        Mockito.when(createRelationService.createRelation(any(InputRelationDTO.class))).thenThrow(IllegalArgumentException.class);
+
+        ResponseEntity expected = new ResponseEntity("Error: null", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity result = familyRESTController.createRelation(createRelationDTO, "@tony");
+
+        assertEquals(expected, result);
+
+
     }
 
 
