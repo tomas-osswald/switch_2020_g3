@@ -14,6 +14,7 @@ public class CategoryName implements ValueObject {
         trimData();
     }
 
+    // UpperCase, requisito dado pelo PO (normalização do input dado)
     private void trimData() {
         this.name = this.name.trim().toUpperCase();
     }
