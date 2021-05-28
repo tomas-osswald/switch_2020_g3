@@ -1,12 +1,10 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.IOwnerID;
+import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,15 +12,15 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class CashAccount extends AbCashAccount{
+public class CashAccount extends AbCashAccount {
 
 
-    protected CashAccount(IOwnerID ownerID, Designation designation){
+    protected CashAccount(IOwnerID ownerID, Designation designation) {
         super(ownerID, designation);
 
     }
 
-    public CashAccount(){
+    public CashAccount() {
         super();
     }
 
@@ -60,7 +58,7 @@ public class CashAccount extends AbCashAccount{
     }
 
     @Override
-    public void addMovement(Movement movement){
+    public void addMovement(Movement movement) {
         super.addMovement(movement);
     }
 
