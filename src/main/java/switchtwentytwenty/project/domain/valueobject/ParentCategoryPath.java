@@ -13,9 +13,7 @@ public class ParentCategoryPath {
 
     private void validateParentCategoryPath() {
         if (!isNull()) {
-            if (!isBlank()) {
-                verifyFormat();
-            } else {
+            if (isBlank()) {
                 throw new IllegalArgumentException();
             }
         }
@@ -32,18 +30,6 @@ public class ParentCategoryPath {
 
     private boolean isBlank() {
         return parentCategory.trim().length() == 0;
-    }
-
-    //Validate Path -> REGEX to avoid invalid characters? FORMATO - http://(grupo)X/(categories)**/(ParentCategoryID)**
-    private void verifyFormat() {
-        /* "\\d{4}(-\\d{3})?"
-        String regex = "((http|https)://)(www.)?"
-                + "[a-zA-Z0-9@:%.\+~#?&//=]"
-                + "{2,256}\.[a-z]"
-                + "{2,6}\b([-a-zA-Z0-9@:%"
-                + ".\+~#?&//=]*)";
-        if(Pattern.matches(regex, parentCategory)) throw new IllegalArgumentException();
-   */
     }
 
     @Override

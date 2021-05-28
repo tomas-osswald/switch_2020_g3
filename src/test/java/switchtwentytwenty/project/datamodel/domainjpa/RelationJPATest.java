@@ -140,6 +140,14 @@ class RelationJPATest {
         assertNotEquals(relationJPAOne, relationJPATwo);
     }
     @Test
+    @DisplayName("Test if equals method works for different Object Types")
+    void equalsTestComparingDifferentObject() {
+        RelationJPA  relationJPA = new RelationJPA();
+        String notARelationJPA = "not a relation JPA";
+
+        assertNotEquals(relationJPA, notARelationJPA);
+    }
+    @Test
     @DisplayName("Test if hashcode method works for equal RelationJPA")
     void hashCodeSameEqualRelationJPA() {
         RelationJPA relationJPAOne = new RelationJPA(PERSONIDONE, PERSONIDTWO, DESIGNATION, ID, FAMILYJPA);
