@@ -132,5 +132,9 @@ public class PersonDataDomainAssembler implements IPersonDataDomainAssembler {
         }
         return emailAddressList;
     }
+
+    public FamilyIDJPA createFamilyID(FamilyID internalFamilyID) {
+        return new FamilyIDJPA(internalFamilyID.getId());
+    }
 }
 

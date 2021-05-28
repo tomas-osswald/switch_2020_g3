@@ -4,6 +4,7 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
@@ -13,6 +14,7 @@ import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +24,6 @@ public class PersonRepository implements IPersonRepository {
     private IPersonRepositoryJPA personRepositoryJPA;
 
     private PersonDataDomainAssembler personAssembler;
-
-
 
 
     @Autowired
@@ -92,6 +92,17 @@ public class PersonRepository implements IPersonRepository {
         PersonJPA personJPA = personAssembler.toData(person);
         PersonJPA updatedPersonJPA = personRepositoryJPA.save(personJPA);
         return createPerson(updatedPersonJPA);
+    }
+
+    @Override
+    public List<Person> findAllByFamilyID(FamilyID internalFamilyID) {
+        FamilyIDJPA familyIDJPA = personAssembler.createFamilyID(internalFamilyID);
+        List<PersonJPA> listPersonJPA = personRepositoryJPA.findAllByFamilyid(familyIDJPA);
+        List<Person> personList = new ArrayList<>();
+        for (PersonJPA personJPA : listPersonJPA) {
+            personList.add(createPerson(personJPA));
+        }
+        return personList;
     }
 
     private Person createPerson(PersonJPA personJPA) {

@@ -56,7 +56,7 @@ class CreateRelationServiceTest {
         Mockito.doNothing().when(family).addRelation(any(Relation.class));
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(savedFamily);
         Mockito.when(savedFamily.getRelationByID(any(RelationID.class))).thenReturn(savedRelation);
-        Mockito.when(familyDTODomainAssembler.toDTO(savedRelation)).thenReturn(outputRelationDTO);
+        Mockito.when(familyDTODomainAssembler.toOutputRelationDTO(savedRelation)).thenReturn(outputRelationDTO);
 
         OutputRelationDTO expected = outputRelationDTO;
         OutputRelationDTO result = createRelationService.createRelation(inputRelationDTO);
@@ -72,7 +72,7 @@ class CreateRelationServiceTest {
         Mockito.doNothing().when(family).addRelation(any(Relation.class));
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(savedFamily);
         Mockito.when(savedFamily.getRelationByID(any(RelationID.class))).thenReturn(savedRelation);
-        Mockito.when(familyDTODomainAssembler.toDTO(savedRelation)).thenReturn(outputRelationDTO);
+        Mockito.when(familyDTODomainAssembler.toOutputRelationDTO(savedRelation)).thenReturn(outputRelationDTO);
 
         assertDoesNotThrow(() -> createRelationService.createRelation(inputRelationDTO));
     }

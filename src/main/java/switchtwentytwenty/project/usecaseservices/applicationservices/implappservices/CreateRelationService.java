@@ -42,6 +42,6 @@ public class CreateRelationService implements ICreateRelationService {
         RelationID relationID = relation.getId();
         Relation savedRelation = savedFamily.getRelationByID(relationID);
 
-        return familyDTODomainAssembler.toDTO(savedRelation);
+        return familyDTODomainAssembler.toOutputRelationDTO(savedRelation);
     }
 }

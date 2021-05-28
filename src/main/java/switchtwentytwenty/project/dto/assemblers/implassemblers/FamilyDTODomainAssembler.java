@@ -1,12 +1,22 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.InputRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class FamilyDTODomainAssembler {
@@ -37,7 +47,7 @@ public class FamilyDTODomainAssembler {
      * @param family family which will be converted to DTO
      * @return OutputFamilyDTO - object containing the family name, family administrator and the registration date
      */
-    public OutputFamilyDTO toDTO(Family family) {
+    public OutputFamilyDTO toOutputRelationDTO(Family family) {
         return new OutputFamilyDTO(family.getName().toString(), family.id().toString(), family.getAdmin().toString(), family.getRegistrationDate().toString());
     }
 
@@ -59,7 +69,7 @@ public class FamilyDTODomainAssembler {
         return new FamilyID(inputRelationDTO.getFamilyID());
     }
 
-    public OutputRelationDTO toDTO(Relation relation) {
+    public OutputRelationDTO toOutputRelationDTO(Relation relation) {
         String personIDOne = relation.getMemberA().toString();
         String personIDTwo = relation.getMemberB().toString();
         String designation = relation.getRelationDesignation().toString();
@@ -77,5 +87,26 @@ public class FamilyDTODomainAssembler {
 
     public FamilyID familyIDToDomain(String familyID) {
         return new FamilyID(familyID);
+    }
+
+    public FamilyMemberAndRelationsDTO createFamilyMemberAndRelationsDTO(Person person, Family family) {
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTO = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTO.setName(person.getName().toString());
+        familyMemberAndRelationsDTO.setPersonID(person.id().toString());
+        List<OutputRelationDTO> relationsDTO = getRelationsDTO(person.id(), family);
+        familyMemberAndRelationsDTO.setRelations(relationsDTO);
+        Link selfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(person.id().toString())).withSelfRel();
+        familyMemberAndRelationsDTO.add(selfLink);
+        return familyMemberAndRelationsDTO;
+    }
+
+    private List<OutputRelationDTO> getRelationsDTO(PersonID id, Family family) {
+        List<Relation> personRelationList = family.getRelationsByPersonID(id);
+        List<OutputRelationDTO> outputRelationDTOList = new ArrayList<>();
+        for (Relation relation : personRelationList) {
+            outputRelationDTOList.add(toOutputRelationDTO(relation));
+        }
+        return outputRelationDTOList;
+
     }
 }

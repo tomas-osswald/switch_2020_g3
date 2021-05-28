@@ -130,16 +130,20 @@ public class FamilyRESTController implements IFamilyRESTController {
 
 
     @GetMapping("/{familyID}/relations")
-    public ResponseEntity<Object> getFamilyMembersAndRelations(@PathVariable String familyID) {
+    public ResponseEntity<FamilyMemberAndRelationsListDTO> getFamilyMembersAndRelations(@PathVariable String familyID) {
         HttpStatus status;
         FamilyMemberAndRelationsListDTO familyMemberAndRelationsListDTO;
         try {
-            getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID);
-        } catch (Exception e) {
-
-            throw new IllegalArgumentException();
+            familyMemberAndRelationsListDTO = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID);
+            status = HttpStatus.OK;
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+            familyMemberAndRelationsListDTO.add(selfLink);
+            return new ResponseEntity<>(familyMemberAndRelationsListDTO, status);
+        } catch (IllegalArgumentException exception) {
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity("Error: " + exception.getMessage(), status);
         }
-        return null;
+
     }
 
     @GetMapping("/{familyID}")

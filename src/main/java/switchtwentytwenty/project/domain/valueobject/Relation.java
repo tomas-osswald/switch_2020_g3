@@ -46,4 +46,7 @@ public class Relation implements ValueObject, Serializable {
         return Objects.hash(memberA, memberB);
     }
 
+    public boolean isMemberA(PersonID id) {
+        return this.memberA.equals(id);
+    }
 }
