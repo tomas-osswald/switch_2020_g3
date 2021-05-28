@@ -33,23 +33,23 @@ public class BankSavingsAccount extends AbNonCashAccount {
     }
 
     @Override
-    public AccountID id() {
-        return this.accountID;
-    }
-
-    @Override
     public boolean hasID(AccountID id) {
         return this.accountID == id;
     }
 
     @Override
-    public IOwnerID getOwnerId() {
-        return this.ownerID;
+    public AccountID id() {
+        return this.accountID;
     }
 
     @Override
     public Designation getDesignation() {
         return this.designation;
+    }
+
+    @Override
+    public IOwnerID getOwnerId() {
+        return this.ownerID;
     }
 
     @Override
