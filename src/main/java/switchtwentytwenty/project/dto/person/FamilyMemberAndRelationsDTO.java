@@ -14,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @Getter
-public class FamilyMemberAndRelationsDTO extends RepresentationModel<FamilyMemberAndRelationsDTO> {
+public class FamilyMemberAndRelationsDTO {
 
     @Override
     public boolean equals(Object o) {

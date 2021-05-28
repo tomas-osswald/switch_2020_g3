@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 class GetFamilyMembersAndRelationshipServiceTest {
@@ -88,8 +89,8 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
         //Mock de createFamilyMemberAndRelationDTO
         Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberA, family)).thenReturn(memberADTO);
-        Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberB, family)).thenReturn(memberADTO);
-
+        Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberB, family)).thenReturn(memberBDTO);
+       // Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(any(Person.class),any(Family.class))).thenReturn(memberADTO).thenReturn(memberBDTO);
 
         FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
 
