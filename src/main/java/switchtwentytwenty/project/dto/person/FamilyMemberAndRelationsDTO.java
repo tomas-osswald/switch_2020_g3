@@ -8,12 +8,29 @@ import org.springframework.hateoas.RepresentationModel;
 import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class FamilyMemberAndRelationsDTO extends RepresentationModel<FamilyMemberAndRelationsDTO> {
+public class FamilyMemberAndRelationsDTO extends RepresentationModel {
+
+   /* @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FamilyMemberAndRelationsDTO that = (FamilyMemberAndRelationsDTO) o;
+        return Objects.equals(name, that.name) && Objects.equals(personID, that.personID) && Objects.equals(relations, that.relations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, personID, relations);
+    }
+
+    */
 
     private String name;
     private String personID;
