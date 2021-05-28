@@ -33,5 +33,4 @@ public class FamilyMemberAndRelationsDTO extends RepresentationModel {
     public int hashCode() {
         return Objects.hash(super.hashCode(), getName(), getPersonID(), getRelations());
     }
-
 }
