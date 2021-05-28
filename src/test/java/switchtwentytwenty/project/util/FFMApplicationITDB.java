@@ -1,16 +1,14 @@
-package switchtwentytwenty.project;
+package switchtwentytwenty.project.util;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.FFMSpringBootApplication;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+public class FFMApplicationITDB {
 
-class FFMSpringBootApplicationITDB {
-// Test class added ONLY to cover main() invocation not covered by application tests.
-
- /*   @Test
+    @Test
     void main() {
         assertDoesNotThrow(() -> FFMSpringBootApplication.main(new String[]{}));
-    }*/
-
+    }
 }
