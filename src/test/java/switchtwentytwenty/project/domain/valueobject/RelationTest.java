@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.domain.aggregates.person.Person;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -24,7 +23,7 @@ class RelationTest {
 
     @Test
     void allArgsConstructorTest() {
-        Relation relation = new Relation(personOneID, personTwoID, designation,relationID);
+        Relation relation = new Relation(personOneID, personTwoID, designation, relationID);
 
         assertNotNull(relation);
     }
@@ -141,32 +140,38 @@ class RelationTest {
 
     @Test
     void getMemberATest() {
-        Relation relation = new Relation(personOneID, personTwoID, designation,relationID);
+        Relation relation = new Relation(personOneID, personTwoID, designation, relationID);
         PersonID expected = new PersonID("admin@gmail.com");
 
         PersonID result = relation.getMemberA();
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
     void getMemberBTest() {
-        Relation relation = new Relation(personOneID, personTwoID, designation,relationID);
+        Relation relation = new Relation(personOneID, personTwoID, designation, relationID);
         PersonID expected = new PersonID("parent@gmail.com");
 
         PersonID result = relation.getMemberB();
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
     void getRelationDesignationTest() {
-        Relation relation = new Relation(personOneID, personTwoID, designation,relationID);
+        Relation relation = new Relation(personOneID, personTwoID, designation, relationID);
         RelationDesignation expected = new RelationDesignation("Parent");
 
         RelationDesignation result = relation.getRelationDesignation();
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
+    @Test
+    void isMemberA() {
+        Relation relation = new Relation(personOneID, personTwoID, designation, relationID);
+        assertTrue(relation.isMemberA(personOneID));
+        assertFalse(relation.isMemberA(personTwoID));
+    }
 }
