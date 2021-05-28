@@ -14,43 +14,42 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@AllArgsConstructor
-@NoArgsConstructor
 public class CashAccount extends AbCashAccount{
 
-    private AccountID accountID;
-
-    private IOwnerID ownerID;
-
-    private Designation designation;
-
-    private List<Movement> movements = new ArrayList<>();
 
     protected CashAccount(IOwnerID ownerID, Designation designation){
-        this.ownerID = ownerID;
-        this.designation = designation;
+        super(ownerID, designation);
+
+    }
+
+    public CashAccount(){
+        super();
+    }
+
+    public CashAccount(AccountID id, IOwnerID ownerID, Designation designation, List<Movement> movements) {
+        super(id, ownerID, designation, movements);
     }
 
     @Override
     public AccountID id() {
-        return this.accountID;
+        return super.id();
     }
 
     @Override
     public IOwnerID getOwnerId() {
-        return this.ownerID;
+        return super.getOwnerId();
     }
 
     @Override
     public Designation getDesignation() {
-        return this.designation;
+        return super.getDesignation();
     }
 
     @Override
     public List<Movement> getListOfMovements() {
         List<Movement> copyMovements = new ArrayList<>();
-        if (!this.movements.isEmpty()) {
-            copyMovements.addAll(this.movements);
+        if (!super.getListOfMovements().isEmpty()) {
+            copyMovements.addAll(super.getListOfMovements());
         }
         return copyMovements;
     }
@@ -62,32 +61,32 @@ public class CashAccount extends AbCashAccount{
 
     @Override
     public void addMovement(Movement movement){
-        movements.add(movement);
+        super.addMovement(movement);
     }
 
     @Override
     public boolean hasID(AccountID id) {
-        return this.accountID == id;
+        return super.hasID(id);
     }
 
     @Override
     public void setAccountID(AccountID accountID) {
-        this.accountID = accountID;
+        super.setAccountID(accountID);
     }
 
     @Override
     public void setMovements(List<Movement> movements) {
-        this.movements = Collections.unmodifiableList(movements);
+        super.setMovements(Collections.unmodifiableList(movements));
     }
 
     @Override
     public void setOwner(IOwnerID ownerID) {
-        this.ownerID = ownerID;
+        super.setOwner(ownerID);
     }
 
     @Override
     public void setDesignation(Designation designation) {
-        this.designation = designation;
+        super.setDesignation(designation);
     }
 
     @Override
@@ -95,11 +94,11 @@ public class CashAccount extends AbCashAccount{
         if (this == o) return true;
         if (!(o instanceof CashAccount)) return false;
         CashAccount that = (CashAccount) o;
-        return Objects.equals(accountID, that.accountID);
+        return Objects.equals(super.id(), that.id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountID, ownerID, getDesignation(), movements);
+        return Objects.hash(super.id(), super.getOwnerId(), getDesignation(), super.getListOfMovements());
     }
 }
