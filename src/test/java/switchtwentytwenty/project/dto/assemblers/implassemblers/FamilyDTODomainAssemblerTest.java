@@ -4,16 +4,14 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.family.InputFamilyDTO;
-import switchtwentytwenty.project.dto.family.InputRelationDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class FamilyDTODomainAssemblerTest {
 
@@ -155,10 +153,10 @@ class FamilyDTODomainAssemblerTest {
         family.addRelation(relation2);
 
         // Two relations DTO
-        OutputRelationDTO outputRelationDTO1 = new OutputRelationDTO("tonyZe@gmail.com", "rute@gmail.com", "filho", "1");
-        OutputRelationDTO outputRelationDTO2 = new OutputRelationDTO("tonyZe@gmail.com", "javascri@gmail.com", "primo", "2");
+        OutputPersonRelationDTO outputRelationDTO1 = new OutputPersonRelationDTO("tonyZe@gmail.com", "rute@gmail.com", "filho", "1");
+        OutputPersonRelationDTO outputRelationDTO2 = new OutputPersonRelationDTO("tonyZe@gmail.com", "javascri@gmail.com", "primo", "2");
 
-        List<OutputRelationDTO> outputRelationDTOList = new ArrayList<>();
+        List<OutputPersonRelationDTO> outputRelationDTOList = new ArrayList<>();
         outputRelationDTOList.add(outputRelationDTO1);
         outputRelationDTOList.add(outputRelationDTO2);
 
@@ -171,5 +169,15 @@ class FamilyDTODomainAssemblerTest {
 
         assertEquals(expected, result);
 
+    }
+
+    @Test
+    void testFamilyIDToDomain() {
+        String familyID = "tony@gmail.com";
+        FamilyID expected = new FamilyID("tony@gmail.com");
+
+        FamilyID result = familyDTODomainAssembler.familyIDToDomain(familyID);
+
+        assertEquals(expected, result);
     }
 }
