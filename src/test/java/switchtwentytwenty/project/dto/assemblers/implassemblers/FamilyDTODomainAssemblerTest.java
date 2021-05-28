@@ -2,11 +2,16 @@ package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
 import switchtwentytwenty.project.dto.family.InputRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -122,4 +127,49 @@ class FamilyDTODomainAssemblerTest {
         assertEquals(expected.getRelationDesignation(),result.getRelationDesignation());
     }
 
+    @Test
+    void createFamilyMemberAndRelationsDTO() {
+        // Person
+        PersonID personID = new PersonID("tonyZe@gmail.com");
+        Name name = new Name("Tony");
+        BirthDate birthDate = new BirthDate("19/02/1990");
+        VATNumber vatNumber = new VATNumber(123123123);
+        FamilyID familyID = new FamilyID("tonyZe@gmail.com");
+        Person person = new Person(personID, name, birthDate, vatNumber, familyID);
+
+        // Family
+        FamilyName familyName = new FamilyName("Sopranos");
+        RegistrationDate date = new RegistrationDate("12/1/90");
+        Family family = new Family(familyID, familyName, date, personID);
+
+        // Two relations
+        PersonID personID1 = new PersonID("rute@gmail.com");
+        PersonID personID2 = new PersonID("javascri@gmail.com");
+        RelationDesignation descrip1 = new RelationDesignation("filho");
+        RelationDesignation descrip2 = new RelationDesignation("primo");
+        Relation relation1 = new Relation(personID, personID1, descrip1);
+        Relation relation2 = new Relation(personID, personID2, descrip2);
+
+        // Add Relations to Family
+        family.addRelation(relation1);
+        family.addRelation(relation2);
+
+        // Two relations DTO
+        OutputRelationDTO outputRelationDTO1 = new OutputRelationDTO("tonyZe@gmail.com", "rute@gmail.com", "filho", "1");
+        OutputRelationDTO outputRelationDTO2 = new OutputRelationDTO("tonyZe@gmail.com", "javascri@gmail.com", "primo", "2");
+
+        List<OutputRelationDTO> outputRelationDTOList = new ArrayList<>();
+        outputRelationDTOList.add(outputRelationDTO1);
+        outputRelationDTOList.add(outputRelationDTO2);
+
+        FamilyMemberAndRelationsDTO expected = new FamilyMemberAndRelationsDTO();
+        expected.setName("Tony");
+        expected.setPersonID("tonyZe@gmail.com");
+        expected.setRelations(outputRelationDTOList);
+
+        FamilyMemberAndRelationsDTO result = familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(person, family);
+
+        assertEquals(expected, result);
+
+    }
 }
