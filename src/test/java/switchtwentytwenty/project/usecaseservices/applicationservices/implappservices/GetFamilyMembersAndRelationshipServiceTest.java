@@ -10,6 +10,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.family.FamilyMemberAndRelationsListDTO;
+import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
@@ -53,9 +54,9 @@ class GetFamilyMembersAndRelationshipServiceTest {
     Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
     Family family = new Family(familyID, name, registrationDate, adminEmail);
     List<Person> memberList = new ArrayList<>();
-    OutputRelationDTO relationDTO = new OutputRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
-    OutputRelationDTO relationDTOTwo = new OutputRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
-    List<OutputRelationDTO> outputRelationDTOList = new ArrayList<>();
+    OutputPersonRelationDTO relationDTO = new OutputPersonRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
+    OutputPersonRelationDTO relationDTOTwo = new OutputPersonRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
+    List<OutputPersonRelationDTO> outputRelationDTOList = new ArrayList<>();
 
 
     @Test
@@ -71,13 +72,6 @@ class GetFamilyMembersAndRelationshipServiceTest {
         FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberA.id().toString(), outputRelationDTOList);
         FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberB.id().toString(), outputRelationDTOList);
 
-
-
-
-       /* FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO();
-        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO();
-
-        */
         expectedList.addDTO(memberADTO);
         expectedList.addDTO(memberBDTO);
 
