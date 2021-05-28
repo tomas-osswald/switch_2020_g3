@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
-import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
@@ -10,13 +9,9 @@ import switchtwentytwenty.project.dto.family.InputRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
-import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class FamilyDTODomainAssembler {
@@ -95,8 +90,6 @@ public class FamilyDTODomainAssembler {
         familyMemberAndRelationsDTO.setPersonID(person.id().toString());
         List<OutputRelationDTO> relationsDTO = getRelationsDTO(person.id(), family);
         familyMemberAndRelationsDTO.setRelations(relationsDTO);
-        Link selfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(person.id().toString())).withSelfRel();
-        familyMemberAndRelationsDTO.add(selfLink);
         return familyMemberAndRelationsDTO;
     }
 
@@ -107,6 +100,5 @@ public class FamilyDTODomainAssembler {
             outputRelationDTOList.add(toOutputRelationDTO(relation));
         }
         return outputRelationDTOList;
-
     }
 }

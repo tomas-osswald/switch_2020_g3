@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
@@ -56,8 +57,19 @@ class PersonRepositoryTest {
     Address tonyZeAddress = new Address(VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER);
     FamilyID familyID = new FamilyID(VALIDEMAIL);
 
-    Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+    PersonID mariaZeEmail = new PersonID("mariaZe@gmail.com");
 
+    Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+    Person personTwo = new Person(tonyZeName, tonyZeBirthDate, mariaZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+
+    FamilyIDJPA familyIDJPA = new FamilyIDJPA("@tonyze@latinlover.pt");
+    PersonIDJPA personIDJPAOne = new PersonIDJPA(VALIDEMAIL);
+    PersonIDJPA personIDJPATwo = new PersonIDJPA("mariaZe@gmail.com");
+    PersonJPA personJPAOne = new PersonJPA(personIDJPAOne, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, familyIDJPA);
+    PersonJPA personJPATwo = new PersonJPA(personIDJPATwo, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER, familyIDJPA);
+    List<PersonJPA> personJPAList = new ArrayList<>();
+
+    List<Person> personList = new ArrayList<>();
     private AutoCloseable closeble;
 
     @BeforeEach
@@ -146,6 +158,43 @@ class PersonRepositoryTest {
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(optional);
 
         assertThrows(EmailNotRegisteredException.class,()->personRepository.getByID(new PersonID("notregistered@gmail.com")));
+    }
+    @Test
+    void findAllByFamilyIDSuccess() {
+        PhoneNumber tonyZePhone = new PhoneNumber(VALIDPHONENUMBER);
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(tonyZePhone);
+        personJPAList.add(personJPAOne);
+        personJPAList.add(personJPATwo);
+
+        when(personDataDomainAssembler.createFamilyID(any(FamilyID.class))).thenReturn(familyIDJPA);
+        when(iPersonRepositoryJPA.findAllByFamilyid(any(FamilyIDJPA.class))).thenReturn(personJPAList);
+
+        when(personDataDomainAssembler.createPersonID(personJPAOne)).thenReturn(tonyZeEmail);
+        when(personDataDomainAssembler.createName(personJPAOne)).thenReturn(tonyZeName);
+        when(personDataDomainAssembler.createBirthDate(personJPAOne)).thenReturn(tonyZeBirthDate);
+        when(personDataDomainAssembler.createEmailAdressList(personJPAOne)).thenReturn(Collections.emptyList());
+        when(personDataDomainAssembler.createVATNumber(personJPAOne)).thenReturn(tonyZeVat);
+        when(personDataDomainAssembler.createPhoneNumberList(personJPAOne)).thenReturn(phoneNumbers);
+        when(personDataDomainAssembler.createAddress(personJPAOne)).thenReturn(tonyZeAddress);
+        when(personDataDomainAssembler.createFamilyID(personJPAOne)).thenReturn(familyID);
+
+        when(personDataDomainAssembler.createPersonID(personJPATwo)).thenReturn(tonyZeEmail);
+        when(personDataDomainAssembler.createName(personJPATwo)).thenReturn(tonyZeName);
+        when(personDataDomainAssembler.createBirthDate(personJPATwo)).thenReturn(tonyZeBirthDate);
+        when(personDataDomainAssembler.createPersonID(personJPATwo)).thenReturn(mariaZeEmail);
+        when(personDataDomainAssembler.createVATNumber(personJPATwo)).thenReturn(tonyZeVat);
+        when(personDataDomainAssembler.createPhoneNumberList(personJPATwo)).thenReturn(phoneNumbers);
+        when(personDataDomainAssembler.createAddress(personJPATwo)).thenReturn(tonyZeAddress);
+        when(personDataDomainAssembler.createFamilyID(personJPATwo)).thenReturn(familyID);
+
+        List<Person> expected = new ArrayList<>();
+        expected.add(person);
+        expected.add(personTwo);
+
+        List<Person> result = personRepository.findAllByFamilyID(familyID);
+
+        assertEquals(expected, result);
     }
 
 }
