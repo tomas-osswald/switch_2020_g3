@@ -19,7 +19,6 @@ class FamilyDTODomainAssemblerTest {
     FamilyDTODomainAssembler familyDTODomainAssembler = new FamilyDTODomainAssembler();
 
 
-
     @Test
     void toDTO() {
         FamilyID familyID = new FamilyID("admin@gmail.com");
@@ -41,27 +40,27 @@ class FamilyDTODomainAssemblerTest {
     }
 
     @Test
-    void createFamilyNameTest(){
+    void createFamilyNameTest() {
         String familyName = "Simpson";
         String registrationDate = "11/09/2020";
-        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(familyName,registrationDate);
+        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(familyName, registrationDate);
         FamilyName expected = new FamilyName(familyName);
 
         FamilyName result = familyDTODomainAssembler.createFamilyName(inputFamilyDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
-    void createRegistrationDateTest(){
+    void createRegistrationDateTest() {
         String familyName = "Simpson";
         String registrationDate = "11/09/2020";
-        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(familyName,registrationDate);
+        InputFamilyDTO inputFamilyDTO = new InputFamilyDTO(familyName, registrationDate);
         RegistrationDate expected = new RegistrationDate(registrationDate);
 
         RegistrationDate result = familyDTODomainAssembler.createRegistrationDate(inputFamilyDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -72,7 +71,7 @@ class FamilyDTODomainAssemblerTest {
 
         PersonID result = familyDTODomainAssembler.personIDOneToDomain(inputRelationDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -83,7 +82,7 @@ class FamilyDTODomainAssemblerTest {
 
         PersonID result = familyDTODomainAssembler.personIDTwoToDomain(inputRelationDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -94,7 +93,7 @@ class FamilyDTODomainAssemblerTest {
 
         RelationDesignation result = familyDTODomainAssembler.relationDesignationToDomain(inputRelationDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -105,7 +104,7 @@ class FamilyDTODomainAssemblerTest {
 
         FamilyID result = familyDTODomainAssembler.familyIDToDomain(inputRelationDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -114,15 +113,15 @@ class FamilyDTODomainAssemblerTest {
         PersonID personIDB = new PersonID("person@mail.net");
         RelationDesignation designation = new RelationDesignation("Friends");
         RelationID id = new RelationID(13);
-        Relation relation = new Relation(personIDA,personIDB,designation,id);
-        OutputRelationDTO expected = new OutputRelationDTO("admin@mail.net","person@mail.net","Friends","13");
+        Relation relation = new Relation(personIDA, personIDB, designation, id);
+        OutputRelationDTO expected = new OutputRelationDTO("admin@mail.net", "person@mail.net", "Friends", "13");
 
         OutputRelationDTO result = familyDTODomainAssembler.toOutputRelationDTO(relation);
 
-        assertEquals(expected.getLinks(),result.getLinks());
-        assertEquals(expected.getMemberOneID(),result.getMemberOneID());
-        assertEquals(expected.getMemberTwoID(),result.getMemberTwoID());
-        assertEquals(expected.getRelationDesignation(),result.getRelationDesignation());
+        assertEquals(expected.getLinks(), result.getLinks());
+        assertEquals(expected.getMemberOneID(), result.getMemberOneID());
+        assertEquals(expected.getMemberTwoID(), result.getMemberTwoID());
+        assertEquals(expected.getRelationDesignation(), result.getRelationDesignation());
     }
 
     @Test
@@ -179,5 +178,14 @@ class FamilyDTODomainAssemblerTest {
         FamilyID result = familyDTODomainAssembler.familyIDToDomain(familyID);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void toOutputPersonRelationDTO() {
+        Relation relation = new Relation(new PersonID("id@id.com"), new PersonID("id2@id.com"), new RelationDesignation("friends"));
+        OutputPersonRelationDTO expected = new OutputPersonRelationDTO("id@id.com", "id2@id.com", "friends",relation.getId().toString());
+        OutputPersonRelationDTO result = familyDTODomainAssembler.toOutputPersonRelationDTO(relation);
+        assertEquals(expected, result);
+
     }
 }
