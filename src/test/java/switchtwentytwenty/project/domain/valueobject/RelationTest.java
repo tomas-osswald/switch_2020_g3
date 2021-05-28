@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -174,4 +175,11 @@ class RelationTest {
         assertTrue(relation.isMemberA(personOneID));
         assertFalse(relation.isMemberA(personTwoID));
     }
+    @Test
+    void validateRelationTestInvalidRelationWithSameFamilyMember(){
+        PersonID personOneID = new PersonID("admin@gmail.com");
+
+        assertThrows(IllegalArgumentException.class,()->new Relation(personOneID,personOneID,designation));
+    }
+
 }

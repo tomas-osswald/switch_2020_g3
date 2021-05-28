@@ -244,6 +244,7 @@ class FamilyTest {
         RegistrationDate registrationDate = new RegistrationDate(date);
         PersonID adminEmail = new PersonID("admin@gmail.com");
         String emailString = "other@gmail.com";
+        PersonID otherEmail = new PersonID(emailString);
         Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
         Name memberAName = new Name("memberA");
         Name memberBName = new Name("memberB");
@@ -251,7 +252,7 @@ class FamilyTest {
         VATNumber vatNumber = new VATNumber(111222333);
 
         Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
-        Person memberB = new Person(adminEmail, memberBName, birthDate, vatNumber, familyID);
+        Person memberB = new Person(otherEmail, memberBName, birthDate, vatNumber, familyID);
         RelationDesignation relationDesignation = new RelationDesignation("BFFs");
         Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
 
@@ -261,7 +262,6 @@ class FamilyTest {
         result.addRelation(relation);
 
         assertEquals(expected.getRelationByID(relation.getId()), result.getRelationByID(relation.getId()));
-
     }
 
     @Test
@@ -273,6 +273,7 @@ class FamilyTest {
         RegistrationDate registrationDate = new RegistrationDate(date);
         PersonID adminEmail = new PersonID("admin@gmail.com");
         String emailString = "other@gmail.com";
+        PersonID otherEmail = new PersonID(emailString);
         Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
         Name memberAName = new Name("memberA");
         Name memberBName = new Name("memberB");
@@ -280,7 +281,7 @@ class FamilyTest {
         VATNumber vatNumber = new VATNumber(111222333);
 
         Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
-        Person memberB = new Person(adminEmail, memberBName, birthDate, vatNumber, familyID);
+        Person memberB = new Person(otherEmail, memberBName, birthDate, vatNumber, familyID);
         RelationDesignation relationDesignation = new RelationDesignation("BFFs");
         Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
 
@@ -300,6 +301,8 @@ class FamilyTest {
         String date = "12/12/1990";
         RegistrationDate registrationDate = new RegistrationDate(date);
         PersonID adminEmail = new PersonID("admin@gmail.com");
+        String emailString = "other@gmail.com";
+        PersonID otherEmail = new PersonID(emailString);
         Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
         Name memberAName = new Name("memberA");
         Name memberBName = new Name("memberB");
@@ -307,7 +310,7 @@ class FamilyTest {
         VATNumber vatNumber = new VATNumber(111222333);
 
         Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
-        Person memberB = new Person(adminEmail, memberBName, birthDate, vatNumber, familyID);
+        Person memberB = new Person(otherEmail, memberBName, birthDate, vatNumber, familyID);
         RelationDesignation relationDesignation = new RelationDesignation("BFFs");
         Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
 

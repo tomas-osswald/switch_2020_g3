@@ -2,10 +2,12 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
@@ -18,8 +20,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepositor
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class CreateRelationServiceTest {
 
     @Mock
@@ -50,7 +51,9 @@ class CreateRelationServiceTest {
     @DisplayName("Create relation service: Successfully add relation to family")
     @Test
     void createRelationSuccess(){
-
+        Mockito.when(familyDTODomainAssembler.personIDOneToDomain(any(InputRelationDTO.class))).thenReturn(new PersonID(personIDOneString));
+        Mockito.when(familyDTODomainAssembler.personIDTwoToDomain(any(InputRelationDTO.class))).thenReturn(new PersonID(personIDTwoString));
+        Mockito.when(familyDTODomainAssembler.relationDesignationToDomain(any(InputRelationDTO.class))).thenReturn(new RelationDesignation(designationString));
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(any(InputRelationDTO.class))).thenReturn(familyID);
         Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
         Mockito.doNothing().when(family).addRelation(any(Relation.class));
@@ -66,7 +69,9 @@ class CreateRelationServiceTest {
     @DisplayName("Create relation service: Successfully add relation to family")
     @Test
     void createRelationSuccessDoesNotThrow(){
-
+        Mockito.when(familyDTODomainAssembler.personIDOneToDomain(any(InputRelationDTO.class))).thenReturn(new PersonID(personIDOneString));
+        Mockito.when(familyDTODomainAssembler.personIDTwoToDomain(any(InputRelationDTO.class))).thenReturn(new PersonID(personIDTwoString));
+        Mockito.when(familyDTODomainAssembler.relationDesignationToDomain(any(InputRelationDTO.class))).thenReturn(new RelationDesignation(designationString));
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(any(InputRelationDTO.class))).thenReturn(familyID);
         Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
         Mockito.doNothing().when(family).addRelation(any(Relation.class));
@@ -79,7 +84,9 @@ class CreateRelationServiceTest {
     @DisplayName("Create relation service: Fail to  add relation to family because it already exists")
     @Test
     void createRelationFailureRelationAlreadyRegistered(){
-
+        Mockito.when(familyDTODomainAssembler.personIDOneToDomain(any(InputRelationDTO.class))).thenReturn(new PersonID(personIDOneString));
+        Mockito.when(familyDTODomainAssembler.personIDTwoToDomain(any(InputRelationDTO.class))).thenReturn(new PersonID(personIDTwoString));
+        Mockito.when(familyDTODomainAssembler.relationDesignationToDomain(any(InputRelationDTO.class))).thenReturn(new RelationDesignation(designationString));
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(any(InputRelationDTO.class))).thenReturn(familyID);
         Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
         Mockito.doThrow(IllegalArgumentException.class).when(family).addRelation(any(Relation.class));

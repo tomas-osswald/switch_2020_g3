@@ -22,15 +22,17 @@ public class Relation implements ValueObject, Serializable {
     public Relation(PersonID memberA, PersonID memberB, RelationDesignation designation) {
         this.memberA = memberA;
         this.memberB = memberB;
-        //validateRelation();
+        validateRelation();
         this.relationDesignation = designation;
         this.id = new RelationID(hashCode());
     }
 
-    /*private void validateRelation() {
-        if (memberA == memberB)
+    //TODO - O AllArgsConstructor não pode ser usado como anotaçao. Nesse caso não é usado o validateRelation.
+
+    private void validateRelation() {
+        if (memberA.equals(memberB))
             throw new IllegalArgumentException("You entered the same person twice. A relation requires two different people");
-    }*/
+    }
 
 
     @Override
