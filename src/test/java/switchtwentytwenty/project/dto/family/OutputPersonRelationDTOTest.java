@@ -192,4 +192,12 @@ class OutputPersonRelationDTOTest {
 
         assertNotEquals(outputRelationDTOOne.hashCode(), outputRelationDTOTwo.hashCode());
     }
+
+    @Test
+    void setMemberOneID() {
+    }
+
+    @Test
+    void setMemberTwoID() {
+    }
 }
