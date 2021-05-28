@@ -183,9 +183,52 @@ class FamilyDTODomainAssemblerTest {
     @Test
     void toOutputPersonRelationDTO() {
         Relation relation = new Relation(new PersonID("id@id.com"), new PersonID("id2@id.com"), new RelationDesignation("friends"));
-        OutputPersonRelationDTO expected = new OutputPersonRelationDTO("id@id.com", "id2@id.com", "friends",relation.getId().toString());
+        OutputPersonRelationDTO expected = new OutputPersonRelationDTO("id@id.com", "id2@id.com", "friends", relation.getId().toString());
         OutputPersonRelationDTO result = familyDTODomainAssembler.toOutputPersonRelationDTO(relation);
         assertEquals(expected, result);
 
+    }
+
+    @Test
+    void testCreateFamilyMemberAndRelationsDTO() {
+        // Person
+        PersonID personID = new PersonID("tonyZe@gmail.com");
+        Name name = new Name("Tony");
+        BirthDate birthDate = new BirthDate("19/02/1990");
+        VATNumber vatNumber = new VATNumber(123123123);
+        FamilyID familyID = new FamilyID("tonyZe@gmail.com");
+        Person person = new Person(personID, name, birthDate, vatNumber, familyID);
+
+        // Family
+        FamilyName familyName = new FamilyName("Sopranos");
+        RegistrationDate date = new RegistrationDate("12/1/90");
+        Family family = new Family(familyID, familyName, date, personID);
+
+        // Two relations
+        PersonID personID1 = new PersonID("rute@gmail.com");
+        PersonID personID2 = new PersonID("javascri@gmail.com");
+        RelationDesignation descrip1 = new RelationDesignation("filho");
+        RelationDesignation descrip2 = new RelationDesignation("primo");
+        Relation relation1 = new Relation(personID, personID1, descrip1);
+        Relation relation2 = new Relation(personID, personID2, descrip2);
+
+        // Add Relations to Family
+        family.addRelation(relation1);
+        family.addRelation(relation2);
+
+        FamilyMemberAndRelationsDTO expected = new FamilyMemberAndRelationsDTO();
+        expected.setName("Tony");
+        expected.setPersonID("tonyZe@gmail.com");
+        List<OutputPersonRelationDTO> outputRelations = new ArrayList<>();
+        OutputPersonRelationDTO outputRelationsDTO = new OutputPersonRelationDTO();
+        outputRelationsDTO.setRelationID(relation1.getId().toString());
+        outputRelationsDTO.setMemberOneID("tonyZe@gmail.com");
+        outputRelationsDTO.setMemberTwoID("rute@gmail.com");
+        outputRelationsDTO.setRelationDesignation("filho");
+        outputRelations.add(outputRelationsDTO);
+        expected.setRelations(outputRelations);
+
+        FamilyMemberAndRelationsDTO result = familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(person, family);
+        assertEquals(expected, result);
     }
 }
