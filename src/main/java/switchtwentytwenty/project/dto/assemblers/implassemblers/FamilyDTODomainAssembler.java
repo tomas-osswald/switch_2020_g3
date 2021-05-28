@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.InputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 
 @Component
@@ -45,13 +45,16 @@ public class FamilyDTODomainAssembler {
 
         return new PersonID(inputRelationDTO.getPersonIDOne());
     }
+
     public PersonID personIDTwoToDomain(InputRelationDTO inputRelationDTO) {
 
         return new PersonID(inputRelationDTO.getPersonIDTwo());
     }
+
     public RelationDesignation relationDesignationToDomain(InputRelationDTO inputRelationDTO) {
         return new RelationDesignation(inputRelationDTO.getDesignation());
     }
+
     public FamilyID familyIDToDomain(InputRelationDTO inputRelationDTO) {
         return new FamilyID(inputRelationDTO.getFamilyID());
     }
@@ -71,4 +74,8 @@ public class FamilyDTODomainAssembler {
         return outputRelationDTO;
     }
 
+
+    public FamilyID familyIDToDomain(String familyID) {
+        return new FamilyID(familyID);
+    }
 }
