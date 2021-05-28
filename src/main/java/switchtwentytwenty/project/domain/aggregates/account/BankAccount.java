@@ -1,54 +1,51 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.IOwnerID;
+import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Component
 public class BankAccount extends AbNonCashAccount {
 
-    private AccountID accountID;
 
-    private IOwnerID ownerID;
+    public BankAccount(IOwnerID ownerID, Designation designation) {
+        super(ownerID, designation);
+    }
 
-    private Designation designation;
+    public BankAccount() {
+        super();
+    }
 
-    private List<Movement> movements = new ArrayList<>();
-
-   public BankAccount(IOwnerID ownerID, Designation designation) {
-        this.ownerID = ownerID;
-        this.designation = designation;
+    public BankAccount(AccountID id, IOwnerID ownerID, Designation designation, List<Movement> movements) {
+        super(id, ownerID, designation, movements);
     }
 
     @Override
     public boolean hasID(AccountID id) {
-        return this.accountID == id;
+        return super.hasID(id);
     }
 
     @Override
     public AccountID id() {
-        return this.accountID;
+        return super.id();
     }
 
     @Override
     public IOwnerID getOwnerId() {
-        return this.ownerID;
+        return super.getOwnerId();
     }
 
     @Override
     public void setDesignation(Designation designation) {
-        this.designation = designation;
+        super.setDesignation(designation);
     }
 
     @Override
@@ -58,23 +55,24 @@ public class BankAccount extends AbNonCashAccount {
 
     @Override
     public Designation getDesignation() {
-        return this.designation;
+        return super.getDesignation();
     }
 
     @Override
     public void setAccountID(AccountID accountID) {
-        this.accountID = accountID;
+        super.setAccountID(accountID);
     }
 
     @Override
     public void setOwner(IOwnerID ownerID) {
-        this.ownerID = ownerID;
+        super.setOwner(ownerID);
     }
+
     @Override
     public List<Movement> getListOfMovements() {
         List<Movement> copyMovements = new ArrayList<>();
-        if (!this.movements.isEmpty()) {
-            copyMovements.addAll(this.movements);
+        if (!super.getListOfMovements().isEmpty()) {
+            copyMovements.addAll(super.getListOfMovements());
         }
         return copyMovements;
     }
@@ -82,12 +80,12 @@ public class BankAccount extends AbNonCashAccount {
     @Override
     public void setMovements(List<Movement> movements) {
 
-        this.movements = Collections.unmodifiableList(movements);
+        super.setMovements(Collections.unmodifiableList(movements));
     }
 
     @Override
     public void addMovement(Movement movement) {
-        this.movements.add(movement);
+        super.addMovement(movement);
     }
 
     @Override
@@ -95,11 +93,11 @@ public class BankAccount extends AbNonCashAccount {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
         BankAccount that = (BankAccount) o;
-        return Objects.equals(accountID, that.accountID);
+        return Objects.equals(super.id(), that.id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountID, ownerID);
+        return Objects.hash(super.id(), super.getOwnerId());
     }
 }

@@ -157,7 +157,7 @@ class AccountRESTControllerIT {
         AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
         AccountJPA familyAccountJPA = new AccountJPA(accountIDJPALong, familyAsOwnerIDJPA, designationString, cashAccountType);
-        CreateAccountDTO createBankAccountDTO = new CreateAccountDTO(designationString, amount, currency, "@tonyze@cenas.com", accountTypeString);
+        CreateAccountDTO createBankAccountDTO = new CreateAccountDTO(designationString, amount, currency, "@tonyze@cenas.com", "cash");
 
 
         AccountJPA realAccountJPA = new AccountJPA();
