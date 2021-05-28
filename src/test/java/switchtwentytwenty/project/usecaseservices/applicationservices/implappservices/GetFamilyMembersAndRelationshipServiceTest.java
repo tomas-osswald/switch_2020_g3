@@ -1,0 +1,101 @@
+package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import switchtwentytwenty.project.domain.aggregates.family.Family;
+import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
+import switchtwentytwenty.project.dto.family.FamilyMemberAndRelationsListDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
+import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
+import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+class GetFamilyMembersAndRelationshipServiceTest {
+
+
+    @Mock
+    FamilyDTODomainAssembler familyDTODomainAssembler;
+
+    @Mock
+    IFamilyRepository familyRepository;
+
+    @Mock
+    IPersonRepository personRepository;
+
+    @InjectMocks
+    GetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
+
+
+    String familyIDString = new String("@tonyze@latinlover.com");
+    FamilyName name = new FamilyName("tony");
+    RegistrationDate registrationDate = new RegistrationDate("04/20/0420");
+    PersonID adminEmail = new PersonID("tonyze@totiladmin.com");
+    PersonID nonAdminEmail = new PersonID("tonyze@notadmin.com");
+    Name memberAName = new Name(name.toString());
+    BirthDate birthDate = new BirthDate("01/01/1200");
+    VATNumber vatNumber = new VATNumber(123456789);
+    FamilyID familyID = new FamilyID(familyIDString);
+    Person memberA = new Person(adminEmail, memberAName, birthDate, vatNumber, familyID);
+    Person memberB = new Person(nonAdminEmail, memberAName, birthDate, vatNumber, familyID);
+    RelationDesignation relationDesignation = new RelationDesignation("relassssssão");
+    Relation relation = new Relation(memberA.id(), memberB.id(), relationDesignation);
+    Family family = new Family(familyID, name, registrationDate, adminEmail);
+    List<Person> memberList = new ArrayList<>();
+    OutputRelationDTO relationDTO = new OutputRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
+    OutputRelationDTO relationDTOTwo = new OutputRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
+    List<OutputRelationDTO> outputRelationDTOList = new ArrayList<>();
+
+
+    @Test
+    void getFamilyMembersAndRelations() {
+        family.addRelation(relation);
+        memberList.add(memberA);
+        memberList.add(memberB);
+        FamilyMemberAndRelationsListDTO expectedList = new FamilyMemberAndRelationsListDTO();
+
+
+        outputRelationDTOList.add(relationDTO);
+        outputRelationDTOList.add(relationDTOTwo);
+        FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberA.id().toString(), outputRelationDTOList);
+        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberB.id().toString(), outputRelationDTOList);
+
+
+
+
+       /* FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO();
+        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO();
+
+        */
+        expectedList.addDTO(memberADTO);
+        expectedList.addDTO(memberBDTO);
+
+
+        Mockito.when(familyDTODomainAssembler.familyIDToDomain(familyIDString)).thenReturn(familyID);
+        Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
+        Mockito.when(personRepository.findAllByFamilyID(familyID)).thenReturn(memberList);
+
+
+        //Mock de createFamilyMemberAndRelationDTO
+        Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberA, family)).thenReturn(memberADTO);
+        Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberB, family)).thenReturn(memberADTO);
+
+
+        FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
+
+        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString());
+
+        assertEquals(expectedList, resultList);
+
+    }
+}

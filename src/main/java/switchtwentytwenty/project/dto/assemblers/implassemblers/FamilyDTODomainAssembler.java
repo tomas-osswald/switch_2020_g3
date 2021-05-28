@@ -95,8 +95,6 @@ public class FamilyDTODomainAssembler {
         familyMemberAndRelationsDTO.setPersonID(person.id().toString());
         List<OutputRelationDTO> relationsDTO = getRelationsDTO(person.id(), family);
         familyMemberAndRelationsDTO.setRelations(relationsDTO);
-        Link selfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(person.id().toString())).withSelfRel();
-        familyMemberAndRelationsDTO.add(selfLink);
         return familyMemberAndRelationsDTO;
     }
 
