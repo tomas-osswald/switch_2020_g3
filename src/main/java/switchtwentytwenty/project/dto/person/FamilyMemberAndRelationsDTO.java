@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public class FamilyMemberAndRelationsDTO extends RepresentationModel<FamilyMembe
 
     private String name;
     private String personID;
-    private List<OutputRelationDTO> relations;
+    private List<OutputPersonRelationDTO> relations;
 }
