@@ -16,23 +16,21 @@ import java.util.Objects;
 @Getter
 public class FamilyMemberAndRelationsDTO extends RepresentationModel {
 
-   /* @Override
+    private String name;
+    private String personID;
+    private List<OutputPersonRelationDTO> relations;
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof FamilyMemberAndRelationsDTO)) return false;
         if (!super.equals(o)) return false;
         FamilyMemberAndRelationsDTO that = (FamilyMemberAndRelationsDTO) o;
-        return Objects.equals(name, that.name) && Objects.equals(personID, that.personID) && Objects.equals(relations, that.relations);
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getPersonID(), that.getPersonID()) && Objects.equals(getRelations(), that.getRelations());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, personID, relations);
+        return Objects.hash(super.hashCode(), getName(), getPersonID(), getRelations());
     }
-
-    */
-
-    private String name;
-    private String personID;
-    private List<OutputPersonRelationDTO> relations;
 }
