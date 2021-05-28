@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -195,6 +196,7 @@ class FamilyRESTControllerIT {
         assertEquals(expected, result);
     }
 
+    @DisplayName("Family Members And Relations IT - Success")
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
@@ -259,6 +261,23 @@ class FamilyRESTControllerIT {
         familyMemberAndRelationsListDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(familyMemberAndRelationsListDTO, HttpStatus.OK);
+
+        String familyID = "@tonyze@email.com";
+
+        ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID);
+
+        assertEquals(expected, result);
+    }
+
+    @DisplayName("Family Members And Relations IT - Failure - Family Does not Exist")
+    @Test
+    void getFamilyMembersAndRelationsITFailure() {
+        IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService);
+
+        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
+
+        ResponseEntity expected = new ResponseEntity("Error: Family does not exists", HttpStatus.BAD_REQUEST);
 
         String familyID = "@tonyze@email.com";
 
