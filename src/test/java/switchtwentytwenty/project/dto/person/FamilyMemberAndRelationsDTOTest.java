@@ -2,7 +2,7 @@ package switchtwentytwenty.project.dto.person;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.Link;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ class FamilyMemberAndRelationsDTOTest {
         FamilyMemberAndRelationsDTO expected = new FamilyMemberAndRelationsDTO();
         FamilyMemberAndRelationsDTO result = new FamilyMemberAndRelationsDTO();
 
-        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tony@gmail.com", "ze@gmail.com","filho","1");
-        List<OutputRelationDTO> list = new ArrayList<>();
+        OutputPersonRelationDTO outputRelationDTO = new OutputPersonRelationDTO("tony@gmail.com", "ze@gmail.com","filho","1");
+        List<OutputPersonRelationDTO> list = new ArrayList<>();
         list.add(outputRelationDTO);
 
         expected.setRelations(list);
@@ -75,8 +75,8 @@ class FamilyMemberAndRelationsDTOTest {
         FamilyMemberAndRelationsDTO expected = new FamilyMemberAndRelationsDTO();
         FamilyMemberAndRelationsDTO result = new FamilyMemberAndRelationsDTO();
 
-        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tony@gmail.com", "ze@gmail.com","filho","1");
-        List<OutputRelationDTO> list = new ArrayList<>();
+        OutputPersonRelationDTO outputRelationDTO = new OutputPersonRelationDTO("tony@gmail.com", "ze@gmail.com","filho","1");
+        List<OutputPersonRelationDTO> list = new ArrayList<>();
         list.add(outputRelationDTO);
 
         expected.setRelations(list);

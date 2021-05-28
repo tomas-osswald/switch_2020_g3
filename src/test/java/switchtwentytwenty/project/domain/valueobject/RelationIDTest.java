@@ -11,7 +11,7 @@ class RelationIDTest {
     int idTwo = 200;
 
     @Test
-    void constructorTestValidObject(){
+    void constructorTestValidObject() {
         RelationID relationID = new RelationID(idOne);
 
         assertNotNull(relationID);
@@ -19,53 +19,53 @@ class RelationIDTest {
 
 
     @Test
-    void equalsTestEqualObjects(){
+    void equalsTestEqualObjects() {
         RelationID relationIDOne = new RelationID(idOne);
         RelationID relationIDTwo = new RelationID(idOne);
 
-        assertEquals(relationIDOne,relationIDTwo);
-        assertNotSame(relationIDOne,relationIDTwo);
+        assertEquals(relationIDOne, relationIDTwo);
+        assertNotSame(relationIDOne, relationIDTwo);
     }
 
     @Test
-    void equalsTestSameObject(){
+    void equalsTestSameObject() {
         RelationID relationIDOne = new RelationID(idOne);
         RelationID relationIDTwo = relationIDOne;
 
-        assertEquals(relationIDOne,relationIDTwo);
+        assertEquals(relationIDOne, relationIDTwo);
     }
 
     @Test
-    void equalsTestDifferentRelationIDs(){
+    void equalsTestDifferentRelationIDs() {
         RelationID relationIDOne = new RelationID(idOne);
         RelationID relationIDTwo = new RelationID(idTwo);
 
-        assertNotEquals(relationIDOne,relationIDTwo);
+        assertNotEquals(relationIDOne, relationIDTwo);
     }
 
     @Test
-    void equalsTestDifferentObjects(){
+    void equalsTestDifferentObjects() {
         RelationID relationID = new RelationID(idOne);
         LocalDate notRelationID = LocalDate.now();
 
-        assertNotEquals(relationID,notRelationID);
+        assertNotEquals(relationID, notRelationID);
     }
 
     @Test
-    void hashCodeSameHashCode(){
+    void hashCodeSameHashCode() {
         RelationID relationIDOne = new RelationID(idOne);
         RelationID relationIDTwo = new RelationID(idOne);
 
-        assertEquals(relationIDOne.hashCode(),relationIDTwo.hashCode());
-        assertNotSame(relationIDOne,relationIDTwo);
+        assertEquals(relationIDOne.hashCode(), relationIDTwo.hashCode());
+        assertNotSame(relationIDOne, relationIDTwo);
     }
 
     @Test
-    void hashCodeDifferentHashCode(){
+    void hashCodeDifferentHashCode() {
         RelationID relationIDOne = new RelationID(idOne);
         RelationID relationIDTwo = new RelationID(idTwo);
 
-        assertNotEquals(relationIDOne.hashCode(),relationIDTwo.hashCode());
+        assertNotEquals(relationIDOne.hashCode(), relationIDTwo.hashCode());
     }
 
     @Test
@@ -80,7 +80,7 @@ class RelationIDTest {
     }
 
     @Test
-    void getRelationDifferentID(){
+    void getRelationDifferentID() {
         RelationID relationIDOne = new RelationID(idOne);
         RelationID relationIDTwo = new RelationID(idTwo);
         int result = relationIDOne.getId();
@@ -89,4 +89,13 @@ class RelationIDTest {
         assertNotEquals(result, expected);
     }
 
+    @Test
+    void testToString() {
+        RelationID relationIDOne = new RelationID(idOne);
+        String expected = "100";
+        String result = relationIDOne.toString();
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
 }

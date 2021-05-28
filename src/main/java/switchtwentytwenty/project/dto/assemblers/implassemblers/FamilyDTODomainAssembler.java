@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
-import switchtwentytwenty.project.dto.family.InputFamilyDTO;
-import switchtwentytwenty.project.dto.family.InputRelationDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 
 import java.util.ArrayList;
@@ -79,6 +76,21 @@ public class FamilyDTODomainAssembler {
         return outputRelationDTO;
     }
 
+    public OutputPersonRelationDTO toOutputPersonRelationDTO(Relation relation) {
+        String personIDOne = relation.getMemberA().toString();
+        String personIDTwo = relation.getMemberB().toString();
+        String designation = relation.getRelationDesignation().toString();
+        String relationID = relation.getId().toString();
+
+        OutputPersonRelationDTO outputRelationDTO = new OutputPersonRelationDTO(personIDOne, personIDTwo, designation, relationID);
+        outputRelationDTO.setMemberOneID(personIDOne);
+        outputRelationDTO.setMemberTwoID(personIDTwo);
+        outputRelationDTO.setRelationDesignation(designation);
+        outputRelationDTO.setRelationID(relationID);
+
+        return outputRelationDTO;
+    }
+
 
     public FamilyID familyIDToDomain(String familyID) {
         return new FamilyID(familyID);
@@ -88,16 +100,16 @@ public class FamilyDTODomainAssembler {
         FamilyMemberAndRelationsDTO familyMemberAndRelationsDTO = new FamilyMemberAndRelationsDTO();
         familyMemberAndRelationsDTO.setName(person.getName().toString());
         familyMemberAndRelationsDTO.setPersonID(person.id().toString());
-        List<OutputRelationDTO> relationsDTO = getRelationsDTO(person.id(), family);
+        List<OutputPersonRelationDTO> relationsDTO = getRelationsDTO(person.id(), family);
         familyMemberAndRelationsDTO.setRelations(relationsDTO);
         return familyMemberAndRelationsDTO;
     }
 
-    private List<OutputRelationDTO> getRelationsDTO(PersonID id, Family family) {
+    private List<OutputPersonRelationDTO> getRelationsDTO(PersonID id, Family family) {
         List<Relation> personRelationList = family.getRelationsByPersonID(id);
-        List<OutputRelationDTO> outputRelationDTOList = new ArrayList<>();
+        List<OutputPersonRelationDTO> outputRelationDTOList = new ArrayList<>();
         for (Relation relation : personRelationList) {
-            outputRelationDTOList.add(toOutputRelationDTO(relation));
+            outputRelationDTOList.add(toOutputPersonRelationDTO(relation));
         }
         return outputRelationDTOList;
     }

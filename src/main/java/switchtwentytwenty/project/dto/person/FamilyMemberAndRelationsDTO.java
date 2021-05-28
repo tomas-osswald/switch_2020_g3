@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,11 +14,11 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @Getter
-public class FamilyMemberAndRelationsDTO extends RepresentationModel<FamilyMemberAndRelationsDTO> {
+public class FamilyMemberAndRelationsDTO extends RepresentationModel {
 
     private String name;
     private String personID;
-    private List<OutputRelationDTO> relations;
+    private List<OutputPersonRelationDTO> relations;
 
     @Override
     public boolean equals(Object o) {
@@ -33,4 +33,5 @@ public class FamilyMemberAndRelationsDTO extends RepresentationModel<FamilyMembe
     public int hashCode() {
         return Objects.hash(super.hashCode(), getName(), getPersonID(), getRelations());
     }
+
 }
