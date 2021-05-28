@@ -6,7 +6,8 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -200,7 +201,7 @@ class FamilyTest {
     }*/
 
     @Test
-    void isPersonTheAdminTestTrue(){
+    void isPersonTheAdminTestTrue() {
         //Arrange
         FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
@@ -217,7 +218,7 @@ class FamilyTest {
     }
 
     @Test
-    void isPersonTheAdminTestFalse(){
+    void isPersonTheAdminTestFalse() {
         //Arrange
         FamilyID familyID = new FamilyID("admin@gmail.com");
         String familyNameString = "Ribeiro";
@@ -285,7 +286,9 @@ class FamilyTest {
 
         expected.addRelation(relation);
 
-        assertThrows(RelationAlreadyRegisteredException.class, () -> {expected.addRelation(relation);});
+        assertThrows(RelationAlreadyRegisteredException.class, () -> {
+            expected.addRelation(relation);
+        });
 
     }
 
@@ -310,13 +313,15 @@ class FamilyTest {
 
         expected.addRelation(relation);
 
-        assertThrows(IllegalArgumentException.class, () -> {expected.getRelationByID(new RelationID(3));});
+        assertThrows(IllegalArgumentException.class, () -> {
+            expected.getRelationByID(new RelationID(3));
+        });
     }
 
     @Test
-    void isRelationAlreadyRegisteredTest(){
-        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
-        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+    void isRelationAlreadyRegisteredTest() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"), new PersonID("admin@gmail.com"), new RelationDesignation("Amigos"), new RelationID(12));
         family.addRelation(relation);
 
         boolean result = family.isRelationAlreadyRegistered(relation);
@@ -325,9 +330,9 @@ class FamilyTest {
     }
 
     @Test
-    void isRelationAlreadyRegisteredNotRegisteredYetEmptyListTest(){
-        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
-        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
+    void isRelationAlreadyRegisteredNotRegisteredYetEmptyListTest() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"), new PersonID("admin@gmail.com"), new RelationDesignation("Amigos"), new RelationID(12));
 
         boolean result = family.isRelationAlreadyRegistered(relation);
 
@@ -335,10 +340,10 @@ class FamilyTest {
     }
 
     @Test
-    void isRelationAlreadyRegisteredNotRegisteredYetNotEmptyListTest(){
-        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
-        Relation relation = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(12));
-        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"),new PersonID("teste2@gmail.com"),new RelationDesignation("Friends"),new RelationID(10));
+    void isRelationAlreadyRegisteredNotRegisteredYetNotEmptyListTest() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relation = new Relation(new PersonID("tony@gmail.com"), new PersonID("admin@gmail.com"), new RelationDesignation("Amigos"), new RelationID(12));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"), new PersonID("teste2@gmail.com"), new RelationDesignation("Friends"), new RelationID(10));
         family.addRelation(relationTwo);
 
         boolean result = family.isRelationAlreadyRegistered(relation);
@@ -347,30 +352,61 @@ class FamilyTest {
     }
 
     @Test
-    void getRelationByIDTest(){
-        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
-        Relation relationOne = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(1));
-        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"),new PersonID("teste2@gmail.com"),new RelationDesignation("Friends"),new RelationID(2));
+    void getRelationByIDTest() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("tony@gmail.com"), new PersonID("admin@gmail.com"), new RelationDesignation("Amigos"), new RelationID(1));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"), new PersonID("teste2@gmail.com"), new RelationDesignation("Friends"), new RelationID(2));
         family.addRelation(relationOne);
         family.addRelation(relationTwo);
 
         Relation result = family.getRelationByID(new RelationID(1));
 
-        assertEquals(relationOne,result);
+        assertEquals(relationOne, result);
     }
 
     @Test
-    void getRelationByIDRelationNotFoundTest(){
-        Family family = new Family(new FamilyID("@admin@gmail.com"),new FamilyName("Silva"),new RegistrationDate("12/01/1999"),new PersonID("admin@gmail.com"));
-        Relation relationOne = new Relation(new PersonID("tony@gmail.com"),new PersonID("admin@gmail.com"),new RelationDesignation("Amigos"),new RelationID(1));
-        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"),new PersonID("teste2@gmail.com"),new RelationDesignation("Friends"),new RelationID(2));
+    void getRelationByIDRelationNotFoundTest() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("tony@gmail.com"), new PersonID("admin@gmail.com"), new RelationDesignation("Amigos"), new RelationID(1));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"), new PersonID("teste2@gmail.com"), new RelationDesignation("Friends"), new RelationID(2));
         family.addRelation(relationOne);
         family.addRelation(relationTwo);
 
-        assertThrows(IllegalArgumentException.class, ()-> family.getRelationByID(new RelationID(20)));
+        assertThrows(IllegalArgumentException.class, () -> family.getRelationByID(new RelationID(20)));
 
 
     }
 
 
+    @Test
+    void getRelations() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("tony@gmail.com"), new PersonID("admin@gmail.com"), new RelationDesignation("Amigos"), new RelationID(1));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"), new PersonID("teste2@gmail.com"), new RelationDesignation("Friends"), new RelationID(2));
+        family.addRelation(relationOne);
+        family.addRelation(relationTwo);
+
+        List<Relation> expected = new ArrayList<>();
+        expected.add(relationOne);
+        expected.add(relationTwo);
+
+        List<Relation> result = family.getRelations();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getRelationsByPersonID() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("admin@gmail.com"), new PersonID("tony@gmail.com"), new RelationDesignation("Amigos"), new RelationID(1));
+        Relation relationTwo = new Relation(new PersonID("teste@gmail.com"), new PersonID("teste2@gmail.com"), new RelationDesignation("Friends"), new RelationID(2));
+        family.addRelation(relationOne);
+        family.addRelation(relationTwo);
+
+        List<Relation> expected = new ArrayList<>();
+        expected.add(relationOne);
+
+
+        List<Relation> result = family.getRelationsByPersonID(new PersonID("admin@gmail.com"));
+        assertEquals(expected, result);
+    }
 }
