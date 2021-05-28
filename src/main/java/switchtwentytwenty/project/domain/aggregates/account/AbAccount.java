@@ -1,9 +1,7 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
-import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public abstract class AbAccount implements IAccount {
     public AbAccount(AccountID id, Designation designation, List<Movement> movements) {
         this.accountID = id;
         this.designation = designation;
-        this.movements = movements;
+        this.movements = listOfMovementsClone(movements);
     }
 
     @Override
@@ -38,7 +36,11 @@ public abstract class AbAccount implements IAccount {
 
     @Override
     public List<Movement> getListOfMovements() {
-        return this.movements;
+        return listOfMovementsClone(this.movements);
+    }
+
+    private List<Movement> listOfMovementsClone(List<Movement> movements) {
+        return new ArrayList<>(movements);
     }
 
     @Override
@@ -63,7 +65,7 @@ public abstract class AbAccount implements IAccount {
 
     @Override
     public void setMovements(List<Movement> movements) {
-        this.movements = movements;
+        this.movements = listOfMovementsClone(movements);
     }
 
     @Override

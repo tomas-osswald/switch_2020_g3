@@ -8,6 +8,7 @@ import switchtwentytwenty.project.dto.accounts.OutputAccountDTO;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IAccountDTODomainAssembler;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -100,8 +101,8 @@ class AccountDTODomainAssemblerTest {
         IOwnerID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
-        IAccount savedAccountA = new CashAccount(accountIDA, ownerIDA, designationA, null);
-        IAccount savedAccountB = new CashAccount(accountIDB, ownerIDB, designationB, null);
+        IAccount savedAccountA = new CashAccount(accountIDA, ownerIDA, designationA, Collections.emptyList());
+        IAccount savedAccountB = new CashAccount(accountIDB, ownerIDB, designationB, Collections.emptyList());
 
         OutputAccountDTO expected = new OutputAccountDTO(accountIDA.toString(), ownerIDA.toString(), designationA.toString());
         OutputAccountDTO resultA = accountDTODomainAssembler.toDTO(savedAccountA);
@@ -123,8 +124,8 @@ class AccountDTODomainAssemblerTest {
         IOwnerID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
-        IAccount savedAccountA = new CreditCardAccount(accountIDA, ownerIDA, designationA, null);
-        IAccount savedAccountB = new CreditCardAccount(accountIDB, ownerIDB, designationB, null);
+        IAccount savedAccountA = new CreditCardAccount(accountIDA, ownerIDA, designationA, Collections.emptyList());
+        IAccount savedAccountB = new CreditCardAccount(accountIDB, ownerIDB, designationB, Collections.emptyList());
 
         OutputAccountDTO expected = new OutputAccountDTO(accountIDA.toString(), ownerIDA.toString(), designationA.toString());
         OutputAccountDTO resultA = accountDTODomainAssembler.toDTO(savedAccountA);
@@ -145,8 +146,8 @@ class AccountDTODomainAssemblerTest {
         IOwnerID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
-        IAccount savedAccountA = new BankAccount(accountIDA, ownerIDA, designationA, null);
-        IAccount savedAccountB = new BankAccount(accountIDB, ownerIDB, designationB, null);
+        IAccount savedAccountA = new BankAccount(accountIDA, ownerIDA, designationA, Collections.emptyList());
+        IAccount savedAccountB = new BankAccount(accountIDB, ownerIDB, designationB, Collections.emptyList());
 
         OutputAccountDTO expected = new OutputAccountDTO(accountIDA.toString(), ownerIDA.toString(), designationA.toString());
         OutputAccountDTO resultA = accountDTODomainAssembler.toDTO(savedAccountA);
@@ -167,8 +168,8 @@ class AccountDTODomainAssemblerTest {
         PersonID ownerIDB = new PersonID("katia@latinas.com");
         Designation designationB = new Designation("chungaria");
 
-        IAccount savedAccountA = new BankSavingsAccount(accountIDA, ownerIDA, designationA, null);
-        IAccount savedAccountB = new BankSavingsAccount(accountIDB, ownerIDB, designationB, null);
+        IAccount savedAccountA = new BankSavingsAccount(accountIDA, ownerIDA, designationA, Collections.emptyList());
+        IAccount savedAccountB = new BankSavingsAccount(accountIDB, ownerIDB, designationB, Collections.emptyList());
 
         OutputAccountDTO expected = new OutputAccountDTO(accountIDA.toString(), ownerIDA.toString(), designationA.toString());
         OutputAccountDTO resultA = accountDTODomainAssembler.toDTO(savedAccountA);

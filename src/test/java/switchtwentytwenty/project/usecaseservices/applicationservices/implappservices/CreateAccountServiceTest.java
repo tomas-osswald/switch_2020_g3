@@ -17,6 +17,7 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.AccountDTODomain
 import switchtwentytwenty.project.usecaseservices.irepositories.IAccountRepository;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,7 +57,7 @@ class CreateAccountServiceTest {
     AccountID accountIDB = new AccountID(123L);
 
     OutputAccountDTO outputAccountDTO = new OutputAccountDTO("123", "tonyze@latinlover.com", "balelas");
-    IAccount personalCashAccount = new CashAccount(accountID, ownerID, designation, null);
+    IAccount personalCashAccount = new CashAccount(accountID, ownerID, designation, Collections.emptyList());
 
     @Test
     void NoArgsConstructor() {
@@ -69,8 +70,8 @@ class CreateAccountServiceTest {
     @Test
     void createAccountSuccessTest() {
 
-        IAccount account = new CashAccount(accountID, ownerID, designation, null);
-        IAccount savedAccount = new CashAccount(accountID, ownerID, designation, null);
+        IAccount account = new CashAccount(accountID, ownerID, designation, Collections.emptyList());
+        IAccount savedAccount = new CashAccount(accountID, ownerID, designation, Collections.emptyList());
 
         Mockito.when(accountDTODomainAssembler.designationToDomain(any(InputAccountDTO.class))).thenReturn(designation);
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
@@ -128,8 +129,8 @@ class CreateAccountServiceTest {
     @Test
     void addCashAccountToRepositorySuccessCase() {
 
-        IAccount account = new CashAccount(accountID, ownerID, designation, null);
-        IAccount savedAccount = new CashAccount(accountID, ownerID, designation, null);
+        IAccount account = new CashAccount(accountID, ownerID, designation, Collections.emptyList());
+        IAccount savedAccount = new CashAccount(accountID, ownerID, designation, Collections.emptyList());
 
         Mockito.when(accountDTODomainAssembler.designationToDomain(any(InputAccountDTO.class))).thenReturn(designation);
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
@@ -151,8 +152,8 @@ class CreateAccountServiceTest {
 
     @Test
     void addCreditCardAccountToRepositorySuccessCase() {
-        IAccount account = new CreditCardAccount(accountID, ownerID, designation, null);
-        IAccount savedAccount = new CreditCardAccount(accountID, ownerID, designation, null);
+        IAccount account = new CreditCardAccount(accountID, ownerID, designation, Collections.emptyList());
+        IAccount savedAccount = new CreditCardAccount(accountID, ownerID, designation, Collections.emptyList());
 
         Mockito.when(accountDTODomainAssembler.designationToDomain(any(InputAccountDTO.class))).thenReturn(designation);
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
@@ -174,8 +175,8 @@ class CreateAccountServiceTest {
 
     @Test
     void addBankAccountToRepositorySuccessCase() {
-        IAccount account = new BankAccount(accountID, ownerID, designation, null);
-        IAccount savedAccount = new BankAccount(accountID, ownerID, designation, null);
+        IAccount account = new BankAccount(accountID, ownerID, designation, Collections.emptyList());
+        IAccount savedAccount = new BankAccount(accountID, ownerID, designation, Collections.emptyList());
 
         Mockito.when(accountDTODomainAssembler.designationToDomain(any(InputAccountDTO.class))).thenReturn(designation);
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
@@ -197,8 +198,8 @@ class CreateAccountServiceTest {
 
     @Test
     void addBankSavingsAccountToRepositorySuccessCase() {
-        IAccount account = new BankSavingsAccount(accountID, ownerID, designation, null);
-        IAccount savedAccount = new BankSavingsAccount(accountID, ownerID, designation, null);
+        IAccount account = new BankSavingsAccount(accountID, ownerID, designation, Collections.emptyList());
+        IAccount savedAccount = new BankSavingsAccount(accountID, ownerID, designation, Collections.emptyList());
 
         Mockito.when(accountDTODomainAssembler.designationToDomain(any(InputAccountDTO.class))).thenReturn(designation);
         Mockito.when(accountDTODomainAssembler.initialAmountToDomain(any(InputAccountDTO.class))).thenReturn(initialAmount);
@@ -220,7 +221,7 @@ class CreateAccountServiceTest {
 
     @Test
     void equalsTestForSameCashAccount() {
-        IAccount accountA = new CashAccount(accountID, ownerID, designation, null);
+        IAccount accountA = new CashAccount(accountID, ownerID, designation, Collections.emptyList());
         IAccount accountB = accountA;
 
         assertEquals(accountA, accountB);
@@ -228,7 +229,7 @@ class CreateAccountServiceTest {
 
     @Test
     void equalsTestForSameCreditCardAccount() {
-        IAccount accountA = new CreditCardAccount(accountID, ownerID, designation, null);
+        IAccount accountA = new CreditCardAccount(accountID, ownerID, designation, Collections.emptyList());
         IAccount accountB = accountA;
 
         assertEquals(accountA, accountB);
@@ -236,7 +237,7 @@ class CreateAccountServiceTest {
 
     @Test
     void equalsTestForSameBankAccount() {
-        IAccount accountA = new BankAccount(accountID, ownerID, designation, null);
+        IAccount accountA = new BankAccount(accountID, ownerID, designation, Collections.emptyList());
         IAccount accountB = accountA;
 
         assertEquals(accountA, accountB);
@@ -244,7 +245,7 @@ class CreateAccountServiceTest {
 
     @Test
     void equalsTestForSameBankSavingsAccount() {
-        IAccount accountA = new BankSavingsAccount(accountID, ownerID, designation, null);
+        IAccount accountA = new BankSavingsAccount(accountID, ownerID, designation, Collections.emptyList());
         IAccount accountB = accountA;
 
         assertEquals(accountA, accountB);
