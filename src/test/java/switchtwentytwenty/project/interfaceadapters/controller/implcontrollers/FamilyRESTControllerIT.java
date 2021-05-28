@@ -25,7 +25,7 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAs
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.FamilyMemberAndRelationsListDTO;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
@@ -241,8 +241,8 @@ class FamilyRESTControllerIT {
         FamilyMemberAndRelationsListDTO familyMemberAndRelationsListDTO = new FamilyMemberAndRelationsListDTO();
         Integer relationID = Objects.hash(new PersonID("tony@email.com"), new PersonID("katia@email.com"));
 
-        List<OutputRelationDTO> relations = new ArrayList<>();
-        relations.add(new OutputRelationDTO("tony@email.com", "katia@email.com", "Marido", relationID.toString()));
+        List<OutputPersonRelationDTO> relations = new ArrayList<>();
+        relations.add(new OutputPersonRelationDTO("tony@email.com", "katia@email.com", "Marido", relationID.toString()));
 
         FamilyMemberAndRelationsDTO memberOne = new FamilyMemberAndRelationsDTO("tony", "tony@email.com", relations);
         Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
