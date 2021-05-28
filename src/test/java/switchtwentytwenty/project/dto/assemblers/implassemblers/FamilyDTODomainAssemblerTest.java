@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.InputFamilyDTO;
@@ -32,7 +31,7 @@ class FamilyDTODomainAssemblerTest {
 
         OutputFamilyDTO expected = new OutputFamilyDTO(familyNameString, familyID.toString(), emailString, registrationDate.toString());
 
-        OutputFamilyDTO result = familyDTODomainAssembler.toDTO(family);
+        OutputFamilyDTO result = familyDTODomainAssembler.toOutputRelationDTO(family);
 
         assertEquals(expected, result);
         assertNotNull(result);
@@ -115,7 +114,7 @@ class FamilyDTODomainAssemblerTest {
         Relation relation = new Relation(personIDA,personIDB,designation,id);
         OutputRelationDTO expected = new OutputRelationDTO("admin@mail.net","person@mail.net","Friends","13");
 
-        OutputRelationDTO result = familyDTODomainAssembler.toDTO(relation);
+        OutputRelationDTO result = familyDTODomainAssembler.toOutputRelationDTO(relation);
 
         assertEquals(expected.getLinks(),result.getLinks());
         assertEquals(expected.getMemberOneID(),result.getMemberOneID());

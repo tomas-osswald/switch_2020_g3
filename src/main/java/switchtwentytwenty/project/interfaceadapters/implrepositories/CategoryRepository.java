@@ -4,6 +4,7 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.CategoryIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
@@ -36,7 +37,14 @@ public class CategoryRepository implements ICategoryRepository {
 
     @Override
     public Category getByID(CategoryID id) {
-        throw new UnsupportedOperationException();
+
+        CategoryIDJPA categoryIDJPA = categoryAssembler.toData(id);
+        Optional<CategoryJPA> categoryJPA = categoryRepositoryJPA.findById(categoryIDJPA);
+        if (categoryJPA.isPresent()) {
+            return createCategory(categoryJPA.get());
+        } else {
+            throw new IllegalArgumentException("Category does not exist");
+        }
     }
 
     @Override

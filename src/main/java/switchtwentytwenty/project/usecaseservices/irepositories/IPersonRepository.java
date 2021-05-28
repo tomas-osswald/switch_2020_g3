@@ -1,7 +1,10 @@
 package switchtwentytwenty.project.usecaseservices.irepositories;
 
 import switchtwentytwenty.project.domain.aggregates.person.Person;
+import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
+
+import java.util.List;
 
 public interface IPersonRepository extends Repository<Person, PersonID> {
 
@@ -13,4 +16,5 @@ public interface IPersonRepository extends Repository<Person, PersonID> {
 
     Person updatePerson(Person person);
 
+    List<Person> findAllByFamilyID(FamilyID internalFamilyID);
 }

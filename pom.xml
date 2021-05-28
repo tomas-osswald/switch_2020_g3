@@ -196,6 +196,7 @@
                     </inScopeClasses>-->
                     <targetClasses>
                         <param>switchtwentytwenty.project.*</param>
+<<<<<<< HEAD
                         <!--<param>switchtwentytwenty.project.datamodel.*</param>
                         <param>switchtwentytwenty.project.domain.*</param>
                         <param>switchtwentytwenty.project.dto.*</param>
@@ -204,6 +205,17 @@
                         <param>switchtwentytwenty.project.usecaseservices.*</param>
                         <param>switchtwentytwenty.project.util.*</param>-->
                     </targetClasses>
+=======
+                    <!--<param>switchtwentytwenty.project.datamodel.*</param>
+                   <param>switchtwentytwenty.project.domain.*</param>
+                   <param>switchtwentytwenty.project.dto.*</param>
+                   <param>switchtwentytwenty.project.exceptions.*</param>
+                   <param>switchtwentytwenty.project.interfaceadapters.*</param>
+                   <param>switchtwentytwenty.project.usecaseservices.*</param>
+                   <param>switchtwentytwenty.project.util.*</param>-->
+               </targetClasses>
+
+>>>>>>> origin/master
                     <targetTests>
                         <param>switchtwentytwenty.project.*</param>
                         <!--<param>switchtwentytwenty.project.datamodel.*</param>
@@ -215,9 +227,15 @@
                         <param>switchtwentytwenty.project.util.*</param>-->
                     </targetTests>
                     <excludedTestClasses>
+<<<<<<< HEAD
                         <!--<excludedTestClass>switchtwentytwenty.**.*ITDB</excludedTestClass>-->
                         <excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
                         <excludedTestClass>switchtwentytwenty.project.*ITDB</excludedTestClass>
+=======
+                        <excludedTestClass>switchtwentytwenty.**.*ITDB</excludedTestClass>
+                        <!--<excludedTestClass>switchtwentytwenty.project.**.*ITDB</excludedTestClass>
+                        <excludedTestClass>switchtwentytwenty.project.*ITDB</excludedTestClass>-->
+>>>>>>> origin/master
                     </excludedTestClasses>
                     <outputFormats>
                         <outputFormat>XML</outputFormat>

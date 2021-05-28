@@ -33,6 +33,8 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final PersonInputDTOAssembler personAssembler;
 
+    private final IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
+
     private final IFamiliesOptionsService familiesOptionsService;
 
     private final IFamilyOptionsService familyOptionsService;
@@ -42,10 +44,11 @@ public class FamilyRESTController implements IFamilyRESTController {
     private final IGetCustomCategoriesService customCategoriesService;
 
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
+        this.getFamilyMembersAndRelationshipService = getFamilyMembersAndRelationshipService;
         this.familiesOptionsService = familiesOptionsService;
         this.familyOptionsService = familyOptionsService;
         this.createRelationService = createRelationService;
@@ -116,7 +119,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             status = HttpStatus.CREATED;
             Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
             outputRelationDTO.add(optionsLink);
-            return new ResponseEntity<> (outputRelationDTO, status);
+            return new ResponseEntity<>(outputRelationDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             return new ResponseEntity("Error: " + e.getMessage(), status);
@@ -125,6 +128,23 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     }
 
+
+    @GetMapping("/{familyID}/relations")
+    public ResponseEntity<FamilyMemberAndRelationsListDTO> getFamilyMembersAndRelations(@PathVariable String familyID) {
+        HttpStatus status;
+        FamilyMemberAndRelationsListDTO familyMemberAndRelationsListDTO;
+        try {
+            familyMemberAndRelationsListDTO = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID);
+            status = HttpStatus.OK;
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+            familyMemberAndRelationsListDTO.add(selfLink);
+            return new ResponseEntity<>(familyMemberAndRelationsListDTO, status);
+        } catch (IllegalArgumentException exception) {
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity("Error: " + exception.getMessage(), status);
+        }
+
+    }
 
     @GetMapping("/{familyID}")
     public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
@@ -143,14 +163,14 @@ public class FamilyRESTController implements IFamilyRESTController {
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
             outputCategoryTreeDTO.add(selfLink);
             return new ResponseEntity<>(outputCategoryTreeDTO, status);
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity("Error: " + e.getMessage(), status);
         }
     }
 
     @RequestMapping(value = "/{familyID}/categories", method = RequestMethod.OPTIONS)
-    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID){
+    public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID) {
         throw new UnsupportedOperationException();
     }
 }

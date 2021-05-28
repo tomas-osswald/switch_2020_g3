@@ -1,9 +1,11 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 public class CategoryID implements ID<Long> {
-
+    @Getter
     private final long id;
 
     public CategoryID(long categoryID) {

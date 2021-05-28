@@ -2,7 +2,6 @@ package switchtwentytwenty.project.domain.aggregates.family;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
@@ -59,7 +58,7 @@ public class Family implements AggregateRoot<FamilyID> {
     }
 
     public void addRelation(Relation relation) {
-        if(!isRelationAlreadyRegistered(relation)) {
+        if (!isRelationAlreadyRegistered(relation)) {
             this.relations.add(relation);
         } else {
             throw new RelationAlreadyRegisteredException();
@@ -85,5 +84,15 @@ public class Family implements AggregateRoot<FamilyID> {
             }
         }
         return relationPresent;
+    }
+
+    public List<Relation> getRelationsByPersonID(PersonID id) {
+        List<Relation> personRelations = new ArrayList<>();
+        for (Relation relation : this.relations) {
+            if(relation.isMemberA(id)){
+                personRelations.add(relation);
+            }
+        }
+        return personRelations;
     }
 }
