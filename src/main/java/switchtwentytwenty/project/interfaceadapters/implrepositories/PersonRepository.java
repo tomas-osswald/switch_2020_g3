@@ -27,7 +27,7 @@ public class PersonRepository implements IPersonRepository {
 
 
     @Autowired
-    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) throws ReflectiveOperationException {
+    public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler)  {
         this.personRepositoryJPA = iPersonRepositoryJPA;
         this.personAssembler = personDataDomainAssembler;
 
