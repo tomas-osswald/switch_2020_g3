@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa;
 
 import org.junit.jupiter.api.Test;
+import switchtwentytwenty.project.datamodel.domainjpa.CategoryIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
@@ -81,7 +82,7 @@ class CategoryDataDomainAssemblerTest {
     @Test
     void toDataCategoryJPAWithFamilyID() {
         CategoryJPA expected = new CategoryJPA("catName", 12L, "11", new FamilyIDJPA("@admin@gmail.com"));
-        Category category = new CustomCategory(new CategoryID(12L),new ParentCategoryPath("11") ,new CategoryName("catName"),new FamilyID("@admin@gmail.com"));
+        Category category = new CustomCategory(new CategoryID(12L), new ParentCategoryPath("11"), new CategoryName("catName"), new FamilyID("@admin@gmail.com"));
         CategoryJPA result = categoryDataDomainAssembler.toData(category);
 
         assertNotSame(expected, result);
@@ -110,10 +111,20 @@ class CategoryDataDomainAssemblerTest {
 
     @Test
     void testCreateFamilyID() {
-        CategoryJPA categoryJPA = new CategoryJPA("Casa",12L,"/external/20040",null);
+        CategoryJPA categoryJPA = new CategoryJPA("Casa", 12L, "/external/20040", null);
 
         Optional<FamilyID> result = categoryDataDomainAssembler.createFamilyID(categoryJPA);
 
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    void toDataCategoryIDJPA() {
+        CategoryIDJPA expected = new CategoryIDJPA(2L);
+        CategoryID catid = new CategoryID(2L);
+        CategoryIDJPA result = categoryDataDomainAssembler.toData(catid);
+
+        assertEquals(expected, result);
+
     }
 }

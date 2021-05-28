@@ -72,4 +72,14 @@ class CategoryIDTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void getId() {
+        CategoryID id = new CategoryID(categoryID);
+        Long expected = 1L;
+        Long result = id.getId();
+
+        assertEquals(expected, result);
+
+    }
 }

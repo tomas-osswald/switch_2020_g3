@@ -111,10 +111,33 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    void testGetByID() {
+    void testGetByIDSuccess() {
         CategoryID categoryID = new CategoryID(12L);
+        CategoryIDJPA categoryIDJPA = new CategoryIDJPA(12);
+        Category expected = new StandardCategory(new CategoryName("name"),categoryID,new ParentCategoryPath("11"));
+        CategoryJPA categoryJPA = new CategoryJPA("name",12L,"11",null);
+        Optional<CategoryJPA> optional = Optional.of(categoryJPA);
 
-        assertThrows(UnsupportedOperationException.class, () -> categoryRepository.getByID(categoryID));
+        Mockito.when(categoryDataDomainAssembler.toData(categoryID)).thenReturn(categoryIDJPA);
+        Mockito.when(categoryRepositoryJPA.findById(categoryIDJPA)).thenReturn(optional);
+        Mockito.when(categoryDataDomainAssembler.createCategoryID(categoryJPA)).thenReturn(new CategoryID(12));
+        Mockito.when(categoryDataDomainAssembler.createCategoryName(categoryJPA)).thenReturn(new CategoryName("name"));
+        Mockito.when(categoryDataDomainAssembler.createParentID(categoryJPA)).thenReturn(new ParentCategoryPath("11"));
+        Mockito.when(categoryFactory.createCategory(any(CategoryID.class),any(CategoryName.class),any(ParentCategoryPath.class),any(Optional.class))).thenReturn(expected);
+        Category result = categoryRepository.getByID(categoryID);
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void testGetByIDFail() {
+        CategoryID categoryID = new CategoryID(12L);
+        CategoryIDJPA categoryIDJPA = new CategoryIDJPA(12);
+        Optional<CategoryJPA> optional = Optional.empty();
+
+        Mockito.when(categoryDataDomainAssembler.toData(categoryID)).thenReturn(categoryIDJPA);
+        Mockito.when(categoryRepositoryJPA.findById(categoryIDJPA)).thenReturn(optional);
+        assertThrows(IllegalArgumentException.class, ()->categoryRepository.getByID(categoryID));
+
     }
 
     @Test

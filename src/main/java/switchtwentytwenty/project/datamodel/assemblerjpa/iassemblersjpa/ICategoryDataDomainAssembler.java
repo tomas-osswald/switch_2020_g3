@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa;
 
+import switchtwentytwenty.project.datamodel.domainjpa.CategoryIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
@@ -21,4 +22,6 @@ public interface ICategoryDataDomainAssembler extends AssemblerDataDomain<Catego
     ParentCategoryPath createParentID(CategoryJPA categoryJPA);
 
     Optional<FamilyID> createFamilyID(CategoryJPA categoryJPA);
+
+    CategoryIDJPA toData(CategoryID id);
 }
