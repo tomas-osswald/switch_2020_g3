@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
-import switchtwentytwenty.project.domain.valueobject.Movement;
 import switchtwentytwenty.project.domain.valueobject.IOwnerID;
+import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class BankAccount extends AbNonCashAccount {
 
     private List<Movement> movements = new ArrayList<>();
 
-   public BankAccount(IOwnerID ownerID, Designation designation) {
+    public BankAccount(IOwnerID ownerID, Designation designation) {
         this.ownerID = ownerID;
         this.designation = designation;
     }
@@ -70,6 +70,7 @@ public class BankAccount extends AbNonCashAccount {
     public void setOwner(IOwnerID ownerID) {
         this.ownerID = ownerID;
     }
+
     @Override
     public List<Movement> getListOfMovements() {
         List<Movement> copyMovements = new ArrayList<>();
@@ -86,11 +87,6 @@ public class BankAccount extends AbNonCashAccount {
     }
 
     @Override
-    public void addMovement(Movement movement) {
-        this.movements.add(movement);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BankAccount)) return false;
@@ -101,5 +97,10 @@ public class BankAccount extends AbNonCashAccount {
     @Override
     public int hashCode() {
         return Objects.hash(accountID, ownerID);
+    }
+
+    @Override
+    public void addMovement(Movement movement) {
+        this.movements.add(movement);
     }
 }
