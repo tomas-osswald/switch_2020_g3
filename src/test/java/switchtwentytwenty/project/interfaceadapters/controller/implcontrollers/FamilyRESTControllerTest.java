@@ -22,6 +22,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -43,6 +44,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IFamiliesOptionsService familiesOptionsService;
+
+    @Mock
+    IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
 
     @Mock
     IFamilyOptionsService familyOptionsService;
@@ -258,5 +262,28 @@ class FamilyRESTControllerTest {
 
     }
 
+    @Test
+    @DisplayName("Test for the retrieval of the list of a family members and their relations")
+    void getFamilyMemberAndRelationsTestValidFamilyID(){
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
+        FamilyMemberAndRelationsListDTO outputDTO = new FamilyMemberAndRelationsListDTO();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com")).withSelfRel();
+        outputDTO.add(selfLink);
+        ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity(outputDTO, HttpStatus.OK);
 
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+
+        assertEquals(expected,result);
+    }
+
+    @Test
+    @DisplayName("Test for the retrieval of the list of a family members and their relations failing because the family is not registered")
+    void getFamilyMemberAndRelationsTestFamilyNotRegistered(){
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenThrow(IllegalArgumentException.class);
+        ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.BAD_REQUEST);
+
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+
+        assertEquals(expected,result);
+    }
 }
