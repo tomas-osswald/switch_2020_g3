@@ -28,45 +28,12 @@ public class BankAccount extends AbNonCashAccount {
         super(id, ownerID, designation, movements);
     }
 
-    @Override
-    public boolean hasID(AccountID id) {
-        return super.hasID(id);
-    }
-
-    @Override
-    public AccountID id() {
-        return super.id();
-    }
-
-    @Override
-    public IOwnerID getOwnerId() {
-        return super.getOwnerId();
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        super.setDesignation(designation);
-    }
 
     @Override
     public String getAccountType() {
         return "bank";
     }
 
-    @Override
-    public Designation getDesignation() {
-        return super.getDesignation();
-    }
-
-    @Override
-    public void setAccountID(AccountID accountID) {
-        super.setAccountID(accountID);
-    }
-
-    @Override
-    public void setOwner(IOwnerID ownerID) {
-        super.setOwner(ownerID);
-    }
 
     @Override
     public List<Movement> getListOfMovements() {
@@ -77,16 +44,6 @@ public class BankAccount extends AbNonCashAccount {
         return copyMovements;
     }
 
-    @Override
-    public void setMovements(List<Movement> movements) {
-
-        super.setMovements(Collections.unmodifiableList(movements));
-    }
-
-    @Override
-    public void addMovement(Movement movement) {
-        super.addMovement(movement);
-    }
 
     @Override
     public boolean equals(Object o) {
