@@ -7,7 +7,6 @@ import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.RelationJPA;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
-import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import java.util.List;
 public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
     /**
      * Assembler method to create a Family domain object into a FamilyJPA data object.
+     *
      * @param family domain object
      * @return FamilyJPA data object
      */
@@ -40,10 +40,10 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
 
     }
 
-    public List<RelationJPA> generateRelationsJPAList(List<Relation> relations, FamilyJPA familyJPA){
+    public List<RelationJPA> generateRelationsJPAList(List<Relation> relations, FamilyJPA familyJPA) {
         List<RelationJPA> relationsJPA = new ArrayList<>();
 
-        for (Relation relation: relations) {
+        for (Relation relation : relations) {
             RelationJPA relationJPA = new RelationJPA(relation.getMemberA().toString(), relation.getMemberB().toString(), relation.getRelationDesignation().toString(), relation.getId().getId(), familyJPA);
             relationsJPA.add(relationJPA);
         }
@@ -64,7 +64,7 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
 
             relationList.add(relation);
         }
-        return  relationList;
+        return relationList;
     }
 
     public FamilyID createFamilyID(FamilyJPA familyJPA) {
@@ -83,7 +83,9 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
         return new PersonID(familyJPA.getAdminID().toString());
     }
 
-    public List<Relation> createRelationList(FamilyJPA familyJPA) {return generateRelationList(familyJPA.getRelationList());}
+    public List<Relation> createRelationList(FamilyJPA familyJPA) {
+        return generateRelationList(familyJPA.getRelationList());
+    }
 
     public FamilyIDJPA createFamilyIDJPA(FamilyID familyID) {
         return new FamilyIDJPA(familyID.getId());
