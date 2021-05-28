@@ -172,4 +172,14 @@ class FamilyDTODomainAssemblerTest {
         assertEquals(expected, result);
 
     }
+
+    @Test
+    void testFamilyIDToDomain() {
+        String familyID = "tony@gmail.com";
+        FamilyID expected = new FamilyID("tony@gmail.com");
+
+        FamilyID result = familyDTODomainAssembler.familyIDToDomain(familyID);
+
+        assertEquals(expected, result);
+    }
 }
