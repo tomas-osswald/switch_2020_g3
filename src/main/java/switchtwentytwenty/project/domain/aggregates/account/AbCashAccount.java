@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.domain.aggregates.account;
 
-import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.valueobject.AccountID;
 import switchtwentytwenty.project.domain.valueobject.Designation;
 import switchtwentytwenty.project.domain.valueobject.IOwnerID;

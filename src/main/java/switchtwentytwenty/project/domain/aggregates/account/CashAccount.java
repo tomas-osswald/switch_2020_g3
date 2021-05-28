@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.valueobject.IOwnerID;
 import switchtwentytwenty.project.domain.valueobject.Movement;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,21 +28,6 @@ public class CashAccount extends AbCashAccount {
     }
 
     @Override
-    public AccountID id() {
-        return super.id();
-    }
-
-    @Override
-    public IOwnerID getOwnerId() {
-        return super.getOwnerId();
-    }
-
-    @Override
-    public Designation getDesignation() {
-        return super.getDesignation();
-    }
-
-    @Override
     public List<Movement> getListOfMovements() {
         List<Movement> copyMovements = new ArrayList<>();
         if (!super.getListOfMovements().isEmpty()) {
@@ -55,36 +39,6 @@ public class CashAccount extends AbCashAccount {
     @Override
     public String getAccountType() {
         return "cash";
-    }
-
-    @Override
-    public void addMovement(Movement movement) {
-        super.addMovement(movement);
-    }
-
-    @Override
-    public boolean hasID(AccountID id) {
-        return super.hasID(id);
-    }
-
-    @Override
-    public void setAccountID(AccountID accountID) {
-        super.setAccountID(accountID);
-    }
-
-    @Override
-    public void setMovements(List<Movement> movements) {
-        super.setMovements(Collections.unmodifiableList(movements));
-    }
-
-    @Override
-    public void setOwner(IOwnerID ownerID) {
-        super.setOwner(ownerID);
-    }
-
-    @Override
-    public void setDesignation(Designation designation) {
-        super.setDesignation(designation);
     }
 
     @Override
