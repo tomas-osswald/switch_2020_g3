@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.dto.family;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,21 +11,13 @@ import java.util.Objects;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class OutputRelationDTO extends RepresentationModel<OutputRelationDTO> {
 
     private String memberOneID;
     private String memberTwoID;
     private String relationDesignation;
     private String relationID;
-
-
-    public OutputRelationDTO(String memberOneID, String memberTwoID, String relationDesignation, String relationID) {
-        this.memberOneID = memberOneID;
-        this.memberTwoID = memberTwoID;
-        this.relationDesignation = relationDesignation;
-        this.relationID = relationID;
-    }
-
 
     @Override
     public boolean equals(Object o) {

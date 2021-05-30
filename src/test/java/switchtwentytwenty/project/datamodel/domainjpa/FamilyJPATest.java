@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FamilyJPATest {
@@ -58,6 +61,18 @@ class FamilyJPATest {
         FamilyJPA familyJPA = new FamilyJPA(familyID,familyName,registrationDate,adminID);
 
         String result = familyJPA.getId().toString();
+
+        assertEquals(expected,result);
+    }
+
+    @Test
+    @Tag("US010")
+    void getRelationListTest() {
+        FamilyJPA familyJPA = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        familyJPA.setRelationList(new ArrayList<>());
+        List<RelationJPA> expected = new ArrayList<>();
+
+        List<RelationJPA> result = familyJPA.getRelationList();
 
         assertEquals(expected,result);
     }
@@ -120,4 +135,13 @@ class FamilyJPATest {
         assertNotEquals(familyJPAOne.hashCode(), familyJPATwo.hashCode());
     }
 
+    @Test
+    void testToString() {
+        FamilyJPA familyJPA = new FamilyJPA(familyID,familyName,registrationDate,adminID);
+        String expected = "FamilyJPA(id=email@email.com, familyName=Simpson, registrationDate=12/12/2020, adminID=email@email.com, relationList=[])";
+
+        String result = familyJPA.toString();
+
+        assertEquals(expected,result);
+    }
 }
