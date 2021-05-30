@@ -185,6 +185,30 @@ class FamilyDataDomainAssemblerTest {
         int result = familyDataDomainAssembler.generateRelationList(relationsJPA).size();
 
         assertEquals(expected, result);
+    }
 
+    @Test
+    void toDataTestFamilyWithRelations() {
+        FamilyID familyID = new FamilyID("admin@gmail.com");
+        String familyNameString = "Ribeiro";
+        FamilyName familyName = new FamilyName(familyNameString);
+        String date = "12/12/1990";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+        String emailString = "admin@gmail.com";
+        PersonID adminEmail = new PersonID(emailString);
+        Family family = new Family(familyID, familyName, registrationDate, adminEmail);
+        family.addRelation(new Relation(new PersonID("admin@email.com"),new PersonID("other@email.com"),new RelationDesignation("Parent"), new RelationID(20300)));
+        List<RelationJPA> relationJPAList = new ArrayList<>();
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@admin@gmail.com"), "Sousa", "11/12/2020", new PersonIDJPA("admin@gmail.com"));
+        relationJPAList.add(new RelationJPA("admin@email.com", "other@email.com", "Parent", 20300, familyJPA));
+
+        FamilyJPA expected = new FamilyJPA(new FamilyIDJPA(familyID.toString()), familyName.toString(), registrationDate.toString(), new PersonIDJPA(adminEmail.toString()));
+        expected.setRelationList(relationJPAList);
+
+        FamilyJPA result = familyDataDomainAssembler.toData(family);
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+        assertEquals(expected.getRelationList(),result.getRelationList());
     }
 }

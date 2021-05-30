@@ -69,8 +69,11 @@ class FamilyJPATest {
     @Tag("US010")
     void getRelationListTest() {
         FamilyJPA familyJPA = new FamilyJPA(familyID,familyName,registrationDate,adminID);
-        familyJPA.setRelationList(new ArrayList<>());
+        List<RelationJPA> relationJPAList = new ArrayList<>();
+        relationJPAList.add(new RelationJPA());
+        familyJPA.setRelationList(relationJPAList);
         List<RelationJPA> expected = new ArrayList<>();
+        expected.add(new RelationJPA());
 
         List<RelationJPA> result = familyJPA.getRelationList();
 

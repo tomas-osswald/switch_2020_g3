@@ -27,7 +27,7 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
         Optional<FamilyID> familyID = category.getFamilyID();
         FamilyIDJPA familyIDJPA;
         if (familyID.isPresent()) {
-            String familyIDString = category.getFamilyID().toString();
+            String familyIDString = familyID.get().toString();
             familyIDJPA = new FamilyIDJPA(familyIDString);
         } else {
             familyIDJPA = null;

@@ -33,7 +33,7 @@ public class CategoryJPA {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CategoryJPA that = (CategoryJPA) o;
-        return categoryIDJPA.equals(that.categoryIDJPA);
+        return categoryIDJPA.equals(that.categoryIDJPA) && categoryName.equals(that.categoryName) && parentID.equals(that.parentID);
     }
 
 
