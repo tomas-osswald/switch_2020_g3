@@ -52,9 +52,7 @@ public class CategoryRepository implements ICategoryRepository {
         CategoryJPA categoryJPA = categoryAssembler.toData(category);
         CategoryJPA registeredCategoryJPA = categoryRepositoryJPA.save(categoryJPA);
 
-        Category savedCategory = createCategory(registeredCategoryJPA);
-
-        return savedCategory;
+        return createCategory(registeredCategoryJPA);
     }
 
 

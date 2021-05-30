@@ -7,8 +7,6 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.Objects;
 
-@AllArgsConstructor
-
 public class Relation implements ValueObject, Serializable {
     @Getter
     private final PersonID memberA;
@@ -27,7 +25,13 @@ public class Relation implements ValueObject, Serializable {
         this.id = new RelationID(hashCode());
     }
 
-    //TODO - O AllArgsConstructor não pode ser usado como anotaçao. Nesse caso não é usado o validateRelation.
+    public Relation(PersonID memberA, PersonID memberB, RelationDesignation designation, RelationID relationID) {
+        this.memberA = memberA;
+        this.memberB = memberB;
+        validateRelation();
+        this.relationDesignation = designation;
+        this.id = relationID;
+    }
 
     private void validateRelation() {
         if (memberA.equals(memberB))

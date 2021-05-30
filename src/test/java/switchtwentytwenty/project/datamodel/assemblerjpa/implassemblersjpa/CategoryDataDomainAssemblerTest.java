@@ -129,9 +129,4 @@ class CategoryDataDomainAssemblerTest {
 
     }
 
-    @Test
-    void toDataTestMockingCategoryInteractions(){
-
-
-    }
 }

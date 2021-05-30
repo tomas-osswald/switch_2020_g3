@@ -12,10 +12,8 @@ public class ParentCategoryPath {
     }
 
     private void validateParentCategoryPath() {
-        if (!isNull()) {
-            if (isBlank()) {
-                throw new IllegalArgumentException();
-            }
+        if (!isNull() && isBlank()) {
+            throw new IllegalArgumentException();
         }
     }
 

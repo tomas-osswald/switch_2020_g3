@@ -16,7 +16,7 @@ import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryReposit
 @Service
 public class CreateStandardCategoryService implements ICreateStandardCategoryService {
 
-    private ICategoryDTODomainAssembler categoryDTODomainAssembler;
+    private final ICategoryDTODomainAssembler categoryDTODomainAssembler;
     private ICategoryRepository categoryRepository;
     private CategoryFactory categoryFactory;
 
@@ -36,8 +36,6 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
 
         Category savedStandardCategory = categoryRepository.add(category);
 
-        OutputCategoryDTO outputCategoryDTO = categoryDTODomainAssembler.toDTO(savedStandardCategory);
-
-        return outputCategoryDTO;
+        return categoryDTODomainAssembler.toDTO(savedStandardCategory);
     }
 }
