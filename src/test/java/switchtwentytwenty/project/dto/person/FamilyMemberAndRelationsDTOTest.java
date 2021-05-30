@@ -52,12 +52,13 @@ class FamilyMemberAndRelationsDTOTest {
 
     @Test
     void testGetName() {
-        FamilyMemberAndRelationsDTO expected = new FamilyMemberAndRelationsDTO();
-        FamilyMemberAndRelationsDTO result = new FamilyMemberAndRelationsDTO();
-        expected.setName("tony");
-        result.setName("tony");
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTO = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTO.setName("tony");
+        String expected = "tony";
 
-        assertEquals(result.getName(), expected.getName());
+        String result = familyMemberAndRelationsDTO.getName();
+
+        assertEquals(expected, result);
     }
 
     @Test
@@ -72,17 +73,17 @@ class FamilyMemberAndRelationsDTOTest {
 
     @Test
     void testGetRelations() {
-        FamilyMemberAndRelationsDTO expected = new FamilyMemberAndRelationsDTO();
-        FamilyMemberAndRelationsDTO result = new FamilyMemberAndRelationsDTO();
-
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTO = new FamilyMemberAndRelationsDTO();
         OutputPersonRelationDTO outputRelationDTO = new OutputPersonRelationDTO("tony@gmail.com", "ze@gmail.com","filho","1");
         List<OutputPersonRelationDTO> list = new ArrayList<>();
         list.add(outputRelationDTO);
+        familyMemberAndRelationsDTO.setRelations(list);
+        List<OutputPersonRelationDTO> expected = new ArrayList<>();
+        expected.add(outputRelationDTO);
 
-        expected.setRelations(list);
-        result.setRelations(list);
+        List<OutputPersonRelationDTO> result = familyMemberAndRelationsDTO.getRelations();
 
-        assertEquals(result.getRelations(), expected.getRelations());
+        assertEquals(expected, result);
     }
 
     @Test
@@ -115,6 +116,56 @@ class FamilyMemberAndRelationsDTOTest {
 
         assertNotEquals(expected, result);
     }
+
+    @Test
+    void testEqualsSameObject() {
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOOne = new FamilyMemberAndRelationsDTO();
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOTwo = familyMemberAndRelationsDTOOne;
+
+        assertEquals(familyMemberAndRelationsDTOOne, familyMemberAndRelationsDTOTwo);
+    }
+
+    @Test
+    void testEqualsDifferentObjectTypes() {
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOOne = new FamilyMemberAndRelationsDTO();
+        String notDTO = "not a DTO";
+
+        assertNotEquals(familyMemberAndRelationsDTOOne, notDTO);
+    }
+
+    @Test
+    void testEqualsDTOsWithDifferentNames() {
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOOne = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTOOne.setName("TonyZe");
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOTwo = new FamilyMemberAndRelationsDTO();
+
+        assertNotEquals(familyMemberAndRelationsDTOOne, familyMemberAndRelationsDTOTwo);
+    }
+
+    @Test
+    void testEqualsDTOsWithDifferentPersonIDs() {
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOOne = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTOOne.setName("TonyZe");
+        familyMemberAndRelationsDTOOne.setPersonID("tony@gmail.com");
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOTwo = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTOTwo.setName("TonyZe");
+
+        assertNotEquals(familyMemberAndRelationsDTOOne, familyMemberAndRelationsDTOTwo);
+    }
+
+    @Test
+    void testEqualsDTOsWithDifferentRelationList() {
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOOne = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTOOne.setName("TonyZe");
+        familyMemberAndRelationsDTOOne.setPersonID("tony@gmail.com");
+        familyMemberAndRelationsDTOOne.setRelations(new ArrayList<>());
+        FamilyMemberAndRelationsDTO familyMemberAndRelationsDTOTwo = new FamilyMemberAndRelationsDTO();
+        familyMemberAndRelationsDTOTwo.setName("TonyZe");
+        familyMemberAndRelationsDTOTwo.setPersonID("tony@gmail.com");
+
+        assertNotEquals(familyMemberAndRelationsDTOOne, familyMemberAndRelationsDTOTwo);
+    }
+
 
     @Test
     void testSameHashCode() {
