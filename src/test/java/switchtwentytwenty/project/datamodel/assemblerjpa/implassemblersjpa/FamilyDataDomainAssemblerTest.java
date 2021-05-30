@@ -211,4 +211,19 @@ class FamilyDataDomainAssemblerTest {
         assertNotNull(result);
         assertEquals(expected.getRelationList(),result.getRelationList());
     }
+
+    @Test
+    void createRelationListTest(){
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@admin@gmail.com"), "Sousa", "11/12/2020", new PersonIDJPA("admin@gmail.com"));
+        List<RelationJPA> relationJPAList = new ArrayList<>();
+        relationJPAList.add(new RelationJPA("admin@email.com", "other@email.com", "Parent", 20300, familyJPA));
+        familyJPA.setRelationList(relationJPAList);
+        List<Relation> expected = new ArrayList<>();
+        expected.add(new Relation(new PersonID("admin@email.com"), new PersonID("other@email.com"), new RelationDesignation("Parent"), new RelationID(20300)));
+
+        List<Relation> result = familyDataDomainAssembler.createRelationList(familyJPA);
+
+        assertEquals(expected, result);
+    }
+
 }

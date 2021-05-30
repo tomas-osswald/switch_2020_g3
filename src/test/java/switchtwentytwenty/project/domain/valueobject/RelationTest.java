@@ -182,4 +182,11 @@ class RelationTest {
         assertThrows(IllegalArgumentException.class,()->new Relation(personOneID,personOneID,designation));
     }
 
+    @Test
+    void validateRelationTestInvalidRelationWithSameFamilyMemberAllArgsConstructor(){
+        PersonID personOneID = new PersonID("admin@gmail.com");
+
+        assertThrows(IllegalArgumentException.class,()->new Relation(personOneID,personOneID,designation,new RelationID(20200)));
+    }
+
 }
