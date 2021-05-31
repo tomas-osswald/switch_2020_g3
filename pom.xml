@@ -7,6 +7,8 @@
     <groupId>switch2020</groupId>
     <artifactId>project</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <!-- Add-on for war file creation -->
+<!--    <packaging>war</packaging>-->
     <name>project</name>
 
 
@@ -146,6 +148,17 @@
                 </configuration>
             </plugin>
 
+            <!-- Plugin for war file creation -->
+            <!--<plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warSourceDirectory>WebContent</warSourceDirectory>
+                    <webappDirectory>/target</webappDirectory>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+-->
             <!-- Required for running unit tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
