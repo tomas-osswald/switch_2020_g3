@@ -5,7 +5,7 @@ import {MainviewDiv} from "./MainviewElements";
 function Mainview(){
     return(
         <MainviewDiv>
-            A tua prima em Mainview.
+            A Mainview.
         </MainviewDiv>
     )
 
