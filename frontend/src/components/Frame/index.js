@@ -9,7 +9,6 @@ function Frame() {
     return (
         <>
             <FrameDiv>
-                AQUI ESTA O FRAME
                 <Navbar />
                 <Mainview/>
             </FrameDiv>
