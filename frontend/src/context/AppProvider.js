@@ -1,4 +1,5 @@
 import React, {useReducer} from 'react';
+
 // prop-types is an installed dependency
 import PropTypes from "prop-types";
 import {Provider} from './AppContext';
@@ -15,18 +16,40 @@ const initialState = {
     },
 
      */
+
+    family: {
+        loading: true,
+        error: null,
+        data: [],
+    },
+    familymembers: {
+        loading: true,
+        error: null,
+        data: [],
+        relations: [{
+            userid: 0,
+            loading: true,
+            error: null,
+            data: [],
+        }],
+    },
+    profile: {
+        loading: true,
+        error: null,
+        data: [],
+    }
 };
 
 // -> Insert more data objects in a different way
 // ex:
 const headers = {
-    /*
+
     id: "ID",
     name: "Name",
     username: "User Name",
     email: "Email",
 
-     */
+
 };
 
 const AppProvider = (props) =>{
