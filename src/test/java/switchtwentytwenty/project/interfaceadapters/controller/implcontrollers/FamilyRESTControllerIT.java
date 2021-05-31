@@ -247,12 +247,12 @@ class FamilyRESTControllerIT {
         relations.add(new OutputPersonRelationDTO("tony@email.com", "katia@email.com", "Marido", relationID.toString()));
 
         FamilyMemberAndRelationsDTO memberOne = new FamilyMemberAndRelationsDTO("tony", "tony@email.com", relations);
-        Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
-        memberOne.add(linkToOne);
+       // Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
+       // memberOne.add(linkToOne);
 
         FamilyMemberAndRelationsDTO memberTwo = new FamilyMemberAndRelationsDTO("katia", "katia@email.com", Collections.emptyList());
-        Link linkToTwo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("katia@email.com")).withSelfRel();
-        memberTwo.add(linkToTwo);
+       // Link linkToTwo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("katia@email.com")).withSelfRel();
+       // memberTwo.add(linkToTwo);
 
         familyMemberAndRelationsListDTO.addDTO(memberOne);
         familyMemberAndRelationsListDTO.addDTO(memberTwo);

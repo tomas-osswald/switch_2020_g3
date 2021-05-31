@@ -20,7 +20,7 @@ public class FamilyMemberAndRelationsListDTO extends RepresentationModel<FamilyM
         this.familyMemberAndRelationsDTO.add(familyMemberAndRelationsDTO);
     }
 
-/*
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,6 +34,6 @@ public class FamilyMemberAndRelationsListDTO extends RepresentationModel<FamilyM
     public int hashCode() {
         return Objects.hash(super.hashCode(), familyMemberAndRelationsDTO);
     }
-*/
+
 
 }
