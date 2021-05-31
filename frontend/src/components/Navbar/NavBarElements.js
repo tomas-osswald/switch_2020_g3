@@ -6,6 +6,7 @@ export const NavbarDiv = styled.div`
 
   width: 25%;
   heigth: vh;
-  float: left;
+  //grid-column-start: ;
+  //grid-column-end: ;
 
 `
