@@ -8,7 +8,7 @@
     <artifactId>project</artifactId>
     <version>1.0-SNAPSHOT</version>
     <!-- Add-on for war file creation -->
-    <packaging>war</packaging>
+    <packaging>war</packaging>-->
     <name>project</name>
 
 
@@ -112,7 +112,8 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>2.4.4</version>
         </dependency>
-        <dependency> <groupId>org.springframework.boot</groupId>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
             <!-- <version>2.1.4.RELEASE</version> -->
         </dependency>
@@ -123,7 +124,6 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.20</version>
         </dependency>
-
 
 
     </dependencies>
@@ -166,7 +166,9 @@
                     <webappDirectory>/target</webappDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+
             </plugin>-->
+
 
             <!-- Required for running unit tests -->
             <plugin>
