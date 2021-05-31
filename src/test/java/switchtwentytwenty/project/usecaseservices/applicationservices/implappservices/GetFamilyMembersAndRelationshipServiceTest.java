@@ -90,9 +90,12 @@ class GetFamilyMembersAndRelationshipServiceTest {
         resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString());
 
         assertEquals(expectedList, resultList);
-
+        List<FamilyMemberAndRelationsDTO> innerList = resultList.getFamilyMemberAndRelationsDTO();
+        assertNotNull(innerList);
+        assertFalse(innerList.isEmpty());
     }
 
+<<<<<<< HEAD
    @Test
     void getFamilyMembersAndRelationsExpectingNotEquals() {
         family.addRelation(relation);
@@ -129,5 +132,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
         assertNotEquals(expectedList, resultList);
 }
 
+=======
+>>>>>>> fdc3f364089c711b7bc749a58f1735d73c79e664
 
 }

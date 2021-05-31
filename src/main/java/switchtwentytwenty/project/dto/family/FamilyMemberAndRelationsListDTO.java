@@ -1,18 +1,18 @@
 package switchtwentytwenty.project.dto.family;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class FamilyMemberAndRelationsListDTO extends RepresentationModel<FamilyMemberAndRelationsListDTO> {
-
+    @Getter
     List<FamilyMemberAndRelationsDTO> familyMemberAndRelationsDTO = new ArrayList<>();
 
 
