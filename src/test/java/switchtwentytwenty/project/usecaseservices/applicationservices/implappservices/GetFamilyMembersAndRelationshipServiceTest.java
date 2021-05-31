@@ -91,6 +91,10 @@ class GetFamilyMembersAndRelationshipServiceTest {
         resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString());
 
         assertEquals(expectedList, resultList);
-
+        List<FamilyMemberAndRelationsDTO> innerList = resultList.getFamilyMemberAndRelationsDTO();
+        assertNotNull(innerList);
+        assertFalse(innerList.isEmpty());
     }
+
+
 }
