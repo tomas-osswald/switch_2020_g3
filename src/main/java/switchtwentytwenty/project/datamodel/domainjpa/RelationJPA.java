@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "relation list")
+@Table(name = "relations")
 public class RelationJPA {
 
     private String personIDOne;
