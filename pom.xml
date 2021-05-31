@@ -117,6 +117,15 @@
             <!-- <version>2.1.4.RELEASE</version> -->
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.20</version>
+        </dependency>
+
+
+
     </dependencies>
 
     <build>
@@ -149,7 +158,7 @@
             </plugin>
 
             <!-- Plugin for war file creation -->
-            <plugin>
+            <!--<plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
@@ -157,7 +166,7 @@
                     <webappDirectory>/target</webappDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
             <!-- Required for running unit tests -->
             <plugin>
