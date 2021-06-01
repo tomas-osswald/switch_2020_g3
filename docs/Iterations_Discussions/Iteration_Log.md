@@ -874,3 +874,22 @@ Podemos ter o "problema" de estar ligados ao Grupo 1 e termos uma custom categor
 
 
 findAllCategories
+
+
+### Decisões prioridades Sprint 6:
+
+**1.** - Servers e Base de Dados no Servidor.
+
+    1 - Frontend
+    2 - Backend
+    3 - Database
+
+1 interage com 2 e 2 interage com 3;
+
+
+**2.** - API - Ligação com outros grupos
+
+    1. US 003
+    2. US111v2 (Menos prioritário)
+
+**3** Frontend

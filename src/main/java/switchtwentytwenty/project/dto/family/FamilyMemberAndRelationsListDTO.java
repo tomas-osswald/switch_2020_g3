@@ -8,6 +8,7 @@ import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class FamilyMemberAndRelationsListDTO extends RepresentationModel<FamilyM
         this.familyMemberAndRelationsDTO.add(familyMemberAndRelationsDTO);
     }
 
-/*
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,6 +35,6 @@ public class FamilyMemberAndRelationsListDTO extends RepresentationModel<FamilyM
     public int hashCode() {
         return Objects.hash(super.hashCode(), familyMemberAndRelationsDTO);
     }
-*/
+
 
 }
