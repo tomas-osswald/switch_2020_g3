@@ -1,18 +1,20 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
-import {fetchProfile } from '../context/Actions';
-import TableHeader from './TableHeader';
+import {fetchProfile, updateName} from '../context/Actions';
 
-//export let personID = 'tonyze@latinlover.com';
-
-function handleClick(){
-    const personID = document.getElementById('personID').value;
-}
 
 function Table() {
     const { state, dispatch} = useContext(AppContext);
-    const {profile} = state;
-    const { loading, error, data } = profile;
+    const {profile, name} = state;
+    const [naming , setName ] = useState('');
+    const { loading, error } = profile;
+    const { data } = name;
+
+    function handleSubmit(){
+        //dispatch({ type: UPDATE_NAME, payload: { data: naming } })
+        // OU
+        dispatch(updateName(naming))
+    }
 
     useEffect(() =>{
         /*
@@ -26,6 +28,8 @@ function Table() {
         fetchProfile(dispatch);
     },[]);
 
+    console.log(name);
+
     if (loading === true) {
         return (<h1>Loading ....</h1>);
     }
@@ -36,11 +40,12 @@ function Table() {
             //if (data.length > 0) {
                 return (
                     <div>
-                        <button onClick={handleClick}>Press me please!</button>
-                        <input id='personID'></input>
-                        <h1>{data.name}</h1>
+                        <button onClick={handleSubmit}>Press me please!</button>
+                        <input value={naming} onChange={(event) => setName(event.target.value)}></input>
+                        {/*<h1>{data.name}</h1>
                         <p>{data.id}</p>
-                        <p>{data.birthdate}</p>
+                        <p>{data.birthdate}</p>*/}
+                        <p></p>
                     </div>
                 );
             //} else {

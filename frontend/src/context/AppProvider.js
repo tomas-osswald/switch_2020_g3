@@ -17,6 +17,11 @@ const initialState = {
 
      */
 
+    name: {
+        loading: true,
+        error: null,
+        data: [],
+    },
     family: {
         loading: true,
         error: null,
@@ -52,12 +57,21 @@ const headers = {
 
 };
 
+const labels = {
+
+    one: "1",
+    two: "2",
+    three: "3",
+
+}
+
 const AppProvider = (props) =>{
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <Provider value={{
             state,
             headers,
+            labels,
             dispatch}}>
             {props.children}
         </Provider>

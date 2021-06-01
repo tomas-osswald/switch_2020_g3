@@ -5,6 +5,7 @@ import {
     FETCH_PROFILE_STARTED,
     FETCH_PROFILE_SUCCESS,
     FETCH_PROFILE_FAILURE,
+    UPDATE_NAME,
 } from './Actions'
 
 function reducer(state, action) {
@@ -45,6 +46,19 @@ function reducer(state, action) {
                     loading: false,
                     error: action.payload.error,
                     data: [],
+                }
+            }
+        case UPDATE_NAME:
+            var teste = action.payload.data;
+            if ( teste === '3'){
+                teste = 'vai po crlh';
+            }
+            return {
+                ...state,
+                name: {
+                    loading: false,
+                    error: null,
+                    data: teste,
                 }
             }
 
