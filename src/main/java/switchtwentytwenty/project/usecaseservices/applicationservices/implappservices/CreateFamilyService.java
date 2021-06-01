@@ -3,6 +3,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -37,6 +38,7 @@ public class CreateFamilyService implements ICreateFamilyService {
      * @param inputFamilyDTO DTO that contains the Family's information
      * @param inputPersonDTO DTO that contains the Family Administrator's information
      */
+    @Transactional
     public OutputFamilyDTO createFamilyAndAddAdmin(InputFamilyDTO inputFamilyDTO, InputPersonDTO inputPersonDTO) {
         PersonID adminID = new PersonID(inputPersonDTO.unpackEmail());
         FamilyID familyID = new FamilyID(inputPersonDTO.unpackEmail());
@@ -52,9 +54,7 @@ public class CreateFamilyService implements ICreateFamilyService {
 
         Person admin = new Person(name, birthDate, adminID, vat, phone, address, familyID);
         Family family = new Family(familyID, familyName, registrationDate, adminID);
-        //TODO Usar Domain Service para a criação da Pessoa e da Family (unit of work)  - Factory for Family
 
-        //TODO Unit of work
         personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
 

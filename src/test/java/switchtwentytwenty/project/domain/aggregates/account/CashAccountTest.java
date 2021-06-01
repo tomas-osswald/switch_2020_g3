@@ -58,16 +58,6 @@ class CashAccountTest {
         assertEquals(accountOne.getDesignation(), designationOne);
     }
 
-
-    // TODO: Add changeBalance method to CashAccount and complete de test
-    @Test
-    void getBalanceSameTest() {
-        BigDecimal amount = new BigDecimal("3");
-        MonetaryValue balance = new MonetaryValue("EUR",amount);
-        IAccount accountOne = new CashAccount();
-
-    }
-
     @Test
     void getAccountTypeTest() {
         String otherAccount = "cash";

@@ -11,7 +11,6 @@ import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.family.FamilyMemberAndRelationsListDTO;
 import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
-import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @SpringBootTest
 class GetFamilyMembersAndRelationshipServiceTest {
@@ -56,7 +55,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
     List<Person> memberList = new ArrayList<>();
     OutputPersonRelationDTO relationDTO = new OutputPersonRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
     OutputPersonRelationDTO relationDTOTwo = new OutputPersonRelationDTO(memberA.id().toString(), memberB.id().toString(), relationDesignation.toString(), "3");
-    List<OutputPersonRelationDTO> outputRelationDTOList = new ArrayList<>();
+    List<OutputPersonRelationDTO> outputPersonRelationDTOList = new ArrayList<>();
 
 
     @Test
@@ -67,10 +66,10 @@ class GetFamilyMembersAndRelationshipServiceTest {
         FamilyMemberAndRelationsListDTO expectedList = new FamilyMemberAndRelationsListDTO();
 
 
-        outputRelationDTOList.add(relationDTO);
-        outputRelationDTOList.add(relationDTOTwo);
-        FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberA.id().toString(), outputRelationDTOList);
-        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberB.id().toString(), outputRelationDTOList);
+        outputPersonRelationDTOList.add(relationDTO);
+        outputPersonRelationDTOList.add(relationDTOTwo);
+        FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberA.id().toString(), outputPersonRelationDTOList);
+        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberB.id().toString(), outputPersonRelationDTOList);
 
         expectedList.addDTO(memberADTO);
         expectedList.addDTO(memberBDTO);
@@ -84,7 +83,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
         //Mock de createFamilyMemberAndRelationDTO
         Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberA, family)).thenReturn(memberADTO);
         Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberB, family)).thenReturn(memberBDTO);
-       // Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(any(Person.class),any(Family.class))).thenReturn(memberADTO).thenReturn(memberBDTO);
+        // Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(any(Person.class),any(Family.class))).thenReturn(memberADTO).thenReturn(memberBDTO);
 
         FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
 
@@ -95,6 +94,43 @@ class GetFamilyMembersAndRelationshipServiceTest {
         assertNotNull(innerList);
         assertFalse(innerList.isEmpty());
     }
+
+   @Test
+    void getFamilyMembersAndRelationsExpectingNotEquals() {
+        family.addRelation(relation);
+        memberList.add(memberA);
+        memberList.add(memberB);
+        FamilyMemberAndRelationsListDTO expectedList = new FamilyMemberAndRelationsListDTO();
+
+
+        outputPersonRelationDTOList.add(relationDTO);
+        outputPersonRelationDTOList.add(relationDTOTwo);
+        FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberA.id().toString(), outputPersonRelationDTOList);
+        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberB.id().toString(), outputPersonRelationDTOList);
+
+        expectedList.addDTO(memberADTO);
+        //expectedList.addDTO(memberBDTO);
+
+
+        //Ver anyString
+        Mockito.when(familyDTODomainAssembler.familyIDToDomain(anyString())).thenReturn(familyID);
+        Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
+        Mockito.when(personRepository.findAllByFamilyID(familyID)).thenReturn(memberList);
+
+
+        //Mock de createFamilyMemberAndRelationDTO
+        Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberA, family)).thenReturn(memberADTO);
+        Mockito.when(familyDTODomainAssembler.createFamilyMemberAndRelationsDTO(memberB, family)).thenReturn(memberBDTO);
+
+        FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
+
+        FamilyID familyIDTwo = new FamilyID("@to@to.com");
+        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyIDTwo.getId());
+
+
+        assertNotEquals(expectedList, resultList);
+}
+
 
 
 }

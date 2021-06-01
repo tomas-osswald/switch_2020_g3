@@ -8,7 +8,7 @@
     <artifactId>project</artifactId>
     <version>1.0-SNAPSHOT</version>
     <!-- Add-on for war file creation -->
-<!--    <packaging>war</packaging>-->
+    <packaging>war</packaging>
     <name>project</name>
 
 
@@ -117,6 +117,18 @@
             <!-- <version>2.1.4.RELEASE</version> -->
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -157,8 +169,8 @@
                     <webappDirectory>/target</webappDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-            </plugin>
--->
+            </plugin>-->
+
             <!-- Required for running unit tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

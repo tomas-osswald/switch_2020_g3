@@ -11,6 +11,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
@@ -46,6 +47,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@TestPropertySource(locations = "classpath:application-test.properties")
 class FamilyRESTControllerIT {
     AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
     AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
@@ -247,12 +249,12 @@ class FamilyRESTControllerIT {
         relations.add(new OutputPersonRelationDTO("tony@email.com", "katia@email.com", "Marido", relationID.toString()));
 
         FamilyMemberAndRelationsDTO memberOne = new FamilyMemberAndRelationsDTO("tony", "tony@email.com", relations);
-        Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
-        memberOne.add(linkToOne);
+       // Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
+       // memberOne.add(linkToOne);
 
         FamilyMemberAndRelationsDTO memberTwo = new FamilyMemberAndRelationsDTO("katia", "katia@email.com", Collections.emptyList());
-        Link linkToTwo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("katia@email.com")).withSelfRel();
-        memberTwo.add(linkToTwo);
+       // Link linkToTwo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("katia@email.com")).withSelfRel();
+       // memberTwo.add(linkToTwo);
 
         familyMemberAndRelationsListDTO.addDTO(memberOne);
         familyMemberAndRelationsListDTO.addDTO(memberTwo);

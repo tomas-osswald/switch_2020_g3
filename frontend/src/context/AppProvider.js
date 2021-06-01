@@ -22,6 +22,9 @@ const initialState = {
         error: null,
         data: [],
     },
+
+    loggeduser: 'kvanessa@latina.com',
+
     family: {
         loading: true,
         error: null,
