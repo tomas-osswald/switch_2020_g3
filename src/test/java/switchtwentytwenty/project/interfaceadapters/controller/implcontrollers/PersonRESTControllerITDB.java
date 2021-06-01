@@ -9,6 +9,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -28,6 +29,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
+
 class PersonRESTControllerITDB {
 
     @Autowired

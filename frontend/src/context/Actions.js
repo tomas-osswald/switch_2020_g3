@@ -10,10 +10,11 @@ import { fetchProfileFromWS } from './Service'
 
 
 
-export const DO_NOTHING = 'DO_NOTHING';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
+export const DO_NOTHING = 'DO_NOTHING';
+export const UPDATE_NAME = 'UPDATE_NAME'
 export const CHANGE_USER = 'CHANGE_USER';
 
 
@@ -21,7 +22,15 @@ export function doNothing(){
     return {
         type: DO_NOTHING,
         payload: {
+        }
+    }
+}
 
+export function updateName(variable){
+    return {
+        type: UPDATE_NAME,
+        payload: {
+            data: variable
         }
     }
 }

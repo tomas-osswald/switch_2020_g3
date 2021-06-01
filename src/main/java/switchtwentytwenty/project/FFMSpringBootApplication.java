@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.TestPropertySource;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 
 
 @SpringBootApplication
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class
 FFMSpringBootApplication {
     private static final String TONY_ZE_EMAIL = "tonyze@latinlover.com";

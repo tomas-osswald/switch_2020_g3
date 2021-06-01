@@ -1,11 +1,22 @@
 import logo from '../logo.svg';
 import './App.css';
 import Table from './Table';
+//import Frame from "./Frame";
+
+import React, { useContext, useEffect, useState } from 'react';
+import AppContext from '../context/AppContext';
+import {UPDATE_NAME} from '../context/Actions';
+
 
 function App() {
+    const { state, dispatch } = useContext(AppContext);
+    const { name } = state;
+    const { data } = name;
+
   return (
     <div className="App">
-      <header className="App-header">
+        {/*<Frame />*/}
+        <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -18,6 +29,7 @@ function App() {
         >
           Learn React
         </a>
+        <h3>{data}</h3>
       </header>
       <Table />
     </div>

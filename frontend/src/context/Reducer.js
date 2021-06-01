@@ -5,6 +5,7 @@ import {
     FETCH_PROFILE_STARTED,
     FETCH_PROFILE_SUCCESS,
     FETCH_PROFILE_FAILURE,
+    UPDATE_NAME,
     CHANGE_USER,
 } from './Actions'
 
@@ -48,6 +49,21 @@ function reducer(state, action) {
                     data: [],
                 }
             }
+
+        case UPDATE_NAME:
+            let teste = action.payload.data;
+            if ( teste === '3'){
+                teste = 'vai po crlh';
+            }
+            return {
+                ...state,
+                name: {
+                    loading: false,
+                    error: null,
+                    data: teste,
+                }
+            }
+
         case CHANGE_USER:
             return {
                 ...state,

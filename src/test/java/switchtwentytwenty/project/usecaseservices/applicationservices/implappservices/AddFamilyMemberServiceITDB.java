@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.test.context.TestPropertySource;
 import switchtwentytwenty.project.dto.person.InputAddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class AddFamilyMemberServiceITDB {
 
     @Autowired
