@@ -1,18 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import AppContext from '../context/AppContext';
-import {fetchProfile } from '../context/Actions';
-import TableHeader from './TableHeader';
+import { fetchNewProfile, changeUser } from '../context/Actions';
 
 //export let personID = 'tonyze@latinlover.com';
-
-function handleClick(){
-    const personID = document.getElementById('personID').value;
-}
 
 function Table() {
     const { state, dispatch} = useContext(AppContext);
     const {profile} = state;
+    const {loggeduser} = state;
     const { loading, error, data } = profile;
+//    const personID = 'tonyze@latinlover.com';
 
     useEffect(() =>{
         /*
@@ -23,8 +20,8 @@ function Table() {
         .catch(err => dispatch(fetchUsersFailure(err.message)))
         ;
         */
-        fetchProfile(dispatch);
-    },[]);
+        fetchNewProfile(dispatch,loggeduser);
+    });
 
     if (loading === true) {
         return (<h1>Loading ....</h1>);
@@ -36,11 +33,13 @@ function Table() {
             //if (data.length > 0) {
                 return (
                     <div>
-                        <button onClick={handleClick}>Press me please!</button>
-                        <input id='personID'></input>
+                        <button onClick={()=>alert('valor and honour'+ document.getElementById('personID').value)}>Press me please!</button>
+                        <input id='personID' type='submit' value='tonyze@latinlover.com'></input>
                         <h1>{data.name}</h1>
                         <p>{data.id}</p>
+                        <h2><a href="http://vs116.dei.isep.ipp.pt:8080/categories">base de dados</a></h2>
                         <p>{data.birthdate}</p>
+                        <h3>hamburger</h3>
                     </div>
                 );
             //} else {
@@ -51,5 +50,6 @@ function Table() {
 }
 
 //()=>alert('valor and honour'+ document.getElementById('personID').value)
+//{()=>changeUser(dispatch,document.getElementById('personID').value)}
 
 export default Table;
