@@ -16,7 +16,7 @@ const initialState = {
     },
 
      */
-
+    loggeduser: 'kvanessa@latina.com',
     family: {
         loading: true,
         error: null,

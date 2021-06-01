@@ -14,6 +14,7 @@ export const DO_NOTHING = 'DO_NOTHING';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
+export const CHANGE_USER = 'CHANGE_USER';
 
 
 export function doNothing(){
@@ -27,7 +28,13 @@ export function doNothing(){
 
 export function fetchProfile(dispatch){
     dispatch(fetchProfileStarted());
-    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) =>dispatch(fetchProfileFailure(err.message)));
+    const id = 'tonyze@latinlover.com';
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) =>dispatch(fetchProfileFailure(err.message)), id);
+}
+
+export function fetchNewProfile(dispatch, id){
+    dispatch(fetchProfileStarted());
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) =>dispatch(fetchProfileFailure(err.message)), id);
 }
 
 export function fetchProfileStarted () {
@@ -50,6 +57,15 @@ export function fetchProfileFailure(message) {
         type: FETCH_PROFILE_FAILURE,
         payload: {
             error: message
+        }
+    }
+}
+
+export function changeUser(dispatch, personID){
+    return {
+        type: CHANGE_USER,
+        payload:{
+            data: personID
         }
     }
 }

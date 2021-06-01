@@ -5,6 +5,7 @@ import {
     FETCH_PROFILE_STARTED,
     FETCH_PROFILE_SUCCESS,
     FETCH_PROFILE_FAILURE,
+    CHANGE_USER,
 } from './Actions'
 
 function reducer(state, action) {
@@ -46,6 +47,11 @@ function reducer(state, action) {
                     error: action.payload.error,
                     data: [],
                 }
+            }
+        case CHANGE_USER:
+            return {
+                ...state,
+                loggeduser: action.payload.data
             }
 
         default:
