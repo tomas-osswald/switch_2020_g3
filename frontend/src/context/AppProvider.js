@@ -49,11 +49,10 @@ const headers = {
     username: "User Name",
     email: "Email",
 
-
 };
 
 const AppProvider = (props) =>{
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, headers, dispatch] = useReducer(reducer, initialState);
     return (
         <Provider value={{
             state,
