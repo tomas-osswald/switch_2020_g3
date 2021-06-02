@@ -177,7 +177,7 @@ class PersonRESTControllerTest {
         expectedOutputPersonDTO.add(expectedLink);
         expectedOutputPersonDTO.add(familyLink);
 
-        ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.FOUND);
+        ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
 
         ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);
 
