@@ -36,8 +36,18 @@ const initialState = {
     family: {
         loading: true,
         error: null,
-        data: [],
+        members: [{
+            email: [],
+            name: [],
+            relations: [{
+                loading: true,
+                error: null,
+                description: [],
+                emailB: [],
+            }],
+        }],
     },
+
     familymembers: {
         loading: true,
         error: null,
