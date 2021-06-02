@@ -1,3 +1,4 @@
+/*
 import logo from '../logo.svg';
 import './App.css';
 import Table from './Table';
@@ -6,8 +7,8 @@ import Table from './Table';
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
 import {UPDATE_NAME} from '../context/Actions';
-
-
+*/
+/*
 function App() {
     const { state, dispatch } = useContext(AppContext);
     const { name } = state;
@@ -15,7 +16,7 @@ function App() {
 
   return (
     <div className="App">
-        {/*<Frame />*/}
+        {/*<Frame />*//*
         <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -35,7 +36,8 @@ function App() {
     </div>
   );
 }
-/*
+*/
+
 import logo from '../logo.svg';
 import './App.css';
 import Frame from "./Frame";
@@ -49,6 +51,4 @@ function App() {
     );
 }
 
-export default App;
-*/
 export default App;

@@ -16,6 +16,14 @@ const initialState = {
     },
 
      */
+    mainView: profile,
+
+
+    loggedUser: {
+        id: 'tonyze@latinlover.com',
+        sm: false,
+        fa: true,
+    },
 
     name: {
         loading: true,
