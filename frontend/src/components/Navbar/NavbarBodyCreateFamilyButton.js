@@ -5,7 +5,7 @@ import {changeView} from "../../context/Actions";
 
 
 
-function NavbarBodyCreateFamilyButton() {
+function NavbarBodyCreateFamilyButton(props) {
 
     const { dispatch } = useContext(AppContext);
 
@@ -14,7 +14,7 @@ function NavbarBodyCreateFamilyButton() {
     }
 
     return(
-        <NavbarBodyButton onClick={() => handleClick('createFamily')}>CreateFamily</NavbarBodyButton>
+        <NavbarBodyButton onClick={() => handleClick(props.valor)}>{props.description}</NavbarBodyButton>
     )
 }
 

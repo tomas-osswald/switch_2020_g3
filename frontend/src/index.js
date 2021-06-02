@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
+
 import reportWebVitals from './pages/reportWebVitals';
 import AppProvider from "./context/AppProvider";
+import App from "./App";
+
 
 ReactDOM.render(
     <AppProvider>

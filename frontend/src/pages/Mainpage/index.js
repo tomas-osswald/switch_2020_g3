@@ -1,6 +1,7 @@
 import React from 'react';
-import Navbar from "../Navbar";
-import Mainview from "../Mainview";
+
+import Navbar from "../../components/Navbar";
+import Mainview from "../../components/Mainview";
 import {MainpageDiv} from "./MainpageElements";
 
 

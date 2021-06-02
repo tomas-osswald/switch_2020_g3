@@ -12,10 +12,12 @@ function NavbarBody() {
     const { loggedUser } = state;
     const { sm, fa } = loggedUser;
 
+
+
     if(sm === true) {
         return (
             <NavbarBodyDiv>
-                <NavbarBodyCreateFamilyButton />
+                <NavbarBodyCreateFamilyButton valor="createFamily" description="Create a Family" />
             </NavbarBodyDiv>
         )
     } else if (fa === true) {
