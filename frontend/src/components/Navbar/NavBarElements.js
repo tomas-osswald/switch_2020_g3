@@ -13,7 +13,7 @@ export const NavbarDiv = styled.div`
   
   grid-column-start: 1;
   grid-column-end: 2;
-  background-color: lightgrey;
+  background-color: lightgreen;
 
   // Implementar o grid system no Parent através da construção do esqueleto e nos childs definir as dimensões de cada secção.
   display: grid;
