@@ -1,26 +1,23 @@
 import React, {useContext} from 'react';
-import {MainviewDiv} from "./MainviewElements";
-import logo from "../../logo.svg";
-import Table from "../Table";
 import AppContext from "../../context/AppContext";
-import Navbar from "../Navbar";
+import {MainviewDiv} from "./MainviewElements";
 
 
-function Mainview(){
-    const { state, dispatch } = useContext(AppContext);
-    const { name, mainView } = state;
-    const { data } = name;
+function Mainview() {
+    const {state, dispatch} = useContext(AppContext);
+    const {name, mainView} = state;
+    const {data} = name;
 
-    if(mainView === 'profile') {
-        return(
+    if (mainView === 'profile') {
+        return (
             <MainviewDiv>
                 Mainview deste lado
                 <br/>
                 Profile aqui
             </MainviewDiv>
         )
-    } else if (mainView === 'createFamily'){
-        return(
+    } else if (mainView === 'createFamily') {
+        return (
             <MainviewDiv>
                 Mainview deste lado
                 <br/>
@@ -28,7 +25,7 @@ function Mainview(){
             </MainviewDiv>
         )
     } else if (mainView === 'family') {
-        return(
+        return (
             <MainviewDiv>
                 Mainview deste lado
                 <br/>
