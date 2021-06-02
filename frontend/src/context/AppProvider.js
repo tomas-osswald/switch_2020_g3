@@ -16,8 +16,8 @@ const initialState = {
     },
 
      */
-    mainView: 'profile',
 
+    mainView: 'profile',
 
     loggedUser: {
         id: 'tonyze@latinlover.com',
