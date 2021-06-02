@@ -2,6 +2,9 @@ import Axios from "axios";
 // export const URL_API = 'http://localhost:8080'
 
 //const [data, setData] = useState([]);
+import {NodePath as Axios} from "@babel/traverse";
+
+export const URL_API = 'http://localhost:8080'
 
 /*
     const requestOptions = {
@@ -32,7 +35,6 @@ export function fetchProfileFromWS(success, failure, id) {
     ;
 }
 
-/*
 export function familyOptions(success,failure){
     const requestOptions ={
         method: 'OPTIONS',
@@ -45,4 +47,25 @@ export function familyOptions(success,failure){
             success(allowedTypes)
         })
         .catch(err =>failure(err.message))
-}*/
+}
+
+ */
+
+
+export function familyRelationsFA(success, failure, familyId){
+
+    fetch(`${URL_API}/families/${familyId}/relations`)
+        .then ( (res) => {
+            console.log(res);
+            return res.json()
+        })
+        .then ((res) =>{
+            console.log(res);
+            return success(res)
+        })
+        .catch ((err) => {
+            console.log(err.message);
+            failure(err.message)
+        })
+    ;
+}
