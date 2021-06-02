@@ -8,7 +8,8 @@ import AppProvider from "./context/AppProvider";
 ReactDOM.render(
     <AppProvider>
         <React.StrictMode>
-            <script src="http://localhost:8097"></script>
+
+            {/*<script src="http://localhost:8097"></script>*/}
             <App />
         </React.StrictMode>
     </AppProvider>,

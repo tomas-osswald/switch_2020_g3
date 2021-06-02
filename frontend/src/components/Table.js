@@ -1,7 +1,8 @@
+/*
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
 import {fetchProfile, updateName} from '../context/Actions';
-import { fetchNewProfile, changeUser } from '../context/Actions';
+import { fetchProfile, changeUser } from '../context/Actions';
 
 function Table() {
     const { state, dispatch} = useContext(AppContext);
@@ -18,15 +19,15 @@ function Table() {
     }
 
     useEffect(() =>{
-        /*
+        /!*
         dispatch(fetchUsersStarted());
         fetch(`${URL_API}/users`)
         .then(res =>  res.json())
         .then(res => dispatch(fetchUsersSuccess(res)))
         .catch(err => dispatch(fetchUsersFailure(err.message)))
         ;
-        */
-        fetchNewProfile(dispatch,{/*loggeduser*/});
+        *!/
+        fetchNewProfile(dispatch,{/!*loggeduser*!/});
     },[]);
 
     console.log(name);
@@ -71,4 +72,4 @@ function Table() {
 //()=>alert('valor and honour'+ document.getElementById('personID').value)
 //{()=>changeUser(dispatch,document.getElementById('personID').value)}
 
-export default Table;
+export default Table;*/

@@ -1,5 +1,4 @@
 import React, {useReducer} from 'react';
-
 // prop-types is an installed dependency
 import PropTypes from "prop-types";
 import {Provider} from './AppContext';
@@ -23,7 +22,7 @@ const initialState = {
         data: [],
     },
 
-    loggeduser: 'kvanessa@latina.com',
+    loggeduser: 'tonyze@latinlover.com',
 
     family: {
         loading: true,
@@ -55,25 +54,26 @@ const headers = {
     id: "ID",
     name: "Name",
     username: "User Name",
-    email: "Email",
+    vat: "VAT",
+    birthdate: "Birthdate",
+    city: "City",
 
 };
-
+/*
 const labels = {
 
     one: "1",
     two: "2",
     three: "3",
 
-}
+}*/
 
 const AppProvider = (props) =>{
-    const [state, headers, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <Provider value={{
             state,
             headers,
-            labels,
             dispatch}}>
             {props.children}
         </Provider>

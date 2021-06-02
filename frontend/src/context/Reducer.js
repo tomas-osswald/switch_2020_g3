@@ -28,7 +28,7 @@ function reducer(state, action) {
                 profile: {
                     loading: true,
                     error: null,
-                    data: []
+                    data: null,
                 }
             }
         case FETCH_PROFILE_SUCCESS:
@@ -46,7 +46,7 @@ function reducer(state, action) {
                 profile: {
                     loading: false,
                     error: action.payload.error,
-                    data: [],
+                    data: null,
                 }
             }
 

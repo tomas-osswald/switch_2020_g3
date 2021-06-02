@@ -8,8 +8,6 @@ import { fetchProfileFromWS } from './Service'
  * Both functions should have as ARG the dispatcher
  */
 
-
-
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
@@ -35,16 +33,12 @@ export function updateName(variable){
     }
 }
 
-export function fetchProfile(dispatch){
+export function fetchProfile(dispatch, id){
     dispatch(fetchProfileStarted());
-    const id = 'tonyze@latinlover.com';
-    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) =>dispatch(fetchProfileFailure(err.message)), id);
+    //const id = 'tonyze@latinlover.com';
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) =>dispatch(fetchProfileFailure(err.message)));
 }
 
-export function fetchNewProfile(dispatch, id){
-    dispatch(fetchProfileStarted());
-    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) =>dispatch(fetchProfileFailure(err.message)), id);
-}
 
 export function fetchProfileStarted () {
     return {
@@ -56,7 +50,7 @@ export function fetchProfileSuccess(profile) {
     return {
         type: FETCH_PROFILE_SUCCESS,
         payload:{
-            data: profile
+            data: profile.data
         }
     }
 }
@@ -65,7 +59,7 @@ export function fetchProfileFailure(message) {
     return {
         type: FETCH_PROFILE_FAILURE,
         payload: {
-            error: message
+            error:  message
         }
     }
 }
