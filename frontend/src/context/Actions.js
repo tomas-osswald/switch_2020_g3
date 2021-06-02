@@ -14,9 +14,10 @@ export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
 export const DO_NOTHING = 'DO_NOTHING';
-export const UPDATE_NAME = 'UPDATE_NAME'
+export const UPDATE_NAME = 'UPDATE_NAME';
 export const CHANGE_USER = 'CHANGE_USER';
-
+export const LOGOUT = 'LOGOUT';
+export const CHANGE_VIEW = 'CHANGE_VIEW';
 
 export function doNothing(){
     return {
@@ -75,6 +76,21 @@ export function changeUser(dispatch, personID){
         type: CHANGE_USER,
         payload:{
             data: personID
+        }
+    }
+}
+
+export function logout(dispatch) {
+    return {
+        type: LOGOUT,
+    }
+}
+
+export function changeView(value) {
+    return {
+        type: CHANGE_VIEW,
+        payload: {
+            mainView: value
         }
     }
 }

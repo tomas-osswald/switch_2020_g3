@@ -17,6 +17,14 @@ const initialState = {
 
      */
 
+    mainView: 'family',
+
+    loggedUser: {
+        id: 'tonyze@latinlover.com',
+        sm: false,
+        fa: true,
+    },
+
     name: {
         loading: true,
         error: null,
@@ -28,8 +36,18 @@ const initialState = {
     family: {
         loading: true,
         error: null,
-        data: [],
+        members: [{
+            email: [],
+            name: [],
+            relations: [{
+                loading: true,
+                error: null,
+                description: [],
+                emailB: [],
+            }],
+        }],
     },
+
     familymembers: {
         loading: true,
         error: null,
