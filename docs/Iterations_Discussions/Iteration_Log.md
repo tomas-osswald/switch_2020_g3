@@ -876,6 +876,28 @@ Podemos ter o "problema" de estar ligados ao Grupo 1 e termos uma custom categor
 findAllCategories
 
 
+### Manhã - 28/05/2021
+
+O DTODomainAssembler de relations tem a criação do link lá dentro. Normalmente é uma tarefa do controller.
+
+No entanto, ao controller devolvemos um DTO que é uma lista de DTOs, logo não conseguimos adicionar links aos DTOs que lá dentro.
+
+Solução A:
+- Manter como está, quando cada DTO é criado é logo adicionado o link no assembler.
+
+Solução B:
+- O serviço passa ao controller uma lista de DTOs e o controller faz um loop a cada um para adicionar o link e depois adiciona-os ao DTO de saída.
+
+
+Esclarecer Unit of Work com o prof Nuno Silva se possível. Unit of Work é uma classe? Ou pode ser uma interface que o domain service (ou outra classe) implementa? Se for uma classe, em que layer deve estar o UnitOfWork?
+
+Sendo uma class:
+- Só precisa de ter um atributo para uma family, uma person e respectivos repositórios, mais métodos set (ou register). Um método commit deve enviar para o repositório as alterações a fazer.
+
+Sendo uma interface:
+- O DomainService implementa UnitOfWork, tem como atributo uma person e family que vai criar e conhece os repositórios destas. Faz overwrite dos métodos registerNew() e commit().
+
+
 ### Decisões prioridades Sprint 6:
 
 **1.** - Servers e Base de Dados no Servidor.
