@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
@@ -36,13 +37,14 @@ FFMSpringBootApplication {
             AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Katia Vanessa", "20/01/1970", 777777777, 921232323, "Rua do Charme", "Cidade do Zexo", "69 Esquerdo", "1234-123");
             CreateAccountDTO vanessaAccount = new CreateAccountDTO("Conta para fugir do TonyZe", BigDecimal.valueOf(1034.54), "EUR", KATIA_VANESSA_EMAIL, "bank");
             CreateAccountDTO tonyaccount = new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", TONY_ZE_EMAIL, "cash");
-
+            CreateRelationDTO relationTonyKatia = new CreateRelationDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "esposa");
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
             personRESTController.addFamilyMember(addFamilyMemberDTO);
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@yahoo.com"), KATIA_VANESSA_EMAIL);
             iAccountRESTController.createAccount(vanessaAccount);
             iAccountRESTController.createAccount(tonyaccount);
+            familyRESTController.createRelation(relationTonyKatia, "@" + TONY_ZE_EMAIL);
         };
     }
 
