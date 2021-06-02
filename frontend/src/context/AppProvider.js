@@ -25,20 +25,28 @@ const initialState = {
 
     loggeduser: 'kvanessa@latina.com',
 
+    loggeduserTest: {
+        email: ['tonyze@latinlover.com'],
+        familyId: ['@tonyze@latinlover.com'],
+    },
+
+
     family: {
         loading: true,
         error: null,
-        members: [{
-            email: [],
-            name: [],
-            relations: [{
-                loading: true,
-                error: null,
-                description: [],
-                emailB: [],
+        data: {
+            familyMemberAndRelationsDTO: [{
+                name: "",
+                personID: "",
+                relations: [{
+                    memberOneID: "",
+                    memberTwoID: "",
+                    relationDesignation: "",
+                }]
             }],
-        }],
+        },
     },
+
 
     familymembers: {
         loading: true,
@@ -46,11 +54,10 @@ const initialState = {
         data: [],
         relations: [{
             userid: 0,
-            loading: true,
-            error: null,
             data: [],
         }],
     },
+
     profile: {
         loading: true,
         error: null,

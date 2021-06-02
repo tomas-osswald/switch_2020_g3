@@ -1,3 +1,5 @@
+import {NodePath as Axios} from "@babel/traverse";
+
 export const URL_API = 'http://localhost:8080'
 
 /*
@@ -12,6 +14,7 @@ export const URL_API = 'http://localhost:8080'
 }
  */
 
+/*
 export function fetchProfileFromWS(success,failure,id){
     fetch(`${URL_API}/people/${id}`)
         .then (res => res.json())
@@ -33,3 +36,25 @@ export function familyOptions(success,failure){
         })
         .catch(err =>failure(err.message))
 }
+
+ */
+
+
+export function familyRelationsFA(success, failure, familyId){
+
+    fetch(`${URL_API}/families/${familyId}/relations`)
+        .then ( (res) => {
+            console.log(res);
+            return res.json()
+        })
+        .then ((res) =>{
+            console.log(res);
+            return success(res)
+        })
+        .catch ((err) => {
+            console.log(err.message);
+            failure(err.message)
+        })
+    ;
+}
+

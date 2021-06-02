@@ -26,7 +26,7 @@ function Table() {
         .catch(err => dispatch(fetchUsersFailure(err.message)))
         ;
         */
-        fetchNewProfile(dispatch,{/*loggeduser*/});
+        //fetchNewProfile(dispatch,{/*loggeduser*/});
     },[]);
 
     console.log(name);
