@@ -44,7 +44,7 @@ FFMSpringBootApplication {
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@yahoo.com"), KATIA_VANESSA_EMAIL);
             iAccountRESTController.createAccount(vanessaAccount);
             iAccountRESTController.createAccount(tonyaccount);
-            familyRESTController.createRelation(relationTonyKatia, "@" + TONY_ZE_EMAIL);
+            familyRESTController.createRelation(relationTonyKatia, "@tonyze@latinlover.com");
         };
     }
 
