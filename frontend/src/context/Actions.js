@@ -17,7 +17,7 @@ export const DO_NOTHING = 'DO_NOTHING';
 export const UPDATE_NAME = 'UPDATE_NAME';
 export const CHANGE_USER = 'CHANGE_USER';
 export const LOGOUT = 'LOGOUT';
-export const GET_PROFILE = 'GET_PROFILE';
+export const CHANGE_VIEW = 'CHANGE_VIEW';
 
 export function doNothing(){
     return {
@@ -83,5 +83,14 @@ export function changeUser(dispatch, personID){
 export function logout(dispatch) {
     return {
         type: LOGOUT,
+    }
+}
+
+export function changeView(value) {
+    return {
+        type: CHANGE_VIEW,
+        payload: {
+            mainView: value
+        }
     }
 }

@@ -5,7 +5,7 @@ import {changeView} from "../../context/Actions";
 
 
 
-function NavbarBodyProfileButton() {
+function NavbarBodyFamilyButton() {
 
     const { dispatch } = useContext(AppContext);
 
@@ -14,8 +14,8 @@ function NavbarBodyProfileButton() {
     }
 
     return(
-        <NavbarBodyButton onClick={() => handleClick('profile')}>Profile</NavbarBodyButton>
+        <NavbarBodyButton onClick={() => handleClick('family')}>Family</NavbarBodyButton>
     )
 }
 
-export default NavbarBodyProfileButton;
+export default NavbarBodyFamilyButton;

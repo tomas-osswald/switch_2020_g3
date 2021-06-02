@@ -3,6 +3,8 @@ import NavbarItem from "./NavbarItem";
 import {NavbarBodyButton, NavbarBodyDiv} from "./NavBarElements";
 import AppContext from "../../context/AppContext";
 import NavbarBodyProfileButton from "./NavbarBodyProfileButton";
+import NavbarBodyFamilyButton from "./NavbarBodyFamilyButton";
+import NavbarBodyCreateFamilyButton from "./NavbarBodyCreateFamilyButton";
 
 function NavbarBody() {
 
@@ -13,13 +15,13 @@ function NavbarBody() {
     if(sm === true) {
         return (
             <NavbarBodyDiv>
-                <NavbarBodyButton>Create Family</NavbarBodyButton>
+                <NavbarBodyCreateFamilyButton />
             </NavbarBodyDiv>
         )
     } else if (fa === true) {
         return (
             <NavbarBodyDiv>
-                <NavbarBodyButton>Family</NavbarBodyButton>
+                <NavbarBodyFamilyButton />
                 <br />
                 <NavbarBodyProfileButton />
             </NavbarBodyDiv>
