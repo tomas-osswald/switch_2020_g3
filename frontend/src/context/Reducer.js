@@ -7,6 +7,7 @@ import {
     FETCH_PROFILE_FAILURE,
     UPDATE_NAME,
     CHANGE_USER,
+    LOGOUT, CHANGE_VIEW,
 } from './Actions'
 
 function reducer(state, action) {
@@ -68,6 +69,22 @@ function reducer(state, action) {
             return {
                 ...state,
                 loggeduser: action.payload.data
+            }
+
+        case LOGOUT:
+            return {
+                ...state,
+                loggedUser: {
+                    id: null,
+                    sm: false,
+                    fa: false,
+                }
+            }
+
+        case CHANGE_VIEW:
+            return {
+                ...state,
+                mainView: action.payload.mainView,
             }
 
         default:
