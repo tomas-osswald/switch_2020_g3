@@ -10,6 +10,7 @@ import {
     FETCH_FAMILYRELATIONS_SUCCESS,
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_FAILURE,
+    LOGOUT, CHANGE_VIEW,
 } from './Actions'
 
 function reducer(state, action) {
@@ -101,6 +102,22 @@ function reducer(state, action) {
                     error: action.payload.error,
                     data: [],
                 }
+            }
+
+        case LOGOUT:
+            return {
+                ...state,
+                loggedUser: {
+                    id: null,
+                    sm: false,
+                    fa: false,
+                }
+            }
+
+        case CHANGE_VIEW:
+            return {
+                ...state,
+                mainView: action.payload.mainView,
             }
 
         default:

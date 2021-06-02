@@ -11,7 +11,7 @@ function MembersRelationsFA() {
     const {email, familyId} = loggeduserTest;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
-    
+
 
     useEffect( ()=> {
 
