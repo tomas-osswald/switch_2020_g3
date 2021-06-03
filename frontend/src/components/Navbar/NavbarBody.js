@@ -17,6 +17,10 @@ function NavbarBody() {
     if(sm === true) {
         return (
             <NavbarBodyDiv>
+                <NavbarBodyFamilyButton />
+                <br />
+                <NavbarBodyProfileButton />
+                <br />
                 <NavbarBodyCreateFamilyButton valor="createFamily" description="Create a Family" />
             </NavbarBodyDiv>
         )

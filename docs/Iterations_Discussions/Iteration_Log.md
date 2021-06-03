@@ -915,3 +915,9 @@ Sendo uma interface:
     2. US111v2 (Menos prioritário)
 
 **3** Frontend
+
+---
+
+Cenas do JPA com o Lazy/Eager -> Lazy traz apenas aquilo que é diretamente pedido (exemplo, family, traz apenas a family). Eager, traz tudo o que estiver associado a essa family (por exemplo relações).
+
+Quando há mais que uma lista para ser retornada na mesma Class é necessário definir o _@Fetch(FetchMode.SUBSELECT)_ para ele não se borrar todo e saber quais são as tasks prioritárias.

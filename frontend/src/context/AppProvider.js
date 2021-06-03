@@ -20,7 +20,7 @@ const initialState = {
 
     loggedUser: {
         id: 'tonyze@latinlover.com',
-        sm: false,
+        sm: true,
         fa: true,
     },
 
@@ -69,8 +69,29 @@ const initialState = {
         loading: true,
         error: null,
         data: [],
+    },
+
+    createfamily: {
+        loading: true,
+        error: null,
+        data: [
+            {
+                emailID: '',
+                name: '',
+                birthdate: '',
+                vatNumber: '',
+                phone: '',
+                street: '',
+                city: '',
+                houseNumber: '',
+                zipCode: '',
+                familyName: '',
+                registrationDate: ''
+            }
+        ]
     }
 };
+
 
 // -> Insert more data objects in a different way
 // ex:
@@ -93,13 +114,14 @@ const labels = {
 
 }*/
 
-const AppProvider = (props) =>{
+const AppProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <Provider value={{
             state,
             headers,
-            dispatch}}>
+            dispatch
+        }}>
             {props.children}
         </Provider>
     );
