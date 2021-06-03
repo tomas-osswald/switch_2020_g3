@@ -2,14 +2,24 @@ import React, {useContext} from 'react';
 import {NavbarFooterButton, NavbarFooterDiv} from "./NavBarElements";
 import AppContext from "../../context/AppContext";
 import {logout} from "../../context/Actions";
+import { useHistory } from "react-router-dom";
 
 
 function NavbarFooter() {
 
-    const { dispatch } = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
+    const { loggedUser } = state;
+    const { role } = loggedUser;
+    const history = useHistory();
+
+    function logoutRedirect() {
+        let path = `/login`;
+        history.push(path);
+    }
 
     function handleClick() {
         dispatch(logout())
+        logoutRedirect();
     }
 
     return (

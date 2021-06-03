@@ -14,7 +14,7 @@ import {
 } from './Actions'
 
 function reducer(state, action) {
-    switch (action.type){
+    switch (action.type) {
         /*
         case ACTION_HERE:
             return {
@@ -56,7 +56,7 @@ function reducer(state, action) {
 
         case UPDATE_NAME:
             let teste = action.payload.data;
-            if ( teste === '3'){
+            if (teste === '3') {
                 teste = 'vai po crlh';
             }
             return {
@@ -71,7 +71,10 @@ function reducer(state, action) {
         case CHANGE_USER:
             return {
                 ...state,
-                loggeduser: action.payload.data
+                loggedUser: {
+                    id: action.payload.id,
+                    role: action.payload.role,
+                }
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:
@@ -90,7 +93,7 @@ function reducer(state, action) {
                 family: {
                     loading: false,
                     error: null,
-                    data : action.payload.data
+                    data: action.payload.data
                 }
             }
 
@@ -108,9 +111,8 @@ function reducer(state, action) {
             return {
                 ...state,
                 loggedUser: {
-                    id: null,
-                    sm: false,
-                    fa: false,
+                    id: '',
+                    role: '',
                 }
             }
 

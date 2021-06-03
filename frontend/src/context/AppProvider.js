@@ -19,9 +19,8 @@ const initialState = {
     mainView: '',
 
     loggedUser: {
-        id: 'tonyze@latinlover.com',
-        sm: true,
-        fa: true,
+        id: '',
+        role: '',
     },
 
     name: {
@@ -29,8 +28,6 @@ const initialState = {
         error: null,
         data: [],
     },
-
-    loggeduser: 'tonyze@latinlover.com',
 
     loggeduserTest: {
         email: ['tonyze@latinlover.com'],
