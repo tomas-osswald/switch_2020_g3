@@ -10,7 +10,8 @@ import App from "./App";
 ReactDOM.render(
     <AppProvider>
         <React.StrictMode>
-            <script src="http://localhost:8097"></script>
+
+            {/*<script src="http://localhost:8097"></script>*/}
             <App />
         </React.StrictMode>
     </AppProvider>,

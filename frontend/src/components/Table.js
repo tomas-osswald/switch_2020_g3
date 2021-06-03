@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
-import {fetchProfile, updateName} from '../context/Actions';
-import { fetchNewProfile, changeUser } from '../context/Actions';
+import {fetchProfile, updateName, changeUser} from '../context/Actions';
 
 function Table() {
     const { state, dispatch} = useContext(AppContext);
@@ -26,7 +25,7 @@ function Table() {
         .catch(err => dispatch(fetchUsersFailure(err.message)))
         ;
         */
-        fetchNewProfile(dispatch,{/*loggeduser*/});
+        //fetchNewProfile(dispatch,{/*loggeduser*/});
     },[]);
 
     console.log(name);

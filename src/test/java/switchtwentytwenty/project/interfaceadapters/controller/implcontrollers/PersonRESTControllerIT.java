@@ -149,7 +149,7 @@ class PersonRESTControllerIT {
         expectedOutputPersonDTO.add(expectedLink2);
 
 
-        ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.FOUND);
+        ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
 
         // Result
         ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);

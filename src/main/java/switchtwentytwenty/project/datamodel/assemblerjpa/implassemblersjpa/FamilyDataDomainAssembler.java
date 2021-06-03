@@ -53,16 +53,18 @@ public class FamilyDataDomainAssembler implements IFamilyDataDomainAssembler {
 
     public List<Relation> generateRelationList(List<RelationJPA> relationListJPA) {
         List<Relation> relationList = new ArrayList<>();
+        if(!relationListJPA.isEmpty()){
 
-        for (RelationJPA relationJPA : relationListJPA) {
-            PersonID personIDOne = new PersonID(relationJPA.getPersonIDOne());
-            PersonID personIDTwo = new PersonID(relationJPA.getPersonIDTwo());
-            RelationDesignation relationDesignation = new RelationDesignation(relationJPA.getDesignation());
-            RelationID relationID = new RelationID(relationJPA.getId());
+            for (RelationJPA relationJPA : relationListJPA) {
+                PersonID personIDOne = new PersonID(relationJPA.getPersonIDOne());
+                PersonID personIDTwo = new PersonID(relationJPA.getPersonIDTwo());
+                RelationDesignation relationDesignation = new RelationDesignation(relationJPA.getDesignation());
+                RelationID relationID = new RelationID(relationJPA.getId());
 
-            Relation relation = new Relation(personIDOne, personIDTwo, relationDesignation, relationID);
+                Relation relation = new Relation(personIDOne, personIDTwo, relationDesignation, relationID);
 
-            relationList.add(relation);
+                relationList.add(relation);
+            }
         }
         return relationList;
     }
