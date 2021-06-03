@@ -2,11 +2,10 @@ package switchtwentytwenty.project.datamodel.domainjpa;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +26,8 @@ public class FamilyJPA {
 
     private PersonIDJPA adminID;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "familyJPA", cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     private List<RelationJPA> relationList = new ArrayList<>();
 
     public FamilyJPA(FamilyIDJPA id, String familyName, String registrationDate, PersonIDJPA adminID) {

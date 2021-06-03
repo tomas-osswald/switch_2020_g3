@@ -279,7 +279,7 @@ class FamilyRESTControllerIT {
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
 
-        ResponseEntity expected = new ResponseEntity("Error: Family does not exists", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: Family does not exist", HttpStatus.BAD_REQUEST);
 
         String familyID = "@tonyze@email.com";
 
