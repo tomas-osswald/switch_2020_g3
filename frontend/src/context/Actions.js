@@ -1,6 +1,4 @@
-import { familyRelationsFA } from './Service'
-import { fetchProfileFromWS } from './Service'
-import { createfamilySMService} from "./Service";
+import { familyRelationsFA, fetchProfileFromWS, createfamilySMService } from './Service'
 
 /**
  * Insert functions for Service:
