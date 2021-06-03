@@ -4,8 +4,6 @@ import Mainpage from "../pages/Mainpage";
 import Login from "../pages/Login";
 
 
-
-
 function Routes() {
     return (
         <BrowserRouter>

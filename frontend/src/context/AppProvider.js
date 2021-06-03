@@ -16,7 +16,7 @@ const initialState = {
 
      */
 
-    mainView: 'family',
+    mainView: '',
 
     loggedUser: {
         id: 'tonyze@latinlover.com',

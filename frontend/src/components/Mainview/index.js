@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {MainviewDiv} from "./MainviewElements";
 import MembersRelationsFA from "../MembersRelationsFA";
-import logo from "../../logo.svg";
-import Table from "../Table";
 import AppContext from "../../context/AppContext";
 import CreateFamilySM from "../CreateFamilySM";
+import LandingPage from "../LandingPage";
+
 
 
 function Mainview() {
@@ -35,15 +35,14 @@ function Mainview() {
                 Mainview deste lado
                 <br/>
                 Family aqui
-                <MembersRelationsFA />
+                <MembersRelationsFA/>
             </MainviewDiv>
         )
     }
 
-    return(
+    return (
         <MainviewDiv>
-            Mainview deste lado
-
+            <LandingPage/>
         </MainviewDiv>
     )
 
