@@ -1,6 +1,9 @@
 import React, {useContext} from 'react';
-import AppContext from "../../context/AppContext";
 import {MainviewDiv} from "./MainviewElements";
+import MembersRelationsFA from "../MembersRelationsFA";
+import logo from "../../logo.svg";
+import Table from "../Table";
+import AppContext from "../../context/AppContext";
 
 
 function Mainview() {
@@ -34,6 +37,12 @@ function Mainview() {
         )
     }
 
+    return(
+        <MainviewDiv>
+            Mainview deste lado
+            <MembersRelationsFA />
+        </MainviewDiv>
+    )
 
 }
 

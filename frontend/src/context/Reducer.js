@@ -7,6 +7,9 @@ import {
     FETCH_PROFILE_FAILURE,
     UPDATE_NAME,
     CHANGE_USER,
+    FETCH_FAMILYRELATIONS_SUCCESS,
+    FETCH_FAMILYRELATIONS_STARTED,
+    FETCH_FAMILYRELATIONS_FAILURE,
     LOGOUT, CHANGE_VIEW,
 } from './Actions'
 
@@ -29,7 +32,7 @@ function reducer(state, action) {
                 profile: {
                     loading: true,
                     error: null,
-                    data: []
+                    data: null,
                 }
             }
         case FETCH_PROFILE_SUCCESS:
@@ -47,7 +50,7 @@ function reducer(state, action) {
                 profile: {
                     loading: false,
                     error: action.payload.error,
-                    data: [],
+                    data: null,
                 }
             }
 
@@ -69,6 +72,36 @@ function reducer(state, action) {
             return {
                 ...state,
                 loggeduser: action.payload.data
+            }
+
+        case FETCH_FAMILYRELATIONS_STARTED:
+            return {
+                ...state,
+                family: {
+                    loading: true,
+                    error: null,
+                    data: []
+                }
+            }
+
+        case FETCH_FAMILYRELATIONS_SUCCESS:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: null,
+                    data : action.payload.data
+                }
+            }
+
+        case FETCH_FAMILYRELATIONS_FAILURE:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: action.payload.error,
+                    data: [],
+                }
             }
 
         case LOGOUT:
