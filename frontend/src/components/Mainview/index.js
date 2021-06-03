@@ -4,6 +4,7 @@ import MembersRelationsFA from "../MembersRelationsFA";
 import logo from "../../logo.svg";
 import Table from "../Table";
 import AppContext from "../../context/AppContext";
+import CreateFamilySM from "../CreateFamilySM";
 
 
 function Mainview() {
@@ -25,6 +26,7 @@ function Mainview() {
                 Mainview deste lado
                 <br/>
                 Create Family aqui
+                <CreateFamilySM />
             </MainviewDiv>
         )
     } else if (mainView === 'family') {
