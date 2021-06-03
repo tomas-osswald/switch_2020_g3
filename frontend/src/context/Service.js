@@ -1,3 +1,9 @@
+import Axios from "axios";
+// export const URL_API = 'http://localhost:8080'
+
+//const [data, setData] = useState([]);
+import {NodePath as Axios} from "@babel/traverse";
+
 export const URL_API = 'http://localhost:8080'
 
 /*
@@ -12,11 +18,20 @@ export const URL_API = 'http://localhost:8080'
 }
  */
 
-export function fetchProfileFromWS(success,failure,id){
-    fetch(`${URL_API}/people/${id}`)
-        .then (res => res.json())
-        .then (res => success(res))
-        .catch (err=> failure(err.message))
+export function fetchProfileFromWS(success, failure, id) {
+    //neste momento está hardcoded mas será para ir buscar o id do loggeduser
+    let urla = "http://localhost:8080/people/tonyze@latinlover.com";
+    let url = "http://localhost:8080/people/{{id}}";
+    Axios.get(`${url}`)
+        .then((response) => {
+            success(response)
+            console.log(response);
+        })
+
+        .catch((err) => {
+            failure(err)
+            console.log(err);
+        })
     ;
 }
 
@@ -32,4 +47,25 @@ export function familyOptions(success,failure){
             success(allowedTypes)
         })
         .catch(err =>failure(err.message))
+}
+
+ */
+
+
+export function familyRelationsFA(success, failure, familyId){
+
+    fetch(`${URL_API}/families/${familyId}/relations`)
+        .then ( (res) => {
+            console.log(res);
+            return res.json()
+        })
+        .then ((res) =>{
+            console.log(res);
+            return success(res)
+        })
+        .catch ((err) => {
+            console.log(err.message);
+            failure(err.message)
+        })
+    ;
 }
