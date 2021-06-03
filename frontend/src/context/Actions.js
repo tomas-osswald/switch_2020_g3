@@ -1,5 +1,6 @@
-import {familyRelationsFA} from './Service'
-import {fetchProfileFromWS} from './Service'
+import { familyRelationsFA } from './Service'
+import { fetchProfileFromWS } from './Service'
+import { createfamilySMService} from "./Service";
 
 /**
  * Insert functions for Service:
@@ -130,4 +131,30 @@ export function changeUser(email, role) {
             role: role,
         },
     }
+}
+
+//TODO: Usar como types nas funções abaixo.
+export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
+export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
+export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
+
+export function createFamilySM (dispatch) {
+    dispatch(createFamilySMStarted());
+    createfamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message())));
+
+}
+
+//TODO: Fazer cenas
+export function createFamilySMStarted() {
+    return doNothing()
+}
+
+//TODO: Fazer cenas
+export function createFamilySMSuccess() {
+    return doNothing()
+}
+
+//TODO: Fazer cenas
+export function createFamilySMFailure() {
+    return doNothing()
 }

@@ -1,5 +1,6 @@
 //const [data, setData] = useState([]);
 import {NodePath as Axios} from "@babel/traverse";
+import {doNothing} from "./Actions";
 
 export const URL_API = 'http://localhost:8080'
 
@@ -47,7 +48,6 @@ export function fetchProfileFromWS(success, failure, id) {
 }*/
 
 export function familyRelationsFA(success, failure, familyId){
-
     fetch(`${URL_API}/families/${familyId}/relations`)
         .then ( (res) => {
             console.log(res);
@@ -62,4 +62,9 @@ export function familyRelationsFA(success, failure, familyId){
             failure(err.message)
         })
     ;
+}
+
+//TODO: Fazer cenas
+export function createfamilySMService(success, failure) {
+    return doNothing();
 }

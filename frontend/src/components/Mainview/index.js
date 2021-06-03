@@ -2,7 +2,9 @@ import React, {useContext} from 'react';
 import {MainviewDiv} from "./MainviewElements";
 import MembersRelationsFA from "../MembersRelationsFA";
 import AppContext from "../../context/AppContext";
+import CreateFamilySM from "../CreateFamilySM";
 import LandingPage from "../LandingPage";
+
 
 
 function Mainview() {
@@ -24,6 +26,7 @@ function Mainview() {
                 Mainview deste lado
                 <br/>
                 Create Family aqui
+                <CreateFamilySM />
             </MainviewDiv>
         )
     } else if (mainView === 'family') {
