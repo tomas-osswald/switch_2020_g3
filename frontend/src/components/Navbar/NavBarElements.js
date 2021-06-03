@@ -48,5 +48,5 @@ export const NavbarFooterButton = styled.button`
 
 `
 
-export const NavbarBodyButton = styled.button`
+export const NavbarBodyButtonStyle = styled.button`
 `

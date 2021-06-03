@@ -1,10 +1,7 @@
 import React, {useContext} from 'react';
-import NavbarItem from "./NavbarItem";
-import {NavbarBodyButton, NavbarBodyDiv} from "./NavBarElements";
+import {NavbarBodyButtonStyle, NavbarBodyDiv} from "./NavBarElements";
 import AppContext from "../../context/AppContext";
-import NavbarBodyProfileButton from "./NavbarBodyProfileButton";
-import NavbarBodyFamilyButton from "./NavbarBodyFamilyButton";
-import NavbarBodyCreateFamilyButton from "./NavbarBodyCreateFamilyButton";
+import NavbarBodyButton from "./NavbarBodyButton";
 
 function NavbarBody() {
 
@@ -17,25 +14,25 @@ function NavbarBody() {
     if(sm === true) {
         return (
             <NavbarBodyDiv>
-                <NavbarBodyFamilyButton />
+                <NavbarBodyButton valor="family" description="Family" />
                 <br />
-                <NavbarBodyProfileButton />
+                <NavbarBodyButton valor="profile" description="Profile" />
                 <br />
-                <NavbarBodyCreateFamilyButton valor="createFamily" description="Create a Family" />
+                <NavbarBodyButton valor="createFamily" description="Create a Family" />
             </NavbarBodyDiv>
         )
     } else if (fa === true) {
         return (
             <NavbarBodyDiv>
-                <NavbarBodyFamilyButton />
+                <NavbarBodyButton valor="family" description="Family" />
                 <br />
-                <NavbarBodyProfileButton />
+                <NavbarBodyButton valor="profile" description="Profile" />
             </NavbarBodyDiv>
         )
     } else {
         return (
             <NavbarBodyDiv>
-                <NavbarBodyProfileButton />
+                <NavbarBodyButton valor="profile" description="Profile" />
             </NavbarBodyDiv>
         )
     }
