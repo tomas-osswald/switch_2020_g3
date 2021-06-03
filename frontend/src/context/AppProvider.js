@@ -21,6 +21,13 @@ const initialState = {
     loggedUser: {
         id: '',
         role: '',
+        name: '',
+    },
+
+    landingPage:{
+        loading: true,
+        error: null,
+        name: ''
     },
 
     name: {

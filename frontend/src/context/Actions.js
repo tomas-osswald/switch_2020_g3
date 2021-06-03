@@ -1,4 +1,4 @@
-import { familyRelationsFA, fetchProfileFromWS, createfamilySMService } from './Service'
+import {createfamilySMService, familyRelationsFA, fetchNameWS, fetchProfileFromWS} from './Service'
 
 /**
  * Insert functions for Service:
@@ -136,7 +136,7 @@ export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
 export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
 export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
 
-export function createFamilySM (dispatch) {
+export function createFamilySM(dispatch) {
     dispatch(createFamilySMStarted());
     createfamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message())));
 
@@ -155,4 +155,38 @@ export function createFamilySMSuccess() {
 //TODO: Fazer cenas
 export function createFamilySMFailure() {
     return doNothing()
+}
+
+/**
+ * LandingPage
+ */
+
+export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
+export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
+export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+
+export function fetchName(dispatch, id) {
+    dispatch(fetchNameStart())
+    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err)), id)
+}
+
+export function fetchNameStart(){
+    return {
+        type: FETCH_USER_NAME_START,
+    }
+}
+
+export function fetchNameSuccess(wsData){
+    return{
+        type: FETCH_USER_NAME_SUCCESS,
+        payload: wsData.data.name
+
+    }
+}
+
+export function fetchNameFailure(error){
+    return {
+        type: FETCH_USER_NAME_FAILURE,
+        payload: error
+    }
 }

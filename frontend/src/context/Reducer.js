@@ -11,6 +11,9 @@ import {
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_FAILURE,
     LOGOUT, CHANGE_VIEW,
+    FETCH_USER_NAME_START,
+    FETCH_USER_NAME_SUCCESS,
+    FETCH_USER_NAME_FAILURE
 } from './Actions'
 
 function reducer(state, action) {
@@ -120,6 +123,36 @@ function reducer(state, action) {
             return {
                 ...state,
                 mainView: action.payload.mainView,
+            }
+
+        case FETCH_USER_NAME_START:
+            return {
+            ...state,
+            landingPage:{
+                    loading: true,
+                    error: null,
+                    name: '',
+                },
+            }
+
+        case FETCH_USER_NAME_SUCCESS:
+            return {
+            ...state,
+            landingPage:{
+                loading: false,
+                error: null,
+                name: action.payload,
+                }
+            }
+
+        case FETCH_USER_NAME_FAILURE:
+            return {
+                ...state,
+                landingPage : {
+                    loading: false,
+                    error: action.payload.error,
+                    name: '',
+                }
             }
 
         default:
