@@ -33,6 +33,7 @@ function Mainview() {
                 Mainview deste lado
                 <br/>
                 Family aqui
+                <MembersRelationsFA />
             </MainviewDiv>
         )
     }
@@ -40,7 +41,7 @@ function Mainview() {
     return(
         <MainviewDiv>
             Mainview deste lado
-            <MembersRelationsFA />
+
         </MainviewDiv>
     )
 

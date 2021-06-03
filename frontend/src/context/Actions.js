@@ -35,6 +35,8 @@ export function updateName(variable){
     }
 }
 
+
+
 export function fetchProfile(dispatch, id){
     dispatch(fetchProfileStarted());
     //const id = 'tonyze@latinlover.com';
@@ -72,7 +74,7 @@ export function fetchProfileFailure(message) {
         }
     }
 }
-*/
+
 
 export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
 export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
@@ -113,22 +115,7 @@ export function fetchFamilyRelationsFailure(message){
 
 /* TENTATIVAS */
 
-export function doNothing(){
-    return {
-        type: DO_NOTHING,
-        payload: {
-        }
-    }
-}
 
-export function updateName(variable){
-    return {
-        type: UPDATE_NAME,
-        payload: {
-            data: variable
-        }
-    }
-}
 
 export function changeUser(dispatch, personID){
     return {
@@ -137,4 +124,10 @@ export function changeUser(dispatch, personID){
             data: personID
         }
     }
+}
+
+export class changeView {
+}
+
+export class logout {
 }
