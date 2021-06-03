@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Mainpage from "../pages/Mainpage";
 import Login from "../pages/Login";
+import PrivateRoute from "./PrivateRoute";
 
 
 function Routes() {
@@ -9,9 +10,7 @@ function Routes() {
         <BrowserRouter>
             <Switch>
 
-                <Route path="/" exact>
-                    <Mainpage/>
-                </Route>
+                <PrivateRoute exact path="/" component={Mainpage} />
 
                 <Route path="/login">
                     <Login/>

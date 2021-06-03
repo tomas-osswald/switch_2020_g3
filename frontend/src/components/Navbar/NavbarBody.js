@@ -3,6 +3,7 @@ import {NavbarBodyButtonStyle, NavbarBodyDiv} from "./NavBarElements";
 import AppContext from "../../context/AppContext";
 import NavbarBodyButton from "./NavbarBodyButton";
 import {FETCH_PROFILE_STARTED} from "../../context/Actions";
+import {Redirect} from "react-router-dom";
 
 function NavbarBody() {
 
@@ -36,6 +37,8 @@ function NavbarBody() {
                     <NavbarBodyButton valor="profile" description="Profile"/>
                 </NavbarBodyDiv>
             )
+        default:
+            return (<Redirect to="/login"/>)
     }
 
 }
