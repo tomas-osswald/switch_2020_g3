@@ -71,21 +71,14 @@ const initialState = {
         data: [],
     },
 
-    createfamily: {
+    createdfamily: {
         loading: true,
         error: null,
         data: [
             {
-                emailID: '',
-                name: '',
-                birthdate: '',
-                vatNumber: '',
-                phone: '',
-                street: '',
-                city: '',
-                houseNumber: '',
-                zipCode: '',
                 familyName: '',
+                familyID :'',
+                adminID: '',
                 registrationDate: ''
             }
         ]

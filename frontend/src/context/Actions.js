@@ -1,5 +1,7 @@
 import { familyRelationsFA } from './Service'
 import { fetchProfileFromWS } from './Service'
+import { createfamilySMService} from "./Service";
+
 /**
  * Insert functions for Service:
  * - Success function
@@ -17,6 +19,7 @@ export const UPDATE_NAME = 'UPDATE_NAME';
 export const CHANGE_USER = 'CHANGE_USER';
 export const LOGOUT = 'LOGOUT';
 export const CHANGE_VIEW = 'CHANGE_VIEW';
+
 
 export function doNothing(){
     return {
@@ -129,4 +132,30 @@ export function changeUser(dispatch, personID){
             data: personID
         }
     }
+}
+
+//TODO: Usar como types nas funções abaixo.
+export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
+export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
+export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
+
+export function createFamilySM (dispatch) {
+    dispatch(createFamilySMStarted());
+    createfamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message())));
+
+}
+
+//TODO: Fazer cenas
+export function createFamilySMStarted() {
+    return doNothing()
+}
+
+//TODO: Fazer cenas
+export function createFamilySMSuccess() {
+    return doNothing()
+}
+
+//TODO: Fazer cenas
+export function createFamilySMFailure() {
+    return doNothing()
 }
