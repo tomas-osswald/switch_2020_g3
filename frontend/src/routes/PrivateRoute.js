@@ -9,9 +9,9 @@ function PrivateRoute({component: Page, ...rest}) {
     const {id, role} = loggedUser;
     return (
         <Route  {...rest} render={(props) => (
-            id !== null && role !==null)
-                ? (<Page {...props} />)
-                : (<Redirect to="/login"/>)}
+           role !== '')
+            ? (<Page {...props} />)
+            : (<Redirect to="/login"/>)}
         />
     );
 }
