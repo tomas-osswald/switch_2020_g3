@@ -110,7 +110,7 @@ class CategoryRESTControllerTest {
         Link optionsLink = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
         outputCategoryTreeDTO.add(optionsLink);
 
-        ResponseEntity expected = new ResponseEntity(outputCategoryTreeDTO, HttpStatus.CREATED);
+        ResponseEntity expected = new ResponseEntity(outputCategoryTreeDTO, HttpStatus.OK);
 
         ResponseEntity result = controller.getCategoryTree();
 
@@ -123,7 +123,7 @@ class CategoryRESTControllerTest {
 
         when(mockGetStandardCategoryTreeService.getStandardCategoryTree()).thenThrow(new IllegalArgumentException("Not found"));
 
-        ResponseEntity expected = new ResponseEntity("Error: Not found", HttpStatus.UNPROCESSABLE_ENTITY);
+        ResponseEntity expected = new ResponseEntity("Error: Not found", HttpStatus.BAD_REQUEST);
 
         ResponseEntity result = controller.getCategoryTree();
 

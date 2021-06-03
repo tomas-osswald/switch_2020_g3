@@ -35,7 +35,20 @@ export function updateName(variable){
     }
 }
 
+export function logout(dispatch) {
+    return {
+        type: LOGOUT,
+    }
+}
 
+export function changeView(value) {
+    return {
+        type: CHANGE_VIEW,
+        payload: {
+            mainView: value
+        }
+    }
+}
 
 export function fetchProfile(dispatch, id){
     dispatch(fetchProfileStarted());
@@ -56,7 +69,6 @@ export function fetchProfileStarted () {
     }
 }
 
-
 export function fetchProfileSuccess(profile) {
     return {
         type: FETCH_PROFILE_SUCCESS,
@@ -74,7 +86,6 @@ export function fetchProfileFailure(message) {
         }
     }
 }
-
 
 export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
 export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
@@ -111,12 +122,6 @@ export function fetchFamilyRelationsFailure(message){
     }
 }
 
-
-
-/* TENTATIVAS */
-
-
-
 export function changeUser(dispatch, personID){
     return {
         type: CHANGE_USER,
@@ -124,10 +129,4 @@ export function changeUser(dispatch, personID){
             data: personID
         }
     }
-}
-
-export class changeView {
-}
-
-export class logout {
 }

@@ -100,14 +100,14 @@ public class CategoryRESTController implements ICategoryRESTController {
         HttpStatus status;
         try {
             OutputCategoryTreeDTO outputCategoryTreeDTO = getStandardCategoryTreeService.getStandardCategoryTree();
-            status = HttpStatus.CREATED;
+            status = HttpStatus.OK;
             Link optionsLinks = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
             outputCategoryTreeDTO.add(optionsLinks);
 
             return new ResponseEntity(outputCategoryTreeDTO,status);
 
         } catch(Exception e){
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
+            status = HttpStatus.BAD_REQUEST;
 
             return new ResponseEntity("Error: " + e.getMessage(),status);
         }
