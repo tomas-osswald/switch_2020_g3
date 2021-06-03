@@ -35,6 +35,21 @@ export function updateName(variable){
     }
 }
 
+export function logout(dispatch) {
+    return {
+        type: LOGOUT,
+    }
+}
+
+export function changeView(value) {
+    return {
+        type: CHANGE_VIEW,
+        payload: {
+            mainView: value
+        }
+    }
+}
+
 export function fetchProfile(dispatch, id){
     dispatch(fetchProfileStarted());
     //const id = 'tonyze@latinlover.com';
@@ -54,7 +69,6 @@ export function fetchProfileStarted () {
     }
 }
 
-
 export function fetchProfileSuccess(profile) {
     return {
         type: FETCH_PROFILE_SUCCESS,
@@ -72,7 +86,6 @@ export function fetchProfileFailure(message) {
         }
     }
 }
-*/
 
 export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
 export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
@@ -105,27 +118,6 @@ export function fetchFamilyRelationsFailure(message){
         type: FETCH_FAMILYRELATIONS_FAILURE,
         payload: {
             data: message
-        }
-    }
-}
-
-
-
-/* TENTATIVAS */
-
-export function doNothing(){
-    return {
-        type: DO_NOTHING,
-        payload: {
-        }
-    }
-}
-
-export function updateName(variable){
-    return {
-        type: UPDATE_NAME,
-        payload: {
-            data: variable
         }
     }
 }
