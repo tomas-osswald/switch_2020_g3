@@ -36,31 +36,32 @@ class FamilyMemberAndRelationsListDTOTest {
 
     @Test
     void testEquals_expectingNotEquals() {
-        List<FamilyMemberAndRelationsDTO> expected = new ArrayList<>();
+        List<FamilyMemberAndRelationsDTO> DTOlist = new ArrayList<>();
         FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO();
-        expected.add(dto);
+        DTOlist.add(dto);
 
-        List<FamilyMemberAndRelationsDTO> result = new ArrayList<>();
+        FamilyMemberAndRelationsListDTO expected = new FamilyMemberAndRelationsListDTO(DTOlist);
+
+        FamilyMemberAndRelationsListDTO result = new FamilyMemberAndRelationsListDTO();
 
         assertNotEquals(expected, result);
     }
 
     @Test
     void testEqualsWithNullObjectExpectingNotEquals() {
-        List<FamilyMemberAndRelationsDTO> expected = new ArrayList<>();
+        List<FamilyMemberAndRelationsDTO> dtoList = new ArrayList<>();
         FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO();
-        expected.add(dto);
+        dtoList.add(dto);
+        FamilyMemberAndRelationsListDTO expected = new FamilyMemberAndRelationsListDTO(dtoList);
 
-        List<FamilyMemberAndRelationsDTO> result = null;
+        FamilyMemberAndRelationsListDTO result = null;
 
         assertNotEquals(expected, result);
     }
 
     @Test
     void testEqualsCompareWithStringExpectingNotEquals() {
-        List<FamilyMemberAndRelationsDTO> expected = new ArrayList<>();
-        FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO();
-        expected.add(dto);
+        FamilyMemberAndRelationsListDTO expected = new FamilyMemberAndRelationsListDTO();
 
         String result = "3";
 
@@ -69,37 +70,26 @@ class FamilyMemberAndRelationsListDTOTest {
 
     @Test
     void testSameHashCodeExpectingEquals() {
-        List<FamilyMemberAndRelationsDTO> expected = new ArrayList<>();
+        List<FamilyMemberAndRelationsDTO> dtoList = new ArrayList<>();
         FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO();
-        expected.add(dto);
+        dtoList.add(dto);
+        FamilyMemberAndRelationsListDTO expected = new FamilyMemberAndRelationsListDTO(dtoList);
 
-        List<FamilyMemberAndRelationsDTO> result = new ArrayList<>();
-        result.add(dto);
+        List<FamilyMemberAndRelationsDTO> resultList = new ArrayList<>();
+        resultList.add(dto);
+        FamilyMemberAndRelationsListDTO result = new FamilyMemberAndRelationsListDTO(resultList);
 
         assertEquals(expected.hashCode(), result.hashCode());
     }
 
     @Test
     void testDifferentHashCodeExpectingNotEquals() {
-        List<FamilyMemberAndRelationsDTO> expected = new ArrayList<>();
-        FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO("name", "personID", null);
-        expected.add(dto);
+        FamilyMemberAndRelationsListDTO expected = new FamilyMemberAndRelationsListDTO();
 
-        List<FamilyMemberAndRelationsDTO> result = new ArrayList<>();
-
-
-        assertNotEquals(expected.hashCode(), result.hashCode());
-    }
-
-    @Test
-    void testDifferentHashCodeExpectingNotEqualsAgain() {
-        List<FamilyMemberAndRelationsDTO> expected = new ArrayList<>();
-        FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO("name", "personID", null);
-        expected.add(dto);
-
-        List<FamilyMemberAndRelationsDTO> result = new ArrayList<>();
-        FamilyMemberAndRelationsDTO dtoNull = new FamilyMemberAndRelationsDTO();
-        result.add(dtoNull);
+        List<FamilyMemberAndRelationsDTO> resultList = new ArrayList<>();
+        FamilyMemberAndRelationsDTO dto = new FamilyMemberAndRelationsDTO();
+        resultList.add(dto);
+        FamilyMemberAndRelationsListDTO result = new FamilyMemberAndRelationsListDTO(resultList);
 
 
         assertNotEquals(expected.hashCode(), result.hashCode());
