@@ -8,6 +8,7 @@ import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
+import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
 
 import java.util.List;
 
@@ -16,19 +17,26 @@ public class GetStandardCategoryTreeService implements IGetStandardCategoryTreeS
 
     private final ICategoryRepository categoryRepository;
     private final ICategoryDTODomainAssembler categoryDTODomainAssembler;
+    private final IExternalCategoryRepository externalCategoryRepository;
 
     @Autowired
-    public GetStandardCategoryTreeService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler) {
+    public GetStandardCategoryTreeService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler, IExternalCategoryRepository externalCategoryRepository) {
         this.categoryRepository = categoryRepository;
         this.categoryDTODomainAssembler = categoryDTODomainAssembler;
+        this.externalCategoryRepository = externalCategoryRepository;
     }
 
-    public OutputCategoryTreeDTO getStandardCategoryTree(){
+    public OutputCategoryTreeDTO getStandardCategoryTreeOwn(){
         List<Category> categoryList = categoryRepository.getStandardCategoryList();
 
-        OutputCategoryTreeDTO outputCategoryTreeDTO = createStandardCategoryTreeDTO(categoryList);
+        return createStandardCategoryTreeDTO(categoryList);
+    }
 
-        return outputCategoryTreeDTO;
+    public OutputCategoryTreeDTO getStandardCategoryTreeAll() {
+        List<Category> categoryList = categoryRepository.getStandardCategoryList();
+        categoryList.addAll(externalCategoryRepository.getCategoryList());
+
+        return createStandardCategoryTreeDTO(categoryList);
     }
 
     private OutputCategoryTreeDTO createStandardCategoryTreeDTO(List<Category> categoryList){
