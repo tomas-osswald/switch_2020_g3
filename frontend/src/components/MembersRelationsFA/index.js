@@ -23,12 +23,12 @@ function MembersRelationsFA() {
     }, [])
 
     function findMemberTwoName(TwoID) {
-        let name = familyMemberAndRelationsDTO.map((row) => {
-            if (TwoID === row.personID) {
-                return row.name
+        return familyMemberAndRelationsDTO.map((personDTO) => {
+            if (TwoID === personDTO.personID) {
+                return personDTO.name
             }
         })
-        return name;
+
     }
 
     function buildInnerText() {
@@ -37,8 +37,8 @@ function MembersRelationsFA() {
                 return (
                     <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>)
             })
-            return (<tr key={index}>Name: {row.name} Email: {row.personID} Relações : {relassoes}  </tr>)
-        });
+            return (<tr key={index}>Name: {row.name} Email: {row.personID} <p>Relações : {relassoes}</p></tr>)
+        })
 
         return <table>{html}</table>
 
@@ -63,7 +63,6 @@ function MembersRelationsFA() {
                 <div>
 
                     <p>{buildInnerText()}</p>
-
 
 
                 </div>
