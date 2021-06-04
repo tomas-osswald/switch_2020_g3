@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA, fetchNewProfile} from "../../context/Actions";
+import {fetchFamilyRelationsFA} from "../../context/Actions";
 
 
 function MembersRelationsFA() {
@@ -22,10 +22,20 @@ function MembersRelationsFA() {
 
     }, [])
 
+    function findMemberTwoName(TwoID) {
+        let name = familyMemberAndRelationsDTO.map((row) => {
+            if (TwoID === row.personID) {
+                return row.name
+            }
+        })
+        return name;
+    }
+
     function buildInnerText() {
         let html = familyMemberAndRelationsDTO.map((row, index) => {
             let relassoes = row.relations.map((relationsRow, relationsIndex) => {
-                return (<tr key={relationsIndex}> {relationsRow.memberTwoID} : {relationsRow.relationDesignation} </tr>)
+                return (
+                    <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>)
             })
             return (<tr key={index}>Name: {row.name} Email: {row.personID} Relações : {relassoes}  </tr>)
         });
@@ -53,6 +63,7 @@ function MembersRelationsFA() {
                 <div>
 
                     <p>{buildInnerText()}</p>
+
 
 
                 </div>
