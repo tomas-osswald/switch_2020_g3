@@ -1,19 +1,18 @@
 import {
-    // Insert action's names you want to import
-    // ACTION_X
-    // ACTION_Y
+    CHANGE_USER,
+    CHANGE_VIEW,
+    FETCH_FAMILY_ID_START,
+    FETCH_FAMILYRELATIONS_FAILURE,
+    FETCH_FAMILYRELATIONS_STARTED,
+    FETCH_FAMILYRELATIONS_SUCCESS,
+    FETCH_PROFILE_FAILURE,
     FETCH_PROFILE_STARTED,
     FETCH_PROFILE_SUCCESS,
-    FETCH_PROFILE_FAILURE,
-    UPDATE_NAME,
-    CHANGE_USER,
-    FETCH_FAMILYRELATIONS_SUCCESS,
-    FETCH_FAMILYRELATIONS_STARTED,
-    FETCH_FAMILYRELATIONS_FAILURE,
-    LOGOUT, CHANGE_VIEW,
+    FETCH_USER_NAME_FAILURE,
     FETCH_USER_NAME_START,
     FETCH_USER_NAME_SUCCESS,
-    FETCH_USER_NAME_FAILURE
+    LOGOUT,
+    UPDATE_NAME
 } from './Actions'
 
 function reducer(state, action) {
@@ -29,6 +28,8 @@ function reducer(state, action) {
             }
 
          */
+
+
         case FETCH_PROFILE_STARTED:
             return {
                 ...state,
@@ -127,8 +128,8 @@ function reducer(state, action) {
 
         case FETCH_USER_NAME_START:
             return {
-            ...state,
-            landingPage:{
+                ...state,
+                landingPage: {
                     loading: true,
                     error: null,
                     name: '',
@@ -137,18 +138,18 @@ function reducer(state, action) {
 
         case FETCH_USER_NAME_SUCCESS:
             return {
-            ...state,
-            landingPage:{
-                loading: false,
-                error: null,
-                name: action.payload,
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: null,
+                    name: action.payload,
                 }
             }
 
         case FETCH_USER_NAME_FAILURE:
             return {
                 ...state,
-                landingPage : {
+                landingPage: {
                     loading: false,
                     error: action.payload.error,
                     name: '',

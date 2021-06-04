@@ -83,3 +83,4 @@ export function fetchNameWS(success, failure, id) {
             failure(err)
         });
 }
+

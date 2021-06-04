@@ -22,9 +22,10 @@ const initialState = {
         id: '',
         role: '',
         name: '',
+        familyID: '',
     },
 
-    landingPage:{
+    landingPage: {
         loading: true,
         error: null,
         name: ''
@@ -81,7 +82,7 @@ const initialState = {
         data: [
             {
                 familyName: '',
-                familyID :'',
+                familyID: '',
                 adminID: '',
                 registrationDate: ''
             }
