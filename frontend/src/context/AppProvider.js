@@ -24,12 +24,8 @@ const initialState = {
         name: '',
     },
 
-    loggedUserProfile: {
-        id: 'tonyze@latinlover.com',
 
-    },
-
-    landingPage:{
+    landingPage: {
         loading: true,
         error: null,
         name: '',
@@ -78,8 +74,21 @@ const initialState = {
     profile: {
         loading: true,
         error: null,
-        data: [],
+        profileData: {
+            id: "",
+            name: "",
+            birthdate: "",
+            emails: [],
+            phoneNumbers: [],
+            vat: "",
+            street: "",
+            city: "",
+            zipCode: "",
+            doorNumber: "",
+            familyID: "",
+        }
     },
+
 
     createdfamily: {
         loading: true,
@@ -94,6 +103,8 @@ const initialState = {
         ]
     }
 };
+
+console.log(initialState.profile);
 
 
 // -> Insert more data objects in a different way

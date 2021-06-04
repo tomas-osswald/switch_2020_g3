@@ -57,7 +57,7 @@ export function changeView(value) {
 
 export function fetchProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
 }
 
 export function fetchNewProfile(dispatch, id) {

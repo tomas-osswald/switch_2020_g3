@@ -8,7 +8,7 @@ function Profile() {
     const { state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
-    const {loading, error, data } = profile;
+    const {loading, error, profileData } = profile;
 
     useEffect(() =>{
         fetchProfile(dispatch, id);
@@ -39,19 +39,19 @@ function Profile() {
                         </div>
                         <div>
 
-                            <h3 >Name : {data.name}</h3>
-                            <h3>Birth date : {data.birthdate}</h3>
+                            <h3 >Name : {profileData.name}</h3>
+                            <h3>Birth date : {profileData.birthdate}</h3>
                             <ul>
 
                             </ul>
-                            <h3>Emails : {data.emails}</h3>
-                            <h3>Phone numbers : {data.phoneNumbers}</h3>
-                            <h3>Vat : {data.vat}</h3>
-                            <h2>Adress :</h2>
+                            <h3>Emails : {profileData.emails}</h3>
+                            <h3>Phone numbers : {profileData.phoneNumbers}</h3>
+                            <h3>Vat : {profileData.vat}</h3>
+                            <h2>Address :</h2>
                             <ul>
-                                <li>Street :{data.street}</li>
-                                <li>City :{data.city}</li>
-                                <li>Door number :{data.doorNumber}</li>
+                                <li>Street :{profileData.street}</li>
+                                <li>City :{profileData.city}</li>
+                                <li>Door number :{profileData.doorNumber}</li>
                             </ul>
 
 

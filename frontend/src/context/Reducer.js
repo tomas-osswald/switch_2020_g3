@@ -1,7 +1,6 @@
 import {
     CHANGE_USER,
     CHANGE_VIEW,
-    FETCH_FAMILY_ID_START,
     FETCH_FAMILYRELATIONS_FAILURE,
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_SUCCESS,
@@ -36,7 +35,7 @@ function reducer(state, action) {
                 profile: {
                     loading: true,
                     error: null,
-                    data: null,
+                    profileData: null,
                 }
             }
         case FETCH_PROFILE_SUCCESS:
@@ -45,7 +44,7 @@ function reducer(state, action) {
                 profile: {
                     loading: false,
                     error: null,
-                    data: action.payload.data
+                    profileData: action.payload.data
                 }
             }
         case FETCH_PROFILE_FAILURE:
@@ -54,7 +53,7 @@ function reducer(state, action) {
                 profile: {
                     loading: false,
                     error: action.payload.error,
-                    data: null,
+                    profileData: null,
                 }
             }
 
@@ -122,7 +121,7 @@ function reducer(state, action) {
                     name: '',
                 },
 
-                landingPage:{
+                landingPage: {
                     loading: true,
                     error: null,
                     name: ''
@@ -177,7 +176,7 @@ function reducer(state, action) {
                     data: [
                         {
                             familyName: '',
-                            familyID :'',
+                            familyID: '',
                             adminID: '',
                             registrationDate: ''
                         }
