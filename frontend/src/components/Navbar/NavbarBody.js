@@ -1,43 +1,40 @@
 import React, {useContext} from 'react';
-import NavbarItem from "./NavbarItem";
-import {NavbarBodyButton, NavbarBodyDiv} from "./NavBarElements";
+import {NavbarBodyButtonStyle, NavbarBodyDiv} from "./NavBarElements";
 import AppContext from "../../context/AppContext";
-import NavbarBodyProfileButton from "./NavbarBodyProfileButton";
-import NavbarBodyFamilyButton from "./NavbarBodyFamilyButton";
-import NavbarBodyCreateFamilyButton from "./NavbarBodyCreateFamilyButton";
+import NavbarBodyButton from "./NavbarBodyButton";
+import {FETCH_PROFILE_STARTED} from "../../context/Actions";
+import {Redirect} from "react-router-dom";
 
 function NavbarBody() {
 
     const { state, dispatch } = useContext(AppContext);
     const { loggedUser } = state;
-    const { sm, fa } = loggedUser;
+    const { role } = loggedUser;
 
 
-
-    if(sm === true) {
-        return (
-            <NavbarBodyDiv>
-                <NavbarBodyFamilyButton />
-                <br />
-                <NavbarBodyProfileButton />
-                <br />
-                <NavbarBodyCreateFamilyButton valor="createFamily" description="Create a Family" />
-            </NavbarBodyDiv>
-        )
-    } else if (fa === true) {
-        return (
-            <NavbarBodyDiv>
-                <NavbarBodyFamilyButton />
-                <br />
-                <NavbarBodyProfileButton />
-            </NavbarBodyDiv>
-        )
-    } else {
-        return (
-            <NavbarBodyDiv>
-                <NavbarBodyProfileButton />
-            </NavbarBodyDiv>
-        )
+    switch (role) {
+        case 'systemManager':
+            return (
+                <NavbarBodyDiv>
+                    <NavbarBodyButton valor="createFamily" description="Create a Family"/>
+                </NavbarBodyDiv>
+            )
+        case 'familyAdministrator':
+            return (
+                <NavbarBodyDiv>
+                    <NavbarBodyButton valor="family" description="Family"/>
+                    <br/>
+                    <NavbarBodyButton valor="profile" description="Profile"/>
+                </NavbarBodyDiv>
+            )
+        case 'familyMember':
+            return (
+                <NavbarBodyDiv>
+                    <NavbarBodyButton valor="profile" description="Profile"/>
+                </NavbarBodyDiv>
+            )
+        default:
+            return (<Redirect to="/login"/>)
     }
 
 }

@@ -8,11 +8,6 @@ import styled from 'styled-components';
 // 1 à 2 enquanto que a restante vai ser definida no outro componente
 export const NavbarDiv = styled.div`
 
-  grid-row-start: 1;
-  grid-row-end: 2;
-  
-  grid-column-start: 1;
-  grid-column-end: 2;
   background-color: lightgreen;
 
   // Implementar o grid system no Parent através da construção do esqueleto e nos childs definir as dimensões de cada secção.
@@ -21,32 +16,29 @@ export const NavbarDiv = styled.div`
   
   // Neste situação o "fr" indica a totalidade da tela
   grid-template-columns: 1fr;
-  
-  // Divisão da tela completa em dois grupos proporcionais, o primeiro de 1/4 do tamanho
-  // e o segundo com 3/4 do tamanho. O "fr" indica essa proporção.
   grid-auto-rows: 1fr 2fr 1fr;
-
+  
 `
 
 export const NavbarHeaderDiv = styled.div`
-
+  justify-self: center;
   padding: 20px;
-  
 `
 
 export const ImageProperties = styled.img`
-
 `
 
 export const NavbarBodyDiv = styled.div`
+  justify-self: center;
 `
 
 export const NavbarFooterDiv = styled.div`
+  justify-self: center;
 `
 
 export const NavbarFooterButton = styled.button`
 
 `
 
-export const NavbarBodyButton = styled.button`
+export const NavbarBodyButtonStyle = styled.button`
 `

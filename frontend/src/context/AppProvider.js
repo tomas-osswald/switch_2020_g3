@@ -16,12 +16,18 @@ const initialState = {
 
      */
 
-    mainView: 'family',
+    mainView: '',
 
     loggedUser: {
-        id: 'tonyze@latinlover.com',
-        sm: true,
-        fa: true,
+        id: '',
+        role: '',
+        name: '',
+    },
+
+    landingPage:{
+        loading: true,
+        error: null,
+        name: ''
     },
 
     name: {
@@ -29,8 +35,6 @@ const initialState = {
         error: null,
         data: [],
     },
-
-    loggeduser: 'tonyze@latinlover.com',
 
     loggeduserTest: {
         email: ['tonyze@latinlover.com'],
@@ -71,21 +75,14 @@ const initialState = {
         data: [],
     },
 
-    createfamily: {
+    createdfamily: {
         loading: true,
         error: null,
         data: [
             {
-                emailID: '',
-                name: '',
-                birthdate: '',
-                vatNumber: '',
-                phone: '',
-                street: '',
-                city: '',
-                houseNumber: '',
-                zipCode: '',
                 familyName: '',
+                familyID :'',
+                adminID: '',
                 registrationDate: ''
             }
         ]

@@ -11,10 +11,13 @@ import {
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_FAILURE,
     LOGOUT, CHANGE_VIEW,
+    FETCH_USER_NAME_START,
+    FETCH_USER_NAME_SUCCESS,
+    FETCH_USER_NAME_FAILURE
 } from './Actions'
 
 function reducer(state, action) {
-    switch (action.type){
+    switch (action.type) {
         /*
         case ACTION_HERE:
             return {
@@ -56,7 +59,7 @@ function reducer(state, action) {
 
         case UPDATE_NAME:
             let teste = action.payload.data;
-            if ( teste === '3'){
+            if (teste === '3') {
                 teste = 'vai po crlh';
             }
             return {
@@ -71,7 +74,10 @@ function reducer(state, action) {
         case CHANGE_USER:
             return {
                 ...state,
-                loggeduser: action.payload.data
+                loggedUser: {
+                    id: action.payload.id,
+                    role: action.payload.role,
+                }
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:
@@ -90,7 +96,7 @@ function reducer(state, action) {
                 family: {
                     loading: false,
                     error: null,
-                    data : action.payload.data
+                    data: action.payload.data
                 }
             }
 
@@ -107,10 +113,74 @@ function reducer(state, action) {
         case LOGOUT:
             return {
                 ...state,
+                mainView: '',
+
                 loggedUser: {
-                    id: null,
-                    sm: false,
-                    fa: false,
+                    id: '',
+                    role: '',
+                    name: '',
+                },
+
+                landingPage:{
+                    loading: true,
+                    error: null,
+                    name: ''
+                },
+
+                name: {
+                    loading: true,
+                    error: null,
+                    data: [],
+                },
+
+                loggeduserTest: {
+                    email: ['tonyze@latinlover.com'],
+                    familyId: ['@tonyze@latinlover.com'],
+                },
+
+                family: {
+                    loading: true,
+                    error: null,
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }],
+                    },
+                },
+
+                familymembers: {
+                    loading: true,
+                    error: null,
+                    data: [],
+                    relations: [{
+                        userid: 0,
+                        data: [],
+                    }],
+                },
+
+                profile: {
+                    loading: true,
+                    error: null,
+                    data: [],
+                },
+
+                createdfamily: {
+                    loading: true,
+                    error: null,
+                    data: [
+                        {
+                            familyName: '',
+                            familyID :'',
+                            adminID: '',
+                            registrationDate: ''
+                        }
+                    ]
                 }
             }
 
@@ -118,6 +188,36 @@ function reducer(state, action) {
             return {
                 ...state,
                 mainView: action.payload.mainView,
+            }
+
+        case FETCH_USER_NAME_START:
+            return {
+            ...state,
+            landingPage:{
+                    loading: true,
+                    error: null,
+                    name: '',
+                },
+            }
+
+        case FETCH_USER_NAME_SUCCESS:
+            return {
+            ...state,
+            landingPage:{
+                loading: false,
+                error: null,
+                name: action.payload,
+                }
+            }
+
+        case FETCH_USER_NAME_FAILURE:
+            return {
+                ...state,
+                landingPage : {
+                    loading: false,
+                    error: action.payload.error,
+                    name: '',
+                }
             }
 
         default:
