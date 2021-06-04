@@ -114,9 +114,74 @@ function reducer(state, action) {
         case LOGOUT:
             return {
                 ...state,
+                mainView: '',
+
                 loggedUser: {
                     id: '',
                     role: '',
+                    name: '',
+                },
+
+                landingPage:{
+                    loading: true,
+                    error: null,
+                    name: ''
+                },
+
+                name: {
+                    loading: true,
+                    error: null,
+                    data: [],
+                },
+
+                loggeduserTest: {
+                    email: ['tonyze@latinlover.com'],
+                    familyId: ['@tonyze@latinlover.com'],
+                },
+
+                family: {
+                    loading: true,
+                    error: null,
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }],
+                    },
+                },
+
+                familymembers: {
+                    loading: true,
+                    error: null,
+                    data: [],
+                    relations: [{
+                        userid: 0,
+                        data: [],
+                    }],
+                },
+
+                profile: {
+                    loading: true,
+                    error: null,
+                    data: [],
+                },
+
+                createdfamily: {
+                    loading: true,
+                    error: null,
+                    data: [
+                        {
+                            familyName: '',
+                            familyID :'',
+                            adminID: '',
+                            registrationDate: ''
+                        }
+                    ]
                 }
             }
 

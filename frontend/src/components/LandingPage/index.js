@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react'
 import {LandingPageDiv, MainText, UserName} from "./LandingPageElements";
 import AppContext from "../../context/AppContext";
 import {fetchName} from "../../context/Actions";
+import Loading from "../Loading";
 
 function LandingPage() {
 
@@ -19,9 +20,7 @@ function LandingPage() {
 
     if (loading === true) {
         return (
-            <div>
-                LOADING
-            </div>
+            <Loading/>
         )
     }
 
