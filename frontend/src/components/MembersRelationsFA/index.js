@@ -1,27 +1,18 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
-import Loading from "../Loading";
+import {fetchFamilyRelationsFA} from "../../context/Actions";
 
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family, profile, landingPage} = state;
-    //const {familyId} = loggeduserTest;
-    const {id} = loggedUser;
-    //const {familyID} = state.profile.data;
+    const {family, landingPage} = state;
+
     const {loading, error, data} = family;
     const {familyMemberAndRelationsDTO} = data;
-
-    const {data: profileData} = profile
-    //const {familyId} = profileData;
-
     const {family_id} = landingPage;
 
     useEffect(() => {
-        //fetchProfile(dispatch, id);
-
         fetchFamilyRelationsFA(dispatch, family_id);
     }, [])
 
