@@ -1,5 +1,5 @@
 import {
-    createfamilySMService,
+    createFamilySMService,
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
@@ -136,14 +136,13 @@ export function changeUser(email, role) {
     }
 }
 
-//TODO: Usar como types nas funções abaixo.
 export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
 export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
 export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
 
-export function createFamilySM(dispatch) {
+export function createFamilySM(dispatch, createFamily) {
     dispatch(createFamilySMStarted());
-    createfamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message())));
+    createFamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message)), createFamily);
 
 }
 

@@ -11,7 +11,10 @@ import {
     FETCH_USER_NAME_START,
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
-    UPDATE_NAME
+    UPDATE_NAME,
+    CREATE_FAMILY_STARTED,
+    CREATE_FAMILY_SUCCESS,
+    CREATE_FAMILY_FAILURE
 } from './Actions'
 
 function reducer(state, action) {
@@ -221,6 +224,49 @@ function reducer(state, action) {
                     name: '',
                 }
             }
+
+        case CREATE_FAMILY_STARTED:
+            return{
+                ...state,
+                createdfamily: {
+                    loading: true,
+                    error: null,
+                    data: []
+                }
+            }
+
+        case CREATE_FAMILY_SUCCESS:
+            console.log(action)
+            return{
+                ...state,
+                createdfamily: {
+                    loading: false,
+                    error: null,
+                    data: [{
+                        familyName: action.payload.familyName,
+                        familyID: action.payload.family_id,
+                        adminID: action.payload.adminID,
+                        registrationDate: action.payload.registrationDate
+                    }]
+                }
+            }
+
+        case CREATE_FAMILY_FAILURE:
+            return{
+                ...state,
+                createdfamily: {
+                    loading: false,
+                    error: "The family could not be created. Apes not strong",
+                    data: [{
+                        familyName: action.payload.familyName,
+                        familyID: action.payload.family_id,
+                        adminID: action.payload.adminID,
+                        registrationDate: action.payload.registrationDate
+                    }]
+                }
+            }
+
+
 
         default:
             return state;
