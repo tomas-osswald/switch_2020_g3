@@ -1,7 +1,8 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
 import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
+import {MembersRelationsFADiv, HeaderCell, HeaderSection} from "./MembersRelationsFAElements";
 
 
 function MembersRelationsFA() {
@@ -9,7 +10,7 @@ function MembersRelationsFA() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, loggeduserTest, family, profile} = state;
     const {familyId} = loggeduserTest;
-    const {id} = loggedUser;
+    const {id, role} = loggedUser;
     const {profileData} = profile;
     //const {familyID} = profileData;
     const {loading, error, data} = family
@@ -57,29 +58,33 @@ function MembersRelationsFA() {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return(
                     <div>
-                        <br/>
-                        <Table striped bordered hover variant="dark">
-                            <tbody>
-                            <tr>
-                                <td key={index}>{index}</td>
-                                <td>{relationsRow.memberOneID}</td>
-                                <td>{relationsRow.relationDesignation}</td>
-                                <td>{relationsRow.memberTwoID}</td>
-                            </tr>
-                            </tbody>
-                        </Table>
+                        <tbody>
+                        <tr>
+                            <td key={index}></td>
+                            <br/>
+                            <td>{relationsRow.relationDesignation}</td>
+                            <br/>
+                            <td>{relationsRow.memberTwoID}</td>
+                            <br/>
+                            <br/>
+                        </tr>
+                        </tbody>
                     </div>
                 )
             })
             return (
-                <div>
-                    <div>{relations}</div>
-                </div>
+                <tr key={index}>
+                    <td>{role}</td>
+                    <td>{row.name}</td>
+                    <td>See relations<Button variant="dark">+</Button></td>
+                </tr>
             )
         })
         return (<div>{dto}</div>)
     }
 
+    // Ir buscar o Name da Family
+    const familyName = "Sopranos";
 
     if (loading === true) {
         return (
@@ -96,20 +101,22 @@ function MembersRelationsFA() {
             )
         } else {
             return (
-                <div>
-
-                    {<p>{buildInnerText()}</p>}
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                    </tr>
-                    </thead>
-                    <div>{buildTable()}</div>
-
-                </div>
+                <MembersRelationsFADiv>
+                    <div>
+                        {<p>{buildInnerText()}</p>}
+                        <h2>{familyName}</h2>
+                        <Table striped bordered hover variant="dark">
+                            <thead>
+                            <HeaderSection>
+                                <HeaderCell>Role</HeaderCell>
+                                <HeaderCell>Name</HeaderCell>
+                                <HeaderCell>Relations</HeaderCell>
+                            </HeaderSection>
+                            </thead>
+                            <div>{buildTable()}</div>
+                        </Table>
+                    </div>
+                </MembersRelationsFADiv>
             )
         }
     }

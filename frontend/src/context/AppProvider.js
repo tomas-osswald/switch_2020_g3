@@ -26,7 +26,6 @@ const initialState = {
 
     loggedUserProfile: {
         id: 'tonyze@latinlover.com',
-
     },
 
     landingPage:{
