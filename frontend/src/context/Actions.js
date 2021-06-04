@@ -169,23 +169,25 @@ export function fetchName(dispatch, id) {
     fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err)), id)
 }
 
-export function fetchNameStart(){
+
+export function fetchNameStart() {
     return {
         type: FETCH_USER_NAME_START,
     }
 }
 
-export function fetchNameSuccess(wsData){
-    return{
+export function fetchNameSuccess(wsData) {
+    return {
         type: FETCH_USER_NAME_SUCCESS,
         payload: wsData.data.name
 
     }
 }
 
-export function fetchNameFailure(error){
+export function fetchNameFailure(error) {
     return {
         type: FETCH_USER_NAME_FAILURE,
         payload: error
     }
+
 }

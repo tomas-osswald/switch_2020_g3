@@ -1,34 +1,44 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
 import {fetchFamilyRelationsFA} from "../../context/Actions";
-import {func} from "prop-types";
 
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggeduserTest, family} = state;
-    const {email, familyId} = loggeduserTest;
+    const {loggedUser, loggeduserTest, family} = state;
+    const {familyId} = loggeduserTest;
+    const {id} = loggedUser;
+    //const {familyID} = state.profile.data;
     const {loading, error, data} = family
-    const {familyMemberAndRelationsDTO}= data
-
-
+    const {familyMemberAndRelationsDTO} = data
 
 
     useEffect(() => {
-
+        //fetchNewProfile(dispatch, id);
         fetchFamilyRelationsFA(dispatch, familyId);
-
+        //fetchFamilyRelationsFA(dispatch, familyID);
 
 
     }, [])
 
-    function buildInnerText(){
-        let html = familyMemberAndRelationsDTO.map((row,index) => {
-            let relassoes = row.relations.map((relationsRow,relationsIndex)=>{
-                return (<tr key={relationsIndex}> {relationsRow.memberTwoID} : {relationsRow.relationDesignation} </tr>)
+    function findMemberTwoName(TwoID) {
+        let name = familyMemberAndRelationsDTO.map((row) => {
+            if (TwoID === row.personID) {
+                return row.name
+            }
+        })
+        return name;
+    }
+
+    function buildInnerText() {
+        let html = familyMemberAndRelationsDTO.map((row, index) => {
+            let relassoes = row.relations.map((relationsRow, relationsIndex) => {
+                return (
+                    <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>)
             })
-            return (<tr key={index}>Name: {row.name} Email: {row.personID} Relações : {relassoes}  </tr>)});
+            return (<tr key={index}>Name: {row.name} Email: {row.personID} Relações : {relassoes}  </tr>)
+        });
 
         return <table>{html}</table>
 
@@ -53,6 +63,7 @@ function MembersRelationsFA() {
                 <div>
 
                     <p>{buildInnerText()}</p>
+
 
 
                 </div>

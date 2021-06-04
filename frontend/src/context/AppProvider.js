@@ -86,7 +86,7 @@ const initialState = {
         data: [
             {
                 familyName: '',
-                familyID :'',
+                familyID: '',
                 adminID: '',
                 registrationDate: ''
             }
