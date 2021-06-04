@@ -1,4 +1,10 @@
-import {createfamilySMService, familyRelationsFA, fetchNameWS, fetchProfileFromLogin} from './Service'
+import {
+    createfamilySMService,
+    familyRelationsFA,
+    fetchNameWS,
+    fetchProfileFromLogin,
+    fetchProfileFromWS
+} from './Service'
 
 /**
  * Insert functions for Service:
@@ -56,7 +62,7 @@ export function fetchProfile(dispatch, id) {
 
 export function fetchNewProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
 }
 
 // Uniformizar actions com pedidos fetch para poder utilizar com families, person etc...
@@ -141,19 +147,29 @@ export function createFamilySM(dispatch) {
 
 }
 
-//TODO: Fazer cenas
 export function createFamilySMStarted() {
-    return doNothing()
+    return {
+        type: CREATE_FAMILY_STARTED
+    }
 }
 
-//TODO: Fazer cenas
-export function createFamilySMSuccess() {
-    return doNothing()
+export function createFamilySMSuccess(family) {
+    return {
+        type: CREATE_FAMILY_SUCCESS,
+        payload: {
+            familyName: family.familyName,
+            familyID : family.familyID,
+            adminID: family.adminID,
+            registrationDate: family.registrationDate
+        }
+    }
 }
 
-//TODO: Fazer cenas
-export function createFamilySMFailure() {
-    return doNothing()
+export function createFamilySMFailure(errorMessage) {
+    return {
+        type: CREATE_FAMILY_FAILURE,
+        payload: errorMessage
+    }
 }
 
 /**
@@ -179,7 +195,10 @@ export function fetchNameStart() {
 export function fetchNameSuccess(wsData) {
     return {
         type: FETCH_USER_NAME_SUCCESS,
-        payload: wsData.data.name
+        payload: {
+            name: wsData.data.name,
+            family_id: wsData.data.familyID
+        }
 
     }
 }

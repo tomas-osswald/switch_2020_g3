@@ -15,15 +15,16 @@ function MembersRelationsFA() {
     //const {familyID} = profileData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
+    const {family, landingPage} = state;
 
+    const {loading, error, data} = family;
+    const {familyMemberAndRelationsDTO} = data;
+    const {family_id} = landingPage;
 
     useEffect(() => {
+        // console.log(state.profile)
         fetchProfile(dispatch, id);
-
-    }, [])
-    useEffect(() => {
-        console.log(state.profile)
-        fetchFamilyRelationsFA(dispatch, familyId);
+        fetchFamilyRelationsFA(dispatch, family_id);
         //fetchFamilyRelationsFA(dispatch, state.profile.data.familyID);
     }, [])
 

@@ -11,7 +11,7 @@ export function fetchProfileFromLogin(success, failure, id) {
             return res.json()
         })
         .then((res) => {
-            console.log(res);
+            //console.log(res);
             return success(res)
         })
 }
@@ -23,11 +23,11 @@ export function fetchProfileFromWS(success, failure, id) {
     axios.get(`${URL_API}/people/${id}`)
         .then((response) => {
             success(response)
-            console.log(response);
+            //console.log(response);
 
         })
         .catch((err) => {
-            console.log(err.message);
+            //console.log(err.message);
             failure(err.message)
         })
     ;
