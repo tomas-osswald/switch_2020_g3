@@ -147,19 +147,29 @@ export function createFamilySM(dispatch) {
 
 }
 
-//TODO: Fazer cenas
 export function createFamilySMStarted() {
-    return doNothing()
+    return {
+        type: CREATE_FAMILY_STARTED
+    }
 }
 
-//TODO: Fazer cenas
-export function createFamilySMSuccess() {
-    return doNothing()
+export function createFamilySMSuccess(family) {
+    return {
+        type: CREATE_FAMILY_SUCCESS,
+        payload: {
+            familyName: family.familyName,
+            familyID : family.familyID,
+            adminID: family.adminID,
+            registrationDate: family.registrationDate
+        }
+    }
 }
 
-//TODO: Fazer cenas
-export function createFamilySMFailure() {
-    return doNothing()
+export function createFamilySMFailure(errorMessage) {
+    return {
+        type: CREATE_FAMILY_FAILURE,
+        payload: errorMessage
+    }
 }
 
 /**

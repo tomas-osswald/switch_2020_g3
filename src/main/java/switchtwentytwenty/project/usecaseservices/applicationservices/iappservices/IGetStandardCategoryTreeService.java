@@ -5,6 +5,8 @@ import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 
 public interface IGetStandardCategoryTreeService {
 
-    OutputCategoryTreeDTO getStandardCategoryTree();
+    OutputCategoryTreeDTO getStandardCategoryTreeOwn();
+
+    OutputCategoryTreeDTO getStandardCategoryTreeAll();
 
 }

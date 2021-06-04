@@ -21,6 +21,7 @@ import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
+import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,9 @@ class GetStandardCategoryTreeServiceIT {
 
     @Autowired
     CategoryDTODomainAssembler categoryDTODomainAssembler;
+
+    @Autowired
+    IExternalCategoryRepository externalCategoryRepository;
 
     IGetStandardCategoryTreeService service;
 
@@ -119,9 +123,9 @@ class GetStandardCategoryTreeServiceIT {
 
         //when(categoryRepository.getStandardCategoryList()).thenReturn(categoryList);
 
-        service = new GetStandardCategoryTreeService(categoryRepository, categoryDTODomainAssembler);
+        service = new GetStandardCategoryTreeService(categoryRepository, categoryDTODomainAssembler, externalCategoryRepository);
 
-        OutputCategoryTreeDTO result = service.getStandardCategoryTree();
+        OutputCategoryTreeDTO result = service.getStandardCategoryTreeOwn();
 
         OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
         expected.addOutputCategoryDTO(outputCategoryDTO1);
