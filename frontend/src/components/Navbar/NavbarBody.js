@@ -16,10 +16,6 @@ function NavbarBody() {
         case 'systemManager':
             return (
                 <NavbarBodyDiv>
-                    <NavbarBodyButton valor="family" description="Family"/>
-                    <br/>
-                    <NavbarBodyButton valor="profile" description="Profile"/>
-                    <br/>
                     <NavbarBodyButton valor="createFamily" description="Create a Family"/>
                 </NavbarBodyDiv>
             )
