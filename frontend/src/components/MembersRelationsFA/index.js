@@ -15,7 +15,7 @@ function MembersRelationsFA() {
 
 
     useEffect(() => {
-        //fetchNewProfile(dispatch, id);
+        //fetchProfile(dispatch, id);
         fetchFamilyRelationsFA(dispatch, familyId);
         //fetchFamilyRelationsFA(dispatch, familyID);
 
