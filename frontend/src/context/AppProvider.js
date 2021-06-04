@@ -22,7 +22,6 @@ const initialState = {
         id: '',
         role: '',
         name: '',
-        familyID: '',
     },
 
     landingPage: {

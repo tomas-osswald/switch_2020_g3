@@ -9,14 +9,13 @@ function MembersRelationsFA() {
     const {loggedUser, loggeduserTest, family} = state;
     const {familyId} = loggeduserTest;
     const {id} = loggedUser;
-    const {profile} = state;
-    const {familyID} = profile.data.familyID;
+    //const {familyID} = state.profile.data;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
 
 
     useEffect(() => {
-        fetchNewProfile(dispatch, id);
+        //fetchNewProfile(dispatch, id);
         fetchFamilyRelationsFA(dispatch, familyId);
         //fetchFamilyRelationsFA(dispatch, familyID);
 
