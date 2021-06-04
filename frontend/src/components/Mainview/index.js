@@ -4,7 +4,7 @@ import MembersRelationsFA from "../MembersRelationsFA";
 import AppContext from "../../context/AppContext";
 import CreateFamilySM from "../CreateFamilySM";
 import LandingPage from "../LandingPage";
-
+import Profile from "../Profile";
 
 
 function Mainview() {
@@ -17,7 +17,7 @@ function Mainview() {
             <MainviewDiv>
                 Mainview deste lado
                 <br/>
-                Profile aqui
+                <Profile/>
             </MainviewDiv>
         )
     } else if (mainView === 'createFamily') {

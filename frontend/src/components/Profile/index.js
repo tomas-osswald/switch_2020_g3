@@ -1,6 +1,6 @@
 import React, { useContext, useEffect} from 'react';
 import AppContext from '../../context/AppContext';
-import {fetchProfile} from '../../context/Actions';
+import {fetchProfile} from "../../context/Actions";
 import '../../styles/profile.css'
 import { useHistory } from 'react-router-dom';
 
@@ -41,6 +41,9 @@ function Profile() {
 
                             <h3 >Name : {data.name}</h3>
                             <h3>Birth date : {data.birthdate}</h3>
+                            <ul>
+
+                            </ul>
                             <h3>Emails : {data.emails}</h3>
                             <h3>Phone numbers : {data.phoneNumbers}</h3>
                             <h3>Vat : {data.vat}</h3>
