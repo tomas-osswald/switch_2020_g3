@@ -3,8 +3,9 @@ import axios from "axios";
 import {doNothing} from "./Actions";
 
 export const URL_API = 'http://localhost:8080';
+
 export function fetchProfileFromLogin(success, failure, id) {
-    fetch(`http://localhost:8080/people/tonyze@latinlover.com`)
+    fetch(`${URL_API}/people/${id}`)
         .then((res) => {
             console.log(res);
             return res.json()
@@ -14,6 +15,7 @@ export function fetchProfileFromLogin(success, failure, id) {
             return success(res)
         })
 }
+
 export function fetchProfileFromWS(success, failure, id) {
     //neste momento está hardcoded mas será para ir buscar o id do loggeduser
     let urla = "http://localhost:8080/people/tonyze@latinlover.com";

@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom';
 
 function Profile() {
     const { state, dispatch} = useContext(AppContext);
-    const {loggedUserProfile, profile} = state;
-    const {id} = loggedUserProfile;
+    const {loggedUser, profile} = state;
+    const {id} = loggedUser;
     const {loading, error, data } = profile;
 
     useEffect(() =>{
