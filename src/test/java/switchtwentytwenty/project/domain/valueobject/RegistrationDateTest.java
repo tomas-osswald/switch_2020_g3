@@ -29,6 +29,24 @@ class RegistrationDateTest {
 
     @Test
     @Tag("US010")
+    void registrationDateTest_ValidEmpty() {
+        String date = "  ";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+
+        assertNotNull(registrationDate);
+    }
+
+    @Test
+    @Tag("US010")
+    void registrationDateTest_ValidBlank() {
+        String date = "";
+        RegistrationDate registrationDate = new RegistrationDate(date);
+
+        assertNotNull(registrationDate);
+    }
+
+    @Test
+    @Tag("US010")
     void equalsTest_equalNotSame() {
         String date = "12/12/1990";
         RegistrationDate registrationDateOne = new RegistrationDate(date);
