@@ -23,6 +23,7 @@ public class
 FFMSpringBootApplication {
     private static final String TONY_ZE_EMAIL = "tonyze@latinlover.com";
     private static final String KATIA_VANESSA_EMAIL = "kvanessa@latina.com";
+    private static final String RAIMUNDO_EMAIL = "raios_mundo@sapo.pt";
 
     public static void main(String[] args) {
         SpringApplication.run(FFMSpringBootApplication.class, args);
@@ -35,16 +36,24 @@ FFMSpringBootApplication {
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO(TONY_ZE_EMAIL, "TonyZe", "12/12/1969", 123456789, 919999999, "Rua do Charme", "Cidade do Zexo", "69 Esquerdo", "1234-123", "Antunes", null);
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO2 = new AddFamilyAndSetAdminDTO("rifens@ravens.com", "Rifens", "05/05/1920", 987654321, 911111111, "Rua do Sertin", "Zelmin", "223", "1112-111", "Ravens", "01/01/2021");
             AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Katia Vanessa", "20/01/1970", 777777777, 921232323, "Rua do Charme", "Cidade do Zexo", "69 Esquerdo", "1234-123");
+            AddFamilyMemberDTO addFamilyMemberDTO2 = new AddFamilyMemberDTO(TONY_ZE_EMAIL, RAIMUNDO_EMAIL, "Raimundo Daniel", "13/05/1998", 111111111, 921332323, "Rua do Charme", "Cidade do Zexo", "69 Esquerdo", "1234-123");
             CreateAccountDTO vanessaAccount = new CreateAccountDTO("Conta para fugir do TonyZe", BigDecimal.valueOf(1034.54), "EUR", KATIA_VANESSA_EMAIL, "bank");
             CreateAccountDTO tonyaccount = new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", TONY_ZE_EMAIL, "cash");
-            CreateRelationDTO relationTonyKatia = new CreateRelationDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "esposa");
+            CreateRelationDTO relationTonyKatia = new CreateRelationDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Husband");
+            CreateRelationDTO relationKatiaRaimundo = new CreateRelationDTO(KATIA_VANESSA_EMAIL, RAIMUNDO_EMAIL, "Mother");
+            CreateRelationDTO relationRaimundoTony = new CreateRelationDTO(RAIMUNDO_EMAIL, TONY_ZE_EMAIL, "Bastard");
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
             personRESTController.addFamilyMember(addFamilyMemberDTO);
+            personRESTController.addFamilyMember(addFamilyMemberDTO2);
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@yahoo.com"), KATIA_VANESSA_EMAIL);
+            personRESTController.addEmail(new AddEmailDTO("tonyzeBackup@yahoo.com"), TONY_ZE_EMAIL);
+            personRESTController.addEmail(new AddEmailDTO("tonytony@yahoo.com"), TONY_ZE_EMAIL);
             iAccountRESTController.createAccount(vanessaAccount);
             iAccountRESTController.createAccount(tonyaccount);
             familyRESTController.createRelation(relationTonyKatia, "@tonyze@latinlover.com");
+            familyRESTController.createRelation(relationKatiaRaimundo, "@tonyze@latinlover.com");
+            familyRESTController.createRelation(relationRaimundoTony, "@tonyze@latinlover.com");
         };
     }
 

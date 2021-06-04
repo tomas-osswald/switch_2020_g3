@@ -24,10 +24,12 @@ const initialState = {
         name: '',
     },
 
-    landingPage:{
+
+    landingPage: {
         loading: true,
         error: null,
-        name: ''
+        name: '',
+        family_id: '',
     },
 
     name: {
@@ -72,8 +74,21 @@ const initialState = {
     profile: {
         loading: true,
         error: null,
-        data: [],
+        profileData: {
+            id: "",
+            name: "",
+            birthdate: "",
+            emails: [],
+            phoneNumbers: [],
+            vat: "",
+            street: "",
+            city: "",
+            zipCode: "",
+            doorNumber: "",
+            familyID: "",
+        }
     },
+
 
     createdfamily: {
         loading: true,
@@ -81,13 +96,15 @@ const initialState = {
         data: [
             {
                 familyName: '',
-                familyID :'',
+                familyID: '',
                 adminID: '',
                 registrationDate: ''
             }
         ]
     }
 };
+
+console.log(initialState.profile);
 
 
 // -> Insert more data objects in a different way
