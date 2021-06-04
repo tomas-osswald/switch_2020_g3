@@ -32,7 +32,8 @@ const initialState = {
     landingPage:{
         loading: true,
         error: null,
-        name: ''
+        name: '',
+        family_id: '',
     },
 
     name: {

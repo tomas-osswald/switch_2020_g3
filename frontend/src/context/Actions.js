@@ -1,4 +1,10 @@
-import {createfamilySMService, familyRelationsFA, fetchNameWS, fetchProfileFromLogin} from './Service'
+import {
+    createfamilySMService,
+    familyRelationsFA,
+    fetchNameWS,
+    fetchProfileFromLogin,
+    fetchProfileFromWS
+} from './Service'
 
 /**
  * Insert functions for Service:
@@ -51,12 +57,12 @@ export function changeView(value) {
 
 export function fetchProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
 }
 
 export function fetchNewProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
 }
 
 // Uniformizar actions com pedidos fetch para poder utilizar com families, person etc...
@@ -179,7 +185,10 @@ export function fetchNameStart() {
 export function fetchNameSuccess(wsData) {
     return {
         type: FETCH_USER_NAME_SUCCESS,
-        payload: wsData.data.name
+        payload: {
+            name: wsData.data.name,
+            family_id: wsData.data.familyID
+        }
 
     }
 }

@@ -1,25 +1,28 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA} from "../../context/Actions";
+import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
+import Loading from "../Loading";
 
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family} = state;
-    const {familyId} = loggeduserTest;
+    const {loggedUser, loggeduserTest, family, profile, landingPage} = state;
+    //const {familyId} = loggeduserTest;
     const {id} = loggedUser;
     //const {familyID} = state.profile.data;
-    const {loading, error, data} = family
-    const {familyMemberAndRelationsDTO} = data
+    const {loading, error, data} = family;
+    const {familyMemberAndRelationsDTO} = data;
 
+    const {data: profileData} = profile
+    //const {familyId} = profileData;
+
+    const {family_id} = landingPage;
 
     useEffect(() => {
         //fetchProfile(dispatch, id);
-        fetchFamilyRelationsFA(dispatch, familyId);
-        //fetchFamilyRelationsFA(dispatch, familyID);
 
-
+        fetchFamilyRelationsFA(dispatch, family_id);
     }, [])
 
     function findMemberTwoName(TwoID) {

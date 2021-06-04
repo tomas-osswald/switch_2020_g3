@@ -198,6 +198,7 @@ function reducer(state, action) {
                     loading: true,
                     error: null,
                     name: '',
+                    family_id: '',
                 },
             }
 
@@ -207,7 +208,8 @@ function reducer(state, action) {
                 landingPage: {
                     loading: false,
                     error: null,
-                    name: action.payload,
+                    name: action.payload.name,
+                    family_id: action.payload.family_id,
                 }
             }
 
