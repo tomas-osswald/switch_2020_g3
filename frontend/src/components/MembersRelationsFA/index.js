@@ -8,26 +8,36 @@ import {func} from "prop-types";
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggeduserTest, family} = state;
-    const {email, familyId} = loggeduserTest;
+    const {loggedUser, loggeduserTest, family} = state;
+    const {familyId} = loggeduserTest;
+    const {id} = loggedUser;
+    //const {familyID} = state.profile.data;
     const {loading, error, data} = family
-    const {familyMemberAndRelationsDTO}= data
-
-
+    const {familyMemberAndRelationsDTO} = data
 
 
     useEffect(() => {
-
+        //fetchNewProfile(dispatch, id);
         fetchFamilyRelationsFA(dispatch, familyId);
-
+        //fetchFamilyRelationsFA(dispatch, familyID);
     }, [])
 
-    function buildInnerText(){
-        let html = familyMemberAndRelationsDTO.map((row,index) => {
-            let relassoes = row.relations.map((relationsRow,relationsIndex)=>{
+    function findMemberTwoName(TwoID) {
+        return familyMemberAndRelationsDTO.map((personDTO) => {
+            if (TwoID === personDTO.personID) {
+                return personDTO.name
+            }
+        })
+
+    }
+
+    function buildInnerText() {
+        let html = familyMemberAndRelationsDTO.map((row, index) => {
+            let relassoes = row.relations.map((relationsRow, relationsIndex) => {
                 return (
                     <div>
-                        <tr key={relationsIndex}> {relationsRow.memberTwoID} : {relationsRow.relationDesignation} </tr>
+                        <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>
+                        )
                         <Table striped bordered hover variant="dark">
                             <thead>
                             <tr>
@@ -60,10 +70,7 @@ function MembersRelationsFA() {
                     </div>
                 )
             })
-            return (<tr key={index}>Name: {row.name} Email: {row.personID} Relações : {relassoes}  </tr>)});
-
-        return <table>{html}</table>
-
+        })
     }
 
 
