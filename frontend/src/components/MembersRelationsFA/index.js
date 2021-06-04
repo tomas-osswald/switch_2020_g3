@@ -1,25 +1,29 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA} from "../../context/Actions";
-import {Table} from 'react-bootstrap';
-import {func} from "prop-types";
+import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
+import { Table } from 'react-bootstrap';
 
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family} = state;
+    const {loggedUser, loggeduserTest, family, profile} = state;
     const {familyId} = loggeduserTest;
     const {id} = loggedUser;
-    //const {familyID} = state.profile.data;
+    const {profileData} = profile;
+    //const {familyID} = profileData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
 
 
     useEffect(() => {
-        //fetchProfile(dispatch, id);
+        fetchProfile(dispatch, id);
+
+    }, [])
+    useEffect(() => {
+        console.log(state.profile)
         fetchFamilyRelationsFA(dispatch, familyId);
-        //fetchFamilyRelationsFA(dispatch, familyID);
+        //fetchFamilyRelationsFA(dispatch, state.profile.data.familyID);
     }, [])
 
     function findMemberTwoName(TwoID) {
@@ -35,42 +39,45 @@ function MembersRelationsFA() {
         let html = familyMemberAndRelationsDTO.map((row, index) => {
             let relassoes = row.relations.map((relationsRow, relationsIndex) => {
                 return (
+                    <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>)
+            })
+            return (<tr key={index}>Name: {row.name} Email: {row.personID} <p>Relações : {relassoes}</p></tr>)
+        })
+
+        return (
+            <div>
+                <table>{html}</table>
+                <br/>
+            </div>
+        )
+    }
+
+    function buildTable() {
+        const dto = familyMemberAndRelationsDTO.map((row, index) => {
+            const relations = row.relations.map((relationsRow, relationsIndex) => {
+                return(
                     <div>
-                        <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>
-                        )
+                        <br/>
                         <Table striped bordered hover variant="dark">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                            </tr>
-                            </thead>
                             <tbody>
                             <tr>
-                                <td key={relationsIndex}>1</td>
-                                <td>{}</td>
+                                <td key={index}>{index}</td>
+                                <td>{relationsRow.memberOneID}</td>
                                 <td>{relationsRow.relationDesignation}</td>
                                 <td>{relationsRow.memberTwoID}</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td colSpan="2">Larry the Bird</td>
-                                <td>@twitter</td>
                             </tr>
                             </tbody>
                         </Table>
                     </div>
                 )
             })
+            return (
+                <div>
+                    <div>{relations}</div>
+                </div>
+            )
         })
+        return (<div>{dto}</div>)
     }
 
 
@@ -90,7 +97,18 @@ function MembersRelationsFA() {
         } else {
             return (
                 <div>
-                    <p>{buildInnerText()}</p>
+
+                    {<p>{buildInnerText()}</p>}
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                    </tr>
+                    </thead>
+                    <div>{buildTable()}</div>
+
                 </div>
             )
         }
