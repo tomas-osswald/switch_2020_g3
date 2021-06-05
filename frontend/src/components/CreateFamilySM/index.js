@@ -12,7 +12,7 @@ export default function CreateFamilySM() {
     //guardar no estado da App algo que vai ser enviado para o Backend.
     const [emailID, setEmailID] = useState('');
     const [name, setName] = useState('');
-    const [birthdate, setBirthdate] = useState('');
+    const [birthDate, setBirthdate] = useState('');
     const [vatNumber, setVatNumber] = useState('');
     const [phone, setPhoneNumber] = useState('');
     const [street, setStreet] = useState('');
@@ -29,7 +29,14 @@ export default function CreateFamilySM() {
 
     function handleSubmit() {
         //TODO: Verificar type e dispatch. O que leva aqui??
-        createFamilySM(dispatch)
+        const createFamily = {
+            emailID: emailID,
+            name: name,
+            birthDate: birthDate, vatNumber:vatNumber, phone:phone, street:street,
+            city:city, houseNumber:houseNumber, zipCode:zipCode, familyName:familyName,
+            registrationDate: registrationDate
+        }
+        createFamilySM(dispatch, createFamily)
     }
 
 
