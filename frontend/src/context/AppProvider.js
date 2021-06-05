@@ -23,7 +23,7 @@ const initialState = {
         role: '',
         name: '',
     },
-    
+
     loggedUserProfile: {
         id: 'tonyze@latinlover.com',
     },

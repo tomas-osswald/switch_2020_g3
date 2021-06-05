@@ -46,7 +46,7 @@ export function familyRelationsFA(success, failure, familyId) {
         })
         .catch((err) => {
             console.log(err.message);
-            failure(err.message)
+            return failure(err.message)
         })
     ;
 }
