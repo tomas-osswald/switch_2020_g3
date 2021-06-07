@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {fetchFamilyRelationsFA, postNewRelation, changeView} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
     ButtonCell,
