@@ -15,8 +15,6 @@ function Mainview() {
     if (mainView === 'profile') {
         return (
             <MainviewDiv>
-                Mainview deste lado
-                <br/>
                 <Profile/>
             </MainviewDiv>
         )

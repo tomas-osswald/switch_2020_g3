@@ -33,7 +33,7 @@ class FamilyDTODomainAssemblerTest {
 
         OutputFamilyDTO expected = new OutputFamilyDTO(familyNameString, familyID.toString(), emailString, registrationDate.toString());
 
-        OutputFamilyDTO result = familyDTODomainAssembler.toOutputRelationDTO(family);
+        OutputFamilyDTO result = familyDTODomainAssembler.toOutputFamilyDTO(family);
 
         assertEquals(expected, result);
         assertNotNull(result);

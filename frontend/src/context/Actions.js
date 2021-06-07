@@ -1,5 +1,6 @@
 import {
     createFamilySMService,
+    familyNameGlobal,
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
@@ -23,6 +24,18 @@ export const UPDATE_NAME = 'UPDATE_NAME';
 export const CHANGE_USER = 'CHANGE_USER';
 export const LOGOUT = 'LOGOUT';
 export const CHANGE_VIEW = 'CHANGE_VIEW';
+export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
+export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
+export const FETCH_FAMILYRELATIONS_FAILURE = 'FETCH_FAMILYRELATIONS_FAILURE';
+export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
+export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
+export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
+export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
+export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
+
+
+export const ADD_EMAIL = 'ADD_EMAIL';
 
 export function doNothing() {
     return {
@@ -91,9 +104,16 @@ export function fetchProfileFailure(message) {
     }
 }
 
-export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
-export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
-export const FETCH_FAMILYRELATIONS_FAILURE = 'FETCH_FAMILYRELATIONS_FAILURE';
+
+
+export const FETCH_FAMILY_NAME_STARTED = 'FETCH_FAMILY_NAME_STARTED';
+export const FETCH_FAMILY_NAME_SUCCESS = 'FETCH_FAMILY_NAME_SUCCESS';
+export const FETCH_FAMILY_NAME_FAILURE = 'FETCH_FAMILY_NAME_FAILURE';
+
+export function fetchFamilyName(dispatch, familyId) {
+    dispatch(fetchFamilyNameStarted());
+    familyNameGlobal((res) => dispatch(fetchFamilyNameSuccess(res)), (err) => dispatch(fetchFamilyNameFailure(err.message)), familyId)
+}
 
 export function fetchFamilyRelationsFA(dispatch, familyId) {
     dispatch(fetchFamilyRelationStarted());
@@ -108,7 +128,13 @@ export function fetchFamilyRelationStarted() {
     }
 }
 
-export function fetchFamilyRelationsSuccess(familyRelations) {
+export function fetchFamilyNameStarted() {
+    return {
+        type: FETCH_FAMILY_NAME_STARTED
+    }
+}
+
+export function fetchFamilyNameSuccess(familyRelations) {
     return {
         type: FETCH_FAMILYRELATIONS_SUCCESS,
         payload: {
@@ -117,9 +143,28 @@ export function fetchFamilyRelationsSuccess(familyRelations) {
     }
 }
 
+
+export function fetchFamilyRelationsSuccess(relations) {
+    return {
+        type: FETCH_FAMILYRELATIONS_SUCCESS,
+        payload: {
+            data: relations
+        }
+    }
+}
+
 export function fetchFamilyRelationsFailure(message) {
     return {
         type: FETCH_FAMILYRELATIONS_FAILURE,
+        payload: {
+            data: message
+        }
+    }
+}
+
+export function fetchFamilyNameFailure(message) {
+    return {
+        type: FETCH_FAMILY_NAME_FAILURE,
         payload: {
             data: message
         }
@@ -135,10 +180,6 @@ export function changeUser(email, role) {
         },
     }
 }
-
-export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
-export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
-export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
 
 export function createFamilySM(dispatch, createFamily) {
     dispatch(createFamilySMStarted());
@@ -157,7 +198,7 @@ export function createFamilySMSuccess(family) {
         type: CREATE_FAMILY_SUCCESS,
         payload: {
             familyName: family.familyName,
-            familyID : family.familyID,
+            familyID: family.familyID,
             adminID: family.adminID,
             registrationDate: family.registrationDate
         }
@@ -175,9 +216,7 @@ export function createFamilySMFailure(errorMessage) {
  * LandingPage
  */
 
-export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
-export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
-export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+
 
 export function fetchName(dispatch, id) {
     dispatch(fetchNameStart())
@@ -207,5 +246,11 @@ export function fetchNameFailure(error) {
         type: FETCH_USER_NAME_FAILURE,
         payload: error
     }
+}
 
+export function addEmail(emailToAdd) {
+    return {
+        type: ADD_EMAIL,
+        payload: emailToAdd
+    }
 }

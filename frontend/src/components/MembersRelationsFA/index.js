@@ -1,23 +1,30 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
+
 import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
 import { Table, Button } from 'react-bootstrap';
 import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
+import {fetchFamilyName, fetchFamilyRelationsFA} from "../../context/Actions";
+import {Button} from 'react-bootstrap';
+import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
 //import { Table } from 'antd';
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family, profile} = state;
+    const {loggedUser, loggeduserTest, family, profile, familyData} = state;
     const {familyId} = loggeduserTest;
-    const {id, role} = loggedUser;
-    const {profileData} = profile;
+    //const {id, role} = loggedUser;
+    //const {profileData} = profile;
     //const {familyID} = profileData;
+    const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     //const {family_id} = landingPage;
     const [display, setDisplay] = useState(false)
+    const {family_id} = landingPage;
+
 
     useEffect(() => {
         // console.log(state.profile)
@@ -31,8 +38,11 @@ function MembersRelationsFA() {
         - fetchFamilyRelationsFA(dispatch, state.profile.data.familyID);
          */
 
-        fetchFamilyRelationsFA(dispatch, familyId)
+        fetchFamilyRelationsFA(dispatch, family_id)
+        //fetchFamilyName(dispatch, family_id)
+
     }, [])
+
 
     function findMemberTwoName(TwoID) {
         return familyMemberAndRelationsDTO.map((personDTO) => {
@@ -168,21 +178,31 @@ function MembersRelationsFA() {
 
     //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
+    function displayRole(index) {
+        let tableRole = '';
+        if (index === 0) {
+            tableRole = 'Family Administrator';
+        } else {
+            tableRole = 'Family Member';
+        }
+        return tableRole;
+    }
+
     function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
-                return(
+                return (
                     <div>
                         <tbody>
-                            <tr>
-                                <td key={index}></td>
-                                <br/>
-                                <td>{relationsRow.relationDesignation}</td>
-                                <br/>
-                                <td>{relationsRow.memberTwoID}</td>
-                                <br/>
-                                <br/>
-                            </tr>
+                        <tr>
+                            <td key={index}></td>
+                            <br/>
+                            <td>{relationsRow.relationDesignation}</td>
+                            <br/>
+                            <td>{relationsRow.memberTwoID}</td>
+                            <br/>
+                            <br/>
+                        </tr>
                         </tbody>
                     </div>
                 )
@@ -190,7 +210,7 @@ function MembersRelationsFA() {
             return (
                 <div>
                     <tr key={index}>
-                        <td>{role}</td>
+                        <td>{displayRole(index)}</td>
                         <br/>
                         <td>{row.name}</td>
                         <br/>
@@ -200,14 +220,11 @@ function MembersRelationsFA() {
                     </tr>
                     <tr><RelationsList props={display}>{relations}</RelationsList></tr>
                 </div>
-
             )
         })
         return (<div>{dto}</div>)
     }
 
-    // Ir buscar o Name da Family
-    const familyName = "Sopranos";
 
     if (loading === true) {
         return (
