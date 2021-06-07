@@ -17,9 +17,7 @@ export function fetchProfileFromLogin(success, failure, id) {
 }
 
 export function fetchProfileFromWS(success, failure, id) {
-    //neste momento está hardcoded mas será para ir buscar o id do loggeduser
-    let urla = "http://localhost:8080/people/tonyze@latinlover.com";
-    let url = "http://localhost:8080/people/{{id}}";
+
     axios.get(`${URL_API}/people/${id}`)
         .then((response) => {
             success(response)
