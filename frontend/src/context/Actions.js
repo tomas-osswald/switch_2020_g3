@@ -24,6 +24,18 @@ export const UPDATE_NAME = 'UPDATE_NAME';
 export const CHANGE_USER = 'CHANGE_USER';
 export const LOGOUT = 'LOGOUT';
 export const CHANGE_VIEW = 'CHANGE_VIEW';
+export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
+export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
+export const FETCH_FAMILYRELATIONS_FAILURE = 'FETCH_FAMILYRELATIONS_FAILURE';
+export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
+export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
+export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
+export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
+export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
+
+
+export const ADD_EMAIL = 'ADD_EMAIL';
 
 export function doNothing() {
     return {
@@ -170,10 +182,6 @@ export function changeUser(email, role) {
     }
 }
 
-export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
-export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
-export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
-
 export function createFamilySM(dispatch, createFamily) {
     dispatch(createFamilySMStarted());
     createFamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message)), createFamily);
@@ -209,9 +217,7 @@ export function createFamilySMFailure(errorMessage) {
  * LandingPage
  */
 
-export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
-export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
-export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+
 
 export function fetchName(dispatch, id) {
     dispatch(fetchNameStart())
@@ -241,5 +247,11 @@ export function fetchNameFailure(error) {
         type: FETCH_USER_NAME_FAILURE,
         payload: error
     }
+}
 
+export function addEmail(emailToAdd) {
+    return {
+        type: ADD_EMAIL,
+        payload: emailToAdd
+    }
 }
