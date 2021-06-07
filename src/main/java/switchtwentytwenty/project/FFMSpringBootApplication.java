@@ -47,6 +47,8 @@ FFMSpringBootApplication {
             personRESTController.addFamilyMember(addFamilyMemberDTO);
             personRESTController.addFamilyMember(addFamilyMemberDTO2);
             personRESTController.addEmail(new AddEmailDTO("KvanessaBackup@yahoo.com"), KATIA_VANESSA_EMAIL);
+            personRESTController.addEmail(new AddEmailDTO("tonyzeBackup@yahoo.com"), TONY_ZE_EMAIL);
+            personRESTController.addEmail(new AddEmailDTO("tonytony@yahoo.com"), TONY_ZE_EMAIL);
             iAccountRESTController.createAccount(vanessaAccount);
             iAccountRESTController.createAccount(tonyaccount);
             familyRESTController.createRelation(relationTonyKatia, "@tonyze@latinlover.com");

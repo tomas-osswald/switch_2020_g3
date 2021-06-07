@@ -1,5 +1,5 @@
 import {
-    createfamilySMService,
+    createFamilySMService,
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
@@ -57,7 +57,7 @@ export function changeView(value) {
 
 export function fetchProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
 }
 
 export function fetchNewProfile(dispatch, id) {
@@ -136,30 +136,39 @@ export function changeUser(email, role) {
     }
 }
 
-//TODO: Usar como types nas funções abaixo.
 export const CREATE_FAMILY_STARTED = 'CREATE_FAMILY_STARTED';
 export const CREATE_FAMILY_SUCCESS = 'CREATE_FAMILY_SUCCESS';
 export const CREATE_FAMILY_FAILURE = 'CREATE_FAMILY_FAILURE';
 
-export function createFamilySM(dispatch) {
+export function createFamilySM(dispatch, createFamily) {
     dispatch(createFamilySMStarted());
-    createfamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message())));
+    createFamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message)), createFamily);
 
 }
 
-//TODO: Fazer cenas
 export function createFamilySMStarted() {
-    return doNothing()
+    return {
+        type: CREATE_FAMILY_STARTED
+    }
 }
 
-//TODO: Fazer cenas
-export function createFamilySMSuccess() {
-    return doNothing()
+export function createFamilySMSuccess(family) {
+    return {
+        type: CREATE_FAMILY_SUCCESS,
+        payload: {
+            familyName: family.familyName,
+            familyID : family.familyID,
+            adminID: family.adminID,
+            registrationDate: family.registrationDate
+        }
+    }
 }
 
-//TODO: Fazer cenas
-export function createFamilySMFailure() {
-    return doNothing()
+export function createFamilySMFailure(errorMessage) {
+    return {
+        type: CREATE_FAMILY_FAILURE,
+        payload: errorMessage
+    }
 }
 
 /**

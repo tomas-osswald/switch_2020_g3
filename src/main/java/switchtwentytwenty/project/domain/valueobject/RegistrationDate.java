@@ -15,7 +15,7 @@ public class RegistrationDate implements ValueObject {
      * @param date a LocalDate object that will represent the date of the registration
      */
     public RegistrationDate(String date) {
-        if (isDateNull(date)) {
+        if (isDateNull(date) || isDateBlank(date)) {
             this.date = Calendar.getInstance();
         } else {
 
@@ -31,6 +31,8 @@ public class RegistrationDate implements ValueObject {
     private boolean isDateNull(String registrationDate) {
         return registrationDate == null;
     }
+
+    private boolean isDateBlank(String registrationDate){ return registrationDate.isEmpty() || registrationDate.trim().isEmpty(); }
 
     @Override
     public boolean equals(Object o) {
