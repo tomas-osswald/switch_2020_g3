@@ -48,8 +48,10 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final IGetFamilyDataService getFamilyDataService;
 
+    private final ICreateCustomCategoryService createCustomCategoryService;
+
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
@@ -60,6 +62,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.customCategoriesService = customCategoriesService;
         this.getFamilyDataService = getFamilyDataService;
         this.categoryAssembler = categoryAssembler;
+        this.createCustomCategoryService = createCustomCategoryService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -195,6 +198,22 @@ public class FamilyRESTController implements IFamilyRESTController {
     public ResponseEntity<OutputCategoryDTO> addCustomCategory(@PathVariable String familyID, @RequestBody CreateCategoryDTO createCategoryDTO) {
         InputCustomCategoryDTO inputCustomCategoryDTO = categoryAssembler.toInputCustomCategoryDTO(createCategoryDTO, familyID);
 
+        HttpStatus httpStatus;
+        try {
+            OutputCategoryDTO outputCategoryDTO = createCustomCategoryService.createCustomCategory(inputCustomCategoryDTO);
+
+            httpStatus = HttpStatus.CREATED;
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyID, outputCategoryDTO.getCategoryID())).withSelfRel();
+            outputCategoryDTO.add(selfLink);
+            return new ResponseEntity<>(outputCategoryDTO, httpStatus);
+        } catch (Exception e) {
+            httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity("Error: " + e.getMessage(), httpStatus);
+        }
+    }
+
+    @GetMapping(value = "/{familyID}/categories/{categoryID}")
+    public ResponseEntity<OutputCategoryDTO> getCustomCategory(@PathVariable String familyID, @PathVariable String categoryID) {
         throw new UnsupportedOperationException();
     }
 }
