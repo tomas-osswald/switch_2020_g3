@@ -94,8 +94,9 @@ class FamilyRESTControllerITDB {
 
     @Test
     void getFamilyFailTest() {
-        ResponseEntity expected = new ResponseEntity("Error: Family does not exist; nested exception is java.lang.IllegalArgumentException: Family does not exist",HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: Family does not exist; nested exception is java.lang.IllegalArgumentException: Family does not exist", HttpStatus.BAD_REQUEST);
         ResponseEntity result = familyRESTController.getFamily("@riiiii@ravens.com");
+        assertNotNull(result);
         assertEquals(expected, result);
     }
 

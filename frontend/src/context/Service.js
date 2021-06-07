@@ -1,6 +1,5 @@
 //const [data, setData] = useState([]);
 import axios from "axios";
-import {doNothing} from "./Actions";
 
 export const URL_API = 'http://localhost:8080';
 
@@ -31,12 +30,14 @@ export function fetchProfileFromWS(success, failure, id) {
     ;
 }
 
-export function familyNameGlobal(success, failure, familyId){
+export function familyNameGlobal(success, failure, familyId) {
     fetch(`${URL_API}/families/${familyId}`)
-        .then((res)=>{
-        return res.json()
-    })
-        .then((res)=>{
+        .then((res) => {
+            console.log(res);
+            return res.json()
+        })
+        .then((res) => {
+            console.log(res);
             return success(res)
         })
         .catch((err) => {
@@ -91,7 +92,7 @@ export function familyRelationsFA(success, failure, familyId) {
 
 export function createFamilySMService(success, failure, createFamily) {
     let url = URL_API + "/families/";
-    axios.post(`${URL_API}/families`, JSON.stringify(createFamily), {headers:{'Content-Type':'application/json'}})
+    axios.post(`${URL_API}/families`, JSON.stringify(createFamily), {headers: {'Content-Type': 'application/json'}})
         .then((response) => {
             success(response)
         })
