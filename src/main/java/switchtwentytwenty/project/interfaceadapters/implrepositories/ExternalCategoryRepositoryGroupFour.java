@@ -8,7 +8,7 @@ import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssemblerGroupFour;
 import switchtwentytwenty.project.dto.category.ExternalStandardCategoryGroupFourDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Repository
 public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRepository {
 
-    private final ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler;
+    private final ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour;
 
     private final CategoryFactory categoryFactory;
 
@@ -31,8 +31,8 @@ public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRep
     private String resource;// = "http://vs260.dei.isep.ipp.pt:8080/api/categories/";
 
     @Autowired
-    public ExternalCategoryRepositoryGroupFour(ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler, CategoryFactory categoryFactory) {
-        this.externalCategoryDTODomainAssembler = externalCategoryDTODomainAssembler;
+    public ExternalCategoryRepositoryGroupFour(ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour, CategoryFactory categoryFactory) {
+        this.externalCategoryDTODomainAssemblerGroupFour = externalCategoryDTODomainAssemblerGroupFour;
         this.categoryFactory = categoryFactory;
     }
 
@@ -43,14 +43,14 @@ public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRep
 
     private Category createCategory(ExternalStandardCategoryGroupFourDTO externalStandardCategoryGroupFourDTO) {
 
-        CategoryName name = externalCategoryDTODomainAssembler.createCategoryName(externalStandardCategoryGroupFourDTO);
-        CategoryID id = externalCategoryDTODomainAssembler.createCategoryID(externalStandardCategoryGroupFourDTO);
-        ParentCategoryPath parentID = externalCategoryDTODomainAssembler.createParentID(externalStandardCategoryGroupFourDTO);
+        CategoryName name = externalCategoryDTODomainAssemblerGroupFour.createCategoryName(externalStandardCategoryGroupFourDTO);
+        CategoryID id = externalCategoryDTODomainAssemblerGroupFour.createCategoryID(externalStandardCategoryGroupFourDTO);
+        ParentCategoryPath parentID = externalCategoryDTODomainAssemblerGroupFour.createParentID(externalStandardCategoryGroupFourDTO);
 
         return categoryFactory.createCategory(name, id, parentID);
     }
 
-
+    @Override
     public List<Category> getCategoryList() {
         List<ExternalStandardCategoryGroupFourDTO> externalStandardCategoryGroupFourDTOSList = findAll();
 

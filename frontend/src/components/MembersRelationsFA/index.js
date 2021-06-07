@@ -1,34 +1,31 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
-import { Table, Button } from 'react-bootstrap';
-import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
 import {fetchFamilyName, fetchFamilyRelationsFA} from "../../context/Actions";
-import {Button} from 'react-bootstrap';
-import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
+import {Button, Table} from 'react-bootstrap';
+import {
+    ButtonCell,
+    HeaderCell,
+    HeaderSection,
+    MembersRelationsFADiv,
+    RelationsList
+} from "./MembersRelationsFAElements";
+
 //import { Table } from 'antd';
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family, profile, familyData} = state;
-    const {familyId} = loggeduserTest;
-    //const {id, role} = loggedUser;
-    //const {profileData} = profile;
-    //const {familyID} = profileData;
+    const {family, profile, familyData} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
-    //const {family_id} = landingPage;
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
 
 
     useEffect(() => {
-        // console.log(state.profile)
-        //fetchProfile(dispatch, id);
 
         /*
         Estes fetch não estão a funcionar porque o familyID que entra é nulo, tanto o do profileData
@@ -42,6 +39,8 @@ function MembersRelationsFA() {
         //fetchFamilyName(dispatch, family_id)
 
     }, [])
+
+
 
 
     function findMemberTwoName(TwoID) {
@@ -172,7 +171,7 @@ function MembersRelationsFA() {
 
      */
 
-    function displayChange(){
+    function displayChange() {
         setDisplay(!display)
     }
 
@@ -197,9 +196,9 @@ function MembersRelationsFA() {
                         <tr>
                             <td key={index}></td>
                             <br/>
-                            <td>{relationsRow.relationDesignation}</td>
+                            <td>{relationsRow.relationDesignation} of</td>
                             <br/>
-                            <td>{relationsRow.memberTwoID}</td>
+                            <td>{findMemberTwoName(relationsRow.memberTwoID)}</td>
                             <br/>
                             <br/>
                         </tr>
@@ -214,7 +213,8 @@ function MembersRelationsFA() {
                         <br/>
                         <td>{row.name}</td>
                         <br/>
-                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell></td>
+                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check
+                            relations</Button></ButtonCell></td>
                         <br/>
                         <br/>
                     </tr>
@@ -247,11 +247,11 @@ function MembersRelationsFA() {
                         <h2>{familyName}</h2>
                         <Table>
                             <thead>
-                                <HeaderSection>
-                                    <HeaderCell>Role</HeaderCell>
-                                    <HeaderCell>Name</HeaderCell>
-                                    <HeaderCell>Relations</HeaderCell>
-                                </HeaderSection>
+                            <HeaderSection>
+                                <HeaderCell>Role</HeaderCell>
+                                <HeaderCell>Name</HeaderCell>
+                                <HeaderCell>Relations</HeaderCell>
+                            </HeaderSection>
                             </thead>
                             <div>{buildTable()}</div>
                         </Table>

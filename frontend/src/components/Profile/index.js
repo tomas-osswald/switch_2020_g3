@@ -42,7 +42,6 @@ function Profile() {
 
                     <h1>{profileData.name}</h1>
 
-                    <p className="title">Family id : {profileData.familyID}</p>
 
                     <div className="row-divider">
 
@@ -71,8 +70,8 @@ function Profile() {
                                         Add
                                     </button>*/}
                                     <div>
-                                        <input type="submit" value="Add email" onClick={onClick} />
-                                        { showInput ? <input type="text"/> : null }
+                                        <input type="submit" value="Add email" onClick={onClick}/>
+                                        {showInput ? <input type="text"/> : null}
                                     </div>
 
                                 </div>
