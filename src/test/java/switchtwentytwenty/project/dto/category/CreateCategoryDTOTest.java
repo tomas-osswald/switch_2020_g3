@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class CreateStandardCategoryDTOTest {
+class CreateCategoryDTOTest {
 
-    CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("desc","2L");
+    CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO("desc","2L");
 
 
     @Test
     void getCategoryDescription() {
         String expected = "desc";
-        String result = createStandardCategoryDTO.getCategoryDescription();
+        String result = createCategoryDTO.getCategoryDescription();
         assertEquals(expected, result);
     }
 
@@ -21,29 +21,29 @@ class CreateStandardCategoryDTOTest {
     @Test
     void getParentID() {
         String expected = "2L";
-        String result = createStandardCategoryDTO.getParentCategory();
+        String result = createCategoryDTO.getParentCategory();
         assertEquals(expected, result);
     }
 
     @Test
     void setCategoryDescription() {
-        createStandardCategoryDTO.setCategoryDescription("newdesc");
+        createCategoryDTO.setCategoryDescription("newdesc");
         String expected = "newdesc";
-        String result = createStandardCategoryDTO.getCategoryDescription();
+        String result = createCategoryDTO.getCategoryDescription();
         assertEquals(expected, result);
     }
 
     @Test
     void setParentID() {
-        createStandardCategoryDTO.setParentCategory("5L");
+        createCategoryDTO.setParentCategory("5L");
         String expected = "5L";
-        String result = createStandardCategoryDTO.getParentCategory();
+        String result = createCategoryDTO.getParentCategory();
         assertEquals(expected, result);
     }
 
     @Test
     void noArgsConstructorTest() {
-        CreateStandardCategoryDTO noArgsDTO = new CreateStandardCategoryDTO();
+        CreateCategoryDTO noArgsDTO = new CreateCategoryDTO();
         noArgsDTO.setParentCategory("1L");
         noArgsDTO.setCategoryDescription("desc");
 

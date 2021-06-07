@@ -7,12 +7,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class CreateStandardCategoryDTO {
+public class CreateCategoryDTO {
 
     private String categoryDescription;
     private String parentCategory;
 
-    public CreateStandardCategoryDTO(String categoryDescription, String parentCategory) {
+    public CreateCategoryDTO(String categoryDescription, String parentCategory) {
         this.categoryDescription = categoryDescription;
         this.parentCategory = parentCategory;
     }

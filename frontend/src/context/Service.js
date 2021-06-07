@@ -50,7 +50,7 @@ export function addRelation(success, failure, createRelationDTO, familyID) {
 
     axios.post(`${URL_API}/${familyID}/relations`, JSON.stringify(createRelationDTO), {
         headers: {
-            "Access-Control-Allow-Origin": "*",
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
         }
     })

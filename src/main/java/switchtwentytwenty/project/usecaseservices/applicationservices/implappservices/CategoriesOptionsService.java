@@ -3,7 +3,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.dto.OptionsDTO;
-import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.CategoryRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICategoriesOptionsService;
 
@@ -18,7 +18,7 @@ public class CategoriesOptionsService implements ICategoriesOptionsService {
         OptionsDTO optionsDTO = new OptionsDTO();
 
         Link linkToCategoriesOptions = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withSelfRel();
-        Link linkToCreateStandardCategory = linkTo(methodOn(CategoryRESTController.class).createStandardCategory(new CreateStandardCategoryDTO())).withRel("Add new Standard Category");
+        Link linkToCreateStandardCategory = linkTo(methodOn(CategoryRESTController.class).createStandardCategory(new CreateCategoryDTO())).withRel("Add new Standard Category");
 
         optionsDTO.add(linkToCategoriesOptions);
         optionsDTO.add(linkToCreateStandardCategory);

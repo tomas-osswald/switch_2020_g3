@@ -2,6 +2,7 @@ package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import org.springframework.web.client.RestTemplate;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
@@ -20,9 +21,9 @@ import java.util.stream.Collectors;
 @Repository
 public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRepository {
 
-    private final ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour;
+    private ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour;
 
-    private final CategoryFactory categoryFactory;
+    private CategoryFactory categoryFactory;
 
     private RestTemplate restTemplate;
 
@@ -31,13 +32,14 @@ public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRep
     private String resource;// = "http://vs260.dei.isep.ipp.pt:8080/api/categories/";
 
     @Autowired
-    public ExternalCategoryRepositoryGroupFour(ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour, CategoryFactory categoryFactory) {
+    public ExternalCategoryRepositoryGroupFour(ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour, CategoryFactory categoryFactory, RestTemplate restTemplate) {
         this.externalCategoryDTODomainAssemblerGroupFour = externalCategoryDTODomainAssemblerGroupFour;
         this.categoryFactory = categoryFactory;
+        this.restTemplate = restTemplate;
     }
 
     private List<ExternalStandardCategoryGroupFourDTO> findAll() {
-        restTemplate = new RestTemplate();
+        //restTemplate = new RestTemplate();
         return Arrays.stream(restTemplate.getForObject(resource, ExternalStandardCategoryGroupFourDTO[].class)).collect(Collectors.toList());
     }
 
