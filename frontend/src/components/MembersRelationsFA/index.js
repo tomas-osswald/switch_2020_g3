@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
-
-import {fetchFamilyName, fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
+import {addMemberView, changeView, fetchFamilyName, fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
 import { Table, Button } from 'react-bootstrap';
 import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
-import {Button} from 'react-bootstrap';
-import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
 //import { Table } from 'antd';
+import {useHistory} from "react-router-dom";
+import AddMember from "../AddMember";
 
 function MembersRelationsFA() {
 
@@ -23,6 +22,7 @@ function MembersRelationsFA() {
     //const {family_id} = landingPage;
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
+    //const history = useHistory();
 
 
     useEffect(() => {
@@ -175,6 +175,13 @@ function MembersRelationsFA() {
         setDisplay(!display)
     }
 
+    function addMemberRedirect(value) {
+        //let path = `/addMember`;
+        //history.push(path);
+        //dispatch(addMemberView)
+        dispatch(changeView(value))
+    }
+
     //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function displayRole(index) {
@@ -191,10 +198,10 @@ function MembersRelationsFA() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
-                    <div>
+                    <div key={relationsIndex}>
                         <tbody>
                         <tr>
-                            <td key={index}></td>
+                            <td></td>
                             <br/>
                             <td>{relationsRow.relationDesignation}</td>
                             <br/>
@@ -246,12 +253,14 @@ function MembersRelationsFA() {
                                     <HeaderCell>Role</HeaderCell>
                                     <HeaderCell>Name</HeaderCell>
                                     <HeaderCell>Relations</HeaderCell>
+                                    <ButtonCell></ButtonCell>
                                 </HeaderSection>
                             </thead>
                             <div>{buildTable()}</div>
                         </Table>
 
                         <div>{/*buildTableAntd()*/}</div>
+                        <Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
                     </div>
                 </MembersRelationsFADiv>
             )

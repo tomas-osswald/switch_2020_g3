@@ -6,6 +6,7 @@ import {
     fetchProfileFromLogin,
     fetchProfileFromWS
 } from './Service'
+import {func} from "prop-types";
 
 /**
  * Insert functions for Service:
@@ -33,8 +34,9 @@ export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
 export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
-
-
+export const ADD_NEW_MEMBER_START = 'ADD_NEW_MEMBER_START'
+export const ADD_NEW_MEMBER_SUCCESS = 'ADD_NEW_MEMBER_SUCCESS';
+export const ADD_NEW_MEMBER_FAILURE = 'ADD_NEW_MEMBER_FAILURE';
 export const ADD_EMAIL = 'ADD_EMAIL';
 
 export function doNothing() {
@@ -212,6 +214,7 @@ export function createFamilySMFailure(errorMessage) {
     }
 }
 
+
 /**
  * LandingPage
  */
@@ -253,4 +256,30 @@ export function addEmail(emailToAdd) {
         type: ADD_EMAIL,
         payload: emailToAdd
     }
+
+
+export function addNewMember(dispatch, newMember){
+        dispatch(addNewMemberStart())
+}
+
+export function addNewMemberStart(){
+    return {
+        type: ADD_NEW_MEMBER_START,
+    }
+}
+
+export function addNewMemberSuccess(error){
+    return {
+        type: ADD_NEW_MEMBER_SUCCESS,
+        payload: error
+    }
+}
+
+export function addNewMemberFailure(newMember){
+    return {
+        type: ADD_NEW_MEMBER_FAILURE,
+        payload: newMember
+    }
+}
+
 }

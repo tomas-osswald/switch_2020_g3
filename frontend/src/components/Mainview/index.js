@@ -5,6 +5,7 @@ import AppContext from "../../context/AppContext";
 import CreateFamilySM from "../CreateFamilySM";
 import LandingPage from "../LandingPage";
 import Profile from "../Profile";
+import AddMember from "../AddMember";
 
 
 function Mainview() {
@@ -34,6 +35,12 @@ function Mainview() {
                 <br/>
                 Family aqui
                 <MembersRelationsFA/>
+            </MainviewDiv>
+        )
+    } else if (mainView === 'addMember'){
+        return (
+            <MainviewDiv>
+                <AddMember/>
             </MainviewDiv>
         )
     }

@@ -14,7 +14,8 @@ import {
     UPDATE_NAME,
     CREATE_FAMILY_STARTED,
     CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE, FETCH_FAMILY_NAME_STARTED, FETCH_FAMILY_NAME_SUCCESS, FETCH_FAMILY_NAME_FAILURE
+    CREATE_FAMILY_FAILURE, FETCH_FAMILY_NAME_STARTED, FETCH_FAMILY_NAME_SUCCESS, FETCH_FAMILY_NAME_FAILURE,
+
 } from './Actions'
 
 function reducer(state, action) {
@@ -296,8 +297,6 @@ function reducer(state, action) {
                     }]
                 }
             }
-
-
 
         default:
             return state;
