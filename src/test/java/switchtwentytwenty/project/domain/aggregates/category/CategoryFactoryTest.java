@@ -42,6 +42,18 @@ class CategoryFactoryTest {
     }
 
     @Test
+    void createStandardCategoryWithAlreadyExistingID() {
+        CategoryName categoryName = new CategoryName("Casa");
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath("2");
+        CategoryID categoryID = new CategoryID("1");
+        Category expected = new StandardCategory(new CategoryName("Casa"),new CategoryID("1"), new ParentCategoryPath("2"));
+        Category result = categoryFactory.createCategory(categoryName,categoryID, parentCategoryPath);
+
+        assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
     void createCustomCategory() {
         CategoryID categoryID = new CategoryID(2L);
         CategoryName categoryName = new CategoryName("Casa");
