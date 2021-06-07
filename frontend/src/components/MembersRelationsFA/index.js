@@ -1,8 +1,9 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
-import { Table, Button } from 'react-bootstrap';
-import {MembersRelationsFADiv, HeaderCell, HeaderSection} from "./MembersRelationsFAElements";
+import {fetchFamilyRelationsFA} from "../../context/Actions";
+import {Button} from 'react-bootstrap';
+import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
+
 //import { Table } from 'antd';
 
 function MembersRelationsFA() {
@@ -164,28 +165,38 @@ function MembersRelationsFA() {
     //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
 
+    function displayRole(index) {
+        let tableRole = '';
+        if (index === 0) {
+            tableRole = 'Family Administrator';
+        } else {
+            tableRole = 'Family Member';
+        }
+        return tableRole;
+    }
+
     function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
-                return(
+                return (
                     <div>
                         <tbody>
-                            <tr>
-                                <td key={index}></td>
-                                <br/>
-                                <td>{relationsRow.relationDesignation}</td>
-                                <br/>
-                                <td>{relationsRow.memberTwoID}</td>
-                                <br/>
-                                <br/>
-                            </tr>
+                        <tr>
+                            <td key={index}></td>
+                            <br/>
+                            <td>{relationsRow.relationDesignation}</td>
+                            <br/>
+                            <td>{relationsRow.memberTwoID}</td>
+                            <br/>
+                            <br/>
+                        </tr>
                         </tbody>
                     </div>
                 )
             })
             return (
                 <tr key={index}>
-                    <td>{role}</td>
+                    <td>{displayRole(index)}</td>
                     <td>{row.name}</td>
                     <td>See relations<Button variant="dark">+</Button></td>
                 </tr>
