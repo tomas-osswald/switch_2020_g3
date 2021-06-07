@@ -46,21 +46,22 @@ export function familyNameGlobal(success, failure, familyId) {
     ;
 }
 
-export function addRelation(success, failure, familyID, memberA, memberB, relationDesignation) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            memberOneID: {memberA},
-            memberTwoID: {memberB},
-            relationDesignation: {relationDesignation}
+export function addRelation(success, failure, createRelationDTO, familyID) {
+
+    axios.post(`${URL_API}/${familyID}/relations`, JSON.stringify(createRelationDTO), {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((response) => {
+            success(response)
         })
-    }
-    fetch(`${URL_API}/${familyID}/relations`, requestOptions)
-        .then(response => response.json())
-        .then(response => success(response))
-        .catch(error => failure(error.message))
-    ;
+        .catch((err) => {
+            failure(err)
+            console.log(err)
+        });
+
 }
 
 export function familyRelationsFA(success, failure, familyId) {

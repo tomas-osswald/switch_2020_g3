@@ -1,6 +1,15 @@
 import {
+    ADD_RELATION_FAILURE,
+    ADD_RELATION_STARTED,
+    ADD_RELATION_SUCCESS,
     CHANGE_USER,
     CHANGE_VIEW,
+    CREATE_FAMILY_FAILURE,
+    CREATE_FAMILY_STARTED,
+    CREATE_FAMILY_SUCCESS,
+    FETCH_FAMILY_NAME_FAILURE,
+    FETCH_FAMILY_NAME_STARTED,
+    FETCH_FAMILY_NAME_SUCCESS,
     FETCH_FAMILYRELATIONS_FAILURE,
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_SUCCESS,
@@ -11,10 +20,7 @@ import {
     FETCH_USER_NAME_START,
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
-    UPDATE_NAME,
-    CREATE_FAMILY_STARTED,
-    CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE, FETCH_FAMILY_NAME_STARTED, FETCH_FAMILY_NAME_SUCCESS, FETCH_FAMILY_NAME_FAILURE
+    UPDATE_NAME
 } from './Actions'
 
 function reducer(state, action) {
@@ -80,6 +86,37 @@ function reducer(state, action) {
                 loggedUser: {
                     id: action.payload.id,
                     role: action.payload.role,
+                }
+            }
+
+        case ADD_RELATION_STARTED:
+            return {
+                ...state,
+                family: {
+                    loading: true,
+                    error: null,
+                    data: []
+                }
+            }
+
+        case ADD_RELATION_FAILURE:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    data: [],
+                    error: action.payload.error
+                }
+            }
+
+        case ADD_RELATION_SUCCESS:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: null,
+                    data: [],
+                    addRelationStatus: true,
                 }
             }
 
@@ -257,7 +294,7 @@ function reducer(state, action) {
             }
 
         case CREATE_FAMILY_STARTED:
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: true,
@@ -268,7 +305,7 @@ function reducer(state, action) {
 
         case CREATE_FAMILY_SUCCESS:
             console.log(action)
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: false,
@@ -283,7 +320,7 @@ function reducer(state, action) {
             }
 
         case CREATE_FAMILY_FAILURE:
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: false,
@@ -296,7 +333,6 @@ function reducer(state, action) {
                     }]
                 }
             }
-
 
 
         default:

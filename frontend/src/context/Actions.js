@@ -1,4 +1,5 @@
 import {
+    addRelation,
     createFamilySMService,
     familyNameGlobal,
     familyRelationsFA,
@@ -6,6 +7,7 @@ import {
     fetchProfileFromLogin,
     fetchProfileFromWS
 } from './Service'
+
 
 /**
  * Insert functions for Service:
@@ -68,6 +70,43 @@ export function changeView(value) {
     }
 }
 
+export function postNewRelation(dispatch, createRelationDTO, familyID) {
+    dispatch(postNewRelationStarted());
+    addRelation((res) => dispatch(addRelationSuccess(res)), (err) => dispatch(addRelationFailure(err.message)), createRelationDTO, familyID);
+}
+
+export const ADD_RELATION_FAILURE = 'ADD_RELATION_FAILURE';
+
+export function addRelationFailure(message) {
+    return {
+        type: ADD_RELATION_FAILURE,
+        payload: {
+            error: message
+        }
+    }
+}
+
+export const ADD_RELATION_SUCCESS = 'ADD_RELATION_SUCCESS';
+
+export function addRelationSuccess(success) {
+    return {
+        type: ADD_RELATION_SUCCESS,
+        payload: {
+            data: success
+        }
+    }
+}
+
+
+export const ADD_RELATION_STARTED = 'ADD_RELATION_STARTED';
+
+export function postNewRelationStarted() {
+    return {
+        type: ADD_RELATION_STARTED,
+    }
+}
+
+
 export function fetchProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
     fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
@@ -103,7 +142,6 @@ export function fetchProfileFailure(message) {
         }
     }
 }
-
 
 
 export const FETCH_FAMILY_NAME_STARTED = 'FETCH_FAMILY_NAME_STARTED';
