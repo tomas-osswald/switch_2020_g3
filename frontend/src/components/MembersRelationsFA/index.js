@@ -1,33 +1,40 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
-import { changeView, fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
-import { Table, Button } from 'react-bootstrap';
-import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
+
+import {fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {Button, Table} from 'react-bootstrap';
+import {
+    ButtonCell,
+    HeaderCell,
+    HeaderSection,
+    MembersRelationsFADiv,
+    RelationsList
+} from "./MembersRelationsFAElements";
+
 //import { Table } from 'antd';
 import {useHistory} from "react-router-dom";
 import AddMember from "../AddMember";
 
+
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family, profile, familyData} = state;
-    const {familyId} = loggeduserTest;
-    //const {id, role} = loggedUser;
-    //const {profileData} = profile;
-    //const {familyID} = profileData;
+    const {family, familyData} = state;
     const {familyName} = familyData;
-    const {loading, error, data} = family
+    const {loading, error, data, addRelationStatus} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
-    //const {family_id} = landingPage;
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
-    //const history = useHistory();
-
+    let addRelationMessage = '';
 
     useEffect(() => {
-        // console.log(state.profile)
-        //fetchProfile(dispatch, id);
+        if (addRelationStatus === true) {
+            addRelationMessage = 'Relation Added'
+        }
+    }, [{addRelationStatus}])
+
+    useEffect(() => {
 
         /*
         Estes fetch não estão a funcionar porque o familyID que entra é nulo, tanto o do profileData
@@ -171,7 +178,7 @@ function MembersRelationsFA() {
 
      */
 
-    function displayChange(){
+    function displayChange() {
         setDisplay(!display)
     }
 
@@ -203,9 +210,9 @@ function MembersRelationsFA() {
                         <tr>
                             <td></td>
                             <br/>
-                            <td>{relationsRow.relationDesignation}</td>
+                            <td>{relationsRow.relationDesignation} of</td>
                             <br/>
-                            <td>{relationsRow.memberTwoID}</td>
+                            <td>{findMemberTwoName(relationsRow.memberTwoID)}</td>
                             <br/>
                             <br/>
                         </tr>
@@ -218,7 +225,11 @@ function MembersRelationsFA() {
                     <tr style={{padding: "30px"}} key={index}>
                         <td>{displayRole(index)}</td>
                         <td>{row.name}</td>
-                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell></td>
+                        <br/>
+                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check
+                            relations</Button></ButtonCell></td>
+                        <br/>
+                        <br/>
                     </tr>
                     <tr><RelationsList props={display}>{relations}</RelationsList></tr>
                 </div>
@@ -227,6 +238,29 @@ function MembersRelationsFA() {
         return (<div>{dto}</div>)
     }
 
+
+    function populateSelection() {
+        let html = familyMemberAndRelationsDTO.map((row, index) => {
+            return (
+                <option key={index} value={row.personID}>{row.name}</option>
+            )
+        })
+        return html;
+    }
+
+    const [memberA, setMemberA] = useState('');
+    const [memberB, setMemberB] = useState('');
+    const [relationDesignation, setRelationDesignation] = useState('');
+
+    function handleSubmit() {
+        const newRelationDTO = {
+            memberOneID: memberA,
+            memberTwoID: memberB,
+            relationDesignation: relationDesignation
+        }
+
+        postNewRelation(dispatch, newRelationDTO, family_id);
+    }
 
     if (loading === true) {
         return (
@@ -245,16 +279,15 @@ function MembersRelationsFA() {
             return (
                 <MembersRelationsFADiv>
                     <div>
-                        <p>{buildInnerText()}</p>
-                        <h2>{familyName}</h2>
+                        {/*<p>{buildInnerText()}</p>*/}
+                        <h2>{state.familyData.data.familyName}</h2>
                         <Table>
                             <thead>
-                                <HeaderSection>
-                                    <HeaderCell>Role</HeaderCell>
-                                    <HeaderCell>Name</HeaderCell>
-                                    <HeaderCell>Relations</HeaderCell>
-                                    <ButtonCell></ButtonCell>
-                                </HeaderSection>
+                            <HeaderSection>
+                                <HeaderCell>Role</HeaderCell>
+                                <HeaderCell>Name</HeaderCell>
+                                <HeaderCell>Relations</HeaderCell>
+                            </HeaderSection>
                             </thead>
                             <div>{buildTable()}</div>
                         </Table>
@@ -262,10 +295,27 @@ function MembersRelationsFA() {
                         <div>{/*buildTableAntd()*/}</div>
                         <Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
                     </div>
+                    <label htmlFor="memberA">Create Relation:</label>
+                    <select name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
+                        <option>Select Member A</option>
+                        {populateSelection()}
+                    </select>
+                    <label htmlFor="relDesignation">Relation Designation:</label>
+                    <input type="text" id="relDesignation" name="relDesignation"
+                           onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
+                    <label htmlFor="memberB"></label>
+                    <select name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
+                        <option>Select Member B</option>
+                        {populateSelection()}
+                    </select>
+                    <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
+                    <h2>{addRelationMessage}</h2>
+
                 </MembersRelationsFADiv>
             )
         }
     }
 }
+
 
 export default MembersRelationsFA;

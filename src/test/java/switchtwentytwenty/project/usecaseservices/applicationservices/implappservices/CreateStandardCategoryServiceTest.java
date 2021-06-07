@@ -11,7 +11,7 @@ import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
-import switchtwentytwenty.project.dto.category.InputCategoryDTO;
+import switchtwentytwenty.project.dto.category.InputStandardCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
 
@@ -40,7 +40,7 @@ class CreateStandardCategoryServiceTest {
     @Test
     void createStandardCategorySuccess() {
 
-        InputCategoryDTO inputCategoryDTO = new InputCategoryDTO("Casa", "/sadsd/20043");
+        InputStandardCategoryDTO inputStandardCategoryDTO = new InputStandardCategoryDTO("Casa", "/sadsd/20043");
 
         CategoryName categoryName = new CategoryName("Casa");
         when(categoryDTODomainAssembler.createCategoryName(anyString())).thenReturn(categoryName);
@@ -54,7 +54,7 @@ class CreateStandardCategoryServiceTest {
 
         OutputCategoryDTO expected = new OutputCategoryDTO("Casa", "20050", "/sadsd/20043");
 
-        OutputCategoryDTO result = createStandardCategoryService.createStandardCategory(inputCategoryDTO);
+        OutputCategoryDTO result = createStandardCategoryService.createStandardCategory(inputStandardCategoryDTO);
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
@@ -63,9 +63,9 @@ class CreateStandardCategoryServiceTest {
     @Test
     void createStandardCategoryFailureBlankName() {
 
-        InputCategoryDTO inputCategoryDTO = new InputCategoryDTO("", "/sadsd/20043");
+        InputStandardCategoryDTO inputStandardCategoryDTO = new InputStandardCategoryDTO("", "/sadsd/20043");
         when(categoryDTODomainAssembler.createCategoryName("")).thenThrow(IllegalArgumentException.class);
 
-        assertThrows(IllegalArgumentException.class, () -> createStandardCategoryService.createStandardCategory(inputCategoryDTO));
+        assertThrows(IllegalArgumentException.class, () -> createStandardCategoryService.createStandardCategory(inputStandardCategoryDTO));
     }
 }

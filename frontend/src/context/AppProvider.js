@@ -49,12 +49,14 @@ const initialState = {
     familyData: {
         loading: true,
         error: null,
-        data: [{
-            familyName: "",
-            familyID: "",
-            adminID: "",
-            registrationDate: "",
-        }],
+        data: [
+            {
+                familyName: '',
+                familyID: '',
+                adminID: '',
+                registrationDate: ''
+            }
+        ]
     },
 
     family: {
@@ -71,6 +73,7 @@ const initialState = {
                 }]
             }],
         },
+        addRelationStatus: false,
     },
 
 

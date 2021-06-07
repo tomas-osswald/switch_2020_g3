@@ -78,11 +78,11 @@ class CustomCategoryTest {
 
     @Test
     void testHashCode() {
-        CategoryID categoryID = new CategoryID(1L);
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
-        CustomCategory customCategory = new CustomCategory(categoryID, categoryName, familyID);
-        CustomCategory customCategory2 = new CustomCategory(categoryID, categoryName, familyID);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
+        CustomCategory customCategory = new CustomCategory(parentID, categoryName, familyID);
+        CustomCategory customCategory2 = new CustomCategory(parentID, categoryName, familyID);
 
         assertNotSame(customCategory, customCategory2);
         assertEquals(customCategory.hashCode(), customCategory2.hashCode());
@@ -94,7 +94,8 @@ class CustomCategoryTest {
         CategoryID categoryID = new CategoryID(1L);
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
-        CustomCategory customCategory = new CustomCategory(categoryID, categoryName, familyID);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
+        CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
         CategoryID expected = new CategoryID(1L);
         CategoryID result = customCategory.id();
@@ -108,7 +109,8 @@ class CustomCategoryTest {
         CategoryID categoryID = new CategoryID(1L);
         CategoryName categoryName = new CategoryName("name");
         FamilyID familyID = new FamilyID("familyid@gmail.com");
-        CustomCategory customCategory = new CustomCategory(categoryID, categoryName, familyID);
+        ParentCategoryPath parentID = new ParentCategoryPath("2L");
+        CustomCategory customCategory = new CustomCategory(categoryID, parentID, categoryName, familyID);
 
         CategoryID correctID = new CategoryID(1L);
         CategoryID wrongID = new CategoryID(5L);

@@ -46,6 +46,24 @@ export function familyNameGlobal(success, failure, familyId) {
     ;
 }
 
+export function addRelation(success, failure, createRelationDTO, familyID) {
+
+    axios.post(`${URL_API}/${familyID}/relations`, JSON.stringify(createRelationDTO), {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((response) => {
+            success(response)
+        })
+        .catch((err) => {
+            failure(err)
+            console.log(err)
+        });
+
+}
+
 export function familyRelationsFA(success, failure, familyId) {
     fetch(`${URL_API}/families/${familyId}/relations`)
         .then((res) => {
