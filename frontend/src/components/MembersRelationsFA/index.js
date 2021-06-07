@@ -1,8 +1,8 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
 import { Table, Button } from 'react-bootstrap';
-import {MembersRelationsFADiv, HeaderCell, HeaderSection} from "./MembersRelationsFAElements";
+import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
 //import { Table } from 'antd';
 
 function MembersRelationsFA() {
@@ -17,6 +17,7 @@ function MembersRelationsFA() {
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     //const {family_id} = landingPage;
+    const [display, setDisplay] = useState(false)
 
     useEffect(() => {
         // console.log(state.profile)
@@ -161,8 +162,11 @@ function MembersRelationsFA() {
 
      */
 
-    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
+    function displayChange(){
+        setDisplay(!display)
+    }
 
+    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
@@ -184,11 +188,19 @@ function MembersRelationsFA() {
                 )
             })
             return (
-                <tr key={index}>
-                    <td>{role}</td>
-                    <td>{row.name}</td>
-                    <td>See relations<Button variant="dark">+</Button></td>
-                </tr>
+                <div>
+                    <tr key={index}>
+                        <td>{role}</td>
+                        <br/>
+                        <td>{row.name}</td>
+                        <br/>
+                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell></td>
+                        <br/>
+                        <br/>
+                    </tr>
+                    <tr><RelationsList props={display}>{relations}</RelationsList></tr>
+                </div>
+
             )
         })
         return (<div>{dto}</div>)
@@ -216,14 +228,16 @@ function MembersRelationsFA() {
                     <div>
                         <p>{buildInnerText()}</p>
                         <h2>{familyName}</h2>
-                        <thead>
-                        <HeaderSection>
-                            <HeaderCell>Role</HeaderCell>
-                            <HeaderCell>Name</HeaderCell>
-                            <HeaderCell>Relations</HeaderCell>
-                        </HeaderSection>
-                        </thead>
-                        <div>{buildTable()}</div>
+                        <Table>
+                            <thead>
+                                <HeaderSection>
+                                    <HeaderCell>Role</HeaderCell>
+                                    <HeaderCell>Name</HeaderCell>
+                                    <HeaderCell>Relations</HeaderCell>
+                                </HeaderSection>
+                            </thead>
+                            <div>{buildTable()}</div>
+                        </Table>
 
                         <div>{/*buildTableAntd()*/}</div>
                     </div>
