@@ -13,10 +13,12 @@ import {
 
 //import { Table } from 'antd';
 
+
+
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {family, profile, familyData} = state;
+    const {family, familyData} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
@@ -226,6 +228,16 @@ function MembersRelationsFA() {
     }
 
 
+    function populateSelection() {
+
+        let html = familyMemberAndRelationsDTO.map((row, index) => {
+                return (
+                     <option key={index} value={row.personID}>{row.name}</option>
+                )
+            })
+        return html;
+    }
+
     if (loading === true) {
         return (
             <div>
@@ -243,8 +255,8 @@ function MembersRelationsFA() {
             return (
                 <MembersRelationsFADiv>
                     <div>
-                        <p>{buildInnerText()}</p>
-                        <h2>{familyName}</h2>
+                        {/*<p>{buildInnerText()}</p>*/}
+                        <h2>{state.familyData.data.familyName}</h2>
                         <Table>
                             <thead>
                             <HeaderSection>
@@ -258,6 +270,20 @@ function MembersRelationsFA() {
 
                         <div>{/*buildTableAntd()*/}</div>
                     </div>
+                    <label htmlFor="memberA">Create Relation:</label>
+                    <select name="memberA" id="memberA">
+                        {populateSelection()}
+                    </select>
+                    <label htmlFor="fname">Relation Designation:</label>
+                    <input type="text" id="relDesignation" name="relDesignation"></input>
+                    <label htmlFor="memberB"></label>
+                    <select name="memberB" id="memberB">
+                        {populateSelection()}
+                    </select>
+                    <ButtonCell><Button variant="dark" >Add Relation</Button></ButtonCell>
+
+
+
                 </MembersRelationsFADiv>
             )
         }
