@@ -66,16 +66,16 @@ participant ": ICreateStandardCategoryService" as catServ
 participant ": ICategoryRepository" as repo
 participant ": CategoryRepositoryJPA" as jpa
     
--> controller : createStandardCategory(createStandardCategoryDTO)
+-> controller : createStandardCategory(createCategoryDTO)
 activate controller
 
 ref over controller 
 CreateStandardCategoryDTO to InputCategoryDTO
 
-inputCategoryDTO = categoryInputDTOAssembler.toInputDTO(createStandardCategoryDTO)
+inputStandardCategoryDTO = categoryInputDTOAssembler.toInputDTO(createCategoryDTO)
 end
 
-controller -> catServ : createStandardCategory(inputCategoryDTO)
+controller -> catServ : createStandardCategory(inputStandardCategoryDTO)
 activate catServ
 
 ref over catServ

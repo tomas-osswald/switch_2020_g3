@@ -2,11 +2,11 @@ package switchtwentytwenty.project.dto.category;
 
 import java.util.Objects;
 
-public class InputCategoryDTO {
+public class InputStandardCategoryDTO {
     private final String categoryName;
     private final String parentCategory;
 
-    public InputCategoryDTO(String categoryName, String parentID) {
+    public InputStandardCategoryDTO(String categoryName, String parentID) {
         this.categoryName = categoryName;
         this.parentCategory = parentID;
     }
@@ -23,7 +23,7 @@ public class InputCategoryDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InputCategoryDTO that = (InputCategoryDTO) o;
+        InputStandardCategoryDTO that = (InputStandardCategoryDTO) o;
         return categoryName.equals(that.categoryName) && parentCategory.equals(that.parentCategory);
     }
 
