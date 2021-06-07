@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!--    <bean id="externalCategories"
+   <bean id="externalCategories"
           class="switchtwentytwenty.project.interfaceadapters.implrepositories.ExternalCategoryRepositoryGroupFour">
 
         <property name="resource" value="http://vs260.dei.isep.ipp.pt:8080/api/categories/"/>
@@ -15,9 +15,13 @@
         <constructor-arg index="1">
             <bean class="switchtwentytwenty.project.domain.aggregates.category.CategoryFactory"/>
         </constructor-arg>
-    </bean>-->
 
-    <bean id="externalCategories"
+        <constructor-arg index="2">
+            <bean class="org.springframework.web.client.RestTemplate"/>
+        </constructor-arg>
+    </bean>
+
+    <!--<bean id="externalCategories"
           class="switchtwentytwenty.project.interfaceadapters.implrepositories.ExternalCategoryRepositoryGroupTwo"
           primary="true">
 
@@ -30,6 +34,11 @@
         <constructor-arg index="1">
             <bean class="switchtwentytwenty.project.domain.aggregates.category.CategoryFactory"/>
         </constructor-arg>
-    </bean>
+        <constructor-arg index="2">
+            <bean class="org.springframework.web.client.RestTemplate"/>
+        </constructor-arg>
+
+    </bean>-->
+
 
 </beans>
