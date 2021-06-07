@@ -1,9 +1,12 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
+
+import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
+import { Table, Button } from 'react-bootstrap';
+import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
 import {fetchFamilyName, fetchFamilyRelationsFA} from "../../context/Actions";
 import {Button} from 'react-bootstrap';
 import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
-
 //import { Table } from 'antd';
 
 function MembersRelationsFA() {
@@ -18,7 +21,10 @@ function MembersRelationsFA() {
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
+    //const {family_id} = landingPage;
+    const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
+
 
     useEffect(() => {
         // console.log(state.profile)
@@ -166,8 +172,11 @@ function MembersRelationsFA() {
 
      */
 
-    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
+    function displayChange(){
+        setDisplay(!display)
+    }
 
+    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function displayRole(index) {
         let tableRole = '';
@@ -199,11 +208,18 @@ function MembersRelationsFA() {
                 )
             })
             return (
-                <tr key={index}>
-                    <td>{displayRole(index)}</td>
-                    <td>{row.name}</td>
-                    <td>See relations<Button variant="dark">+</Button></td>
-                </tr>
+                <div>
+                    <tr key={index}>
+                        <td>{displayRole(index)}</td>
+                        <br/>
+                        <td>{row.name}</td>
+                        <br/>
+                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell></td>
+                        <br/>
+                        <br/>
+                    </tr>
+                    <tr><RelationsList props={display}>{relations}</RelationsList></tr>
+                </div>
             )
         })
         return (<div>{dto}</div>)
@@ -229,14 +245,16 @@ function MembersRelationsFA() {
                     <div>
                         <p>{buildInnerText()}</p>
                         <h2>{familyName}</h2>
-                        <thead>
-                        <HeaderSection>
-                            <HeaderCell>Role</HeaderCell>
-                            <HeaderCell>Name</HeaderCell>
-                            <HeaderCell>Relations</HeaderCell>
-                        </HeaderSection>
-                        </thead>
-                        <div>{buildTable()}</div>
+                        <Table>
+                            <thead>
+                                <HeaderSection>
+                                    <HeaderCell>Role</HeaderCell>
+                                    <HeaderCell>Name</HeaderCell>
+                                    <HeaderCell>Relations</HeaderCell>
+                                </HeaderSection>
+                            </thead>
+                            <div>{buildTable()}</div>
+                        </Table>
 
                         <div>{/*buildTableAntd()*/}</div>
                     </div>

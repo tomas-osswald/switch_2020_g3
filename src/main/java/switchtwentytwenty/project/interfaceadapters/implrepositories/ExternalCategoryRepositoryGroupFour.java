@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class ExternalCategoryRepositoryGroup4 implements IExternalCategoryRepository {
+public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRepository {
 
     private final ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler;
 
@@ -28,14 +28,13 @@ public class ExternalCategoryRepositoryGroup4 implements IExternalCategoryReposi
 
     //TODO está hardcoded, é preciso alterar para ser DI-nâ-MI-coooo
     //@Value("http://vs260.dei.isep.ipp.pt:8080/api/categories/")
-    private final String resource = "http://vs260.dei.isep.ipp.pt:8080/api/categories/";
+    private String resource;// = "http://vs260.dei.isep.ipp.pt:8080/api/categories/";
 
     @Autowired
-    public ExternalCategoryRepositoryGroup4(ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler, CategoryFactory categoryFactory) {
+    public ExternalCategoryRepositoryGroupFour(ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler, CategoryFactory categoryFactory) {
         this.externalCategoryDTODomainAssembler = externalCategoryDTODomainAssembler;
         this.categoryFactory = categoryFactory;
     }
-
 
     private List<ExternalStandardCategoryGroupFourDTO> findAll() {
         restTemplate = new RestTemplate();
@@ -63,5 +62,13 @@ public class ExternalCategoryRepositoryGroup4 implements IExternalCategoryReposi
         }
 
         return categoryList;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    public String getResource() {
+        return resource;
     }
 }

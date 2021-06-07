@@ -1,6 +1,8 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
@@ -20,10 +22,12 @@ public class GetStandardCategoryTreeService implements IGetStandardCategoryTreeS
     private final IExternalCategoryRepository externalCategoryRepository;
 
     @Autowired
-    public GetStandardCategoryTreeService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler, IExternalCategoryRepository externalCategoryRepository) {
+    public GetStandardCategoryTreeService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler) {
         this.categoryRepository = categoryRepository;
         this.categoryDTODomainAssembler = categoryDTODomainAssembler;
-        this.externalCategoryRepository = externalCategoryRepository;
+        //this.externalCategoryRepository = externalCategoryRepository;
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:external-config.xml");
+        this.externalCategoryRepository = (IExternalCategoryRepository) applicationContext.getBean("externalCategories");
     }
 
     public OutputCategoryTreeDTO getStandardCategoryTreeOwn(){

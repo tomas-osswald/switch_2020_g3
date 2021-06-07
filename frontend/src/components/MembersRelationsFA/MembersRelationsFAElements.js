@@ -7,7 +7,7 @@ export const MembersRelationsFADiv = styled.div`
 
 export const HeaderCell = styled.div`
 
-  padding-left: 50px;
+  padding-left: 100px;
 
 `
 
@@ -18,5 +18,14 @@ export const HeaderSection = styled.div`
   display: flex;
   flex-direction: row;
   
-
 `
+
+export const ButtonCell = styled.div`
+  margin-left: 50px;
+`
+
+export const RelationsList = styled.td`
+  display: ${ ({props}) => (props ? 'block' : 'none') } ;
+  //{display => (display ? "block" : "none")}
+`
+
