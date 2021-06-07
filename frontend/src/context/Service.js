@@ -33,6 +33,19 @@ export function fetchProfileFromWS(success, failure, id) {
     ;
 }
 
+export function familyNameGlobal(success, failure, familyId){
+    fetch(`${URL_API}/families/${familyId}`)
+        .then((res)=>{
+        return res.json()
+    })
+        .then((res)=>{
+            return success(res)
+        })
+        .catch((err) => {
+            return failure(err.message)
+        })
+    ;
+}
 
 export function familyRelationsFA(success, failure, familyId) {
     fetch(`${URL_API}/families/${familyId}/relations`)
@@ -46,7 +59,7 @@ export function familyRelationsFA(success, failure, familyId) {
         })
         .catch((err) => {
             console.log(err.message);
-            failure(err.message)
+            return failure(err.message)
         })
     ;
 }
@@ -63,7 +76,7 @@ export function familyRelationsFA(success, failure, familyId) {
 }
  */
 
-/*export function familyOptions(success,failure){
+/* export function familyOptions(success,failure){
     const requestOptions ={
         method: 'OPTIONS',
     }
@@ -75,12 +88,19 @@ export function familyRelationsFA(success, failure, familyId) {
             success(allowedTypes)
         })
         .catch(err =>failure(err.message))
-}*/
+} */
 
 
-//TODO: Fazer cenas
-export function createfamilySMService(success, failure) {
-    return doNothing();
+export function createFamilySMService(success, failure, createFamily) {
+    let url = URL_API + "/families/";
+    axios.post(`${URL_API}/families`, JSON.stringify(createFamily), {headers:{'Content-Type':'application/json'}})
+        .then((response) => {
+            success(response)
+        })
+        .catch((err) => {
+            failure(err)
+            console.log(err)
+        });
 }
 
 /**

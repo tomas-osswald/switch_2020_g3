@@ -24,6 +24,9 @@ const initialState = {
         name: '',
     },
 
+    /*loggedUserProfile: {
+        id: 'tonyze@latinlover.com',
+    },*/
 
     landingPage: {
         loading: true,
@@ -43,6 +46,16 @@ const initialState = {
         familyId: ['@tonyze@latinlover.com'],
     },
 
+    familyData: {
+        loading: true,
+        error: null,
+        data: [{
+            familyName: "",
+            familyID: "",
+            adminID: "",
+            registrationDate: "",
+        }],
+    },
 
     family: {
         loading: true,

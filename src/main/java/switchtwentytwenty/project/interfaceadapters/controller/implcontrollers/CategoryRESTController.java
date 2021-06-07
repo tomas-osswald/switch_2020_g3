@@ -36,7 +36,7 @@ public class CategoryRESTController implements ICategoryRESTController {
     private final IGetStandardCategoryTreeService getStandardCategoryTreeService;
 
     @Autowired
-    public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategoryTreeService getStandardCategoryTreeService ) {
+    public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategoryTreeService getStandardCategoryTreeService) {
         this.createStandardCategoryService = createStandardCategoryService;
         this.categoriesOptionsService = categoryOptionsService;
         this.categoryAssembler = new CategoryDTODomainAssembler();
@@ -95,11 +95,31 @@ public class CategoryRESTController implements ICategoryRESTController {
     }
 
     @GetMapping()
-    public ResponseEntity<Object> getCategoryTree(){
+    public ResponseEntity<Object> getOwnCategories(){
 
         HttpStatus status;
         try {
-            OutputCategoryTreeDTO outputCategoryTreeDTO = getStandardCategoryTreeService.getStandardCategoryTree();
+            OutputCategoryTreeDTO outputCategoryTreeDTO = getStandardCategoryTreeService.getStandardCategoryTreeOwn();
+            status = HttpStatus.OK;
+            Link optionsLinks = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
+            outputCategoryTreeDTO.add(optionsLinks);
+
+            return new ResponseEntity(outputCategoryTreeDTO,status);
+
+        } catch(Exception e){
+            status = HttpStatus.BAD_REQUEST;
+
+            return new ResponseEntity("Error: " + e.getMessage(),status);
+        }
+
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Object> getAllCategories(){
+
+        HttpStatus status;
+        try {
+            OutputCategoryTreeDTO outputCategoryTreeDTO = getStandardCategoryTreeService.getStandardCategoryTreeAll();
             status = HttpStatus.OK;
             Link optionsLinks = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
             outputCategoryTreeDTO.add(optionsLinks);

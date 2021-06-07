@@ -39,7 +39,7 @@ public class FamilyDTODomainAssembler {
      * @param family family which will be converted to DTO
      * @return OutputFamilyDTO - object containing the family name, family administrator and the registration date
      */
-    public OutputFamilyDTO toOutputRelationDTO(Family family) {
+    public OutputFamilyDTO toOutputFamilyDTO(Family family) {
         return new OutputFamilyDTO(family.getName().toString(), family.id().toString(), family.getAdmin().toString(), family.getRegistrationDate().toString());
     }
 

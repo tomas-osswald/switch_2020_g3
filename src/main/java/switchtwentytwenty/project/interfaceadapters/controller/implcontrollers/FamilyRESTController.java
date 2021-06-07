@@ -43,8 +43,10 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final IGetCustomCategoriesService customCategoriesService;
 
+    private final IGetFamilyDataService getFamilyDataService;
+
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
@@ -53,7 +55,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.familyOptionsService = familyOptionsService;
         this.createRelationService = createRelationService;
         this.customCategoriesService = customCategoriesService;
-
+        this.getFamilyDataService = getFamilyDataService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -147,8 +149,19 @@ public class FamilyRESTController implements IFamilyRESTController {
     }
 
     @GetMapping("/{familyID}")
-    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
-        throw new UnsupportedOperationException();
+    public ResponseEntity<OutputFamilyDTO> getFamily(@PathVariable String familyID) {
+        HttpStatus status;
+        OutputFamilyDTO outputFamilyDTO;
+        try{
+            outputFamilyDTO = getFamilyDataService.getFamilyData(familyID);
+            status = HttpStatus.OK;
+            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
+            outputFamilyDTO.add(optionsLink);
+            return new ResponseEntity<>(outputFamilyDTO,status);
+        }catch(IllegalArgumentException exception){
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity("Error: " + exception.getMessage(), status);
+        }
     }
 
     @GetMapping("/{familyID}/categories")
