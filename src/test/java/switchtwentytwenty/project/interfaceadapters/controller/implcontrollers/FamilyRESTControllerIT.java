@@ -13,17 +13,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.*;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
+import switchtwentytwenty.project.domain.aggregates.category.Category;
+import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
+import switchtwentytwenty.project.domain.aggregates.category.CustomCategory;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.*;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.FamilyMemberAndRelationsListDTO;
@@ -34,12 +38,12 @@ import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRep
 import switchtwentytwenty.project.interfaceadapters.implrepositories.FamilyRepository;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.CreateCustomCategoryService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMembersAndRelationshipService;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -56,6 +60,12 @@ class FamilyRESTControllerIT {
 
     @Mock
     ICategoryRepositoryJPA categoryRepositoryJPA;
+
+    @Mock
+    ICategoryDataDomainAssembler categoryDataDomainAssembler;
+
+    @Mock
+    CategoryFactory categoryFactoryMock;
 
     @InjectMocks
     CategoryRepository categoryRepository;
@@ -88,13 +98,16 @@ class FamilyRESTControllerIT {
     IFamilyRESTController familyRESTController;
 
     @Autowired
-    ICreateFamilyService iCreateFamilyService;
-
-    @Autowired
     FamilyInputDTOAssembler familyAssembler;
 
     @Autowired
     PersonInputDTOAssembler personAssembler;
+
+    @Autowired
+    CategoryInputDTOAssembler categoryInputDTOAssembler;
+
+    @Autowired
+    ICreateFamilyService iCreateFamilyService;
 
     @Autowired
     IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
@@ -112,7 +125,19 @@ class FamilyRESTControllerIT {
     IGetCustomCategoriesService getCustomCategoriesService;
 
     @Autowired
+    IGetFamilyDataService getFamilyDataService;
+
+    @Autowired
+    ICreateCustomCategoryService createCustomCategoryService;
+
+    @Autowired
     FamilyDTODomainAssembler familyDTODomainAssembler;
+
+    @Autowired
+    CategoryDTODomainAssembler categoryDTODomainAssembler;
+
+    @Autowired
+    CategoryFactory categoryFactory;
 
     //private AutoCloseable closeable;
 
@@ -174,12 +199,6 @@ class FamilyRESTControllerIT {
         assertThrows(UnsupportedOperationException.class, () -> familyRESTController.createRelation(createRelationDTO, "@tonize@gmail.com"));
     }*/
 
-    @Test
-    void getFamilyNameTest() {
-        String familyName = "Silva";
-
-        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
-    }
 
     @Test
     void getCategoriesSuccess() {
@@ -202,7 +221,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
 
         // Mocking
         // Person Repo
@@ -275,7 +294,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITFailure() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
 
@@ -286,5 +305,75 @@ class FamilyRESTControllerIT {
         ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID);
 
         assertEquals(expected, result);
+    }
+
+    @DisplayName("Add a custom category to the family - Success")
+    @Test
+    void addCustomCategorySuccess() {
+        ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
+
+        // Input and Output DTOs
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "Sopa";
+        String categoryIDString = "13L";
+
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        OutputCategoryDTO expectedOutputCategoryDTO = new OutputCategoryDTO();
+        expectedOutputCategoryDTO.setCategoryID(categoryIDString);
+        expectedOutputCategoryDTO.setCategoryName(categoryNameString);
+        expectedOutputCategoryDTO.setFamilyID(familyIDString);
+        expectedOutputCategoryDTO.setParentID(parentIDString);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyIDString, categoryIDString)).withSelfRel();
+        expectedOutputCategoryDTO.add(selfLink);
+
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(expectedOutputCategoryDTO, HttpStatus.CREATED);
+
+        // Category Value Objects
+        FamilyID familyID = new FamilyID(familyIDString);
+        CategoryName categoryName = new CategoryName(categoryNameString);
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath(parentIDString);
+        CategoryID categoryID = new CategoryID(categoryIDString);
+        Category customCategory = new CustomCategory(categoryID, parentCategoryPath, categoryName, familyID);
+
+        // Mock from category repository onwards
+        when(categoryDataDomainAssembler.toData(any(Category.class))).thenReturn(new CategoryJPA());
+        when(categoryRepositoryJPA.save(any(CategoryJPA.class))).thenReturn(new CategoryJPA());
+        when(categoryDataDomainAssembler.createCategoryID(any(CategoryJPA.class))).thenReturn(new CategoryID(categoryIDString));
+        when(categoryDataDomainAssembler.createCategoryName(any(CategoryJPA.class))).thenReturn(new CategoryName(categoryNameString));
+        when(categoryDataDomainAssembler.createFamilyID(any(CategoryJPA.class))).thenReturn(Optional.of(new FamilyID(familyIDString)));
+        when(categoryDataDomainAssembler.createParentID(any(CategoryJPA.class))).thenReturn(new ParentCategoryPath(parentIDString));
+        when(categoryFactoryMock.createCategory(any(CategoryID.class), any(CategoryName.class), any(ParentCategoryPath.class), any(Optional.class))).thenReturn(customCategory);
+
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected.toString(), result.toString());
+    }
+
+    @DisplayName("Add a custom category to the family with blank parent category - Fail")
+    @Test
+    void addCustomCategoryFailure() {
+        ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
+
+        // Input and Output DTOs
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "";
+
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity("Error: null", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected.toString(), result.toString());
     }
 }

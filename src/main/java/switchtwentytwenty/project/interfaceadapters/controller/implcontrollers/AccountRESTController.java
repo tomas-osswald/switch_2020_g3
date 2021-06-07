@@ -18,6 +18,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/accounts")
+@CrossOrigin
 public class AccountRESTController implements IAccountRESTController {
 
 

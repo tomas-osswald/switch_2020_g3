@@ -8,8 +8,10 @@ function Profile() {
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-    //const {emails} = profileData;
+    // const {emails} = profileData;
     const [showInput, setShowInput] = useState(false);
+    const onClick = () => setShowInput(true);
+
 
     useEffect(() => {
         fetchProfile(dispatch, id);
@@ -106,12 +108,14 @@ function Profile() {
                             <div className="column-right">
                                 <div>
                                     {EmailsList()}
-
+                                    {/*<button className="addbutton" onClick={"Cliked"}>Add email</button>*/}
+                                    {/*<input type="text" value={value} onChange={handleChange} />
+                                    <button type="button" onClick={handleAdd}>
+                                        Add
+                                    </button>*/}
                                     <div>
-
-                                        <input type="text" placeholder="add email here" id="myInput"/>
-                                        <button type="button" onClick={getInputEmail}>Add email</button>
-
+                                        <input type="submit" value="Add email" onClick={onClick} />
+                                        { showInput ? <input type="text"/> : null }
                                     </div>
 
                                 </div>

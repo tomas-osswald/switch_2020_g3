@@ -1,11 +1,14 @@
 import {
+    addRelation,
     createFamilySMService,
+    familyNameGlobal,
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
     addInputedEmailToFamilyMember
 } from './Service'
+
 
 /**
  * Insert functions for Service:
@@ -70,6 +73,43 @@ export function changeView(value) {
     }
 }
 
+export function postNewRelation(dispatch, createRelationDTO, familyID) {
+    dispatch(postNewRelationStarted());
+    addRelation((res) => dispatch(addRelationSuccess(res)), (err) => dispatch(addRelationFailure(err.message)), createRelationDTO, familyID);
+}
+
+export const ADD_RELATION_FAILURE = 'ADD_RELATION_FAILURE';
+
+export function addRelationFailure(message) {
+    return {
+        type: ADD_RELATION_FAILURE,
+        payload: {
+            error: message
+        }
+    }
+}
+
+export const ADD_RELATION_SUCCESS = 'ADD_RELATION_SUCCESS';
+
+export function addRelationSuccess(success) {
+    return {
+        type: ADD_RELATION_SUCCESS,
+        payload: {
+            data: success
+        }
+    }
+}
+
+
+export const ADD_RELATION_STARTED = 'ADD_RELATION_STARTED';
+
+export function postNewRelationStarted() {
+    return {
+        type: ADD_RELATION_STARTED,
+    }
+}
+
+
 export function fetchProfile(dispatch, id) {
     dispatch(fetchProfileStarted());
     fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
@@ -107,6 +147,14 @@ export function fetchProfileFailure(message) {
 }
 
 
+export const FETCH_FAMILY_NAME_STARTED = 'FETCH_FAMILY_NAME_STARTED';
+export const FETCH_FAMILY_NAME_SUCCESS = 'FETCH_FAMILY_NAME_SUCCESS';
+export const FETCH_FAMILY_NAME_FAILURE = 'FETCH_FAMILY_NAME_FAILURE';
+
+export function fetchFamilyName(dispatch, familyId) {
+    dispatch(fetchFamilyNameStarted());
+    familyNameGlobal((res) => dispatch(fetchFamilyNameSuccess(res)), (err) => dispatch(fetchFamilyNameFailure(err.message)), familyId)
+}
 
 export function fetchFamilyRelationsFA(dispatch, familyId) {
     dispatch(fetchFamilyRelationStarted());
@@ -121,7 +169,13 @@ export function fetchFamilyRelationStarted() {
     }
 }
 
-export function fetchFamilyRelationsSuccess(familyRelations) {
+export function fetchFamilyNameStarted() {
+    return {
+        type: FETCH_FAMILY_NAME_STARTED
+    }
+}
+
+export function fetchFamilyNameSuccess(familyRelations) {
     return {
         type: FETCH_FAMILYRELATIONS_SUCCESS,
         payload: {
@@ -130,9 +184,28 @@ export function fetchFamilyRelationsSuccess(familyRelations) {
     }
 }
 
+
+export function fetchFamilyRelationsSuccess(relations) {
+    return {
+        type: FETCH_FAMILYRELATIONS_SUCCESS,
+        payload: {
+            data: relations
+        }
+    }
+}
+
 export function fetchFamilyRelationsFailure(message) {
     return {
         type: FETCH_FAMILYRELATIONS_FAILURE,
+        payload: {
+            data: message
+        }
+    }
+}
+
+export function fetchFamilyNameFailure(message) {
+    return {
+        type: FETCH_FAMILY_NAME_FAILURE,
         payload: {
             data: message
         }
@@ -166,7 +239,7 @@ export function createFamilySMSuccess(family) {
         type: CREATE_FAMILY_SUCCESS,
         payload: {
             familyName: family.familyName,
-            familyID : family.familyID,
+            familyID: family.familyID,
             adminID: family.adminID,
             registrationDate: family.registrationDate
         }

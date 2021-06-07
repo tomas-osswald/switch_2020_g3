@@ -1,27 +1,38 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA} from "../../context/Actions";
-import {Button} from 'react-bootstrap';
-import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
+
+import {fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {Button, Table} from 'react-bootstrap';
+import {
+    ButtonCell,
+    HeaderCell,
+    HeaderSection,
+    MembersRelationsFADiv,
+    RelationsList
+} from "./MembersRelationsFAElements";
 
 //import { Table } from 'antd';
+
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family, profile} = state;
-    const {familyId} = loggeduserTest;
-    const {id, role} = loggedUser;
-    const {profileData} = profile;
-    //const {familyID} = profileData;
-    const {loading, error, data} = family
+    const {family, familyData} = state;
+    const {familyName} = familyData;
+    const {loading, error, data, addRelationStatus} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
-    //const {family_id} = landingPage;
+    const [display, setDisplay] = useState(false)
+    const {family_id} = landingPage;
+    let addRelationMessage = '';
 
     useEffect(() => {
-        // console.log(state.profile)
-        //fetchProfile(dispatch, id);
+        if (addRelationStatus === true) {
+            addRelationMessage = 'Relation Added'
+        }
+    }, [{addRelationStatus}])
+
+    useEffect(() => {
 
         /*
         Estes fetch não estão a funcionar porque o familyID que entra é nulo, tanto o do profileData
@@ -31,8 +42,11 @@ function MembersRelationsFA() {
         - fetchFamilyRelationsFA(dispatch, state.profile.data.familyID);
          */
 
-        fetchFamilyRelationsFA(dispatch, familyId)
+        fetchFamilyRelationsFA(dispatch, family_id)
+        //fetchFamilyName(dispatch, family_id)
+
     }, [])
+
 
     function findMemberTwoName(TwoID) {
         return familyMemberAndRelationsDTO.map((personDTO) => {
@@ -162,8 +176,11 @@ function MembersRelationsFA() {
 
      */
 
-    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
+    function displayChange() {
+        setDisplay(!display)
+    }
 
+    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function displayRole(index) {
         let tableRole = '';
@@ -184,9 +201,9 @@ function MembersRelationsFA() {
                         <tr>
                             <td key={index}></td>
                             <br/>
-                            <td>{relationsRow.relationDesignation}</td>
+                            <td>{relationsRow.relationDesignation} of</td>
                             <br/>
-                            <td>{relationsRow.memberTwoID}</td>
+                            <td>{findMemberTwoName(relationsRow.memberTwoID)}</td>
                             <br/>
                             <br/>
                         </tr>
@@ -195,18 +212,47 @@ function MembersRelationsFA() {
                 )
             })
             return (
-                <tr key={index}>
-                    <td>{displayRole(index)}</td>
-                    <td>{row.name}</td>
-                    <td>See relations<Button variant="dark">+</Button></td>
-                </tr>
+                <div>
+                    <tr key={index}>
+                        <td>{displayRole(index)}</td>
+                        <br/>
+                        <td>{row.name}</td>
+                        <br/>
+                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check
+                            relations</Button></ButtonCell></td>
+                        <br/>
+                        <br/>
+                    </tr>
+                    <tr><RelationsList props={display}>{relations}</RelationsList></tr>
+                </div>
             )
         })
         return (<div>{dto}</div>)
     }
 
-    // Ir buscar o Name da Family
-    const familyName = "Sopranos";
+
+    function populateSelection() {
+        let html = familyMemberAndRelationsDTO.map((row, index) => {
+            return (
+                <option key={index} value={row.personID}>{row.name}</option>
+            )
+        })
+        return html;
+    }
+
+    const [memberA, setMemberA] = useState('');
+    const [memberB, setMemberB] = useState('');
+    const [relationDesignation, setRelationDesignation] = useState('');
+
+    function handleSubmit() {
+        const newRelationDTO = {
+            memberOneID: memberA,
+            memberTwoID: memberB,
+            relationDesignation: relationDesignation
+        }
+
+        postNewRelation(dispatch, newRelationDTO, family_id);
+    }
 
     if (loading === true) {
         return (
@@ -225,23 +271,42 @@ function MembersRelationsFA() {
             return (
                 <MembersRelationsFADiv>
                     <div>
-                        <p>{buildInnerText()}</p>
-                        <h2>{familyName}</h2>
-                        <thead>
-                        <HeaderSection>
-                            <HeaderCell>Role</HeaderCell>
-                            <HeaderCell>Name</HeaderCell>
-                            <HeaderCell>Relations</HeaderCell>
-                        </HeaderSection>
-                        </thead>
-                        <div>{buildTable()}</div>
+                        {/*<p>{buildInnerText()}</p>*/}
+                        <h2>{state.familyData.data.familyName}</h2>
+                        <Table>
+                            <thead>
+                            <HeaderSection>
+                                <HeaderCell>Role</HeaderCell>
+                                <HeaderCell>Name</HeaderCell>
+                                <HeaderCell>Relations</HeaderCell>
+                            </HeaderSection>
+                            </thead>
+                            <div>{buildTable()}</div>
+                        </Table>
 
                         <div>{/*buildTableAntd()*/}</div>
                     </div>
+                    <label htmlFor="memberA">Create Relation:</label>
+                    <select name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
+                        <option>Select Member A</option>
+                        {populateSelection()}
+                    </select>
+                    <label htmlFor="relDesignation">Relation Designation:</label>
+                    <input type="text" id="relDesignation" name="relDesignation"
+                           onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
+                    <label htmlFor="memberB"></label>
+                    <select name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
+                        <option>Select Member B</option>
+                        {populateSelection()}
+                    </select>
+                    <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
+                    <h2>{addRelationMessage}</h2>
+
                 </MembersRelationsFADiv>
             )
         }
     }
 }
+
 
 export default MembersRelationsFA;

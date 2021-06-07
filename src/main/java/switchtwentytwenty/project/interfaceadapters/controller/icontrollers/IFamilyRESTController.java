@@ -2,7 +2,11 @@ package switchtwentytwenty.project.interfaceadapters.controller.icontrollers;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
@@ -18,7 +22,9 @@ public interface IFamilyRESTController {
 
     ResponseEntity<Object> createRelation(CreateRelationDTO createRelationDTO, String familyID);
 
-    ResponseEntity<Object> getFamily(String familyName);
+    ResponseEntity<OutputFamilyDTO> getFamily(String familyName);
 
     ResponseEntity<Object> getCategories(String familyID);
+
+    ResponseEntity<OutputCategoryDTO> addCustomCategory(String familyID, CreateCategoryDTO createCategoryDTO);
 }

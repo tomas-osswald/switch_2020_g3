@@ -96,11 +96,11 @@ The CategoryService then creates a new StandardCategory Object and adds it to th
    participant ": ICategoryRepository" as repo
    participant ": ICategoryRepositoryJPA" as repoJPA
   
-   -> controller : createStandardCategoryDTO
+   -> controller : createCategoryDTO
    activate controller
    
    ref over controller
-        InternalExternalAssembler.toInternal(createStandardCategoryDTO)
+        InternalExternalAssembler.toInternal(createCategoryDTO)
    end
    
    controller -> service : createStandardCategory( \n inputStandardCategoryDTO)
@@ -155,7 +155,7 @@ The CategoryService then creates a new StandardCategory Object and adds it to th
     participant ": ICategoryInternalExternalAssembler" as assembler
     participant "aInputStandardCategoryDTO: \n InputStandardCategoryDTO" as inputDTO
     
-    -> assembler: createStandardCategoryDTO
+    -> assembler: createCategoryDTO
     activate assembler
     assembler -> inputDTO** : create() 
     activate inputDTO

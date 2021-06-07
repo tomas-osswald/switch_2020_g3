@@ -12,8 +12,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.InputCustomCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
@@ -43,6 +47,12 @@ class FamilyRESTControllerTest {
     PersonInputDTOAssembler personAssembler;
 
     @Mock
+    CategoryInputDTOAssembler categoryAssembler;
+
+    @Mock
+    IGetFamilyDataService getFamilyDataService;
+
+    @Mock
     IFamiliesOptionsService familiesOptionsService;
 
     @Mock
@@ -56,6 +66,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IGetCustomCategoriesService getCustomCategoriesService;
+
+    @Mock
+    ICreateCustomCategoryService createCustomCategoryService;
 
     @InjectMocks
     FamilyRESTController familyRESTController;
@@ -144,10 +157,18 @@ class FamilyRESTControllerTest {
 
 
     @Test
-    void getFamilyNameTest() {
-        String familyName = "Silva";
-
-        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
+    void getFamilyTest() {
+        OutputFamilyDTO returnedDTO = new OutputFamilyDTO();
+        OutputFamilyDTO expected = new OutputFamilyDTO();
+        expected.setFamilyName("Ravens");
+        expected.setRegistrationDate("01/01/2021");
+        expected.setFamilyID("@rifens@ravens.com");
+        expected.setAdminID("rifens@ravens.com");
+        expected.add(linkTo(methodOn(FamilyRESTController.class).getFamilyOptions("@rifens@ravens.com")).withSelfRel());
+        when(getFamilyDataService.getFamilyData("@rifens@ravens.com")).thenReturn(returnedDTO);
+        ResponseEntity expectedEntity = new ResponseEntity(expected,HttpStatus.OK);
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+        assertEquals(expectedEntity.toString(),result.toString());
     }
 
     @Test
@@ -247,7 +268,7 @@ class FamilyRESTControllerTest {
 
     @Test
     @DisplayName("Create Relation failure")
-        void createRelationFailureCase() {
+    void createRelationFailureCase() {
         InputRelationDTO inputRelationDTO = new InputRelationDTO(null, null, "BFF", "@tony");
         CreateRelationDTO createRelationDTO = new CreateRelationDTO(null, null, "BFF");
         Mockito.when(familyAssembler.toInputRelationDTO(any(CreateRelationDTO.class), any(String.class))).thenReturn(inputRelationDTO);
@@ -264,7 +285,7 @@ class FamilyRESTControllerTest {
 
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations")
-    void getFamilyMemberAndRelationsTestValidFamilyID(){
+    void getFamilyMemberAndRelationsTestValidFamilyID() {
         when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
         FamilyMemberAndRelationsListDTO outputDTO = new FamilyMemberAndRelationsListDTO();
         Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com")).withSelfRel();
@@ -273,17 +294,57 @@ class FamilyRESTControllerTest {
 
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations failing because the family is not registered")
-    void getFamilyMemberAndRelationsTestFamilyNotRegistered(){
+    void getFamilyMemberAndRelationsTestFamilyNotRegistered() {
         when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenThrow(IllegalArgumentException.class);
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.BAD_REQUEST);
 
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void addCustomCategoryTestSuccess() {
+        String familyID = "@tonyze@latinlover.com";
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription("Batatas");
+        createCategoryDTO.setParentCategory("Sopa");
+
+        OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO();
+        outputCategoryDTO.setCategoryID("13L");
+        outputCategoryDTO.setCategoryName("Batatas");
+        outputCategoryDTO.setFamilyID("@tonyze@latinlover.com");
+        outputCategoryDTO.setParentID("Sopa");
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyID, "13L")).withSelfRel();
+        outputCategoryDTO.add(selfLink);
+
+        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO("Batatas", "Sopa", "@tonyze@latinlover.com"));
+        when(createCustomCategoryService.createCustomCategory(any(InputCustomCategoryDTO.class))).thenReturn(outputCategoryDTO);
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(outputCategoryDTO, HttpStatus.CREATED);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyID, createCategoryDTO);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void addCustomCategoryTestFailureBlankParentCategory() {
+        String familyID = "@tonyze@latinlover.com";
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription("Batatas");
+        createCategoryDTO.setParentCategory("");
+
+        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO("Batatas", "", "@tonyze@latinlover.com"));
+        when(createCustomCategoryService.createCustomCategory(any(InputCustomCategoryDTO.class))).thenThrow(IllegalArgumentException.class);
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity("Error: null", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyID, createCategoryDTO);
+
+        assertEquals(expected, result);
     }
 }

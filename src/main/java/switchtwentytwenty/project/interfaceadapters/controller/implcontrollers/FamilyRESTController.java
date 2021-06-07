@@ -8,9 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
-import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
+import switchtwentytwenty.project.dto.category.*;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
@@ -33,6 +34,8 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final PersonInputDTOAssembler personAssembler;
 
+    private final CategoryInputDTOAssembler categoryAssembler;
+
     private final IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
 
     private final IFamiliesOptionsService familiesOptionsService;
@@ -43,8 +46,12 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     private final IGetCustomCategoriesService customCategoriesService;
 
+    private final IGetFamilyDataService getFamilyDataService;
+
+    private final ICreateCustomCategoryService createCustomCategoryService;
+
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
@@ -53,7 +60,9 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.familyOptionsService = familyOptionsService;
         this.createRelationService = createRelationService;
         this.customCategoriesService = customCategoriesService;
-
+        this.getFamilyDataService = getFamilyDataService;
+        this.categoryAssembler = categoryAssembler;
+        this.createCustomCategoryService = createCustomCategoryService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -147,8 +156,19 @@ public class FamilyRESTController implements IFamilyRESTController {
     }
 
     @GetMapping("/{familyID}")
-    public ResponseEntity<Object> getFamily(@PathVariable String familyID) {
-        throw new UnsupportedOperationException();
+    public ResponseEntity<OutputFamilyDTO> getFamily(@PathVariable String familyID) {
+        HttpStatus status;
+        OutputFamilyDTO outputFamilyDTO;
+        try {
+            outputFamilyDTO = getFamilyDataService.getFamilyData(familyID);
+            status = HttpStatus.OK;
+            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
+            outputFamilyDTO.add(optionsLink);
+            return new ResponseEntity<>(outputFamilyDTO, status);
+        } catch (InvalidDataAccessApiUsageException exception) {
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity("Error: " + exception.getMessage(), status);
+        }
     }
 
     @GetMapping("/{familyID}/categories")
@@ -171,6 +191,29 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     @RequestMapping(value = "/{familyID}/categories", method = RequestMethod.OPTIONS)
     public ResponseEntity<OptionsDTO> getCategoriesOptions(@PathVariable String familyID) {
+        throw new UnsupportedOperationException();
+    }
+
+    @PostMapping(value = "/{familyID}/categories")
+    public ResponseEntity<OutputCategoryDTO> addCustomCategory(@PathVariable String familyID, @RequestBody CreateCategoryDTO createCategoryDTO) {
+        InputCustomCategoryDTO inputCustomCategoryDTO = categoryAssembler.toInputCustomCategoryDTO(createCategoryDTO, familyID);
+
+        HttpStatus httpStatus;
+        try {
+            OutputCategoryDTO outputCategoryDTO = createCustomCategoryService.createCustomCategory(inputCustomCategoryDTO);
+
+            httpStatus = HttpStatus.CREATED;
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyID, outputCategoryDTO.getCategoryID())).withSelfRel();
+            outputCategoryDTO.add(selfLink);
+            return new ResponseEntity<>(outputCategoryDTO, httpStatus);
+        } catch (Exception e) {
+            httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity("Error: " + e.getMessage(), httpStatus);
+        }
+    }
+
+    @GetMapping(value = "/{familyID}/categories/{categoryID}")
+    public ResponseEntity<OutputCategoryDTO> getCustomCategory(@PathVariable String familyID, @PathVariable String categoryID) {
         throw new UnsupportedOperationException();
     }
 }

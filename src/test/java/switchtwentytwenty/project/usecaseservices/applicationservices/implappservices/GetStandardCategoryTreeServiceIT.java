@@ -123,7 +123,7 @@ class GetStandardCategoryTreeServiceIT {
 
         //when(categoryRepository.getStandardCategoryList()).thenReturn(categoryList);
 
-        service = new GetStandardCategoryTreeService(categoryRepository, categoryDTODomainAssembler, externalCategoryRepository);
+        service = new GetStandardCategoryTreeService(categoryRepository, categoryDTODomainAssembler);
 
         OutputCategoryTreeDTO result = service.getStandardCategoryTreeOwn();
 

@@ -1,6 +1,15 @@
 import {
+    ADD_RELATION_FAILURE,
+    ADD_RELATION_STARTED,
+    ADD_RELATION_SUCCESS,
     CHANGE_USER,
     CHANGE_VIEW,
+    CREATE_FAMILY_FAILURE,
+    CREATE_FAMILY_STARTED,
+    CREATE_FAMILY_SUCCESS,
+    FETCH_FAMILY_NAME_FAILURE,
+    FETCH_FAMILY_NAME_STARTED,
+    FETCH_FAMILY_NAME_SUCCESS,
     FETCH_FAMILYRELATIONS_FAILURE,
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_SUCCESS,
@@ -12,9 +21,6 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
     UPDATE_NAME,
-    CREATE_FAMILY_STARTED,
-    CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE,
     ADD_EMAIL_STARTED,
     ADD_EMAIL_SUCCESS,
     ADD_EMAIL_FAILURE
@@ -86,6 +92,37 @@ function reducer(state, action) {
                 }
             }
 
+        case ADD_RELATION_STARTED:
+            return {
+                ...state,
+                family: {
+                    loading: true,
+                    error: null,
+                    data: []
+                }
+            }
+
+        case ADD_RELATION_FAILURE:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    data: [],
+                    error: action.payload.error
+                }
+            }
+
+        case ADD_RELATION_SUCCESS:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: null,
+                    data: [],
+                    addRelationStatus: true,
+                }
+            }
+
         case FETCH_FAMILYRELATIONS_STARTED:
             return {
                 ...state,
@@ -95,6 +132,37 @@ function reducer(state, action) {
                     data: []
                 }
             }
+
+        case FETCH_FAMILY_NAME_STARTED:
+            return {
+                ...state,
+                familyData: {
+                    loading: true,
+                    error: null,
+                    data: []
+                }
+            }
+
+        case FETCH_FAMILY_NAME_SUCCESS:
+            return {
+                ...state,
+                familyData: {
+                    loading: false,
+                    error: null,
+                    data: action.payload.data
+                }
+            }
+
+        case FETCH_FAMILY_NAME_FAILURE:
+            return {
+                ...state,
+                familyData: {
+                    loading: false,
+                    error: action.payload.error,
+                    data: [],
+                }
+            }
+
 
         case FETCH_FAMILYRELATIONS_SUCCESS:
             return {
@@ -229,7 +297,7 @@ function reducer(state, action) {
             }
 
         case CREATE_FAMILY_STARTED:
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: true,
@@ -240,7 +308,7 @@ function reducer(state, action) {
 
         case CREATE_FAMILY_SUCCESS:
             console.log(action)
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: false,
@@ -255,7 +323,7 @@ function reducer(state, action) {
             }
 
         case CREATE_FAMILY_FAILURE:
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: false,

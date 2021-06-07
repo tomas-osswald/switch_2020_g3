@@ -100,4 +100,11 @@ class GetStandardCategoryTreeServiceTest {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
         assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTreeOwn());
     }
+
+    @Test
+    @DisplayName("Fail to get Standard category Tree from All")
+    void getStandardCategoryTreeAll_Fail() {
+        when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
+        assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
+    }
 }
