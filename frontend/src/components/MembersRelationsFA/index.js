@@ -1,10 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
+import {fetchFamilyName, fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
 import { Table, Button } from 'react-bootstrap';
 import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
-import {fetchFamilyName, fetchFamilyRelationsFA} from "../../context/Actions";
 import {Button} from 'react-bootstrap';
 import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
 //import { Table } from 'antd';
@@ -209,14 +208,10 @@ function MembersRelationsFA() {
             })
             return (
                 <div>
-                    <tr key={index}>
+                    <tr style={{padding: "30px"}} key={index}>
                         <td>{displayRole(index)}</td>
-                        <br/>
                         <td>{row.name}</td>
-                        <br/>
                         <td><ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell></td>
-                        <br/>
-                        <br/>
                     </tr>
                     <tr><RelationsList props={display}>{relations}</RelationsList></tr>
                 </div>
