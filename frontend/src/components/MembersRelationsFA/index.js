@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
-import {addMemberView, changeView, fetchFamilyName, fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
+import { changeView, fetchFamilyRelationsFA, fetchProfile} from "../../context/Actions";
 import { Table, Button } from 'react-bootstrap';
 import {MembersRelationsFADiv, HeaderCell, HeaderSection, ButtonCell, RelationsList} from "./MembersRelationsFAElements";
 //import { Table } from 'antd';

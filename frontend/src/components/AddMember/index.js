@@ -7,8 +7,8 @@ import {addNewMember} from "../../context/Actions";
 function AddMember() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {addMember, landingPage} = state;
-    const { loading, error, addMemberData} = addMember;
+    const {newMember, landingPage} = state;
+    const { loading, error, addMemberData} = newMember;
     const { name } = landingPage;
     const [emailID, setEmailID] = useState('');
     const [userName, setName] = useState('');
@@ -25,7 +25,7 @@ function AddMember() {
     })
 
     function handleClick(){
-        const addNewMember = {
+        const newMember = {
             adminID: {name},
             emailID: emailID,
             name: userName,
@@ -37,42 +37,48 @@ function AddMember() {
             houseNumber: houseNumber,
             zipCode: zipCode,
         }
-        addNewMember(dispatch, addNewMember);
+        addNewMember(dispatch, newMember);
     }
 
 
-    return(
+    return (
         <AddMemberDiv>
             PAGINA ADD FAMILY MEMBER
             <Form>
                 <Form.Group controlId="emailID">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" onChange={emailID => setEmailID(emailID.target.value)} />
+                    <Form.Control type="email" placeholder="Enter email"
+                                  onChange={emailID => setEmailID(emailID.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="password" placeholder="Name" onChange={userName => setName(userName.target.value)}/>
+                    <Form.Control type="text" placeholder="Name"
+                                  onChange={userName => setName(userName.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="birthDate">
                     <Form.Label>BirthDate</Form.Label>
-                    <Form.Control type="calendar" placeholder="BirthDate" onChange={birthDate => setBirthdate(birthDate.target.value)} />
+                    <Form.Control type="text" placeholder="BirthDate"
+                                  onChange={birthDate => setBirthdate(birthDate.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="vatNumber">
                     <Form.Label>VatNumber</Form.Label>
-                    <Form.Control type="text" placeholder="VatNumber" onChange={vatNumber => setVatNumber(vatNumber.target.value)}/>
+                    <Form.Control type="text" placeholder="VatNumber"
+                                  onChange={vatNumber => setVatNumber(vatNumber.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="phone">
                     <Form.Label>Phone</Form.Label>
-                    <Form.Control type="text" placeholder="Phone" onChange={phone => setPhoneNumber(phone.target.value)}/>
+                    <Form.Control type="text" placeholder="Phone"
+                                  onChange={phone => setPhoneNumber(phone.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="street">
                     <Form.Label>Street</Form.Label>
-                    <Form.Control type="text" placeholder="Street" onChange={street => setStreet(street.target.value)}/>
+                    <Form.Control type="text" placeholder="Street"
+                                  onChange={street => setStreet(street.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="city">
@@ -82,12 +88,14 @@ function AddMember() {
 
                 <Form.Group controlId="houseNumber">
                     <Form.Label>HouseNumber</Form.Label>
-                    <Form.Control type="text" placeholder="HouseNumber" onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
+                    <Form.Control type="text" placeholder="HouseNumber"
+                                  onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="zipCode">
                     <Form.Label>ZipCode</Form.Label>
-                    <Form.Control type="text" placeholder="ZipCode" onChange={zipCode => setZipCode(zipCode.target.value)}/>
+                    <Form.Control type="text" placeholder="ZipCode"
+                                  onChange={zipCode => setZipCode(zipCode.target.value)}/>
                 </Form.Group>
 
                 <Button variant="primary" type="submit" onClick={handleClick}>
@@ -96,6 +104,8 @@ function AddMember() {
             </Form>
         </AddMemberDiv>
     )
+
+
 }
 
 /*

@@ -105,7 +105,7 @@ const initialState = {
     newMember: {
         loading: true,
         error: null,
-        newMemberData:{
+        newMemberData: {
             adminID: '',
             emailID: '',
             name: '',

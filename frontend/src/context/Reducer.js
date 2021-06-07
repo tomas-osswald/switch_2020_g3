@@ -14,7 +14,13 @@ import {
     UPDATE_NAME,
     CREATE_FAMILY_STARTED,
     CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE, FETCH_FAMILY_NAME_STARTED, FETCH_FAMILY_NAME_SUCCESS, FETCH_FAMILY_NAME_FAILURE,
+    CREATE_FAMILY_FAILURE,
+    FETCH_FAMILY_NAME_STARTED,
+    FETCH_FAMILY_NAME_SUCCESS,
+    FETCH_FAMILY_NAME_FAILURE,
+    ADD_NEW_MEMBER_START,
+    ADD_NEW_MEMBER_FAILURE,
+    ADD_NEW_MEMBER_SUCCESS,
 
 } from './Actions'
 
@@ -295,6 +301,47 @@ function reducer(state, action) {
                         adminID: action.payload.adminID,
                         registrationDate: action.payload.registrationDate
                     }]
+                }
+            }
+
+        case ADD_NEW_MEMBER_START:
+            return{
+                ...state,
+                newMember: {
+                    loading: false,
+                    error: null,
+                    newMemberData: [],
+                }
+            }
+
+        case ADD_NEW_MEMBER_FAILURE:
+            return{
+                ...state,
+                newMember: {
+                    loading: false,
+                    error: "New Member was not created. Apes not strong",
+                    newMemberData: [],
+                }
+            }
+
+        case ADD_NEW_MEMBER_SUCCESS:
+            return{
+                ...state,
+                newMember: {
+                    loading: true,
+                    error: null,
+                    newMemberData: {
+                        adminID: action.payload.adminID,
+                        emailID: action.payload.emailID,
+                        name: action.payload.name,
+                        birthDate: action.payload.birthDate,
+                        vatNumber: action.payload.vatNumber,
+                        phone: action.payload.phone,
+                        street: action.payload.street,
+                        city: action.payload.city,
+                        houseNumber: action.payload.houseNumber,
+                        zipCode: action.payload.zipCode,
+                    },
                 }
             }
 
