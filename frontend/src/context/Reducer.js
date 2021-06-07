@@ -14,7 +14,7 @@ import {
     UPDATE_NAME,
     CREATE_FAMILY_STARTED,
     CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE
+    CREATE_FAMILY_FAILURE, FETCH_FAMILY_NAME_STARTED, FETCH_FAMILY_NAME_SUCCESS, FETCH_FAMILY_NAME_FAILURE
 } from './Actions'
 
 function reducer(state, action) {
@@ -92,6 +92,37 @@ function reducer(state, action) {
                     data: []
                 }
             }
+
+        case FETCH_FAMILY_NAME_STARTED:
+            return {
+                ...state,
+                familyData: {
+                    loading: true,
+                    error: null,
+                    data: []
+                }
+            }
+
+        case FETCH_FAMILY_NAME_SUCCESS:
+            return {
+                ...state,
+                familyData: {
+                    loading: false,
+                    error: null,
+                    data: action.payload.data
+                }
+            }
+
+        case FETCH_FAMILY_NAME_FAILURE:
+            return {
+                ...state,
+                familyData: {
+                    loading: false,
+                    error: action.payload.error,
+                    data: [],
+                }
+            }
+
 
         case FETCH_FAMILYRELATIONS_SUCCESS:
             return {

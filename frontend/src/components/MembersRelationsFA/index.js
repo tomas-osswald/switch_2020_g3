@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import AppContext from "../../context/AppContext";
-import {fetchFamilyRelationsFA} from "../../context/Actions";
+import {fetchFamilyName, fetchFamilyRelationsFA} from "../../context/Actions";
 import {Button} from 'react-bootstrap';
 import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelationsFAElements";
 
@@ -9,15 +9,16 @@ import {HeaderCell, HeaderSection, MembersRelationsFADiv} from "./MembersRelatio
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, loggeduserTest, family, profile} = state;
+    const {loggedUser, loggeduserTest, family, profile, familyData} = state;
     const {familyId} = loggeduserTest;
-    const {id, role} = loggedUser;
-    const {profileData} = profile;
+    //const {id, role} = loggedUser;
+    //const {profileData} = profile;
     //const {familyID} = profileData;
+    const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
-    //const {family_id} = landingPage;
+    const {family_id} = landingPage;
 
     useEffect(() => {
         // console.log(state.profile)
@@ -31,8 +32,11 @@ function MembersRelationsFA() {
         - fetchFamilyRelationsFA(dispatch, state.profile.data.familyID);
          */
 
-        fetchFamilyRelationsFA(dispatch, familyId)
+        fetchFamilyRelationsFA(dispatch, family_id)
+        //fetchFamilyName(dispatch, family_id)
+
     }, [])
+
 
     function findMemberTwoName(TwoID) {
         return familyMemberAndRelationsDTO.map((personDTO) => {
@@ -205,8 +209,6 @@ function MembersRelationsFA() {
         return (<div>{dto}</div>)
     }
 
-    // Ir buscar o Name da Family
-    const familyName = "Sopranos";
 
     if (loading === true) {
         return (

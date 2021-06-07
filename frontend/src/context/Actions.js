@@ -1,5 +1,6 @@
 import {
     createFamilySMService,
+    familyNameGlobal,
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
@@ -94,6 +95,14 @@ export function fetchProfileFailure(message) {
 export const FETCH_FAMILYRELATIONS_STARTED = 'FETCH_FAMILYRELATIONS_STARTED';
 export const FETCH_FAMILYRELATIONS_SUCCESS = 'FETCH_FAMILYRELATIONS_SUCCESS';
 export const FETCH_FAMILYRELATIONS_FAILURE = 'FETCH_FAMILYRELATIONS_FAILURE';
+export const FETCH_FAMILY_NAME_STARTED = 'FETCH_FAMILY_NAME_STARTED';
+export const FETCH_FAMILY_NAME_SUCCESS = 'FETCH_FAMILY_NAME_SUCCESS';
+export const FETCH_FAMILY_NAME_FAILURE = 'FETCH_FAMILY_NAME_FAILURE';
+
+export function fetchFamilyName(dispatch, familyId) {
+    dispatch(fetchFamilyNameStarted());
+    familyNameGlobal((res) => dispatch(fetchFamilyNameSuccess(res)), (err) => dispatch(fetchFamilyNameFailure(err.message)), familyId)
+}
 
 export function fetchFamilyRelationsFA(dispatch, familyId) {
     dispatch(fetchFamilyRelationStarted());
@@ -108,7 +117,13 @@ export function fetchFamilyRelationStarted() {
     }
 }
 
-export function fetchFamilyRelationsSuccess(familyRelations) {
+export function fetchFamilyNameStarted() {
+    return {
+        type: FETCH_FAMILY_NAME_STARTED
+    }
+}
+
+export function fetchFamilyNameSuccess(familyRelations) {
     return {
         type: FETCH_FAMILYRELATIONS_SUCCESS,
         payload: {
@@ -117,9 +132,28 @@ export function fetchFamilyRelationsSuccess(familyRelations) {
     }
 }
 
+
+export function fetchFamilyRelationsSuccess(relations) {
+    return {
+        type: FETCH_FAMILYRELATIONS_SUCCESS,
+        payload: {
+            data: relations
+        }
+    }
+}
+
 export function fetchFamilyRelationsFailure(message) {
     return {
         type: FETCH_FAMILYRELATIONS_FAILURE,
+        payload: {
+            data: message
+        }
+    }
+}
+
+export function fetchFamilyNameFailure(message) {
+    return {
+        type: FETCH_FAMILY_NAME_FAILURE,
         payload: {
             data: message
         }
@@ -157,7 +191,7 @@ export function createFamilySMSuccess(family) {
         type: CREATE_FAMILY_SUCCESS,
         payload: {
             familyName: family.familyName,
-            familyID : family.familyID,
+            familyID: family.familyID,
             adminID: family.adminID,
             registrationDate: family.registrationDate
         }
