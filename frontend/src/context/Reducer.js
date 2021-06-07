@@ -14,7 +14,10 @@ import {
     UPDATE_NAME,
     CREATE_FAMILY_STARTED,
     CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE
+    CREATE_FAMILY_FAILURE,
+    ADD_EMAIL_STARTED,
+    ADD_EMAIL_SUCCESS,
+    ADD_EMAIL_FAILURE
 } from './Actions'
 
 function reducer(state, action) {
@@ -263,6 +266,36 @@ function reducer(state, action) {
                         adminID: action.payload.adminID,
                         registrationDate: action.payload.registrationDate
                     }]
+                }
+            }
+
+        case ADD_EMAIL_STARTED:
+            return {
+                ...state,
+                profile: {
+                    loading: true,
+                    error: null,
+                    profileData: null,
+                }
+            }
+
+        case ADD_EMAIL_SUCCESS:
+            return {
+                ...state,
+                profile: {
+                    loading: false,
+                    error: null,
+                    profileData: action.payload
+                }
+            }
+
+        case ADD_EMAIL_FAILURE:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: action.payload.error,
+                    name: '',
                 }
             }
 

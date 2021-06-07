@@ -3,7 +3,8 @@ import {
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
-    fetchProfileFromWS
+    fetchProfileFromWS,
+    addInputedEmailToFamilyMember
 } from './Service'
 
 /**
@@ -32,9 +33,11 @@ export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
 export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
+export const ADD_EMAIL_STARTED = "ADD_EMAIL_STARTED";
+export const ADD_EMAIL_SUCCESS = "ADD_EMAIL_SUCCESS";
+export const ADD_EMAIL_FAILURE = "ADD_EMAIL_FAILURE";
 
-
-export const ADD_EMAIL = 'ADD_EMAIL';
+// export const ADD_EMAIL = 'ADD_EMAIL';
 
 export function doNothing() {
     return {
@@ -181,8 +184,6 @@ export function createFamilySMFailure(errorMessage) {
  * LandingPage
  */
 
-
-
 export function fetchName(dispatch, id) {
     dispatch(fetchNameStart())
     fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err)), id)
@@ -213,9 +214,35 @@ export function fetchNameFailure(error) {
     }
 }
 
-export function addEmail(emailToAdd) {
+// Add email in Profile ----------------------------------------------------------------
+
+export function addEmailToFamilyMember(dispatch, id) {
+    dispatch(addEmailStarted());
+    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailfailure(err.message)), id);
+
+}
+
+export function addEmailStarted() {
     return {
-        type: ADD_EMAIL,
-        payload: emailToAdd
+        type: ADD_EMAIL_STARTED,
+
+    }
+}
+
+export function addEmailSuccess(emailToAdd) {
+    return {
+        type: ADD_EMAIL_SUCCESS,
+        payload: {
+            email: emailToAdd
+        }
+
+    }
+}
+
+export function addEmailfailure(error) {
+    return {
+        type: ADD_EMAIL_FAILURE,
+        payload: error
+
     }
 }

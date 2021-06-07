@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
-import {fetchProfile} from "../../context/Actions";
+import {addEmailToFamilyMember, fetchProfile} from "../../context/Actions";
 import '../../styles/profile.css'
 
 function Profile() {
@@ -8,14 +8,55 @@ function Profile() {
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-    // const {emails} = profileData;
+    //const {emails} = profileData;
     const [showInput, setShowInput] = useState(false);
-    const onClick = () => setShowInput(true);
-
 
     useEffect(() => {
         fetchProfile(dispatch, id);
     }, []);
+
+    /*function handleInput() {
+       addEmailToFamilyMember(dispatch, id)
+    }
+
+    //-----------------------------------------------
+
+    const addEmailToList = event => {
+        event.preventDefault();
+    }
+
+    let newEmail = {
+        email: this.state.email
+    }
+
+    this.setState(
+        {email: [...this.state.profileData.emails, ]}
+    )*/
+
+
+
+    //--------------------------------------
+
+    function getInputEmail(){
+        // Selecting the input element and get its value
+        let inputVal = document.getElementById("myInput").value;
+
+        // Displaying the value
+        console.log(inputVal);
+    }
+
+    const handleOnClick = (id) => {
+        addEmailToFamilyMember(dispatch,id)
+        }
+
+       function addEmail (event) {
+        event.preventDefault();
+       }
+
+
+
+
+    //---------------------------
 
     function EmailsList() {
         const emailList = profileData.emails.map(email => <p className="info">{email}</p>)
@@ -65,14 +106,12 @@ function Profile() {
                             <div className="column-right">
                                 <div>
                                     {EmailsList()}
-                                    {/*<button className="addbutton" onClick={"Cliked"}>Add email</button>*/}
-                                    {/*<input type="text" value={value} onChange={handleChange} />
-                                    <button type="button" onClick={handleAdd}>
-                                        Add
-                                    </button>*/}
+
                                     <div>
-                                        <input type="submit" value="Add email" onClick={onClick} />
-                                        { showInput ? <input type="text"/> : null }
+
+                                        <input type="text" placeholder="add email here" id="myInput"/>
+                                        <button type="button" onClick={getInputEmail}>Add email</button>
+
                                     </div>
 
                                 </div>

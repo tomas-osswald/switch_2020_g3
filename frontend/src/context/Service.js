@@ -103,3 +103,17 @@ export function fetchNameWS(success, failure, id) {
             failure(err)
         });
 }
+
+export function addInputedEmailToFamilyMember(success,failure,id){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'example@email.com' })
+    }
+
+    fetch(`http://localhost:8080/people/${id}/emails`, requestOptions)
+        .then(response => response.json())
+        .then(response =>success(response))
+        .catch(error => failure(error.message))
+    ;
+}
