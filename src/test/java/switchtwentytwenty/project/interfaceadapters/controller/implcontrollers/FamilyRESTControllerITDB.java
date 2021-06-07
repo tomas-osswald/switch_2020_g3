@@ -89,6 +89,7 @@ class FamilyRESTControllerITDB {
         String expected = "Ravens";
         ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
         OutputFamilyDTO resultDTO = (OutputFamilyDTO) result.getBody();
+        assertNotNull(result);
         assertEquals(expected, resultDTO.getFamilyName());
     }
 
