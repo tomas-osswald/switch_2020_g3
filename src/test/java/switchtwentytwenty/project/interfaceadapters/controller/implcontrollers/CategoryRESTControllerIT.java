@@ -10,7 +10,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.CategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
@@ -20,9 +19,8 @@ import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
-import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
-import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICategoriesOptionsService;
@@ -72,7 +70,7 @@ class CategoryRESTControllerIT {
         CategoryRESTController categoryRESTController = new CategoryRESTController(createStandardCategoryService, optionsService, getStandardCategoryTreeService);
 
 
-        CreateStandardCategoryDTO createStandardCategoryDTO = new CreateStandardCategoryDTO("Casa", "/casdsa");
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO("Casa", "/casdsa");
 
         Category category = new StandardCategory(new CategoryName("Casa"), new CategoryID(0l), new ParentCategoryPath("/casdsa"));
 
@@ -95,7 +93,7 @@ class CategoryRESTControllerIT {
 
         ResponseEntity expected = new ResponseEntity(expectedOutputCategoryDTO, status);
 
-        ResponseEntity result = categoryRESTController.createStandardCategory(createStandardCategoryDTO);
+        ResponseEntity result = categoryRESTController.createStandardCategory(createCategoryDTO);
 
         assertEquals(expected.toString(), result.toString());
     }

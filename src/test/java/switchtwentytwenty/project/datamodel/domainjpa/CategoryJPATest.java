@@ -139,7 +139,7 @@ class CategoryJPATest {
     @Test
     void notEqualObjectsTest() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        CategoryJPA categoryJpaTwo = new CategoryJPA(categoryNameTwo, categoryIDJPATwo, parentIDTwo, familyIDJPATwo);
+        CategoryJPA categoryJpaTwo = new CategoryJPA(categoryNameTwo, categoryIDJPA, parentID, familyIDJPA);
 
         assertNotEquals(categoryJpa,categoryJpaTwo);
     }
@@ -147,7 +147,7 @@ class CategoryJPATest {
     @Test
     void notEqualObjectsTestDifferentCategoryIDs() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        CategoryJPA categoryJpaTwo = new CategoryJPA(categoryName, categoryIDJPATwo, parentIDTwo, familyIDJPATwo);
+        CategoryJPA categoryJpaTwo = new CategoryJPA(categoryName, categoryIDJPATwo, parentID, familyIDJPA);
 
         assertNotEquals(categoryJpa,categoryJpaTwo);
     }
@@ -155,7 +155,7 @@ class CategoryJPATest {
     @Test
     void notEqualObjectsTestDifferentParentIDs() {
         CategoryJPA categoryJpa = new CategoryJPA(categoryName, categoryIDJPA, parentID, familyIDJPA);
-        CategoryJPA categoryJpaTwo = new CategoryJPA(categoryName, categoryIDJPA, parentIDTwo, familyIDJPATwo);
+        CategoryJPA categoryJpaTwo = new CategoryJPA(categoryName, categoryIDJPA, parentIDTwo, familyIDJPA);
 
         assertNotEquals(categoryJpa,categoryJpaTwo);
     }

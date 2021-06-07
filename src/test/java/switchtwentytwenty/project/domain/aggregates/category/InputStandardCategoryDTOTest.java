@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class InputCategoryDTOTest {
+class InputStandardCategoryDTOTest {
 
     InputCategoryDTO inputCategoryDTO = new InputCategoryDTO(1L, "desc", 2L, "familyID");
 
