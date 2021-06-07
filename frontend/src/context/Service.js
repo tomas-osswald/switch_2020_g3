@@ -46,6 +46,23 @@ export function familyNameGlobal(success, failure, familyId) {
     ;
 }
 
+export function addRelation(success, failure, familyID, memberA, memberB, relationDesignation) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            memberOneID: {memberA},
+            memberTwoID: {memberB},
+            relationDesignation: {relationDesignation}
+        })
+    }
+    fetch(`${URL_API}/${familyID}/relations`, requestOptions)
+        .then(response => response.json())
+        .then(response => success(response))
+        .catch(error => failure(error.message))
+    ;
+}
+
 export function familyRelationsFA(success, failure, familyId) {
     fetch(`${URL_API}/families/${familyId}/relations`)
         .then((res) => {

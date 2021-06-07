@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyName, fetchFamilyRelationsFA} from "../../context/Actions";
+import {fetchFamilyRelationsFA} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
     ButtonCell,
@@ -12,7 +12,6 @@ import {
 } from "./MembersRelationsFAElements";
 
 //import { Table } from 'antd';
-
 
 
 function MembersRelationsFA() {
@@ -41,8 +40,6 @@ function MembersRelationsFA() {
         //fetchFamilyName(dispatch, family_id)
 
     }, [])
-
-
 
 
     function findMemberTwoName(TwoID) {
@@ -231,10 +228,10 @@ function MembersRelationsFA() {
     function populateSelection() {
 
         let html = familyMemberAndRelationsDTO.map((row, index) => {
-                return (
-                     <option key={index} value={row.personID}>{row.name}</option>
-                )
-            })
+            return (
+                <option key={index} value={row.personID}>{row.name}</option>
+            )
+        })
         return html;
     }
 
@@ -280,8 +277,7 @@ function MembersRelationsFA() {
                     <select name="memberB" id="memberB">
                         {populateSelection()}
                     </select>
-                    <ButtonCell><Button variant="dark" >Add Relation</Button></ButtonCell>
-
+                    <Button variant="dark">Add Relation</Button>
 
 
                 </MembersRelationsFADiv>
