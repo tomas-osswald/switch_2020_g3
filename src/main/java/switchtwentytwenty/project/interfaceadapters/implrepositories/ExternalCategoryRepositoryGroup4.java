@@ -1,16 +1,13 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
-import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
-import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssembler;
 import switchtwentytwenty.project.dto.category.ExternalStandardCategoryGroupFourDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
@@ -18,20 +15,26 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategor
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class ExternalCategoryRepositoryGroup4 implements IExternalCategoryRepository {
 
-    private ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler;
-    private CategoryFactory categoryFactory;
+    private final ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler;
+
+    private final CategoryFactory categoryFactory;
 
     private RestTemplate restTemplate;
 
     //TODO está hardcoded, é preciso alterar para ser DI-nâ-MI-coooo
-    @Value("http://vs260.dei.isep.ipp.pt:8080/api/categories/")
-    private String resource;
+    //@Value("http://vs260.dei.isep.ipp.pt:8080/api/categories/")
+    private final String resource = "http://vs260.dei.isep.ipp.pt:8080/api/categories/";
+
+    @Autowired
+    public ExternalCategoryRepositoryGroup4(ExternalCategoryDTODomainAssembler externalCategoryDTODomainAssembler, CategoryFactory categoryFactory) {
+        this.externalCategoryDTODomainAssembler = externalCategoryDTODomainAssembler;
+        this.categoryFactory = categoryFactory;
+    }
 
 
     private List<ExternalStandardCategoryGroupFourDTO> findAll() {
