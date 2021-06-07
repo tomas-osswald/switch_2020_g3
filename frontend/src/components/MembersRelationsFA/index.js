@@ -16,7 +16,7 @@ import {
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {family, profile, familyData} = state;
+    const {family, familyData} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
@@ -243,8 +243,8 @@ function MembersRelationsFA() {
             return (
                 <MembersRelationsFADiv>
                     <div>
-                        <p>{buildInnerText()}</p>
-                        <h2>{familyName}</h2>
+                        {/*<p>{buildInnerText()}</p>*/}
+                        <h2>{state.familyData.data.familyName}</h2>
                         <Table>
                             <thead>
                             <HeaderSection>
