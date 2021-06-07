@@ -39,7 +39,6 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.implappser
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -112,6 +111,9 @@ class FamilyRESTControllerIT {
     IGetCustomCategoriesService getCustomCategoriesService;
 
     @Autowired
+    IGetFamilyDataService getFamilyDataService;
+
+    @Autowired
     FamilyDTODomainAssembler familyDTODomainAssembler;
 
     //private AutoCloseable closeable;
@@ -174,12 +176,6 @@ class FamilyRESTControllerIT {
         assertThrows(UnsupportedOperationException.class, () -> familyRESTController.createRelation(createRelationDTO, "@tonize@gmail.com"));
     }*/
 
-    @Test
-    void getFamilyNameTest() {
-        String familyName = "Silva";
-
-        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
-    }
 
     @Test
     void getCategoriesSuccess() {
@@ -202,7 +198,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService);
 
         // Mocking
         // Person Repo
@@ -275,7 +271,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITFailure() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
 

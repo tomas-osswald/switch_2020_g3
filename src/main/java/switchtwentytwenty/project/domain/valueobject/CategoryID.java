@@ -6,18 +6,22 @@ import java.util.Objects;
 
 public class CategoryID implements ID<Long> {
     @Getter
-    private final long id;
+    private final String id;
 
     public CategoryID(long categoryID) {
+        this.id = String.valueOf(categoryID);
+    }
+
+    public CategoryID(String categoryID) {
         this.id = categoryID;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CategoryID)) return false;
         CategoryID that = (CategoryID) o;
-        return id == that.id;
+        return id.equals(that.id);
     }
 
     @Override

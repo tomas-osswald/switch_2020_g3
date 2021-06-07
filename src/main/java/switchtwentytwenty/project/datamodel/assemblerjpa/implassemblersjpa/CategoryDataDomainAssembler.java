@@ -73,7 +73,7 @@ public class CategoryDataDomainAssembler implements ICategoryDataDomainAssembler
 
     @Override
     public CategoryIDJPA toData(CategoryID id) {
-        return new CategoryIDJPA(id.getId());
+        return new CategoryIDJPA(Long.valueOf(id.getId()));
 
     }
 }

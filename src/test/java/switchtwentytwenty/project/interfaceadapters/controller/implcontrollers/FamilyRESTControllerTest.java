@@ -43,6 +43,9 @@ class FamilyRESTControllerTest {
     PersonInputDTOAssembler personAssembler;
 
     @Mock
+    IGetFamilyDataService getFamilyDataService;
+
+    @Mock
     IFamiliesOptionsService familiesOptionsService;
 
     @Mock
@@ -144,10 +147,18 @@ class FamilyRESTControllerTest {
 
 
     @Test
-    void getFamilyNameTest() {
-        String familyName = "Silva";
-
-        assertThrows(UnsupportedOperationException.class, () -> familyRESTController.getFamily(familyName));
+    void getFamilyTest() {
+        OutputFamilyDTO returnedDTO = new OutputFamilyDTO();
+        OutputFamilyDTO expected = new OutputFamilyDTO();
+        expected.setFamilyName("Ravens");
+        expected.setRegistrationDate("01/01/2021");
+        expected.setFamilyID("@rifens@ravens.com");
+        expected.setAdminID("rifens@ravens.com");
+        expected.add(linkTo(methodOn(FamilyRESTController.class).getFamilyOptions("@rifens@ravens.com")).withSelfRel());
+        when(getFamilyDataService.getFamilyData("@rifens@ravens.com")).thenReturn(returnedDTO);
+        ResponseEntity expectedEntity = new ResponseEntity(expected,HttpStatus.OK);
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+        assertEquals(expectedEntity.toString(),result.toString());
     }
 
     @Test
@@ -247,7 +258,7 @@ class FamilyRESTControllerTest {
 
     @Test
     @DisplayName("Create Relation failure")
-        void createRelationFailureCase() {
+    void createRelationFailureCase() {
         InputRelationDTO inputRelationDTO = new InputRelationDTO(null, null, "BFF", "@tony");
         CreateRelationDTO createRelationDTO = new CreateRelationDTO(null, null, "BFF");
         Mockito.when(familyAssembler.toInputRelationDTO(any(CreateRelationDTO.class), any(String.class))).thenReturn(inputRelationDTO);
@@ -264,7 +275,7 @@ class FamilyRESTControllerTest {
 
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations")
-    void getFamilyMemberAndRelationsTestValidFamilyID(){
+    void getFamilyMemberAndRelationsTestValidFamilyID() {
         when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
         FamilyMemberAndRelationsListDTO outputDTO = new FamilyMemberAndRelationsListDTO();
         Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com")).withSelfRel();
@@ -273,17 +284,17 @@ class FamilyRESTControllerTest {
 
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations failing because the family is not registered")
-    void getFamilyMemberAndRelationsTestFamilyNotRegistered(){
+    void getFamilyMemberAndRelationsTestFamilyNotRegistered() {
         when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenThrow(IllegalArgumentException.class);
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.BAD_REQUEST);
 
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 }

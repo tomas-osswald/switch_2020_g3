@@ -33,6 +33,19 @@ export function fetchProfileFromWS(success, failure, id) {
     ;
 }
 
+export function familyNameGlobal(success, failure, familyId){
+    fetch(`${URL_API}/families/${familyId}`)
+        .then((res)=>{
+        return res.json()
+    })
+        .then((res)=>{
+            return success(res)
+        })
+        .catch((err) => {
+            return failure(err.message)
+        })
+    ;
+}
 
 export function familyRelationsFA(success, failure, familyId) {
     fetch(`${URL_API}/families/${familyId}/relations`)
