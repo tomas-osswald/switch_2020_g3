@@ -21,6 +21,8 @@ public class InputCustomCategoryDTO {
         return parentCategory;
     }
 
+    public String getFamilyID() { return familyID; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
