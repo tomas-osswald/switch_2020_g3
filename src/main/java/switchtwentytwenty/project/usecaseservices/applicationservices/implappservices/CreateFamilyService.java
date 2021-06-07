@@ -58,6 +58,6 @@ public class CreateFamilyService implements ICreateFamilyService {
         personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
 
-        return familyDTODomainAssembler.toOutputRelationDTO(registeredFamily);
+        return familyDTODomainAssembler.toOutputFamilyDTO(registeredFamily);
     }
 }

@@ -94,7 +94,7 @@ class CreateFamilyServiceTest {
         Mockito.when(personRepository.add(any(Person.class))).thenReturn(admin);
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
         OutputFamilyDTO outputFamilyDTOexpected = new OutputFamilyDTO(familyName,familyID,adminID,registrationDate);
-        Mockito.when(familyDTODomainAssembler.toOutputRelationDTO(any(Family.class))).thenReturn(outputFamilyDTOexpected);
+        Mockito.when(familyDTODomainAssembler.toOutputFamilyDTO(any(Family.class))).thenReturn(outputFamilyDTOexpected);
 
         OutputFamilyDTO outputFamilyDTO = createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
         Assertions.assertNotNull(outputFamilyDTO);
@@ -108,7 +108,7 @@ class CreateFamilyServiceTest {
 
         Mockito.when(personRepository.add(any(Person.class))).thenReturn(admin);
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
-        Mockito.when(familyDTODomainAssembler.toOutputRelationDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
+        Mockito.when(familyDTODomainAssembler.toOutputFamilyDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
 
         assertThrows(InvalidNameException.class,() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
     }
@@ -127,7 +127,7 @@ class CreateFamilyServiceTest {
 
         Mockito.doThrow(PersonAlreadyRegisteredException.class).when(personRepository).add(any());
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
-        Mockito.when(familyDTODomainAssembler.toOutputRelationDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
+        Mockito.when(familyDTODomainAssembler.toOutputFamilyDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
     }
