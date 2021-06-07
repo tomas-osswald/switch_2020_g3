@@ -36,7 +36,7 @@ function MembersRelationsFA() {
          */
 
         fetchFamilyRelationsFA(dispatch, family_id)
-        fetchFamilyName(dispatch, family_id)
+        //fetchFamilyName(dispatch, family_id)
 
     }, [])
 
@@ -196,9 +196,9 @@ function MembersRelationsFA() {
                         <tr>
                             <td key={index}></td>
                             <br/>
-                            <td>{relationsRow.relationDesignation}</td>
+                            <td>{relationsRow.relationDesignation} of</td>
                             <br/>
-                            <td>{relationsRow.memberTwoID}</td>
+                            <td>{findMemberTwoName(relationsRow.memberTwoID)}</td>
                             <br/>
                             <br/>
                         </tr>
