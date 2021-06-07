@@ -21,6 +21,7 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
@@ -96,6 +97,9 @@ class FamilyRESTControllerIT {
     PersonInputDTOAssembler personAssembler;
 
     @Autowired
+    CategoryInputDTOAssembler categoryInputDTOAssembler;
+
+    @Autowired
     IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
 
     @Autowired
@@ -112,6 +116,9 @@ class FamilyRESTControllerIT {
 
     @Autowired
     IGetFamilyDataService getFamilyDataService;
+
+    @Autowired
+    ICreateCustomCategoryService createCustomCategoryService;
 
     @Autowired
     FamilyDTODomainAssembler familyDTODomainAssembler;
@@ -198,7 +205,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
 
         // Mocking
         // Person Repo
@@ -271,7 +278,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITFailure() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
 

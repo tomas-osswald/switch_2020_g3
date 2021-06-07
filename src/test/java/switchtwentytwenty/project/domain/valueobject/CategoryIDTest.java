@@ -82,4 +82,11 @@ class CategoryIDTest {
         assertEquals(expected, result);
 
     }
+
+    @Test
+    void categoryIDConstructorWithString(){
+        CategoryID id = new CategoryID("1");
+
+        assertNotNull(id);
+    }
 }

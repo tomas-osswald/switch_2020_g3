@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.dto.family;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 

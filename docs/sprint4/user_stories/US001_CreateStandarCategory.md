@@ -117,10 +117,10 @@ activate UI
 return request data
 systemManager -> UI : input Category name, Parent ID.
 activate UI
-UI -> controller : createStandardCategory(createStandardCategoryDTO)
+UI -> controller : createStandardCategory(createCategoryDTO)
 activate controller
 controller -> service** : create(application)
-controller -> service : createStandardCategory(createStandardCategoryDTO)
+controller -> service : createStandardCategory(createCategoryDTO)
 activate service
 
 service -> app : getCategoryRepository()
