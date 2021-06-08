@@ -25,7 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/families")
-@CrossOrigin
+@CrossOrigin(value="*")
 public class FamilyRESTController implements IFamilyRESTController {
 
     private final ICreateFamilyService createFamilyService;
@@ -128,7 +128,9 @@ public class FamilyRESTController implements IFamilyRESTController {
             status = HttpStatus.CREATED;
             Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
             outputRelationDTO.add(optionsLink);
-            return new ResponseEntity<>(outputRelationDTO, status);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Access-Control-Allow-Origin", "*");
+            return new ResponseEntity<>(outputRelationDTO, headers,status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             return new ResponseEntity("Error: " + e.getMessage(), status);
