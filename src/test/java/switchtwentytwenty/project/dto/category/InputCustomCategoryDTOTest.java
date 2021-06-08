@@ -147,4 +147,37 @@ class InputCustomCategoryDTOTest {
 
         assertNotEquals(inputCustomCategoryDTO, inputCustomCategoryDTOTwo);
     }
+
+    @Test
+    void hashCodeSame() {
+        String categoryName = "Casa";
+        String parentID = "1";
+        String familyID = "@tonyze@email.com";
+        InputCustomCategoryDTO inputCustomCategoryDTO = new InputCustomCategoryDTO(categoryName, parentID, familyID);
+        InputCustomCategoryDTO inputCustomCategoryDTOTwo = new InputCustomCategoryDTO(categoryName, parentID, familyID);
+
+        int hashOne = inputCustomCategoryDTO.hashCode();
+        int hashTwo = inputCustomCategoryDTOTwo.hashCode();
+
+        assertEquals(hashOne, hashTwo);
+    }
+
+    @Test
+    void hashCodeNotSame() {
+        String categoryName = "Casa";
+        String parentID = "1";
+        String familyID = "@tonyze@email.com";
+        InputCustomCategoryDTO inputCustomCategoryDTO = new InputCustomCategoryDTO(categoryName, parentID, familyID);
+
+        String categoryNameTwo = "Casa";
+        String parentIDTwo = "1";
+        String familyIDTwo = "@katia@email.com";
+        InputCustomCategoryDTO inputCustomCategoryDTOTwo = new InputCustomCategoryDTO(categoryNameTwo, parentIDTwo, familyIDTwo);
+
+        int hashOne = inputCustomCategoryDTO.hashCode();
+        int hashTwo = inputCustomCategoryDTOTwo.hashCode();
+
+        assertNotEquals(hashOne, hashTwo);
+
+    }
 }
