@@ -1,8 +1,6 @@
 package switchtwentytwenty.project.domain.aggregates.category;
 
 import org.junit.jupiter.api.Test;
-import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
-import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
@@ -46,8 +44,8 @@ class CategoryFactoryTest {
         CategoryName categoryName = new CategoryName("Casa");
         ParentCategoryPath parentCategoryPath = new ParentCategoryPath("2");
         CategoryID categoryID = new CategoryID("1");
-        Category expected = new StandardCategory(new CategoryName("Casa"),new CategoryID("1"), new ParentCategoryPath("2"));
-        Category result = categoryFactory.createCategory(categoryName,categoryID, parentCategoryPath);
+        Category expected = new StandardCategory(new CategoryName("Casa"), new CategoryID("1"), new ParentCategoryPath("2"));
+        Category result = categoryFactory.createCategory(categoryName, categoryID, parentCategoryPath);
 
         assertNotSame(expected, result);
         assertEquals(expected, result);
@@ -63,6 +61,18 @@ class CategoryFactoryTest {
         Category result = categoryFactory.createCategory(categoryID, categoryName, parentCategoryPath, familyID);
 
         assertNotSame(expected, result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void createCategory() {
+
+        CategoryName categoryName = new CategoryName("Casa");
+        ParentCategoryPath parentCategoryPath = new ParentCategoryPath("2");
+        FamilyID familyID = new FamilyID("@family@id.com");
+        Category result = categoryFactory.createCategory(categoryName, parentCategoryPath, familyID);
+        CustomCategory expected = new CustomCategory(parentCategoryPath, categoryName, familyID);
+
         assertEquals(expected, result);
     }
 }

@@ -73,8 +73,10 @@ const initialState = {
                 }]
             }],
         },
-        addRelationStatus: false,
+
     },
+
+    addRelationStatus: null,
 
 
     familymembers: {

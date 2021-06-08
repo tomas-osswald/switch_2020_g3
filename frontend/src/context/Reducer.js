@@ -1,4 +1,7 @@
 import {
+    ADD_NEW_MEMBER_FAILURE,
+    ADD_NEW_MEMBER_START,
+    ADD_NEW_MEMBER_SUCCESS,
     ADD_RELATION_FAILURE,
     ADD_RELATION_STARTED,
     ADD_RELATION_SUCCESS,
@@ -28,6 +31,7 @@ import {
     ADD_NEW_MEMBER_FAILURE,
     ADD_NEW_MEMBER_SUCCESS,
 
+    LOADING_LANDING_PAGE_FALSE
 } from './Actions'
 
 function reducer(state, action) {
@@ -99,11 +103,7 @@ function reducer(state, action) {
         case ADD_RELATION_STARTED:
             return {
                 ...state,
-                family: {
-                    loading: true,
-                    error: null,
-                    data: []
-                }
+
             }
 
         case ADD_RELATION_FAILURE:
@@ -111,7 +111,6 @@ function reducer(state, action) {
                 ...state,
                 family: {
                     loading: false,
-                    data: [],
                     error: action.payload.error
                 }
             }
@@ -119,12 +118,7 @@ function reducer(state, action) {
         case ADD_RELATION_SUCCESS:
             return {
                 ...state,
-                family: {
-                    loading: false,
-                    error: null,
-                    data: [],
-                    addRelationStatus: true,
-                }
+                addRelationStatus: true,
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:
@@ -295,7 +289,7 @@ function reducer(state, action) {
                 ...state,
                 landingPage: {
                     loading: false,
-                    error: action.payload.error,
+                    error: action.payload,
                     name: '',
                 }
             }
@@ -332,12 +326,7 @@ function reducer(state, action) {
                 createdfamily: {
                     loading: false,
                     error: "The family could not be created. Apes not strong",
-                    data: [{
-                        familyName: action.payload.familyName,
-                        familyID: action.payload.family_id,
-                        adminID: action.payload.adminID,
-                        registrationDate: action.payload.registrationDate
-                    }]
+                    data: []
                 }
             }
 
@@ -373,7 +362,7 @@ function reducer(state, action) {
 
 
         case ADD_NEW_MEMBER_START:
-            return{
+            return {
                 ...state,
                 newMember: {
                     loading: false,
@@ -383,7 +372,7 @@ function reducer(state, action) {
             }
 
         case ADD_NEW_MEMBER_FAILURE:
-            return{
+            return {
                 ...state,
                 newMember: {
                     loading: false,
@@ -393,7 +382,7 @@ function reducer(state, action) {
             }
 
         case ADD_NEW_MEMBER_SUCCESS:
-            return{
+            return {
                 ...state,
                 newMember: {
                     loading: true,
@@ -411,6 +400,13 @@ function reducer(state, action) {
                         zipCode: action.payload.zipCode,
                     },
                 }
+            }
+        case LOADING_LANDING_PAGE_FALSE:
+            return {
+                ...state,
+                landingPage: {
+                        loading: false,
+                        }
             }
 
         default:

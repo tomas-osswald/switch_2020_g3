@@ -9,7 +9,6 @@ import {
     addInputedEmailToFamilyMember,
     postNewMember
 } from './Service'
-import {func} from "prop-types";
 
 
 /**
@@ -35,6 +34,7 @@ export const FETCH_FAMILYRELATIONS_FAILURE = 'FETCH_FAMILYRELATIONS_FAILURE';
 export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
 export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
 export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+export const LOADING_LANDING_PAGE_FALSE = "LOADING_LANDING_PAGE_FALSE";
 export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
 export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
@@ -262,7 +262,13 @@ export function createFamilySMFailure(errorMessage) {
 
 export function fetchName(dispatch, id) {
     dispatch(fetchNameStart())
-    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err)), id)
+    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err.message)), id)
+}
+
+export function loadingLandigPageFalse() {
+    return {
+        type: LOADING_LANDING_PAGE_FALSE,
+    }
 }
 
 
@@ -327,19 +333,19 @@ export const ADD_NEW_MEMBER_START = 'ADD_NEW_MEMBER_START'
 export const ADD_NEW_MEMBER_SUCCESS = 'ADD_NEW_MEMBER_SUCCESS';
 export const ADD_NEW_MEMBER_FAILURE = 'ADD_NEW_MEMBER_FAILURE';
 
-export function addNewMember(dispatch, newMember){
+export function addNewMember(dispatch, newMember) {
     dispatch(addNewMemberStart())
     postNewMember((response) => addNewMemberSuccess(response), (err) => addNewMemberFailure(err), newMember)
 
 }
 
-export function addNewMemberStart(){
+export function addNewMemberStart() {
     return {
         type: ADD_NEW_MEMBER_START,
     }
 }
 
-export function addNewMemberSuccess(newMember){
+export function addNewMemberSuccess(newMember) {
     return {
         type: ADD_NEW_MEMBER_SUCCESS,
         payload: {
@@ -357,7 +363,7 @@ export function addNewMemberSuccess(newMember){
     }
 }
 
-export function addNewMemberFailure(error){
+export function addNewMemberFailure(error) {
     return {
         type: ADD_NEW_MEMBER_FAILURE,
         payload: error
