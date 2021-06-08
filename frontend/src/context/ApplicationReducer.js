@@ -27,9 +27,7 @@ import {
     ADD_EMAIL_STARTED,
     ADD_EMAIL_SUCCESS,
     ADD_EMAIL_FAILURE,
-    ADD_NEW_MEMBER_START,
-    ADD_NEW_MEMBER_FAILURE,
-    ADD_NEW_MEMBER_SUCCESS,
+
 
     LOADING_LANDING_PAGE_FALSE
 } from './Actions'
@@ -127,7 +125,37 @@ function reducer(state, action) {
                 family: {
                     loading: true,
                     error: null,
-                    data: []
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }],
+                    }
+                }
+            }
+
+        case FETCH_FAMILYRELATIONS_SUCCESS:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: null,
+                    data: action.payload.data
+                }
+            }
+
+        case FETCH_FAMILYRELATIONS_FAILURE:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: action.payload.error,
+                    data: [],
                 }
             }
 
@@ -161,26 +189,6 @@ function reducer(state, action) {
                 }
             }
 
-
-        case FETCH_FAMILYRELATIONS_SUCCESS:
-            return {
-                ...state,
-                family: {
-                    loading: false,
-                    error: null,
-                    data: action.payload.data
-                }
-            }
-
-        case FETCH_FAMILYRELATIONS_FAILURE:
-            return {
-                ...state,
-                family: {
-                    loading: false,
-                    error: action.payload.error,
-                    data: [],
-                }
-            }
 
         case LOGOUT:
             return {
@@ -311,12 +319,12 @@ function reducer(state, action) {
                 createdfamily: {
                     loading: false,
                     error: null,
-                    data: [{
+                    data: {
                         familyName: action.payload.familyName,
-                        familyID: action.payload.family_id,
+                        familyID: action.payload.familyID,
                         adminID: action.payload.adminID,
                         registrationDate: action.payload.registrationDate
-                    }]
+                    }
                 }
             }
 
@@ -325,7 +333,7 @@ function reducer(state, action) {
                 ...state,
                 createdfamily: {
                     loading: false,
-                    error: "The family could not be created. Apes not strong",
+                    error: action.payload,
                     data: []
                 }
             }
@@ -365,41 +373,50 @@ function reducer(state, action) {
             return {
                 ...state,
                 newMember: {
-                    loading: false,
+                    loading: true,
                     error: null,
                     newMemberData: [],
                 }
             }
 
         case ADD_NEW_MEMBER_FAILURE:
-            return {
+            console.log(action)
+            return{
                 ...state,
                 newMember: {
                     loading: false,
-                    error: "New Member was not created. Apes not strong",
-                    newMemberData: [],
+                    error: action.payload,
                 }
             }
 
         case ADD_NEW_MEMBER_SUCCESS:
-            return {
+            console.log(action)
+            return{
                 ...state,
                 newMember: {
-                    loading: true,
+                    loading: false,
                     error: null,
                     newMemberData: {
-                        adminID: action.payload.adminID,
+
                         emailID: action.payload.emailID,
                         name: action.payload.name,
                         birthDate: action.payload.birthDate,
-                        vatNumber: action.payload.vatNumber,
+                        emails: action.payload.emails,
                         phone: action.payload.phone,
+                        vatNumber: action.payload.vatNumber,
                         street: action.payload.street,
                         city: action.payload.city,
-                        houseNumber: action.payload.houseNumber,
                         zipCode: action.payload.zipCode,
+                        houseNumber: action.payload.houseNumber,
+                        familyID: action.payload.familyID
                     },
-                }
+                },
+
+                family: {
+                    loading: true,
+                },
+
+                mainView: 'family'
             }
         case LOADING_LANDING_PAGE_FALSE:
             return {

@@ -921,3 +921,28 @@ Sendo uma interface:
 Cenas do JPA com o Lazy/Eager -> Lazy traz apenas aquilo que é diretamente pedido (exemplo, family, traz apenas a family). Eager, traz tudo o que estiver associado a essa family (por exemplo relações).
 
 Quando há mais que uma lista para ser retornada na mesma Class é necessário definir o _@Fetch(FetchMode.SUBSELECT)_ para ele não se borrar todo e saber quais são as tasks prioritárias.
+
+
+---
+
+# Autenticação
+Link Prof Nuno Silva:
+
+https://bezkoder.com/spring-boot-jwt-authentication/
+
+Wiki:
+
+Partes da Wiki com texto a cinzento, não mexe.
+
+Contents:
+
+Problemas: Em formato de US, com os requisitos e os critérios.
+
+Em Implementation Constraints: JAVA, Hibernate JPA, Single Page App, Usar DDD, Client-Server,...
+
+Architectural Approaches > Praticamente copy paste dos requisitos não funcionais (Níveis 1, 2 e 3)
+
+
+Mapping between Views - > NÃO FAZER.
+
+Referrenced Materials e Glossário não é mandatório mas pode-se fazer.

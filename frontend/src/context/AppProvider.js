@@ -2,7 +2,7 @@ import React, {useReducer} from 'react';
 // prop-types is an installed dependency
 import PropTypes from "prop-types";
 import {Provider} from './AppContext';
-import reducer from './Reducer';
+import reducer from './ApplicationReducer';
 
 const initialState = {
     /*
@@ -127,14 +127,14 @@ const initialState = {
     createdfamily: {
         loading: true,
         error: null,
-        data: [
+        data:
             {
                 familyName: '',
                 familyID: '',
                 adminID: '',
                 registrationDate: ''
             }
-        ]
+
     }
 };
 
