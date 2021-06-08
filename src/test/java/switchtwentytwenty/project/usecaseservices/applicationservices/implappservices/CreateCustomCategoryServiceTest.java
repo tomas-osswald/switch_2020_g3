@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.aggregates.category.CustomCategory;
@@ -36,6 +37,8 @@ class CreateCustomCategoryServiceTest {
     @InjectMocks
     CreateCustomCategoryService createCustomCategoryService;
 
+    @Mock
+    ICategoryRepositoryJPA categoryRepositoryJPA;
 
     @Test
     void createCustomCategorySuccess() {
