@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssemblerGroupFour;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssemblerGroupTwo;
 import switchtwentytwenty.project.dto.category.ExternalStandardCategoryGroupTwoDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
