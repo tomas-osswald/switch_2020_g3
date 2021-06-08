@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.interfaceadapters.implrepositories;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -26,7 +25,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -93,22 +91,6 @@ class CategoryRepositoryTest {
         assertNotNull(result);
     }*/
 
-    @Test
-    @Disabled
-    void testForCaptorFindByID() {
-
-        CategoryID categoryID = new CategoryID(12L);
-
-        CategoryIDJPA expected = new CategoryIDJPA(12L);
-
-        categoryRepository.getByID(categoryID);
-
-        verify(categoryRepositoryJPA).findById(captor.capture());
-
-        CategoryIDJPA result = captor.getValue();
-
-        assertEquals(expected, result);
-    }
 
     @Test
     void testGetByIDSuccess() {
