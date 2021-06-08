@@ -240,10 +240,10 @@ export function createFamilySMSuccess(family) {
     return {
         type: CREATE_FAMILY_SUCCESS,
         payload: {
-            familyName: family.familyName,
-            familyID: family.familyID,
-            adminID: family.adminID,
-            registrationDate: family.registrationDate
+            familyName: family.data.familyName,
+            familyID: family.data.familyID,
+            adminID: family.data.adminID,
+            registrationDate: family.data.registrationDate
         }
     }
 }

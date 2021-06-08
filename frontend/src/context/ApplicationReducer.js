@@ -309,12 +309,12 @@ function reducer(state, action) {
                 createdfamily: {
                     loading: false,
                     error: null,
-                    data: [{
+                    data: {
                         familyName: action.payload.familyName,
-                        familyID: action.payload.family_id,
+                        familyID: action.payload.familyID,
                         adminID: action.payload.adminID,
                         registrationDate: action.payload.registrationDate
-                    }]
+                    }
                 }
             }
 

@@ -43,7 +43,7 @@ export default function CreateFamilySM() {
     // Com return incluído depois da arrow function, é aplicado o que lá estiver quando o component é "unmounted"
 
 
-    function handleSubmit() {
+    async function handleSubmit() {
         //TODO: Verificar type e dispatch. O que leva aqui??
         const createFamily = {
             emailID: emailID,
@@ -61,8 +61,7 @@ export default function CreateFamilySM() {
     }
 
     function submitAndChangeDisplay(){
-        handleSubmit();
-        changeDisplay();
+        handleSubmit().then(changeDisplay());
     }
 
     //target.value -> permite que cada valor introduzido seja acrescentado ao valor anterior. Se for apagado algum dos valores, altera também o estado atual da variável.
@@ -118,7 +117,7 @@ export default function CreateFamilySM() {
     else {
         return (
             <>
-                <div>{data.familyName}</div>
+                <p>{data.familyName}</p>
                 <p>{data.familyID}</p>
                 <p>{data.adminID}</p>
                 <p>{data.registrationDate}</p>
