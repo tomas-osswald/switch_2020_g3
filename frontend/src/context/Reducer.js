@@ -24,6 +24,7 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
     UPDATE_NAME,
+    LOADING_LANDING_PAGE_FALSE
 } from './Actions'
 
 function reducer(state, action) {
@@ -281,7 +282,7 @@ function reducer(state, action) {
                 ...state,
                 landingPage: {
                     loading: false,
-                    error: action.payload.error,
+                    error: action.payload,
                     name: '',
                 }
             }
@@ -318,12 +319,7 @@ function reducer(state, action) {
                 createdfamily: {
                     loading: false,
                     error: "The family could not be created. Apes not strong",
-                    data: [{
-                        familyName: action.payload.familyName,
-                        familyID: action.payload.family_id,
-                        adminID: action.payload.adminID,
-                        registrationDate: action.payload.registrationDate
-                    }]
+                    data: []
                 }
             }
 
@@ -366,6 +362,13 @@ function reducer(state, action) {
                         zipCode: action.payload.zipCode,
                     },
                 }
+            }
+        case LOADING_LANDING_PAGE_FALSE:
+            return {
+                ...state,
+                landingPage: {
+                        loading: false,
+                        }
             }
 
         default:
