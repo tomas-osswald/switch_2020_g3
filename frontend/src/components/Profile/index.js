@@ -1,64 +1,28 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
-import {addEmailToFamilyMember, fetchProfile} from "../../context/Actions";
+import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
 import '../../styles/profile.css'
+
 
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-    // const {emails} = profileData;
-    const [showInput, setShowInput] = useState(false);
-    const onClick = () => setShowInput(true);
+    const [emails] = profileData;
 
 
     useEffect(() => {
         fetchProfile(dispatch, id);
     }, []);
 
-    /*function handleInput() {
-       addEmailToFamilyMember(dispatch, id)
-    }
-
-    //-----------------------------------------------
-
-    const addEmailToList = event => {
-        event.preventDefault();
-    }
-
-    let newEmail = {
-        email: this.state.email
-    }
-
-    this.setState(
-        {email: [...this.state.profileData.emails, ]}
-    )*/
-
-
-
-    //--------------------------------------
 
     function getInputEmail(){
         // Selecting the input element and get its value
         let inputVal = document.getElementById("myInput").value;
-
         // Displaying the value
         console.log(inputVal);
     }
-
-    const handleOnClick = (id) => {
-        addEmailToFamilyMember(dispatch,id)
-        }
-
-       function addEmail (event) {
-        event.preventDefault();
-       }
-
-
-
-
-    //---------------------------
 
     function EmailsList() {
         const emailList = profileData.emails.map(email => <p className="info">{email}</p>)
@@ -114,8 +78,9 @@ function Profile() {
                                         Add
                                     </button>*/}
                                     <div>
-                                        <input type="submit" value="Add email" onClick={onClick} />
-                                        { showInput ? <input type="text"/> : null }
+                                        <input type="text" id="myInput"/>
+                                        <button onClick={getInputEmail}>Add email</button>
+
                                     </div>
 
                                 </div>

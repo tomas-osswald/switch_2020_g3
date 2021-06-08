@@ -134,7 +134,7 @@ export function fetchNameWS(success, failure, id) {
         });
 }
 
-export function addInputedEmailToFamilyMember(success,failure,id){
+export function addInputedEmailToFamilyMember(success, failure, id){
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
