@@ -16,7 +16,6 @@ import {createFamilySM} from "../../context/Actions";
     registrationDate
 } from "./CreateFamilyForm";*/
 
-
 export default function CreateFamilySM() {
     const {state, dispatch} = useContext(AppContext);
     const {createdfamily} = state;
