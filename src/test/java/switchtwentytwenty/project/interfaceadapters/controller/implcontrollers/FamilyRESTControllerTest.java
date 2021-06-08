@@ -311,40 +311,48 @@ class FamilyRESTControllerTest {
 
     @Test
     void addCustomCategoryTestSuccess() {
-        String familyID = "@tonyze@latinlover.com";
+
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "Sopa";
+        String categoryIDString = "13L";
+
         CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
-        createCategoryDTO.setCategoryDescription("Batatas");
-        createCategoryDTO.setParentCategory("Sopa");
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
 
         OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO();
-        outputCategoryDTO.setCategoryID("13L");
-        outputCategoryDTO.setCategoryName("Batatas");
-        outputCategoryDTO.setFamilyID("@tonyze@latinlover.com");
-        outputCategoryDTO.setParentID("Sopa");
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyID, "13L")).withSelfRel();
+        outputCategoryDTO.setCategoryID(categoryIDString);
+        outputCategoryDTO.setCategoryName(categoryNameString);
+        outputCategoryDTO.setFamilyID(familyIDString);
+        outputCategoryDTO.setParentID(parentIDString);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyIDString, categoryIDString)).withSelfRel();
         outputCategoryDTO.add(selfLink);
 
-        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO("Batatas", "Sopa", "@tonyze@latinlover.com"));
+        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO(categoryNameString, parentIDString, familyIDString));
         when(createCustomCategoryService.createCustomCategory(any(InputCustomCategoryDTO.class))).thenReturn(outputCategoryDTO);
         ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(outputCategoryDTO, HttpStatus.CREATED);
 
-        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyID, createCategoryDTO);
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
 
         assertEquals(expected, result);
     }
 
     @Test
     void addCustomCategoryTestFailureBlankParentCategory() {
-        String familyID = "@tonyze@latinlover.com";
-        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
-        createCategoryDTO.setCategoryDescription("Batatas");
-        createCategoryDTO.setParentCategory("");
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "";
 
-        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO("Batatas", "", "@tonyze@latinlover.com"));
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO(categoryNameString, parentIDString, familyIDString));
         when(createCustomCategoryService.createCustomCategory(any(InputCustomCategoryDTO.class))).thenThrow(IllegalArgumentException.class);
         ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity("Error: null", HttpStatus.UNPROCESSABLE_ENTITY);
 
-        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyID, createCategoryDTO);
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
 
         assertEquals(expected, result);
     }
@@ -357,5 +365,12 @@ class FamilyRESTControllerTest {
         ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
 
         assertEquals(expected,result);
+    }
+
+    @Test
+    void getCustomCategoryUnsupported() {
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryIDString = "13L";
+        assertThrows(UnsupportedOperationException.class,  () -> familyRESTController.getCustomCategory(familyIDString, categoryIDString));
     }
 }
