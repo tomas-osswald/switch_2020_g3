@@ -165,15 +165,20 @@ export function fetchFamilyRelationsFA(dispatch, familyId) {
 
 /***** FAMILY *******/
 
-export function fetchFamilyRelationStarted() {
-    return {
-        type: FETCH_FAMILYRELATIONS_STARTED
-    }
-}
 
 export function fetchFamilyNameStarted() {
     return {
         type: FETCH_FAMILY_NAME_STARTED
+    }
+}
+
+
+export function fetchFamilyNameFailure(message) {
+    return {
+        type: FETCH_FAMILY_NAME_FAILURE,
+        payload: {
+            data: message
+        }
     }
 }
 
@@ -183,6 +188,12 @@ export function fetchFamilyNameSuccess(familyRelations) {
         payload: {
             data: familyRelations
         }
+    }
+}
+
+export function fetchFamilyRelationStarted() {
+    return {
+        type: FETCH_FAMILYRELATIONS_STARTED
     }
 }
 
@@ -199,15 +210,6 @@ export function fetchFamilyRelationsSuccess(relations) {
 export function fetchFamilyRelationsFailure(message) {
     return {
         type: FETCH_FAMILYRELATIONS_FAILURE,
-        payload: {
-            data: message
-        }
-    }
-}
-
-export function fetchFamilyNameFailure(message) {
-    return {
-        type: FETCH_FAMILY_NAME_FAILURE,
         payload: {
             data: message
         }
@@ -335,7 +337,7 @@ export const ADD_NEW_MEMBER_FAILURE = 'ADD_NEW_MEMBER_FAILURE';
 
 export function addNewMember(dispatch, newMember) {
     dispatch(addNewMemberStart())
-    postNewMember((response) => addNewMemberSuccess(response), (err) => addNewMemberFailure(err), newMember)
+    postNewMember((response) => dispatch(addNewMemberSuccess(response)), (err) => dispatch(addNewMemberFailure(err.message)), newMember)
 
 }
 
@@ -345,20 +347,22 @@ export function addNewMemberStart() {
     }
 }
 
-export function addNewMemberSuccess(newMember) {
+export function addNewMemberSuccess(newMember){
+    console.log(newMember)
     return {
         type: ADD_NEW_MEMBER_SUCCESS,
         payload: {
-            adminID: newMember.adminID,
-            emailID: newMember.emailID,
-            name: newMember.name,
-            birthDate: newMember.birthDate,
-            vatNumber: newMember.vatNumber,
-            phone: newMember.phone,
-            street: newMember.street,
-            city: newMember.city,
-            houseNumber: newMember.houseNumber,
-            zipCode: newMember.zipCode,
+            emailID: newMember.data.id,
+            name: newMember.data.name,
+            birthDate: newMember.data.birthDate,
+            emails: newMember.data.emails,
+            phone: newMember.data.phoneNumbers,
+            vatNumber: newMember.data.vat,
+            street: newMember.data.street,
+            city: newMember.data.city,
+            zipCode: newMember.data.zipCode,
+            houseNumber: newMember.data.doorNumber,
+            familyID: newMember.data.familyID
         }
     }
 }
