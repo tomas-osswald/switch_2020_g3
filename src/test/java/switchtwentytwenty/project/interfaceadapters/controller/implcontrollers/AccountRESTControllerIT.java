@@ -155,7 +155,6 @@ class AccountRESTControllerIT {
     @DisplayName("Integration test with failure creating an account that exists")
     void createAccountFail() {
         CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
-        AccountRESTController accountRESTController = new AccountRESTController(createAccountService, accountInputDTOAssembler);
 
         IAccount account = new CashAccount();
         account.setAccountID(accountID);
@@ -171,7 +170,7 @@ class AccountRESTControllerIT {
         when(mockAccountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
         when(mockAccountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(new ArrayList<>());
         when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
-        Optional optional = Optional.of(account);
+        Optional<AccountJPA> optional = Optional.of(accountJPA);
         when(mockRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(optional);
 
 
@@ -183,7 +182,6 @@ class AccountRESTControllerIT {
     @Test
     @DisplayName("Integration test without a throw when presented with an empty Optional")
     void createAccountSucessEmptyOptional() {
-        CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
 
         IAccount account = new CashAccount();
         account.setAccountID(accountID);
@@ -199,7 +197,7 @@ class AccountRESTControllerIT {
         when(mockAccountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
         when(mockAccountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(new ArrayList<>());
         when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
-        Optional optional = Optional.empty();
+        Optional<AccountJPA> optional = Optional.empty();
         when(mockRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(optional);
 
 
