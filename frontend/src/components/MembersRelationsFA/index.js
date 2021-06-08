@@ -302,7 +302,6 @@ function MembersRelationsFA() {
                         {populateSelection()}
                     </select>
                     <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
-                    <h2>{addRelationMessage}</h2>
                     <ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell>
                     <ButtonCell><Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button></ButtonCell>
                 </MembersRelationsFADiv>
