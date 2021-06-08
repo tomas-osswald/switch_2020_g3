@@ -6,6 +6,7 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
+    addInputedEmailToFamilyMember,
     postNewMember
 } from './Service'
 
@@ -37,7 +38,11 @@ export const LOADING_LANDING_PAGE_FALSE = "LOADING_LANDING_PAGE_FALSE";
 export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
 export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
-export const ADD_EMAIL = 'ADD_EMAIL';
+export const ADD_EMAIL_STARTED = "ADD_EMAIL_STARTED";
+export const ADD_EMAIL_SUCCESS = "ADD_EMAIL_SUCCESS";
+export const ADD_EMAIL_FAILURE = "ADD_EMAIL_FAILURE";
+
+// export const ADD_EMAIL = 'ADD_EMAIL';
 
 export function doNothing() {
     return {
@@ -255,8 +260,6 @@ export function createFamilySMFailure(errorMessage) {
  * LandingPage
  */
 
-
-
 export function fetchName(dispatch, id) {
     dispatch(fetchNameStart())
     fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err.message)), id)
@@ -293,10 +296,36 @@ export function fetchNameFailure(error) {
     }
 }
 
-export function addEmail(emailToAdd) {
+// Add email in Profile ----------------------------------------------------------------
+
+export function addEmailToFamilyMember(dispatch, id) {
+    dispatch(addEmailStarted());
+    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id);
+
+}
+
+export function addEmailStarted() {
     return {
-        type: ADD_EMAIL,
-        payload: emailToAdd
+        type: ADD_EMAIL_STARTED,
+
+    }
+}
+
+export function addEmailSuccess(profile, email) {
+    return {
+        type: ADD_EMAIL_SUCCESS,
+        payload: {
+            email: profile.profileData.emails.push(email)
+        }
+
+    }
+}
+
+export function addEmailFailure(error) {
+    return {
+        type: ADD_EMAIL_FAILURE,
+        payload: error
+
     }
 }
 
@@ -340,5 +369,3 @@ export function addNewMemberFailure(error) {
         payload: error
     }
 }
-
-
