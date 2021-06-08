@@ -226,10 +226,6 @@ function MembersRelationsFA() {
                         <td>{displayRole(index)}</td>
                         <td>{row.name}</td>
                         <br/>
-                        <td><ButtonCell><Button variant="dark" onClick={displayChange}>check
-                            relations</Button></ButtonCell></td>
-                        <br/>
-                        <br/>
                     </tr>
                     <tr><RelationsList props={display}>{relations}</RelationsList></tr>
                 </div>
@@ -291,9 +287,6 @@ function MembersRelationsFA() {
                             </thead>
                             <div>{buildTable()}</div>
                         </Table>
-
-                        <div>{/*buildTableAntd()*/}</div>
-                        <Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
                     </div>
                     <label htmlFor="memberA">Create Relation:</label>
                     <select name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
@@ -310,7 +303,8 @@ function MembersRelationsFA() {
                     </select>
                     <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
                     <h2>{addRelationMessage}</h2>
-
+                    <ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell>
+                    <ButtonCell><Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button></ButtonCell>
                 </MembersRelationsFADiv>
             )
         }

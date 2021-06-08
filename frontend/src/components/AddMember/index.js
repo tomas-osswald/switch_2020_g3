@@ -7,11 +7,11 @@ import {addNewMember} from "../../context/Actions";
 function AddMember() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {newMember, landingPage} = state;
+    const {newMember, loggedUser} = state;
     const { loading, error, addMemberData} = newMember;
-    const { name } = landingPage;
+    const { id } = loggedUser;
     const [emailID, setEmailID] = useState('');
-    const [userName, setName] = useState('');
+    const [userName, setUserName] = useState('');
     const [birthDate, setBirthdate] = useState('');
     const [vatNumber, setVatNumber] = useState('');
     const [phone, setPhoneNumber] = useState('');
@@ -20,13 +20,16 @@ function AddMember() {
     const [houseNumber, setHouseNumber] = useState('');
     const [zipCode, setZipCode] = useState('');
 
-    useEffect( () => {
+    /*
+    useEffect( ()=> {
+        addNewMember(dispatch, newMember);
+    }, [])
 
-    })
+     */
 
     function handleClick(){
         const newMember = {
-            adminID: {name},
+            adminID: id,
             emailID: emailID,
             name: userName,
             birthDate: birthDate,
@@ -37,9 +40,9 @@ function AddMember() {
             houseNumber: houseNumber,
             zipCode: zipCode,
         }
+        console.log(emailID, id, userName, birthDate, vatNumber, phone, street, zipCode)
         addNewMember(dispatch, newMember);
     }
-
 
     return (
         <AddMemberDiv>
@@ -54,7 +57,7 @@ function AddMember() {
                 <Form.Group controlId="name">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" placeholder="Name"
-                                  onChange={userName => setName(userName.target.value)}/>
+                                  onChange={userName => setUserName(userName.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="birthDate">
@@ -108,17 +111,7 @@ function AddMember() {
 
 }
 
-/*
-adminID;
-emailID;
-name;
-birthDate;
-vatNumber;
-phone;
-street;
-city;
-houseNumber;
-zipCode;
-*/
+
+
 
 export default AddMember;
