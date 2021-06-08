@@ -7,7 +7,10 @@ import {
     fetchProfileFromLogin,
     fetchProfileFromWS,
     addInputedEmailToFamilyMember
+    fetchProfileFromWS,
+    postNewMember
 } from './Service'
+import {func} from "prop-types";
 
 
 /**
@@ -253,6 +256,7 @@ export function createFamilySMFailure(errorMessage) {
     }
 }
 
+
 /**
  * LandingPage
  */
@@ -317,5 +321,46 @@ export function addEmailFailure(error) {
         type: ADD_EMAIL_FAILURE,
         payload: error
 
+    }
+}
+
+export const ADD_NEW_MEMBER_START = 'ADD_NEW_MEMBER_START'
+export const ADD_NEW_MEMBER_SUCCESS = 'ADD_NEW_MEMBER_SUCCESS';
+export const ADD_NEW_MEMBER_FAILURE = 'ADD_NEW_MEMBER_FAILURE';
+
+export function addNewMember(dispatch, newMember){
+    dispatch(addNewMemberStart())
+    postNewMember((response) => addNewMemberSuccess(response), (err) => addNewMemberFailure(err), newMember)
+
+}
+
+export function addNewMemberStart(){
+    return {
+        type: ADD_NEW_MEMBER_START,
+    }
+}
+
+export function addNewMemberSuccess(newMember){
+    return {
+        type: ADD_NEW_MEMBER_SUCCESS,
+        payload: {
+            adminID: newMember.adminID,
+            emailID: newMember.emailID,
+            name: newMember.name,
+            birthDate: newMember.birthDate,
+            vatNumber: newMember.vatNumber,
+            phone: newMember.phone,
+            street: newMember.street,
+            city: newMember.city,
+            houseNumber: newMember.houseNumber,
+            zipCode: newMember.zipCode,
+        }
+    }
+}
+
+export function addNewMemberFailure(error){
+    return {
+        type: ADD_NEW_MEMBER_FAILURE,
+        payload: error
     }
 }

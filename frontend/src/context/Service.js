@@ -147,3 +147,20 @@ export function addInputedEmailToFamilyMember(success, failure, id){
         .catch(error => failure(error.message))
     ;
 }
+
+/**
+ * Add New Member
+ * **/
+
+export function postNewMember(success, failure, addNewMember){
+    //let url = URL_API + "/people/";
+    axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {headers: {'Content-Type': 'application/json'}})
+        .then((response) => {
+            success(response)
+            console.log(response)
+        })
+        .catch((err)=>{
+            failure(err)
+            console.log(err)
+        });
+}

@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Mainpage from "../pages/Mainpage";
 import Login from "../pages/Login";
 import PrivateRoute from "./PrivateRoute";
-
+import AddMember from "../components/AddMember"
 
 function Routes() {
     return (
@@ -15,6 +15,8 @@ function Routes() {
                 <Route path="/login">
                     <Login/>
                 </Route>
+
+                <PrivateRoute exact path="/addMember" component={AddMember} />
 
             </Switch>
         </BrowserRouter>
