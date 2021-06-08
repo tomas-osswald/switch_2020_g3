@@ -21,7 +21,7 @@ function MembersRelationsFA() {
     const {state, dispatch} = useContext(AppContext);
     const {family, familyData} = state;
     const {familyName} = familyData;
-    const {loading, error, data, addRelationStatus} = family
+    const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     const [display, setDisplay] = useState(false)
