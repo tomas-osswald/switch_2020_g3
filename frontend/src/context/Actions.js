@@ -305,11 +305,11 @@ export function addEmailStarted() {
     }
 }
 
-export function addEmailSuccess(profileData, emailToAdd) {
+export function addEmailSuccess(profile, email) {
     return {
         type: ADD_EMAIL_SUCCESS,
         payload: {
-            email: profileData.emails.push(emailToAdd)
+            email: profile.profileData.emails.push(email)
         }
 
     }
