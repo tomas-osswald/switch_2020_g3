@@ -363,7 +363,6 @@ export function addNewMemberSuccess(newMember){
             zipCode: newMember.data.zipCode,
             houseNumber: newMember.data.doorNumber,
             familyID: newMember.data.familyID
-
         }
     }
 }
