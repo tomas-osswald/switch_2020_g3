@@ -1,4 +1,7 @@
 import {
+    ADD_NEW_MEMBER_FAILURE,
+    ADD_NEW_MEMBER_START,
+    ADD_NEW_MEMBER_SUCCESS,
     ADD_RELATION_FAILURE,
     ADD_RELATION_STARTED,
     ADD_RELATION_SUCCESS,
@@ -21,10 +24,12 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
     UPDATE_NAME,
-    ADD_NEW_MEMBER_START,
-    ADD_NEW_MEMBER_FAILURE,
-    ADD_NEW_MEMBER_SUCCESS,
+    ADD_EMAIL_STARTED,
+    ADD_EMAIL_SUCCESS,
+    ADD_EMAIL_FAILURE,
 
+
+    LOADING_LANDING_PAGE_FALSE
 } from './Actions'
 
 function reducer(state, action) {
@@ -96,11 +101,7 @@ function reducer(state, action) {
         case ADD_RELATION_STARTED:
             return {
                 ...state,
-                family: {
-                    loading: true,
-                    error: null,
-                    data: []
-                }
+
             }
 
         case ADD_RELATION_FAILURE:
@@ -108,7 +109,6 @@ function reducer(state, action) {
                 ...state,
                 family: {
                     loading: false,
-                    data: [],
                     error: action.payload.error
                 }
             }
@@ -116,12 +116,7 @@ function reducer(state, action) {
         case ADD_RELATION_SUCCESS:
             return {
                 ...state,
-                family: {
-                    loading: false,
-                    error: null,
-                    data: [],
-                    addRelationStatus: true,
-                }
+                addRelationStatus: true,
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:
@@ -302,7 +297,7 @@ function reducer(state, action) {
                 ...state,
                 landingPage: {
                     loading: false,
-                    error: action.payload.error,
+                    error: action.payload,
                     name: '',
                 }
             }
@@ -339,12 +334,43 @@ function reducer(state, action) {
                 createdfamily: {
                     loading: false,
                     error: action.payload,
-                    data: [],
+                    data: []
                 }
             }
 
+        case ADD_EMAIL_STARTED:
+            return {
+                ...state,
+                profile: {
+                    loading: true,
+                    error: null,
+                    profileData: null,
+                }
+            }
+
+        case ADD_EMAIL_SUCCESS:
+            return {
+                ...state,
+                profile: {
+                    loading: false,
+                    error: null,
+                    profileData: action.payload
+                }
+            }
+
+        case ADD_EMAIL_FAILURE:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: action.payload.error,
+                    name: '',
+                }
+            }
+
+
         case ADD_NEW_MEMBER_START:
-            return{
+            return {
                 ...state,
                 newMember: {
                     loading: true,
@@ -391,6 +417,13 @@ function reducer(state, action) {
                 },
 
                 mainView: 'family'
+            }
+        case LOADING_LANDING_PAGE_FALSE:
+            return {
+                ...state,
+                landingPage: {
+                        loading: false,
+                        }
             }
 
         default:

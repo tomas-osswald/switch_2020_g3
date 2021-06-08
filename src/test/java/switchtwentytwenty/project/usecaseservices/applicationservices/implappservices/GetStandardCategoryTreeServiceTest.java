@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -35,16 +36,6 @@ class GetStandardCategoryTreeServiceTest {
 
     @InjectMocks
     GetStandardCategoryTreeService getStandardCategoryTreeService;
-
-    @Mock
-    List<Category> mockCategoryList;
-
-    @Mock
-    Category mockCategory;
-
-    @Mock
-    OutputCategoryDTO mockOutputCategoryDTO;
-
 
     String categoryName1 = "Bebedeira";
     String categoryID1 = "17L";
@@ -72,7 +63,6 @@ class GetStandardCategoryTreeServiceTest {
 
     Category category2 = new StandardCategory(categoryName2x, categoryID2x, parentCategoryPath2x);
 
-
     @Test
     @DisplayName("Get Standard category Tree successfully")
     void getStandardCategoryTree_Success() {
@@ -88,23 +78,34 @@ class GetStandardCategoryTreeServiceTest {
         expected.addOutputCategoryDTO(outputCategoryDTO1);
         expected.addOutputCategoryDTO(outputCategoryDTO2);
 
-
         assertEquals(expected, result);
-
     }
-
 
     @Test
     @DisplayName("Fail to get Standard category Tree")
     void getStandardCategoryTree_Fail() {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTreeOwn());
+        assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeOwn());
     }
 
     @Test
     @DisplayName("Fail to get Standard category Tree from All")
     void getStandardCategoryTreeAll_Fail() {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
+        assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
+    }
+
+    @Test
+    void getStandardCategoryTreeAllNotNull() {
+        List<Category> categoryListx = new ArrayList<>();
+        categoryListx.add(category1);
+        categoryListx.add(category2);
+
+        when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListx);
+        when(mockCategoryDTODomainAssembler.toDTO(any(Category.class))).thenReturn(outputCategoryDTO1).thenReturn(outputCategoryDTO2);
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTreeOwn();
+
+
+        assertNotNull(result);
     }
 }

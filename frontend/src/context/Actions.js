@@ -6,9 +6,9 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
+    addInputedEmailToFamilyMember,
     postNewMember
 } from './Service'
-import {func} from "prop-types";
 
 
 /**
@@ -34,10 +34,15 @@ export const FETCH_FAMILYRELATIONS_FAILURE = 'FETCH_FAMILYRELATIONS_FAILURE';
 export const FETCH_USER_NAME_START = "FETCH_USER_NAME_START";
 export const FETCH_USER_NAME_SUCCESS = "FETCH_USER_NAME_SUCCESS";
 export const FETCH_USER_NAME_FAILURE = "FETCH_USER_NAME_FAILURE";
+export const LOADING_LANDING_PAGE_FALSE = "LOADING_LANDING_PAGE_FALSE";
 export const CREATE_FAMILY_STARTED = "FETCH_USER_NAME_FAILURE";
 export const CREATE_FAMILY_SUCCESS = "CREATE_FAMILY_SUCCESS";
 export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
-export const ADD_EMAIL = 'ADD_EMAIL';
+export const ADD_EMAIL_STARTED = "ADD_EMAIL_STARTED";
+export const ADD_EMAIL_SUCCESS = "ADD_EMAIL_SUCCESS";
+export const ADD_EMAIL_FAILURE = "ADD_EMAIL_FAILURE";
+
+// export const ADD_EMAIL = 'ADD_EMAIL';
 
 export function doNothing() {
     return {
@@ -257,11 +262,15 @@ export function createFamilySMFailure(errorMessage) {
  * LandingPage
  */
 
-
-
 export function fetchName(dispatch, id) {
     dispatch(fetchNameStart())
-    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err)), id)
+    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err.message)), id)
+}
+
+export function loadingLandigPageFalse() {
+    return {
+        type: LOADING_LANDING_PAGE_FALSE,
+    }
 }
 
 
@@ -289,10 +298,36 @@ export function fetchNameFailure(error) {
     }
 }
 
-export function addEmail(emailToAdd) {
+// Add email in Profile ----------------------------------------------------------------
+
+export function addEmailToFamilyMember(dispatch, id) {
+    dispatch(addEmailStarted());
+    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id);
+
+}
+
+export function addEmailStarted() {
     return {
-        type: ADD_EMAIL,
-        payload: emailToAdd
+        type: ADD_EMAIL_STARTED,
+
+    }
+}
+
+export function addEmailSuccess(profile, email) {
+    return {
+        type: ADD_EMAIL_SUCCESS,
+        payload: {
+            email: profile.profileData.emails.push(email)
+        }
+
+    }
+}
+
+export function addEmailFailure(error) {
+    return {
+        type: ADD_EMAIL_FAILURE,
+        payload: error
+
     }
 }
 
@@ -300,13 +335,13 @@ export const ADD_NEW_MEMBER_START = 'ADD_NEW_MEMBER_START'
 export const ADD_NEW_MEMBER_SUCCESS = 'ADD_NEW_MEMBER_SUCCESS';
 export const ADD_NEW_MEMBER_FAILURE = 'ADD_NEW_MEMBER_FAILURE';
 
-export function addNewMember(dispatch, newMember){
+export function addNewMember(dispatch, newMember) {
     dispatch(addNewMemberStart())
     postNewMember((response) => dispatch(addNewMemberSuccess(response)), (err) => dispatch(addNewMemberFailure(err.message)), newMember)
 
 }
 
-export function addNewMemberStart(){
+export function addNewMemberStart() {
     return {
         type: ADD_NEW_MEMBER_START,
     }
@@ -333,11 +368,9 @@ export function addNewMemberSuccess(newMember){
     }
 }
 
-export function addNewMemberFailure(error){
+export function addNewMemberFailure(error) {
     return {
         type: ADD_NEW_MEMBER_FAILURE,
         payload: error
     }
 }
-
-

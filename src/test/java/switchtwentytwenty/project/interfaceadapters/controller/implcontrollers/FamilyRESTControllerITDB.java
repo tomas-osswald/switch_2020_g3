@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
@@ -156,5 +158,31 @@ class FamilyRESTControllerITDB {
         ResponseEntity result = familyRESTController.getCategories(familyID);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void addCustomCategorySuccess() {
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "Sopa";
+        String categoryIDString = "1";
+
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        OutputCategoryDTO expectedOutputCategoryDTO = new OutputCategoryDTO();
+        expectedOutputCategoryDTO.setCategoryID(categoryIDString);
+        expectedOutputCategoryDTO.setCategoryName(categoryNameString);
+        expectedOutputCategoryDTO.setFamilyID(familyIDString);
+        expectedOutputCategoryDTO.setParentID(parentIDString);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyIDString, categoryIDString)).withSelfRel();
+        expectedOutputCategoryDTO.add(selfLink);
+
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(expectedOutputCategoryDTO, HttpStatus.CREATED);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected.toString(), result.toString());
     }
 }

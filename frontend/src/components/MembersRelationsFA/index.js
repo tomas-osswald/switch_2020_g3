@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyRelationsFA, postNewRelation, changeView} from "../../context/Actions";
+import {changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
     ButtonCell,
@@ -12,27 +12,25 @@ import {
 } from "./MembersRelationsFAElements";
 
 //import { Table } from 'antd';
-import {useHistory} from "react-router-dom";
-import AddMember from "../AddMember";
 
 
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {family, familyData} = state;
+    const {family, familyData, addRelationStatus} = state;
     const {familyName} = familyData;
-    const {loading, error, data, addRelationStatus} = family
+    const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
-    let addRelationMessage = '';
+
 
     useEffect(() => {
-        if (addRelationStatus === true) {
-            addRelationMessage = 'Relation Added'
-        }
-    }, [{addRelationStatus}])
+
+        fetchFamilyRelationsFA(dispatch, family_id);
+    }, [addRelationStatus]);
+
 
     useEffect(() => {
 
@@ -256,6 +254,8 @@ function MembersRelationsFA() {
         }
 
         postNewRelation(dispatch, newRelationDTO, family_id);
+        window.alert("Relation successfully created!");
+        fetchFamilyRelationsFA(dispatch, family_id);
     }
 
     if (loading === true) {

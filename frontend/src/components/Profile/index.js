@@ -1,21 +1,28 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
-import {fetchProfile} from "../../context/Actions";
+import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
 import '../../styles/profile.css'
+
 
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-    // const {emails} = profileData;
-    const [showInput, setShowInput] = useState(false);
-    const onClick = () => setShowInput(true);
+    const [emails] = profileData;
 
 
     useEffect(() => {
         fetchProfile(dispatch, id);
     }, []);
+
+
+    function getInputEmail(){
+        // Selecting the input element and get its value
+        let inputVal = document.getElementById("myInput").value;
+        // Displaying the value
+        console.log(inputVal);
+    }
 
     function EmailsList() {
         const emailList = profileData.emails.map(email => <p className="info">{email}</p>)
@@ -42,6 +49,7 @@ function Profile() {
 
                     <h1>{profileData.name}</h1>
 
+                    <p className="title">Family id : {profileData.familyID}</p>
 
                     <div className="row-divider">
 
@@ -70,8 +78,9 @@ function Profile() {
                                         Add
                                     </button>*/}
                                     <div>
-                                        <input type="submit" value="Add email" onClick={onClick}/>
-                                        {showInput ? <input type="text"/> : null}
+                                        <input type="text" id="myInput"/>
+                                        <button onClick={getInputEmail}>Add email</button>
+
                                     </div>
 
                                 </div>
