@@ -29,7 +29,7 @@ public class AccountRepository implements IAccountRepository {
     private final IAccountDataDomainAssembler accountDataDomainAssembler;
 
     @Autowired
-    public AccountRepository(IAccountRepositoryJPA accountRepositoryJPA, AccountFactory accountFactory, IAccountDataDomainAssembler accountDataDomainAssembler) throws ReflectiveOperationException {
+    public AccountRepository(IAccountRepositoryJPA accountRepositoryJPA, AccountFactory accountFactory, IAccountDataDomainAssembler accountDataDomainAssembler) {
         this.accountRepositoryJPA = accountRepositoryJPA;
         this.accountDataDomainAssembler = accountDataDomainAssembler;
         this.accountFactory = accountFactory;

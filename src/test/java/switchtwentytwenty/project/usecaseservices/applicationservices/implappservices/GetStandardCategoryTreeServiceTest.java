@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -92,5 +93,19 @@ class GetStandardCategoryTreeServiceTest {
     void getStandardCategoryTreeAll_Fail() {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
         assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
+    }
+
+    @Test
+    void getStandardCategoryTreeAllNotNull() {
+        List<Category> categoryListx = new ArrayList<>();
+        categoryListx.add(category1);
+        categoryListx.add(category2);
+
+        when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListx);
+        when(mockCategoryDTODomainAssembler.toDTO(any(Category.class))).thenReturn(outputCategoryDTO1).thenReturn(outputCategoryDTO2);
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTreeOwn();
+
+
+        assertNotNull(result);
     }
 }
