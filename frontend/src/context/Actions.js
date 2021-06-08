@@ -6,8 +6,7 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
-    addInputedEmailToFamilyMember
-    fetchProfileFromWS,
+    addInputedEmailToFamilyMember,
     postNewMember
 } from './Service'
 import {func} from "prop-types";
