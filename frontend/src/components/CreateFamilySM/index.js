@@ -2,6 +2,19 @@ import React, {useContext, useState} from 'react';
 import {CreateFamilyDiv} from "./CreateFamilyElements";
 import AppContext from "../../context/AppContext";
 import {createFamilySM} from "../../context/Actions";
+/*import CreateFamilyForm, {
+    emailID,
+    name,
+    birthDate,
+    vatNumber,
+    phone,
+    street,
+    city,
+    houseNumber,
+    zipCode,
+    familyName,
+    registrationDate
+} from "./CreateFamilyForm";*/
 
 
 export default function CreateFamilySM() {
@@ -22,26 +35,31 @@ export default function CreateFamilySM() {
     const [familyName, setFamilyName] = useState('');
     const [registrationDate, setRegistrationDate] = useState('');
 
+
     // [] -> Vazio, quando o componente é montado (1ª vez)
     // sem o [] -> sempre que há um Update qualquer ao próprio componente
     // [aqui dentro definir o que vai fazer com que seja feito update] -> no caso de apenas querer modificar estado quando um campo específico é mudado.
     // Com return incluído depois da arrow function, é aplicado o que lá estiver quando o component é "unmounted"
+
 
     function handleSubmit() {
         //TODO: Verificar type e dispatch. O que leva aqui??
         const createFamily = {
             emailID: emailID,
             name: name,
-            birthDate: birthDate, vatNumber:vatNumber, phone:phone, street:street,
-            city:city, houseNumber:houseNumber, zipCode:zipCode, familyName:familyName,
+            birthDate: birthDate, vatNumber: vatNumber, phone: phone, street: street,
+            city: city, houseNumber: houseNumber, zipCode: zipCode, familyName: familyName,
             registrationDate: registrationDate
         }
         createFamilySM(dispatch, createFamily)
     }
 
 
+
+
     //target.value -> permite que cada valor introduzido seja acrescentado ao valor anterior. Se for apagado algum dos valores, altera também o estado atual da variável.
     // Consultar Manuel Almeida
+
     return (
         <div>
             <form>
@@ -60,20 +78,21 @@ export default function CreateFamilySM() {
                 <label>city:</label>
                 <input type="text" id="city" onChange={city => setCity(city.target.value)}/>
                 <label>house number:</label>
-                <input type="text" id="house number" onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
+                <input type="text" id="house number"
+                       onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
                 <label>Zip Code:</label>
                 <input type="text" id="zip code" onChange={zipCode => setZipCode(zipCode.target.value)}/>
                 <label>Family Name:</label>
                 <input type="text" id="family name" onChange={familyName => setFamilyName(familyName.target.value)}/>
                 <label>Registration Date:</label>
-                <input type="text" id="registration date" onChange={registrationDate => setRegistrationDate(registrationDate.target.value)}/>
+                <input type="text" id="registration date"
+                       onChange={registrationDate => setRegistrationDate(registrationDate.target.value)}/>
             </form>
             <button onClick={handleSubmit}>Register Family</button>
         </div>
 
     )
 }
-
 
 
 /*
