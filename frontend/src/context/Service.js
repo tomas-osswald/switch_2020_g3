@@ -48,7 +48,7 @@ export function familyNameGlobal(success, failure, familyId) {
 
 export function addRelation(success, failure, createRelationDTO, familyID) {
 
-    const requestOptions = {
+    /*const requestOptions = {
         method: 'POST',
         mode: 'no-cors',
         headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
@@ -59,7 +59,7 @@ export function addRelation(success, failure, createRelationDTO, familyID) {
         .then(response => response.json())
         .then(response => success(response))
         .catch(error => failure(error.message))
-    ;
+    ;*/
 
     /* return fetch(`${URL_API}/${familyID}/relations`, {
          method: "POST",
@@ -70,7 +70,7 @@ export function addRelation(success, failure, createRelationDTO, familyID) {
          },
          body: JSON.stringify(createRelationDTO)
      });*/
-    /*axios.post(`${URL_API}/${familyID}/relations`, JSON.stringify(createRelationDTO), {
+    axios.post(`${URL_API}/families/${familyID}/relations`, JSON.stringify(createRelationDTO), {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
@@ -82,7 +82,7 @@ export function addRelation(success, failure, createRelationDTO, familyID) {
         .catch((err) => {
             failure(err)
             console.log(err)
-        });*/
+        });
 
 }
 

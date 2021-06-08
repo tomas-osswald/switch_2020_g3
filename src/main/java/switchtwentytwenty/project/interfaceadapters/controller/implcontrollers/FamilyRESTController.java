@@ -128,9 +128,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             status = HttpStatus.CREATED;
             Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
             outputRelationDTO.add(optionsLink);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Access-Control-Allow-Origin", "*");
-            return new ResponseEntity<>(outputRelationDTO, headers,status);
+            return new ResponseEntity<>(outputRelationDTO,status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
             return new ResponseEntity("Error: " + e.getMessage(), status);
