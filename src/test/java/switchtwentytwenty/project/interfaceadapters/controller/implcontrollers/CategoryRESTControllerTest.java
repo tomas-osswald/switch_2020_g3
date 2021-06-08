@@ -130,4 +130,37 @@ class CategoryRESTControllerTest {
         assertEquals(expected, result);
 
     }
+
+    @Test
+    void getAllCategoriesSuccess() {
+        OutputCategoryDTO outputCategoryDTO1 = new OutputCategoryDTO("Bebidas","30","3");
+        OutputCategoryDTO outputCategoryDTO2 = new OutputCategoryDTO("Tacho","29","4");
+        OutputCategoryTreeDTO outputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        outputCategoryTreeDTO.addOutputCategoryDTO(outputCategoryDTO1);
+        outputCategoryTreeDTO.addOutputCategoryDTO(outputCategoryDTO2);
+
+        when(mockGetStandardCategoryTreeService.getStandardCategoryTreeAll()).thenReturn(outputCategoryTreeDTO);
+        Link optionsLink = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
+        outputCategoryTreeDTO.add(optionsLink);
+
+        ResponseEntity expected = new ResponseEntity(outputCategoryTreeDTO, HttpStatus.OK);
+
+        ResponseEntity result = controller.getAllCategories();
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void getAllCategoriesThrowsException() {
+
+        when(mockGetStandardCategoryTreeService.getStandardCategoryTreeAll()).thenThrow(new IllegalArgumentException("Not found"));
+
+        ResponseEntity expected = new ResponseEntity("Error: Not found", HttpStatus.BAD_REQUEST);
+
+        ResponseEntity result = controller.getAllCategories();
+
+        assertEquals(expected, result);
+
+    }
 }

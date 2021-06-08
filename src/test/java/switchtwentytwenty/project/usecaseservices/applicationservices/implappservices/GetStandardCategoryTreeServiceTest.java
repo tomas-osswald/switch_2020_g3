@@ -36,16 +36,6 @@ class GetStandardCategoryTreeServiceTest {
     @InjectMocks
     GetStandardCategoryTreeService getStandardCategoryTreeService;
 
-    @Mock
-    List<Category> mockCategoryList;
-
-    @Mock
-    Category mockCategory;
-
-    @Mock
-    OutputCategoryDTO mockOutputCategoryDTO;
-
-
     String categoryName1 = "Bebedeira";
     String categoryID1 = "17L";
     String parentID1 = "5";
@@ -72,7 +62,6 @@ class GetStandardCategoryTreeServiceTest {
 
     Category category2 = new StandardCategory(categoryName2x, categoryID2x, parentCategoryPath2x);
 
-
     @Test
     @DisplayName("Get Standard category Tree successfully")
     void getStandardCategoryTree_Success() {
@@ -88,23 +77,20 @@ class GetStandardCategoryTreeServiceTest {
         expected.addOutputCategoryDTO(outputCategoryDTO1);
         expected.addOutputCategoryDTO(outputCategoryDTO2);
 
-
         assertEquals(expected, result);
-
     }
-
 
     @Test
     @DisplayName("Fail to get Standard category Tree")
     void getStandardCategoryTree_Fail() {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTreeOwn());
+        assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeOwn());
     }
 
     @Test
     @DisplayName("Fail to get Standard category Tree from All")
     void getStandardCategoryTreeAll_Fail() {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
+        assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
     }
 }
