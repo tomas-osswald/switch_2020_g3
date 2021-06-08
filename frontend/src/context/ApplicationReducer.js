@@ -24,6 +24,11 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
     UPDATE_NAME,
+    ADD_EMAIL_STARTED,
+    ADD_EMAIL_SUCCESS,
+    ADD_EMAIL_FAILURE,
+
+
     LOADING_LANDING_PAGE_FALSE
 } from './Actions'
 
@@ -322,6 +327,37 @@ function reducer(state, action) {
                     data: []
                 }
             }
+
+        case ADD_EMAIL_STARTED:
+            return {
+                ...state,
+                profile: {
+                    loading: true,
+                    error: null,
+                    profileData: null,
+                }
+            }
+
+        case ADD_EMAIL_SUCCESS:
+            return {
+                ...state,
+                profile: {
+                    loading: false,
+                    error: null,
+                    profileData: action.payload
+                }
+            }
+
+        case ADD_EMAIL_FAILURE:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: action.payload.error,
+                    name: '',
+                }
+            }
+
 
         case ADD_NEW_MEMBER_START:
             return {
