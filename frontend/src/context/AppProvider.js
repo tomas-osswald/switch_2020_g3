@@ -105,6 +105,22 @@ const initialState = {
         }
     },
 
+    newMember: {
+        loading: true,
+        error: null,
+        newMemberData: {
+            adminID: '',
+            emailID: '',
+            name: '',
+            birthDate: '',
+            vatNumber: '',
+            phone: '',
+            street: '',
+            city: '',
+            houseNumber: '',
+            zipCode: '',
+        }
+    },
 
     createdfamily: {
         loading: true,

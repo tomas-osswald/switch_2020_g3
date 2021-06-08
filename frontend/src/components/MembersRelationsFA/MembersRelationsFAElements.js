@@ -26,6 +26,6 @@ export const ButtonCell = styled.div`
 
 export const RelationsList = styled.td`
   display: ${ ({props}) => (props ? 'block' : 'none') } ;
-  //{display => (display ? "block" : "none")}
+  
 `
 

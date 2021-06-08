@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {fetchFamilyRelationsFA, postNewRelation, changeView} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
     ButtonCell,
@@ -12,6 +12,8 @@ import {
 } from "./MembersRelationsFAElements";
 
 //import { Table } from 'antd';
+import {useHistory} from "react-router-dom";
+import AddMember from "../AddMember";
 
 
 function MembersRelationsFA() {
@@ -180,6 +182,13 @@ function MembersRelationsFA() {
         setDisplay(!display)
     }
 
+    function addMemberRedirect(value) {
+        //let path = `/addMember`;
+        //history.push(path);
+        //dispatch(addMemberView)
+        dispatch(changeView(value))
+    }
+
     //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function displayRole(index) {
@@ -196,10 +205,10 @@ function MembersRelationsFA() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
-                    <div>
+                    <div key={relationsIndex}>
                         <tbody>
                         <tr>
-                            <td key={index}></td>
+                            <td></td>
                             <br/>
                             <td>{relationsRow.relationDesignation} of</td>
                             <br/>
@@ -213,9 +222,8 @@ function MembersRelationsFA() {
             })
             return (
                 <div>
-                    <tr key={index}>
+                    <tr style={{padding: "30px"}} key={index}>
                         <td>{displayRole(index)}</td>
-                        <br/>
                         <td>{row.name}</td>
                         <br/>
                         <td><ButtonCell><Button variant="dark" onClick={displayChange}>check
@@ -285,6 +293,7 @@ function MembersRelationsFA() {
                         </Table>
 
                         <div>{/*buildTableAntd()*/}</div>
+                        <Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
                     </div>
                     <label htmlFor="memberA">Create Relation:</label>
                     <select name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
