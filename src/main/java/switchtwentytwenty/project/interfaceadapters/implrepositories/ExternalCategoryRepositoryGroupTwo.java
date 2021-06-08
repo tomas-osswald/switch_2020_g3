@@ -7,7 +7,6 @@ import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryID;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssemblerGroupFour;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.ExternalCategoryDTODomainAssemblerGroupTwo;
 import switchtwentytwenty.project.dto.category.ExternalStandardCategoryGroupTwoDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
@@ -23,12 +22,15 @@ public class ExternalCategoryRepositoryGroupTwo implements IExternalCategoryRepo
 
     private final CategoryFactory categoryFactory;
 
+    private final RestTemplate restTemplate;
+
     private String resource;
 
     @Autowired
-    public ExternalCategoryRepositoryGroupTwo(ExternalCategoryDTODomainAssemblerGroupTwo externalCategoryDTODomainAssemblerGroupTwo, CategoryFactory categoryFactory) {
+    public ExternalCategoryRepositoryGroupTwo(ExternalCategoryDTODomainAssemblerGroupTwo externalCategoryDTODomainAssemblerGroupTwo, CategoryFactory categoryFactory, RestTemplate restTemplate) {
         this.externalCategoryDTODomainAssemblerGroupTwo = externalCategoryDTODomainAssemblerGroupTwo;
         this.categoryFactory = categoryFactory;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ExternalCategoryRepositoryGroupTwo implements IExternalCategoryRepo
     }
 
     private List<ExternalStandardCategoryGroupTwoDTO> findAll() {
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         return Arrays.stream(restTemplate.getForObject(resource, ExternalStandardCategoryGroupTwoDTO[].class)).collect(Collectors.toList());
     }
 

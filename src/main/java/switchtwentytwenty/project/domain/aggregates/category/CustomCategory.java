@@ -22,8 +22,8 @@ public class CustomCategory implements Category {
 
     private FamilyID familyID;
 
-    public CustomCategory(CategoryID categoryID, CategoryName categoryName, FamilyID familyID) {
-        this.categoryID = categoryID;
+    public CustomCategory(ParentCategoryPath parentID, CategoryName categoryName, FamilyID familyID) {
+        this.parentID = parentID;
         this.categoryName = categoryName;
         this.familyID = familyID;
     }

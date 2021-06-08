@@ -7,13 +7,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.dto.OptionsDTO;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.InputCustomCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
@@ -43,6 +48,9 @@ class FamilyRESTControllerTest {
     PersonInputDTOAssembler personAssembler;
 
     @Mock
+    CategoryInputDTOAssembler categoryAssembler;
+
+    @Mock
     IGetFamilyDataService getFamilyDataService;
 
     @Mock
@@ -59,6 +67,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IGetCustomCategoriesService getCustomCategoriesService;
+
+    @Mock
+    ICreateCustomCategoryService createCustomCategoryService;
 
     @InjectMocks
     FamilyRESTController familyRESTController;
@@ -296,5 +307,70 @@ class FamilyRESTControllerTest {
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void addCustomCategoryTestSuccess() {
+
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "Sopa";
+        String categoryIDString = "13L";
+
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        OutputCategoryDTO outputCategoryDTO = new OutputCategoryDTO();
+        outputCategoryDTO.setCategoryID(categoryIDString);
+        outputCategoryDTO.setCategoryName(categoryNameString);
+        outputCategoryDTO.setFamilyID(familyIDString);
+        outputCategoryDTO.setParentID(parentIDString);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyIDString, categoryIDString)).withSelfRel();
+        outputCategoryDTO.add(selfLink);
+
+        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO(categoryNameString, parentIDString, familyIDString));
+        when(createCustomCategoryService.createCustomCategory(any(InputCustomCategoryDTO.class))).thenReturn(outputCategoryDTO);
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(outputCategoryDTO, HttpStatus.CREATED);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void addCustomCategoryTestFailureBlankParentCategory() {
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "";
+
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        when(categoryAssembler.toInputCustomCategoryDTO(any(CreateCategoryDTO.class), anyString())).thenReturn(new InputCustomCategoryDTO(categoryNameString, parentIDString, familyIDString));
+        when(createCustomCategoryService.createCustomCategory(any(InputCustomCategoryDTO.class))).thenThrow(IllegalArgumentException.class);
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity("Error: null", HttpStatus.UNPROCESSABLE_ENTITY);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getFamilyTestFailureThrowsException() {
+        when(getFamilyDataService.getFamilyData(anyString())).thenThrow(new InvalidDataAccessApiUsageException(""));
+
+        ResponseEntity expected = new ResponseEntity("Error: ",HttpStatus.BAD_REQUEST);
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+
+        assertEquals(expected,result);
+    }
+
+    @Test
+    void getCustomCategoryUnsupported() {
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryIDString = "13L";
+        assertThrows(UnsupportedOperationException.class,  () -> familyRESTController.getCustomCategory(familyIDString, categoryIDString));
     }
 }

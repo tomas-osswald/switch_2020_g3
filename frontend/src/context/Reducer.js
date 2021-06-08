@@ -1,6 +1,18 @@
 import {
+    ADD_NEW_MEMBER_FAILURE,
+    ADD_NEW_MEMBER_START,
+    ADD_NEW_MEMBER_SUCCESS,
+    ADD_RELATION_FAILURE,
+    ADD_RELATION_STARTED,
+    ADD_RELATION_SUCCESS,
     CHANGE_USER,
     CHANGE_VIEW,
+    CREATE_FAMILY_FAILURE,
+    CREATE_FAMILY_STARTED,
+    CREATE_FAMILY_SUCCESS,
+    FETCH_FAMILY_NAME_FAILURE,
+    FETCH_FAMILY_NAME_STARTED,
+    FETCH_FAMILY_NAME_SUCCESS,
     FETCH_FAMILYRELATIONS_FAILURE,
     FETCH_FAMILYRELATIONS_STARTED,
     FETCH_FAMILYRELATIONS_SUCCESS,
@@ -12,9 +24,7 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOGOUT,
     UPDATE_NAME,
-    CREATE_FAMILY_STARTED,
-    CREATE_FAMILY_SUCCESS,
-    CREATE_FAMILY_FAILURE, FETCH_FAMILY_NAME_STARTED, FETCH_FAMILY_NAME_SUCCESS, FETCH_FAMILY_NAME_FAILURE
+    LOADING_LANDING_PAGE_FALSE
 } from './Actions'
 
 function reducer(state, action) {
@@ -81,6 +91,27 @@ function reducer(state, action) {
                     id: action.payload.id,
                     role: action.payload.role,
                 }
+            }
+
+        case ADD_RELATION_STARTED:
+            return {
+                ...state,
+
+            }
+
+        case ADD_RELATION_FAILURE:
+            return {
+                ...state,
+                family: {
+                    loading: false,
+                    error: action.payload.error
+                }
+            }
+
+        case ADD_RELATION_SUCCESS:
+            return {
+                ...state,
+                addRelationStatus: true,
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:
@@ -251,13 +282,13 @@ function reducer(state, action) {
                 ...state,
                 landingPage: {
                     loading: false,
-                    error: action.payload.error,
+                    error: action.payload,
                     name: '',
                 }
             }
 
         case CREATE_FAMILY_STARTED:
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: true,
@@ -268,7 +299,7 @@ function reducer(state, action) {
 
         case CREATE_FAMILY_SUCCESS:
             console.log(action)
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: false,
@@ -283,21 +314,62 @@ function reducer(state, action) {
             }
 
         case CREATE_FAMILY_FAILURE:
-            return{
+            return {
                 ...state,
                 createdfamily: {
                     loading: false,
                     error: "The family could not be created. Apes not strong",
-                    data: [{
-                        familyName: action.payload.familyName,
-                        familyID: action.payload.family_id,
-                        adminID: action.payload.adminID,
-                        registrationDate: action.payload.registrationDate
-                    }]
+                    data: []
                 }
             }
 
+        case ADD_NEW_MEMBER_START:
+            return {
+                ...state,
+                newMember: {
+                    loading: false,
+                    error: null,
+                    newMemberData: [],
+                }
+            }
 
+        case ADD_NEW_MEMBER_FAILURE:
+            return {
+                ...state,
+                newMember: {
+                    loading: false,
+                    error: "New Member was not created. Apes not strong",
+                    newMemberData: [],
+                }
+            }
+
+        case ADD_NEW_MEMBER_SUCCESS:
+            return {
+                ...state,
+                newMember: {
+                    loading: true,
+                    error: null,
+                    newMemberData: {
+                        adminID: action.payload.adminID,
+                        emailID: action.payload.emailID,
+                        name: action.payload.name,
+                        birthDate: action.payload.birthDate,
+                        vatNumber: action.payload.vatNumber,
+                        phone: action.payload.phone,
+                        street: action.payload.street,
+                        city: action.payload.city,
+                        houseNumber: action.payload.houseNumber,
+                        zipCode: action.payload.zipCode,
+                    },
+                }
+            }
+        case LOADING_LANDING_PAGE_FALSE:
+            return {
+                ...state,
+                landingPage: {
+                        loading: false,
+                        }
+            }
 
         default:
             return state;

@@ -46,21 +46,44 @@ export function familyNameGlobal(success, failure, familyId) {
     ;
 }
 
-export function addRelation(success, failure, familyID, memberA, memberB, relationDesignation) {
-    const requestOptions = {
+export function addRelation(success, failure, createRelationDTO, familyID) {
+
+    /*const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            memberOneID: {memberA},
-            memberTwoID: {memberB},
-            relationDesignation: {relationDesignation}
-        })
+        mode: 'no-cors',
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
+        body: JSON.stringify(createRelationDTO)
     }
-    fetch(`${URL_API}/${familyID}/relations`, requestOptions)
+
+    fetch(`${URL_API}/families/${familyID}/relations`, requestOptions)
         .then(response => response.json())
         .then(response => success(response))
         .catch(error => failure(error.message))
-    ;
+    ;*/
+
+    /* return fetch(`${URL_API}/${familyID}/relations`, {
+         method: "POST",
+         mode: 'no-cors',
+         headers: {
+             "Access-Control-Allow-Origin": "*",
+             "Content-Type": "application/json"
+         },
+         body: JSON.stringify(createRelationDTO)
+     });*/
+    axios.post(`${URL_API}/families/${familyID}/relations`, JSON.stringify(createRelationDTO), {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then((response) => {
+            success(response)
+        })
+        .catch((err) => {
+            failure(err)
+            console.log(err)
+        });
+
 }
 
 export function familyRelationsFA(success, failure, familyId) {
@@ -130,5 +153,22 @@ export function fetchNameWS(success, failure, id) {
         })
         .catch((err) => {
             failure(err)
+        });
+}
+
+/**
+ * Add New Member
+ * **/
+
+export function postNewMember(success, failure, addNewMember){
+    //let url = URL_API + "/people/";
+    axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {headers: {'Content-Type': 'application/json'}})
+        .then((response) => {
+            success(response)
+            console.log(response)
+        })
+        .catch((err)=>{
+            failure(err)
+            console.log(err)
         });
 }

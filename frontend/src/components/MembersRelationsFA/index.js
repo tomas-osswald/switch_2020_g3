@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {fetchFamilyRelationsFA} from "../../context/Actions";
+import {changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
     ButtonCell,
@@ -17,13 +17,19 @@ import {
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {family, familyData} = state;
+    const {family, familyData, addRelationStatus} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
+
+
+    useEffect(() => {
+
+        fetchFamilyRelationsFA(dispatch, family_id);
+    }, [addRelationStatus]);
 
 
     useEffect(() => {
@@ -174,6 +180,13 @@ function MembersRelationsFA() {
         setDisplay(!display)
     }
 
+    function addMemberRedirect(value) {
+        //let path = `/addMember`;
+        //history.push(path);
+        //dispatch(addMemberView)
+        dispatch(changeView(value))
+    }
+
     //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function displayRole(index) {
@@ -190,10 +203,10 @@ function MembersRelationsFA() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
-                    <div>
+                    <div key={relationsIndex}>
                         <tbody>
                         <tr>
-                            <td key={index}></td>
+                            <td></td>
                             <br/>
                             <td>{relationsRow.relationDesignation} of</td>
                             <br/>
@@ -207,9 +220,8 @@ function MembersRelationsFA() {
             })
             return (
                 <div>
-                    <tr key={index}>
+                    <tr style={{padding: "30px"}} key={index}>
                         <td>{displayRole(index)}</td>
-                        <br/>
                         <td>{row.name}</td>
                         <br/>
                         <td><ButtonCell><Button variant="dark" onClick={displayChange}>check
@@ -226,13 +238,28 @@ function MembersRelationsFA() {
 
 
     function populateSelection() {
-
         let html = familyMemberAndRelationsDTO.map((row, index) => {
             return (
                 <option key={index} value={row.personID}>{row.name}</option>
             )
         })
         return html;
+    }
+
+    const [memberA, setMemberA] = useState('');
+    const [memberB, setMemberB] = useState('');
+    const [relationDesignation, setRelationDesignation] = useState('');
+
+    function handleSubmit() {
+        const newRelationDTO = {
+            memberOneID: memberA,
+            memberTwoID: memberB,
+            relationDesignation: relationDesignation
+        }
+
+        postNewRelation(dispatch, newRelationDTO, family_id);
+        window.alert("Relation successfully created!");
+        fetchFamilyRelationsFA(dispatch, family_id);
     }
 
     if (loading === true) {
@@ -266,18 +293,23 @@ function MembersRelationsFA() {
                         </Table>
 
                         <div>{/*buildTableAntd()*/}</div>
+                        <Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
                     </div>
                     <label htmlFor="memberA">Create Relation:</label>
-                    <select name="memberA" id="memberA">
+                    <select name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
+                        <option>Select Member A</option>
                         {populateSelection()}
                     </select>
-                    <label htmlFor="fname">Relation Designation:</label>
-                    <input type="text" id="relDesignation" name="relDesignation"></input>
+                    <label htmlFor="relDesignation">Relation Designation:</label>
+                    <input type="text" id="relDesignation" name="relDesignation"
+                           onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
                     <label htmlFor="memberB"></label>
-                    <select name="memberB" id="memberB">
+                    <select name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
+                        <option>Select Member B</option>
                         {populateSelection()}
                     </select>
-                    <Button variant="dark">Add Relation</Button>
+                    <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
+                    <br/>
 
 
                 </MembersRelationsFADiv>
@@ -285,5 +317,6 @@ function MembersRelationsFA() {
         }
     }
 }
+
 
 export default MembersRelationsFA;

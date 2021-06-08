@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react'
 import {LandingPageDiv, MainText, UserName} from "./LandingPageElements";
 import AppContext from "../../context/AppContext";
-import {fetchName} from "../../context/Actions";
+import {fetchName, loadingLandigPageFalse} from "../../context/Actions";
 import Loading from "../Loading";
 
 function LandingPage() {
@@ -12,8 +12,10 @@ function LandingPage() {
     const {loading, name} = landingPage;
 
     useEffect(() => {
-        if (name === '') {
+        if (name === '' && loggedUser.role !== 'systemManager') {
             fetchName(dispatch, loggedUser.id)
+        } else {
+            dispatch(loadingLandigPageFalse())
         }
 
     }, [])
