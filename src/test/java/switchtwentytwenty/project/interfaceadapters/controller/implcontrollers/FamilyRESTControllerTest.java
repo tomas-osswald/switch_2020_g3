@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -346,5 +347,15 @@ class FamilyRESTControllerTest {
         ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyID, createCategoryDTO);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void getFamilyTestFailureThrowsException() {
+        when(getFamilyDataService.getFamilyData(anyString())).thenThrow(new InvalidDataAccessApiUsageException(""));
+
+        ResponseEntity expected = new ResponseEntity("Error: ",HttpStatus.BAD_REQUEST);
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+
+        assertEquals(expected,result);
     }
 }
