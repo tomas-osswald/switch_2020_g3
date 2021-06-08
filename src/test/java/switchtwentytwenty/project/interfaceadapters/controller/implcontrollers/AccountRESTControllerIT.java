@@ -35,8 +35,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -177,6 +176,34 @@ class AccountRESTControllerIT {
 
 
         assertThrows(AccountAlreadyRegisteredException.class, () -> accountRepository.add(account));
+
+
+    }
+
+    @Test
+    @DisplayName("Integration test without a throw when presented with an empty Optional")
+    void createAccountSucessEmptyOptional() {
+        CreateAccountService createAccountService = new CreateAccountService(accountRepository, accountDTODomainAssembler, accountFactory);
+
+        IAccount account = new CashAccount();
+        account.setAccountID(accountID);
+        account.setDesignation(designation);
+        FamilyID familyID = new FamilyID("rifens@ravens.com");
+        account.setOwner(familyID);
+
+        when(mockAccountDataDomainAssembler.toData(any(IAccount.class))).thenReturn(accountJPA);
+        when(mockRepositoryJPA.save(any(AccountJPA.class))).thenReturn(accountJPATwo);
+        when(mockAccountDataDomainAssembler.createAccountID(any(AccountJPA.class))).thenReturn(accountID);
+        when(mockAccountDataDomainAssembler.createAccountType(any(AccountJPA.class))).thenReturn(accountType);
+        when(mockAccountDataDomainAssembler.createDesignation(any(AccountJPA.class))).thenReturn(designation);
+        when(mockAccountDataDomainAssembler.createOwnerID(any(AccountJPA.class))).thenReturn(ownerID);
+        when(mockAccountDataDomainAssembler.createMovements(any(AccountJPA.class))).thenReturn(new ArrayList<>());
+        when(repoAccountFactory.createAccount(any(), any(), any(), any(), any())).thenReturn(account);
+        Optional optional = Optional.empty();
+        when(mockRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(optional);
+
+
+        assertDoesNotThrow( () -> accountRepository.add(account));
 
 
     }
