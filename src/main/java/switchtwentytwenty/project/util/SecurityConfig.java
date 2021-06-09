@@ -1,4 +1,4 @@
-package switchtwentytwenty.project.util;
+/*package switchtwentytwenty.project.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -24,4 +24,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("{noop}password")
                 .roles("USER");
     }
-}
+}*/
