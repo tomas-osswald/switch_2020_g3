@@ -13,6 +13,7 @@ import switchtwentytwenty.project.datamodel.domainjpa.OwnerIDJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IAccountRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.account.AccountFactory;
 import switchtwentytwenty.project.domain.aggregates.account.BankAccount;
+import switchtwentytwenty.project.domain.aggregates.account.CashAccount;
 import switchtwentytwenty.project.domain.aggregates.account.IAccount;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.AccountAlreadyRegisteredException;
@@ -58,6 +59,7 @@ class AccountRepositoryTest {
     @InjectMocks
     AccountRepository accountRepository;
 
+
     Long id = 3L;
     String currency = "EUR";
     BigDecimal amount = new BigDecimal("3");
@@ -88,6 +90,18 @@ class AccountRepositoryTest {
         when(accountFactory.createAccount(accountID, movements, ownerID, designation, accType)).thenReturn(savedAccount);
 
         assertDoesNotThrow(() -> accountRepository.add(account));
+
+    }
+
+    @Test
+    void addAccountFailAccountAlreadyRegistered() {
+        IOwnerID famOwnerID = new FamilyID("@lil@lil.com");
+        IAccount familyAccount = new CashAccount(famOwnerID, designation);
+        AccountJPA accountJPA = new AccountJPA();
+        Optional<AccountJPA> optional = Optional.of(accountJPA);
+        when(accountRepositoryJPA.findByOwnerID(any(OwnerIDJPA.class))).thenReturn(optional);
+
+        assertThrows(AccountAlreadyRegisteredException.class, () -> accountRepository.add(familyAccount));
 
     }
 
