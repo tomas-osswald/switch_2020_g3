@@ -14,7 +14,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-//Code adapted from https://www.javainuse.com/spring/boot-jwt
+//Code adapted from https://www.javainuse.com/spring/boot-jwt and https://www.javainuse.com/spring/boot-jwt-mysql
 @Component
 public class JWTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
