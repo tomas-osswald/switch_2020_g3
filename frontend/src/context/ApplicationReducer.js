@@ -341,21 +341,21 @@ function reducer(state, action) {
         case ADD_EMAIL_STARTED:
             return {
                 ...state,
-                profile: {
+                /*profile: {
                     loading: true,
                     error: null,
-                    profileData: null,
-                }
+
+                }*/
             }
 
         case ADD_EMAIL_SUCCESS:
             return {
                 ...state,
-                profile: {
+                /*profile: {
                     loading: false,
                     error: null,
-                    profileData: action.payload
-                }
+                    profileData: []
+                }*/
             }
 
         case ADD_EMAIL_FAILURE:
