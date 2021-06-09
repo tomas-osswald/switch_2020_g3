@@ -1,14 +1,14 @@
 package switchtwentytwenty.project.domain.aggregates.ledger;
 
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
-import switchtwentytwenty.project.domain.valueobject.LedgerID;
 import switchtwentytwenty.project.domain.valueobject.ID;
+import switchtwentytwenty.project.domain.valueobject.LedgerID;
 
 import java.util.UUID;
 
 public class Ledger implements AggregateRoot {
 
-    private LedgerID id;
+    private final LedgerID id;
 
     public Ledger(UUID id) {
         this.id = new LedgerID(id);

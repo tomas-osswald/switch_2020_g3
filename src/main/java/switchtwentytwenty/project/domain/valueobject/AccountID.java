@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-public class AccountID implements ID<Long> {
+public class AccountID implements ID {
 
     @Getter
     @Setter

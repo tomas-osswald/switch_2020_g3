@@ -2,7 +2,7 @@ package switchtwentytwenty.project.domain.valueobject;
 
 import java.util.UUID;
 
-public class LedgerID implements ID<UUID> {
+public class LedgerID implements ID {
 
     private final UUID id;
 

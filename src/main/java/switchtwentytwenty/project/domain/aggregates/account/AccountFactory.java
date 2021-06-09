@@ -45,9 +45,6 @@ public class AccountFactory {
 
         String classpath = environment.getProperty(accountType.toLowerCase());
 
-        //Removi isto para ser o try-catch em baixo a lidar com a situação. Desta maneira, ele pode ser testado e coberto
-        /*if (classpath == null)
-            throw new IllegalArgumentException("Unsupported Account type");*/
 
         try {
             account = (IAccount) Class.forName(classpath).newInstance();

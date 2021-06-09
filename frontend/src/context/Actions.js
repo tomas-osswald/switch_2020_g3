@@ -300,9 +300,9 @@ export function fetchNameFailure(error) {
 
 // Add email in Profile ----------------------------------------------------------------
 
-export function addEmailToFamilyMember(dispatch, id) {
+export function addEmailToFamilyMember(dispatch, id, email) {
     dispatch(addEmailStarted());
-    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id);
+    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id, email);
 
 }
 
@@ -313,12 +313,13 @@ export function addEmailStarted() {
     }
 }
 
-export function addEmailSuccess(profile, email) {
+export function addEmailSuccess(email) {
     return {
         type: ADD_EMAIL_SUCCESS,
         payload: {
-            email: profile.profileData.emails.push(email)
+            email: email
         }
+
 
     }
 }
@@ -354,7 +355,7 @@ export function addNewMemberSuccess(newMember){
         payload: {
             emailID: newMember.data.id,
             name: newMember.data.name,
-            birthDate: newMember.data.birthDate,
+            birthDate: newMember.data.birthdate,
             emails: newMember.data.emails,
             phone: newMember.data.phoneNumbers,
             vatNumber: newMember.data.vat,
