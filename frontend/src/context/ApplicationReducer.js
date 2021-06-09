@@ -114,7 +114,7 @@ function reducer(state, action) {
         case ADD_RELATION_SUCCESS:
             return {
                 ...state,
-                addRelationStatus: true,
+                refresh: true,
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:

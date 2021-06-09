@@ -25,13 +25,13 @@ function MembersRelationsFA() {
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
 
-    const [refreshVariable, setrefreshVariable] = useState(false);
+    /*const [refreshVariable, setrefreshVariable] = useState(false);
 
     useEffect(() => {
 
         fetchFamilyRelationsFA(dispatch, family_id);
         setrefreshVariable(false);
-    }, [refreshVariable]);
+    }, [refreshVariable]);*/
 
 
     useEffect(() => {
@@ -254,7 +254,7 @@ function MembersRelationsFA() {
         }
 
         postNewRelation(dispatch, newRelationDTO, family_id);
-        setrefreshVariable(true);
+        //setrefreshVariable(true);
         window.alert("Relation successfully created!");
     }
 
