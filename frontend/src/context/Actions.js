@@ -355,7 +355,7 @@ export function addNewMemberSuccess(newMember){
         payload: {
             emailID: newMember.data.id,
             name: newMember.data.name,
-            birthDate: newMember.data.birthDate,
+            birthDate: newMember.data.birthdate,
             emails: newMember.data.emails,
             phone: newMember.data.phoneNumbers,
             vatNumber: newMember.data.vat,
