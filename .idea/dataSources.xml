@@ -45,5 +45,12 @@
       <jdbc-url>jdbc:sqlite:D:\Switch\4_Curso\Projeto\switch_2020_g3\docs\sprint4\ClassDiagram.vpp\class_diag_g3_22-04.vpp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="class_diag_g3_14_05" uuid="9bed866b-92b8-412f-a0c6-92fc23d3067b">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Ricar\repos\switch_2020_g3\docs\sprint5\diagrams\class_diag_g3_14_05.vpp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

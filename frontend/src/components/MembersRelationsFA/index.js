@@ -17,7 +17,7 @@ import {
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {family, familyData, addRelationStatus} = state;
+    let {family, familyData} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
@@ -25,10 +25,11 @@ function MembersRelationsFA() {
     const [display, setDisplay] = useState(false)
     const {family_id} = landingPage;
 
-
+    const [addRelationStatus, setaddRelationStatus] = useState(false);
     useEffect(() => {
 
         fetchFamilyRelationsFA(dispatch, family_id);
+        setaddRelationStatus(false);
     }, [addRelationStatus]);
 
 
@@ -43,7 +44,7 @@ function MembersRelationsFA() {
          */
 
         fetchFamilyRelationsFA(dispatch, family_id)
-        //fetchFamilyName(dispatch, family_id)
+
 
     }, [])
 
@@ -255,7 +256,7 @@ function MembersRelationsFA() {
 
         postNewRelation(dispatch, newRelationDTO, family_id);
         window.alert("Relation successfully created!");
-        fetchFamilyRelationsFA(dispatch, family_id);
+        setaddRelationStatus(true);
     }
 
     if (loading === true) {
@@ -303,7 +304,8 @@ function MembersRelationsFA() {
                     </select>
                     <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
                     <ButtonCell><Button variant="dark" onClick={displayChange}>check relations</Button></ButtonCell>
-                    <ButtonCell><Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button></ButtonCell>
+                    <ButtonCell><Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add
+                        Member</Button></ButtonCell>
                 </MembersRelationsFADiv>
             )
         }
