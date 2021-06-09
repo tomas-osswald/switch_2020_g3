@@ -9,10 +9,8 @@ function Profile() {
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-    // const [emails] = profileData;
 
-
-    const [email, setemail] = useState("");
+    const [email, setEmail] = useState("");
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
@@ -92,7 +90,7 @@ function Profile() {
                                 <div>
                                     {EmailsList()}
                                     <div>
-                                        <input type="text" id="email" onChange={email => setemail(email.target.value)}  required/>
+                                        <input type="text" id="email" onChange={email => setEmail(email.target.value)}  required/>
 
                                         <button onClick={handleSubmit}>Add email</button>
 
