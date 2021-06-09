@@ -35,6 +35,8 @@ const initialState = {
         family_id: '',
     },
 
+    refresh: false,
+
     name: {
         loading: true,
         error: null,

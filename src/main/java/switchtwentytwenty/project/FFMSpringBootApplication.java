@@ -42,7 +42,7 @@ FFMSpringBootApplication {
             AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Katia Vanessa", "20/01/1970", 777777777, 921232323, RUA, CIDADE, CASA, ZIP);
             AddFamilyMemberDTO addFamilyMemberDTO2 = new AddFamilyMemberDTO(TONY_ZE_EMAIL, RAIMUNDO_EMAIL, "Raimundo Daniel", "13/05/1998", 111111111, 921332323, RUA, CIDADE, CASA, ZIP);
             CreateAccountDTO vanessaAccount = new CreateAccountDTO("Conta para fugir do TonyZe", BigDecimal.valueOf(1034.54), "EUR", KATIA_VANESSA_EMAIL, "bank");
-            CreateAccountDTO tonyaccount = new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", TONY_ZE_EMAIL, "cash");
+            CreateAccountDTO tonyaccount = new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", "@tonyze@latinlover.com", "cash");
             CreateRelationDTO relationTonyKatia = new CreateRelationDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Husband");
             CreateRelationDTO relationKatiaRaimundo = new CreateRelationDTO(KATIA_VANESSA_EMAIL, RAIMUNDO_EMAIL, "Mother");
 

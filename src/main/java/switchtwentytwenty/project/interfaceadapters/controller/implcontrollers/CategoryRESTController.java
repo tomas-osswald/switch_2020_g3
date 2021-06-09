@@ -34,7 +34,7 @@ public class CategoryRESTController implements ICategoryRESTController {
 
     private final IGetStandardCategoryTreeService getStandardCategoryTreeService;
 
-    private final String ERROR = "Error: ";
+    private static final String ERROR = "Error: ";
 
     @Autowired
     public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategoryTreeService getStandardCategoryTreeService) {

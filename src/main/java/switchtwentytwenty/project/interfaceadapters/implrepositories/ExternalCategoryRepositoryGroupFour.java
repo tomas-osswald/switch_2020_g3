@@ -39,7 +39,6 @@ public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRep
     }
 
     private List<ExternalStandardCategoryGroupFourDTO> findAll() {
-        //restTemplate = new RestTemplate();
         return Arrays.stream(restTemplate.getForObject(resource, ExternalStandardCategoryGroupFourDTO[].class)).collect(Collectors.toList());
     }
 

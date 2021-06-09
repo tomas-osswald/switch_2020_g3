@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
-class FFMSpringBootApplicationITDB {
+class FFMSpringBootApplicationTest {
 // Test class added ONLY to cover main() invocation not covered by application tests.
-
     @Test
-    void main() {
+    public void mainTest() {
         assertDoesNotThrow(() -> FFMSpringBootApplication.main(new String[]{}));
     }
 
