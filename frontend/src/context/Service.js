@@ -176,7 +176,11 @@ export function addInputedEmailToFamilyMember(success, failure, id){
 
 export function postNewMember(success, failure, addNewMember){
     //let url = URL_API + "/people/";
-    axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {headers: {'Content-Type': 'application/json'}})
+    axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then((response) => {
             success(response)
             console.log(response)
@@ -186,3 +190,16 @@ export function postNewMember(success, failure, addNewMember){
             console.log(err)
         });
 }
+
+/*
+export const postNewMember = (url, body) => {
+    return fetch(url, {
+        method: "POST",
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+
+ */
