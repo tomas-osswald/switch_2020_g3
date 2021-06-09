@@ -31,29 +31,18 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @CrossOrigin(value = "*")
 public class FamilyRESTController implements IFamilyRESTController {
 
+    private static final String ERROR = "Error: ";
     private final ICreateFamilyService createFamilyService;
-
     private final FamilyInputDTOAssembler familyAssembler;
-
     private final PersonInputDTOAssembler personAssembler;
-
     private final CategoryInputDTOAssembler categoryAssembler;
-
     private final IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
-
     private final IFamiliesOptionsService familiesOptionsService;
-
     private final IFamilyOptionsService familyOptionsService;
-
     private final ICreateRelationService createRelationService;
-
     private final IGetCustomCategoriesService customCategoriesService;
-
     private final IGetFamilyDataService getFamilyDataService;
-
     private final ICreateCustomCategoryService createCustomCategoryService;
-
-    private final String ERROR = "Error: ";
 
 
     @Autowired
