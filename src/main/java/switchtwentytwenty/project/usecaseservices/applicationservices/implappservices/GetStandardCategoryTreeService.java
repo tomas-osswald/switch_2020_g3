@@ -19,15 +19,22 @@ public class GetStandardCategoryTreeService implements IGetStandardCategoryTreeS
 
     private final ICategoryRepository categoryRepository;
     private final ICategoryDTODomainAssembler categoryDTODomainAssembler;
-    private final IExternalCategoryRepository externalCategoryRepository;
+    private final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:external-config.xml");
+    private IExternalCategoryRepository externalCategoryRepository = (IExternalCategoryRepository) applicationContext.getBean("externalCategories");
+
 
     @Autowired
     public GetStandardCategoryTreeService(ICategoryRepository categoryRepository, ICategoryDTODomainAssembler categoryDTODomainAssembler) {
         this.categoryRepository = categoryRepository;
         this.categoryDTODomainAssembler = categoryDTODomainAssembler;
-        //this.externalCategoryRepository = externalCategoryRepository;
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:external-config.xml");
-        this.externalCategoryRepository = (IExternalCategoryRepository) applicationContext.getBean("externalCategories");
+    }
+
+    public void setIExternalCategoryRepository(IExternalCategoryRepository externalCategoryRepository) {
+        this.externalCategoryRepository = externalCategoryRepository;
+    }
+
+    public IExternalCategoryRepository getIExternalCategoryRepository(){
+        return this.externalCategoryRepository;
     }
 
     public OutputCategoryTreeDTO getStandardCategoryTreeOwn(){
