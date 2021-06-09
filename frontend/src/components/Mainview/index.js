@@ -7,7 +7,6 @@ import LandingPage from "../LandingPage";
 import Profile from "../Profile";
 import AddMember from "../AddMember";
 
-
 function Mainview() {
     const {state, dispatch} = useContext(AppContext);
     const {name, mainView} = state;

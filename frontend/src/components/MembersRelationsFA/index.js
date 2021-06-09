@@ -11,6 +11,7 @@ import {
     RelationsList
 } from "./MembersRelationsFAElements";
 
+
 //import { Table } from 'antd';
 
 
@@ -276,7 +277,7 @@ function MembersRelationsFA() {
         } else {
             return (
                 <MembersRelationsFADiv>
-                    <div>
+                    <div className="relation-add-table">
                         {/*<p>{buildInnerText()}</p>*/}
                         <h2>{state.familyData.data.familyName}</h2>
                         <Table>

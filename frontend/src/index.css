@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.sc-iCoGMd {
+
+  background-color: #c1e8b6;
+}
+
+
+.sc-fujyAs GuSJD {
+  background-color: blueviolet;
+}
+
+.sc-fujyAs.GuSJD {
+  background-color: blueviolet;
+}
+
+.relation-add-table {
+  margin: 30px;
+  border-style: solid ;
+    font-size: 18px;
+}
+.GuSJD {
+  background-color: #e0ce61;
+}

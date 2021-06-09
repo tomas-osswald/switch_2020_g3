@@ -3,7 +3,6 @@ import AppContext from '../../context/AppContext';
 import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
 import '../../styles/profile.css'
 
-
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
@@ -27,13 +26,6 @@ function Profile() {
     function addEmails() {
         addEmailToFamilyMember(dispatch,id,email);
     }
-
- /*  function handleChange(event) {
-        let c = event.target.value;
-        setEmail(c);
-        setRefresh(true);
-    }*/
-
 
     function handleSubmit(){
         addEmails();
@@ -158,10 +150,6 @@ function Profile() {
                             </div>
                         </div>
 
-                        {/* <div className="row">
-                        <p><button onClick={goBack}>Go back</button></p>
-
-                    </div>*/}
 
                     </div>
 
