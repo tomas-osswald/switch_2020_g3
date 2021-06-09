@@ -2,10 +2,11 @@ package switchtwentytwenty.project.domain.valueobject;
 
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
-public class RelationID implements ID {
+public class RelationID implements ID, Serializable {
     private final int id;
 
     public RelationID(int relationID) {
