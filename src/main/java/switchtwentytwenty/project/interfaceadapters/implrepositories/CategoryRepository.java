@@ -60,8 +60,8 @@ public class CategoryRepository implements ICategoryRepository {
     public List<Category> getCustomCategoryList(FamilyID familyID) {
         FamilyIDJPA familyIDJPA = categoryAssembler.toData(familyID);
         List<CategoryJPA> customCategoryJPAList = categoryRepositoryJPA.findAllByFamilyIDJPA(familyIDJPA);
-        List<Category> aFamilyCategoriesList = convertCategoryJPAListToCategoryList(customCategoryJPAList);
-        return aFamilyCategoriesList;
+        return convertCategoryJPAListToCategoryList(customCategoryJPAList);
+
     }
 
 

@@ -11,7 +11,10 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
-import switchtwentytwenty.project.dto.category.*;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.InputCustomCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
@@ -25,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/families")
-@CrossOrigin(value="*")
+@CrossOrigin(value = "*")
 public class FamilyRESTController implements IFamilyRESTController {
 
     private final ICreateFamilyService createFamilyService;
@@ -49,6 +52,9 @@ public class FamilyRESTController implements IFamilyRESTController {
     private final IGetFamilyDataService getFamilyDataService;
 
     private final ICreateCustomCategoryService createCustomCategoryService;
+
+    private final String ERROR = "Error: ";
+
 
     @Autowired
     public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService) {
@@ -101,7 +107,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         } catch (IllegalArgumentException | InvalidEmailException | InvalidDataAccessApiUsageException | EmailNotRegisteredException | PersonAlreadyRegisteredException e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
-            return new ResponseEntity("Error: " + e.getMessage(), status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
 
         }
     }
@@ -128,10 +134,10 @@ public class FamilyRESTController implements IFamilyRESTController {
             status = HttpStatus.CREATED;
             Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
             outputRelationDTO.add(optionsLink);
-            return new ResponseEntity<>(outputRelationDTO,status);
+            return new ResponseEntity<>(outputRelationDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity("Error: " + e.getMessage(), status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
 
         }
 
@@ -150,7 +156,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             return new ResponseEntity<>(familyMemberAndRelationsListDTO, status);
         } catch (IllegalArgumentException exception) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity("Error: " + exception.getMessage(), status);
+            return new ResponseEntity(ERROR + exception.getMessage(), status);
         }
 
     }
@@ -167,7 +173,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             return new ResponseEntity<>(outputFamilyDTO, status);
         } catch (InvalidDataAccessApiUsageException exception) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity("Error: " + exception.getMessage(), status);
+            return new ResponseEntity(ERROR + exception.getMessage(), status);
         }
     }
 
@@ -185,7 +191,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             return new ResponseEntity<>(outputCategoryTreeDTO, status);
         } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity("Error: " + e.getMessage(), status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
         }
     }
 
@@ -208,7 +214,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             return new ResponseEntity<>(outputCategoryDTO, httpStatus);
         } catch (Exception e) {
             httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-            return new ResponseEntity("Error: " + e.getMessage(), httpStatus);
+            return new ResponseEntity(ERROR + e.getMessage(), httpStatus);
         }
     }
 

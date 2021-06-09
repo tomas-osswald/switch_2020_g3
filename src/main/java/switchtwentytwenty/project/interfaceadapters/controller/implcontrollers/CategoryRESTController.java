@@ -34,6 +34,8 @@ public class CategoryRESTController implements ICategoryRESTController {
 
     private final IGetStandardCategoryTreeService getStandardCategoryTreeService;
 
+    private final String ERROR = "Error: ";
+
     @Autowired
     public CategoryRESTController(ICreateStandardCategoryService createStandardCategoryService, ICategoriesOptionsService categoryOptionsService, IGetStandardCategoryTreeService getStandardCategoryTreeService) {
         this.createStandardCategoryService = createStandardCategoryService;
@@ -66,7 +68,7 @@ public class CategoryRESTController implements ICategoryRESTController {
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
-            return new ResponseEntity("Error: " + e.getMessage(), status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
 
         }
     }
@@ -87,14 +89,14 @@ public class CategoryRESTController implements ICategoryRESTController {
         return new ResponseEntity(options, header, HttpStatus.OK);
     }
 
-    //TODO: Method to return data from one Standard Category
+
     @GetMapping("/{categoryID}")
     public ResponseEntity<Object> getCategory(@PathVariable String categoryID) {
         throw new UnsupportedOperationException();
     }
 
     @GetMapping()
-    public ResponseEntity<Object> getOwnCategories(){
+    public ResponseEntity<Object> getOwnCategories() {
 
         HttpStatus status;
         try {
@@ -103,18 +105,18 @@ public class CategoryRESTController implements ICategoryRESTController {
             Link optionsLinks = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
             outputCategoryTreeDTO.add(optionsLinks);
 
-            return new ResponseEntity(outputCategoryTreeDTO,status);
+            return new ResponseEntity(outputCategoryTreeDTO, status);
 
-        } catch(Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
 
-            return new ResponseEntity("Error: " + e.getMessage(),status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
         }
 
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllCategories(){
+    public ResponseEntity<Object> getAllCategories() {
 
         HttpStatus status;
         try {
@@ -123,12 +125,12 @@ public class CategoryRESTController implements ICategoryRESTController {
             Link optionsLinks = linkTo(methodOn(CategoryRESTController.class).categoriesOptions()).withRel("Categories Options");
             outputCategoryTreeDTO.add(optionsLinks);
 
-            return new ResponseEntity(outputCategoryTreeDTO,status);
+            return new ResponseEntity(outputCategoryTreeDTO, status);
 
-        } catch(Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
 
-            return new ResponseEntity("Error: " + e.getMessage(),status);
+            return new ResponseEntity(ERROR + e.getMessage(), status);
         }
 
     }
