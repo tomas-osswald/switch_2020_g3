@@ -2,7 +2,7 @@
 
 left to right direction
 
-title Use Case Diagram - SP06
+title Use Case Diagram - Family Member
 
 actor "Parent" as parent
 actor "Family Member" as fm
