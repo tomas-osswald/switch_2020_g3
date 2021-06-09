@@ -10,13 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
+import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -34,7 +36,7 @@ class FamilyRESTControllerITDB {
     @Test
     void createFamilyAndSetAdmin() {
 
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamily('@'+dto.getEmailID())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamily('@' + dto.getEmailID())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "tony@email.com", "tony@email.com", "12/12/2000");
 
@@ -53,7 +55,7 @@ class FamilyRESTControllerITDB {
     void createFamilyAndSetAdminSuccessCase() {
         AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("teste@hotmail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
 
-        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions('@'+dto.getEmailID())).withSelfRel();
+        Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions('@' + dto.getEmailID())).withSelfRel();
 
         OutputFamilyDTO outputFamilyDTO = new OutputFamilyDTO("Silva", "@teste@hotmail.com", "teste@hotmail.com", "12/12/2000");
 
@@ -65,8 +67,8 @@ class FamilyRESTControllerITDB {
 
 
         assertNotNull(result);
-        assertEquals(HttpStatus.CREATED,result.getStatusCode());
-        assertEquals(expected.getBody().toString(),result.getBody().toString());
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
     }
 
     @Test
@@ -86,8 +88,51 @@ class FamilyRESTControllerITDB {
 
     @Test
     void getFamilyNameTest() {
-        //String familyName = "Silva";
-        assertThrows(UnsupportedOperationException.class,()->familyRESTController.getFamily("@tony@email.com"));
+        String expected = "Ravens";
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+        OutputFamilyDTO resultDTO = (OutputFamilyDTO) result.getBody();
+        assertNotNull(result);
+        assertEquals(expected, resultDTO.getFamilyName());
+    }
+
+    @Test
+    void getFamilyFailTest() {
+        ResponseEntity expected = new ResponseEntity("Error: Family does not exist; nested exception is java.lang.IllegalArgumentException: Family does not exist", HttpStatus.BAD_REQUEST);
+        ResponseEntity result = familyRESTController.getFamily("@riiiii@ravens.com");
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void getFamilyFailTestAssertNotNull() {
+        ResponseEntity result = familyRESTController.getFamily("@riiiii@ravens.com");
+        assertNotNull(result);
+        assertNotNull(result.getBody());
+        assertNotNull(result.getStatusCode());
+    }
+
+    @Test
+    void getFamilyIDTest() {
+        String expected = "@rifens@ravens.com";
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+        OutputFamilyDTO resultDTO = (OutputFamilyDTO) result.getBody();
+        assertNotNull(resultDTO);
+        assertEquals(expected, resultDTO.getFamilyID());
+    }
+
+    @Test
+    void getFamilyAdminIDTest() {
+        String expected = "rifens@ravens.com";
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+        OutputFamilyDTO resultDTO = (OutputFamilyDTO) result.getBody();
+        assertEquals(expected, resultDTO.getAdminID());
+    }
+
+    @Test
+    void getFamilyRegistrationDateTest() {
+        String expected = "1/1/2021";
+        ResponseEntity result = familyRESTController.getFamily("@rifens@ravens.com");
+        OutputFamilyDTO resultDTO = (OutputFamilyDTO) result.getBody();
+        assertEquals(expected, resultDTO.getRegistrationDate());
     }
 
     @Test
@@ -113,5 +158,31 @@ class FamilyRESTControllerITDB {
         ResponseEntity result = familyRESTController.getCategories(familyID);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void addCustomCategorySuccess() {
+        String familyIDString = "@tonyze@latinlover.com";
+        String categoryNameString = "Batatas";
+        String parentIDString = "Sopa";
+        String categoryIDString = "1";
+
+        CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
+        createCategoryDTO.setCategoryDescription(categoryNameString);
+        createCategoryDTO.setParentCategory(parentIDString);
+
+        OutputCategoryDTO expectedOutputCategoryDTO = new OutputCategoryDTO();
+        expectedOutputCategoryDTO.setCategoryID(categoryIDString);
+        expectedOutputCategoryDTO.setCategoryName(categoryNameString);
+        expectedOutputCategoryDTO.setFamilyID(familyIDString);
+        expectedOutputCategoryDTO.setParentID(parentIDString);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getCustomCategory(familyIDString, categoryIDString)).withSelfRel();
+        expectedOutputCategoryDTO.add(selfLink);
+
+        ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(expectedOutputCategoryDTO, HttpStatus.CREATED);
+
+        ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected.toString(), result.toString());
     }
 }

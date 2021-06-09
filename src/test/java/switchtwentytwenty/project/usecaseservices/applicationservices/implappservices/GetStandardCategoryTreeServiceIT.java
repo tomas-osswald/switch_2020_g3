@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.CategoryJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.ICategoryRepositoryJPA;
@@ -20,7 +21,9 @@ import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomai
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
+import switchtwentytwenty.project.interfaceadapters.implrepositories.ExternalCategoryRepositoryGroupFour;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetStandardCategoryTreeService;
+import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,9 @@ class GetStandardCategoryTreeServiceIT {
 
     @Autowired
     CategoryDTODomainAssembler categoryDTODomainAssembler;
+
+    @Autowired
+    IExternalCategoryRepository externalCategoryRepository;
 
     IGetStandardCategoryTreeService service;
 
@@ -121,7 +127,7 @@ class GetStandardCategoryTreeServiceIT {
 
         service = new GetStandardCategoryTreeService(categoryRepository, categoryDTODomainAssembler);
 
-        OutputCategoryTreeDTO result = service.getStandardCategoryTree();
+        OutputCategoryTreeDTO result = service.getStandardCategoryTreeOwn();
 
         OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
         expected.addOutputCategoryDTO(outputCategoryDTO1);

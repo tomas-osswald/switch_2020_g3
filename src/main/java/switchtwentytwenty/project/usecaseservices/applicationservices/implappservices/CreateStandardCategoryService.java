@@ -7,8 +7,7 @@ import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
-import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryDTODomainAssembler;
-import switchtwentytwenty.project.dto.category.InputCategoryDTO;
+import switchtwentytwenty.project.dto.category.InputStandardCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.ICreateStandardCategoryService;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
@@ -28,9 +27,9 @@ public class CreateStandardCategoryService implements ICreateStandardCategorySer
     }
 
     @Override
-    public OutputCategoryDTO createStandardCategory(InputCategoryDTO inputCategoryDTO) {
-        CategoryName categoryName = categoryDTODomainAssembler.createCategoryName(inputCategoryDTO.getCategoryName());
-        ParentCategoryPath parentCategory = categoryDTODomainAssembler.createParentCategoryPath(inputCategoryDTO.getParentID());
+    public OutputCategoryDTO createStandardCategory(InputStandardCategoryDTO inputStandardCategoryDTO) {
+        CategoryName categoryName = categoryDTODomainAssembler.createCategoryName(inputStandardCategoryDTO.getCategoryName());
+        ParentCategoryPath parentCategory = categoryDTODomainAssembler.createParentCategoryPath(inputStandardCategoryDTO.getParentID());
 
         Category category = categoryFactory.createCategory(categoryName, parentCategory);
 

@@ -6,8 +6,6 @@ import switchtwentytwenty.project.domain.valueobject.CategoryName;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.ParentCategoryPath;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainAssembler;
-import switchtwentytwenty.project.dto.category.CreateStandardCategoryDTO;
-import switchtwentytwenty.project.dto.category.InputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 
 import java.util.Optional;
@@ -26,13 +24,6 @@ public class CategoryDTODomainAssembler implements ICategoryDTODomainAssembler {
         outputCategoryDTO.setFamilyID(familyID.get().toString());
         }
         return outputCategoryDTO;
-    }
-
-    public InputCategoryDTO toInputCategoryDTO(CreateStandardCategoryDTO createStandardCategoryDTO) {
-        String description = createStandardCategoryDTO.getCategoryDescription();
-        String parentID = createStandardCategoryDTO.getParentCategory();
-
-        return new InputCategoryDTO(description, parentID);
     }
 
     public CategoryName createCategoryName(String categoryName) {

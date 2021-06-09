@@ -77,9 +77,16 @@ class CategoryIDTest {
     void getId() {
         CategoryID id = new CategoryID(categoryID);
         Long expected = 1L;
-        Long result = id.getId();
+        Long result = Long.valueOf(id.getId());
 
         assertEquals(expected, result);
 
+    }
+
+    @Test
+    void categoryIDConstructorWithString(){
+        CategoryID id = new CategoryID("1");
+
+        assertNotNull(id);
     }
 }

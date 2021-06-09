@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.StandardCategory;
@@ -15,14 +16,15 @@ import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainA
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
+import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @ExtendWith(MockitoExtension.class)
 class GetStandardCategoryTreeServiceTest {
@@ -33,18 +35,11 @@ class GetStandardCategoryTreeServiceTest {
     @Mock
     ICategoryDTODomainAssembler mockCategoryDTODomainAssembler;
 
+    @Mock
+    IExternalCategoryRepository mockExternalRepository;
+
     @InjectMocks
     GetStandardCategoryTreeService getStandardCategoryTreeService;
-
-    @Mock
-    List<Category> mockCategoryList;
-
-    @Mock
-    Category mockCategory;
-
-    @Mock
-    OutputCategoryDTO mockOutputCategoryDTO;
-
 
     String categoryName1 = "Bebedeira";
     String categoryID1 = "17L";
@@ -72,7 +67,6 @@ class GetStandardCategoryTreeServiceTest {
 
     Category category2 = new StandardCategory(categoryName2x, categoryID2x, parentCategoryPath2x);
 
-
     @Test
     @DisplayName("Get Standard category Tree successfully")
     void getStandardCategoryTree_Success() {
@@ -82,22 +76,65 @@ class GetStandardCategoryTreeServiceTest {
 
         when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListx);
         when(mockCategoryDTODomainAssembler.toDTO(any(Category.class))).thenReturn(outputCategoryDTO1).thenReturn(outputCategoryDTO2);
-        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTree();
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTreeOwn();
 
         OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
         expected.addOutputCategoryDTO(outputCategoryDTO1);
         expected.addOutputCategoryDTO(outputCategoryDTO2);
 
-
         assertEquals(expected, result);
-
     }
 
+    @Test
+    @DisplayName("Get Standard category Tree successfully")
+    void getStandardCategoryTreeAll_Success() {
+        List<Category> categoryListOne = new ArrayList<>();
+        categoryListOne.add(category1);
+        List<Category> categoryListTwo = new ArrayList<>();
+        categoryListTwo.add(category2);
+
+        getStandardCategoryTreeService.setIExternalCategoryRepository(mockExternalRepository);
+        when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListOne);
+        when(mockCategoryDTODomainAssembler.toDTO(any(Category.class))).thenReturn(outputCategoryDTO1).thenReturn(outputCategoryDTO2);
+        when(mockExternalRepository.getCategoryList()).thenReturn(categoryListTwo);
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTreeAll();
+
+        OutputCategoryTreeDTO expected = new OutputCategoryTreeDTO();
+        expected.addOutputCategoryDTO(outputCategoryDTO1);
+        expected.addOutputCategoryDTO(outputCategoryDTO2);
+
+        assertEquals(expected,result);
+    }
 
     @Test
     @DisplayName("Fail to get Standard category Tree")
     void getStandardCategoryTree_Fail() {
         when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class,() -> getStandardCategoryTreeService.getStandardCategoryTree());
+        assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeOwn());
+    }
+
+    @Test
+    @DisplayName("Fail to get Standard category Tree from All")
+    void getStandardCategoryTreeAll_Fail() {
+        when(mockCategoryRepository.getStandardCategoryList()).thenThrow(NullPointerException.class);
+        assertThrows(NullPointerException.class, () -> getStandardCategoryTreeService.getStandardCategoryTreeAll());
+    }
+
+    @Test
+    void setIExternalCategoryRepositoryTest(){
+        getStandardCategoryTreeService.setIExternalCategoryRepository(mockExternalRepository);
+
+        IExternalCategoryRepository result = getStandardCategoryTreeService.getIExternalCategoryRepository();
+
+        assertNotNull(result);
+        assertEquals(result,mockExternalRepository);
+    }
+
+    @Test
+    void setIExternalCategoryRepositoryTestDefaultExternalRepository(){
+        IExternalCategoryRepository result = getStandardCategoryTreeService.getIExternalCategoryRepository();
+
+        assertNotNull(result);
+        assertNotEquals(result,mockExternalRepository);
     }
 }

@@ -66,7 +66,7 @@ public class FamilyRepository implements IFamilyRepository {
         if (familyJPA.isPresent()) {
             return createFamily(familyJPA.get());
         } else {
-            throw new IllegalArgumentException("Family does not exists");
+            throw new IllegalArgumentException("Family does not exist");
         }
     }
 

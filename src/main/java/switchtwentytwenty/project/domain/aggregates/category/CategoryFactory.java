@@ -31,4 +31,21 @@ public class CategoryFactory {
 
         return category;
     }
+
+    public Category createCategory(CategoryName name, CategoryID id, ParentCategoryPath parentID) {
+        Category category;
+
+        category = new StandardCategory(name, id, parentID);
+
+        return category;
+    }
+
+    public Category createCategory(CategoryName name, ParentCategoryPath parentID, FamilyID familyID) {
+
+        Category category;
+
+        category = new CustomCategory(parentID, name, familyID);
+
+        return category;
+    }
 }

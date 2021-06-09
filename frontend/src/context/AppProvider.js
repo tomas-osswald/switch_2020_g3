@@ -1,9 +1,8 @@
 import React, {useReducer} from 'react';
-
 // prop-types is an installed dependency
 import PropTypes from "prop-types";
 import {Provider} from './AppContext';
-import reducer from './Reducer';
+import reducer from './ApplicationReducer';
 
 const initialState = {
     /*
@@ -16,29 +15,131 @@ const initialState = {
     },
 
      */
-    loggeduser: 'kvanessa@latina.com',
-    family: {
+
+    mainView: '',
+
+    loggedUser: {
+        id: '',
+        role: '',
+        name: '',
+    },
+
+    /*loggedUserProfile: {
+        id: 'tonyze@latinlover.com',
+    },*/
+
+    landingPage: {
+        loading: true,
+        error: null,
+        name: '',
+        family_id: '',
+    },
+
+    name: {
         loading: true,
         error: null,
         data: [],
     },
+
+    loggeduserTest: {
+        email: ['tonyze@latinlover.com'],
+        familyId: ['@tonyze@latinlover.com'],
+    },
+
+    familyData: {
+        loading: true,
+        error: null,
+        data: [
+            {
+                familyName: '',
+                familyID: '',
+                adminID: '',
+                registrationDate: ''
+            }
+        ]
+    },
+
+    family: {
+        loading: true,
+        error: null,
+        data: {
+            familyMemberAndRelationsDTO: [{
+                name: "",
+                personID: "",
+                relations: [{
+                    memberOneID: "",
+                    memberTwoID: "",
+                    relationDesignation: "",
+                }]
+            }],
+        },
+
+    },
+
+    addRelationStatus: null,
+
+
     familymembers: {
         loading: true,
         error: null,
         data: [],
         relations: [{
             userid: 0,
-            loading: true,
-            error: null,
             data: [],
         }],
     },
+
     profile: {
         loading: true,
         error: null,
-        data: [],
+        profileData: {
+            id: "",
+            name: "",
+            birthdate: "",
+            emails: [],
+            phoneNumbers: [],
+            vat: "",
+            street: "",
+            city: "",
+            zipCode: "",
+            doorNumber: "",
+            familyID: "",
+        }
+    },
+
+    newMember: {
+        loading: true,
+        error: null,
+        newMemberData: {
+            adminID: '',
+            emailID: '',
+            name: '',
+            birthDate: '',
+            vatNumber: '',
+            phone: '',
+            street: '',
+            city: '',
+            houseNumber: '',
+            zipCode: '',
+        }
+    },
+
+    createdfamily: {
+        loading: true,
+        error: null,
+        data:
+            {
+                familyName: '',
+                familyID: '',
+                adminID: '',
+                registrationDate: ''
+            }
+
     }
 };
+
+console.log(initialState.profile);
+
 
 // -> Insert more data objects in a different way
 // ex:
@@ -47,18 +148,28 @@ const headers = {
     id: "ID",
     name: "Name",
     username: "User Name",
-    email: "Email",
-
+    vat: "VAT",
+    birthdate: "Birthdate",
+    city: "City",
 
 };
+/*
+const labels = {
 
-const AppProvider = (props) =>{
+    one: "1",
+    two: "2",
+    three: "3",
+
+}*/
+
+const AppProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <Provider value={{
             state,
             headers,
-            dispatch}}>
+            dispatch
+        }}>
             {props.children}
         </Provider>
     );

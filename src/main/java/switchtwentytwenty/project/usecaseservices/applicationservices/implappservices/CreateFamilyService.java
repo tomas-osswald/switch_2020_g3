@@ -54,12 +54,10 @@ public class CreateFamilyService implements ICreateFamilyService {
 
         Person admin = new Person(name, birthDate, adminID, vat, phone, address, familyID);
         Family family = new Family(familyID, familyName, registrationDate, adminID);
-        //TODO Usar Domain Service para a criação da Pessoa e da Family (unit of work)  - Factory for Family
 
-        //TODO Unit of work
         personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
 
-        return familyDTODomainAssembler.toOutputRelationDTO(registeredFamily);
+        return familyDTODomainAssembler.toOutputFamilyDTO(registeredFamily);
     }
 }

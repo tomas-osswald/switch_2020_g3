@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
+
 import reportWebVitals from './pages/reportWebVitals';
 import AppProvider from "./context/AppProvider";
+import App from "./App";
+
 
 ReactDOM.render(
     <AppProvider>
         <React.StrictMode>
+
+            {/*<script src="http://localhost:8097"></script>*/}
             <App />
         </React.StrictMode>
     </AppProvider>,
