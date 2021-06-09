@@ -1,0 +1,38 @@
+@startuml
+
+left to right direction
+
+title Use Case Diagram - SP06
+
+actor "System User" as su
+actor "Parent" as parent
+actor "Family Member" as fm
+
+usecase "UC080 - to login into the application" as uc080
+usecase "UC150 - to get my profile’s information" as uc150
+usecase "UC151 - to add an email account to my \nprofile" as uc151
+usecase "UC170 - to create a personal cash account" as uc170
+usecase "UC171 - to add a bank account I have" as uc171
+usecase "UC172 - to add a bank savings account I have" as uc172
+usecase "UC173 - to add a credit card account I have" as uc173
+usecase "UC180 - to transfer money from my cash \naccount to another family member’s cash account" as uc180
+usecase "UC181 - to register a payment that I have \nmade using one of my cash accounts" as uc181
+usecase "UC185 - to check the balance of one of my accounts" as uc185
+usecase "UC186 - to get the list of movements \non one of my accounts between to dates" as uc186
+usecase "UC188 - to check the balance of one \nof my children’s cash account" as uc188
+
+su -- uc080
+fm -- uc150
+fm -- uc151
+fm -- uc170
+fm -- uc171
+fm -- uc172
+fm -- uc173
+fm -- uc180
+fm -- uc181
+fm -- uc185
+fm -- uc186
+parent -- uc188
+
+
+@enduml
