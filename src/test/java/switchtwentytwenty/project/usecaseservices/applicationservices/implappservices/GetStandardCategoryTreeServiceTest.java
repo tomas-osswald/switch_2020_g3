@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +16,7 @@ import switchtwentytwenty.project.dto.assemblers.iassemblers.ICategoryDTODomainA
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.ICategoryRepository;
+import switchtwentytwenty.project.usecaseservices.irepositories.IExternalCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,9 @@ class GetStandardCategoryTreeServiceTest {
 
     @Mock
     ICategoryDTODomainAssembler mockCategoryDTODomainAssembler;
+
+    @Mock
+    IExternalCategoryRepository externalCategoryRepository;
 
     @InjectMocks
     GetStandardCategoryTreeService getStandardCategoryTreeService;
@@ -96,14 +101,18 @@ class GetStandardCategoryTreeServiceTest {
     }
 
     @Test
+    @Disabled
     void getStandardCategoryTreeAllNotNull() {
-        List<Category> categoryListx = new ArrayList<>();
-        categoryListx.add(category1);
-        categoryListx.add(category2);
+        List<Category> categoryListOne = new ArrayList<>();
+        List<Category> categoryListTwo = new ArrayList<>();
+        categoryListOne.add(category1);
+        categoryListTwo.add(category2);
 
-        when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListx);
+
+        when(mockCategoryRepository.getStandardCategoryList()).thenReturn(categoryListOne);
+        when(externalCategoryRepository.getCategoryList()).thenReturn(categoryListTwo);
         when(mockCategoryDTODomainAssembler.toDTO(any(Category.class))).thenReturn(outputCategoryDTO1).thenReturn(outputCategoryDTO2);
-        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTreeOwn();
+        OutputCategoryTreeDTO result = getStandardCategoryTreeService.getStandardCategoryTreeAll();
 
 
         assertNotNull(result);
