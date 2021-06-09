@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public class RelationID implements ID<Integer> {
+public class RelationID implements ID {
     private final int id;
 
     public RelationID(int relationID) {
