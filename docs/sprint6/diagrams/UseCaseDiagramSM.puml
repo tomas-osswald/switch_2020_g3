@@ -6,14 +6,12 @@ title Use Case Diagram - System Manager
 
 actor "System Manager" as sm
 
-usecase "UC001 - to create a standard category" as uc001
-usecase "UC002 - to get the standard categories \ntree" as uc002
-usecase "UC003 - to include external categories loaded \nfrom a complementary system by configuration" as uc003
-usecase "UC010 - to create a family and set a \nfamily administrator" as uc010
+usecase "create a standard category" as uc001
+usecase "get the standard categories \ntree" as uc002
+usecase "create a family and set a \nfamily administrator" as uc010
 
 sm -- uc001
 sm -- uc002
-sm -- uc003
 sm -- uc010
 
 @enduml
