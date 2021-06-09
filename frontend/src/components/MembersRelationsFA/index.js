@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 
-import {changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {changeRefresh, changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
     ButtonCell,
@@ -17,7 +17,7 @@ import {
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    let {family, familyData} = state;
+    let {family, familyData, refresh} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
@@ -36,18 +36,16 @@ function MembersRelationsFA() {
 
     useEffect(() => {
 
-        /*
-        Estes fetch não estão a funcionar porque o familyID que entra é nulo, tanto o do profileData
-        como o da landingPage. É preciso garantir que o familyID é atulizado no state no momento do
-        login
-        - fetchFamilyRelationsFA(dispatch, family_id);
-        - fetchFamilyRelationsFA(dispatch, state.profile.data.familyID);
-         */
-
         fetchFamilyRelationsFA(dispatch, family_id)
 
 
     }, [])
+
+    useEffect(() => {
+
+        fetchFamilyRelationsFA(dispatch, family_id);
+        dispatch(changeRefresh(false));
+    }, [refresh])
 
 
     function findMemberTwoName(TwoID) {

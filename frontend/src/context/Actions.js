@@ -1,4 +1,5 @@
 import {
+    addInputedEmailToFamilyMember,
     addRelation,
     createFamilySMService,
     familyNameGlobal,
@@ -6,7 +7,6 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
-    addInputedEmailToFamilyMember,
     postNewMember
 } from './Service'
 
@@ -41,6 +41,7 @@ export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
 export const ADD_EMAIL_STARTED = "ADD_EMAIL_STARTED";
 export const ADD_EMAIL_SUCCESS = "ADD_EMAIL_SUCCESS";
 export const ADD_EMAIL_FAILURE = "ADD_EMAIL_FAILURE";
+export const CHANGE_REFRESH = "CHANGE_REFRESH";
 
 // export const ADD_EMAIL = 'ADD_EMAIL';
 
@@ -72,6 +73,13 @@ export function changeView(value) {
         payload: {
             mainView: value
         }
+    }
+}
+
+export function changeRefresh(value) {
+    return {
+        type: CHANGE_REFRESH,
+        payload: value
     }
 }
 
@@ -348,23 +356,9 @@ export function addNewMemberStart() {
     }
 }
 
-export function addNewMemberSuccess(newMember){
-    console.log(newMember)
+export function addNewMemberSuccess(newMember) {
     return {
         type: ADD_NEW_MEMBER_SUCCESS,
-        payload: {
-            emailID: newMember.data.id,
-            name: newMember.data.name,
-            birthDate: newMember.data.birthdate,
-            emails: newMember.data.emails,
-            phone: newMember.data.phoneNumbers,
-            vatNumber: newMember.data.vat,
-            street: newMember.data.street,
-            city: newMember.data.city,
-            zipCode: newMember.data.zipCode,
-            houseNumber: newMember.data.doorNumber,
-            familyID: newMember.data.familyID
-        }
     }
 }
 

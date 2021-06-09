@@ -1,10 +1,13 @@
 import {
+    ADD_EMAIL_FAILURE,
+    ADD_EMAIL_STARTED,
+    ADD_EMAIL_SUCCESS,
     ADD_NEW_MEMBER_FAILURE,
     ADD_NEW_MEMBER_START,
     ADD_NEW_MEMBER_SUCCESS,
     ADD_RELATION_FAILURE,
     ADD_RELATION_STARTED,
-    ADD_RELATION_SUCCESS,
+    ADD_RELATION_SUCCESS, CHANGE_REFRESH,
     CHANGE_USER,
     CHANGE_VIEW,
     CREATE_FAMILY_FAILURE,
@@ -22,14 +25,9 @@ import {
     FETCH_USER_NAME_FAILURE,
     FETCH_USER_NAME_START,
     FETCH_USER_NAME_SUCCESS,
+    LOADING_LANDING_PAGE_FALSE,
     LOGOUT,
-    UPDATE_NAME,
-    ADD_EMAIL_STARTED,
-    ADD_EMAIL_SUCCESS,
-    ADD_EMAIL_FAILURE,
-
-
-    LOADING_LANDING_PAGE_FALSE
+    UPDATE_NAME
 } from './Actions'
 
 function reducer(state, action) {
@@ -270,6 +268,12 @@ function reducer(state, action) {
                 mainView: action.payload.mainView,
             }
 
+        case CHANGE_REFRESH:
+            return {
+                ...state,
+                refresh: action.payload,
+            }
+
         case FETCH_USER_NAME_START:
             return {
                 ...state,
@@ -372,16 +376,11 @@ function reducer(state, action) {
         case ADD_NEW_MEMBER_START:
             return {
                 ...state,
-                newMember: {
-                    loading: true,
-                    error: null,
-                    newMemberData: [],
-                }
             }
 
         case ADD_NEW_MEMBER_FAILURE:
-            console.log(action)
-            return{
+
+            return {
                 ...state,
                 newMember: {
                     loading: false,
@@ -390,44 +389,26 @@ function reducer(state, action) {
             }
 
         case ADD_NEW_MEMBER_SUCCESS:
-            console.log(action)
-            return{
+
+            return {
                 ...state,
-                newMember: {
-                    loading: false,
-                    error: null,
-                    newMemberData: {
-
-                        emailID: action.payload.emailID,
-                        name: action.payload.name,
-                        birthDate: action.payload.birthDate,
-                        emails: action.payload.emails,
-                        phone: action.payload.phone,
-                        vatNumber: action.payload.vatNumber,
-                        street: action.payload.street,
-                        city: action.payload.city,
-                        zipCode: action.payload.zipCode,
-                        houseNumber: action.payload.houseNumber,
-                        familyID: action.payload.familyID
-                    },
-                },
-
-                family: {
-                    loading: true,
-                },
-
-                mainView: 'family'
+                refresh: true,
             }
+
+
+
         case LOADING_LANDING_PAGE_FALSE:
             return {
                 ...state,
                 landingPage: {
-                        loading: false,
-                        }
+                    loading: false,
+                }
             }
 
         default:
             return state;
+
+
     }
 }
 

@@ -175,9 +175,9 @@ export function addInputedEmailToFamilyMember(success, failure, id, email){
  * **/
 
 export function postNewMember(success, failure, addNewMember){
-    //let url = URL_API + "/people/";
     axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {
         headers: {
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
         }
     })
