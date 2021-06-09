@@ -65,6 +65,25 @@ export default function CreateFamilySM() {
         handleSubmit().then(changeDisplay());
     }
 
+    function cleanStateAndChangeDisplay(){
+        cleanState()
+        changeDisplay();
+    }
+
+    function cleanState(){
+        setEmailID('');
+        setName('');
+        setBirthdate('');
+        setVatNumber('');
+        setPhoneNumber('');
+        setStreet('');
+        setCity('');
+        setHouseNumber('');
+        setZipCode('');
+        setFamilyName('');
+        setRegistrationDate('');
+    }
+
     //target.value -> permite que cada valor introduzido seja acrescentado ao valor anterior. Se for apagado algum dos valores, altera também o estado atual da variável.
     // Consultar Manuel Almeida
 
@@ -142,6 +161,7 @@ export default function CreateFamilySM() {
                 <button onClick={submitAndChangeDisplay}>Register Family</button>
             </div>
         )
+        //TODO: Add Loading Screen
     } else if (!display && loading === true) {
         return (
             <div>
@@ -151,8 +171,8 @@ export default function CreateFamilySM() {
     } else if (!display && error !== null) {
         return (
             <div>
-                Error...............
-                <button onClick={changeDisplay}>Try again</button>
+                <p>{createdfamily.error}</p>
+                <button onClick={cleanStateAndChangeDisplay}>Try again</button>
             </div>
         )
     } else {
@@ -162,7 +182,7 @@ export default function CreateFamilySM() {
                 <p>{data.familyID}</p>
                 <p>{data.adminID}</p>
                 <p>{data.registrationDate}</p>
-                <button onClick={changeDisplay}>Create another family</button>
+                <button onClick={cleanStateAndChangeDisplay}>Create another family</button>
             </>
         )
     }
