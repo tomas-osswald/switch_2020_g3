@@ -6,7 +6,7 @@ import '../../styles/profile.css'
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
-    const {id} = loggedUser;
+       const {id} = loggedUser;
     const {loading, error, profileData} = profile;
 
     const [email, setEmail] = useState("");

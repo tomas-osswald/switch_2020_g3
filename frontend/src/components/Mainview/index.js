@@ -17,7 +17,10 @@ function Mainview() {
     if (mainView === 'profile') {
         return (
             <MainviewDiv>
-                <Profile/>
+
+                    <Profile/>
+
+
             </MainviewDiv>
         )
     } else if (mainView === 'createFamily') {

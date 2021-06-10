@@ -1,8 +1,20 @@
+:root {
+    --backgroundGreenOpacity: rgba(226, 223, 223, 0.7);
+    --backgroundGreen: #52ec85;
+    --backgroundGrey: #e2dfdf;
+    --backgroundGreyHover: #999797;
+    --backgroundBlack: #262626;
+    --backgroundBlackOpacity: rgba(38,38,38,0.8);
+    --backgroundGreenHover: #3bac5f;
+    --defaultFont: Helvetica;
+}
+
 @media only screen and (min-width: 320px) and (max-width: 479px) {
     .info {
         font-size: 0.9vw;
     }
 }
+
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
     .info {
@@ -22,14 +34,17 @@
     }
 }
 
+
 .card {
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
-    max-width: 60%;
+
+    justify-content: center;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 2, 0.5);
+    max-width: 55%;
     margin: auto;
     text-align: center;
-  height:90%;
+    height:90%;
     border-radius: 10px;
-    background-color: dimgray;
+    background-color: var(--backgroundGreen);
 }
 
 .column {
@@ -47,7 +62,7 @@
 }
 
 .row-divider {
-    background-color: grey;
+    background-color: var(--backgroundBlack);
     height: 1rem;
 }
 
@@ -60,7 +75,9 @@
 }
 
 .card-body {
+    width: 100%;
     margin: 5px;
+    height: inherit;
 }
 
 .row {
@@ -77,7 +94,7 @@
 }
 
 .column-right {
-
+    vertical-align: middle;
     float: right;
     text-align: start;
     border: 2px;
@@ -96,10 +113,16 @@
     text-align: start;
 }
 
+.profile-title
+{
+    width: 100%;
+}
+
 .item {
     font-weight: bold;
     font-size: 1.1vw;
     text-align:start ;
+
     text-indent: calc(15px + 0.3vw);
 }
 
@@ -137,5 +160,3 @@ button:hover, a:hover {
     margin: 5px;
     text-align: justify;
 }
-
-/* Clear floats after the columns */
