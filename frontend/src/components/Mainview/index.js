@@ -21,9 +21,8 @@ function Mainview() {
     } else if (mainView === 'createFamily') {
         return (
             <MainviewDiv>
-                Mainview deste lado
-                <br/>
-                Create Family aqui
+                <h3 align="center">Create a Family and Set Administrator</h3>
+                <br></br>
                 <CreateFamilySM />
             </MainviewDiv>
         )

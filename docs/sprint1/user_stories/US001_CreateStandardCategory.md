@@ -23,7 +23,6 @@ The name of a standard category must be case-insensitive.
 ### System Sequence Diagram
 
 ```` puml
-
     autonumber
     title createStandardCategory SSD
     actor "System Manager" as systemManager
@@ -36,7 +35,6 @@ The name of a standard category must be case-insensitive.
     system --> systemManager: inform success
     deactivate system
 
-@endpuml
 ````
 # 2. Analysis
 

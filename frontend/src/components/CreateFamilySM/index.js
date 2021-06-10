@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {CreateFamilyDiv} from "./CreateFamilyElements";
 import AppContext from "../../context/AppContext";
 import {createFamilySM} from "../../context/Actions";
+import {FormControl, FormGroup, FormLabel} from "react-bootstrap";
 /*import CreateFamilyForm, {
     emailID,
     name,
@@ -60,8 +61,27 @@ export default function CreateFamilySM() {
         setDisplay(!display)
     }
 
-    function submitAndChangeDisplay(){
+    function submitAndChangeDisplay() {
         handleSubmit().then(changeDisplay());
+    }
+
+    function cleanStateAndChangeDisplay(){
+        cleanState()
+        changeDisplay();
+    }
+
+    function cleanState(){
+        setEmailID('');
+        setName('');
+        setBirthdate('');
+        setVatNumber('');
+        setPhoneNumber('');
+        setStreet('');
+        setCity('');
+        setHouseNumber('');
+        setZipCode('');
+        setFamilyName('');
+        setRegistrationDate('');
     }
 
     //target.value -> permite que cada valor introduzido seja acrescentado ao valor anterior. Se for apagado algum dos valores, altera também o estado atual da variável.
@@ -71,62 +91,101 @@ export default function CreateFamilySM() {
         return (
             <div>
                 <form>
-                    <label>email:</label>
-                    <input type="text" id="emailID" onChange={emailID => setEmailID(emailID.target.value)}/>
-                    <label>admin name:</label>
-                    <input type="text" id="name" onChange={name => setName(name.target.value)}/>
-                    <label>birthdate:</label>
-                    <input type="text" id="birthdate" onChange={birthdate => setBirthdate(birthdate.target.value)}/>
-                    <label>Vat Number:</label>
-                    <input type="text" id="vatnumber" onChange={vatNumber => setVatNumber(vatNumber.target.value)}/>
-                    <label>phone:</label>
-                    <input type="text" id="phone" onChange={phone => setPhoneNumber(phone.target.value)}/>
-                    <label>street:</label>
-                    <input type="text" id="street" onChange={street => setStreet(street.target.value)}/>
-                    <label>city:</label>
-                    <input type="text" id="city" onChange={city => setCity(city.target.value)}/>
-                    <label>house number:</label>
-                    <input type="text" id="house number"
-                           onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
-                    <label>Zip Code:</label>
-                    <input type="text" id="zip code" onChange={zipCode => setZipCode(zipCode.target.value)}/>
-                    <label>Family Name:</label>
-                    <input type="text" id="family name"
-                           onChange={familyName => setFamilyName(familyName.target.value)}/>
-                    <label>Registration Date:</label>
-                    <input type="text" id="registration date"
-                           onChange={registrationDate => setRegistrationDate(registrationDate.target.value)}/>
+                    <FormGroup controlId="emailID">
+                        <FormLabel>Email: </FormLabel>
+                        <FormControl type="text" placeholder="Insert email here"
+                                     onChange={emailID => setEmailID(emailID.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="adminName">
+                        <FormLabel>Administrator Name: </FormLabel>
+                        <FormControl type="text" placeholder="Insert Admin name"
+                                     onChange={name => setName(name.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="birthdate">
+                        <FormLabel>Birthdate: </FormLabel>
+                        <FormControl type="text" placeholder="Insert birthdate here"
+                                     onChange={birthdate => setBirthdate(birthdate.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="vatnumber">
+                        <FormLabel>Vat Number: </FormLabel>
+                        <FormControl type="text" placeholder="Insert Vat Number here"
+                                     onChange={vatNumber => setVatNumber(vatNumber.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="phone">
+                        <FormLabel>Phone Number: </FormLabel>
+                        <FormControl type="text" placeholder="Insert Phone number here"
+                                     onChange={phone => setPhoneNumber(phone.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="street">
+                        <FormLabel>Street: </FormLabel>
+                        <FormControl type="text" placeholder="Insert street here"
+                                     onChange={street => setStreet(street.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="city">
+                        <FormLabel>City: </FormLabel>
+                        <FormControl type="text" placeholder="Insert city here"
+                                     onChange={city => setCity(city.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="houseNumber">
+                        <FormLabel>House Number: </FormLabel>
+                        <FormControl type="text" placeholder="Insert house number here"
+                                     onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="zipCode">
+                        <FormLabel>Zip Code: </FormLabel>
+                        <FormControl type="text" placeholder="Insert zip code here"
+                                     onChange={zipCode => setZipCode(zipCode.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="familyName">
+                        <FormLabel>Family Name: </FormLabel>
+                        <FormControl type="text" placeholder="Insert Family Name"
+                                     onChange={familyName => setFamilyName(familyName.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="registrationDate">
+                        <FormLabel>Registration Date: </FormLabel>
+                        <FormControl type="text" placeholder="Insert registration date here"
+                                     onChange={registrationDate => setRegistrationDate(registrationDate.target.value)}/>
+                    </FormGroup>
                 </form>
+                <br></br>
                 <button onClick={submitAndChangeDisplay}>Register Family</button>
             </div>
         )
+        //TODO: Add Loading Screen
     } else if (!display && loading === true) {
         return (
             <div>
                 Loading...............
             </div>
         )
-    }
-    else if (!display && error !== null) {
+    } else if (!display && error !== null) {
         return (
             <div>
-                Error...............
+                <p>{createdfamily.error}</p>
+                <button onClick={cleanStateAndChangeDisplay}>Try again</button>
             </div>
         )
-    }
-    else {
+    } else {
         return (
             <>
                 <p>{data.familyName}</p>
                 <p>{data.familyID}</p>
                 <p>{data.adminID}</p>
                 <p>{data.registrationDate}</p>
+                <button onClick={cleanStateAndChangeDisplay}>Create another family</button>
             </>
         )
     }
-
-
-
 
 
 }
