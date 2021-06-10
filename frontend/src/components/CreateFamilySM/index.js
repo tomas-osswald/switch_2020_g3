@@ -1,5 +1,4 @@
 import React, {useContext, useState} from 'react';
-import {CreateFamilyDiv} from "./CreateFamilyElements";
 import AppContext from "../../context/AppContext";
 import {createFamilySM} from "../../context/Actions";
 import {FormControl, FormGroup, FormLabel} from "react-bootstrap";
@@ -65,12 +64,12 @@ export default function CreateFamilySM() {
         handleSubmit().then(changeDisplay());
     }
 
-    function cleanStateAndChangeDisplay(){
+    function cleanStateAndChangeDisplay() {
         cleanState()
         changeDisplay();
     }
 
-    function cleanState(){
+    function cleanState() {
         setEmailID('');
         setName('');
         setBirthdate('');
@@ -178,10 +177,10 @@ export default function CreateFamilySM() {
     } else {
         return (
             <>
-                <p>{data.familyName}</p>
-                <p>{data.familyID}</p>
-                <p>{data.adminID}</p>
-                <p>{data.registrationDate}</p>
+                <p>Family Name: {data.familyName}</p>
+                <p>Family ID: {data.familyID}</p>
+                <p>Family Admin ID: {data.adminID}</p>
+                <p>Family Registration Date: {data.registrationDate}</p>
                 <button onClick={cleanStateAndChangeDisplay}>Create another family</button>
             </>
         )
