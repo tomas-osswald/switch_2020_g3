@@ -1,4 +1,6 @@
 import React, {useContext} from 'react';
+import '../../styles/mainView.css'
+import '../../styles/global.css'
 import {MainviewDiv} from "./MainviewElements";
 import MembersRelationsFA from "../MembersRelationsFA";
 import AppContext from "../../context/AppContext";
