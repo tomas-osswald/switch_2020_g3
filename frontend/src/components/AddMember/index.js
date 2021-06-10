@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {AddMemberDiv} from "./AddMemberElements";
 import {Form, Button, FormControl} from 'react-bootstrap';
 import AppContext from "../../context/AppContext";
-import {addNewMember} from "../../context/Actions";
+import {addNewMember, changeView} from "../../context/Actions";
 
 function AddMember() {
 
@@ -40,8 +40,9 @@ function AddMember() {
             houseNumber: houseNumber,
             zipCode: zipCode,
         }
-        console.log(emailID, id, userName, birthDate, vatNumber, phone, street, zipCode)
         addNewMember(dispatch, newMember);
+        dispatch(changeView('family'));
+
     }
 
     return (

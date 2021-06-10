@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @NoArgsConstructor
-public class PersonID implements IOwnerID<EmailAddress>, Serializable {
+public class PersonID implements IOwnerID, Serializable {
 
     private EmailAddress id;
 

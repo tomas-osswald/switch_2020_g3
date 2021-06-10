@@ -1,7 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.io.Serializable;

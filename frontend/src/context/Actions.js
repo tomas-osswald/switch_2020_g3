@@ -1,4 +1,5 @@
 import {
+    addInputedEmailToFamilyMember,
     addRelation,
     createFamilySMService,
     familyNameGlobal,
@@ -6,7 +7,6 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
-    addInputedEmailToFamilyMember,
     postNewMember
 } from './Service'
 
@@ -41,6 +41,7 @@ export const CREATE_FAMILY_FAILURE = "CREATE_FAMILY_FAILURE";
 export const ADD_EMAIL_STARTED = "ADD_EMAIL_STARTED";
 export const ADD_EMAIL_SUCCESS = "ADD_EMAIL_SUCCESS";
 export const ADD_EMAIL_FAILURE = "ADD_EMAIL_FAILURE";
+export const CHANGE_REFRESH = "CHANGE_REFRESH";
 
 // export const ADD_EMAIL = 'ADD_EMAIL';
 
@@ -72,6 +73,13 @@ export function changeView(value) {
         payload: {
             mainView: value
         }
+    }
+}
+
+export function changeRefresh(value) {
+    return {
+        type: CHANGE_REFRESH,
+        payload: value
     }
 }
 
@@ -242,10 +250,10 @@ export function createFamilySMSuccess(family) {
     return {
         type: CREATE_FAMILY_SUCCESS,
         payload: {
-            familyName: family.familyName,
-            familyID: family.familyID,
-            adminID: family.adminID,
-            registrationDate: family.registrationDate
+            familyName: family.data.familyName,
+            familyID: family.data.familyID,
+            adminID: family.data.adminID,
+            registrationDate: family.data.registrationDate
         }
     }
 }
@@ -300,9 +308,9 @@ export function fetchNameFailure(error) {
 
 // Add email in Profile ----------------------------------------------------------------
 
-export function addEmailToFamilyMember(dispatch, id) {
+export function addEmailToFamilyMember(dispatch, id, email) {
     dispatch(addEmailStarted());
-    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id);
+    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id, email);
 
 }
 
@@ -313,12 +321,13 @@ export function addEmailStarted() {
     }
 }
 
-export function addEmailSuccess(profile, email) {
+export function addEmailSuccess(email) {
     return {
         type: ADD_EMAIL_SUCCESS,
         payload: {
-            email: profile.profileData.emails.push(email)
+            email: email
         }
+
 
     }
 }
@@ -347,23 +356,9 @@ export function addNewMemberStart() {
     }
 }
 
-export function addNewMemberSuccess(newMember){
-    console.log(newMember)
+export function addNewMemberSuccess(newMember) {
     return {
         type: ADD_NEW_MEMBER_SUCCESS,
-        payload: {
-            emailID: newMember.data.id,
-            name: newMember.data.name,
-            birthDate: newMember.data.birthDate,
-            emails: newMember.data.emails,
-            phone: newMember.data.phoneNumbers,
-            vatNumber: newMember.data.vat,
-            street: newMember.data.street,
-            city: newMember.data.city,
-            zipCode: newMember.data.zipCode,
-            houseNumber: newMember.data.doorNumber,
-            familyID: newMember.data.familyID
-        }
     }
 }
 

@@ -1,4 +1,4 @@
-/*@media only screen and (min-width: 320px) and (max-width: 479px) {
+@media only screen and (min-width: 320px) and (max-width: 479px) {
     .info {
         font-size: 0.9vw;
     }
@@ -20,18 +20,16 @@
     .info {
         font-size: 4vw;
     }
-}*/
-
-
-/*---------------------------------------------------------*/
+}
 
 .card {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
     max-width: 60%;
     margin: auto;
     text-align: center;
-    height: max-content;
+    /*height: 100%;*/
     border-radius: 10px;
+    background-color: dimgray;
 }
 
 /*.title {
@@ -146,11 +144,13 @@ column left {
 
 .address-title {
     text-align: start;
+    text-indent: 80px;
     font-size: 1.2vw;
 }
 
 .info {
     font-size: 1.1vw;
+    text-align: start;
 }
 
 .item {
@@ -158,7 +158,11 @@ column left {
     font-size: 1.1vw;
 }
 
+.input-email
+{
+    width: 75%;
 
+}
 /*button {
     border: none;
     outline: 1px;
@@ -177,9 +181,15 @@ button:hover, a:hover {
 }
 
 .addbutton {
-    padding: 5px;
+    font-size: 10px;
+    font-weight: bold;
+    vertical-align: middle;
+
+    text-justify: distribute-center-last;
+    padding: 10px;
     height: 20px;
     margin: 5px;
+    text-align: justify;
 }
 
 /* Clear floats after the columns */

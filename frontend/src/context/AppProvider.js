@@ -35,6 +35,8 @@ const initialState = {
         family_id: '',
     },
 
+    refresh: false,
+
     name: {
         loading: true,
         error: null,
@@ -127,14 +129,14 @@ const initialState = {
     createdfamily: {
         loading: true,
         error: null,
-        data: [
+        data:
             {
                 familyName: '',
                 familyID: '',
                 adminID: '',
                 registrationDate: ''
             }
-        ]
+
     }
 };
 

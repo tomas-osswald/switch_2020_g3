@@ -1,10 +1,13 @@
 import {
+    ADD_EMAIL_FAILURE,
+    ADD_EMAIL_STARTED,
+    ADD_EMAIL_SUCCESS,
     ADD_NEW_MEMBER_FAILURE,
     ADD_NEW_MEMBER_START,
     ADD_NEW_MEMBER_SUCCESS,
     ADD_RELATION_FAILURE,
     ADD_RELATION_STARTED,
-    ADD_RELATION_SUCCESS,
+    ADD_RELATION_SUCCESS, CHANGE_REFRESH,
     CHANGE_USER,
     CHANGE_VIEW,
     CREATE_FAMILY_FAILURE,
@@ -22,14 +25,9 @@ import {
     FETCH_USER_NAME_FAILURE,
     FETCH_USER_NAME_START,
     FETCH_USER_NAME_SUCCESS,
+    LOADING_LANDING_PAGE_FALSE,
     LOGOUT,
-    UPDATE_NAME,
-    ADD_EMAIL_STARTED,
-    ADD_EMAIL_SUCCESS,
-    ADD_EMAIL_FAILURE,
-
-
-    LOADING_LANDING_PAGE_FALSE
+    UPDATE_NAME
 } from './Actions'
 
 function reducer(state, action) {
@@ -116,7 +114,7 @@ function reducer(state, action) {
         case ADD_RELATION_SUCCESS:
             return {
                 ...state,
-                addRelationStatus: true,
+                refresh: true,
             }
 
         case FETCH_FAMILYRELATIONS_STARTED:
@@ -285,8 +283,13 @@ function reducer(state, action) {
                 mainView: action.payload.mainView,
             }
 
-        case
-        FETCH_USER_NAME_START:
+        case CHANGE_REFRESH:
+            return {
+                ...state,
+                refresh: action.payload,
+            }
+
+        case FETCH_USER_NAME_START:
             return {
                 ...state,
                 landingPage: {
@@ -339,12 +342,12 @@ function reducer(state, action) {
                 createdfamily: {
                     loading: false,
                     error: null,
-                    data: [{
+                    data: {
                         familyName: action.payload.familyName,
-                        familyID: action.payload.family_id,
+                        familyID: action.payload.familyID,
                         adminID: action.payload.adminID,
                         registrationDate: action.payload.registrationDate
-                    }]
+                    }
                 }
             }
 
@@ -363,22 +366,22 @@ function reducer(state, action) {
         ADD_EMAIL_STARTED:
             return {
                 ...state,
-                profile: {
+                /*profile: {
                     loading: true,
                     error: null,
-                    profileData: null,
-                }
+
+                }*/
             }
 
         case
         ADD_EMAIL_SUCCESS:
             return {
                 ...state,
-                profile: {
+                /*profile: {
                     loading: false,
                     error: null,
-                    profileData: action.payload
-                }
+                    profileData: []
+                }*/
             }
 
         case
@@ -397,16 +400,10 @@ function reducer(state, action) {
         ADD_NEW_MEMBER_START:
             return {
                 ...state,
-                newMember: {
-                    loading: true,
-                    error: null,
-                    newMemberData: [],
-                }
             }
 
-        case
-        ADD_NEW_MEMBER_FAILURE:
-            console.log(action)
+        case ADD_NEW_MEMBER_FAILURE:
+
             return {
                 ...state,
                 newMember: {
@@ -431,52 +428,16 @@ function reducer(state, action) {
                 },
             }
 
-        case
-        ADD_NEW_MEMBER_SUCCESS:
-            console.log(action)
+        case ADD_NEW_MEMBER_SUCCESS:
+
             return {
                 ...state,
-                newMember: {
-                    loading: false,
-                    error: null,
-                    newMemberData: {
-
-                        emailID: action.payload.emailID,
-                        name: action.payload.name,
-                        birthDate: action.payload.birthDate,
-                        emails: action.payload.emails,
-                        phone: action.payload.phone,
-                        vatNumber: action.payload.vatNumber,
-                        street: action.payload.street,
-                        city: action.payload.city,
-                        zipCode: action.payload.zipCode,
-                        houseNumber: action.payload.houseNumber,
-                        familyID: action.payload.familyID
-                    },
-
-                },
-
-                family: {
-                    loading: true,
-                    error: null,
-                    data: {
-                        familyMemberAndRelationsDTO: [{
-                            name: "",
-                            personID: "",
-                            relations: [{
-                                memberOneID: "",
-                                memberTwoID: "",
-                                relationDesignation: "",
-                            }]
-                        }],
-                    },
-
-                },
-
-                mainView: 'family'
+                refresh: true,
             }
-        case
-        LOADING_LANDING_PAGE_FALSE:
+
+
+
+        case LOADING_LANDING_PAGE_FALSE:
             return {
                 ...state,
                 landingPage: {
@@ -486,6 +447,8 @@ function reducer(state, action) {
 
         default:
             return state;
+
+
     }
 }
 

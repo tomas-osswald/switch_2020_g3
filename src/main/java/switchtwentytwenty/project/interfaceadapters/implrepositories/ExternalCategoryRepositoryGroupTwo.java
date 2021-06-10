@@ -47,7 +47,6 @@ public class ExternalCategoryRepositoryGroupTwo implements IExternalCategoryRepo
     }
 
     private List<ExternalStandardCategoryGroupTwoDTO> findAll() {
-        //RestTemplate restTemplate = new RestTemplate();
         return Arrays.stream(restTemplate.getForObject(resource, ExternalStandardCategoryGroupTwoDTO[].class)).collect(Collectors.toList());
     }
 

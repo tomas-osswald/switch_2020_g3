@@ -14,7 +14,7 @@ import java.util.Objects;
 public class CashAccount extends AbCashAccount {
 
 
-    protected CashAccount(IOwnerID ownerID, Designation designation) {
+    public CashAccount(IOwnerID ownerID, Designation designation) {
         super(ownerID, designation);
 
     }

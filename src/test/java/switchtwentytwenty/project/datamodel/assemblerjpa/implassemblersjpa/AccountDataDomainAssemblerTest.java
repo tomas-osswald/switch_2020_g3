@@ -81,7 +81,7 @@ class AccountDataDomainAssemblerTest {
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("@email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
-        IOwnerID<FamilyID> result = accountDataDomainAssembler.createOwnerID(accountJPA);
+        IOwnerID result = accountDataDomainAssembler.createOwnerID(accountJPA);
         FamilyID expected = new FamilyID("@email@email.com");
 
         assertNotNull(result);
@@ -95,7 +95,7 @@ class AccountDataDomainAssemblerTest {
         OwnerIDJPA ownerIDJPA = new OwnerIDJPA("email@email.com");
         AccountJPA accountJPA = new AccountJPA(accountIDJPA, ownerIDJPA, "account", "cash");
 
-        IOwnerID<PersonID> result = accountDataDomainAssembler.createOwnerID(accountJPA);
+        IOwnerID result = accountDataDomainAssembler.createOwnerID(accountJPA);
         PersonID expected = new PersonID("email@email.com");
 
         assertNotNull(result);

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @NoArgsConstructor
-public class FamilyID implements IOwnerID<String>, Serializable {
+public class FamilyID implements IOwnerID, Serializable {
     @Getter
     @Setter
     private String id;

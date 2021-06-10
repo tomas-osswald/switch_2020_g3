@@ -1,8 +1,9 @@
 package switchtwentytwenty.project.domain.valueobject;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RelationDesignation implements ValueObject {
+public class RelationDesignation implements ValueObject, Serializable {
 
     private final String description;
 

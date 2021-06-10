@@ -156,11 +156,11 @@ export function fetchNameWS(success, failure, id) {
         });
 }
 
-export function addInputedEmailToFamilyMember(success, failure, id){
+export function addInputedEmailToFamilyMember(success, failure, id, email){
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'example@email.com' })
+        body: JSON.stringify({ email: email })
     }
 
     fetch(`http://localhost:8080/people/${id}/emails`, requestOptions)
@@ -175,9 +175,9 @@ export function addInputedEmailToFamilyMember(success, failure, id){
  * **/
 
 export function postNewMember(success, failure, addNewMember){
-    //let url = URL_API + "/people/";
     axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {
         headers: {
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
         }
     })

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.Objects;
 
-public class CategoryID implements ID<Long> {
+public class CategoryID implements ID {
     @Getter
     private final String id;
 

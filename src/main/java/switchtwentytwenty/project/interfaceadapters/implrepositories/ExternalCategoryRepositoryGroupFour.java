@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 @Repository
 public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRepository {
 
-    private ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour;
+    private final ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour;
 
-    private CategoryFactory categoryFactory;
+    private final CategoryFactory categoryFactory;
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    //TODO está hardcoded, é preciso alterar para ser DI-nâ-MI-coooo
-    //@Value("http://vs260.dei.isep.ipp.pt:8080/api/categories/")
-    private String resource;// = "http://vs260.dei.isep.ipp.pt:8080/api/categories/";
+
+
+    private String resource;
 
     @Autowired
     public ExternalCategoryRepositoryGroupFour(ExternalCategoryDTODomainAssemblerGroupFour externalCategoryDTODomainAssemblerGroupFour, CategoryFactory categoryFactory, RestTemplate restTemplate) {
@@ -39,7 +39,6 @@ public class ExternalCategoryRepositoryGroupFour implements IExternalCategoryRep
     }
 
     private List<ExternalStandardCategoryGroupFourDTO> findAll() {
-        //restTemplate = new RestTemplate();
         return Arrays.stream(restTemplate.getForObject(resource, ExternalStandardCategoryGroupFourDTO[].class)).collect(Collectors.toList());
     }
 

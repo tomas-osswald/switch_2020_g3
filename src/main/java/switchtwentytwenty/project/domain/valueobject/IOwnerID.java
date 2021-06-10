@@ -1,6 +1,6 @@
 package switchtwentytwenty.project.domain.valueobject;
 
-public interface IOwnerID<T> extends ID {
+public interface IOwnerID extends ID {
 
 
 }

@@ -67,9 +67,9 @@ public class FamilyDTODomainAssembler {
         String designation = relation.getRelationDesignation().toString();
         String relationID = relation.getId().toString();
 
-        OutputRelationDTO outputRelationDTO = new OutputRelationDTO(personIDOne, personIDTwo, designation, relationID);
+        return new OutputRelationDTO(personIDOne, personIDTwo, designation, relationID);
 
-        return outputRelationDTO;
+
     }
 
     public OutputPersonRelationDTO toOutputPersonRelationDTO(Relation relation) {
@@ -78,9 +78,8 @@ public class FamilyDTODomainAssembler {
         String designation = relation.getRelationDesignation().toString();
         String relationID = relation.getId().toString();
 
-        OutputPersonRelationDTO outputRelationDTO = new OutputPersonRelationDTO(personIDOne, personIDTwo, designation, relationID);
+        return new OutputPersonRelationDTO(personIDOne, personIDTwo, designation, relationID);
 
-        return outputRelationDTO;
     }
 
 
