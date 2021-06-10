@@ -19,8 +19,8 @@ const initialState = {
     mainView: '',
 
     loggedUser: {
-        id: '',
-        role: '',
+        id: 'tonyze@latinlover.com',
+        role: 'familyAdministrator',
         name: '',
     },
 
