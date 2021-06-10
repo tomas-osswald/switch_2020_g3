@@ -3,6 +3,7 @@ import {CreateFamilyDiv} from "./CreateFamilyElements";
 import AppContext from "../../context/AppContext";
 import {createFamilySM} from "../../context/Actions";
 import {FormControl, FormGroup, FormLabel} from "react-bootstrap";
+import Loading from "../Loading";
 /*import CreateFamilyForm, {
     emailID,
     name,
@@ -164,17 +165,25 @@ export default function CreateFamilySM() {
         //TODO: Add Loading Screen
     } else if (!display && loading === true) {
         return (
-            <div>
-                Loading...............
-            </div>
-        )
+                <Loading/>
+                )
+
     } else if (!display && error !== null) {
-        return (
+
+        if(createdfamily.error === "Request failed with status code 422"){
+            return (
             <div>
-                <p>{createdfamily.error}</p>
+                <p> Um dos campos preenchidos estava incorreto. Por favor tente novamente </p>
                 <button onClick={cleanStateAndChangeDisplay}>Try again</button>
             </div>
-        )
+        ) } else {
+                return(
+                    <div>
+                        <p> Ups. Algo inesperado aconteceu. Tente novamente </p>
+                        <button onClick={cleanStateAndChangeDisplay}>Try again</button>
+                    </div>
+                )
+            }
     } else {
         return (
             <>
