@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class FFMSpringBootApplicationTest {
 // Test class added ONLY to cover main() invocation not covered by application tests.
     @Test
-    public void mainTest() {
+    void mainTest() {
         assertDoesNotThrow(() -> FFMSpringBootApplication.main(new String[]{}));
     }
 
