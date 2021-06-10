@@ -7,7 +7,8 @@ import {
     ADD_NEW_MEMBER_SUCCESS,
     ADD_RELATION_FAILURE,
     ADD_RELATION_STARTED,
-    ADD_RELATION_SUCCESS, CHANGE_REFRESH,
+    ADD_RELATION_SUCCESS,
+    CHANGE_REFRESH,
     CHANGE_USER,
     CHANGE_VIEW,
     CREATE_FAMILY_FAILURE,
@@ -107,7 +108,8 @@ function reducer(state, action) {
                 ...state,
                 family: {
                     loading: false,
-                    error: action.payload.error
+                    error: true,
+                    data: []
                 }
             }
 
@@ -471,7 +473,6 @@ function reducer(state, action) {
                 ...state,
                 refresh: true,
             }
-
 
 
         case LOADING_LANDING_PAGE_FALSE:
