@@ -1,17 +1,17 @@
 package switchtwentytwenty.project.authentication;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-//Code adapted from https://www.javainuse.com/spring/boot-jwt
+import java.util.ArrayList;
+
+//Code adapted from https://www.javainuse.com/spring/boot-jwt and https://www.javainuse.com/spring/boot-jwt-mysql
+
 @Service
 @Primary
 public class JWTUserDetailsService implements UserDetailsService {

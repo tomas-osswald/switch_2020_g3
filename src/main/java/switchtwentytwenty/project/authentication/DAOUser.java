@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+//Code adapted from https://www.javainuse.com/spring/boot-jwt and https://www.javainuse.com/spring/boot-jwt-mysql
+
 @Entity
 @Table(name = "user")
 public class DAOUser {
@@ -33,4 +35,7 @@ public class DAOUser {
         this.password = password;
     }
 
+    public long getID() {
+        return id;
+    }
 }
