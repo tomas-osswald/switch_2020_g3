@@ -1,6 +1,7 @@
 package switchtwentytwenty.project.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,20 +26,23 @@ public class AuthenticationRESTController {
     private JWTUserDetailsService userDetailsService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JWTRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JWTRequest authenticationRequest) {
+        try {
+            authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+            final UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(authenticationRequest.getUsername());
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+            final String token = jwtTokenUtil.generateToken(userDetails);
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JWTResponse(token));
+            return ResponseEntity.ok(new JWTResponse(token));
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
