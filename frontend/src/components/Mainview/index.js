@@ -27,7 +27,6 @@ function Mainview() {
         return (
             <MainviewDiv>
                 <h3 align="center">Create a Family and Set Administrator</h3>
-                <br></br>
                 <CreateFamilySM />
             </MainviewDiv>
         )

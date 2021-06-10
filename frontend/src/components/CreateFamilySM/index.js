@@ -90,90 +90,91 @@ export default function CreateFamilySM() {
 
     if (display) {
         return (
-            <div className="center-form">
-                <form>
+            <div>
+                <form className="center-form">
                     <FormGroup controlId="emailID">
                         <FormLabel className="font-class">Email: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert email here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert email here"
                                      onChange={emailID => setEmailID(emailID.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="adminName">
                         <FormLabel className="font-class">Administrator Name: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert Admin name"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert Admin name"
                                      onChange={name => setName(name.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="birthdate">
                         <FormLabel className="font-class">Birthdate: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert birthdate here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert birthdate here"
                                      onChange={birthdate => setBirthdate(birthdate.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="vatnumber">
                         <FormLabel className="font-class">Vat Number: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert Vat Number here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert Vat Number here"
                                      onChange={vatNumber => setVatNumber(vatNumber.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="phone">
                         <FormLabel className="font-class">Phone Number: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert Phone number here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert Phone number here"
                                      onChange={phone => setPhoneNumber(phone.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="street">
                         <FormLabel className="font-class">Street: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert street here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert street here"
                                      onChange={street => setStreet(street.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="city">
                         <FormLabel className="font-class">City: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert city here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert city here"
                                      onChange={city => setCity(city.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="houseNumber">
                         <FormLabel className="font-class">House Number: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert house number here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert house number here"
                                      onChange={houseNumber => setHouseNumber(houseNumber.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="zipCode">
                         <FormLabel className="font-class">Zip Code: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert zip code here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert zip code here"
                                      onChange={zipCode => setZipCode(zipCode.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="familyName">
                         <FormLabel className="font-class">Family Name: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert Family Name"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert Family Name"
                                      onChange={familyName => setFamilyName(familyName.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="registrationDate">
                         <FormLabel className="font-class">Registration Date: </FormLabel>
                         <br></br>
-                        <FormControl className="relation-input" type="text" placeholder="Insert registration date here"
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert registration date here"
                                      onChange={registrationDate => setRegistrationDate(registrationDate.target.value)}/>
                     </FormGroup>
                 </form>
                 <br></br>
-                <button className="button-two-small" onClick={submitAndChangeDisplay}>Register Family</button>
+                <div className="button-position">
+                    <button className="button-two-small" onClick={submitAndChangeDisplay}>Register Family</button>
+                </div>
             </div>
         )
-        //TODO: Add Loading Screen
     } else if (!display && loading === true) {
         return (
             <Loading/>

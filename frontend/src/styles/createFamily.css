@@ -5,7 +5,24 @@
 }
 
 .center-form {
-    margin: auto;
-    width: 80%;
+    margin: 10px 10%;
+    width: 90%;
 }
+
+.button-position {
+    text-align: center;
+}
+
+.form-group {
+    margin: 10px 0;
+}
+
+.createfamily-input{
+    width: 90%;
+}
+
+.form-label{
+    font-weight: bold;
+}
+
 
