@@ -6,7 +6,7 @@ import '../../styles/profile.css'
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
-    const {id} = loggedUser;
+       const {id} = loggedUser;
     const {loading, error, profileData} = profile;
 
     const [email, setEmail] = useState("");
@@ -82,8 +82,7 @@ function Profile() {
                                 <div>
                                     {EmailsList()}
                                     <div>
-                                        <input className="input-email" type="text" id="email" onChange={email => setEmail(email.target.value)}  required/>
-
+                                        <input className="input-email" type="text" id="email-add" onChange={email => setEmail(email.target.value)}  required/>
                                         <button className="addbutton" onClick={handleSubmit}>Add email</button>
 
                                     </div>

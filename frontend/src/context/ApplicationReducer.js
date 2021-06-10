@@ -153,11 +153,22 @@ function reducer(state, action) {
                 family: {
                     loading: false,
                     error: action.payload.error,
-                    data: [],
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }]
+                    }
                 }
             }
 
-        case FETCH_FAMILY_NAME_STARTED:
+        case
+        FETCH_FAMILY_NAME_STARTED:
             return {
                 ...state,
                 familyData: {
@@ -167,7 +178,8 @@ function reducer(state, action) {
                 }
             }
 
-        case FETCH_FAMILY_NAME_SUCCESS:
+        case
+        FETCH_FAMILY_NAME_SUCCESS:
             return {
                 ...state,
                 familyData: {
@@ -177,7 +189,8 @@ function reducer(state, action) {
                 }
             }
 
-        case FETCH_FAMILY_NAME_FAILURE:
+        case
+        FETCH_FAMILY_NAME_FAILURE:
             return {
                 ...state,
                 familyData: {
@@ -188,34 +201,44 @@ function reducer(state, action) {
             }
 
 
-        case LOGOUT:
+        case
+        LOGOUT:
             return {
                 ...state,
                 mainView: '',
-
                 loggedUser: {
                     id: '',
                     role: '',
                     name: '',
                 },
-
                 landingPage: {
                     loading: true,
                     error: null,
-                    name: ''
+                    name: '',
+                    family_id: '',
                 },
-
+                refresh: false,
                 name: {
                     loading: true,
                     error: null,
                     data: [],
                 },
-
                 loggeduserTest: {
                     email: ['tonyze@latinlover.com'],
                     familyId: ['@tonyze@latinlover.com'],
                 },
-
+                familyData: {
+                    loading: true,
+                    error: null,
+                    data: [
+                        {
+                            familyName: '',
+                            familyID: '',
+                            adminID: '',
+                            registrationDate: ''
+                        }
+                    ]
+                },
                 family: {
                     loading: true,
                     error: null,
@@ -230,8 +253,9 @@ function reducer(state, action) {
                             }]
                         }],
                     },
-                },
 
+                },
+                addRelationStatus: null,
                 familymembers: {
                     loading: true,
                     error: null,
@@ -241,28 +265,56 @@ function reducer(state, action) {
                         data: [],
                     }],
                 },
-
                 profile: {
                     loading: true,
                     error: null,
-                    data: [],
+                    profileData: {
+                        id: "",
+                        name: "",
+                        birthdate: "",
+                        emails: [],
+                        phoneNumbers: [],
+                        vat: "",
+                        street: "",
+                        city: "",
+                        zipCode: "",
+                        doorNumber: "",
+                        familyID: "",
+                    }
                 },
-
+                newMember: {
+                    loading: true,
+                    error: null,
+                    newMemberData: {
+                        adminID: '',
+                        emailID: '',
+                        name: '',
+                        birthDate: '',
+                        vatNumber: '',
+                        phone: '',
+                        street: '',
+                        city: '',
+                        houseNumber: '',
+                        zipCode: '',
+                    }
+                },
                 createdfamily: {
                     loading: true,
                     error: null,
-                    data: [
+                    data:
                         {
                             familyName: '',
                             familyID: '',
                             adminID: '',
                             registrationDate: ''
                         }
-                    ]
+
                 }
+
             }
 
-        case CHANGE_VIEW:
+        case
+        CHANGE_VIEW:
             return {
                 ...state,
                 mainView: action.payload.mainView,
@@ -285,7 +337,8 @@ function reducer(state, action) {
                 },
             }
 
-        case FETCH_USER_NAME_SUCCESS:
+        case
+        FETCH_USER_NAME_SUCCESS:
             return {
                 ...state,
                 landingPage: {
@@ -296,7 +349,8 @@ function reducer(state, action) {
                 }
             }
 
-        case FETCH_USER_NAME_FAILURE:
+        case
+        FETCH_USER_NAME_FAILURE:
             return {
                 ...state,
                 landingPage: {
@@ -306,7 +360,8 @@ function reducer(state, action) {
                 }
             }
 
-        case CREATE_FAMILY_STARTED:
+        case
+        CREATE_FAMILY_STARTED:
             return {
                 ...state,
                 createdfamily: {
@@ -316,7 +371,8 @@ function reducer(state, action) {
                 }
             }
 
-        case CREATE_FAMILY_SUCCESS:
+        case
+        CREATE_FAMILY_SUCCESS:
             console.log(action)
             return {
                 ...state,
@@ -332,7 +388,8 @@ function reducer(state, action) {
                 }
             }
 
-        case CREATE_FAMILY_FAILURE:
+        case
+        CREATE_FAMILY_FAILURE:
             return {
                 ...state,
                 createdfamily: {
@@ -342,7 +399,8 @@ function reducer(state, action) {
                 }
             }
 
-        case ADD_EMAIL_STARTED:
+        case
+        ADD_EMAIL_STARTED:
             return {
                 ...state,
                 /*profile: {
@@ -352,7 +410,8 @@ function reducer(state, action) {
                 }*/
             }
 
-        case ADD_EMAIL_SUCCESS:
+        case
+        ADD_EMAIL_SUCCESS:
             return {
                 ...state,
                 /*profile: {
@@ -362,7 +421,8 @@ function reducer(state, action) {
                 }*/
             }
 
-        case ADD_EMAIL_FAILURE:
+        case
+        ADD_EMAIL_FAILURE:
             return {
                 ...state,
                 landingPage: {
@@ -373,7 +433,8 @@ function reducer(state, action) {
             }
 
 
-        case ADD_NEW_MEMBER_START:
+        case
+        ADD_NEW_MEMBER_START:
             return {
                 ...state,
             }
@@ -385,7 +446,23 @@ function reducer(state, action) {
                 newMember: {
                     loading: false,
                     error: action.payload,
-                }
+                },
+                family: {
+                    loading: true,
+                    error: null,
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }],
+                    },
+
+                },
             }
 
         case ADD_NEW_MEMBER_SUCCESS:

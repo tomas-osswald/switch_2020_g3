@@ -6,6 +6,7 @@ import logo from "../../logo.svg";
 import {useHistory} from "react-router-dom";
 // import '../../index.css'
 import '../../styles/login.css'
+import '../../styles/global.css'
 import apes from '../../assets/atr-small.png'
 
 
@@ -42,7 +43,7 @@ const Login = () => {
 
             <div>
                 <label form="email">Email </label>
-                <input type="text" id="email" name="email" onChange={(e) => setEmail(e.target.value)}/>
+                <input type="text" id="login-email" name="email" onChange={(e) => setEmail(e.target.value)}/>
 
 
                 <label htmlFor="password">Password </label>

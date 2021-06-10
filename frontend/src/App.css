@@ -7,14 +7,18 @@
   pointer-events: none;
 }
 
+.Navbar-logo{
+  max-width: 300px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin ease-in-out 1s;
   }
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #52ec85;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {NavbarBodyButtonStyle, NavbarBodyDiv} from "./NavBarElements";
+import '../../styles/navbarBody.css'
 import AppContext from "../../context/AppContext";
 import NavbarBodyButton from "./NavbarBodyButton";
 import {FETCH_PROFILE_STARTED} from "../../context/Actions";
@@ -16,21 +17,20 @@ function NavbarBody() {
         case 'systemManager':
             return (
                 <NavbarBodyDiv>
-                    <NavbarBodyButton valor="createFamily" description="Create a Family"/>
+                    <NavbarBodyButton className="systemManager-1" valor="createFamily" description="Create a Family"/>
                 </NavbarBodyDiv>
             )
         case 'familyAdministrator':
             return (
                 <NavbarBodyDiv>
-                    <NavbarBodyButton valor="family" description="Family"/>
-                    <br/>
-                    <NavbarBodyButton valor="profile" description="Profile"/>
+                    <NavbarBodyButton className="familyAdmin-1" valor="family" description="Family"/>
+                    <NavbarBodyButton className="familyAdmin-2" valor="profile" description="Profile"/>
                 </NavbarBodyDiv>
             )
         case 'familyMember':
             return (
                 <NavbarBodyDiv>
-                    <NavbarBodyButton valor="profile" description="Profile"/>
+                    <NavbarBodyButton className="familyMember-1" valor="profile" description="Profile"/>
                 </NavbarBodyDiv>
             )
         default:
