@@ -1,0 +1,11 @@
+
+.container {
+    display: grid;
+    grid-template-columns: 10% auto 10%;
+}
+
+.center-form {
+    margin: auto;
+    width: 80%;
+}
+
