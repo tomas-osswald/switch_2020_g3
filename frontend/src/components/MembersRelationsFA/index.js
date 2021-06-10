@@ -178,7 +178,7 @@ function MembersRelationsFA() {
                     <div className="relation-select-container font-class">
                         <label className="relation-label-header" htmlFor="memberA">Create Relation</label>
                         <div>
-                            <select className="select-option button-two" name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
+                            <select className="select-option button-three" name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
                                 <option className="select-option">Select Member A</option>
                                 {populateSelection()}
                             </select>
@@ -188,7 +188,7 @@ function MembersRelationsFA() {
                             <input className="relation-input" type="text" id="relDesignation" name="relDesignation" onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
                         </div>
                         <div>
-                            <select className="button-two" name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
+                            <select className="button-three" name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
                                 <option className="select-option">Select Member B</option>
                                 {populateSelection()}
                             </select>
