@@ -82,8 +82,7 @@ function Profile() {
                                 <div>
                                     {EmailsList()}
                                     <div>
-                                        <input className="input-email" type="text" id="email" onChange={email => setEmail(email.target.value)}  required/>
-
+                                        <input className="input-email" type="text" id="email-add" onChange={email => setEmail(email.target.value)}  required/>
                                         <button className="addbutton" onClick={handleSubmit}>Add email</button>
 
                                     </div>

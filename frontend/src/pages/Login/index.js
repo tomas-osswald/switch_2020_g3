@@ -43,7 +43,7 @@ const Login = () => {
 
             <div>
                 <label form="email">Email </label>
-                <input type="text" id="email" name="email" onChange={(e) => setEmail(e.target.value)}/>
+                <input type="text" id="login-email" name="email" onChange={(e) => setEmail(e.target.value)}/>
 
 
                 <label htmlFor="password">Password </label>
