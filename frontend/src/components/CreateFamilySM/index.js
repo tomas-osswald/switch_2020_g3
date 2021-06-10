@@ -185,7 +185,7 @@ export default function CreateFamilySM() {
 
         if (createdfamily.error === "Request failed with status code 422") {
             return (
-                <div>
+                <div style={{textAlign: "center"}}>
                     <p> One of the fields was incorrect. Please try again. </p>
                     <div className="button-position">
                         <button className="button-two-small" onClick={cleanStateAndChangeDisplay}>Try again</button>
@@ -194,7 +194,7 @@ export default function CreateFamilySM() {
             )
         } else {
             return (
-                <div>
+                <div style={{textAlign: "center"}}>
                     <p> Oops! Something unexpected happened. Please try again. </p>
                     <div className="button-position">
                         <button className="button-two-small" onClick={cleanStateAndChangeDisplay}>Try again</button>
