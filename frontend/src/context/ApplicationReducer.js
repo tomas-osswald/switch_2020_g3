@@ -153,11 +153,22 @@ function reducer(state, action) {
                 family: {
                     loading: false,
                     error: action.payload.error,
-                    data: [],
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }]
+                    }
                 }
             }
 
-        case FETCH_FAMILY_NAME_STARTED:
+        case
+        FETCH_FAMILY_NAME_STARTED:
             return {
                 ...state,
                 familyData: {
@@ -167,7 +178,8 @@ function reducer(state, action) {
                 }
             }
 
-        case FETCH_FAMILY_NAME_SUCCESS:
+        case
+        FETCH_FAMILY_NAME_SUCCESS:
             return {
                 ...state,
                 familyData: {
@@ -177,7 +189,8 @@ function reducer(state, action) {
                 }
             }
 
-        case FETCH_FAMILY_NAME_FAILURE:
+        case
+        FETCH_FAMILY_NAME_FAILURE:
             return {
                 ...state,
                 familyData: {
@@ -188,7 +201,8 @@ function reducer(state, action) {
             }
 
 
-        case LOGOUT:
+        case
+        LOGOUT:
             return {
                 ...state,
                 mainView: '',
@@ -299,7 +313,8 @@ function reducer(state, action) {
 
             }
 
-        case CHANGE_VIEW:
+        case
+        CHANGE_VIEW:
             return {
                 ...state,
                 mainView: action.payload.mainView,
@@ -322,7 +337,8 @@ function reducer(state, action) {
                 },
             }
 
-        case FETCH_USER_NAME_SUCCESS:
+        case
+        FETCH_USER_NAME_SUCCESS:
             return {
                 ...state,
                 landingPage: {
@@ -333,7 +349,8 @@ function reducer(state, action) {
                 }
             }
 
-        case FETCH_USER_NAME_FAILURE:
+        case
+        FETCH_USER_NAME_FAILURE:
             return {
                 ...state,
                 landingPage: {
@@ -343,7 +360,8 @@ function reducer(state, action) {
                 }
             }
 
-        case CREATE_FAMILY_STARTED:
+        case
+        CREATE_FAMILY_STARTED:
             return {
                 ...state,
                 createdfamily: {
@@ -353,7 +371,8 @@ function reducer(state, action) {
                 }
             }
 
-        case CREATE_FAMILY_SUCCESS:
+        case
+        CREATE_FAMILY_SUCCESS:
             console.log(action)
             return {
                 ...state,
@@ -369,7 +388,8 @@ function reducer(state, action) {
                 }
             }
 
-        case CREATE_FAMILY_FAILURE:
+        case
+        CREATE_FAMILY_FAILURE:
             return {
                 ...state,
                 createdfamily: {
@@ -379,7 +399,8 @@ function reducer(state, action) {
                 }
             }
 
-        case ADD_EMAIL_STARTED:
+        case
+        ADD_EMAIL_STARTED:
             return {
                 ...state,
                 /*profile: {
@@ -389,7 +410,8 @@ function reducer(state, action) {
                 }*/
             }
 
-        case ADD_EMAIL_SUCCESS:
+        case
+        ADD_EMAIL_SUCCESS:
             return {
                 ...state,
                 /*profile: {
@@ -399,7 +421,8 @@ function reducer(state, action) {
                 }*/
             }
 
-        case ADD_EMAIL_FAILURE:
+        case
+        ADD_EMAIL_FAILURE:
             return {
                 ...state,
                 landingPage: {
@@ -410,7 +433,8 @@ function reducer(state, action) {
             }
 
 
-        case ADD_NEW_MEMBER_START:
+        case
+        ADD_NEW_MEMBER_START:
             return {
                 ...state,
             }
@@ -422,7 +446,23 @@ function reducer(state, action) {
                 newMember: {
                     loading: false,
                     error: action.payload,
-                }
+                },
+                family: {
+                    loading: true,
+                    error: null,
+                    data: {
+                        familyMemberAndRelationsDTO: [{
+                            name: "",
+                            personID: "",
+                            relations: [{
+                                memberOneID: "",
+                                memberTwoID: "",
+                                relationDesignation: "",
+                            }]
+                        }],
+                    },
+
+                },
             }
 
         case ADD_NEW_MEMBER_SUCCESS:
