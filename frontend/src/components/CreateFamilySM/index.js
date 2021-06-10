@@ -165,7 +165,8 @@ export default function CreateFamilySM() {
                     <FormGroup controlId="registrationDate">
                         <FormLabel className="font-class">Registration Date: </FormLabel>
                         <br></br>
-                        <FormControl className="createfamily-input" type="text" placeholder="Insert registration date here"
+                        <FormControl className="createfamily-input" type="text"
+                                     placeholder="Insert registration date here"
                                      onChange={registrationDate => setRegistrationDate(registrationDate.target.value)}/>
                     </FormGroup>
                 </form>
@@ -186,25 +187,46 @@ export default function CreateFamilySM() {
             return (
                 <div>
                     <p> One of the fields was incorrect. Please try again. </p>
-                    <button className="button-two" onClick={cleanStateAndChangeDisplay}>Try again</button>
+                    <div className="button-position">
+                        <button className="button-two-small" onClick={cleanStateAndChangeDisplay}>Try again</button>
+                    </div>
                 </div>
             )
         } else {
             return (
                 <div>
                     <p> Oops! Something unexpected happened. Please try again. </p>
-                    <button className="button-two" onClick={cleanStateAndChangeDisplay}>Try again</button>
+                    <div className="button-position">
+                        <button className="button-two-small" onClick={cleanStateAndChangeDisplay}>Try again</button>
+                    </div>
                 </div>
             )
         }
     } else {
         return (
             <>
-                <p>Family Name: {data.familyName}</p>
-                <p>Family ID: {data.familyID}</p>
-                <p>Family Admin ID: {data.adminID}</p>
-                <p>Family Registration Date: {data.registrationDate}</p>
-                <button className="button-two" onClick={cleanStateAndChangeDisplay}>Create another family</button>
+                <br></br>
+                <table>
+                    <tr>
+                        <th>Family Name</th>
+                        <td>{data.familyName}</td>
+                    </tr>
+                    <br></br>
+                    <tr>
+                        <th>Family Admin ID</th>
+                        <td>{data.adminID}</td>
+                    </tr>
+                    <br></br>
+                    <tr>
+                        <th>Family Registration Date</th>
+                        <td>{data.registrationDate}</td>
+                    </tr>
+                    <br></br>
+                </table>
+                <div className="button-position">
+                    <button className="button-two-small" onClick={cleanStateAndChangeDisplay}>Create another family
+                    </button>
+                </div>
             </>
         )
     }
