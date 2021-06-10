@@ -185,14 +185,14 @@ export default function CreateFamilySM() {
         if (createdfamily.error === "Request failed with status code 422") {
             return (
                 <div>
-                    <p> Um dos campos preenchidos estava incorreto. Por favor tente novamente </p>
+                    <p> One of the fields was incorrect. Please try again. </p>
                     <button className="button-two" onClick={cleanStateAndChangeDisplay}>Try again</button>
                 </div>
             )
         } else {
             return (
                 <div>
-                    <p> Ups. Algo inesperado aconteceu. Tente novamente </p>
+                    <p> Oops! Something unexpected happened. Please try again. </p>
                     <button className="button-two" onClick={cleanStateAndChangeDisplay}>Try again</button>
                 </div>
             )
