@@ -30,11 +30,11 @@ function LandingPage() {
 
     return (
         <>
-            <LandingPageDiv  className="userName">
-                <MainText className="header font-class">
+            <LandingPageDiv className="font-class">
+                <MainText>
                     Welcome
                 </MainText>
-                <UserName className="userName font-class">
+                <UserName>
                     {name}
                 </UserName>
             </LandingPageDiv>

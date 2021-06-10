@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const MembersRelationsFADiv = styled.div`
   
-    background-color: lightblue;
+    background-color: var(--backgroundGrey);;
 `
 
 export const HeaderCell = styled.div`
@@ -12,11 +12,7 @@ export const HeaderCell = styled.div`
 `
 
 export const HeaderSection = styled.div`
-
-  width: 1000px;
-  //background-color: coral;
-  display: flex;
-  flex-direction: row;
+  width: 90%;
   
 `
 

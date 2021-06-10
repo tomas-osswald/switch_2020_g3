@@ -1,10 +1,12 @@
 :root {
     --backgroundGreenOpacity: rgba(226, 223, 223, 0.7);
     --backgroundGreen: #52ec85;
+    --backgroundGreyOpacity: rgba(255, 255, 255, 0.6);
     --backgroundGrey: #e2dfdf;
     --backgroundGreyHover: #999797;
     --backgroundBlack: #262626;
     --backgroundBlackOpacity: rgba(38,38,38,0.8);
+    --backgroundBlackOpacity2: rgba(38,38,38,0.2);
     --backgroundGreenHover: #3bac5f;
     --defaultFont: Helvetica;
 }
@@ -75,6 +77,28 @@
 }
 
 .button-two {
-
+    align-items: center ;
+    position: center;
+    cursor: pointer;
+    color: var(--backgroundBlack);
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    border: 0;
+    padding: 15px 15px;
+    margin: 10px;
+    border-radius: 5px;
+    background: var(--backgroundBlackOpacity2);
+    text-align: center;
 }
 
+.button-two:hover{
+    background:linear-gradient(to bottom, var(--backgroundGreenHover) 5%, var(--backgroundGreenHover) 100%);
+    background-color: var(--backgroundGreenHover);
+}
+
+.button-two:active{
+    position:relative;
+    top:1px;
+}

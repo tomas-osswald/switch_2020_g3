@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
-
+import '../../styles/global.css';
+import '../../styles/memberRelations.css';
 import {changeRefresh, changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {
@@ -10,9 +11,6 @@ import {
     MembersRelationsFADiv,
     RelationsList
 } from "./MembersRelationsFAElements";
-
-
-//import { Table } from 'antd';
 
 
 function MembersRelationsFA() {
@@ -78,105 +76,6 @@ function MembersRelationsFA() {
         )
     }
 
-    /*
-    function buildTableAntd(){
-
-        const dataTable = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-            },
-            {
-                key: '4',
-                name: 'Jim Red',
-                age: 32,
-                address: 'London No. 2 Lake Park',
-            },
-        ];
-
-        const columns = [
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                filters: [
-                    {
-                        text: 'Joe',
-                        value: 'Joe',
-                    },
-                    {
-                        text: 'Jim',
-                        value: 'Jim',
-                    },
-                    {
-                        text: 'Submenu',
-                        value: 'Submenu',
-                        children: [
-                            {
-                                text: 'Green',
-                                value: 'Green',
-                            },
-                            {
-                                text: 'Black',
-                                value: 'Black',
-                            },
-                        ],
-                    },
-                ],
-                // specify the condition of filtering result
-                // here is that finding the name started with `value`
-                onFilter: (value, record) => record.name.indexOf(value) === 0,
-                sorter: (a, b) => a.name.length - b.name.length,
-                sortDirections: ['descend'],
-            },
-            {
-                title: 'Age',
-                dataIndex: 'age',
-                defaultSortOrder: 'descend',
-                sorter: (a, b) => a.age - b.age,
-            },
-            {
-                title: 'Address',
-                dataIndex: 'address',
-                filters: [
-                    {
-                        text: 'London',
-                        value: 'London',
-                    },
-                    {
-                        text: 'New York',
-                        value: 'New York',
-                    },
-                ],
-                onFilter: (value, record) => record.address.indexOf(value) === 0,
-            },
-        ];
-
-        function onChange(pagination, filters, sorter, extra) {
-            console.log('params', pagination, filters, sorter, extra);
-        }
-
-
-        return (
-            <Table columns={columns} dataSource={dataTable} onChange={onChange} />
-        )
-    }
-
-     */
-
     function displayChange() {
         setDisplay(!display)
     }
@@ -204,30 +103,18 @@ function MembersRelationsFA() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
-                    <div key={relationsIndex}>
-                        <tbody>
-                        <tr>
-                            <td></td>
-                            <br/>
-                            <td>{relationsRow.relationDesignation} of</td>
-                            <br/>
-                            <td>{findMemberTwoName(relationsRow.memberTwoID)}</td>
-                            <br/>
-                            <br/>
-                        </tr>
-                        </tbody>
+                    <div className="relation-row" key={relationsIndex}>
+                        <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}</td>
+                        <td></td>
                     </div>
                 )
             })
             return (
-                <div>
-                    <tr style={{padding: "30px"}} key={index}>
-                        <td>{displayRole(index)}</td>
-                        <td>{row.name}</td>
-                        <br/>
-                    </tr>
-                    <tr><RelationsList props={display}>{relations}</RelationsList></tr>
-                </div>
+                <tr className="table-row font-class" style={{padding: "30px"}} key={index}>
+                    <td className="table-row-element-1">{row.name}</td>
+                    <td className="table-row-element-2">{displayRole(index)}</td>
+                    <td className="relationList"><RelationsList props={display}>{relations}</RelationsList></td>
+                </tr>
             )
         })
         return (<div>{dto}</div>)
@@ -276,36 +163,39 @@ function MembersRelationsFA() {
             return (
                 <MembersRelationsFADiv>
                     <div className="relation-add-table">
-                        {/*<p>{buildInnerText()}</p>*/}
-                        <h2>{state.familyData.data.familyName}</h2>
                         <Table>
-                            <thead>
-                            <HeaderSection>
-                                <HeaderCell>Role</HeaderCell>
-                                <HeaderCell>Name</HeaderCell>
-                                <HeaderCell>Relations</HeaderCell>
-                            </HeaderSection>
-                            </thead>
-                            <div>{buildTable()}</div>
+                            <tr className="table-header font-class">
+                                <th className="table-header-element-1">NAME</th>
+                                <th className="table-header-element-2">ROLE</th>
+                            </tr>
+                            {buildTable()}
                         </Table>
                     </div>
-                    <label htmlFor="memberA">Create Relation:</label>
-                    <select name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
-                        <option>Select Member A</option>
-                        {populateSelection()}
-                    </select>
-                    <label htmlFor="relDesignation">Relation Designation:</label>
-                    <input type="text" id="relDesignation" name="relDesignation"
-                           onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
-                    <label htmlFor="memberB"></label>
-                    <select name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
-                        <option>Select Member B</option>
-                        {populateSelection()}
-                    </select>
-                    <Button onClick={handleSubmit} variant="dark">Add Relation</Button>
-                    <ButtonCell><Button variant="dark" onClick={displayChange}>Check Relations</Button></ButtonCell>
-                    <ButtonCell><Button variant="dark" onClick={() => addMemberRedirect('addMember')}>Add
-                        Member</Button></ButtonCell>
+                    <div className="table-interaction font-class">
+                        <Button className="check-relations button-two" variant="dark" onClick={displayChange}>Check Relations</Button>
+                        <Button className="add-member button-two" variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
+                    </div>
+                    <div className="relation-select-container font-class">
+                        <label className="relation-label-header" htmlFor="memberA">Create Relation</label>
+                        <div>
+                            <select className="select-option button-two" name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
+                                <option className="select-option">Select Member A</option>
+                                {populateSelection()}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="relation-label-text" htmlFor="relDesignation">Relation Designation</label>
+                            <input className="relation-input" type="text" id="relDesignation" name="relDesignation" onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
+                        </div>
+                        <div>
+                            <select className="button-two" name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
+                                <option className="select-option">Select Member B</option>
+                                {populateSelection()}
+                            </select>
+                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add Relation</Button>
+                        </div>
+                    </div>
+
                 </MembersRelationsFADiv>
             )
         }
