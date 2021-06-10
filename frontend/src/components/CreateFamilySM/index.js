@@ -158,7 +158,7 @@ export default function CreateFamilySM() {
                     </FormGroup>
                 </form>
                 <br></br>
-                <button onClick={submitAndChangeDisplay}>Register Family</button>
+                <button className= onClick={submitAndChangeDisplay}>Register Family</button>
             </div>
         )
         //TODO: Add Loading Screen
