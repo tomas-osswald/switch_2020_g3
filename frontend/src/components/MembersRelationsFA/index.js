@@ -173,8 +173,7 @@ function MembersRelationsFA() {
                                 <option className="select-option">Select Member B</option>
                                 {populateSelection()}
                             </select>
-                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add
-                                Relation</Button>
+                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add Relation</Button>
                         </div>
                     </div>
 
