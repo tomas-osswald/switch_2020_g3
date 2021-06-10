@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
-import logo from '../../logo.svg';
+import logo from '../../assets/ape_3.png';
+import '../../styles/global.css'
 import {ImageProperties, NavbarHeaderDiv} from "./NavBarElements";
 import AppContext from "../../context/AppContext";
 import {changeView} from "../../context/Actions";
@@ -15,7 +16,7 @@ function NavbarHeader() {
 
     return(
         <NavbarHeaderDiv onClick={() => handleClick('')} >
-            <ImageProperties style={{width:150, height:150}} src={logo} className="App-logo" alt="logo" />
+            <ImageProperties className="logo" src={logo} className="Navbar-logo" alt="logo" />
         </NavbarHeaderDiv>
     )
 }

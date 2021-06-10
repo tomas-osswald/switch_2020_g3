@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import background from '../../assets/bg-gorila.jpg'
+import background from '../../assets/bg.png'
 
 export const LandingPageDiv = styled.div`
   background: url(${background}) center center/cover no-repeat;

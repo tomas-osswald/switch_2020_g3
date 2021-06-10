@@ -6,6 +6,7 @@ import logo from "../../logo.svg";
 import {useHistory} from "react-router-dom";
 // import '../../index.css'
 import '../../styles/login.css'
+import '../../styles/global.css'
 import apes from '../../assets/atr-small.png'
 
 

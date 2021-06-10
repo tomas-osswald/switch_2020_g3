@@ -60,7 +60,7 @@ The request should return not only the balance of an account, but also its Desig
 
 ```puml
 autonumber 1
-title Create Account
+title Check Balance
 
 participant ": IAccountRESTController" as controller
 participant ": ICheckBalanceService" as service

@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
 import {NavbarBodyButtonStyle} from "./NavBarElements";
+import '../../styles/global.css'
 import AppContext from "../../context/AppContext";
 import {changeView} from "../../context/Actions";
 
@@ -14,7 +15,7 @@ function NavbarBodyButton(props) {
     }
 
     return(
-        <NavbarBodyButtonStyle onClick={() => handleClick(props.valor)}>{props.description}</NavbarBodyButtonStyle>
+        <NavbarBodyButtonStyle className="button-one font-class" onClick={() => handleClick(props.valor)}>{props.description}</NavbarBodyButtonStyle>
     )
 }
 
