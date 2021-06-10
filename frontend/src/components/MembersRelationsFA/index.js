@@ -4,13 +4,7 @@ import '../../styles/global.css';
 import '../../styles/memberRelations.css';
 import {changeRefresh, changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
-import {
-    ButtonCell,
-    HeaderCell,
-    HeaderSection,
-    MembersRelationsFADiv,
-    RelationsList
-} from "./MembersRelationsFAElements";
+import {MembersRelationsFADiv, RelationsList} from "./MembersRelationsFAElements";
 
 
 function MembersRelationsFA() {
@@ -57,37 +51,14 @@ function MembersRelationsFA() {
     }
 
 
-    function buildInnerText() {
-        let html = familyMemberAndRelationsDTO.map((row, index) => {
-            let relassoes = row.relations.map((relationsRow, relationsIndex) => {
-                return (
-                    <tr key={relationsIndex}> {relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}  </tr>
-                )
-            })
-            return (
-                <tr key={index}>Name: {row.name} Email: {row.personID} <p>Relações : {relassoes}</p></tr>
-            )
-        })
-        return (
-            <div>
-                <table>{html}</table>
-                <br/>
-            </div>
-        )
-    }
-
     function displayChange() {
         setDisplay(!display)
     }
 
     function addMemberRedirect(value) {
-        //let path = `/addMember`;
-        //history.push(path);
-        //dispatch(addMemberView)
         dispatch(changeView(value))
     }
 
-    //ReactDOM.render(<Table columns={columns} dataSource={dataTable} onChange={onChange} />, mountNode);
 
     function displayRole(index) {
         let tableRole = '';
@@ -142,22 +113,27 @@ function MembersRelationsFA() {
         }
 
         postNewRelation(dispatch, newRelationDTO, family_id);
-        //setrefreshVariable(true);
-        window.alert("Relation successfully created!");
     }
 
-    if (loading === true) {
+    function reloadScreen() {
+        dispatch(changeRefresh(true));
+    }
+
+    if (error !== null) {
         return (
             <div>
-                Loading...
+                <h1> <b>Error:</b> </h1>
+                <h4>There can only be <b>One (1)</b> relation between <b>Two (2) different</b> Family Members </h4>
+                <button className="button-two" onClick={reloadScreen}>Try again</button>
             </div>
         )
     } else {
-        if (error !== null) {
+        if (loading === true) {
             return (
                 <div>
-                    Error...
+                    Loading...
                 </div>
+
             )
         } else {
             return (
@@ -172,27 +148,33 @@ function MembersRelationsFA() {
                         </Table>
                     </div>
                     <div className="table-interaction font-class">
-                        <Button className="check-relations button-two" variant="dark" onClick={displayChange}>Check Relations</Button>
-                        <Button className="add-member button-two" variant="dark" onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
+                        <Button className="check-relations button-two" variant="dark" onClick={displayChange}>Check
+                            Relations</Button>
+                        <Button className="add-member button-two" variant="dark"
+                                onClick={() => addMemberRedirect('addMember')}>Add Member</Button>
                     </div>
                     <div className="relation-select-container font-class">
                         <label className="relation-label-header" htmlFor="memberA">Create Relation</label>
                         <div>
-                            <select className="select-option button-three" name="memberA" id="memberA" onChange={memberA => setMemberA(memberA.target.value)}>
+                            <select className="select-option button-three" name="memberA" id="memberA"
+                                    onChange={memberA => setMemberA(memberA.target.value)}>
                                 <option className="select-option">Select Member A</option>
                                 {populateSelection()}
                             </select>
                         </div>
                         <div>
                             <label className="relation-label-text" htmlFor="relDesignation">Relation Designation</label>
-                            <input className="relation-input" type="text" id="relDesignation" name="relDesignation" onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
+                            <input className="relation-input" type="text" id="relDesignation" name="relDesignation"
+                                   onChange={relationDesignation => setRelationDesignation(relationDesignation.target.value)}></input>
                         </div>
                         <div>
-                            <select className="button-three" name="memberB" id="memberB" onChange={memberB => setMemberB(memberB.target.value)}>
+                            <select className="button-three" name="memberB" id="memberB"
+                                    onChange={memberB => setMemberB(memberB.target.value)}>
                                 <option className="select-option">Select Member B</option>
                                 {populateSelection()}
                             </select>
-                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add Relation</Button>
+                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add
+                                Relation</Button>
                         </div>
                     </div>
 
