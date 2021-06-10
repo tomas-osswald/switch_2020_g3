@@ -1,5 +1,7 @@
 package switchtwentytwenty.project.authentication;
 
+//Code adapted from https://www.javainuse.com/spring/boot-jwt and https://www.javainuse.com/spring/boot-jwt-mysql
+
 public class UserDTO {
     private String username;
     private String password;
