@@ -94,8 +94,25 @@
     text-align: center;
 }
 
+.button-two-small {
+    align-items: center;
+    position: center;
+    cursor: pointer;
+    color: var(--backgroundBlack);
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 40%;
+    border: 0;
+    padding: 15px 15px;
+    margin: 10px;
+    border-radius: 5px;
+    background: var(--backgroundBlackOpacity2);
+    text-align: center;
+}
+
 .button-three {
-    align-items: center ;
+    align-items: center;
     position: center;
     cursor: pointer;
     color: var(--backgroundBlack);
@@ -116,8 +133,18 @@
     background-color: var(--backgroundGreenHover);
 
 }
-
 .button-two:active{
+    position:relative;
+    top:1px;
+}
+
+.button-two-small:hover{
+    background:linear-gradient(to bottom, var(--backgroundGreenHover) 5%, var(--backgroundGreenHover) 100%);
+    background-color: var(--backgroundGreenHover);
+
+}
+
+.button-two-small:active{
     position:relative;
     top:1px;
 }

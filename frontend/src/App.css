@@ -9,6 +9,7 @@
 
 .Navbar-logo{
   max-width: 300px;
+  cursor:pointer;
 }
 
 @media (prefers-reduced-motion: no-preference) {
