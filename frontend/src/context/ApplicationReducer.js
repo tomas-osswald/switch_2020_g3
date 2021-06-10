@@ -192,30 +192,39 @@ function reducer(state, action) {
             return {
                 ...state,
                 mainView: '',
-
                 loggedUser: {
                     id: '',
                     role: '',
                     name: '',
                 },
-
                 landingPage: {
                     loading: true,
                     error: null,
-                    name: ''
+                    name: '',
+                    family_id: '',
                 },
-
+                refresh: false,
                 name: {
                     loading: true,
                     error: null,
                     data: [],
                 },
-
                 loggeduserTest: {
                     email: ['tonyze@latinlover.com'],
                     familyId: ['@tonyze@latinlover.com'],
                 },
-
+                familyData: {
+                    loading: true,
+                    error: null,
+                    data: [
+                        {
+                            familyName: '',
+                            familyID: '',
+                            adminID: '',
+                            registrationDate: ''
+                        }
+                    ]
+                },
                 family: {
                     loading: true,
                     error: null,
@@ -230,8 +239,9 @@ function reducer(state, action) {
                             }]
                         }],
                     },
-                },
 
+                },
+                addRelationStatus: null,
                 familymembers: {
                     loading: true,
                     error: null,
@@ -241,25 +251,52 @@ function reducer(state, action) {
                         data: [],
                     }],
                 },
-
                 profile: {
                     loading: true,
                     error: null,
-                    data: [],
+                    profileData: {
+                        id: "",
+                        name: "",
+                        birthdate: "",
+                        emails: [],
+                        phoneNumbers: [],
+                        vat: "",
+                        street: "",
+                        city: "",
+                        zipCode: "",
+                        doorNumber: "",
+                        familyID: "",
+                    }
                 },
-
+                newMember: {
+                    loading: true,
+                    error: null,
+                    newMemberData: {
+                        adminID: '',
+                        emailID: '',
+                        name: '',
+                        birthDate: '',
+                        vatNumber: '',
+                        phone: '',
+                        street: '',
+                        city: '',
+                        houseNumber: '',
+                        zipCode: '',
+                    }
+                },
                 createdfamily: {
                     loading: true,
                     error: null,
-                    data: [
+                    data:
                         {
                             familyName: '',
                             familyID: '',
                             adminID: '',
                             registrationDate: ''
                         }
-                    ]
+
                 }
+
             }
 
         case CHANGE_VIEW:
