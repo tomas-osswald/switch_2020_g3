@@ -34,9 +34,6 @@ function Mainview() {
     } else if (mainView === 'family') {
         return (
             <MainviewDiv>
-                Mainview deste lado
-                <br/>
-                Family aqui
                 <MembersRelationsFA/>
             </MainviewDiv>
         )

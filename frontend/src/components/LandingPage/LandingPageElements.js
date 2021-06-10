@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import background from '../../assets/bg-gorila.jpg'
+import background from '../../assets/bg.png'
 
 export const LandingPageDiv = styled.div`
   background: url(${background}) center center/cover no-repeat;
@@ -14,13 +14,17 @@ export const LandingPageDiv = styled.div`
 `
 
 export const MainText = styled.text`
-  color: #fff;
-  font-size: 100px;
-  margin-top: 0px;
+  color: var(--backgroundGrey);
+  font-size: 48px;
+  margin-top: -40px;
+  margin-bottom: 40px;
+  -webkit-text-stroke: 2px var(--backgroundBlack);
 `
 
 export const UserName = styled.text`
-  color: #fff;
-  font-size: 32px;
+  color: var(--backgroundGrey);
+  font-size: 72px;
   margin-top: 8px;
+  font-weight: bolder;
+  -webkit-text-stroke: 2px var(--backgroundBlack);
 `
