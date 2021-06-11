@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
 import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
+import Loading from "../Loading";
 import '../../styles/profile.css'
 
 function Profile() {
@@ -43,8 +44,7 @@ function Profile() {
 
     if (loading === true) {
         return (
-            <h1>Loading ....</h1>
-
+            <h1><Loading/></h1>
         );
     } else {
         if (error !== null) {
@@ -55,9 +55,6 @@ function Profile() {
             );
         } else {
             /*  if (data.length > 0) {*/
-
-
-
 
             return (
 
