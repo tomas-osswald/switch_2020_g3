@@ -163,7 +163,7 @@ export function addInputedEmailToFamilyMember(success, failure, id, email){
         body: JSON.stringify({ email: email })
     }
 
-    fetch(`http://localhost:8080/people/${id}/emails`, requestOptions)
+    fetch(`${URL_API}/people/${id}/emails`, requestOptions)
         .then(response => response.json())
         .then(response =>success(response))
         .catch(error => failure(error.message))
