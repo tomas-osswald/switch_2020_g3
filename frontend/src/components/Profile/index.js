@@ -6,9 +6,8 @@ import '../../styles/profile.css'
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
     const {loggedUser, profile} = state;
-       const {id} = loggedUser;
+    const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-
     const [email, setEmail] = useState("");
     const [refresh, setRefresh] = useState(false);
 
@@ -28,8 +27,13 @@ function Profile() {
     }
 
     function handleSubmit(){
-        addEmails();
-        setRefresh(true);
+        if(email == null || email === "") {
+            setRefresh(false);
+            } else {
+            addEmails();
+            setRefresh(true);
+        }
+
     }
 
     function EmailsList() {
@@ -51,6 +55,10 @@ function Profile() {
             );
         } else {
             /*  if (data.length > 0) {*/
+
+
+
+
             return (
 
                 <div className="card">
@@ -82,7 +90,6 @@ function Profile() {
                                     {EmailsList()}
                                     <div>
                                         <input className="input-email" type="text" id="email" onChange={email => setEmail(email.target.value)} required/>
-
                                         <button className="addbutton" onClick={handleSubmit}>Add email</button>
 
                                     </div>
