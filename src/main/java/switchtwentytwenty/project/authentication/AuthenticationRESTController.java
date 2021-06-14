@@ -25,8 +25,8 @@ public class AuthenticationRESTController {
     @Autowired
     private JWTUserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JWTRequest authenticationRequest) {
+    @PostMapping(value = "/authenticate")
+    public ResponseEntity createAuthenticationToken(@RequestBody JWTRequest authenticationRequest) {
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -41,8 +41,8 @@ public class AuthenticationRESTController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
+    @PostMapping(value = "/register")
+    public ResponseEntity saveUser(@RequestBody UserDTO user) {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 

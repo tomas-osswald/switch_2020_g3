@@ -247,6 +247,7 @@
                     </inScopeClasses>-->
                     <targetClasses>
                         <!--  <param>switchtwentytwenty.project.*</param>-->
+                        <param>switchtwentytwenty.project.authentication</param>
                         <param>switchtwentytwenty.project.datamodel.*</param>
                         <param>switchtwentytwenty.project.domain.*</param>
                         <param>switchtwentytwenty.project.dto.*</param>
@@ -258,6 +259,7 @@
 
                     <targetTests>
                         <!--<param>switchtwentytwenty.project.*</param>-->
+                        <param>switchtwentytwenty.project.authentication</param>
                         <param>switchtwentytwenty.project.datamodel.*</param>
                         <param>switchtwentytwenty.project.domain.*</param>
                         <param>switchtwentytwenty.project.dto.*</param>
