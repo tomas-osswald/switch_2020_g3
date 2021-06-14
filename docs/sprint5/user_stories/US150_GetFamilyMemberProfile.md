@@ -237,7 +237,7 @@ ation would occur at the moment of addition to the repository.
 
 autonumber
 header Sequence Diagram - part 1
-title US150 Get my profile information
+title US150 Get profile information
 
 
 participant ": IPersonController" as controller <<interface>>

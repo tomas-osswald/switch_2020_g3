@@ -1,5 +1,7 @@
 import React, {useContext, useEffect} from 'react'
 import {LandingPageDiv, MainText, UserName} from "./LandingPageElements";
+import '../../styles/global.css';
+import '../../styles/landingPage.css';
 import AppContext from "../../context/AppContext";
 import {fetchName, loadingLandigPageFalse} from "../../context/Actions";
 import Loading from "../Loading";
@@ -14,10 +16,7 @@ function LandingPage() {
     useEffect(() => {
         if (name === '' && loggedUser.role !== 'systemManager') {
             fetchName(dispatch, loggedUser.id)
-        } else {
-            dispatch(loadingLandigPageFalse())
         }
-
     }, [])
 
     if (loading === true) {
@@ -28,7 +27,7 @@ function LandingPage() {
 
     return (
         <>
-            <LandingPageDiv>
+            <LandingPageDiv className="font-class">
                 <MainText>
                     Welcome
                 </MainText>

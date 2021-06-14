@@ -239,9 +239,12 @@ autonumber
 header Sequence Diagram
 title US010 Create a Family and Set Administrator
 
-
+participant ": IFamilyController" as familyController <<Interface>>
 participant ": ICreateFamilyService" as FamAdminService <<Interface>>
 participant "adminID\n : PersonID" as adminID
+participant "familyID\n : FamilyID" as familyID
+participant "anAdmin\n : Person" as person
+participant "aFamily\n : Family" as family
 participant ": IFamilyRepository" as familyRepository <<Interface>>
 participant ": IPersonRepository" as personRepository <<Interface>>
 participant ": IPersonRepositoryJPA" as personRepositoryJPA <<Interface>>
@@ -249,22 +252,38 @@ participant ": IFamilyRepositoryJPA" as familyRepositoryJPA <<Interface>>
 
 note left: especificar nome da instância no participant?
 
--> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
+
+-> familyController : createFamilyAndSetAdmin(\n addFamilyAndSetAdminDTO)
+activate familyController
+
+ref over familyController
+   InputPersonDTO = personAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO)
+end
+
+ref over familyController
+   InputFamilyDTO = familyAssembler.toInputFamilyDTO(addFamilyAndSetAdminDTO)
+end
+
+familyController -> FamAdminService : createFamilyAndAddAdmin\n(inputFamilyDTO, inputPersonDTO)
 activate FamAdminService
 
 FamAdminService -> adminID ** : create\n(inputPersonDTO.unpackEmail())
 
-FamAdminService -> familyRepository : generateID()
-activate familyRepository
-return familyID
+FamAdminService -> familyID ** : create\n(inputPersonDTO.unpackEmail()
 
 ref over FamAdminService
-admin = personDTODomainAssembler.toDomain(inputPersonDTO,familyID)
+   Value Objects 
+   personDTODomainAssembler.toDomain(inputPersonDTO,familyID)
 end ref
 
 ref over FamAdminService
-family = familyDTODomainAssembler.toDomain(inputFamilyDTO,familyID,adminID)
+   Value Objects 
+   familyDTODomainAssembler.toDomain(inputFamilyDTO,familyID,adminID)
 end ref
+
+FamAdminService -> person** : create(name, birthDate, adminID, vat, phone, address, familyID)
+
+FamAdminService -> family** : create(familyID, familyName, registrationDate, adminID)
 
 FamAdminService -> personRepository: add(admin)
 activate personRepository
@@ -276,6 +295,7 @@ end ref
 personRepository -> personRepositoryJPA: save(personJPA)
 activate personRepositoryJPA
 return
+
 return
 
 FamAdminService -> familyRepository: add(newFamily)
@@ -287,11 +307,26 @@ end ref
 
 familyRepository -> familyRepositoryJPA : save(familyJPA)
 activate familyRepositoryJPA
-return
+familyRepositoryJPA -> familyRepository : savedFamilyJPA
+deactivate familyRepositoryJPA
 
-return
+familyRepository -> FamAdminService : savedFamily
+deactivate familyRepository
 
-return
+ref over FamAdminService
+   OutputFamilyDTO = familyDTODomainAssembler.toOutputFamilyDTO(savedFamily)
+end
+
+FamAdminService -> familyController : anOutputFamilyDTO
+
+ref over familyController
+   addSelfLink to anOutputFamilyDTO
+end
+
+deactivate FamAdminService
+
+<- familyController: responseEntity(OutputFamilyDTO, Httpstatus.OK)
+deactivate familyController
 
 @enduml
 ````

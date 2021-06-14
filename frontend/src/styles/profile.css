@@ -1,8 +1,20 @@
+:root {
+    --backgroundGreenOpacity: rgba(226, 223, 223, 0.7);
+    --backgroundGreen: #52ec85;
+    --backgroundGrey: #e2dfdf;
+    --backgroundGreyHover: #999797;
+    --backgroundBlack: #262626;
+    --backgroundBlackOpacity: rgba(38,38,38,0.8);
+    --backgroundGreenHover: #3bac5f;
+    --defaultFont: Helvetica;
+}
+
 @media only screen and (min-width: 320px) and (max-width: 479px) {
     .info {
         font-size: 0.9vw;
     }
 }
+
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
     .info {
@@ -22,73 +34,20 @@
     }
 }
 
+
 .card {
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
-    max-width: 60%;
+    position: relative;
+    top: 5%;
+    justify-content: center;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 2, 0.5);
+    max-width: 55%;
     margin: auto;
     text-align: center;
-    /*height: 100%;*/
+
     border-radius: 10px;
-    background-color: dimgray;
+    background-color: var(--backgroundGreen);
 }
 
-/*.title {
-    color: grey;
-    font-size: 18px;
-}
-
-button {
-    border: none;
-    outline: 0;
-    display: inline-block;
-    padding: 8px;
-    color: white;
-    background-color: #000;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-}
-
-a {
-    text-decoration: none;
-    font-size: 22px;
-    color: black;
-}
-
-button:hover, a:hover {
-    opacity: 0.7;
-}
-
-column left {
-    float: left;
-    background-color: red;
-    border: 1px;
-    width: 35%;
-}
-
-.column right {
-    float: right;
-    width: 65%;
-    background-color: blue;
-    display: block;
-}
-
-.container {
-    height: 90vh;
-}
-
-
-!* Create two equal columns that sits next to each other *!
-.column {
-    flex: 50%;
-    padding: 10px;
-    height: 300px; !* Should be removed. Only for demonstration *!
-}*/
-
-
-/* Create two unequal columns that floats next to each other */
-/* Create two equal columns that floats next to each other */
 .column {
     float: left;
     width: 50%;
@@ -104,7 +63,7 @@ column left {
 }
 
 .row-divider {
-    background-color: grey;
+    background-color: var(--backgroundBlack);
     height: 1rem;
 }
 
@@ -117,7 +76,9 @@ column left {
 }
 
 .card-body {
-    margin: 5px;
+    width: 100%;
+
+    height: inherit;
 }
 
 .row {
@@ -130,66 +91,73 @@ column left {
     font-size: 1rem;
     float: left;
     border: 2px;
-    width: 35%;
+    width: 15%;
 }
 
 .column-right {
-
+    vertical-align: middle;
     float: right;
-    text-align: start;
+    text-align: start !important;
     border: 2px;
-    width: 65%;
+    width: 75%;
+    padding-top: 0 !important;
     display: inline-block;
 }
 
 .address-title {
+    font-weight: bold;
     text-align: start;
-    text-indent: 80px;
+    text-indent: 20px;
     font-size: 1.2vw;
 }
 
 .info {
-    font-size: 1.1vw;
+    font-size: 1.0vw !important;
     text-align: start;
+    vertical-align: center !important;
+}
+
+.profile-title
+{
+    width: 100%;
 }
 
 .item {
     font-weight: bold;
     font-size: 1.1vw;
+    text-align:start ;
+    text-indent: calc(15px + 0.3vw);
 }
+
 
 .input-email
 {
-    width: 75%;
+    width: 65%;
+    text-align: start !important;
 
 }
-/*button {
-    border: none;
-    outline: 1px;
-    display: inline-block;
-    padding: 10px;
-    color: white;
-    background-color: #000;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-}*/
+
+#email-add
+{
+    align-content: start;
+    width: 65%;
+    height: 1.5rem;
+    border-style: none;
+    border-radius: 3px;
+}
 
 button:hover, a:hover {
     opacity: 0.7;
 }
 
 .addbutton {
-    font-size: 10px;
-    font-weight: bold;
-    vertical-align: middle;
+    display: table-cell !important;
+    vertical-align: middle !important;
+    margin-left: 5px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: calc(0.9vw);
+    height: calc(1.5rem);
 
-    text-justify: distribute-center-last;
-    padding: 10px;
-    height: 20px;
-    margin: 5px;
-    text-align: justify;
+    font-weight: normal;
 }
-
-/* Clear floats after the columns */

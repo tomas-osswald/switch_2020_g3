@@ -1,4 +1,6 @@
 import React, {useContext} from 'react';
+import '../../styles/mainView.css'
+import '../../styles/global.css'
 import {MainviewDiv} from "./MainviewElements";
 import MembersRelationsFA from "../MembersRelationsFA";
 import AppContext from "../../context/AppContext";
@@ -15,23 +17,22 @@ function Mainview() {
     if (mainView === 'profile') {
         return (
             <MainviewDiv>
-                <Profile/>
+
+                    <Profile/>
+
+
             </MainviewDiv>
         )
     } else if (mainView === 'createFamily') {
         return (
             <MainviewDiv>
                 <h3 align="center">Create a Family and Set Administrator</h3>
-                <br></br>
                 <CreateFamilySM />
             </MainviewDiv>
         )
     } else if (mainView === 'family') {
         return (
             <MainviewDiv>
-                Mainview deste lado
-                <br/>
-                Family aqui
                 <MembersRelationsFA/>
             </MainviewDiv>
         )

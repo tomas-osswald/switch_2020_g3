@@ -14,7 +14,7 @@ export const MainpageDiv = styled.div`
     // Divisão da tela completa em dois grupos proporcionais, o primeiro de 1/4 do tamanho
     // e o segundo com 3/4 do tamanho. O "fr" indica essa proporção.
     grid-auto-columns: 1fr 3fr;
-  
+    overflow-y: hidden;
   
    
   

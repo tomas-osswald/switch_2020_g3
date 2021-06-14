@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
 import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
+import Loading from "../Loading";
 import '../../styles/profile.css'
 
 function Profile() {
@@ -8,7 +9,6 @@ function Profile() {
     const {loggedUser, profile} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
-
     const [email, setEmail] = useState("");
     const [refresh, setRefresh] = useState(false);
 
@@ -28,20 +28,23 @@ function Profile() {
     }
 
     function handleSubmit(){
-        addEmails();
-        setRefresh(true);
+        if(email == null || email === "") {
+            setRefresh(false);
+            } else {
+            addEmails();
+            setRefresh(true);
+        }
+
     }
 
     function EmailsList() {
         const emailList = profileData.emails.map(email => <p className="info">{email}</p>)
         return <div>{emailList}</div>
-
     }
 
     if (loading === true) {
         return (
-            <h1>Loading ....</h1>
-
+            <h1><Loading/></h1>
         );
     } else {
         if (error !== null) {
@@ -52,6 +55,7 @@ function Profile() {
             );
         } else {
             /*  if (data.length > 0) {*/
+
             return (
 
                 <div className="card">
@@ -82,8 +86,7 @@ function Profile() {
                                 <div>
                                     {EmailsList()}
                                     <div>
-                                        <input className="input-email" type="text" id="email" onChange={email => setEmail(email.target.value)}  required/>
-
+                                        <input className="input-email" type="text" id="email" onChange={email => setEmail(email.target.value)} required/>
                                         <button className="addbutton" onClick={handleSubmit}>Add email</button>
 
                                     </div>
