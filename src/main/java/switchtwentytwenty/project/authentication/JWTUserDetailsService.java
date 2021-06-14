@@ -23,7 +23,7 @@ public class JWTUserDetailsService implements UserDetailsService {
     private PasswordEncoder bcryptEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
 
         DAOUser user = userDao.findByUsername(username);
         if (user == null) {
