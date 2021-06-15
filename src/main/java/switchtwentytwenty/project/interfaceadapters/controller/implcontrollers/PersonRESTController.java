@@ -66,8 +66,9 @@ public class PersonRESTController implements IPersonRESTController {
 
     @Override
     @PatchMapping(value = "/{personID}/emails/{email}")
-    public ResponseEntity<Object> removeEmailAddress(@PathVariable String PersonID, @PathVariable String email) {
+    public ResponseEntity<Object> removeEmailAddress(@PathVariable String personID, @PathVariable String email) {
         try {
+            //removeEmailService.removeEmail(personID,email);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(ERROR + e.getMessage(), HttpStatus.NOT_MODIFIED);
@@ -136,7 +137,6 @@ public class PersonRESTController implements IPersonRESTController {
         }
 
     }
-
 
 
 }
