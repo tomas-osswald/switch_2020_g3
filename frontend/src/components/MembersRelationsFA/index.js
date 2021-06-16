@@ -10,7 +10,7 @@ import {MembersRelationsFADiv, RelationsList} from "./MembersRelationsFAElements
 function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
-    let {family, familyData, refresh} = state;
+    let {family, familyData, refresh, jwt} = state;
     const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
@@ -29,14 +29,14 @@ function MembersRelationsFA() {
 
     useEffect(() => {
 
-        fetchFamilyRelationsFA(dispatch, family_id)
+        fetchFamilyRelationsFA(dispatch, family_id, jwt.jwt)
 
 
     }, [])
 
     useEffect(() => {
 
-        fetchFamilyRelationsFA(dispatch, family_id);
+        fetchFamilyRelationsFA(dispatch, family_id, jwt.jwt);
         dispatch(changeRefresh(false));
     }, [refresh])
 
@@ -112,7 +112,7 @@ function MembersRelationsFA() {
             relationDesignation: relationDesignation
         }
 
-        postNewRelation(dispatch, newRelationDTO, family_id);
+        postNewRelation(dispatch, newRelationDTO, family_id, jwt.jwt);
     }
 
     function reloadScreen() {
