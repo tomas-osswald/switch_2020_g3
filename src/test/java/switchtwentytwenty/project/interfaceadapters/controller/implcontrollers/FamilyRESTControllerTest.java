@@ -317,7 +317,7 @@ class FamilyRESTControllerTest {
         assertEquals(expected, result);
     }
 
-    @Disabled
+
     @Test
     @DisplayName("Test for the change of a relation between family members in a Family")
     void changeRelationValidFamilyID() {
@@ -327,16 +327,24 @@ class FamilyRESTControllerTest {
 
         ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO();
         changeRelationDTO.setNewRelationDesignation(relationshipDesignation);
-        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@admin.com", "moonika@gmail.com" , "Amante", "123");
 
-        when(changeRelationService.changeRelation(any(InputChangeRelationDTO.class))).thenReturn(outputRelationDTO);
+        InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(relationID, relationshipDesignation, familyID);
+
+        String memberOneID = "tonyze@admin.com";
+        String memberTwoID = "moonika@gmail.com";
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO(memberOneID, memberTwoID, relationshipDesignation, relationID);
         Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
         outputRelationDTO.add(selfLink);
+
+        when(relationAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), anyString(), anyString())).thenReturn(inputChangeRelationDTO);
+        when(changeRelationService.changeRelation(any(InputChangeRelationDTO.class))).thenReturn(outputRelationDTO);
+
         ResponseEntity expected = new ResponseEntity(outputRelationDTO, HttpStatus.OK);
 
         ResponseEntity result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
 
         assertEquals(expected, result);
+        assertNotNull(result);
     }
 
     @Test
