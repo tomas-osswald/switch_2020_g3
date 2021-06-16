@@ -56,11 +56,11 @@ class AddFamilyMemberServiceIT {
         assertThrows(InvalidNameException.class, () -> service.addPerson(invalidNameInternalAddFamilyMemberDTO));
     }
 
-    @DisplayName("AddFamilyMemberService IT Test to check if an exception is thrown if an empty password field is given")
+/*    @DisplayName("AddFamilyMemberService IT Test to check if an exception is thrown if an empty password field is given")
     @Test
     void addPersonFail_NullPassword() {
         InputAddFamilyMemberDTO emptyPasswordDTO = new InputAddFamilyMemberDTO(adminID, ID, name, birthDate, vat, phone, street, city, houseNum, zipCode, null);
         assertThrows(InvalidDataAccessApiUsageException.class, () -> service.addPerson(emptyPasswordDTO));
-    }
+    }*/
 
 }
