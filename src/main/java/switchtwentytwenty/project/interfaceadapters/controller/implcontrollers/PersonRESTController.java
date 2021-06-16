@@ -20,7 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/people")
-@CrossOrigin
+@CrossOrigin(value = "*")
 public class PersonRESTController implements IPersonRESTController {
 
     private static final String ERROR = "Error: ";
@@ -65,8 +65,8 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @Override
-    @DeleteMapping(value = "/{personID}/emails/{email}")
-    public ResponseEntity<Object> removeEmailAddress(@PathVariable String personID, @PathVariable String email) {
+    @DeleteMapping(value = "/{personID}/emails")
+    public ResponseEntity<Object> removeEmailAddress( @RequestBody RemoveEmailDTO removeEmailDTO, @PathVariable String personID) {
         try {
             //removeEmailService.removeEmail(personID,email);
             return new ResponseEntity<>(HttpStatus.OK);

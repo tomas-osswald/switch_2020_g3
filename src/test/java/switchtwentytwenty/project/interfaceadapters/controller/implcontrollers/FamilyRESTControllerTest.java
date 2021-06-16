@@ -327,7 +327,6 @@ class FamilyRESTControllerTest {
 
         ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO();
         changeRelationDTO.setNewRelationDesignation(relationshipDesignation);
-        changeRelationDTO.setRelationID(relationID);
         OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@admin.com", "moonika@gmail.com" , "Amante", "123");
 
         when(changeRelationService.changeRelation(any(InputChangeRelationDTO.class))).thenReturn(outputRelationDTO);

@@ -15,8 +15,8 @@ class InputChangeRelationDTOTest {
     @Test
     void testConstructor() {
         InputChangeRelationDTO expected = new InputChangeRelationDTO("3", "Des", "@fam@id.com");
-        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("3", "Des");
-        InputChangeRelationDTO result = new InputChangeRelationDTO(changeRelationDTO, "@fam@id.com");
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Des");
+        InputChangeRelationDTO result = new InputChangeRelationDTO(changeRelationDTO, "@fam@id.com","3");
         assertEquals(expected, result);
         assertNotSame(expected, result);
     }

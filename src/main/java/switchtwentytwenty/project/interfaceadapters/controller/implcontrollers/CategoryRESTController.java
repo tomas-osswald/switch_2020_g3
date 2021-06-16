@@ -23,7 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/categories")
-@CrossOrigin
+@CrossOrigin(value = "*")
 public class CategoryRESTController implements ICategoryRESTController {
 
     private final ICreateStandardCategoryService createStandardCategoryService;
