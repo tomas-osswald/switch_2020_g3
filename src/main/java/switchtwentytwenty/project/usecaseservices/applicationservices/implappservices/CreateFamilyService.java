@@ -3,7 +3,6 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import switchtwentytwenty.project.authentication.DAOUser;
 import switchtwentytwenty.project.authentication.JWTUserDetailsService;
 import switchtwentytwenty.project.authentication.UserDTO;
 import switchtwentytwenty.project.domain.aggregates.family.Family;

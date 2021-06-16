@@ -115,6 +115,7 @@ class PersonRESTControllerITDB {
         addFamilyMemberDTO.setCity("cidade");
         addFamilyMemberDTO.setHouseNumber("69");
         addFamilyMemberDTO.setZipCode("1234-123");
+        addFamilyMemberDTO.setPassword("password");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
         assertEquals(expected.getBody(), result.getBody());
@@ -232,6 +233,7 @@ class PersonRESTControllerITDB {
         addFamilyMemberDTO.setCity("cidade");
         addFamilyMemberDTO.setHouseNumber("69");
         addFamilyMemberDTO.setZipCode("1234-123");
+        addFamilyMemberDTO.setPassword("password");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
         assertNotEquals(expected.getBody(), result.getBody());
