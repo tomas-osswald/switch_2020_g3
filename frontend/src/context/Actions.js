@@ -60,12 +60,11 @@ export function doNothing() {
 export function authenticate(dispatch, userDetails) {
     dispatch(authenticateStarted());
     authenticateWS((res) => dispatch(authenticateSuccess(res)), (err) => dispatch(authenticateFailure(err.message)), userDetails);
-
 }
 
 export function authenticateStarted(){
     return {
-        type: AUTHENTICATION_STARTED,
+        type: AUTHENTICATION_STARTED
     }
 }
 
@@ -118,9 +117,9 @@ export function changeRefresh(value) {
     }
 }
 
-export function postNewRelation(dispatch, createRelationDTO, familyID) {
+export function postNewRelation(dispatch, createRelationDTO, familyID, jwt) {
     dispatch(postNewRelationStarted());
-    addRelation((res) => dispatch(addRelationSuccess(res)), (err) => dispatch(addRelationFailure(err.message)), createRelationDTO, familyID);
+    addRelation((res) => dispatch(addRelationSuccess(res)), (err) => dispatch(addRelationFailure(err.message)), createRelationDTO, familyID, jwt);
 }
 
 export const ADD_RELATION_FAILURE = 'ADD_RELATION_FAILURE';
@@ -155,14 +154,14 @@ export function postNewRelationStarted() {
 }
 
 
-export function fetchProfile(dispatch, id) {
+export function fetchProfile(dispatch, id, jwt) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromLogin((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id, jwt);
 }
 
-export function fetchNewProfile(dispatch, id) {
+export function fetchNewProfile(dispatch, id, jwt) {
     dispatch(fetchProfileStarted());
-    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id);
+    fetchProfileFromWS((res) => dispatch(fetchProfileSuccess(res)), (err) => dispatch(fetchProfileFailure(err.message)), id, jwt);
 }
 
 // Uniformizar actions com pedidos fetch para poder utilizar com families, person etc...
@@ -196,14 +195,14 @@ export const FETCH_FAMILY_NAME_STARTED = 'FETCH_FAMILY_NAME_STARTED';
 export const FETCH_FAMILY_NAME_SUCCESS = 'FETCH_FAMILY_NAME_SUCCESS';
 export const FETCH_FAMILY_NAME_FAILURE = 'FETCH_FAMILY_NAME_FAILURE';
 
-export function fetchFamilyName(dispatch, familyId) {
+export function fetchFamilyName(dispatch, familyId, jwt) {
     dispatch(fetchFamilyNameStarted());
-    familyNameGlobal((res) => dispatch(fetchFamilyNameSuccess(res)), (err) => dispatch(fetchFamilyNameFailure(err.message)), familyId)
+    familyNameGlobal((res) => dispatch(fetchFamilyNameSuccess(res)), (err) => dispatch(fetchFamilyNameFailure(err.message)), familyId, jwt)
 }
 
-export function fetchFamilyRelationsFA(dispatch, familyId) {
+export function fetchFamilyRelationsFA(dispatch, familyId, jwt) {
     dispatch(fetchFamilyRelationStarted());
-    familyRelationsFA((res) => dispatch(fetchFamilyRelationsSuccess(res)), (err) => dispatch(fetchFamilyRelationsFailure(err.message)), familyId)
+    familyRelationsFA((res) => dispatch(fetchFamilyRelationsSuccess(res)), (err) => dispatch(fetchFamilyRelationsFailure(err.message)), familyId, jwt)
 }
 
 /***** FAMILY *******/
@@ -269,9 +268,9 @@ export function changeUser(email, role) {
     }
 }
 
-export function createFamilySM(dispatch, createFamily) {
+export function createFamilySM(dispatch, createFamily, jwt) {
     dispatch(createFamilySMStarted());
-    createFamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message)), createFamily);
+    createFamilySMService((res) => dispatch(createFamilySMSuccess(res)), (err) => dispatch(createFamilySMFailure(err.message)), createFamily, jwt);
 
 }
 
@@ -343,9 +342,9 @@ export function fetchNameFailure(error) {
 
 // Add email in Profile ----------------------------------------------------------------
 
-export function addEmailToFamilyMember(dispatch, id, email) {
+export function addEmailToFamilyMember(dispatch, id, email, jwt) {
     dispatch(addEmailStarted());
-    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id, email);
+    addInputedEmailToFamilyMember((res) => dispatch(addEmailSuccess(res)), (err) => dispatch(addEmailFailure(err.message)), id, email, jwt);
 
 }
 
@@ -379,9 +378,9 @@ export const ADD_NEW_MEMBER_START = 'ADD_NEW_MEMBER_START'
 export const ADD_NEW_MEMBER_SUCCESS = 'ADD_NEW_MEMBER_SUCCESS';
 export const ADD_NEW_MEMBER_FAILURE = 'ADD_NEW_MEMBER_FAILURE';
 
-export function addNewMember(dispatch, newMember) {
+export function addNewMember(dispatch, newMember, jwt) {
     dispatch(addNewMemberStart())
-    postNewMember((response) => dispatch(addNewMemberSuccess(response)), (err) => dispatch(addNewMemberFailure(err.message)), newMember)
+    postNewMember((response) => dispatch(addNewMemberSuccess(response)), (err) => dispatch(addNewMemberFailure(err.message)), newMember, jwt)
 
 }
 

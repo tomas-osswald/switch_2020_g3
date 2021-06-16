@@ -6,25 +6,25 @@ import '../../styles/profile.css'
 
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
-    const {loggedUser, profile} = state;
+    const {loggedUser, profile, jwt} = state;
     const {id} = loggedUser;
     const {loading, error, profileData} = profile;
     const [email, setEmail] = useState("");
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        fetchProfile(dispatch, id);
+        fetchProfile(dispatch, id, jwt.jwt);
         setRefresh(false);
     }, [refresh]);
 
     useEffect(() => {
-        fetchProfile(dispatch, id);
+        fetchProfile(dispatch, id, jwt.jwt);
 
     }, []);
 
 
     function addEmails() {
-        addEmailToFamilyMember(dispatch,id,email);
+        addEmailToFamilyMember(dispatch,id,email, jwt.jwt);
     }
 
     function handleSubmit(){

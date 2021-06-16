@@ -25,11 +25,11 @@ const Login = () => {
         history.push(path);
     }
 
-    async function handleClick(email,password,loginRole) {
+    function handleClick(email,password,loginRole) {
         const userDetails = {username  :null, password: null};
         userDetails.username = email;
         userDetails.password = password;
-        dispatch(authenticate(dispatch,userDetails));
+        authenticate(dispatch,userDetails);
         dispatch(changeUser(email,loginRole));
     }
 
