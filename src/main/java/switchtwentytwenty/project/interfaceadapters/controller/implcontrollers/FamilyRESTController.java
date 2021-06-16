@@ -168,7 +168,7 @@ public class FamilyRESTController implements IFamilyRESTController {
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
             familyMemberAndRelationsListDTO.add(selfLink);
             return new ResponseEntity<>(familyMemberAndRelationsListDTO, status);
-        } catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException | InvalidDataAccessApiUsageException exception) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity(ERROR + exception.getMessage(), status);
         }
