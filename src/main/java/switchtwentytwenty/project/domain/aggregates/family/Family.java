@@ -79,6 +79,13 @@ public class Family implements AggregateRoot<FamilyID> {
 
     }
 
+    public void changeRelation(RelationID relationID, RelationDesignation newDesignation) {
+        Relation oldRelation = getRelationByID(relationID);
+        Relation newRelation = new Relation(oldRelation.getMemberA(), oldRelation.getMemberB(), newDesignation, relationID);
+        relations.remove(oldRelation);
+        relations.add(newRelation);
+    }
+
     public boolean isRelationAlreadyRegistered(Relation relation) {
         boolean relationPresent = false;
         for (Relation registeredRelation : relations) {
@@ -92,7 +99,7 @@ public class Family implements AggregateRoot<FamilyID> {
     public List<Relation> getRelationsByPersonID(PersonID id) {
         List<Relation> personRelations = new ArrayList<>();
         for (Relation relation : this.relations) {
-            if(relation.isMemberA(id)){
+            if (relation.isMemberA(id)) {
                 personRelations.add(relation);
             }
         }
