@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.aggregates.family;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
@@ -21,6 +22,7 @@ public class Family implements AggregateRoot<FamilyID> {
     @Getter
     private PersonID admin;
     @Getter
+    @Setter
     private List<Relation> relations = new ArrayList<>();
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
