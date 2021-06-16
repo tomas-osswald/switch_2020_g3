@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,5 +16,16 @@ public class ChangeRelationDTO {
     private String relationID;
     private String newRelationDesignation;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChangeRelationDTO that = (ChangeRelationDTO) o;
+        return Objects.equals(relationID, that.relationID) && Objects.equals(newRelationDesignation, that.newRelationDesignation);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(relationID, newRelationDesignation);
+    }
 }
