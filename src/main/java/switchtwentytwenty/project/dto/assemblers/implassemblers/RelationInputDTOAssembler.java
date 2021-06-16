@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
@@ -8,7 +7,6 @@ import switchtwentytwenty.project.dto.family.InputChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.InputRelationDTO;
 
 @Component
-@AllArgsConstructor
 public class RelationInputDTOAssembler {
 
 

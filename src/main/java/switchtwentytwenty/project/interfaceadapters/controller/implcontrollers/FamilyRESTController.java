@@ -11,6 +11,7 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.InputCustomCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
@@ -36,6 +37,7 @@ public class FamilyRESTController implements IFamilyRESTController {
     private final FamilyInputDTOAssembler familyAssembler;
     private final PersonInputDTOAssembler personAssembler;
     private final CategoryInputDTOAssembler categoryAssembler;
+    private final RelationInputDTOAssembler relationAssembler;
     private final IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
     private final IFamiliesOptionsService familiesOptionsService;
     private final IFamilyOptionsService familyOptionsService;
@@ -43,13 +45,15 @@ public class FamilyRESTController implements IFamilyRESTController {
     private final IGetCustomCategoriesService customCategoriesService;
     private final IGetFamilyDataService getFamilyDataService;
     private final ICreateCustomCategoryService createCustomCategoryService;
+    private final IChangeRelationService changeRelationService;
 
 
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, RelationInputDTOAssembler relationAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService, IChangeRelationService changeRelationService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
+        this.relationAssembler = relationAssembler;
         this.getFamilyMembersAndRelationshipService = getFamilyMembersAndRelationshipService;
         this.familiesOptionsService = familiesOptionsService;
         this.familyOptionsService = familyOptionsService;
@@ -58,6 +62,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.getFamilyDataService = getFamilyDataService;
         this.categoryAssembler = categoryAssembler;
         this.createCustomCategoryService = createCustomCategoryService;
+        this.changeRelationService = changeRelationService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -126,6 +131,26 @@ public class FamilyRESTController implements IFamilyRESTController {
             return new ResponseEntity<>(outputRelationDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity(ERROR + e.getMessage(), status);
+
+        }
+
+    }
+
+    @PatchMapping("/{familyID}/relations")
+    public ResponseEntity<Object> changeRelation(@RequestBody ChangeRelationDTO changeRelationDTO, @PathVariable String familyID) {
+        InputChangeRelationDTO inputChangeRelationDTO = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, familyID);
+        HttpStatus status;
+        OutputRelationDTO outputRelationDTO;
+
+        try {
+            outputRelationDTO = changeRelationService.changeRelation(inputChangeRelationDTO);
+            status = HttpStatus.OK;
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+            outputRelationDTO.add(selfLink);
+            return new ResponseEntity<>(outputRelationDTO, status);
+        } catch (Exception e) {
+            status = HttpStatus.NOT_MODIFIED;
             return new ResponseEntity(ERROR + e.getMessage(), status);
 
         }
