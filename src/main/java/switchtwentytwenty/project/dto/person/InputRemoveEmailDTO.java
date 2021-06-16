@@ -1,6 +1,5 @@
 package switchtwentytwenty.project.dto.person;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +9,14 @@ import java.util.Objects;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class InputRemoveEmailDTO {
     private String email;
     private String personID;
+
+    public InputRemoveEmailDTO(String email, String personID) {
+        this.email = email;
+        this.personID = personID;
+    }
 
     @Override
     public boolean equals(Object o) {
