@@ -24,13 +24,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PersonRESTController implements IPersonRESTController {
 
     private static final String ERROR = "Error: ";
-    private final IGetFamilyMemberProfileService getFamilyMemberProfileService;
-    private final IAddFamilyMemberService addFamilyMemberService;
-    private final IAddEmailService addEmailService;
-    private final PersonInputDTOAssembler personInputDTOAssembler;
-    private final PersonInputDTOAssembler profileInternalExternalAssembler;
-    private final IPersonOptionsService personOptionsService;
-    private final IPeopleOptionsService peopleOptionsService;
+    private IGetFamilyMemberProfileService getFamilyMemberProfileService;
+    private IAddFamilyMemberService addFamilyMemberService;
+    private IAddEmailService addEmailService;
+    private IRemoveEmailService removeEmailService;
+    private PersonInputDTOAssembler personInputDTOAssembler;
+    private PersonInputDTOAssembler profileInternalExternalAssembler;
+    private IPersonOptionsService personOptionsService;
+    private IPeopleOptionsService peopleOptionsService;
 
     @Autowired
     public PersonRESTController(PeopleOptionsService peopleOptionsService, PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
@@ -67,8 +68,13 @@ public class PersonRESTController implements IPersonRESTController {
     @Override
     @DeleteMapping(value = "/{personID}/emails")
     public ResponseEntity<Object> removeEmailAddress( @RequestBody RemoveEmailDTO removeEmailDTO, @PathVariable String personID) {
+        InputRemoveEmailDTO inputRemoveEmailDTO = personInputDTOAssembler.toInputRemoveEmail(removeEmailDTO, personID);
+        HttpStatus status;
+        OutputRemoveEmailDTO outputRemoveEmailDTO;
+
         try {
-            //removeEmailService.removeEmail(personID,email);
+
+            removeEmailService.removeEmail(inputRemoveEmailDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(ERROR + e.getMessage(), HttpStatus.NOT_MODIFIED);
