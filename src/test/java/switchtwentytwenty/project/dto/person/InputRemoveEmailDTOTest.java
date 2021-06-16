@@ -87,7 +87,7 @@ class InputRemoveEmailDTOTest {
 
     @DisplayName("Different Objects Same hashcode")
     @Test
-    void testHashCode() {
+    void testHashCodeSuccess() {
         InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
         dtoOne.setPersonID(personID);
         dtoOne.setEmail(email);
@@ -97,5 +97,19 @@ class InputRemoveEmailDTOTest {
 
         assertNotSame(dtoOne, dtoTwo);
         assertEquals(dtoOne.hashCode(), dtoTwo.hashCode());
+    }
+
+    @DisplayName("Different Objects Different hashcode")
+    @Test
+    void testHashCodeFail() {
+        InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
+        dtoOne.setPersonID(personID);
+        dtoOne.setEmail(email);
+        InputRemoveEmailDTO dtoTwo = new InputRemoveEmailDTO();
+        dtoTwo.setPersonID(personID);
+        dtoTwo.setEmail(emailTwo);
+
+        assertNotSame(dtoOne, dtoTwo);
+        assertNotEquals(dtoOne.hashCode(), dtoTwo.hashCode());
     }
 }

@@ -21,7 +21,7 @@ public class InputRemoveEmailDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InputRemoveEmailDTO)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         InputRemoveEmailDTO that = (InputRemoveEmailDTO) o;
         return Objects.equals(email, that.email) && Objects.equals(personID, that.personID);
     }
