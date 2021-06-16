@@ -36,4 +36,4 @@ public class InputChangeRelationDTO {
         return Objects.hash(relationID, newDesignation, familyID);
     }
 
-}
+  }

@@ -126,7 +126,7 @@ Both of these data pieces will be path variables of the request.
 ```plantuml
 @startuml
 
-title US152 Remove Email
+title US106 Change RelationFa
 
 skinparam linetype polyline
 hide empty members
@@ -197,7 +197,7 @@ Onion Architecture
 
 autonumber
 header Sequence Diagram
-title US151 Add Email
+title US106 Change Relation
 
 participant ":IFamilyController" as controller <<interface>>
 participant ":RelationInput\nDTOAssembler" as assembler
