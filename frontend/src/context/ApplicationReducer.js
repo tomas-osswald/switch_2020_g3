@@ -65,7 +65,12 @@ function reducer(state, action) {
                     loading: false,
                     error: null,
                     jwt: action.payload.data,
-                }
+                },
+                /*loggedUser: {
+                    id: action.payload.id,
+                    //role: action.payload.role,
+                    //name: '',
+                },*/
             }
 
         case AUTHENTICATION_FAILURE:

@@ -20,7 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/people")
-@CrossOrigin(value = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PersonRESTController implements IPersonRESTController {
 
     private static final String ERROR = "Error: ";
