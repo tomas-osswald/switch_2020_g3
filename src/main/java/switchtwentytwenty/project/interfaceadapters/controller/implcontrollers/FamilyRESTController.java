@@ -139,7 +139,7 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     @PatchMapping("/{familyID}/relations")
     public ResponseEntity<Object> changeRelation(@RequestBody ChangeRelationDTO changeRelationDTO, @PathVariable String familyID) {
-        InputChangeRelationDTO inputChangeRelationDTO = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, familyID);
+        InputChangeRelationDTO inputChangeRelationDTO = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, familyID,"thing");
         HttpStatus status;
         OutputRelationDTO outputRelationDTO;
 

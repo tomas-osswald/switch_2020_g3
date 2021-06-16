@@ -54,10 +54,10 @@ class RelationInputDTOAssemblerTest {
 
     @Test
     void toInputChangeRelationDTO() {
-        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("2", "Pai");
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Pai");
         InputChangeRelationDTO expected = new InputChangeRelationDTO("2", "Pai", "@family@id.com");
 
-        InputChangeRelationDTO result = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, "@family@id.com");
+        InputChangeRelationDTO result = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, "@family@id.com","2");
 
         assertEquals(expected, result);
         assertNotSame(expected, result);

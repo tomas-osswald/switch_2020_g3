@@ -14,7 +14,7 @@ public class RelationInputDTOAssembler {
         return new InputRelationDTO(createRelationDTO.getMemberOneID(), createRelationDTO.getMemberTwoID(), createRelationDTO.getRelationDesignation(), familyID);
     }
 
-    public InputChangeRelationDTO toInputChangeRelationDTO(ChangeRelationDTO changeRelationDTO, String familyID) {
-        return new InputChangeRelationDTO(changeRelationDTO, familyID);
+    public InputChangeRelationDTO toInputChangeRelationDTO(ChangeRelationDTO changeRelationDTO, String familyID,String relationID) {
+        return new InputChangeRelationDTO(changeRelationDTO, familyID, relationID);
     }
 }

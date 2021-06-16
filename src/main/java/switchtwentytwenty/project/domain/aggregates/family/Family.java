@@ -76,7 +76,6 @@ public class Family implements AggregateRoot<FamilyID> {
             }
         }
         throw new IllegalArgumentException();
-
     }
 
     public Relation changeRelation(RelationID relationID, RelationDesignation newDesignation) {
