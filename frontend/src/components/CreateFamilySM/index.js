@@ -21,7 +21,7 @@ import '../../styles/global.css';
 
 export default function CreateFamilySM() {
     const {state, dispatch} = useContext(AppContext);
-    const {createdfamily} = state;
+    const {createdfamily, jwt} = state;
     const {loading, error, data} = createdfamily;
     //Como é um POST vamos apenas ter um Estado Local do Component sem englobar o estado global da App neste pedido. Não é preciso
     //guardar no estado da App algo que vai ser enviado para o Backend.
@@ -54,7 +54,7 @@ export default function CreateFamilySM() {
             city: city, houseNumber: houseNumber, zipCode: zipCode, familyName: familyName,
             registrationDate: registrationDate
         }
-        createFamilySM(dispatch, createFamily)
+        createFamilySM(dispatch, createFamily,jwt.jwt)
 
     }
 

@@ -134,7 +134,12 @@ public class Person implements AggregateRoot<PersonID> {
     }
 
     public void removeEmail(EmailAddress emailToDelete){
-
+    List<EmailAddress> updatedList = new ArrayList<>();
+        for (EmailAddress email: this.emails)
+            if(email != emailToDelete){
+                updatedList.add(email);
+            }
+        this.emails = updatedList;
     }
 
     @Override

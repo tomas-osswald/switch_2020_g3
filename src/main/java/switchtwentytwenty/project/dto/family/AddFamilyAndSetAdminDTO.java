@@ -20,6 +20,7 @@ public class AddFamilyAndSetAdminDTO  {
     private String city;
     private String houseNumber;
     private String zipCode;
+    private String password;
 
     private String familyName;
     private String registrationDate;
@@ -60,6 +61,8 @@ public class AddFamilyAndSetAdminDTO  {
         return zipCode;
     }
 
+    public String getPassword() { return password; }
+
     public String getFamilyName() {
         return familyName;
     }
@@ -73,11 +76,11 @@ public class AddFamilyAndSetAdminDTO  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddFamilyAndSetAdminDTO that = (AddFamilyAndSetAdminDTO) o;
-        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode) && familyName.equals(that.familyName) && Objects.equals(registrationDate, that.registrationDate);
+        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode) && familyName.equals(that.familyName) && Objects.equals(registrationDate, that.registrationDate) && Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode, familyName, registrationDate);
+        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode, familyName, registrationDate, password);
     }
 }

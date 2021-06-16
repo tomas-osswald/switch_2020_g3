@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 //Code adapted from https://www.javainuse.com/spring/boot-jwt and https://www.javainuse.com/spring/boot-jwt-mysql
 
 @RestController
-@CrossOrigin
+@CrossOrigin(value = "*")
 public class AuthenticationRESTController {
 
     @Autowired

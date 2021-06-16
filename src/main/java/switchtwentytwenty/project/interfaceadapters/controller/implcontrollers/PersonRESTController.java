@@ -20,13 +20,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/people")
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PersonRESTController implements IPersonRESTController {
 
     private static final String ERROR = "Error: ";
     private IGetFamilyMemberProfileService getFamilyMemberProfileService;
     private IAddFamilyMemberService addFamilyMemberService;
     private IAddEmailService addEmailService;
+    private IRemoveEmailService removeEmailService;
     private PersonInputDTOAssembler personInputDTOAssembler;
     private PersonInputDTOAssembler profileInternalExternalAssembler;
     private IPersonOptionsService personOptionsService;
@@ -67,8 +68,13 @@ public class PersonRESTController implements IPersonRESTController {
     @Override
     @DeleteMapping(value = "/{personID}/emails/{email}")
     public ResponseEntity<Object> removeEmailAddress( @PathVariable String emailToDelete, @PathVariable String personID) {
+        InputRemoveEmailDTO inputRemoveEmailDTO = personInputDTOAssembler.toInputRemoveEmail(emailToDelete, personID);
+        HttpStatus status;
+        OutputRemoveEmailDTO outputRemoveEmailDTO;
+
         try {
-            //removeEmailService.removeEmail(personID,email);
+
+            removeEmailService.removeEmail(inputRemoveEmailDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(ERROR + e.getMessage(), HttpStatus.NOT_MODIFIED);

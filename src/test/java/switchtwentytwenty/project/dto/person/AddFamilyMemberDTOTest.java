@@ -17,7 +17,7 @@ class AddFamilyMemberDTOTest {
     String houseNumber = "03";
     String zipCode = "4321-333";
 
-    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+    AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
     @Test
     void constructorTestNoArgumentsConstructor(){
@@ -218,8 +218,8 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void equalsTestEqualDTOs() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertEquals(familyMemberDTOOne,familyMemberDTOTwo);
         Assertions.assertNotSame(familyMemberDTOOne,familyMemberDTOTwo);
@@ -227,7 +227,7 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void equalsTestSameDTOs() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
         AddFamilyMemberDTO familyMemberDTOTwo = familyMemberDTOOne;
 
         Assertions.assertEquals(familyMemberDTOOne,familyMemberDTOTwo);
@@ -235,7 +235,7 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void equalsTestDifferentObject() {
-        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTO = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
         String notDTO = "not DTO";
 
         Assertions.assertNotEquals(familyMemberDTO,notDTO);
@@ -244,88 +244,96 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void equalsTestDifferentAdminIDsInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("3L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("3L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentEmailIDsInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","teste@email.com", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","teste@email.com", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentNamesInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "Jessica", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "Jessica", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentBirthDatesInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "05/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "05/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentVATNumbersInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 987654321,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 987654321,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentPhoneNumbersInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961234567, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961234567, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentStreetsInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua de Cima", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua de Cima", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentCitiesInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "São Pedro do Sul", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "São Pedro do Sul", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentHouseNumbersInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "22A", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "22A", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void equalsTestDifferentZipCodesInDTO() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4123-001" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4123-001", "password");
+
+        Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
+    }
+
+    @Test
+    void equalsTestDifferentPasswordsInDTO() {
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4123-001", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4123-001", "admin");
 
         Assertions.assertNotEquals(familyMemberDTOOne,familyMemberDTOTwo);
     }
 
     @Test
     void testHashCodeSameHashCode() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertEquals(familyMemberDTOOne.hashCode(),familyMemberDTOTwo.hashCode());
         Assertions.assertNotSame(familyMemberDTOOne,familyMemberDTOTwo);
@@ -333,8 +341,8 @@ class AddFamilyMemberDTOTest {
 
     @Test
     void testHashCodeDifferentHashCode() {
-        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
-        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("3L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000" );
+        AddFamilyMemberDTO familyMemberDTOOne = new AddFamilyMemberDTO("2L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
+        AddFamilyMemberDTO familyMemberDTOTwo = new AddFamilyMemberDTO("3L","3L", "TonyZe", "12/02/1999", 123456789,961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
 
         Assertions.assertNotEquals(familyMemberDTOOne.hashCode(),familyMemberDTOTwo.hashCode());
     }

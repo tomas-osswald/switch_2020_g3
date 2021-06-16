@@ -28,9 +28,9 @@ class FamilyInputDTOAssemblerTest {
     @Test
     void toInputPersonDTO() {
 
-        AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
-        InputPersonDTO expected = new InputPersonDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123");
+        InputPersonDTO expected = new InputPersonDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password");
 
         InputPersonDTO result = personAssembler.toInputPersonDTO(dto);
 
@@ -41,7 +41,7 @@ class FamilyInputDTOAssemblerTest {
     @Test
     void toInputFamilyDTO() {
 
-        AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
         InputFamilyDTO expected = new InputFamilyDTO("Silva", "12/12/2000");
 

@@ -9,7 +9,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-class GetFamilyDataServiceTest {
+class GetFamilyDataServiceITDB {
 
     @Autowired
     IGetFamilyDataService getFamilyDataService;

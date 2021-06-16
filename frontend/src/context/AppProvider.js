@@ -5,6 +5,7 @@ import {Provider} from './AppContext';
 import reducer from './ApplicationReducer';
 
 const initialState = {
+
     /*
     -> Insert data objects
     ex:
@@ -13,10 +14,15 @@ const initialState = {
         error: null,
         data: [],
     },
-
-     */
+    */
 
     mainView: '',
+
+    jwt: {
+        loading: false,
+        error: null,
+        jwt: null,
+    },
 
     loggedUser: {
         id: '',
@@ -177,6 +183,7 @@ const AppProvider = (props) => {
         </Provider>
     );
 };
+
 AppProvider.propTypes = {
     children: PropTypes.node,
 };

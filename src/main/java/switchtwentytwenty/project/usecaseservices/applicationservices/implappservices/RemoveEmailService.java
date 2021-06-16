@@ -30,7 +30,7 @@ public class RemoveEmailService implements IRemoveEmailService {
         Person person = personRepository.getByID(userID);
         person.removeEmail(emailToDelete);
         Person savedPerson = personRepository.updatePerson(person);
-        return personDTODomainAssembler.toRemoveEmailDTO(savedPerson);
+        return personDTODomainAssembler.toRemoveEmailDTO(savedPerson.getEmails());
     }
 
 

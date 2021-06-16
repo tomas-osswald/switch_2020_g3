@@ -27,4 +27,15 @@ class UserDTOTest {
 
         assertEquals(expected,result);
     }
+
+    @Test
+    void setRoleTest() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setRole("familyAdministrator");
+        String expected = "familyAdministrator";
+
+        String result = userDTO.getRole();
+
+        assertEquals(expected, result);
+    }
 }
