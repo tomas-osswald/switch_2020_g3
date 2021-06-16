@@ -65,8 +65,8 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @Override
-    @DeleteMapping(value = "/{personID}/emails")
-    public ResponseEntity<Object> removeEmailAddress( @RequestBody RemoveEmailDTO removeEmailDTO, @PathVariable String personID) {
+    @DeleteMapping(value = "/{personID}/emails/{email}")
+    public ResponseEntity<Object> removeEmailAddress( @PathVariable String emailToDelete, @PathVariable String personID) {
         try {
             //removeEmailService.removeEmail(personID,email);
             return new ResponseEntity<>(HttpStatus.OK);

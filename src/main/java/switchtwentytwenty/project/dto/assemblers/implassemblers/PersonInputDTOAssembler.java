@@ -48,8 +48,8 @@ public class PersonInputDTOAssembler {
         return new InputPersonDTO(addFamilyAndSetAdminDTO.getEmailID(), addFamilyAndSetAdminDTO.getName(), addFamilyAndSetAdminDTO.getBirthDate(), addFamilyAndSetAdminDTO.getVatNumber(), addFamilyAndSetAdminDTO.getPhone(), addFamilyAndSetAdminDTO.getStreet(), addFamilyAndSetAdminDTO.getCity(), addFamilyAndSetAdminDTO.getHouseNumber(), addFamilyAndSetAdminDTO.getZipCode());
     }
 
-    public InputRemoveEmailDTO toInputRemoveEmail(RemoveEmailDTO removeEmailDTO, String userID){
-        return new InputRemoveEmailDTO(removeEmailDTO.getEmail(), userID);
+    public InputRemoveEmailDTO toInputRemoveEmail(String emailToDelete, String userID){
+        return new InputRemoveEmailDTO(emailToDelete, userID);
     }
 
 }

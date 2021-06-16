@@ -133,6 +133,10 @@ public class Person implements AggregateRoot<PersonID> {
         return this.address;
     }
 
+    public void removeEmail(EmailAddress emailToDelete){
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
