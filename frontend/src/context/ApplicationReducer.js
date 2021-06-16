@@ -8,6 +8,9 @@ import {
     ADD_RELATION_FAILURE,
     ADD_RELATION_STARTED,
     ADD_RELATION_SUCCESS,
+    AUTHENTICATION_FAILURE,
+    AUTHENTICATION_STARTED,
+    AUTHENTICATION_SUCCESS,
     CHANGE_REFRESH,
     CHANGE_USER,
     CHANGE_VIEW,
@@ -45,6 +48,35 @@ function reducer(state, action) {
 
          */
 
+        case AUTHENTICATION_STARTED:
+            return {
+                ...state,
+                jwt: {
+                    loading: true,
+                    error: null,
+                    jwt: null,
+                }
+            }
+
+        case AUTHENTICATION_SUCCESS:
+            return {
+                ...state,
+                jwt: {
+                    loading: false,
+                    error: null,
+                    jwt: action.payload.data,
+                }
+            }
+
+        case AUTHENTICATION_FAILURE:
+            return {
+                ...state,
+                jwt: {
+                    loading: false,
+                    error: true,
+                    jwt: action.payload.data,
+                }
+            }
 
         case FETCH_PROFILE_STARTED:
             return {

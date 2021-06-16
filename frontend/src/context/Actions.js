@@ -7,7 +7,8 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
-    postNewMember
+    postNewMember,
+    authenticateWS
 } from './Service'
 
 
@@ -42,6 +43,10 @@ export const ADD_EMAIL_STARTED = "ADD_EMAIL_STARTED";
 export const ADD_EMAIL_SUCCESS = "ADD_EMAIL_SUCCESS";
 export const ADD_EMAIL_FAILURE = "ADD_EMAIL_FAILURE";
 export const CHANGE_REFRESH = "CHANGE_REFRESH";
+export const AUTHENTICATION_STARTED = "AUTHENTICATION_STARTED";
+export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
+export const AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
+
 
 // export const ADD_EMAIL = 'ADD_EMAIL';
 
@@ -49,6 +54,36 @@ export function doNothing() {
     return {
         type: DO_NOTHING,
         payload: {}
+    }
+}
+
+export function authenticate(dispatch, userDetails) {
+    dispatch(authenticateStarted());
+    authenticateWS((res) => dispatch(authenticateSuccess(res)), (err) => dispatch(authenticateFailure(err.message)), userDetails);
+
+}
+
+export function authenticateStarted(){
+    return {
+        type: AUTHENTICATION_STARTED,
+    }
+}
+
+export function authenticateSuccess(jwt) {
+    return {
+        type: AUTHENTICATION_SUCCESS,
+        payload: {
+            data: jwt
+        }
+    }
+}
+
+export function authenticateFailure(message) {
+    return {
+        type: AUTHENTICATION_FAILURE,
+        payload: {
+            error: message
+        }
     }
 }
 
@@ -270,12 +305,12 @@ export function createFamilySMFailure(errorMessage) {
  * LandingPage
  */
 
-export function fetchName(dispatch, id) {
+export function fetchName(dispatch, id, jwt) {
     dispatch(fetchNameStart())
-    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err.message)), id)
+    fetchNameWS((res) => dispatch(fetchNameSuccess(res)), (err) => dispatch(fetchNameFailure(err.message)), id, jwt)
 }
 
-export function loadingLandigPageFalse() {
+export function loadingLandingPageFalse() {
     return {
         type: LOADING_LANDING_PAGE_FALSE,
     }

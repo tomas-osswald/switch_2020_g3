@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {LoginDiv} from "./LoginElements";
 import AppContext from "../../context/AppContext";
-import {changeUser} from "../../context/Actions";
+import {authenticate, changeUser} from "../../context/Actions";
 import logo from "../../logo.svg";
 import {useHistory} from "react-router-dom";
 // import '../../index.css'
@@ -14,6 +14,7 @@ const Login = () => {
 
     const {state, dispatch} = useContext(AppContext);
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loginRole, setRole] = useState('');
     const {loggedUser} = state;
     const {role} = loggedUser;
@@ -24,8 +25,12 @@ const Login = () => {
         history.push(path);
     }
 
-    function handleClick(email, loginRole) {
-        dispatch(changeUser(email, loginRole))
+    async function handleClick(email,password,loginRole) {
+        const userDetails = {username  :null, password: null};
+        userDetails.username = email;
+        userDetails.password = password;
+        dispatch(authenticate(dispatch,userDetails));
+        dispatch(changeUser(email,loginRole));
     }
 
     return (
@@ -47,7 +52,7 @@ const Login = () => {
 
 
                 <label htmlFor="password">Password </label>
-                <input type="password" id="password" name="password"/>
+                <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)}/>
 
                 <p className="login-profile-title">Choose login profile :</p>
                 <div className="radio-group">
@@ -75,7 +80,7 @@ const Login = () => {
         </div>
 
                 <div className="row-button">
-                    <button className="login-button" onClick={() => handleClick(email, loginRole)} id="login-button" to={'/'}>Login</button>
+                    <button className="login-button" onClick={() => handleClick(email, password, loginRole)} id="login-button" to={'/'}>Login</button>
                 </div>
 
                 {/*<div className="row-selector">

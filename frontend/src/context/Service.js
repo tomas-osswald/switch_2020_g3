@@ -2,6 +2,23 @@
 import axios from "axios";
 
 export const URL_API = 'http://localhost:8080';
+export const AUTH_HEADER = "'Authorization': 'Bearer ";
+
+export function authenticateWS(success,failure,userDetails){
+
+    const authenticateOptions = {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
+        body: JSON.stringify(userDetails)
+    }
+
+    fetch(`${URL_API}/authenticate`, authenticateOptions)
+        .then(response => response.json())
+        .then(response => success(response))
+        .catch(error => failure(error.message))
+    ;
+}
 
 export function fetchProfileFromLogin(success, failure, id) {
     fetch(`${URL_API}/people/${id}`)
@@ -47,11 +64,11 @@ export function familyNameGlobal(success, failure, familyId) {
 }
 
 export function addRelation(success, failure, createRelationDTO, familyID) {
-
-    /*const requestOptions = {
+/*
+    const requestOptions = {
         method: 'POST',
         mode: 'no-cors',
-        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json', authentication},
         body: JSON.stringify(createRelationDTO)
     }
 
@@ -145,9 +162,9 @@ export function createFamilySMService(success, failure, createFamily) {
 /**
  * Landing Page
  */
-export function fetchNameWS(success, failure, id) {
-    let url = URL_API + "/people/" + id;
-    axios.get(`${URL_API}/people/${id}`)
+export function fetchNameWS(success, failure, id, jwt) {
+    let authorizationHeader = "'Bearer " + jwt + "'";
+    axios.get(`${URL_API}/people/${id}`,{headers: {'Authorization': authorizationHeader}})
         .then((response) => {
             success(response)
         })
