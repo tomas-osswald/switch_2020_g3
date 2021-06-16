@@ -10,7 +10,7 @@ public class OutputRemoveEmailDTO {
 
     private List<String> emailAddresses;
 
-    public OutputRemoveEmailDTO (){
+    public OutputRemoveEmailDTO() {
     }
-
 }
+
