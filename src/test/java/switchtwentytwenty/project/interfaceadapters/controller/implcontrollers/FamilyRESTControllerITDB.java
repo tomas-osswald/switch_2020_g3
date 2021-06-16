@@ -17,6 +17,9 @@ import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -139,10 +142,21 @@ class FamilyRESTControllerITDB {
     void getCategoriesSuccess() {
         String familyID = "@tonize@gmail.com";
 
-        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        /*OutputCategoryDTO categoryCrypto = new OutputCategoryDTO("G3 CRYPTO", "1");
+        OutputCategoryDTO categoryBeer = new OutputCategoryDTO("G3 BEER", "2");
+
+         */
+
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
+        OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
+        /*expectedOutputCategoryTreeDTO.addOutputCategoryDTO(categoryCrypto);
+        expectedOutputCategoryTreeDTO.addOutputCategoryDTO(categoryBeer);
+
+         */
         expectedOutputCategoryTreeDTO.add(expectedLink);
+
         ResponseEntity expected = new ResponseEntity(expectedOutputCategoryTreeDTO, HttpStatus.OK);
+
 
         ResponseEntity result = familyRESTController.getCategories(familyID);
 

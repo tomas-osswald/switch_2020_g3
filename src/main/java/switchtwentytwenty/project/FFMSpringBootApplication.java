@@ -60,8 +60,6 @@ FFMSpringBootApplication {
             iAccountRESTController.createAccount(tonyaccount);
             familyRESTController.createRelation(relationTonyKatia, "@tonyze@latinlover.com");
             familyRESTController.createRelation(relationKatiaRaimundo, "@tonyze@latinlover.com");
-            categoryRESTController.createStandardCategory(categoryCrypto);
-            categoryRESTController.createStandardCategory(categoryBeer);
 
 
         };
