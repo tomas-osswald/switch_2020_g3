@@ -19,32 +19,29 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepositor
 public class ChangeRelationService implements IChangeRelationService {
 
     private IFamilyRepository familyRepository;
+    private RelationInputDTOAssembler relationInputDTOAssembler;
     private FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Autowired
-    public ChangeRelationService(IFamilyRepository familyRepository) {
+    public ChangeRelationService(IFamilyRepository familyRepository, RelationInputDTOAssembler relationInputDTOAssembler, FamilyDTODomainAssembler familyDTODomainAssembler) {
         this.familyRepository = familyRepository;
+        this.familyDTODomainAssembler = familyDTODomainAssembler;
     }
 
 
     public OutputRelationDTO changeRelation(InputChangeRelationDTO inputChangeRelationDTO){
 
         //create VO
-        PersonID personIDOne = familyDTODomainAssembler.personIDOneToDomain(inputChangeRelationDTO);
-        PersonID personIDTwo = familyDTODomainAssembler.personIDTwoToDomain(inputRelationDTO);
         FamilyID familyID = new FamilyID(inputChangeRelationDTO.getFamilyID());
 
         RelationID newRelationID = new RelationID(Integer.parseInt(inputChangeRelationDTO.getRelationID()));
         RelationDesignation newRelationDesignation = new RelationDesignation(inputChangeRelationDTO.getNewDesignation());
 
         Family family = familyRepository.getByID(familyID);
-        family.changeRelation(newRelationID, newRelationDesignation );
-        Family updatedFamily = familyRepository.add(family);
-        Relation updatedRelation = updatedFamily.getRelationByID(newRelationID);
+        Relation updatedRelation = family.changeRelation(newRelationID, newRelationDesignation);
+        familyRepository.add(family);
 
-        return new OutputRelationDTO();
+        return familyDTODomainAssembler.toOutputRelationDTO(updatedRelation);
     }
-
-
 
 }

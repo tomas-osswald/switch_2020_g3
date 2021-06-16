@@ -423,12 +423,14 @@ class FamilyTest {
         RelationID relationID = new RelationID(1);
 
 
-        family.changeRelation(relationID, newDesignation);
-
         Relation expected = new Relation(new PersonID("admin@gmail.com"), new PersonID("tony@gmail.com"), new RelationDesignation("Primos"), new RelationID(1));
-        Relation result = family.getRelationByID(relationID);
+        Relation result = family.changeRelation(relationID, newDesignation);
+
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
+        assertNotNull(result);
     }
+
+
 }

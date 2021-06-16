@@ -17,8 +17,8 @@ public class InputChangeRelationDTO {
     private String newDesignation;
     private String familyID;
 
-    public InputChangeRelationDTO(ChangeRelationDTO changeRelationDTO, String familyID) {
-        this.relationID = changeRelationDTO.getRelationID();
+    public InputChangeRelationDTO(ChangeRelationDTO changeRelationDTO, String familyID, String relationID) {
+        this.relationID = relationID;
         this.newDesignation = changeRelationDTO.getNewRelationDesignation();
         this.familyID = familyID;
     }

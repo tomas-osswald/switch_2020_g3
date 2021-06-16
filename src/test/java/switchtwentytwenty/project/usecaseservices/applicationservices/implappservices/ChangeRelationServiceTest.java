@@ -12,6 +12,7 @@ import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.Relation;
 import switchtwentytwenty.project.domain.valueobject.RelationDesignation;
 import switchtwentytwenty.project.domain.valueobject.RelationID;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.InputChangeRelationDTO;
@@ -34,7 +35,13 @@ class ChangeRelationServiceTest {
     Family family;
 
     @Mock
-    Relation newRelation;
+    Family updatedFamily;
+
+    @Mock
+    Relation updatedRelation;
+
+    @Mock
+    FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Mock
     OutputRelationDTO outputRelationDTO;
@@ -43,34 +50,25 @@ class ChangeRelationServiceTest {
     ChangeRelationService changeRelationService;
 
     String relationID = "4";
-    String designationString = "BFF";
     String familyIDString = "@tonyze@latinlover.com";
     FamilyID familyID = new FamilyID(familyIDString);
-    ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO(relationID, designationString);
-    InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(changeRelationDTO, familyID.toString());
+    ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO(relationID);
+    InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(changeRelationDTO, familyID.toString(), relationID);
 
     @DisplayName("Change relation service: success when changing a existent relation")
     @Test
     void changeRelationSuccess() {
 
-        Mockito.when(relationInputDTOAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), any(String.class))).thenReturn(new InputChangeRelationDTO(changeRelationDTO,familyID.toString()));
         Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
-        Mockito.when(family.changeRelation(any(RelationID.class), any(RelationDesignation.class))).thenReturn();
+        Mockito.when(family.changeRelation(any(RelationID.class), any(RelationDesignation.class))).thenReturn(updatedRelation);
+        Mockito.when(familyRepository.add(any(Family.class))).thenReturn(updatedFamily);
+        Mockito.when(familyDTODomainAssembler.toOutputRelationDTO(updatedRelation)).thenReturn(outputRelationDTO);
 
-        assertDoesNotThrow(() -> changeRelationService.changeRelation(inputChangeRelationDTO));
+        OutputRelationDTO expected = outputRelationDTO;
+        OutputRelationDTO result = changeRelationService.changeRelation(inputChangeRelationDTO);
 
-    }
-
-    @DisplayName("Change relation service: failure when changing a non-existent relation")
-    @Test
-    void changeRelationFailure() {
-
-        Mockito.when(relationInputDTOAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), any(String.class))).thenReturn(new InputChangeRelationDTO(changeRelationDTO,familyID.toString()));
-        Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
-
-
-        assertDoesNotThrow(() -> changeRelationService.changeRelation(inputChangeRelationDTO));
-
+        assertNotNull(result);
+        assertEquals(expected, result);
     }
 
 }
