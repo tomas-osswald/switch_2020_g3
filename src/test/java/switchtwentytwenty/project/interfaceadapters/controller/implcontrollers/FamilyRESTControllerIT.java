@@ -107,7 +107,13 @@ class FamilyRESTControllerIT {
     CategoryInputDTOAssembler categoryInputDTOAssembler;
 
     @Autowired
+    RelationInputDTOAssembler relationAssembler;
+
+    @Autowired
     ICreateFamilyService iCreateFamilyService;
+
+    @Autowired
+    IChangeRelationService changeRelationService;
 
     @Autowired
     IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
@@ -128,9 +134,6 @@ class FamilyRESTControllerIT {
     IGetFamilyDataService getFamilyDataService;
 
     @Autowired
-    IChangeRelationService changeRelationService;
-
-    @Autowired
     ICreateCustomCategoryService createCustomCategoryService;
 
     @Autowired
@@ -142,8 +145,6 @@ class FamilyRESTControllerIT {
     @Autowired
     CategoryFactory categoryFactory;
 
-    @Autowired
-    RelationInputDTOAssembler relationAssembler;
 
     //private AutoCloseable closeable;
 
@@ -227,7 +228,9 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
+
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
+
 
         // Mocking
         // Person Repo
@@ -300,11 +303,13 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITFailure() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
+
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
+
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
 
-        ResponseEntity expected = new ResponseEntity("Error: Family does not exist; nested exception is java.lang.IllegalArgumentException: Family does not exist", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: Family does not exist", HttpStatus.BAD_REQUEST);
 
         String familyID = "@tonyze@email.com";
 
@@ -317,6 +322,7 @@ class FamilyRESTControllerIT {
     @Test
     void addCustomCategorySuccess() {
         ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
+
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
         // Input and Output DTOs
