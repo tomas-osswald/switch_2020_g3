@@ -9,6 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.authentication.DAOUser;
+import switchtwentytwenty.project.authentication.JWTUserDetailsService;
+import switchtwentytwenty.project.authentication.UserDTO;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.FamilyID;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
@@ -30,9 +33,11 @@ class AddFamilyMemberServiceTest {
     @Mock
     IPersonRepository personRepository;
 
-
     @Mock
     PersonDTODomainAssembler personDTODomainAssembler;
+
+    @Mock
+    JWTUserDetailsService jwtUserDetailsService;
 
     /*@Mock
     AddPersonDTO addPersonDTO;*/
@@ -52,6 +57,9 @@ class AddFamilyMemberServiceTest {
     @Mock
     OutputPersonDTO outputPersonDTO;
 
+    @Mock
+    DAOUser daoUser;
+
     //@Mock
     //FamilyID familyID;
 
@@ -66,15 +74,15 @@ class AddFamilyMemberServiceTest {
 
 
     // NEW DTO
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
-    InputAddFamilyMemberDTO internalAddFamilyMemberDTOInvalidName = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTO = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", "TonyZe", "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400", "password");
+    InputAddFamilyMemberDTO internalAddFamilyMemberDTOInvalidName = new InputAddFamilyMemberDTO("tonyze@latinlover.com","jhakhdakj@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400", "password");
 
     PersonID loggedUserID = new PersonID("tonyze@latinas.com");
     PersonID personID = new PersonID("tonyze@latinas.com");
     FamilyID familyID = new FamilyID("tonyze@latinlover.com");
 
 
-    InputPersonDTO inputPersonDTOWrongName = new InputPersonDTO("tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400");
+    InputPersonDTO inputPersonDTOWrongName = new InputPersonDTO("tonyze@latinas.com", null, "10/10/1999", 123456789, 961962963, "Rua das Irma's Beleza e do Primo Flavio", "Gaia", "100", "4400", "password");
 
     @DisplayName("Unit test of AddFamilyMemberService: Successfully added a person")
     @Test
@@ -85,6 +93,7 @@ class AddFamilyMemberServiceTest {
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
         Mockito.when(personRepository.add(any(Person.class))).thenReturn(savedFamilyMember);
         Mockito.when(personDTODomainAssembler.toDTO(savedFamilyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(jwtUserDetailsService.save(any(UserDTO.class))).thenReturn(daoUser);
 
         assertDoesNotThrow(() -> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
 
@@ -99,6 +108,7 @@ class AddFamilyMemberServiceTest {
         Mockito.when(admin.getFamilyID()).thenReturn(familyID);
         Mockito.when(personRepository.add(any(Person.class))).thenReturn(savedFamilyMember);
         Mockito.when(personDTODomainAssembler.toDTO(savedFamilyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(jwtUserDetailsService.save(any(UserDTO.class))).thenReturn(daoUser);
 
         OutputPersonDTO expected = outputPersonDTO;
         OutputPersonDTO result = addFamilyMemberService.addPerson(internalAddFamilyMemberDTO);
@@ -138,11 +148,11 @@ class AddFamilyMemberServiceTest {
 
 
 
-    @Test
+/*    @Test
     @DisplayName("Test for the NoArgsConstructor tag")
     void noArgsConstructorTest() {
         AddFamilyMemberService addFamilyMemberService = new AddFamilyMemberService();
         assertNotNull(addFamilyMemberService);
 
-    }
+    }*/
 }

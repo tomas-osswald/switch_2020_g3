@@ -38,7 +38,7 @@ class PersonDTODomainAssemblerTest {
     Address address = new Address(street, city, zipCode, doorNumber);
 
     InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "12/12/1970",
-            123456789, 999999999, "Rua da amargura", "Amadora", "47", "4444-111");
+            123456789, 999999999, "Rua da amargura", "Amadora", "47", "4444-111", "password");
 
     @Mock
     Person person;

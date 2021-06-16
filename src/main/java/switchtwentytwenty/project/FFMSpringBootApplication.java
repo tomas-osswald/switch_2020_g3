@@ -6,14 +6,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
+import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAccountRESTController;
+import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.ICategoryRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
-
 import java.math.BigDecimal;
 
 
@@ -34,17 +35,19 @@ FFMSpringBootApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(IFamilyRESTController familyRESTController, IPersonRESTController personRESTController, IAccountRESTController iAccountRESTController) {
+    public CommandLineRunner demo(IFamilyRESTController familyRESTController, IPersonRESTController personRESTController, IAccountRESTController iAccountRESTController, ICategoryRESTController categoryRESTController) {
         return args -> {
 
-            AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO(TONY_ZE_EMAIL, "TonyZe", "12/12/1969", 123456789, 919999999, RUA, CIDADE, CASA, ZIP, "Antunes", null);
-            AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO2 = new AddFamilyAndSetAdminDTO("rifens@ravens.com", "Rifens", "05/05/1920", 987654321, 911111111, "Rua do Sertin", "Zelmin", "223", "1112-111", "Ravens", "01/01/2021");
-            AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Katia Vanessa", "20/01/1970", 777777777, 921232323, RUA, CIDADE, CASA, ZIP);
-            AddFamilyMemberDTO addFamilyMemberDTO2 = new AddFamilyMemberDTO(TONY_ZE_EMAIL, RAIMUNDO_EMAIL, "Raimundo Daniel", "13/05/1998", 111111111, 921332323, RUA, CIDADE, CASA, ZIP);
+            AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO(TONY_ZE_EMAIL, "TonyZe", "12/12/1969", 123456789, 919999999, RUA, CIDADE, CASA, ZIP, "password", "Antunes", null);
+            AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO2 = new AddFamilyAndSetAdminDTO("rifens@ravens.com", "Rifens", "05/05/1920", 987654321, 911111111, "Rua do Sertin", "Zelmin", "223", "1112-111", "password", "Ravens", "01/01/2021");
+            AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Katia Vanessa", "20/01/1970", 777777777, 921232323, RUA, CIDADE, CASA, ZIP, "password");
+            AddFamilyMemberDTO addFamilyMemberDTO2 = new AddFamilyMemberDTO(TONY_ZE_EMAIL, RAIMUNDO_EMAIL, "Raimundo Daniel", "13/05/1998", 111111111, 921332323, RUA, CIDADE, CASA, ZIP, "password");
             CreateAccountDTO vanessaAccount = new CreateAccountDTO("Conta para fugir do TonyZe", BigDecimal.valueOf(1034.54), "EUR", KATIA_VANESSA_EMAIL, "bank");
             CreateAccountDTO tonyaccount = new CreateAccountDTO("Lavagem de dinheiro", BigDecimal.valueOf(12.3), "EUR", "@tonyze@latinlover.com", "cash");
             CreateRelationDTO relationTonyKatia = new CreateRelationDTO(TONY_ZE_EMAIL, KATIA_VANESSA_EMAIL, "Husband");
             CreateRelationDTO relationKatiaRaimundo = new CreateRelationDTO(KATIA_VANESSA_EMAIL, RAIMUNDO_EMAIL, "Mother");
+            CreateCategoryDTO categoryCrypto = new CreateCategoryDTO("G3 Crypto", null);
+            CreateCategoryDTO categoryBeer = new CreateCategoryDTO("G3 Beer", null);
 
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
@@ -57,6 +60,8 @@ FFMSpringBootApplication {
             iAccountRESTController.createAccount(tonyaccount);
             familyRESTController.createRelation(relationTonyKatia, "@tonyze@latinlover.com");
             familyRESTController.createRelation(relationKatiaRaimundo, "@tonyze@latinlover.com");
+
+
         };
     }
 

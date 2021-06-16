@@ -50,16 +50,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
 class FamilyRESTControllerIT {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
-    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
     // Category repo
 
     @Mock
-    ICategoryRepositoryJPA categoryRepositoryJPA;
+    ICategoryRepositoryJPA mockCategoryRepositoryJPA;
 
     @Mock
     ICategoryDataDomainAssembler categoryDataDomainAssembler;
@@ -67,7 +66,7 @@ class FamilyRESTControllerIT {
     @Mock
     CategoryFactory categoryFactoryMock;
 
-    @InjectMocks
+    @Autowired
     CategoryRepository categoryRepository;
 
     // Family Repository
@@ -211,13 +210,15 @@ class FamilyRESTControllerIT {
     void getCategoriesSuccess() {
         String familyID = "@tonize@gmail.com";
 
+        //categoryRepository.setCategoryRepositoryJPA(mockCategoryRepositoryJPA);
+
         OutputCategoryTreeDTO expectedOutputCategoryTreeDTO = new OutputCategoryTreeDTO();
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getCategories(familyID)).withSelfRel();
         expectedOutputCategoryTreeDTO.add(expectedLink);
         ResponseEntity expected = new ResponseEntity(expectedOutputCategoryTreeDTO, HttpStatus.OK);
 
-        when(categoryRepositoryJPA.findAllByFamilyIDJPA(any(FamilyIDJPA.class))).thenReturn(new ArrayList<CategoryJPA>());
-        when(categoryRepositoryJPA.findAllByFamilyIDJPAIsNull()).thenReturn(new ArrayList<CategoryJPA>());
+        when(mockCategoryRepositoryJPA.findAllByFamilyIDJPA(any(FamilyIDJPA.class))).thenReturn(new ArrayList<CategoryJPA>());
+        when(mockCategoryRepositoryJPA.findAllByFamilyIDJPAIsNull()).thenReturn(new ArrayList<CategoryJPA>());
 
         ResponseEntity result = familyRESTController.getCategories(familyID);
 
@@ -327,9 +328,9 @@ class FamilyRESTControllerIT {
 
         // Input and Output DTOs
         String familyIDString = "@tonyze@latinlover.com";
-        String categoryNameString = "Batatas";
+        String categoryNameString = "BATATAS";
         String parentIDString = "Sopa";
-        String categoryIDString = "13L";
+        String categoryIDString = "2";
 
         CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
         createCategoryDTO.setCategoryDescription(categoryNameString);
@@ -354,7 +355,7 @@ class FamilyRESTControllerIT {
 
         // Mock from category repository onwards
         when(categoryDataDomainAssembler.toData(any(Category.class))).thenReturn(new CategoryJPA());
-        when(categoryRepositoryJPA.save(any(CategoryJPA.class))).thenReturn(new CategoryJPA());
+        when(mockCategoryRepositoryJPA.save(any(CategoryJPA.class))).thenReturn(new CategoryJPA());
         when(categoryDataDomainAssembler.createCategoryID(any(CategoryJPA.class))).thenReturn(new CategoryID(categoryIDString));
         when(categoryDataDomainAssembler.createCategoryName(any(CategoryJPA.class))).thenReturn(new CategoryName(categoryNameString));
         when(categoryDataDomainAssembler.createFamilyID(any(CategoryJPA.class))).thenReturn(Optional.of(new FamilyID(familyIDString)));
@@ -367,7 +368,7 @@ class FamilyRESTControllerIT {
         assertEquals(expected.toString(), result.toString());
     }
 
-    @DisplayName("Add a custom category to the family with blank parent category - Fail")
+   @DisplayName("Add a custom category to the family with blank parent category - Fail")
     @Test
     void addCustomCategoryFailure() {
         ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
@@ -388,4 +389,6 @@ class FamilyRESTControllerIT {
 
         assertEquals(expected.toString(), result.toString());
     }
+
+
 }

@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +17,14 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.InputCustomCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
 
@@ -35,8 +38,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @ExtendWith(MockitoExtension.class)
 class FamilyRESTControllerTest {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
-    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
     @Mock
     ICreateFamilyService createFamilyService;
@@ -51,6 +54,9 @@ class FamilyRESTControllerTest {
     CategoryInputDTOAssembler categoryAssembler;
 
     @Mock
+    RelationInputDTOAssembler relationAssembler;
+
+    @Mock
     IGetFamilyDataService getFamilyDataService;
 
     @Mock
@@ -58,6 +64,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
+
+    @Mock
+    IChangeRelationService changeRelationService;
 
     @Mock
     IFamilyOptionsService familyOptionsService;
@@ -78,9 +87,9 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("CreateFamilyAndSetAdmin function success case")
     void createFamilyAndSetAdmin() {
-        AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO = new AddFamilyAndSetAdminDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "Silva", "12/12/1990");
+        AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO = new AddFamilyAndSetAdminDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "password", "Silva", "12/12/1990");
 
-        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123");
+        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "password");
 
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "12/12/1990");
 
@@ -111,7 +120,7 @@ class FamilyRESTControllerTest {
 
     @Test
     void testCreateFamilyAndSetAdmin() {
-        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123");
+        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "password");
 
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "12/12/1990");
 
@@ -307,6 +316,60 @@ class FamilyRESTControllerTest {
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
 
         assertEquals(expected, result);
+    }
+
+
+    @Test
+    @DisplayName("Test for the change of a relation between family members in a Family")
+    void changeRelationValidRelationInfo() {
+        String familyID = "@admin@gmail.com";
+        String relationID = "123";
+        String relationshipDesignation = "Amante";
+
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO();
+        changeRelationDTO.setNewRelationDesignation(relationshipDesignation);
+
+        InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(relationID, relationshipDesignation, familyID);
+
+        String memberOneID = "tonyze@admin.com";
+        String memberTwoID = "moonika@gmail.com";
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO(memberOneID, memberTwoID, relationshipDesignation, relationID);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        outputRelationDTO.add(selfLink);
+
+        when(relationAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), anyString(), anyString())).thenReturn(inputChangeRelationDTO);
+        when(changeRelationService.changeRelation(any(InputChangeRelationDTO.class))).thenReturn(outputRelationDTO);
+
+        ResponseEntity expected = new ResponseEntity(outputRelationDTO, HttpStatus.OK);
+
+        ResponseEntity result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
+
+        assertEquals(expected, result);
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("Change Relation failure due familyID not existing")
+    void changeRelationInvalidFamilyID() {
+
+        String familyID = "123";
+        String relationID = "123";
+        String relationshipDesignation = "Amante";
+
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO();
+        changeRelationDTO.setNewRelationDesignation(relationshipDesignation);
+
+        InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(relationID, relationshipDesignation, familyID);
+
+        when(relationAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), anyString(), anyString())).thenReturn(inputChangeRelationDTO);
+        when(changeRelationService.changeRelation(any(InputChangeRelationDTO.class))).thenThrow(IllegalArgumentException.class);
+
+        ResponseEntity expected = new ResponseEntity("Error: null", HttpStatus.NOT_MODIFIED);
+
+        ResponseEntity result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
+
+        assertEquals(expected, result);
+        assertNotNull(result);
     }
 
     @Test

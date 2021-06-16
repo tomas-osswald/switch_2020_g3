@@ -84,7 +84,7 @@ class PersonRESTControllerITDB {
 
     @Test
     @DisplayName("Integration Test for Successfully adding a new Family Member")
-    void addFamilyMemberSuccessIT() {
+    void addFamilyMemberSuccess() {
         List<Integer> phones = new ArrayList<>();
         phones.add(919999999);
         List<String> emails = new ArrayList<>();
@@ -115,6 +115,7 @@ class PersonRESTControllerITDB {
         addFamilyMemberDTO.setCity("cidade");
         addFamilyMemberDTO.setHouseNumber("69");
         addFamilyMemberDTO.setZipCode("1234-123");
+        addFamilyMemberDTO.setPassword("password");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
         assertEquals(expected.getBody(), result.getBody());
@@ -125,7 +126,7 @@ class PersonRESTControllerITDB {
     }
     @Test
     @DisplayName("Integration Test for failure in adding a new Family Member: User is already Registered")
-    void addFamilyMemberFailureAlreadyRegisteredIT() {
+    void addFamilyMemberFailureAlreadyRegistered() {
 
         AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
         addFamilyMemberDTO.setAdminID("tonyze@latinlover.com");
@@ -150,7 +151,7 @@ class PersonRESTControllerITDB {
 
     @Test
     @DisplayName("Integration Test for failure in adding a new Family Member: User is not admin")
-    void addFamilyMemberFailureNotAdminIT() {
+    void addFamilyMemberFailureNotAdmin() {
 
         AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO();
         addFamilyMemberDTO.setAdminID("notadmin@latinlover.com");
@@ -175,7 +176,7 @@ class PersonRESTControllerITDB {
 
     @Test
     @DisplayName("Integration Test for Catching an Unprocessable Entity Exception")
-    void addFamilyMemberFailureExceptionIT() {
+    void addFamilyMemberFailureException() {
 
         ResponseEntity expected = new ResponseEntity(HttpStatus.BAD_REQUEST);
 
@@ -201,7 +202,7 @@ class PersonRESTControllerITDB {
 
     @Test
     @DisplayName("Integration Test for comparing wrong response links")
-    void addFamilyMemberFailureIT() {
+    void addFamilyMemberFailure() {
         List<Integer> phones = new ArrayList<>();
         phones.add(919999999);
         List<String> emails = new ArrayList<>();
@@ -232,6 +233,7 @@ class PersonRESTControllerITDB {
         addFamilyMemberDTO.setCity("cidade");
         addFamilyMemberDTO.setHouseNumber("69");
         addFamilyMemberDTO.setZipCode("1234-123");
+        addFamilyMemberDTO.setPassword("password");
         ResponseEntity result = personRESTController.addFamilyMember(addFamilyMemberDTO);
 
         assertNotEquals(expected.getBody(), result.getBody());
