@@ -61,5 +61,6 @@ class RelationInputDTOAssemblerTest {
 
         assertEquals(expected, result);
         assertNotSame(expected, result);
+        assertNotNull(result);
     }
 }
