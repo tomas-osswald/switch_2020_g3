@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
 import switchtwentytwenty.project.dto.person.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PersonInputDTOAssemblerTest {
 
@@ -49,5 +49,15 @@ class PersonInputDTOAssemblerTest {
         InputPersonDTO result = personInputDTOAssembler.toInputPersonDTO(addFamilyAndSetAdminDTO);
 
         assertEquals(expected,result);
+    }
+
+    @Test
+    void toInputRemoveEmailSuccess() {
+        String email = "zemanel@gmail.com";
+        String userID = "zemanel@hotmail.com";
+        InputRemoveEmailDTO result = new InputRemoveEmailDTO(email, userID);
+        InputRemoveEmailDTO expected = personInputDTOAssembler.toInputRemoveEmail(email, userID);
+
+        assertEquals(result, expected);
     }
 }
