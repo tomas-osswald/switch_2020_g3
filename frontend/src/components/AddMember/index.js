@@ -10,7 +10,7 @@ import {addNewMember, changeView} from "../../context/Actions";
 function AddMember() {
 
     const {state, dispatch} = useContext(AppContext);
-    const {newMember, loggedUser} = state;
+    const {newMember, loggedUser, jwt} = state;
     const { loading, error, addMemberData} = newMember;
     const { id } = loggedUser;
     const [emailID, setEmailID] = useState('');
@@ -43,7 +43,7 @@ function AddMember() {
             houseNumber: houseNumber,
             zipCode: zipCode,
         }
-        addNewMember(dispatch, newMember);
+        addNewMember(dispatch, newMember, jwt.jwt);
         dispatch(changeView('family'));
 
     }

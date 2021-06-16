@@ -79,11 +79,12 @@ public class Family implements AggregateRoot<FamilyID> {
 
     }
 
-    public void changeRelation(RelationID relationID, RelationDesignation newDesignation) {
+    public Relation changeRelation(RelationID relationID, RelationDesignation newDesignation) {
         Relation oldRelation = getRelationByID(relationID);
         Relation newRelation = new Relation(oldRelation.getMemberA(), oldRelation.getMemberB(), newDesignation, relationID);
         relations.remove(oldRelation);
         relations.add(newRelation);
+        return newRelation;
     }
 
     public boolean isRelationAlreadyRegistered(Relation relation) {
