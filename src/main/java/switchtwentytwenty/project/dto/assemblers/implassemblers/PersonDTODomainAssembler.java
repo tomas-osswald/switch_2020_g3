@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
-import switchtwentytwenty.project.dto.person.IInputPersonDTO;
-import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
-import switchtwentytwenty.project.dto.person.OutputEmailDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.person.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,5 +86,16 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
 
     public PersonID createPersonID(InputGetProfileDTO internalGetProfileDTO) {
         return new PersonID(internalGetProfileDTO.unpackID());
+    }
+
+    public OutputRemoveEmailDTO toRemoveEmailDTO(List<EmailAddress> emails){
+        List<String> convertedEmails = new ArrayList<>();
+        for (EmailAddress email: emails) {
+            String emailAddress = email.toString();
+            convertedEmails.add(emailAddress);
+        }
+        OutputRemoveEmailDTO outputRemoveEmailDTO = new OutputRemoveEmailDTO();
+        outputRemoveEmailDTO.setEmailAddresses(convertedEmails);
+        return outputRemoveEmailDTO;
     }
 }
