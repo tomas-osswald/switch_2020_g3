@@ -13,7 +13,7 @@ import java.util.Objects;
 @Setter
 public class ChangeRelationDTO {
 
-    private String relationID;
+
     private String newRelationDesignation;
 
     @Override
@@ -21,11 +21,11 @@ public class ChangeRelationDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChangeRelationDTO that = (ChangeRelationDTO) o;
-        return Objects.equals(relationID, that.relationID) && Objects.equals(newRelationDesignation, that.newRelationDesignation);
+        return Objects.equals(newRelationDesignation, that.newRelationDesignation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(relationID, newRelationDesignation);
+        return Objects.hash(newRelationDesignation);
     }
 }
