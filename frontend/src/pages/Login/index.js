@@ -3,7 +3,7 @@ import {LoginDiv} from "./LoginElements";
 import AppContext from "../../context/AppContext";
 import {authenticate, changeUser} from "../../context/Actions";
 import logo from "../../logo.svg";
-import {useHistory} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 // import '../../index.css'
 import '../../styles/login.css'
 import '../../styles/global.css'
@@ -13,24 +13,35 @@ import apes from '../../assets/atr-small.png'
 const Login = () => {
 
     const {state, dispatch} = useContext(AppContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loginRole, setRole] = useState('');
     const {loggedUser} = state;
     const {role} = loggedUser;
     const history = useHistory();
 
-    if (role !== '') {
+    const {jwt} = state;
+    const {jwt: token} = jwt;
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loginRole, setRole] = useState('');
+
+    if (token !== null) {
         let path = `/`;
         history.push(path);
     }
 
-    function handleClick(email,password,loginRole) {
-        const userDetails = {username  :null, password: null};
-        userDetails.username = email;
-        userDetails.password = password;
-        authenticate(dispatch,userDetails);
-        dispatch(changeUser(email,loginRole));
+    /*if (token !== null) {
+        return (<Redirect to="/"/>)
+    }*/
+
+    function handleClick() {
+        const userDetails = {
+            username: email,
+            password: password
+        };
+        //userDetails.username = email;
+        //userDetails.password = password;
+        authenticate(dispatch, userDetails);
+        dispatch(changeUser(email, loginRole));
     }
 
     return (
@@ -57,30 +68,35 @@ const Login = () => {
                 <p className="login-profile-title">Choose login profile :</p>
                 <div className="radio-group">
                     <div className="col-one">
-                        <input type="radio" id="option-one" name="role" value="sm" onClick={() => setRole('systemManager')}/>
+                        <input type="radio" id="option-one" name="role" value="sm"
+                               onClick={() => setRole('systemManager')}/>
                         <label className="lbl-role" htmlFor="option-one">System Manager</label>
                     </div>
                     <div className="col-two">
-                        <input type="radio" id="option-two" name="role" value="fa" onClick={() => setRole('familyAdministrator')}/>
+                        <input type="radio" id="option-two" name="role" value="fa"
+                               onClick={() => setRole('familyAdministrator')}/>
                         <label className="lbl-role" htmlFor="option-two">Family Administrator</label>
                     </div>
                     <div className="col-three">
-                        <input type="radio" id="option-three" name="role" value="fm" onClick={() => setRole('familyMember')}/>
+                        <input type="radio" id="option-three" name="role" value="fm"
+                               onClick={() => setRole('familyMember')}/>
                         <label className="lbl-role" htmlFor="option-three"> Family Member </label>
                     </div>
 
 
-           {/* <input type="radio" id="option-one" name="role" value="sm" onClick={() => setRole('systemManager')}/>
+                    {/* <input type="radio" id="option-one" name="role" value="sm" onClick={() => setRole('systemManager')}/>
             <label htmlFor="option-one">System Manager</label>
             <input type="radio" id="option-two" name="role" value="fa" onClick={() => setRole('familyAdministrator')}/>
             <label htmlFor="option-two">Family Administrator</label>
             <input type="radio" id="option-three" name="role" value="fm" onClick={() => setRole('familyMember')}/>
             <label htmlFor="option-three">Family Member</label>*/}
 
-        </div>
+                </div>
 
                 <div className="row-button">
-                    <button className="login-button" onClick={() => handleClick(email, password, loginRole)} id="login-button" to={'/'}>Login</button>
+                    <button className="login-button" onClick={() => handleClick(email, password, loginRole)}
+                            id="login-button" to={'/'}>Login
+                    </button>
                 </div>
 
                 {/*<div className="row-selector">
@@ -110,7 +126,6 @@ const Login = () => {
 
 
         </LoginDiv>
-
 
 
     )

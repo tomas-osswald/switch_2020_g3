@@ -10,7 +10,7 @@ import {
     postNewMember,
     authenticateWS
 } from './Service'
-
+import jwt_decode from "jwt-decode";
 
 /**
  * Insert functions for Service:
@@ -69,10 +69,15 @@ export function authenticateStarted(){
 }
 
 export function authenticateSuccess(jwt) {
+
+    const decoded = jwt_decode(jwt.data.token);
+
     return {
         type: AUTHENTICATION_SUCCESS,
         payload: {
-            data: jwt
+            data: jwt.data.token,
+                id: decoded.id,
+                role: decoded.role
         }
     }
 }

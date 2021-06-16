@@ -11,12 +11,14 @@ function LandingPage() {
     const {state, dispatch} = useContext(AppContext);
     const {landingPage} = state;
     const {loggedUser,jwt} = state;
+    const {jwt: token} = jwt;
     const {loading, name} = landingPage;
 
     useEffect(() => {
-        if (name === '' && loggedUser.role !== 'systemManager') {
-            fetchName(dispatch, loggedUser.id, jwt.jwt)
-        }
+        /*if (name === '' /*&& loggedUser.role !== 'systemManager') {
+            fetchName(dispatch, loggedUser.id, token)
+        }*/
+        fetchName(dispatch, loggedUser.id, token)
     }, [])
 
     if (loading === true) {
