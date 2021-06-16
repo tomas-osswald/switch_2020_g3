@@ -14,9 +14,11 @@ import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputRemoveEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputRemoveEmailDTO;
+import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +49,6 @@ class RemoveEmailServiceTest {
     String emailToDeleteString = "tonyze69@gmail.com";
 
     PersonID personID = new PersonID(emailString);
-    EmailAddress emailToDelete = new EmailAddress(emailToDeleteString);
 
     @BeforeEach()
     void setup() {
@@ -55,7 +56,7 @@ class RemoveEmailServiceTest {
         Mockito.when(mockInputRemoveEmailDTO.getPersonID()).thenReturn("tonyze@latinlover.com");
     }
 
-    @DisplayName("Test Success")
+    @DisplayName("Remove Test Success")
     @Test
     void removeEmailSuccess() {
 
@@ -68,4 +69,13 @@ class RemoveEmailServiceTest {
 
         assertEquals(expected, result);
     }
+
+    @DisplayName("Fail to remove. Person not exists")
+    @Test
+    void removeEmailFail() {
+        Mockito.doThrow(EmailNotRegisteredException.class).when(mockPersonRepository).getByID(personID);
+
+        assertThrows(EmailNotRegisteredException.class, () -> removeEmailService.removeEmail(mockInputRemoveEmailDTO));
+    }
+
 }
