@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.aggregates.family;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.exceptions.RelationAlreadyRegisteredException;
@@ -21,6 +22,7 @@ public class Family implements AggregateRoot<FamilyID> {
     @Getter
     private PersonID admin;
     @Getter
+    @Setter
     private List<Relation> relations = new ArrayList<>();
 
     public Family(FamilyID familyID, FamilyName familyName, RegistrationDate registrationDate, PersonID adminEmail) {
@@ -28,6 +30,7 @@ public class Family implements AggregateRoot<FamilyID> {
         this.name = familyName;
         this.registrationDate = registrationDate;
         this.admin = adminEmail;
+
     }
 
     @Override
@@ -76,6 +79,14 @@ public class Family implements AggregateRoot<FamilyID> {
 
     }
 
+    public Relation changeRelation(RelationID relationID, RelationDesignation newDesignation) {
+        Relation oldRelation = getRelationByID(relationID);
+        Relation newRelation = new Relation(oldRelation.getMemberA(), oldRelation.getMemberB(), newDesignation, relationID);
+        relations.remove(oldRelation);
+        relations.add(newRelation);
+        return newRelation;
+    }
+
     public boolean isRelationAlreadyRegistered(Relation relation) {
         boolean relationPresent = false;
         for (Relation registeredRelation : relations) {
@@ -89,7 +100,7 @@ public class Family implements AggregateRoot<FamilyID> {
     public List<Relation> getRelationsByPersonID(PersonID id) {
         List<Relation> personRelations = new ArrayList<>();
         for (Relation relation : this.relations) {
-            if(relation.isMemberA(id)){
+            if (relation.isMemberA(id)) {
                 personRelations.add(relation);
             }
         }

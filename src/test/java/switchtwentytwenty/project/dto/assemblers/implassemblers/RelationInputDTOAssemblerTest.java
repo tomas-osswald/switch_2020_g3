@@ -7,11 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
+import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.InputChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.InputRelationDTO;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -49,5 +50,17 @@ class RelationInputDTOAssemblerTest {
         assertEquals(expected, result);
         assertNotNull(result);
 
+    }
+
+    @Test
+    void toInputChangeRelationDTO() {
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("2", "Pai");
+        InputChangeRelationDTO expected = new InputChangeRelationDTO("2", "Pai", "@family@id.com");
+
+        InputChangeRelationDTO result = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, "@family@id.com");
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+        assertNotNull(result);
     }
 }

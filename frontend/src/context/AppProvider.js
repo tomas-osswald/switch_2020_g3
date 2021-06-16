@@ -78,6 +78,7 @@ const initialState = {
                     memberOneID: "",
                     memberTwoID: "",
                     relationDesignation: "",
+                    relationID: ""
                 }]
             }],
         },

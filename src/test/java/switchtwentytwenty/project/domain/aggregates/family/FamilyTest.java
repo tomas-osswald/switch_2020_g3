@@ -412,4 +412,25 @@ class FamilyTest {
         List<Relation> result = family.getRelationsByPersonID(new PersonID("admin@gmail.com"));
         assertEquals(expected, result);
     }
+
+    @Test
+    void changeRelation() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("admin@gmail.com"), new PersonID("tony@gmail.com"), new RelationDesignation("Amigos"), new RelationID(1));
+        family.addRelation(relationOne);
+
+        RelationDesignation newDesignation = new RelationDesignation("Primos");
+        RelationID relationID = new RelationID(1);
+
+
+        Relation expected = new Relation(new PersonID("admin@gmail.com"), new PersonID("tony@gmail.com"), new RelationDesignation("Primos"), new RelationID(1));
+        Relation result = family.changeRelation(relationID, newDesignation);
+
+
+        assertEquals(expected, result);
+        assertNotSame(expected, result);
+        assertNotNull(result);
+    }
+
+
 }

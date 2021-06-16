@@ -5,6 +5,7 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.person.RemoveEmailDTO;
 
 public interface IPersonRESTController {
 
@@ -18,4 +19,6 @@ public interface IPersonRESTController {
     ResponseEntity<OptionsDTO> peopleOptions();
 
     ResponseEntity<OutputPersonDTO> addFamilyMember(AddFamilyMemberDTO addFamilyMemberDTO);
+
+    ResponseEntity<Object> removeEmailAddress( RemoveEmailDTO removeEmailDTO, String personID);
 }

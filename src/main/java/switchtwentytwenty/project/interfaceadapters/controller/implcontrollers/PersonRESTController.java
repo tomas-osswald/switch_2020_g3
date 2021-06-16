@@ -65,6 +65,17 @@ public class PersonRESTController implements IPersonRESTController {
     }
 
     @Override
+    @DeleteMapping(value = "/{personID}/emails")
+    public ResponseEntity<Object> removeEmailAddress( @RequestBody RemoveEmailDTO removeEmailDTO, @PathVariable String personID) {
+        try {
+            //removeEmailService.removeEmail(personID,email);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(ERROR + e.getMessage(), HttpStatus.NOT_MODIFIED);
+        }
+    }
+
+    @Override
     @PostMapping
     public ResponseEntity<OutputPersonDTO> addFamilyMember(@RequestBody AddFamilyMemberDTO addFamilyMemberDTO) {
         InputAddFamilyMemberDTO internalAddFamilyMemberDTO = personInputDTOAssembler.toInputAddFamilyMemberDTO(addFamilyMemberDTO);
@@ -111,14 +122,12 @@ public class PersonRESTController implements IPersonRESTController {
 
         try {
             InputGetProfileDTO inputGetProfileDTO = profileInternalExternalAssembler.toInternalGetProfileDTO(personID);
-
             OutputPersonDTO outputPersonDTO = getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO);
 
             Link link = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
             Link familyLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(outputPersonDTO.getFamilyID())).withRel("Family Link");
             outputPersonDTO.add(link);
             outputPersonDTO.add(familyLink);
-            //changed the status to OK to have data fetched in frontend application
             return new ResponseEntity<>(outputPersonDTO, HttpStatus.OK);
 
         } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
@@ -128,5 +137,6 @@ public class PersonRESTController implements IPersonRESTController {
         }
 
     }
+
 
 }
