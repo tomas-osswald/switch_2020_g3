@@ -200,34 +200,34 @@ header Sequence Diagram
 title US152 Remove Email
 
 participant ":IPersonController" as controller <<interface>>
-participant ":personInputDTOAssembler" as assembler
+participant ":PersonInputDTOAssembler" as assembler
 participant "anInputRemoveEmailDTO\n:InputRemoveEmailDTO" as input
 
 participant "IRemoveEmailService" as service <<interface>>
 
-participant "anOutputRemoveEmailDTO\n : OutputEmailDTO" as output
+participant "anOutputRemoveEmailDTO\n : OutputRemoveEmailDTO" as output
 
 participant "aPersonID\n : PersonID" as personid
-participant "newEmail\n: EmailAddress" as email
+participant "anEmailToDelete\n: EmailAddress" as email
 participant "aPerson\n : Person" as person
 participant "IPersonRepository" as personRepository <<interface>>
 participant "IPersonRepositoryJPA" as repoJPA <<interface>>
 
--> controller : addEmail(addEmailDTO)
+-> controller : removeEmail(removeEmailDTO)
 activate controller
-controller -> assembler : toInternal(addEmailDTO)
+controller -> assembler : toInput(inputRemoveEmailDTO)
 activate assembler
-assembler -> internal** : create(addEmailDTO)  
-assembler --> controller : anEmailInternalDTO
+assembler -> input**: create(inputRemoveEmailDTO)
+assembler --> controller : anInputRemoveEmailDTO
 deactivate assembler
 
-controller -> service : addEmail(anInternalEmailDTO)
+controller -> service : removeEmail(anInputRemoveEmailDTO)
 activate service
 
-service -> service : loggedUserID = anInternalEmailDTO.unpackUserID()
-service -> personid** : create(loggedUserID)
+service -> service : userID = anInputRemoveEmailDTO.getUserID()
+service -> personid** : create(userID)
 
-service -> service : emailString = anInternalEmailDTO.unpackEmail()
+service -> service : emailString = anInputRemoveEmailDTO.getEmail()
 service -> email** : create(emailString)
 
 
@@ -236,24 +236,17 @@ deactivate email
 activate personRepository
 return aPerson
 
-service -> person: addEmail(newEmail)
+service -> person: removeEmail(anEmailToDelete)
 activate person
-person -> person: isEmailAlreadyRegistered(newEmail)
-
-alt Email already registered
-
-person --> service
-controller <-- service
-<-- controller : responseEntity(errorMessage, Httpstatus.BADREQUEST)
 
 
+ref over person
+Loop remove emailAddress from person
 
-else Email not registered
-
-person --> service: false
-deactivate person
-
+For each emailAddress in person's email List
 end
+service <-- person
+deactivate person
 
 service -> personRepository : update(aPerson)
 activate personRepository
@@ -272,18 +265,49 @@ deactivate repoJPA
 personRepository --> service : savedPerson
 deactivate personRepository
 
-service -> output** : create( savedPerson.getAddedEmail(), savedPerson.getAddedEmailID())
-service --> controller : anOutputEmailDTO
+service -> output** : create( savedPerson.getEmailList())
+service --> controller : anOutputRemoveEmailDTO
 deactivate service
 
 ref over controller
-add SelfLink to anOutputEmailDTO
+add SelfLink to anOutputRemoveEmailDTO
 end
-<-- controller : responseEntity(anOutputEmailDTO, Httpstatus.OK)
+<-- controller : responseEntity(anOutputRemoveEmailDTO, Httpstatus.OK)
 
 deactivate controller
 
 @enduml
+````
+
+````puml
+header Sequence Diagram
+title Remove email address from email list
+
+participant "aPerson:Person" as person
+participant "aList\n:List<EmailAddress>" as list
+
+-> person : removeEmail(anEmailToDelete)
+activate person
+
+person -> list** :
+loop for each email address in email list
+
+activate list
+alt successful case: if (email != anEmailToDelete)
+
+person -> list : aList.add(email)
+
+else do nothing
+
+end
+
+end
+
+person -> person : setEmailAddressList(aList)
+deactivate list
+
+<-- person :
+deactivate person
 ````
 
 ## 3.5. Applied Patterns
