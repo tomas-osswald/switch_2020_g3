@@ -30,6 +30,7 @@ public class Family implements AggregateRoot<FamilyID> {
         this.name = familyName;
         this.registrationDate = registrationDate;
         this.admin = adminEmail;
+
     }
 
     @Override
