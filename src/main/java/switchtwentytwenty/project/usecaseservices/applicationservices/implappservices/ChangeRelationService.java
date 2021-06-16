@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import switchtwentytwenty.project.domain.valueobject.Relation;
 import switchtwentytwenty.project.dto.family.InputChangeRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IChangeRelationService;
 
 @Service
@@ -12,7 +13,7 @@ public class ChangeRelationService implements IChangeRelationService {
 
 
 
-    public Relation changeRelation(InputChangeRelationDTO inputChangeRelationDTO){
+    public OutputRelationDTO changeRelation(InputChangeRelationDTO inputChangeRelationDTO){
 
 
         throw new UnsupportedOperationException();

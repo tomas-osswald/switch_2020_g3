@@ -128,6 +128,9 @@ class FamilyRESTControllerIT {
     IGetFamilyDataService getFamilyDataService;
 
     @Autowired
+    IChangeRelationService changeRelationService;
+
+    @Autowired
     ICreateCustomCategoryService createCustomCategoryService;
 
     @Autowired
@@ -138,6 +141,9 @@ class FamilyRESTControllerIT {
 
     @Autowired
     CategoryFactory categoryFactory;
+
+    @Autowired
+    RelationInputDTOAssembler relationAssembler;
 
     //private AutoCloseable closeable;
 
@@ -221,7 +227,7 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
         // Mocking
         // Person Repo
@@ -268,12 +274,12 @@ class FamilyRESTControllerIT {
         relations.add(new OutputPersonRelationDTO("tony@email.com", "katia@email.com", "Marido", relationID.toString()));
 
         FamilyMemberAndRelationsDTO memberOne = new FamilyMemberAndRelationsDTO("tony", "tony@email.com", relations);
-       // Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
-       // memberOne.add(linkToOne);
+        // Link linkToOne = linkTo(methodOn(PersonRESTController.class).getProfileInfo("tony@email.com")).withSelfRel();
+        // memberOne.add(linkToOne);
 
         FamilyMemberAndRelationsDTO memberTwo = new FamilyMemberAndRelationsDTO("katia", "katia@email.com", Collections.emptyList());
-       // Link linkToTwo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("katia@email.com")).withSelfRel();
-       // memberTwo.add(linkToTwo);
+        // Link linkToTwo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("katia@email.com")).withSelfRel();
+        // memberTwo.add(linkToTwo);
 
         familyMemberAndRelationsListDTO.addDTO(memberOne);
         familyMemberAndRelationsListDTO.addDTO(memberTwo);
@@ -294,11 +300,11 @@ class FamilyRESTControllerIT {
     @Test
     void getFamilyMembersAndRelationsITFailure() {
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.empty());
 
-        ResponseEntity expected = new ResponseEntity("Error: Family does not exist", HttpStatus.BAD_REQUEST);
+        ResponseEntity expected = new ResponseEntity("Error: Family does not exist; nested exception is java.lang.IllegalArgumentException: Family does not exist", HttpStatus.BAD_REQUEST);
 
         String familyID = "@tonyze@email.com";
 
@@ -311,7 +317,7 @@ class FamilyRESTControllerIT {
     @Test
     void addCustomCategorySuccess() {
         ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
         // Input and Output DTOs
         String familyIDString = "@tonyze@latinlover.com";
@@ -359,7 +365,7 @@ class FamilyRESTControllerIT {
     @Test
     void addCustomCategoryFailure() {
         ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
-        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
         // Input and Output DTOs
         String familyIDString = "@tonyze@latinlover.com";
