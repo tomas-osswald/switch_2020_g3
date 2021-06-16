@@ -132,6 +132,26 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     }
 
+    @PatchMapping("/{familyID}/relations")
+    public ResponseEntity<Object> changeRelation(@RequestBody ChangeRelationDTO changeRelationDTO, @PathVariable String familyID) {
+        InputChangeRelationDTO inputChangeRelationDTO = familyAssembler.toInputChangeRelationDTO(changeRelationDTO, familyID);
+        HttpStatus status;
+        OutputRelationDTO outputRelationDTO;
+
+        try {
+            outputRelationDTO = createRelationService.createRelation(inputChangeRelationDTO);
+            status = HttpStatus.OK;
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+            outputRelationDTO.add(selfLink);
+            return new ResponseEntity<>(outputRelationDTO, status);
+        } catch (Exception e) {
+            status = HttpStatus.NOT_MODIFIED;
+            return new ResponseEntity(ERROR + e.getMessage(), status);
+
+        }
+
+    }
+
 
     @GetMapping("/{familyID}/relations")
     public ResponseEntity<FamilyMemberAndRelationsListDTO> getFamilyMembersAndRelations(@PathVariable String familyID) {
