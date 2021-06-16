@@ -135,6 +135,20 @@ class AddFamilyMemberServiceTest {
 
     @Test
     @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
+    void addPersonFailEmptyPassword() {
+
+        Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
+        Mockito.when(admin.getFamilyID()).thenReturn(familyID);
+        Mockito.when(personRepository.add(any(Person.class))).thenReturn(savedFamilyMember);
+        Mockito.when(personDTODomainAssembler.toDTO(savedFamilyMember)).thenReturn(outputPersonDTO);
+        Mockito.when(jwtUserDetailsService.save(any(UserDTO.class))).thenThrow(IllegalArgumentException.class);
+
+        assertThrows(IllegalArgumentException.class,()-> addFamilyMemberService.addPerson(internalAddFamilyMemberDTO));
+
+    }
+
+    @Test
+    @DisplayName("Test fails when the person name is invalid and throws an InvalidNameException")
     void addPersonFailInvalidValueObject() {
 
         Mockito.when(personRepository.getByID(any(PersonID.class))).thenReturn(admin);
