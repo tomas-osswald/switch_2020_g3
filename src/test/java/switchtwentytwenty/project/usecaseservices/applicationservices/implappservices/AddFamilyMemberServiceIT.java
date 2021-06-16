@@ -60,7 +60,7 @@ class AddFamilyMemberServiceIT {
     @Test
     void addPersonFail_NullPassword() {
         InputAddFamilyMemberDTO emptyPasswordDTO = new InputAddFamilyMemberDTO(adminID, ID, name, birthDate, vat, phone, street, city, houseNum, zipCode, null);
-        assertThrows(IllegalArgumentException.class, () -> service.addPerson(emptyPasswordDTO));
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> service.addPerson(emptyPasswordDTO));
     }
 
 }

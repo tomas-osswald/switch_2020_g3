@@ -62,7 +62,7 @@ class RemoveEmailServiceTest {
         Mockito.when(mockPersonRepository.getByID(any(PersonID.class))).thenReturn(mockPerson);
         Mockito.doNothing().when(mockPerson).removeEmail(any(EmailAddress.class));
         Mockito.when(mockPersonRepository.updatePerson(mockPerson)).thenReturn(mockSavedPerson);
-        Mockito.when(mockPersonDTODomainAssembler.toRemoveEmailDTO(mockSavedPerson)).thenReturn(expected);
+        Mockito.when(mockPersonDTODomainAssembler.toRemoveEmailDTO(mockSavedPerson.getEmails())).thenReturn(expected);
 
         OutputRemoveEmailDTO result = removeEmailService.removeEmail(mockInputRemoveEmailDTO);
 
