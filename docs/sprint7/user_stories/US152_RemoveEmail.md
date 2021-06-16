@@ -197,16 +197,15 @@ Onion Architecture
 
 autonumber
 header Sequence Diagram
-title US151 Add Email
+title US152 Remove Email
 
 participant ":IPersonController" as controller <<interface>>
-participant ":EmailExternal\nInternalAssembler" as assembler
-participant "anInternalEmailDTO\n:InternalEmailDTO" as internal
+participant ":personInputDTOAssembler" as assembler
+participant "anInputRemoveEmailDTO\n:InputRemoveEmailDTO" as input
 
-participant "IAddEmailService" as service <<interface>>
+participant "IRemoveEmailService" as service <<interface>>
 
-participant "anOutputEmailDTO\n : OutputEmailDTO" as output
-participant "aFailedOutputEmailDTO\n : OutputEmailDTO" as failoutput
+participant "anOutputRemoveEmailDTO\n : OutputEmailDTO" as output
 
 participant "aPersonID\n : PersonID" as personid
 participant "newEmail\n: EmailAddress" as email
