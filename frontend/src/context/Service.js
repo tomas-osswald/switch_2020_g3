@@ -153,7 +153,8 @@ export function fetchNameWS(success, failure, id, jwt) {
     axios.get(`${URL_API}/people/${id}`, {
         headers: {
             //'Access-Control-Allow-Origin': '*',
-            "Authorization": "Bearer "+ jwt
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + jwt
         }
     })
         .then((response) => {
