@@ -75,7 +75,7 @@ function MembersRelationsFA() {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
                     <div className="relation-row" key={relationsIndex}>
-                        <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}</td>
+                        <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)} <button>Edit</button></td>
                         <td></td>
                     </div>
                 )

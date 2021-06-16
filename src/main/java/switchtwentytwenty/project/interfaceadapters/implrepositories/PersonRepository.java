@@ -30,7 +30,6 @@ public class PersonRepository implements IPersonRepository {
     public PersonRepository(IPersonRepositoryJPA iPersonRepositoryJPA, PersonDataDomainAssembler personDataDomainAssembler) {
         this.personRepositoryJPA = iPersonRepositoryJPA;
         this.personAssembler = personDataDomainAssembler;
-
     }
 
     /**
