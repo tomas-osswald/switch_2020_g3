@@ -3,6 +3,9 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import switchtwentytwenty.project.authentication.JWTUserDetailsService;
+import switchtwentytwenty.project.authentication.UserDTO;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
@@ -12,25 +15,24 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 @Service
-@NoArgsConstructor
 public class AddFamilyMemberService implements IAddFamilyMemberService {
 
-    private IPersonRepository personRepository;
-    private PersonDTODomainAssembler personDTODomainAssembler;
+    private final IPersonRepository personRepository;
+    private final PersonDTODomainAssembler personDTODomainAssembler;
+    private final JWTUserDetailsService jwtUserDetailsService;
 
 
     @Autowired
-    public AddFamilyMemberService(IPersonRepository personRepository, PersonDTODomainAssembler personDTODomainAssembler) {
+    public AddFamilyMemberService(IPersonRepository personRepository, PersonDTODomainAssembler personDTODomainAssembler, JWTUserDetailsService jwtUserDetailsService) {
         this.personRepository = personRepository;
         this.personDTODomainAssembler = personDTODomainAssembler;
-
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
-
+    @Transactional
     public OutputPersonDTO addPerson(InputAddFamilyMemberDTO internalAddFamilyMemberDTO) {
 
         PersonID loggedUserID = new PersonID(internalAddFamilyMemberDTO.getAdminID());
-
 
         FamilyID familyID = personRepository.getByID(loggedUserID).getFamilyID();
         Name name = personDTODomainAssembler.createName(internalAddFamilyMemberDTO);
@@ -43,6 +45,14 @@ public class AddFamilyMemberService implements IAddFamilyMemberService {
         Person aPerson = new Person(name, birthDate, personID, vat, phone, address, familyID);
 
         Person addedPerson = personRepository.add(aPerson);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(internalAddFamilyMemberDTO.unpackEmail());
+        userDTO.setPassword(internalAddFamilyMemberDTO.unpackPassword());
+        String role = "familyMember";
+        userDTO.setRole(role);
+        jwtUserDetailsService.save(userDTO);
+
         return personDTODomainAssembler.toDTO(addedPerson);
     }
 }

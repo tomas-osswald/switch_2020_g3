@@ -88,7 +88,7 @@ class PersonRESTControllerTest {
     AddEmailDTO INVALIDAddEmailDTO = new AddEmailDTO(invalidEmailToAdd);
     InputEmailDTO INVALIDInternalEmailDTO = new InputEmailDTO(emailAddressAsID, INVALIDAddEmailDTO.unpackEmail());
 
-    AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L", "3L", "tony", "12/02/1999", 123456789, 961962963, "Rua da Estrada", "Porto", "12", "4000");
+    AddFamilyMemberDTO addFamilyMemberDTO = new AddFamilyMemberDTO("2L", "3L", "tony", "12/02/1999", 123456789, 961962963, "Rua da Estrada", "Porto", "12", "4000", "password");
     OutputPersonDTO realOutPutPersonDTO = new OutputPersonDTO();
     private AutoCloseable closeable;
 

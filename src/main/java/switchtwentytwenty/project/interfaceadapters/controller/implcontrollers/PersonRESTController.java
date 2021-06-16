@@ -24,13 +24,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PersonRESTController implements IPersonRESTController {
 
     private static final String ERROR = "Error: ";
-    private IGetFamilyMemberProfileService getFamilyMemberProfileService;
-    private IAddFamilyMemberService addFamilyMemberService;
-    private IAddEmailService addEmailService;
-    private PersonInputDTOAssembler personInputDTOAssembler;
-    private PersonInputDTOAssembler profileInternalExternalAssembler;
-    private IPersonOptionsService personOptionsService;
-    private IPeopleOptionsService peopleOptionsService;
+    private final IGetFamilyMemberProfileService getFamilyMemberProfileService;
+    private final IAddFamilyMemberService addFamilyMemberService;
+    private final IAddEmailService addEmailService;
+    private final PersonInputDTOAssembler personInputDTOAssembler;
+    private final PersonInputDTOAssembler profileInternalExternalAssembler;
+    private final IPersonOptionsService personOptionsService;
+    private final IPeopleOptionsService peopleOptionsService;
 
     @Autowired
     public PersonRESTController(PeopleOptionsService peopleOptionsService, PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {

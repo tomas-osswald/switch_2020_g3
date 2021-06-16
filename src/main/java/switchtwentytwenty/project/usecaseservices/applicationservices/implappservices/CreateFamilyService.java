@@ -1,9 +1,11 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import switchtwentytwenty.project.authentication.DAOUser;
+import switchtwentytwenty.project.authentication.JWTUserDetailsService;
+import switchtwentytwenty.project.authentication.UserDTO;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -23,13 +25,15 @@ public class CreateFamilyService implements ICreateFamilyService {
     private final IFamilyRepository familyRepository;
     private final PersonDTODomainAssembler personDTODomainAssembler;
     private final FamilyDTODomainAssembler familyDTODomainAssembler;
+    private final JWTUserDetailsService jwtUserDetailsService;
 
     @Autowired
-    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository, PersonDTODomainAssembler personDTODomainAssembler, FamilyDTODomainAssembler familyDTODomainAssembler) {
+    public CreateFamilyService(IPersonRepository personRepository, IFamilyRepository familyRepository, PersonDTODomainAssembler personDTODomainAssembler, FamilyDTODomainAssembler familyDTODomainAssembler, JWTUserDetailsService jwtUserDetailsService) {
         this.personRepository = personRepository;
         this.familyRepository = familyRepository;
         this.personDTODomainAssembler = personDTODomainAssembler;
         this.familyDTODomainAssembler = familyDTODomainAssembler;
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     /**
@@ -57,6 +61,13 @@ public class CreateFamilyService implements ICreateFamilyService {
 
         personRepository.add(admin);
         Family registeredFamily = familyRepository.add(family);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(inputPersonDTO.unpackEmail());
+        userDTO.setPassword(inputPersonDTO.unpackPassword());
+        String role = "familyAdministrator";
+        userDTO.setRole(role);
+        jwtUserDetailsService.save(userDTO);
 
         return familyDTODomainAssembler.toOutputFamilyDTO(registeredFamily);
     }
