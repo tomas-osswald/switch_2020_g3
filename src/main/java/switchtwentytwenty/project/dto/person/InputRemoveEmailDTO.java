@@ -23,11 +23,11 @@ public class InputRemoveEmailDTO {
         if (this == o) return true;
         if (!(o instanceof InputRemoveEmailDTO)) return false;
         InputRemoveEmailDTO that = (InputRemoveEmailDTO) o;
-        return Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getPersonID(), that.getPersonID());
+        return Objects.equals(email, that.email) && Objects.equals(personID, that.personID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEmail(), getPersonID());
+        return Objects.hash(email, personID);
     }
 }

@@ -14,8 +14,8 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class RemoveEmailService implements IRemoveEmailService {
 
-    private IPersonRepository personRepository;
-    private PersonDTODomainAssembler personDTODomainAssembler;
+    private final IPersonRepository personRepository;
+    private final PersonDTODomainAssembler personDTODomainAssembler;
 
     @Autowired
     public RemoveEmailService(IPersonRepository personRepository, PersonDTODomainAssembler personDTODomainAssembler) {
