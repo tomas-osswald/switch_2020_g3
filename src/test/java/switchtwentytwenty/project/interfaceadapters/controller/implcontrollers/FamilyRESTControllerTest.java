@@ -1,5 +1,6 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,7 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.InputCustomCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
@@ -51,6 +53,9 @@ class FamilyRESTControllerTest {
     CategoryInputDTOAssembler categoryAssembler;
 
     @Mock
+    RelationInputDTOAssembler relationAssembler;
+
+    @Mock
     IGetFamilyDataService getFamilyDataService;
 
     @Mock
@@ -58,6 +63,9 @@ class FamilyRESTControllerTest {
 
     @Mock
     IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
+
+    @Mock
+    IChangeRelationService changeRelationService;
 
     @Mock
     IFamilyOptionsService familyOptionsService;
@@ -305,6 +313,29 @@ class FamilyRESTControllerTest {
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.BAD_REQUEST);
 
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+
+        assertEquals(expected, result);
+    }
+
+    @Disabled
+    @Test
+    @DisplayName("Test for the change of a relation between family members in a Family")
+    void changeRelationValidFamilyID() {
+        String familyID = "@admin@gmail.com";
+        String relationID = "123";
+        String relationshipDesignation = "Amante";
+
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO();
+        changeRelationDTO.setNewRelationDesignation(relationshipDesignation);
+        changeRelationDTO.setRelationID(relationID);
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@admin.com", "moonika@gmail.com" , "Amante", "123");
+
+        when(changeRelationService.changeRelation(any(InputChangeRelationDTO.class))).thenReturn(outputRelationDTO);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        outputRelationDTO.add(selfLink);
+        ResponseEntity expected = new ResponseEntity(outputRelationDTO, HttpStatus.OK);
+
+        ResponseEntity result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
 
         assertEquals(expected, result);
     }
