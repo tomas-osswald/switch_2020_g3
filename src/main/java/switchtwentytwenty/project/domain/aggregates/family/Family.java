@@ -87,13 +87,12 @@ public class Family implements AggregateRoot<FamilyID> {
     }
 
     public boolean isRelationAlreadyRegistered(Relation relation) {
-        boolean relationPresent = false;
         for (Relation registeredRelation : relations) {
             if (relation.equals(registeredRelation)) {
-                relationPresent = true;
+                return true;
             }
         }
-        return relationPresent;
+        return false;
     }
 
     public List<Relation> getRelationsByPersonID(PersonID id) {
