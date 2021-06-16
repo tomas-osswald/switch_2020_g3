@@ -45,10 +45,11 @@ public class FamilyRESTController implements IFamilyRESTController {
     private final IGetCustomCategoriesService customCategoriesService;
     private final IGetFamilyDataService getFamilyDataService;
     private final ICreateCustomCategoryService createCustomCategoryService;
+    private final IChangeRelationService changeRelationService;
 
 
     @Autowired
-    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, RelationInputDTOAssembler relationAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService) {
+    public FamilyRESTController(ICreateFamilyService createFamilyService, FamilyInputDTOAssembler familyAssembler, RelationInputDTOAssembler relationAssembler, PersonInputDTOAssembler personAssembler, IGetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService, IFamiliesOptionsService familiesOptionsService, IFamilyOptionsService familyOptionsService, ICreateRelationService createRelationService, IGetCustomCategoriesService customCategoriesService, IGetFamilyDataService getFamilyDataService, CategoryInputDTOAssembler categoryAssembler, ICreateCustomCategoryService createCustomCategoryService, IChangeRelationService changeRelationService) {
         this.createFamilyService = createFamilyService;
         this.familyAssembler = familyAssembler;
         this.personAssembler = personAssembler;
@@ -61,6 +62,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         this.getFamilyDataService = getFamilyDataService;
         this.categoryAssembler = categoryAssembler;
         this.createCustomCategoryService = createCustomCategoryService;
+        this.changeRelationService = changeRelationService;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -137,12 +139,12 @@ public class FamilyRESTController implements IFamilyRESTController {
 
     @PatchMapping("/{familyID}/relations")
     public ResponseEntity<Object> changeRelation(@RequestBody ChangeRelationDTO changeRelationDTO, @PathVariable String familyID) {
-        InputChangeRelationDTO inputChangeRelationDTO = relationAssembler.inputChangeRelationDTO(changeRelationDTO, familyID);
+        InputChangeRelationDTO inputChangeRelationDTO = relationAssembler.toInputChangeRelationDTO(changeRelationDTO, familyID);
         HttpStatus status;
         OutputRelationDTO outputRelationDTO;
 
         try {
-            outputRelationDTO = createRelationService.changeRelation(inputChangeRelationDTO);
+            outputRelationDTO = changeRelationService.changeRelation(inputChangeRelationDTO);
             status = HttpStatus.OK;
             Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
             outputRelationDTO.add(selfLink);
