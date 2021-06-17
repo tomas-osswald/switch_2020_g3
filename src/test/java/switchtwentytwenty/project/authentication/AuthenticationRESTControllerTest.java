@@ -40,7 +40,7 @@ class AuthenticationRESTControllerTest {
         JWTRequest jwtRequest = new JWTRequest("name","pass");
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new DisabledException(""));
 
-        ResponseEntity expected = new ResponseEntity("Error", HttpStatus.UNAUTHORIZED);
+        ResponseEntity expected = new ResponseEntity("USER_DISABLED", HttpStatus.UNAUTHORIZED);
 
         ResponseEntity result = controller.createAuthenticationToken(jwtRequest);
 
@@ -52,7 +52,7 @@ class AuthenticationRESTControllerTest {
         JWTRequest jwtRequest = new JWTRequest("name","pass");
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new BadCredentialsException(""));
 
-        ResponseEntity expected = new ResponseEntity("Error", HttpStatus.UNAUTHORIZED);
+        ResponseEntity expected = new ResponseEntity("INVALID_CREDENTIALS", HttpStatus.UNAUTHORIZED);
 
         ResponseEntity result = controller.createAuthenticationToken(jwtRequest);
 
