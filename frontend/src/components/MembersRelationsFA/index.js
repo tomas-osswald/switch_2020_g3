@@ -85,15 +85,17 @@ function MembersRelationsFA() {
 
 
     function findRelationID(memberOneID, memberTwoID) {
-        return familyMemberAndRelationsDTO.map((personDTO) => {
+        let returnValue = '';
+        familyMemberAndRelationsDTO.map((personDTO) => {
             if (memberOneID === personDTO.personID) {
-                return personDTO.relations.map((relation) => {
+                personDTO.relations.map((relation) => {
                     if (relation.memberTwoID == memberTwoID) {
-                        return relation.relationID;
+                        returnValue = relation.relationID;
                     }
                 })
             }
         })
+        return returnValue;
     }
 
 
@@ -103,11 +105,9 @@ function MembersRelationsFA() {
                 return (
                     <div className="relation-row" key={relationsIndex}>
                         <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}
-                            <div>
-                                <button
-                                    onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
+                            </button>
                         </td>
                         <td></td>
                     </div>

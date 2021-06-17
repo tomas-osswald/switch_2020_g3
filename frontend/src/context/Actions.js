@@ -1,7 +1,7 @@
 import {
     addInputedEmailToFamilyMember,
     addRelation,
-    authenticateWS,
+    authenticateWS, changeRelation,
     createFamilySMService,
     familyNameGlobal,
     familyRelationsFA,
@@ -398,6 +398,37 @@ export function addNewMember(dispatch, newMember, jwt) {
     dispatch(addNewMemberStart())
     postNewMember((response) => dispatch(addNewMemberSuccess(response)), (err) => dispatch(addNewMemberFailure(err.message)), newMember, jwt)
 
+}
+
+export function changeRelationAction(dispatch, newRelation, relationID, family_id, jwt) {
+    dispatch(changeRelationStart())
+    changeRelation((response) => dispatch(changeRelationSuccess(response)), (err) => dispatch(changeRelationFailure(err.message)), newRelation, relationID, family_id, jwt)
+
+}
+
+export const CHANGE_RELATION_START = 'CHANGE_RELATION_START';
+
+export function changeRelationStart() {
+    return {
+        type: CHANGE_RELATION_START,
+    }
+}
+
+export const CHANGE_RELATION_SUCCESS = 'CHANGE_RELATION_SUCCESS';
+
+export function changeRelationSuccess(newMember) {
+    return {
+        type: CHANGE_RELATION_SUCCESS,
+    }
+}
+
+export const CHANGE_RELATION_FAILURE = 'CHANGE_RELATION_FAILURE';
+
+export function changeRelationFailure(error) {
+    return {
+        type: CHANGE_RELATION_FAILURE,
+        payload: error
+    }
 }
 
 export function addNewMemberStart() {

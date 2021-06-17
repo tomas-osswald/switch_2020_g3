@@ -12,6 +12,9 @@ import {
     AUTHENTICATION_STARTED,
     AUTHENTICATION_SUCCESS,
     CHANGE_REFRESH,
+    CHANGE_RELATION_FAILURE,
+    CHANGE_RELATION_START,
+    CHANGE_RELATION_SUCCESS,
     CHANGE_USER,
     CHANGE_VIEW,
     CHANGE_VIEW_RELATION,
@@ -366,6 +369,33 @@ function reducer(state, action) {
                 ...state,
                 mainView: action.payload.mainView,
                 relationID: action.payload.relationID,
+            }
+
+
+        case
+        CHANGE_RELATION_START:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            }
+
+        case CHANGE_RELATION_SUCCESS:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: null,
+                }
+            }
+
+        case CHANGE_RELATION_FAILURE:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: action.payload,
+                }
             }
 
 

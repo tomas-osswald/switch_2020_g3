@@ -8,6 +8,7 @@ import CreateFamilySM from "../CreateFamilySM";
 import LandingPage from "../LandingPage";
 import Profile from "../Profile";
 import AddMember from "../AddMember";
+import ChangeRelation from "../ChangeRelation";
 
 function Mainview() {
     const {state, dispatch} = useContext(AppContext);
@@ -45,7 +46,7 @@ function Mainview() {
     } else if (mainView ==='changeRelation'){
         return (
             <MainviewDiv>
-                <AddMember/>
+                <ChangeRelation/>
             </MainviewDiv>
         )
     }
