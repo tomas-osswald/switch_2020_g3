@@ -1,11 +1,14 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -55,8 +58,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class FamilyRESTControllerIT {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
-    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
     // Category repo
 
@@ -148,9 +151,9 @@ class FamilyRESTControllerIT {
     CategoryFactory categoryFactory;
 
 
-    //private AutoCloseable closeable;
+    /*private AutoCloseable closeable;
 
-   /* @BeforeEach
+    @BeforeEach
     void setUp() {
         // We can create mock based on the Interface or a Class
         // templateEngine = mock(TemplateEngine.class);
@@ -332,7 +335,7 @@ class FamilyRESTControllerIT {
         String familyIDString = "@tonyze@latinlover.com";
         String categoryNameString = "BATATAS";
         String parentIDString = "Sopa";
-        String categoryIDString = "1";
+        String categoryIDString = "2";
 
         CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
         createCategoryDTO.setCategoryDescription(categoryNameString);

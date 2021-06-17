@@ -16,7 +16,9 @@ function MembersRelationsFA() {
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     const [display, setDisplay] = useState(false)
+    const [editRelation, setEditRelation] = useState(false)
     const {family_id} = landingPage;
+    const [relationID, setRelationID] = useState("")
 
     /*const [refreshVariable, setrefreshVariable] = useState(false);
 
@@ -70,12 +72,32 @@ function MembersRelationsFA() {
         return tableRole;
     }
 
+    function handleRelationSubmit(relationID) {
+        setRelationID(relationID);
+        setEditRelation(true);
+    }
+
+    function findRelationID(memberOneID, memberTwoID) {
+        return familyMemberAndRelationsDTO.map((personDTO) => {
+            if (memberOneID === personDTO.personID) {
+                return personDTO.relations.map((relation) => {
+                    if (relation.memberTwoID == memberTwoID) {
+                        return relation.relationID;
+                    }
+                })
+            }
+        })
+    }
+
     function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
                     <div className="relation-row" key={relationsIndex}>
-                        <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)} <button>Edit</button></td>
+                        <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}
+                            <button onClick={findRelationID(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
+                            </button>
+                        </td>
                         <td></td>
                     </div>
                 )
@@ -122,7 +144,7 @@ function MembersRelationsFA() {
     if (error !== null) {
         return (
             <div>
-                <h1> <b>Error:</b> </h1>
+                <h1><b>Error:</b></h1>
                 <h4>There can only be <b>One (1)</b> relation between <b>Two (2) different</b> Family Members </h4>
                 <button className="button-two" onClick={reloadScreen}>Try again</button>
             </div>
@@ -173,7 +195,8 @@ function MembersRelationsFA() {
                                 <option className="select-option">Select Member B</option>
                                 {populateSelection()}
                             </select>
-                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add Relation</Button>
+                            <Button className="add-relation button-two" onClick={handleSubmit} variant="dark">Add
+                                Relation</Button>
                         </div>
                     </div>
 

@@ -29,8 +29,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class FamilyRESTControllerITDB {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
-    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
 
     @Autowired
@@ -56,7 +56,7 @@ class FamilyRESTControllerITDB {
     @Test
     @DisplayName("CreateFamilyAndSetAdmin function success case")
     void createFamilyAndSetAdminSuccessCase() {
-        AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("teste@hotmail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+        AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("teste@hotmail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
         Link expectedLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions('@' + dto.getEmailID())).withSelfRel();
 

@@ -13,7 +13,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class PersonOptionsService implements IPersonOptionsService {
 
-    @Override
     public OptionsDTO getPersonOptions(String personID) {
 
         OptionsDTO optionsDTO = new OptionsDTO();

@@ -6,7 +6,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
+
 import switchtwentytwenty.project.dto.family.*;
+
+import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
+import switchtwentytwenty.project.dto.family.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+
 
 public interface IFamilyRESTController {
 

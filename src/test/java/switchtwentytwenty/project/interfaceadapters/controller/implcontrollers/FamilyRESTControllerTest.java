@@ -38,8 +38,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @ExtendWith(MockitoExtension.class)
 class FamilyRESTControllerTest {
-    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
-    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
+    AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
     @Mock
     ICreateFamilyService createFamilyService;
@@ -87,9 +87,9 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("CreateFamilyAndSetAdmin function success case")
     void createFamilyAndSetAdmin() {
-        AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO = new AddFamilyAndSetAdminDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "Silva", "12/12/1990");
+        AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO = new AddFamilyAndSetAdminDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "password", "Silva", "12/12/1990");
 
-        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123");
+        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "password");
 
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "12/12/1990");
 
@@ -120,7 +120,7 @@ class FamilyRESTControllerTest {
 
     @Test
     void testCreateFamilyAndSetAdmin() {
-        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123");
+        InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "28/12/1990", 123123123, 919999999, "rua", "cidade", "23b", "1234-123", "password");
 
         InputFamilyDTO inputFamilyDTO = new InputFamilyDTO("Silva", "12/12/1990");
 

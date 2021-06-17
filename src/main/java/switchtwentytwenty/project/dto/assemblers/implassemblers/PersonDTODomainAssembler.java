@@ -88,7 +88,7 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return new PersonID(internalGetProfileDTO.unpackID());
     }
 
-    public OutputRemoveEmailDTO toRemoveEmailDTO(List<EmailAddress> emails){
+    public OutputRemoveEmailDTO toOutputRemoveEmailDTO(List<EmailAddress> emails){
         List<String> convertedEmails = new ArrayList<>();
         for (EmailAddress email: emails) {
             String emailAddress = email.toString();

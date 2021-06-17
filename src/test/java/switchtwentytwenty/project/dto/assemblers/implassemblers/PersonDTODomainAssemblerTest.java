@@ -13,12 +13,12 @@ import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.person.OutputRemoveEmailDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -38,7 +38,7 @@ class PersonDTODomainAssemblerTest {
     Address address = new Address(street, city, zipCode, doorNumber);
 
     InputPersonDTO inputPersonDTO = new InputPersonDTO("tonyze@gmail.com", "TonyZe", "12/12/1970",
-            123456789, 999999999, "Rua da amargura", "Amadora", "47", "4444-111");
+            123456789, 999999999, "Rua da amargura", "Amadora", "47", "4444-111", "password");
 
     @Mock
     Person person;
@@ -248,4 +248,41 @@ class PersonDTODomainAssemblerTest {
     }
 
 
+    @Test
+    void toOutputRemoveEmailDTOTestCorrectConversionOfListsExpectingEquals() {
+        String emailOne = "tonyze@email.com";
+        String emailTwo = "tonyze@emailtwo.com";
+        List<String> expected = new ArrayList<>();
+        expected.add(emailOne);
+        expected.add(emailTwo);
+
+        List<EmailAddress> emailAddresses = new ArrayList<>();
+        EmailAddress emailAddressOne = new EmailAddress(emailOne);
+        EmailAddress emailAddressTwo = new EmailAddress(emailTwo);
+        emailAddresses.add(emailAddressOne);
+        emailAddresses.add(emailAddressTwo);
+
+        PersonDTODomainAssembler assembler = new PersonDTODomainAssembler();
+
+        OutputRemoveEmailDTO result = assembler.toOutputRemoveEmailDTO(emailAddresses);
+
+        assertEquals(expected, result.getEmailAddresses());
+    }
+
+    @Test
+    void toOutputRemoveEmailDTOTestDifferentListsExpectingNotEquals() {
+        String emailOne = "tonyze@email.com";
+        String emailTwo = "tonyze@emailtwo.com";
+        List<String> expected = new ArrayList<>();
+        expected.add(emailOne);
+        expected.add(emailTwo);
+
+        List<EmailAddress> emailAddresses = new ArrayList<>();
+
+        PersonDTODomainAssembler assembler = new PersonDTODomainAssembler();
+
+        OutputRemoveEmailDTO result = assembler.toOutputRemoveEmailDTO(emailAddresses);
+
+        assertNotEquals(expected, result.getEmailAddresses());
+    }
 }
