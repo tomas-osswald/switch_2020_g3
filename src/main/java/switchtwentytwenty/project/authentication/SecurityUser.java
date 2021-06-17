@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class SecurityUser implements UserDetails {
     //String ROLE_PREFIX = "ROLE_";
@@ -58,5 +59,18 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SecurityUser that = (SecurityUser) o;
+        return Objects.equals(userName, that.userName) && Objects.equals(password, that.password) && Objects.equals(role, that.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, password, role);
     }
 }

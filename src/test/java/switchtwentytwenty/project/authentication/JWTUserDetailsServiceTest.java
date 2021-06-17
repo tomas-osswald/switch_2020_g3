@@ -52,7 +52,7 @@ class JWTUserDetailsServiceTest {
 
         when(userDao.findByUsername(anyString())).thenReturn(daoUser);
 
-        UserDetails expected = new User(daoUser.getUsername(), daoUser.getPassword(), new ArrayList<>());
+        UserDetails expected = new SecurityUser(daoUser.getUsername(), daoUser.getPassword(), daoUser.getRole());
 
         UserDetails result = jwtUserDetailsService.loadUserByUsername(username);
 

@@ -150,4 +150,15 @@ class InputPersonDTOTest {
 
         Assertions.assertNotEquals(inputPersonDTOOne.hashCode(),inputPersonDTOTwo.hashCode());
     }
+
+    @Test
+    @DisplayName("Test if password is being returned")
+    void testUnpackPassword() {
+        InputPersonDTO inputPersonDTOOne = new InputPersonDTO("AAAAAtonyze@gmail.com","TonyZe","28/12/1990",123123123,919999999,"rua","cidade","23b","1234-123", "password");
+        String expected = "password";
+
+        String result = inputPersonDTOOne.unpackPassword();
+
+        Assertions.assertEquals(expected,result);
+    }
 }
