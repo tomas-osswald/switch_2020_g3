@@ -169,17 +169,6 @@ class FamilyRESTControllerIT {
     }*/
 
     @Test
-    void changeRelationFailure() {
-        Mockito.when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenThrow(InvalidDataAccessApiUsageException.class);
-        ResponseEntity expected = new ResponseEntity("Error: ", HttpStatus.NOT_MODIFIED);
-        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Designation");
-        String familyID = "@fam@id.com";
-        String relationID = "3";
-        ResponseEntity result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
-        assertEquals(expected, result);
-    }
-
-    @Test
     void testCreateFamilyAndSetAdmin() {
         ResponseEntity expected = new ResponseEntity("Error: This Email is not valid", HttpStatus.UNPROCESSABLE_ENTITY);
         ResponseEntity result = familyRESTController.createFamilyAndSetAdmin(invaliddto);
@@ -343,7 +332,7 @@ class FamilyRESTControllerIT {
         String familyIDString = "@tonyze@latinlover.com";
         String categoryNameString = "BATATAS";
         String parentIDString = "Sopa";
-        String categoryIDString = "2";
+        String categoryIDString = "1";
 
         CreateCategoryDTO createCategoryDTO = new CreateCategoryDTO();
         createCategoryDTO.setCategoryDescription(categoryNameString);
@@ -403,38 +392,66 @@ class FamilyRESTControllerIT {
         assertEquals(expected.toString(), result.toString());
     }
 
-
     @DisplayName("Successfully Change relationship designation in a family")
     @Test
     void changeRelationSuccessWithValidInfo() {
+        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, relationAssembler, familyDTODomainAssembler);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
-        String familyID = "@admin@gmail.com";
+
+        //criar as merdas por constructor - inserir mock do IrepositoryJPA no constructor do repo
+        //Setup for running changeRelation
+        String newDesignation = "NewDesignation";
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO(newDesignation);
+        String familyID = "@tonyze@gmail.com";
         String relationID = "123";
-        String newDesignation = "Amante";
 
-        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO();
-        changeRelationDTO.setNewRelationDesignation(newDesignation);
-
-        Family family = new Family();
-        String memberOneID = "tonyze@admin.com";
+        //Setup for OutputRelationDTO
+        String memberOneID = "tonyze@gmail.com";
         String memberTwoID = "moonika@gmail.com";
-        Relation relation = new Relation(new PersonID(memberOneID), new PersonID(memberTwoID), new RelationDesignation("oldDesignation"), new RelationID(123));
-        family.addRelation(relation);
-
-        OutputRelationDTO outputRelationDTO = new OutputRelationDTO(memberOneID, memberTwoID, newDesignation, relationID);
+        OutputRelationDTO expectedDTO = new OutputRelationDTO(memberOneID, memberTwoID, newDesignation, relationID);
         Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
-        outputRelationDTO.add(selfLink);
+        expectedDTO.add(selfLink);
 
-        ResponseEntity expected = new ResponseEntity(outputRelationDTO, HttpStatus.OK);
+        ResponseEntity<OutputRelationDTO> expected = new ResponseEntity(expectedDTO, HttpStatus.OK);
 
-        when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
-        doNothing().when(familyRepository).add(any(Family.class));
+        //Setup for mocking family in persistence
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@gmail.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@gmail.com"));
+        Optional<FamilyJPA> optionalFamilyJPA = Optional.of(familyJPA);
+        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(optionalFamilyJPA);
 
-        ResponseEntity result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
-        assertEquals(expected.getBody(), result.getBody());
+        when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(new FamilyID("@tonyze@gmail.com"));
+        when(familyDataDomainAssembler.createFamilyName(any(FamilyJPA.class))).thenReturn(new FamilyName("Zés"));
+        when(familyDataDomainAssembler.createRegistrationDate(any(FamilyJPA.class))).thenReturn(new RegistrationDate("27/05/2021"));
+        when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(new PersonID("tonyze@gmail.com"));
+
+
+        List<Relation> relationList = new ArrayList<>();
+        Relation relation = new Relation(new PersonID("tony@gmail.com"), new PersonID("moonika@gmail.com"), new RelationDesignation("Marido"), new RelationID(123));
+        relationList.add(relation);
+
+        when(familyDataDomainAssembler.createRelationList(any(FamilyJPA.class))).thenReturn(relationList);
+
+        FamilyJPA savedFamilyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@gmail.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@gmail.com"));
+        RelationJPA relationJPA = new RelationJPA(memberOneID, memberTwoID, newDesignation, 123, familyJPA);
+        List<RelationJPA> relationJPAList = new ArrayList<>();
+        relationJPAList.add(relationJPA);
+        savedFamilyJPA.setRelationList(relationJPAList);
+        when(iFamilyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(savedFamilyJPA);
+
+        ResponseEntity<OutputRelationDTO> result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
+
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
-
-
     }
-
+    @Test
+    void changeRelationFailure() {
+        Mockito.when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenThrow(InvalidDataAccessApiUsageException.class);
+        ResponseEntity<OutputRelationDTO> expected = new ResponseEntity("Error: ", HttpStatus.NOT_MODIFIED);
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Designation");
+        String familyID = "@fam@id.com";
+        String relationID = "3";
+        ResponseEntity<OutputRelationDTO> result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+    }
 }
