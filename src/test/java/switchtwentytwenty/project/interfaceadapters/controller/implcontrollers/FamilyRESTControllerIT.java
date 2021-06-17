@@ -1,12 +1,17 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,21 +28,21 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.aggregates.category.CustomCategory;
+import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.*;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
-import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.FamilyMemberAndRelationsListDTO;
-import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
+import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.CategoryRepository;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.FamilyRepository;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
+import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.ChangeRelationService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.CreateCustomCategoryService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMembersAndRelationshipService;
 
@@ -45,6 +50,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -145,9 +151,9 @@ class FamilyRESTControllerIT {
     CategoryFactory categoryFactory;
 
 
-    //private AutoCloseable closeable;
+    /*private AutoCloseable closeable;
 
-   /* @BeforeEach
+    @BeforeEach
     void setUp() {
         // We can create mock based on the Interface or a Class
         // templateEngine = mock(TemplateEngine.class);
@@ -164,7 +170,6 @@ class FamilyRESTControllerIT {
     void tearDown() throws Exception {
         closeable.close();
     }*/
-
 
     @Test
     void testCreateFamilyAndSetAdmin() {
@@ -390,5 +395,66 @@ class FamilyRESTControllerIT {
         assertEquals(expected.toString(), result.toString());
     }
 
+    @DisplayName("Successfully Change relationship designation in a family")
+    @Test
+    void changeRelationSuccessWithValidInfo() {
+        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, relationAssembler, familyDTODomainAssembler);
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
+
+        //criar as merdas por constructor - inserir mock do IrepositoryJPA no constructor do repo
+        //Setup for running changeRelation
+        String newDesignation = "NewDesignation";
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO(newDesignation);
+        String familyID = "@tonyze@gmail.com";
+        String relationID = "123";
+
+        //Setup for OutputRelationDTO
+        String memberOneID = "tonyze@gmail.com";
+        String memberTwoID = "moonika@gmail.com";
+        OutputRelationDTO expectedDTO = new OutputRelationDTO(memberOneID, memberTwoID, newDesignation, relationID);
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        expectedDTO.add(selfLink);
+
+        ResponseEntity<OutputRelationDTO> expected = new ResponseEntity(expectedDTO, HttpStatus.OK);
+
+        //Setup for mocking family in persistence
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@gmail.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@gmail.com"));
+        Optional<FamilyJPA> optionalFamilyJPA = Optional.of(familyJPA);
+        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(optionalFamilyJPA);
+
+        when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(new FamilyID("@tonyze@gmail.com"));
+        when(familyDataDomainAssembler.createFamilyName(any(FamilyJPA.class))).thenReturn(new FamilyName("Zés"));
+        when(familyDataDomainAssembler.createRegistrationDate(any(FamilyJPA.class))).thenReturn(new RegistrationDate("27/05/2021"));
+        when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(new PersonID("tonyze@gmail.com"));
+
+
+        List<Relation> relationList = new ArrayList<>();
+        Relation relation = new Relation(new PersonID("tony@gmail.com"), new PersonID("moonika@gmail.com"), new RelationDesignation("Marido"), new RelationID(123));
+        relationList.add(relation);
+
+        when(familyDataDomainAssembler.createRelationList(any(FamilyJPA.class))).thenReturn(relationList);
+
+        FamilyJPA savedFamilyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@gmail.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@gmail.com"));
+        RelationJPA relationJPA = new RelationJPA(memberOneID, memberTwoID, newDesignation, 123, familyJPA);
+        List<RelationJPA> relationJPAList = new ArrayList<>();
+        relationJPAList.add(relationJPA);
+        savedFamilyJPA.setRelationList(relationJPAList);
+        when(iFamilyRepositoryJPA.save(any(FamilyJPA.class))).thenReturn(savedFamilyJPA);
+
+        ResponseEntity<OutputRelationDTO> result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
+
+        assertEquals(expected.getBody().toString(), result.getBody().toString());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+    }
+    @Test
+    void changeRelationFailure() {
+        Mockito.when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenThrow(InvalidDataAccessApiUsageException.class);
+        ResponseEntity<OutputRelationDTO> expected = new ResponseEntity("Error: ", HttpStatus.NOT_MODIFIED);
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Designation");
+        String familyID = "@fam@id.com";
+        String relationID = "3";
+        ResponseEntity<OutputRelationDTO> result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+    }
 }

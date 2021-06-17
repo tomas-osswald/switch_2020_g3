@@ -71,4 +71,10 @@ class ChangeRelationServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void changeRelationSuccessNoArgs() {
+        ChangeRelationService changeRelationService = new ChangeRelationService();
+        assertNotNull(changeRelationService);
+    }
+
 }
