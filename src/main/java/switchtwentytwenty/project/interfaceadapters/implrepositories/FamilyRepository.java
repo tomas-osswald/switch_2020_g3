@@ -61,7 +61,7 @@ public class FamilyRepository implements IFamilyRepository {
      * @return Family domain object
      */
     public Family getByID(FamilyID familyID) {
-        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
+        FamilyIDJPA familyIDJPA = familyAssembler.createFamilyIDJPA(familyID);
         Optional<FamilyJPA> familyJPA = familyRepositoryJPA.findById(familyIDJPA);
         if (familyJPA.isPresent()) {
             return createFamily(familyJPA.get());
