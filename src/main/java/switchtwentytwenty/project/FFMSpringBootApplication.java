@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
+import switchtwentytwenty.project.authentication.JWTUserDetailsService;
+import switchtwentytwenty.project.authentication.UserDTO;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
@@ -38,7 +40,7 @@ FFMSpringBootApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(IFamilyRESTController familyRESTController, IPersonRESTController personRESTController, IAccountRESTController iAccountRESTController, ICategoryRESTController categoryRESTController) {
+    public CommandLineRunner demo(IFamilyRESTController familyRESTController, IPersonRESTController personRESTController, IAccountRESTController iAccountRESTController, ICategoryRESTController categoryRESTController, JWTUserDetailsService jwtUserDetailsService) {
         return args -> {
 
             AddFamilyAndSetAdminDTO addFamilyAndSetAdminDTO1 = new AddFamilyAndSetAdminDTO(TONY_ZE_EMAIL, "TonyZe", "12/12/1969", 123456789, 919999999, RUA, CIDADE, CASA, ZIP, "password", "Antunes", null);
@@ -64,6 +66,10 @@ FFMSpringBootApplication {
             iAccountRESTController.createAccount(tonyaccount);
             familyRESTController.createRelation(relationTonyKatia, TONYZEFAMILYID);
             familyRESTController.createRelation(relationKatiaRaimundo, TONYZEFAMILYID);
+
+            jwtUserDetailsService.save(new UserDTO("sm", "sm", "systemManager"));
+            jwtUserDetailsService.save(new UserDTO("admin", "admin", "familyAdministrator"));
+            jwtUserDetailsService.save(new UserDTO("member", "member", "familyMember"));
             //familyRESTController.changeRelation(changeRelationDTO, TONYZEFAMILYID,"-1574017441");
 
 
