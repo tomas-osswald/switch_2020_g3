@@ -433,4 +433,16 @@ class FamilyTest {
     }
 
 
+    @Test
+    void setRelations() {
+        Family family = new Family(new FamilyID("@admin@gmail.com"), new FamilyName("Silva"), new RegistrationDate("12/01/1999"), new PersonID("admin@gmail.com"));
+        Relation relationOne = new Relation(new PersonID("admin@gmail.com"), new PersonID("tony@gmail.com"), new RelationDesignation("Amigos"), new RelationID(1));
+
+
+        List<Relation> expected = new ArrayList<>();
+        expected.add(relationOne);
+
+        assertDoesNotThrow(() -> family.setRelations(expected));
+
+    }
 }
