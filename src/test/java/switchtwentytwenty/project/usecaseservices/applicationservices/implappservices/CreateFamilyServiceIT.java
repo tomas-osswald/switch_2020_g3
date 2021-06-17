@@ -7,7 +7,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.authentication.JWTUserDetailsService;
+import switchtwentytwenty.project.authentication.UserDao;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
@@ -60,6 +63,15 @@ class CreateFamilyServiceIT {
     @InjectMocks
     PersonRepository personRepository;
 
+    @Mock
+    PasswordEncoder passwordEncoder;
+
+    @Mock
+    UserDao userDao;
+
+    @InjectMocks
+    JWTUserDetailsService jwtUserDetailsService;
+
     @Autowired
     PersonDTODomainAssembler personDTODomainAssembler;
     @Autowired
@@ -75,8 +87,10 @@ class CreateFamilyServiceIT {
     final String VALIDZIPCODE = "4700-111";
     final String VALIDADDRESSNUMBER = "69B";
     final String VALIDBIRTHDATE = "01/03/1990";
+    final String PASSWORD = "password";
+
     InputPersonDTO inputPersonDTO = new InputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, VALIDVATNUMBER,
-            VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE);
+            VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE, PASSWORD);
     //
     final String VALID_FAMILY_NAME = "Simpson";
     final String VALID_REGISTRATION_DATE = "01/03/1990";
@@ -113,7 +127,7 @@ class CreateFamilyServiceIT {
         when(personDataDomainAssembler.createAddress(any(PersonJPA.class))).thenReturn(new Address("Rua", "Covilhã", "6200-000", "1"));
         when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(new FamilyID("email@here.com"));
 
-        createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
+        createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler, jwtUserDetailsService);
 
         assertDoesNotThrow(() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
     }
@@ -130,10 +144,10 @@ class CreateFamilyServiceIT {
         when(personDataDomainAssembler.toData(any(Person.class))).thenReturn(new PersonJPA());
         when(iPersonRepositoryJPA.save(any(PersonJPA.class))).thenReturn(new PersonJPA());
 
-        createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler);
+        createFamilyService = new CreateFamilyService(personRepository, familyRepository, personDTODomainAssembler, familyDTODomainAssembler, jwtUserDetailsService);
 
         InputPersonDTO invalidInputPersonDTO = new InputPersonDTO(VALIDEMAIL, "", VALIDBIRTHDATE, VALIDVATNUMBER,
-                VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE);
+                VALIDPHONENUMBER, VALIDSTREET, VALIDCITY, VALIDADDRESSNUMBER, VALIDZIPCODE, PASSWORD);
 
         assertThrows(InvalidNameException.class, () -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, invalidInputPersonDTO));
     }

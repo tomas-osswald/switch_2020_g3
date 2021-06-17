@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const URL_API = 'http://localhost:8080';
 
-export function authenticateWS(success,failure,userDetails){
+export function authenticateWS(success, failure, userDetails) {
 
     axios.post(`${URL_API}/authenticate`, JSON.stringify(userDetails), {
         headers: {
@@ -20,12 +20,12 @@ export function authenticateWS(success,failure,userDetails){
         });
 }
 
-export function fetchProfileFromLogin(success, failure, id,jwt) {
-    let authorizationHeader = "Bearer " + jwt;
-    fetch(`${URL_API}/people/${id}`,{
+export function fetchProfileFromLogin(success, failure, id, jwt) {
+    const authorizationHeader = `Bearer ${jwt}`;
+    fetch(`${URL_API}/people/${id}`, {
         headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Authorization': authorizationHeader
+            //'Access-Control-Allow-Origin': '*',
+            Authorization: authorizationHeader
         }
     })
         .then((res) => {
@@ -38,10 +38,10 @@ export function fetchProfileFromLogin(success, failure, id,jwt) {
         })
 }
 
-export function fetchProfileFromWS(success, failure, id,jwt) {
-  //  let authorizationHeader = "'Bearer " + jwt + "'";
+export function fetchProfileFromWS(success, failure, id, jwt) {
+    //  let authorizationHeader = "'Bearer " + jwt + "'";
     let authorizationHeader = "Bearer " + jwt;
-    axios.get(`${URL_API}/people/${id}`,{
+    axios.get(`${URL_API}/people/${id}`, {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Authorization': authorizationHeader
@@ -59,12 +59,16 @@ export function fetchProfileFromWS(success, failure, id,jwt) {
     ;
 }
 
-export function familyNameGlobal(success, failure, familyId,jwt) {
+export function familyNameGlobal(success, failure, familyId, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     const requestOptions = {
-        headers: { 'Access-Control-Allow-Origin': '*','Content-Type': 'application/json','Authorization': authorizationHeader },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': authorizationHeader
+        },
     }
-    fetch(`${URL_API}/families/${familyId}`,requestOptions)
+    fetch(`${URL_API}/families/${familyId}`, requestOptions)
         .then((res) => {
             console.log(res);
             return res.json()
@@ -79,7 +83,7 @@ export function familyNameGlobal(success, failure, familyId,jwt) {
     ;
 }
 
-export function addRelation(success, failure, createRelationDTO, familyID,jwt) {
+export function addRelation(success, failure, createRelationDTO, familyID, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     axios.post(`${URL_API}/families/${familyID}/relations`, JSON.stringify(createRelationDTO), {
         headers: {
@@ -101,9 +105,13 @@ export function addRelation(success, failure, createRelationDTO, familyID,jwt) {
 export function familyRelationsFA(success, failure, familyId, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     const requestOptions = {
-        headers: { 'Access-Control-Allow-Origin': '*','Content-Type': 'application/json','Authorization': authorizationHeader },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': authorizationHeader
+        },
     }
-    fetch(`${URL_API}/families/${familyId}/relations`,requestOptions)
+    fetch(`${URL_API}/families/${familyId}/relations`, requestOptions)
         .then((res) => {
             console.log(res);
             return res.json()
@@ -119,9 +127,15 @@ export function familyRelationsFA(success, failure, familyId, jwt) {
     ;
 }
 
-export function createFamilySMService(success, failure, createFamily,jwt) {
+export function createFamilySMService(success, failure, createFamily, jwt) {
     let authorizationHeader = "Bearer " + jwt;
-    axios.post(`${URL_API}/families`, JSON.stringify(createFamily), {headers: {'Access-Control-Allow-Origin': '*','Content-Type': 'application/json','Authorization': authorizationHeader}})
+    axios.post(`${URL_API}/families`, JSON.stringify(createFamily), {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': authorizationHeader
+        }
+    })
         .then((response) => {
             success(response)
         })
@@ -135,8 +149,14 @@ export function createFamilySMService(success, failure, createFamily,jwt) {
  * Landing Page
  */
 export function fetchNameWS(success, failure, id, jwt) {
-    let authorizationHeader = "Bearer " + jwt;
-    axios.get(`${URL_API}/people/${id}`,{headers: {'Access-Control-Allow-Origin': '*','Authorization': authorizationHeader}})
+    //const authorizationHeader = `Bearer ${jwt};
+    axios.get(`${URL_API}/people/${id}`, {
+        headers: {
+            //'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + jwt
+        }
+    })
         .then((response) => {
             success(response)
         })
@@ -145,17 +165,21 @@ export function fetchNameWS(success, failure, id, jwt) {
         });
 }
 
-export function addInputedEmailToFamilyMember(success, failure, id, email, jwt){
+export function addInputedEmailToFamilyMember(success, failure, id, email, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     const requestOptions = {
         method: 'POST',
-        headers: { 'Access-Control-Allow-Origin': '*','Content-Type': 'application/json','Authorization': authorizationHeader },
-        body: JSON.stringify({ email: email })
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': authorizationHeader
+        },
+        body: JSON.stringify({email: email})
     }
 
     fetch(`${URL_API}/people/${id}/emails`, requestOptions)
         .then(response => response.json())
-        .then(response =>success(response))
+        .then(response => success(response))
         .catch(error => failure(error.message))
     ;
 }
@@ -164,7 +188,7 @@ export function addInputedEmailToFamilyMember(success, failure, id, email, jwt){
  * Add New Member
  * **/
 
-export function postNewMember(success, failure, addNewMember, jwt){
+export function postNewMember(success, failure, addNewMember, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {
         headers: {
@@ -177,7 +201,7 @@ export function postNewMember(success, failure, addNewMember, jwt){
             success(response)
             console.log(response)
         })
-        .catch((err)=>{
+        .catch((err) => {
             failure(err)
             console.log(err)
         });

@@ -13,12 +13,13 @@ public class InputPersonDTO implements IInputPersonDTO {
     private final String city;
     private final String houseNumber;
     private final String zipCode;
+    private final String password;
 
 
     // Partimos do pressuposto que quem está a usar esta funcionalidade tem autenticação efetuada corretamente.
     // O userID vem na mesma no megaDTO externo mas é extraído à parte para obter a family e este não fica "poluído"(João Pinto).
 
-    public InputPersonDTO(String emailID, String name, String birthDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode) {
+    public InputPersonDTO(String emailID, String name, String birthDate, int vatNumber, Integer phone, String street, String city, String houseNumber, String zipCode, String password) {
 
         this.emailID = emailID;
         this.name = name;
@@ -29,6 +30,7 @@ public class InputPersonDTO implements IInputPersonDTO {
         this.city = city;
         this.houseNumber = houseNumber;
         this.zipCode = zipCode;
+        this.password = password;
 
     }
 
@@ -68,16 +70,18 @@ public class InputPersonDTO implements IInputPersonDTO {
         return this.zipCode;
     }
 
+    public String unpackPassword() { return this.password; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InputPersonDTO that = (InputPersonDTO) o;
-        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode);
+        return vatNumber == that.vatNumber && emailID.equals(that.emailID) && name.equals(that.name) && birthDate.equals(that.birthDate) && Objects.equals(phone, that.phone) && street.equals(that.street) && city.equals(that.city) && houseNumber.equals(that.houseNumber) && zipCode.equals(that.zipCode) && password.equals(that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode);
+        return Objects.hash(emailID, name, birthDate, vatNumber, phone, street, city, houseNumber, zipCode, password);
     }
 }

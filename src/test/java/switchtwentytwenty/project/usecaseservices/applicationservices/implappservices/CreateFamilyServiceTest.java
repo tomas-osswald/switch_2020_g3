@@ -7,6 +7,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import switchtwentytwenty.project.authentication.DAOUser;
+import switchtwentytwenty.project.authentication.JWTUserDetailsService;
+import switchtwentytwenty.project.authentication.UserDTO;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -34,6 +37,9 @@ class CreateFamilyServiceTest {
     IPersonRepository personRepository;
 
     @Mock
+    JWTUserDetailsService jwtUserDetailsService;
+
+    @Mock
     PersonDTODomainAssembler personDTODomainAssembler;
 
     @Mock
@@ -44,6 +50,9 @@ class CreateFamilyServiceTest {
 
     @Mock
     Family family;
+
+    @Mock
+    DAOUser daoUser;
 
     @Mock
     InputFamilyDTO inputFamilyDTO;
@@ -93,6 +102,7 @@ class CreateFamilyServiceTest {
         Mockito.when(familyDTODomainAssembler.createRegistrationDate(any(InputFamilyDTO.class))).thenReturn(new RegistrationDate("12/12/1222"));
         Mockito.when(personRepository.add(any(Person.class))).thenReturn(admin);
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
+        Mockito.when(jwtUserDetailsService.save(any(UserDTO.class))).thenReturn(daoUser);
         OutputFamilyDTO outputFamilyDTOexpected = new OutputFamilyDTO(familyName,familyID,adminID,registrationDate);
         Mockito.when(familyDTODomainAssembler.toOutputFamilyDTO(any(Family.class))).thenReturn(outputFamilyDTOexpected);
 
