@@ -8,6 +8,7 @@ import org.springframework.test.context.TestPropertySource;
 import switchtwentytwenty.project.dto.accounts.CreateAccountDTO;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
 import switchtwentytwenty.project.dto.person.AddEmailDTO;
 import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
@@ -15,6 +16,7 @@ import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IAcc
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.ICategoryRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
+
 import java.math.BigDecimal;
 
 
@@ -29,6 +31,7 @@ FFMSpringBootApplication {
     private static final String CIDADE = "Cidade do Zexo";
     private static final String CASA = "69 Esquerdo";
     private static final String ZIP = "1234-123";
+    private static final String TONYZEFAMILYID = "@tonyze@latinlover.com";
 
     public static void main(String[] args) {
         SpringApplication.run(FFMSpringBootApplication.class, args);
@@ -48,6 +51,7 @@ FFMSpringBootApplication {
             CreateRelationDTO relationKatiaRaimundo = new CreateRelationDTO(KATIA_VANESSA_EMAIL, RAIMUNDO_EMAIL, "Mother");
             CreateCategoryDTO categoryCrypto = new CreateCategoryDTO("G3 Crypto", null);
             CreateCategoryDTO categoryBeer = new CreateCategoryDTO("G3 Beer", null);
+            ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("relacaoNova");
 
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO1);
             familyRESTController.createFamilyAndSetAdmin(addFamilyAndSetAdminDTO2);
@@ -58,8 +62,9 @@ FFMSpringBootApplication {
             personRESTController.addEmail(new AddEmailDTO("tonytony@yahoo.com"), TONY_ZE_EMAIL);
             iAccountRESTController.createAccount(vanessaAccount);
             iAccountRESTController.createAccount(tonyaccount);
-            familyRESTController.createRelation(relationTonyKatia, "@tonyze@latinlover.com");
-            familyRESTController.createRelation(relationKatiaRaimundo, "@tonyze@latinlover.com");
+            familyRESTController.createRelation(relationTonyKatia, TONYZEFAMILYID);
+            familyRESTController.createRelation(relationKatiaRaimundo, TONYZEFAMILYID);
+            //familyRESTController.changeRelation(changeRelationDTO, TONYZEFAMILYID,"-1574017441");
 
 
         };

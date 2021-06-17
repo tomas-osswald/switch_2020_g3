@@ -22,6 +22,7 @@ function AddMember() {
     const [city, setCity] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
     const [zipCode, setZipCode] = useState('');
+    const [password, setPassword] = useState('');
 
     /*
     useEffect( ()=> {
@@ -42,6 +43,7 @@ function AddMember() {
             city: city,
             houseNumber: houseNumber,
             zipCode: zipCode,
+            password: password
         }
         addNewMember(dispatch, newMember, jwt.jwt);
         dispatch(changeView('family'));
@@ -56,6 +58,12 @@ function AddMember() {
                     <Form.Label>Email address</Form.Label>
                     <br></br>
                     <Form.Control className="addMember-input" type="email" placeholder="Enter email" onChange={emailID => setEmailID(emailID.target.value)}/>
+                </Form.Group>
+
+                <Form.Group controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <br></br>
+                    <Form.Control className="addMember-input" type="text" placeholder="Enter password" onChange={password => setPassword(password.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="name">
