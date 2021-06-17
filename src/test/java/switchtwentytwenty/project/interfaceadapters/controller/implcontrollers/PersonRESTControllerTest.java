@@ -326,7 +326,7 @@ class PersonRESTControllerTest {
     }
 
     @Test
-    void removeEmailAddress() {
+    void removeEmailAddressDifferentListsExpectingNotEquals() {
         String emailOne = "tonyze@trump.com";
         String emailTwo = "tony@songoku.pt";
         String emailToRemove = "emailtoremove@clix.pt";
@@ -347,6 +347,32 @@ class PersonRESTControllerTest {
         ResponseEntity result = personRESTController.removeEmailAddress(emailToRemove, personID);
 
         assertNotEquals(expected, result);
+
+    }
+
+    @Test
+    void removeEmailAddressTestExceptionCatch() {
+        String emailOne = "tonyze@trump.com";
+        String emailTwo = "tony@songoku.pt";
+        String emailToRemove = "emailtoremove@clix.pt";
+        List<String> emailList = new ArrayList<>();
+        emailList.add(emailOne);
+        emailList.add(emailTwo);
+        emailList.add(emailToRemove);
+        String personID = "tony@personid.com";
+
+        InputRemoveEmailDTO inputRemoveEmailDTO = new InputRemoveEmailDTO(emailToRemove, personID);
+        OutputRemoveEmailDTO outputRemoveEmailDTO = new OutputRemoveEmailDTO();
+        outputRemoveEmailDTO.setEmailAddresses(emailList);
+
+        when(mockPersonInputDTOAssembler.toInputRemoveEmail(emailToRemove, personID)).thenReturn(inputRemoveEmailDTO);
+        when(mockRemoveEmailService.removeEmail(inputRemoveEmailDTO)).thenThrow(new IllegalStateException("Email is not registered to any person"));
+
+        //assertThrows(EmailNotRegisteredException.class, () -> {personRESTController.removeEmailAddress(emailToRemove, personID);});
+        ResponseEntity expected = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.NOT_MODIFIED);
+        ResponseEntity result = personRESTController.removeEmailAddress(emailToRemove, personID);
+
+        assertEquals(expected.getBody(), result.getBody());
 
     }
 
