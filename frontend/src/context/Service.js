@@ -3,6 +3,9 @@ import axios from "axios";
 
 export const URL_API = 'http://localhost:8080';
 
+
+
+
 export function authenticateWS(success, failure, userDetails) {
 
     axios.post(`${URL_API}/authenticate`, JSON.stringify(userDetails), {
@@ -82,7 +85,23 @@ export function familyNameGlobal(success, failure, familyId, jwt) {
         })
     ;
 }
-
+export function changeRelation(success,failure,newRelation,relationID,family_id,jwt){
+    let authorizationHeader = "Bearer " + jwt;
+    axios.patch(`${URL_API}/families/${family_id}/relations/${relationID}`, JSON.stringify(newRelation),{
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': authorizationHeader
+        }
+    })
+        .then((response) => {
+            success(response)
+        })
+        .catch((err) => {
+            failure(err)
+            console.log(err)
+        });
+}
 export function addRelation(success, failure, createRelationDTO, familyID, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     axios.post(`${URL_API}/families/${familyID}/relations`, JSON.stringify(createRelationDTO), {

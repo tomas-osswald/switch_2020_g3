@@ -12,9 +12,9 @@ import java.util.Objects;
 public class SecurityUser implements UserDetails {
     //String ROLE_PREFIX = "ROLE_";
 
-    String userName;
-    String password;
-    String role;
+    private String userName;
+    private String password;
+    private String role;
 
     public SecurityUser(String username, String password, String role) {
         this.userName = username;
