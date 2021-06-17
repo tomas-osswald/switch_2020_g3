@@ -74,7 +74,7 @@ public class PersonRESTController implements IPersonRESTController {
         try {
             outputRemoveEmailDTO = removeEmailService.removeEmail(inputRemoveEmailDTO);
             return new ResponseEntity<>(outputRemoveEmailDTO, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             return new ResponseEntity<>(ERROR + e.getMessage(), HttpStatus.NOT_MODIFIED);
         }
     }

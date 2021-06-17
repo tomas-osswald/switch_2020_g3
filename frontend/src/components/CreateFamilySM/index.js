@@ -34,6 +34,7 @@ export default function CreateFamilySM() {
     const [city, setCity] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
     const [zipCode, setZipCode] = useState('');
+    const [password, setPassword] = useState('');
     const [familyName, setFamilyName] = useState('');
     const [registrationDate, setRegistrationDate] = useState('');
 
@@ -51,7 +52,7 @@ export default function CreateFamilySM() {
             emailID: emailID,
             name: name,
             birthDate: birthDate, vatNumber: vatNumber, phone: phone, street: street,
-            city: city, houseNumber: houseNumber, zipCode: zipCode, familyName: familyName,
+            city: city, houseNumber: houseNumber, zipCode: zipCode, password: password, familyName: familyName,
             registrationDate: registrationDate
         }
         createFamilySM(dispatch, createFamily,jwt.jwt)
@@ -81,6 +82,7 @@ export default function CreateFamilySM() {
         setCity('');
         setHouseNumber('');
         setZipCode('');
+        setPassword('')
         setFamilyName('');
         setRegistrationDate('');
     }
@@ -97,6 +99,13 @@ export default function CreateFamilySM() {
                         <br></br>
                         <FormControl className="createfamily-input" type="text" placeholder="Insert email here"
                                      onChange={emailID => setEmailID(emailID.target.value)}/>
+                    </FormGroup>
+
+                    <FormGroup controlId="password">
+                        <FormLabel className="font-class">Password: </FormLabel>
+                        <br></br>
+                        <FormControl className="createfamily-input" type="text" placeholder="Insert password here"
+                                     onChange={password => setPassword(password.target.value)}/>
                     </FormGroup>
 
                     <FormGroup controlId="adminName">
