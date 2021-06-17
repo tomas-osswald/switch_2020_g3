@@ -5,7 +5,19 @@
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 20px;
 }
+.editButton {
+    background-color: transparent;
+    border: none; /* Remove borders */
+    color: black; /* White text */
+    padding: 5px 5px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
 
+/* Darker background on mouse-over */
+.editButton:hover {
+    background-color: gray;
+}
 .check-relations{
     grid-column-start: 1;
     grid-column-end: 2;

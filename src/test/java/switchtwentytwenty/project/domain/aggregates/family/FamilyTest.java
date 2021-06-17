@@ -445,4 +445,10 @@ class FamilyTest {
         assertDoesNotThrow(() -> family.setRelations(expected));
 
     }
+
+    @Test
+    void noArgsConstructorTest() {
+        Family family = new Family();
+        assertNotNull(family);
+    }
 }

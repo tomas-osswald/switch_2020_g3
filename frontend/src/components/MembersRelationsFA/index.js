@@ -2,7 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 import '../../styles/global.css';
 import '../../styles/memberRelations.css';
-import {changeRefresh, changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {
+    changeRefresh,
+    changeView,
+    changeViewToEditRelation,
+    fetchFamilyRelationsFA,
+    postNewRelation
+} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {MembersRelationsFADiv, RelationsList} from "./MembersRelationsFAElements";
 
@@ -18,7 +24,7 @@ function MembersRelationsFA() {
     const [display, setDisplay] = useState(false)
     const [editRelation, setEditRelation] = useState(false)
     const {family_id} = landingPage;
-    const [relationID, setRelationID] = useState("")
+    //const [relationID, setRelationID] = useState("")
 
     /*const [refreshVariable, setrefreshVariable] = useState(false);
 
@@ -61,6 +67,11 @@ function MembersRelationsFA() {
         dispatch(changeView(value))
     }
 
+    function editRelationBegin(memberOneID, memberTwoID) {
+        let relationID = findRelationID(memberOneID, memberTwoID);
+        dispatch(changeViewToEditRelation("changeRelation", relationID))
+    }
+
 
     function displayRole(index) {
         let tableRole = '';
@@ -72,22 +83,21 @@ function MembersRelationsFA() {
         return tableRole;
     }
 
-    function handleRelationSubmit(relationID) {
-        setRelationID(relationID);
-        setEditRelation(true);
-    }
 
     function findRelationID(memberOneID, memberTwoID) {
-        return familyMemberAndRelationsDTO.map((personDTO) => {
+        let returnValue = '';
+        familyMemberAndRelationsDTO.map((personDTO) => {
             if (memberOneID === personDTO.personID) {
-                return personDTO.relations.map((relation) => {
+                personDTO.relations.map((relation) => {
                     if (relation.memberTwoID == memberTwoID) {
-                        return relation.relationID;
+                        returnValue = relation.relationID;
                     }
                 })
             }
         })
+        return returnValue;
     }
+
 
     function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
@@ -95,7 +105,9 @@ function MembersRelationsFA() {
                 return (
                     <div className="relation-row" key={relationsIndex}>
                         <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}
-                            <button onClick={findRelationID(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>                            <button className="editButton"
+                                    onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
                         </td>
                         <td></td>
