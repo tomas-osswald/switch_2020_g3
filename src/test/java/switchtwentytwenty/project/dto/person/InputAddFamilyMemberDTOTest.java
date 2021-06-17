@@ -21,6 +21,7 @@ class InputAddFamilyMemberDTOTest {
         inputAddFamilyMemberDTO1.setCity("City");
         inputAddFamilyMemberDTO1.setHouseNumber("1");
         inputAddFamilyMemberDTO1.setZipCode("1234-123");
+        inputAddFamilyMemberDTO1.setPassword("password");
 
         inputAddFamilyMemberDTOSameas1.setAdminID("admin@email.com");
         inputAddFamilyMemberDTOSameas1.setAdminID("user@email.com");
@@ -32,6 +33,7 @@ class InputAddFamilyMemberDTOTest {
         inputAddFamilyMemberDTOSameas1.setCity("City");
         inputAddFamilyMemberDTOSameas1.setHouseNumber("1");
         inputAddFamilyMemberDTOSameas1.setZipCode("1234-123");
+        inputAddFamilyMemberDTOSameas1.setPassword("password");
 
     }
 
@@ -118,6 +120,13 @@ class InputAddFamilyMemberDTOTest {
     @DisplayName("Should return false if two different (ZipCode) InputAddFamilyMemberDTO objects are compared")
     void testEqualsTheyAreNotEqualZipCode() {
         inputAddFamilyMemberDTOSameas1.setZipCode("Name");
+        Assertions.assertNotEquals(inputAddFamilyMemberDTO1, inputAddFamilyMemberDTOSameas1);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different (Password) InputAddFamilyMemberDTO objects are compared")
+    void testEqualsTheyAreNotEqualPassword() {
+        inputAddFamilyMemberDTOSameas1.setPassword("other");
         Assertions.assertNotEquals(inputAddFamilyMemberDTO1, inputAddFamilyMemberDTOSameas1);
     }
 
