@@ -7,6 +7,14 @@ public class UserDTO {
     private String password;
     private String role;
 
+    public UserDTO(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public UserDTO(){}
+
     public String getUsername() {
         return username;
     }

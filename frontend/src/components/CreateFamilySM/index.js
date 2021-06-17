@@ -101,10 +101,10 @@ export default function CreateFamilySM() {
                                      onChange={emailID => setEmailID(emailID.target.value)}/>
                     </FormGroup>
 
-                    <FormGroup controlId="password">
+                    <FormGroup controlId="emailID">
                         <FormLabel className="font-class">Password: </FormLabel>
                         <br></br>
-                        <FormControl className="createfamily-input" type="text" placeholder="Insert password here"
+                        <FormControl className="createfamily-input" type="password" placeholder="Insert password here"
                                      onChange={password => setPassword(password.target.value)}/>
                     </FormGroup>
 
