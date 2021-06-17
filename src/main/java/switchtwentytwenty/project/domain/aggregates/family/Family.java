@@ -2,6 +2,7 @@ package switchtwentytwenty.project.domain.aggregates.family;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import switchtwentytwenty.project.domain.aggregates.AggregateRoot;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
+@NoArgsConstructor
 public class Family implements AggregateRoot<FamilyID> {
 
     private FamilyID id;
