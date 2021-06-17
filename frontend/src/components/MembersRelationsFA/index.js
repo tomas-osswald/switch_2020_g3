@@ -105,8 +105,10 @@ function MembersRelationsFA() {
                 return (
                     <div className="relation-row" key={relationsIndex}>
                         <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}
-                            <button
-                                onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                            <button className="editButton"
+                                    onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
                         </td>
                         <td></td>
