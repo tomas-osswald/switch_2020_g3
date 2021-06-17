@@ -40,6 +40,7 @@ function Profile() {
 
     function handleDelete(email) {
         deleteEmail(dispatch, email, jwt.jwt);
+        console.log(email);
     }
 
 
@@ -47,7 +48,7 @@ function Profile() {
         const emailList = profileData.emails.map((email, index) => <div className="font-class button-grid">
             <p className="info">{index} {email}</p>
             <div className="button-profile-alignment">
-                <button className="button-one-small button-profile-alignment" onClick={(email) => handleDelete(email)}>delete
+                <button className="button-one-small button-profile-alignment" onClick={({email}) => handleDelete({email})}>delete
                 </button>
             </div>
         </div>)
