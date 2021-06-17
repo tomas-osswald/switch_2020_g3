@@ -12,18 +12,21 @@ class InputRemoveEmailDTOTest {
     String emailTwo = "votorino@gmail.com";
     String personIDTwo = "votorino@hotmail.com";
 
+    @DisplayName("Get email")
     @Test
     void getEmail() {
         InputRemoveEmailDTO dto = new InputRemoveEmailDTO(email, personID);
         assertEquals(dto.getEmail(), email);
     }
 
+    @DisplayName("Get personID")
     @Test
     void getPersonID() {
         InputRemoveEmailDTO dto = new InputRemoveEmailDTO(email, personID);
         assertEquals(dto.getPersonID(), personID);
     }
 
+    @DisplayName("Set email")
     @Test
     void setEmail() {
         InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
@@ -35,6 +38,7 @@ class InputRemoveEmailDTOTest {
         assertNotSame(dtoOne, dtoTwo);
     }
 
+    @DisplayName("Set personID")
     @Test
     void setPersonID() {
         InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
@@ -46,8 +50,9 @@ class InputRemoveEmailDTOTest {
         assertNotSame(dtoOne, dtoTwo);
     }
 
+    @DisplayName("Different Objects, same arguments")
     @Test
-    void testEquals() {
+    void testEqualsSameArguments() {
         InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
         dtoOne.setPersonID(personIDTwo);
         dtoOne.setEmail(emailTwo);
@@ -59,6 +64,43 @@ class InputRemoveEmailDTOTest {
         assertNotSame(dtoOne, dtoTwo);
     }
 
+    @DisplayName("Same Object")
+    @Test
+    void testEqualsSameObject() {
+        InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
+        dtoOne.setPersonID(personIDTwo);
+        dtoOne.setEmail(emailTwo);
+        InputRemoveEmailDTO dtoTwo = dtoOne;
+
+        assertEquals(dtoOne, dtoTwo);
+        assertSame(dtoOne, dtoTwo);
+    }
+
+    @DisplayName("Different Objects, one of them is null")
+    @Test
+    void testEqualsObjectNull() {
+        InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
+        dtoOne.setPersonID(personIDTwo);
+        dtoOne.setEmail(emailTwo);
+        InputRemoveEmailDTO dtoTwo = null;
+
+        assertNotEquals(dtoOne, dtoTwo);
+        assertNotSame(dtoOne, dtoTwo);
+    }
+
+    @DisplayName("Different Objects class")
+    @Test
+    void testEqualsDifferentObjectClass() {
+        InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
+        dtoOne.setPersonID(personIDTwo);
+        dtoOne.setEmail(emailTwo);
+        String dtoTwo = "zemanel@gmail.com";
+
+        assertNotEquals(dtoOne, dtoTwo);
+        assertNotSame(dtoOne, dtoTwo);
+    }
+
+    @DisplayName("Different Objects, different personID")
     @Test
     void testNotEqualsDifferentPersonID() {
         InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
@@ -72,6 +114,7 @@ class InputRemoveEmailDTOTest {
         assertNotSame(dtoOne, dtoTwo);
     }
 
+    @DisplayName("Different Objects, different email")
     @Test
     void testNotEqualsDifferentEmail() {
         InputRemoveEmailDTO dtoOne = new InputRemoveEmailDTO();
