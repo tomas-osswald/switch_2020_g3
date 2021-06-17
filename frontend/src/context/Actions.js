@@ -1,6 +1,7 @@
 import {
     addInputedEmailToFamilyMember,
     addRelation,
+    authenticateWS, changeRelation,
     createFamilySMService,
     familyNameGlobal,
     familyRelationsFA,
@@ -8,7 +9,7 @@ import {
     fetchProfileFromLogin,
     fetchProfileFromWS,
     postNewMember,
-    authenticateWS
+    deleteEmailFMService
 } from './Service'
 import jwt_decode from "jwt-decode";
 
@@ -46,6 +47,10 @@ export const CHANGE_REFRESH = "CHANGE_REFRESH";
 export const AUTHENTICATION_STARTED = "AUTHENTICATION_STARTED";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
 export const AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
+export const DELETE_EMAIL_STARTED = "DELETE_EMAIL_STARTED";
+export const DELETE_EMAIL_SUCCESS = "DELETE_EMAIL_SUCCESS";
+export const DELETE_EMAIL_FAILURE = "DELETE_EMAIL_FAILURE";
+export const CHANGE_VIEW_RELATION = "CHANGE_VIEW_RELATION";
 
 
 // export const ADD_EMAIL = 'ADD_EMAIL';
@@ -62,7 +67,7 @@ export function authenticate(dispatch, userDetails) {
     authenticateWS((res) => dispatch(authenticateSuccess(res)), (err) => dispatch(authenticateFailure(err.message)), userDetails);
 }
 
-export function authenticateStarted(){
+export function authenticateStarted() {
     return {
         type: AUTHENTICATION_STARTED
     }
@@ -76,7 +81,7 @@ export function authenticateSuccess(jwt) {
         type: AUTHENTICATION_SUCCESS,
         payload: {
             data: jwt.data.token,
-                id: decoded.id,
+                id: decoded.sub,
                 role: decoded.role
         }
     }
@@ -111,6 +116,16 @@ export function changeView(value) {
         type: CHANGE_VIEW,
         payload: {
             mainView: value
+        }
+    }
+}
+
+export function changeViewToEditRelation(value, relationID) {
+    return {
+        type: CHANGE_VIEW_RELATION,
+        payload: {
+            mainView: value,
+            relationID: relationID
         }
     }
 }
@@ -389,6 +404,37 @@ export function addNewMember(dispatch, newMember, jwt) {
 
 }
 
+export function changeRelationAction(dispatch, newRelation, relationID, family_id, jwt) {
+    dispatch(changeRelationStart())
+    changeRelation((response) => dispatch(changeRelationSuccess(response)), (err) => dispatch(changeRelationFailure(err.message)), newRelation, relationID, family_id, jwt)
+
+}
+
+export const CHANGE_RELATION_START = 'CHANGE_RELATION_START';
+
+export function changeRelationStart() {
+    return {
+        type: CHANGE_RELATION_START,
+    }
+}
+
+export const CHANGE_RELATION_SUCCESS = 'CHANGE_RELATION_SUCCESS';
+
+export function changeRelationSuccess(newMember) {
+    return {
+        type: CHANGE_RELATION_SUCCESS,
+    }
+}
+
+export const CHANGE_RELATION_FAILURE = 'CHANGE_RELATION_FAILURE';
+
+export function changeRelationFailure(error) {
+    return {
+        type: CHANGE_RELATION_FAILURE,
+        payload: error
+    }
+}
+
 export function addNewMemberStart() {
     return {
         type: ADD_NEW_MEMBER_START,
@@ -407,3 +453,28 @@ export function addNewMemberFailure(error) {
         payload: error
     }
 }
+
+
+export function deleteEmail(dispatch, email, jwt) {
+    dispatch(deleteEmailStarted())
+    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err)),email, jwt )}
+
+export function deleteEmailStarted(){
+    return{
+        type: DELETE_EMAIL_STARTED
+    }
+}
+export function deleteEmailSuccess(outputRemoveEmailDTO){
+    return{
+        type: DELETE_EMAIL_SUCCESS,
+        payload: outputRemoveEmailDTO
+    }
+}
+
+export function deleteEmailFailure(error){
+    return{
+        type: DELETE_EMAIL_FAILURE,
+        payload: error
+    }
+}
+

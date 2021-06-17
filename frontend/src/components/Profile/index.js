@@ -1,8 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
-import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
+import {addEmailToFamilyMember, fetchProfile, postNewRelation, deleteEmail} from "../../context/Actions";
 import Loading from "../Loading";
-import '../../styles/profile.css'
+import '../../styles/profile.css';
+import '../../styles/global.css';
 
 function Profile() {
     const {state, dispatch} = useContext(AppContext);
@@ -24,21 +25,32 @@ function Profile() {
 
 
     function addEmails() {
-        addEmailToFamilyMember(dispatch,id,email, jwt.jwt);
+        addEmailToFamilyMember(dispatch, id, email, jwt.jwt);
     }
 
-    function handleSubmit(){
-        if(email == null || email === "") {
+    function handleSubmit() {
+        if (email == null || email === "") {
             setRefresh(false);
-            } else {
+        } else {
             addEmails();
             setRefresh(true);
         }
 
     }
 
+    function handleDelete(email) {
+        deleteEmail(dispatch, email, jwt.jwt);
+    }
+
+
     function EmailsList() {
-        const emailList = profileData.emails.map(email => <p className="info">{email}</p>)
+        const emailList = profileData.emails.map((email, index) => <div className="font-class button-grid">
+            <p className="info">{index} {email}</p>
+            <div className="button-profile-alignment">
+                <button className="button-one-small button-profile-alignment" onClick={handleDelete({email})}>delete
+                </button>
+            </div>
+        </div>)
         return <div>{emailList}</div>
     }
 
@@ -85,9 +97,13 @@ function Profile() {
                             <div className="column-right">
                                 <div>
                                     {EmailsList()}
-                                    <div>
-                                        <input className="input-email" type="text" id="email" onChange={email => setEmail(email.target.value)} required/>
-                                        <button className="addbutton" onClick={handleSubmit}>Add email</button>
+                                    <div className="button-grid">
+                                        <input className="input-email" type="text" id="email"
+                                               onChange={email => setEmail(email.target.value)} required/>
+                                        <div className="button-profile-alignment">
+                                            <button className="button-one-small" onClick={handleSubmit}>Add email
+                                            </button>
+                                        </div>
 
                                     </div>
 

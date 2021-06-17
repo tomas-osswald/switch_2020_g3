@@ -30,7 +30,7 @@ class JWTokenUtilTest {
         daoUser.setPassword(password);
         daoUser.setRole(role);
 
-        UserDetails userDetails = new User(daoUser.getUsername(), daoUser.getPassword(), new ArrayList<>());
+        UserDetails userDetails = new SecurityUser(daoUser.getUsername(), daoUser.getPassword(), daoUser.getRole());
 
         String jwtEncryptionExpected = "eyJhbGciOiJIUzUxMiJ9";
 

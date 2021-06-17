@@ -19,13 +19,21 @@ class AddFamilyAndSetAdminDTOTest {
 
     @Test
     @DisplayName("Should return false if two different AddFamilyAndSetAdminDTO objects are compared with the equals method")
+    void testEqualsFailAllDifferent() {
+        AddFamilyAndSetAdminDTO dto1 = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silvaaa", "13/12/1222", 999499999, 919499999, "Ruaaaa", "Cidaaade", "12aB", "4300-123", "passwordaa", "Silvaaa", "12/11/2000");
+        AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
+
+        assertNotEquals(dto1,dto2);
+    }
+
+    @Test
+    @DisplayName("Should return false if two different AddFamilyAndSetAdminDTO objects are compared with the equals method")
     void testEqualsFail() {
         AddFamilyAndSetAdminDTO dto1 = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
         AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
         assertNotEquals(dto1,dto2);
     }
-
     @Test
     void testEqualsFailDifferentNames() {
         AddFamilyAndSetAdminDTO dtoOne = new AddFamilyAndSetAdminDTO("tony@email.com", "Costa", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");

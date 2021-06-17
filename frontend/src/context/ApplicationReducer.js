@@ -12,8 +12,12 @@ import {
     AUTHENTICATION_STARTED,
     AUTHENTICATION_SUCCESS,
     CHANGE_REFRESH,
+    CHANGE_RELATION_FAILURE,
+    CHANGE_RELATION_START,
+    CHANGE_RELATION_SUCCESS,
     CHANGE_USER,
     CHANGE_VIEW,
+    CHANGE_VIEW_RELATION,
     CREATE_FAMILY_FAILURE,
     CREATE_FAMILY_STARTED,
     CREATE_FAMILY_SUCCESS,
@@ -31,7 +35,8 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOADING_LANDING_PAGE_FALSE,
     LOGOUT,
-    UPDATE_NAME
+    UPDATE_NAME,
+    DELETE_EMAIL_STARTED, DELETE_EMAIL_FAILURE, DELETE_EMAIL_SUCCESS
 } from './Actions'
 
 function reducer(state, action) {
@@ -66,11 +71,11 @@ function reducer(state, action) {
                     error: null,
                     jwt: action.payload.data,
                 },
-                /*loggedUser: {
+                loggedUser: {
                     id: action.payload.id,
-                    //role: action.payload.role,
+                    role: action.payload.role,
                     //name: '',
-                },*/
+                }
             }
 
         case AUTHENTICATION_FAILURE:
@@ -79,7 +84,7 @@ function reducer(state, action) {
                 jwt: {
                     loading: false,
                     error: true,
-                    jwt: action.payload.data,
+                    jwt: null,
                 }
             }
 
@@ -359,6 +364,42 @@ function reducer(state, action) {
                 mainView: action.payload.mainView,
             }
 
+        case
+        CHANGE_VIEW_RELATION:
+            return {
+                ...state,
+                mainView: action.payload.mainView,
+                relationID: action.payload.relationID,
+            }
+
+
+        case
+        CHANGE_RELATION_START:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            }
+
+        case CHANGE_RELATION_SUCCESS:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: null,
+                }
+            }
+
+        case CHANGE_RELATION_FAILURE:
+            return {
+                ...state,
+                landingPage: {
+                    loading: false,
+                    error: action.payload,
+                }
+            }
+
+
         case CHANGE_REFRESH:
             return {
                 ...state,
@@ -519,6 +560,28 @@ function reducer(state, action) {
                     loading: false,
                 }
             }
+
+        case DELETE_EMAIL_STARTED:
+            return{
+                ...state
+            }
+
+        case DELETE_EMAIL_SUCCESS:
+            return{
+                ...state,
+                /*profile: {
+                    loading: false,
+                    error: null,
+                    profileData: {
+                        emails: action.payload
+                    }
+                }
+
+                 */
+            }
+
+
+
 
         default:
             return state;
