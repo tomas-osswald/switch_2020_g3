@@ -457,7 +457,7 @@ export function addNewMemberFailure(error) {
 
 export function deleteEmail(dispatch, email, jwt) {
     dispatch(deleteEmailStarted())
-    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err.message())),email, jwt )}
+    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err)),email, jwt )}
 
 export function deleteEmailStarted(){
     return{

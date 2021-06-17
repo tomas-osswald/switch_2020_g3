@@ -569,13 +569,15 @@ function reducer(state, action) {
         case DELETE_EMAIL_SUCCESS:
             return{
                 ...state,
-                profile: {
+                /*profile: {
                     loading: false,
                     error: null,
                     profileData: {
                         emails: action.payload
                     }
                 }
+
+                 */
             }
 
 
