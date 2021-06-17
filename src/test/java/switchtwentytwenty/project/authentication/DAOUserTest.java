@@ -29,6 +29,17 @@ class DAOUserTest {
     }
 
     @Test
+    void setRole() {
+        DAOUser daoUser = new DAOUser();
+        String expected = "systemManager";
+
+        daoUser.setRole("systemManager");
+        String result = daoUser.getRole();
+
+        assertEquals(expected,result);
+    }
+
+    @Test
     void getID() {
         DAOUser daoUser = new DAOUser();
         Long expected = 0L;
