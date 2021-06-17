@@ -69,12 +69,11 @@ public class PersonRESTController implements IPersonRESTController {
     @DeleteMapping(value = "/{personID}/emails/{email}")
     public ResponseEntity<Object> removeEmailAddress( @PathVariable String email, @PathVariable String personID) {
         InputRemoveEmailDTO inputRemoveEmailDTO = personInputDTOAssembler.toInputRemoveEmail(email, personID);
-        HttpStatus status;
         OutputRemoveEmailDTO outputRemoveEmailDTO;
 
         try {
-            removeEmailService.removeEmail(inputRemoveEmailDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            outputRemoveEmailDTO = removeEmailService.removeEmail(inputRemoveEmailDTO);
+            return new ResponseEntity<>(outputRemoveEmailDTO, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(ERROR + e.getMessage(), HttpStatus.NOT_MODIFIED);
         }

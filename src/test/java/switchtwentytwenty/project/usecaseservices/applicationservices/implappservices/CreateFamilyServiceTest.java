@@ -2,9 +2,7 @@ package switchtwentytwenty.project.usecaseservices.applicationservices.implappse
 
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.authentication.DAOUser;
@@ -23,8 +21,10 @@ import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -62,6 +62,9 @@ class CreateFamilyServiceTest {
 
     @InjectMocks
     CreateFamilyService createFamilyService;
+
+    @Captor
+    ArgumentCaptor<UserDTO> captor;
 
     String familyName = "Silva";
     String familyID = "@admin@gmail.com";
@@ -140,5 +143,43 @@ class CreateFamilyServiceTest {
         Mockito.when(familyDTODomainAssembler.toOutputFamilyDTO(any(Family.class))).thenReturn(new OutputFamilyDTO(familyName,familyID,adminID,registrationDate));
 
         assertThrows(PersonAlreadyRegisteredException.class,() -> createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO));
+    }
+
+
+    @Test
+    void captorDAOUser() {
+        Mockito.when(personDTODomainAssembler.createName(any(InputPersonDTO.class))).thenReturn(new Name("Pedro"));
+        Mockito.when(personDTODomainAssembler.createBirthDate(any(InputPersonDTO.class))).thenReturn(new BirthDate("12/12/1222"));
+        Mockito.when(personDTODomainAssembler.createPersonID(any(InputPersonDTO.class))).thenReturn(new PersonID("antoniojose@apreciadordelatinas.com"));
+        Mockito.when(personDTODomainAssembler.createVATNumber(any(InputPersonDTO.class))).thenReturn(new VATNumber(333333333));
+        Mockito.when(personDTODomainAssembler.createPhoneNumber(any(InputPersonDTO.class))).thenReturn(new PhoneNumber(919999999));
+        Mockito.when(personDTODomainAssembler.createAddress(any(InputPersonDTO.class))).thenReturn(new Address("rua","cidade","1234-123","69420"));
+        Mockito.when(inputPersonDTO.unpackPassword()).thenReturn("password");
+
+        Mockito.when(familyDTODomainAssembler.createFamilyName(any(InputFamilyDTO.class))).thenReturn(new FamilyName("Antunes"));
+        Mockito.when(familyDTODomainAssembler.createRegistrationDate(any(InputFamilyDTO.class))).thenReturn(new RegistrationDate("12/12/1222"));
+        Mockito.when(personRepository.add(any(Person.class))).thenReturn(admin);
+        Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family);
+        Mockito.when(jwtUserDetailsService.save(any(UserDTO.class))).thenReturn(daoUser);
+
+        OutputFamilyDTO outputFamilyDTOexpected = new OutputFamilyDTO(familyName,familyID,adminID,registrationDate);
+        Mockito.when(familyDTODomainAssembler.toOutputFamilyDTO(any(Family.class))).thenReturn(outputFamilyDTOexpected);
+
+        createFamilyService.createFamilyAndAddAdmin(inputFamilyDTO, inputPersonDTO);
+
+        verify(jwtUserDetailsService).save(captor.capture());
+
+        UserDTO userDTO = captor.getValue();
+        String expectedUsername = "admin@email.com";
+        String expectedPassword = "password";
+        String expectedRole = "familyAdministrator";
+
+        String resultUsername = userDTO.getUsername();
+        String resultPassowrd = userDTO.getPassword();
+        String resultRole = userDTO.getRole();
+
+        assertEquals(expectedUsername, resultUsername);
+        assertEquals(expectedPassword, resultPassowrd);
+        assertEquals(expectedRole, resultRole);
     }
 }
