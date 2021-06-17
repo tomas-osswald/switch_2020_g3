@@ -53,7 +53,7 @@ class FamilyRepositoryTest {
     String adminEmailJPA = "email@email.com";
     PersonIDJPA adminIDJPA = new PersonIDJPA(adminEmailJPA);
 
-    FamilyIDJPA familyIDJPA = new FamilyIDJPA(UUID.randomUUID().toString());
+    FamilyIDJPA familyIDJPA = new FamilyIDJPA("@admin@gmail.com");
 
     // End FamilyJPA
 
@@ -86,6 +86,7 @@ class FamilyRepositoryTest {
     void captorFindByID() {
         FamilyIDJPA expected = new FamilyIDJPA("@" + emailString);
 
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
 
         familyRepository.getByID(familyID);
@@ -101,6 +102,7 @@ class FamilyRepositoryTest {
     void getByID() {
         Family expected = new Family(familyID, familyName, registrationDate, adminEmail);
 
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(Optional.of(new FamilyJPA()));
         when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(adminEmail);
         when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(familyID);
