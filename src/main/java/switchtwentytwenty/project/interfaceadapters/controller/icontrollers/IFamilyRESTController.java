@@ -5,8 +5,9 @@ import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
-import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.CreateRelationDTO;
+import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
 
 public interface IFamilyRESTController {
 
@@ -17,6 +18,8 @@ public interface IFamilyRESTController {
     ResponseEntity<OptionsDTO> getFamilyOptions(String familyID);
 
     ResponseEntity<Object> createRelation(CreateRelationDTO createRelationDTO, String familyID);
+
+    ResponseEntity<Object> changeRelation(ChangeRelationDTO changeRelationDTO, String familyID, String relationID);
 
     ResponseEntity<OutputFamilyDTO> getFamily(String familyName);
 
