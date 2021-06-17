@@ -66,11 +66,11 @@ function reducer(state, action) {
                     error: null,
                     jwt: action.payload.data,
                 },
-                /*loggedUser: {
+                loggedUser: {
                     id: action.payload.id,
-                    //role: action.payload.role,
+                    role: action.payload.role,
                     //name: '',
-                },*/
+                }
             }
 
         case AUTHENTICATION_FAILURE:
@@ -79,7 +79,7 @@ function reducer(state, action) {
                 jwt: {
                     loading: false,
                     error: true,
-                    jwt: action.payload.data,
+                    jwt: null,
                 }
             }
 

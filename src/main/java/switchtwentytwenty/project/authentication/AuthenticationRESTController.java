@@ -37,7 +37,7 @@ public class AuthenticationRESTController {
 
             return ResponseEntity.ok(new JWTResponse(token));
         } catch (Exception e) {
-            return new ResponseEntity("Error", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
