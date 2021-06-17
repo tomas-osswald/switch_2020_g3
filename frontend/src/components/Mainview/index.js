@@ -42,6 +42,12 @@ function Mainview() {
                 <AddMember/>
             </MainviewDiv>
         )
+    } else if (mainView ==='changeRelation'){
+        return (
+            <MainviewDiv>
+                <AddMember/>
+            </MainviewDiv>
+        )
     }
 
     return (

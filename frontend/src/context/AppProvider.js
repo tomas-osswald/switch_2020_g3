@@ -18,6 +18,8 @@ const initialState = {
 
     mainView: '',
 
+    relationID: '',
+
     jwt: {
         loading: false,
         error: null,

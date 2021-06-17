@@ -2,7 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../context/AppContext";
 import '../../styles/global.css';
 import '../../styles/memberRelations.css';
-import {changeRefresh, changeView, fetchFamilyRelationsFA, postNewRelation} from "../../context/Actions";
+import {
+    changeRefresh,
+    changeView,
+    changeViewToEditRelation,
+    fetchFamilyRelationsFA,
+    postNewRelation
+} from "../../context/Actions";
 import {Button, Table} from 'react-bootstrap';
 import {MembersRelationsFADiv, RelationsList} from "./MembersRelationsFAElements";
 
@@ -18,7 +24,7 @@ function MembersRelationsFA() {
     const [display, setDisplay] = useState(false)
     const [editRelation, setEditRelation] = useState(false)
     const {family_id} = landingPage;
-    const [relationID, setRelationID] = useState("")
+    //const [relationID, setRelationID] = useState("")
 
     /*const [refreshVariable, setrefreshVariable] = useState(false);
 
@@ -61,6 +67,11 @@ function MembersRelationsFA() {
         dispatch(changeView(value))
     }
 
+    function editRelationBegin(memberOneID, memberTwoID) {
+        let relationID = findRelationID(memberOneID, memberTwoID);
+        dispatch(changeViewToEditRelation("changeRelation", relationID))
+    }
+
 
     function displayRole(index) {
         let tableRole = '';
@@ -72,10 +83,6 @@ function MembersRelationsFA() {
         return tableRole;
     }
 
-    function handleRelationSubmit(relationID) {
-        setRelationID(relationID);
-        setEditRelation(true);
-    }
 
     function findRelationID(memberOneID, memberTwoID) {
         return familyMemberAndRelationsDTO.map((personDTO) => {
@@ -89,14 +96,18 @@ function MembersRelationsFA() {
         })
     }
 
+
     function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relationsRow, relationsIndex) => {
                 return (
                     <div className="relation-row" key={relationsIndex}>
                         <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}
-                            <button onClick={findRelationID(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
-                            </button>
+                            <div>
+                                <button
+                                    onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>Edit
+                                </button>
+                            </div>
                         </td>
                         <td></td>
                     </div>

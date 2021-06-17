@@ -1,14 +1,14 @@
 import {
     addInputedEmailToFamilyMember,
     addRelation,
+    authenticateWS,
     createFamilySMService,
     familyNameGlobal,
     familyRelationsFA,
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
-    postNewMember,
-    authenticateWS
+    postNewMember
 } from './Service'
 import jwt_decode from "jwt-decode";
 
@@ -46,6 +46,7 @@ export const CHANGE_REFRESH = "CHANGE_REFRESH";
 export const AUTHENTICATION_STARTED = "AUTHENTICATION_STARTED";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
 export const AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
+export const CHANGE_VIEW_RELATION = "CHANGE_VIEW_RELATION";
 
 
 // export const ADD_EMAIL = 'ADD_EMAIL';
@@ -62,7 +63,7 @@ export function authenticate(dispatch, userDetails) {
     authenticateWS((res) => dispatch(authenticateSuccess(res)), (err) => dispatch(authenticateFailure(err.message)), userDetails);
 }
 
-export function authenticateStarted(){
+export function authenticateStarted() {
     return {
         type: AUTHENTICATION_STARTED
     }
@@ -76,8 +77,8 @@ export function authenticateSuccess(jwt) {
         type: AUTHENTICATION_SUCCESS,
         payload: {
             data: jwt.data.token,
-                id: decoded.id,
-                role: decoded.role
+            id: decoded.id,
+            role: decoded.role
         }
     }
 }
@@ -111,6 +112,16 @@ export function changeView(value) {
         type: CHANGE_VIEW,
         payload: {
             mainView: value
+        }
+    }
+}
+
+export function changeViewToEditRelation(value, relationID) {
+    return {
+        type: CHANGE_VIEW_RELATION,
+        payload: {
+            mainView: value,
+            relationID: relationID
         }
     }
 }

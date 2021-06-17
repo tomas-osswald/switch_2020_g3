@@ -14,6 +14,7 @@ import {
     CHANGE_REFRESH,
     CHANGE_USER,
     CHANGE_VIEW,
+    CHANGE_VIEW_RELATION,
     CREATE_FAMILY_FAILURE,
     CREATE_FAMILY_STARTED,
     CREATE_FAMILY_SUCCESS,
@@ -358,6 +359,15 @@ function reducer(state, action) {
                 ...state,
                 mainView: action.payload.mainView,
             }
+
+        case
+        CHANGE_VIEW_RELATION:
+            return {
+                ...state,
+                mainView: action.payload.mainView,
+                relationID: action.payload.relationID,
+            }
+
 
         case CHANGE_REFRESH:
             return {
