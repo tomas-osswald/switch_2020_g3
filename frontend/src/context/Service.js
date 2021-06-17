@@ -206,3 +206,7 @@ export function postNewMember(success, failure, addNewMember, jwt) {
             console.log(err)
         });
 }
+
+export function deleteEmailFMService(success, failure, index, jwt){
+
+}

@@ -46,6 +46,9 @@ export const CHANGE_REFRESH = "CHANGE_REFRESH";
 export const AUTHENTICATION_STARTED = "AUTHENTICATION_STARTED";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
 export const AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
+export const DELETE_EMAIL_STARTED = "DELETE_EMAIL_STARTED";
+export const DELETE_EMAIL_SUCCESS = "DELETE_EMAIL_SUCCESS";
+export const DELETE_EMAIL_FAILURE = "DELETE_EMAIL_FAILURE";
 
 
 // export const ADD_EMAIL = 'ADD_EMAIL';
@@ -407,3 +410,28 @@ export function addNewMemberFailure(error) {
         payload: error
     }
 }
+
+
+export function deleteEmail(dispatch, email, jwt) {
+    dispatch(deleteEmailStarted())
+    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err.message())),email, jwt )}
+
+export function deleteEmailStarted(){
+    return{
+        type: DELETE_EMAIL_STARTED
+    }
+}
+export function deleteEmailSuccess(){
+    return{
+        type: DELETE_EMAIL_SUCCESS,
+        payload: outputRemoveEmailDTO
+    }
+}
+
+export function deleteEmailFailure(){
+    return{
+        type: DELETE_EMAIL_FAILURE,
+        payload: error
+    }
+}
+
