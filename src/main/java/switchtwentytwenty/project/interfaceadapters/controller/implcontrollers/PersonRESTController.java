@@ -34,7 +34,7 @@ public class PersonRESTController implements IPersonRESTController {
     private IPeopleOptionsService peopleOptionsService;
 
     @Autowired
-    public PersonRESTController(PeopleOptionsService peopleOptionsService, PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService) {
+    public PersonRESTController(PeopleOptionsService peopleOptionsService, PersonOptionsService personOptionsService, PersonInputDTOAssembler profileInternalExternalAssembler, IGetFamilyMemberProfileService getFamilyMemberProfileService, IAddFamilyMemberService addFamilyMemberService, PersonInputDTOAssembler personInputDTOAssembler, IAddEmailService addEmailService, IRemoveEmailService removeEmailService) {
         this.getFamilyMemberProfileService = getFamilyMemberProfileService;
         this.addFamilyMemberService = addFamilyMemberService;
         this.personInputDTOAssembler = personInputDTOAssembler;
@@ -42,6 +42,7 @@ public class PersonRESTController implements IPersonRESTController {
         this.addEmailService = addEmailService;
         this.personOptionsService = personOptionsService;
         this.peopleOptionsService = peopleOptionsService;
+        this.removeEmailService = removeEmailService;
     }
 
     @Override

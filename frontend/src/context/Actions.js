@@ -467,7 +467,7 @@ export function deleteEmailStarted(){
 export function deleteEmailSuccess(outputRemoveEmailDTO){
     return{
         type: DELETE_EMAIL_SUCCESS,
-        //payload: outputRemoveEmailDTO
+        payload: outputRemoveEmailDTO
     }
 }
 
