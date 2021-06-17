@@ -24,14 +24,14 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [loginRole, setRole] = useState('');
 
-    if (token !== null) {
+    /*if (token !== null) {
         let path = `/`;
         history.push(path);
-    }
-
-    /*if (token !== null) {
-        return (<Redirect to="/"/>)
     }*/
+
+    if (token !== null) {
+        return (<Redirect to="/"/>)
+    }
 
     function handleClick() {
         const userDetails = {
@@ -41,7 +41,7 @@ const Login = () => {
         //userDetails.username = email;
         //userDetails.password = password;
         authenticate(dispatch, userDetails);
-        dispatch(changeUser(email, loginRole));
+        //dispatch(changeUser(email, loginRole));
     }
 
     return (
@@ -65,7 +65,7 @@ const Login = () => {
                 <label htmlFor="password">Password </label>
                 <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)}/>
 
-                <p className="login-profile-title">Choose login profile :</p>
+                {/*<p className="login-profile-title">Choose login profile :</p>
                 <div className="radio-group">
                     <div className="col-one">
                         <input type="radio" id="option-one" name="role" value="sm"
@@ -84,14 +84,14 @@ const Login = () => {
                     </div>
 
 
-                    {/* <input type="radio" id="option-one" name="role" value="sm" onClick={() => setRole('systemManager')}/>
+                     <input type="radio" id="option-one" name="role" value="sm" onClick={() => setRole('systemManager')}/>
             <label htmlFor="option-one">System Manager</label>
             <input type="radio" id="option-two" name="role" value="fa" onClick={() => setRole('familyAdministrator')}/>
             <label htmlFor="option-two">Family Administrator</label>
             <input type="radio" id="option-three" name="role" value="fm" onClick={() => setRole('familyMember')}/>
-            <label htmlFor="option-three">Family Member</label>*/}
+            <label htmlFor="option-three">Family Member</label>
 
-                </div>
+                </div>*/}
 
                 <div className="row-button">
                     <button className="login-button" onClick={() => handleClick(email, password, loginRole)}

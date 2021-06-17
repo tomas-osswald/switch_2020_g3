@@ -76,7 +76,7 @@ export function authenticateSuccess(jwt) {
         type: AUTHENTICATION_SUCCESS,
         payload: {
             data: jwt.data.token,
-                id: decoded.id,
+                id: decoded.sub,
                 role: decoded.role
         }
     }

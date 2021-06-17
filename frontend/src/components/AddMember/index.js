@@ -63,7 +63,7 @@ function AddMember() {
                 <Form.Group controlId="password">
                     <Form.Label>Password</Form.Label>
                     <br></br>
-                    <Form.Control className="addMember-input" type="text" placeholder="Enter password" onChange={password => setPassword(password.target.value)}/>
+                    <Form.Control className="addMember-input" type="password" placeholder="Enter password" onChange={password => setPassword(password.target.value)}/>
                 </Form.Group>
 
                 <Form.Group controlId="name">
