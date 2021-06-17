@@ -457,17 +457,17 @@ export function addNewMemberFailure(error) {
 
 export function deleteEmail(dispatch, email, jwt) {
     dispatch(deleteEmailStarted())
-    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err)),email, jwt )}
+    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err.message)),email, jwt )}
 
 export function deleteEmailStarted(){
     return{
-        type: DELETE_EMAIL_STARTED
+        type: DELETE_EMAIL_STARTED,
     }
 }
 export function deleteEmailSuccess(outputRemoveEmailDTO){
     return{
         type: DELETE_EMAIL_SUCCESS,
-        payload: outputRemoveEmailDTO
+        //payload: outputRemoveEmailDTO
     }
 }
 
