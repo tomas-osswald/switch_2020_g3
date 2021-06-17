@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from '../../context/AppContext';
-import {addEmailToFamilyMember, fetchProfile, postNewRelation} from "../../context/Actions";
+import {addEmailToFamilyMember, fetchProfile, postNewRelation, deleteEmail} from "../../context/Actions";
 import Loading from "../Loading";
 import '../../styles/profile.css';
 import '../../styles/global.css';

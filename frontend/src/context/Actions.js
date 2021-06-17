@@ -8,7 +8,8 @@ import {
     fetchNameWS,
     fetchProfileFromLogin,
     fetchProfileFromWS,
-    postNewMember
+    postNewMember,
+    deleteEmailFMService
 } from './Service'
 import jwt_decode from "jwt-decode";
 
@@ -463,14 +464,14 @@ export function deleteEmailStarted(){
         type: DELETE_EMAIL_STARTED
     }
 }
-export function deleteEmailSuccess(){
+export function deleteEmailSuccess(outputRemoveEmailDTO){
     return{
         type: DELETE_EMAIL_SUCCESS,
         payload: outputRemoveEmailDTO
     }
 }
 
-export function deleteEmailFailure(){
+export function deleteEmailFailure(error){
     return{
         type: DELETE_EMAIL_FAILURE,
         payload: error
