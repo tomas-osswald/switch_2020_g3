@@ -161,7 +161,7 @@ class PersonTest {
         Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         Person personTwo = personOne;
 
-        assertEquals(personOne,personTwo);
+        assertEquals(personOne, personTwo);
     }
 
     @Test
@@ -171,8 +171,8 @@ class PersonTest {
         Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         Person personTwo = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
-        assertEquals(personOne,personTwo);
-        assertNotSame(personOne,personTwo);
+        assertEquals(personOne, personTwo);
+        assertNotSame(personOne, personTwo);
     }
 
     @Test
@@ -184,7 +184,7 @@ class PersonTest {
         Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         Person personTwo = new Person(tonyZeName, tonyZeBirthDate, otherEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
-        assertNotEquals(personOne,personTwo);
+        assertNotEquals(personOne, personTwo);
     }
 
     @Test
@@ -194,7 +194,7 @@ class PersonTest {
         Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         String notAPerson = "Jessica@gmail.com";
 
-        assertNotEquals(person,notAPerson);
+        assertNotEquals(person, notAPerson);
     }
 
     @Test
@@ -204,7 +204,7 @@ class PersonTest {
         Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         String nullString = null;
 
-        assertNotEquals(person,nullString);
+        assertNotEquals(person, nullString);
     }
 
     @Test
@@ -214,8 +214,8 @@ class PersonTest {
         Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         Person personTwo = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
-        assertEquals(personOne.hashCode(),personTwo.hashCode());
-        assertNotSame(personOne,personTwo);
+        assertEquals(personOne.hashCode(), personTwo.hashCode());
+        assertNotSame(personOne, personTwo);
     }
 
     @Test
@@ -227,35 +227,69 @@ class PersonTest {
         Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
         Person personTwo = new Person(tonyZeName, tonyZeBirthDate, otherEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
 
-        assertNotEquals(personOne.hashCode(),personTwo.hashCode());
+        assertNotEquals(personOne.hashCode(), personTwo.hashCode());
     }
 
     @Test
-    void constructorTestPersonAllArgumentConstructor(){
+    void constructorTestPersonAllArgumentConstructor() {
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
-        Person person = new Person(tonyZeEmail,tonyZeName,tonyZeBirthDate,null,tonyZeVat,null,tonyZeAddress,familyID);
+        Person person = new Person(tonyZeEmail, tonyZeName, tonyZeBirthDate, null, tonyZeVat, null, tonyZeAddress, familyID);
 
         assertNotNull(person);
     }
 
     @Test
-    void setAddressTest(){
+    void setAddressTest() {
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         Person personOne = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
-        Address otherAddress = new Address("otherStreet","otherCity","1111-111","12RC");
+        Address otherAddress = new Address("otherStreet", "otherCity", "1111-111", "12RC");
         personOne.setAddress(otherAddress);
 
         Address result = personOne.getAddress();
 
-        assertEquals(otherAddress,result);
+        assertEquals(otherAddress, result);
     }
 
     @Test
-    void constructorTest(){
+    void constructorTest() {
         PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
         Person result = new Person(tonyZeEmail, tonyZeName, tonyZeBirthDate, tonyZeVat, familyID);
 
         assertNotNull(result);
     }
 
+    @Test
+    void removeEmailTestingEmailToBeRemovedNotOnListExpectingSameList() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        person.addEmail(new EmailAddress("newemail@email.com"));
+        person.addEmail(new EmailAddress("senhortony@boytoy.com"));
+        person.addEmail(new EmailAddress("vaiserparaapagar@jafoste.com"));
+
+        List<EmailAddress> expected = person.getEmails();
+
+        person.removeEmail(new EmailAddress("estenaoestanalista@tony.pt"));
+        List<EmailAddress> result = person.getEmails();
+
+        assertEquals(expected, result);
+
+    }
+
+    @Test
+    void removeEmailRemovingOneEmailExpectingDifferentList() {
+        PersonID tonyZeEmail = new PersonID(VALIDEMAIL);
+        Person person = new Person(tonyZeName, tonyZeBirthDate, tonyZeEmail, tonyZeVat, tonyZePhone, tonyZeAddress, familyID);
+        person.addEmail(new EmailAddress("newemail@email.com"));
+        person.addEmail(new EmailAddress("senhortony@boytoy.com"));
+        EmailAddress emailToDelete = new EmailAddress("vaiserparaapagar@jafoste.com");
+        person.addEmail(emailToDelete);
+
+        List<EmailAddress> expected = person.getEmails();
+
+        person.removeEmail(emailToDelete);
+        List<EmailAddress> result = person.getEmails();
+
+        assertNotEquals(expected, result);
+
+    }
 }
