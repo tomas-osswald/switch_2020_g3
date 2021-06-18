@@ -19,11 +19,10 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepositor
 public class ChangeRelationService implements IChangeRelationService {
 
     private IFamilyRepository familyRepository;
-    private RelationInputDTOAssembler relationInputDTOAssembler;
     private FamilyDTODomainAssembler familyDTODomainAssembler;
 
     @Autowired
-    public ChangeRelationService(IFamilyRepository familyRepository, RelationInputDTOAssembler relationInputDTOAssembler, FamilyDTODomainAssembler familyDTODomainAssembler) {
+    public ChangeRelationService(IFamilyRepository familyRepository, FamilyDTODomainAssembler familyDTODomainAssembler) {
         this.familyRepository = familyRepository;
         this.familyDTODomainAssembler = familyDTODomainAssembler;
     }

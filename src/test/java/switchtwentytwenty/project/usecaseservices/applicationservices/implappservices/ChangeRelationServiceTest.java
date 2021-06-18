@@ -29,9 +29,6 @@ class ChangeRelationServiceTest {
     IFamilyRepository familyRepository;
 
     @Mock
-    RelationInputDTOAssembler relationInputDTOAssembler;
-
-    @Mock
     Family family;
 
     @Mock

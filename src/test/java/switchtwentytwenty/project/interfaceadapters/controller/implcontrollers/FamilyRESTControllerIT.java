@@ -398,7 +398,7 @@ class FamilyRESTControllerIT {
     @DisplayName("Successfully Change relationship designation in a family")
     @Test
     void changeRelationSuccessWithValidInfo() {
-        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, relationAssembler, familyDTODomainAssembler);
+        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, familyDTODomainAssembler);
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
 
