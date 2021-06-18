@@ -1,42 +1,69 @@
 package switchtwentytwenty.project.usecaseservices.applicationservices.implappservices;
 
-import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.authentication.JWTUserDetailsService;
 import switchtwentytwenty.project.authentication.UserDao;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.FamilyJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IFamilyRepositoryJPA;
+import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
+import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyDTODomainAssembler;
+import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.RelationInputDTOAssembler;
 import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.InputChangeRelationDTO;
+import switchtwentytwenty.project.dto.family.InputFamilyDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
+import switchtwentytwenty.project.dto.person.InputPersonDTO;
+import switchtwentytwenty.project.exceptions.InvalidNameException;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.FamilyRepository;
+import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
+import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 class ChangeRelationServiceIT {
 
-    ChangeRelationService changeRelationService;
+
+    @Autowired
+    RelationInputDTOAssembler relationInputDTOAssembler;
 
     @Mock
-    IFamilyRepositoryJPA iFamilyRepositoryJPA;
+    IFamilyRepository familyRepository;
+
+    @Autowired
+    FamilyDataDomainAssembler familyDataDomainAssembler;
+
+    FamilyDTODomainAssembler familyDTODomainAssembler = new FamilyDTODomainAssembler();
 
     @InjectMocks
-    FamilyRepository familyRepository;
+    ChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, familyDTODomainAssembler);
 
     @Mock
     PasswordEncoder passwordEncoder;
@@ -47,60 +74,78 @@ class ChangeRelationServiceIT {
     @InjectMocks
     JWTUserDetailsService jwtUserDetailsService;
 
-    @Autowired
-    RelationInputDTOAssembler relationInputDTOAssembler;
+
+    //Output Relation DTO
+
+    final String memberOneID = "TonyZe";
+    final  String memberTwoID = "Katia";
+    final String relationDesignation = "BFF";
+    final String relationID = "123";
+
+    OutputRelationDTO updatedRelation = new OutputRelationDTO(memberOneID, memberTwoID, relationDesignation, relationID);
+
+    // Family JPA
+    FamilyIDJPA familyIDJPA = new FamilyIDJPA("Raimundos");
+    FamilyJPA familyJPA = new FamilyJPA();
 
 
-    String relationID = "4";
-    String familyIDString = "@tonyze@latinlover.com";
+    //create a Family
+    PersonID personOneID = new PersonID("tonyze@latinlover.com");
+    PersonID personTwoID = new PersonID("katia@hotlatina.com");
+    final String name = "Raimundos";
+    final FamilyName familyName = new FamilyName(name);
+    final String familyIDString = "@dimitri@crazyrussian.com";
+    RegistrationDate familyRegDate = new RegistrationDate("12/12/2020");
     FamilyID familyID = new FamilyID(familyIDString);
-    ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO(relationID);
-    InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(changeRelationDTO, familyID.toString(), relationID);
+    List<Relation> relations = new ArrayList<>();
+    List<Relation> relations2 = new ArrayList<>();
 
-    @DisplayName( "Change relation success")
+
+    //create a Relation between 2 Family members
+    RelationDesignation relationOneDesignation = new RelationDesignation("BFF");
+    RelationDesignation relationTwoDesignation = new RelationDesignation("Lovers");
+    RelationID relationOneID = new RelationID(123);
+    Relation relationOne = new Relation(personOneID, personTwoID, relationOneDesignation, relationOneID);
+    Relation relationTwo = new Relation(personOneID, personTwoID, relationTwoDesignation, relationOneID);
+
+
     @Test
-    void createRelationSuccessOne() {
+    void something() {
 
-     // create Family with relation
-
-        PersonID personOne = new PersonID("tonyze@latinlover.com");
-        PersonID personTwo = new PersonID("katia@hotlatina.com");
-        PersonID personThree = new PersonID("dimitri@crazyrussian.com");
-
-        RelationDesignation relationOneDesignation = new RelationDesignation("BFF");
-        RelationID relationOneID = new RelationID(123);
-
-        RelationDesignation relationTwoDesignation = new RelationDesignation("Cousins");;
-        RelationID relationTwoID = new RelationID(456);
-
-        Relation relationOne = new Relation(personOne, personTwo, relationOneDesignation, relationOneID);
-        Relation relationTwo = new Relation(personOne, personThree, relationTwoDesignation, relationTwoID);
-
-        List<Relation> relations = new ArrayList<>();
+        //add relation to Family
         relations.add(relationOne);
-        relations.add(relationTwo);
+        relations2.add(relationTwo);
+        Family family = new Family(familyID,familyName, familyRegDate, personOneID, relations );
+        Family family2 = new Family(familyID,familyName, familyRegDate, personOneID, relations2 );
 
+        //add family with relation to the repo
+        //familyRepository.add(family);
 
+        //create new relation to update the existent relation
+        RelationDesignation newRelationOneDesignation = new RelationDesignation("Lovers");
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO(newRelationOneDesignation.toString());
+        RelationID newRelationID = new RelationID(123);
+        InputChangeRelationDTO inputChangeRelationDTO = new InputChangeRelationDTO(changeRelationDTO, familyID.toString(), newRelationID.toString());
 
-        // FamilyID familyID, FamilyName adminEmail
+        //create FamilyJPA
+        PersonIDJPA adminIDJPA = new PersonIDJPA(personOneID.toString());
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyID.toString());
 
+        FamilyJPA familyJPA = familyDataDomainAssembler.toData(family);
+        FamilyJPA familyTwoJPA = familyDataDomainAssembler.toData(family2);
 
-       //Relation relations =
-       //Family family = new Family()
+        //Family savedFamily = familyRepository.getByID(familyID);
 
+        Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
+        Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family2);
 
+        OutputRelationDTO expected = new OutputRelationDTO("tonyze@latinlover.com", "katia@hotlatina.com", "Lovers", "123");
+        OutputRelationDTO result = changeRelationService.changeRelation(inputChangeRelationDTO);
 
-    // mock family repository JPA
-   /* FamilyIDJPA familyIDJPA = new FamilyIDJPA(familyIDString);
-    String familyName = "Raimundos";
-    String registrationDate = "12/12/2020";
-    PersonIDJPA adminID = new PersonIDJPA("@tonyze@latinlover.com");
-    FamilyJPA familyJPA =    new FamilyJPA(familyIDJPA, familyName, registrationDate, adminID);*/
+        assertEquals(expected, result);
 
-    //
-
-
-
-        
     }
+
+
+
 }

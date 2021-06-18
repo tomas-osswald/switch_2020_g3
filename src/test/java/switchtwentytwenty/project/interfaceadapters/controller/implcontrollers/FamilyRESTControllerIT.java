@@ -400,7 +400,7 @@ class FamilyRESTControllerIT {
     @Test
     void changeRelationSuccessWithValidInfo() {
         FamilyRepository familyRepository = new FamilyRepository(iFamilyRepositoryJPA, familyDataDomainAssembler);
-        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, relationAssembler, familyDTODomainAssembler);
+        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, familyDTODomainAssembler);
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
 
