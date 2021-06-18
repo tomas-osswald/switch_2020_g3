@@ -163,10 +163,10 @@ class AddFamilyAndSetAdminDTOTest {
         AddFamilyAndSetAdminDTO dto1 = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
         AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("ttony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
-        int hahsDto1 = dto1.hashCode();
+        int hashDto1 = dto1.hashCode();
         int hashDto2 = dto2.hashCode();
 
-        assertEquals(hahsDto1,hashDto2);
+        assertEquals(hashDto1,hashDto2);
     }
 
     @Test
@@ -174,9 +174,9 @@ class AddFamilyAndSetAdminDTOTest {
         AddFamilyAndSetAdminDTO dto1 = new AddFamilyAndSetAdminDTO("ttony@email.com", "Pereira", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
         AddFamilyAndSetAdminDTO dto2 = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
 
-        int hahsDto1 = dto1.hashCode();
+        int hashDto1 = dto1.hashCode();
         int hashDto2 = dto2.hashCode();
 
-        assertNotEquals(hahsDto1,hashDto2);
+        assertNotEquals(hashDto1,hashDto2);
     }
 }
