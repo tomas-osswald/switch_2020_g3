@@ -65,15 +65,14 @@ class ChangeRelationServiceIT {
     @InjectMocks
     ChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, familyDTODomainAssembler);
 
-    @Mock
+    /*@Mock
     PasswordEncoder passwordEncoder;
 
     @Mock
     UserDao userDao;
 
     @InjectMocks
-    JWTUserDetailsService jwtUserDetailsService;
-
+    JWTUserDetailsService jwtUserDetailsService;*/
 
     //Output Relation DTO
 
@@ -82,12 +81,9 @@ class ChangeRelationServiceIT {
     final String relationDesignation = "BFF";
     final String relationID = "123";
 
-    OutputRelationDTO updatedRelation = new OutputRelationDTO(memberOneID, memberTwoID, relationDesignation, relationID);
-
     // Family JPA
     FamilyIDJPA familyIDJPA = new FamilyIDJPA("Raimundos");
     FamilyJPA familyJPA = new FamilyJPA();
-
 
     //create a Family
     PersonID personOneID = new PersonID("tonyze@latinlover.com");
@@ -100,7 +96,6 @@ class ChangeRelationServiceIT {
     List<Relation> relations = new ArrayList<>();
     List<Relation> relations2 = new ArrayList<>();
 
-
     //create a Relation between 2 Family members
     RelationDesignation relationOneDesignation = new RelationDesignation("BFF");
     RelationDesignation relationTwoDesignation = new RelationDesignation("Lovers");
@@ -108,18 +103,14 @@ class ChangeRelationServiceIT {
     Relation relationOne = new Relation(personOneID, personTwoID, relationOneDesignation, relationOneID);
     Relation relationTwo = new Relation(personOneID, personTwoID, relationTwoDesignation, relationOneID);
 
-
     @Test
-    void something() {
+    void changeRelationInExistentRelationSuccess() {
 
         //add relation to Family
         relations.add(relationOne);
         relations2.add(relationTwo);
         Family family = new Family(familyID,familyName, familyRegDate, personOneID, relations );
         Family family2 = new Family(familyID,familyName, familyRegDate, personOneID, relations2 );
-
-        //add family with relation to the repo
-        //familyRepository.add(family);
 
         //create new relation to update the existent relation
         RelationDesignation newRelationOneDesignation = new RelationDesignation("Lovers");
@@ -134,8 +125,6 @@ class ChangeRelationServiceIT {
         FamilyJPA familyJPA = familyDataDomainAssembler.toData(family);
         FamilyJPA familyTwoJPA = familyDataDomainAssembler.toData(family2);
 
-        //Family savedFamily = familyRepository.getByID(familyID);
-
         Mockito.when(familyRepository.getByID(any(FamilyID.class))).thenReturn(family);
         Mockito.when(familyRepository.add(any(Family.class))).thenReturn(family2);
 
@@ -143,7 +132,6 @@ class ChangeRelationServiceIT {
         OutputRelationDTO result = changeRelationService.changeRelation(inputChangeRelationDTO);
 
         assertEquals(expected, result);
-
     }
 
 

@@ -528,10 +528,10 @@ function reducer(state, action) {
         ADD_EMAIL_FAILURE:
             return {
                 ...state,
-                landingPage: {
+                profile: {
                     loading: false,
-                    error: action.payload.error,
-                    name: '',
+                    error: action.payload.error
+
                 }
             }
 
