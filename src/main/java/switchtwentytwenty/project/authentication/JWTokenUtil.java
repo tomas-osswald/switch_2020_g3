@@ -60,7 +60,10 @@ public class JWTokenUtil implements Serializable {
 
         List<GrantedAuthority> authorityList = (List<GrantedAuthority>) userDetails.getAuthorities();
 
-        claims.put("role", authorityList.get(0).getAuthority());
+        for (GrantedAuthority authority : authorityList) {
+            claims.put("role", authority.getAuthority());
+        }
+
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
