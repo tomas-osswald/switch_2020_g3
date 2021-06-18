@@ -22,7 +22,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS,PATCH");
         response.setHeader("Access-Control-Allow-Headers", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Credentials", request.getHeader("Origin"));
         response.setHeader("Access-Control-Max-Age", "180");
         filterChain.doFilter(servletRequest, servletResponse);
     }

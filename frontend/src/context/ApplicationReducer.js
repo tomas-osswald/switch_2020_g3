@@ -245,32 +245,47 @@ function reducer(state, action) {
             }
 
 
+            // Se LOGOUT dá problema, copiar initial state do AppProvider para colar aqui
         case
         LOGOUT:
             return {
                 ...state,
                 mainView: '',
+
+                relationID: '',
+
+                jwt: {
+                    loading: false,
+                    error: null,
+                    jwt: null,
+                },
+
                 loggedUser: {
                     id: '',
                     role: '',
                     name: '',
                 },
+
                 landingPage: {
                     loading: true,
                     error: null,
                     name: '',
                     family_id: '',
                 },
+
                 refresh: false,
+
                 name: {
                     loading: true,
                     error: null,
                     data: [],
                 },
+
                 loggeduserTest: {
                     email: ['tonyze@latinlover.com'],
                     familyId: ['@tonyze@latinlover.com'],
                 },
+
                 familyData: {
                     loading: true,
                     error: null,
@@ -283,6 +298,7 @@ function reducer(state, action) {
                         }
                     ]
                 },
+
                 family: {
                     loading: true,
                     error: null,
@@ -294,12 +310,16 @@ function reducer(state, action) {
                                 memberOneID: "",
                                 memberTwoID: "",
                                 relationDesignation: "",
+                                relationID: ""
                             }]
                         }],
                     },
 
                 },
+
                 addRelationStatus: null,
+
+
                 familymembers: {
                     loading: true,
                     error: null,
@@ -309,6 +329,7 @@ function reducer(state, action) {
                         data: [],
                     }],
                 },
+
                 profile: {
                     loading: true,
                     error: null,
@@ -326,6 +347,7 @@ function reducer(state, action) {
                         familyID: "",
                     }
                 },
+
                 newMember: {
                     loading: true,
                     error: null,
@@ -342,6 +364,7 @@ function reducer(state, action) {
                         zipCode: '',
                     }
                 },
+
                 createdfamily: {
                     loading: true,
                     error: null,
