@@ -237,11 +237,11 @@ export function deleteEmailFMService(success, failure, email, id, jwt){
         }
     })
         .then((response) => {
-            success(response)
             console.log(response)
+            success(response)
         })
         .catch((err) => {
-            failure(err)
             console.log(err)
+            failure(err)
         });
 }

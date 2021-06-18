@@ -595,16 +595,7 @@ function reducer(state, action) {
             return{
                 ...state,
                 refresh: true,
-                /*
-                profile: {
-                    loading: false,
-                    error: null,
-                    profileData: {
-                        emails: action.payload
-                    }
-                }
 
-                 */
             }
 
         case DELETE_EMAIL_FAILURE:
@@ -612,7 +603,7 @@ function reducer(state, action) {
                 ...state,
                 profile: {
                     loading: false,
-                    error: action.payload
+                    error: action.payload,
                 }
             }
 

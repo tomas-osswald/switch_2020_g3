@@ -40,8 +40,8 @@ function Profile() {
     }
 
     function handleDelete(profileEmail) {
-        console.log(profileEmail);
         deleteEmail(dispatch, profileEmail, id, jwt.jwt);
+        setRefresh(true);
     }
 
     //({profileEmail}) => handleDelete({profileEmail})
@@ -104,8 +104,7 @@ function Profile() {
                                         <input className="input-email" type="text" id="email"
                                                onChange={email => setEmail(email.target.value)} required/>
                                         <div className="button-profile-alignment">
-                                            <button className="button-one-small" onClick={handleSubmit}>Add email
-                                            </button>
+                                            <button className="button-one-small" onClick={handleSubmit}>Add email</button>
                                         </div>
 
                                     </div>
