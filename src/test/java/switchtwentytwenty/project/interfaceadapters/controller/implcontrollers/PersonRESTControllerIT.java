@@ -23,6 +23,7 @@ import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddFamilyMemberService;
+import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IRemoveEmailService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMemberProfileService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PeopleOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
@@ -55,6 +56,9 @@ class PersonRESTControllerIT {
 
     @InjectMocks
     PersonRepository personRepository;
+
+    @Autowired
+    IRemoveEmailService removeEmailService;
 
     // PersonRESTController
 
@@ -92,7 +96,7 @@ class PersonRESTControllerIT {
         // Init Classes
         GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
         PeopleOptionsService peopleOptionsService = new PeopleOptionsService();
-        PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
+        PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService, removeEmailService);
 
         // PersonID
         String personID = "tonyze@gmail.com";
@@ -164,7 +168,7 @@ class PersonRESTControllerIT {
         // Init Classes
         GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
         PeopleOptionsService peopleOptionsService = new PeopleOptionsService();
-        PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService);
+        PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService,removeEmailService);
 
         // PersonID
         String personID = "tonyze@gmail.com";

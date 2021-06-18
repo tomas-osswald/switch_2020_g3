@@ -1,5 +1,6 @@
 //const [data, setData] = useState([]);
 import axios from "axios";
+import {doNothing} from "./Actions";
 
 export const URL_API = 'http://localhost:8080';
 
@@ -210,6 +211,25 @@ export function addInputedEmailToFamilyMember(success, failure, id, email, jwt) 
 export function postNewMember(success, failure, addNewMember, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     axios.post(`${URL_API}/people`, JSON.stringify(addNewMember), {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Authorization': authorizationHeader
+        }
+    })
+        .then((response) => {
+            success(response)
+            console.log(response)
+        })
+        .catch((err) => {
+            failure(err)
+            console.log(err)
+        });
+}
+
+export function deleteEmailFMService(success, failure, email, jwt){
+    let authorizationHeader = "Bearer " + jwt;
+    axios.delete(`${URL_API}/{personID}/emails/${email}`, {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',

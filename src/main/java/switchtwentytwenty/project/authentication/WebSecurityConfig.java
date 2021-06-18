@@ -57,7 +57,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().cors().disable()
                 // dont authenticate this particular request
                 //.authorizeRequests().anyRequest().permitAll().and()
-                .authorizeRequests().antMatchers("/authenticate", "/register", "/categories").permitAll()
+                .authorizeRequests().antMatchers("/authenticate", "/categories").permitAll()
+/*                .antMatchers(HttpMethod.POST, "/people", "/families/{familyID}/relations/", "/families/{familyID}/categories", "/people/{personID}/emails", "/accounts").hasAuthority("familyAdministrator")
+                .antMatchers(HttpMethod.GET, "/people/{personID}", "/families/{familyID}/relations/", "/families/{familyID}/categories", "/people/{personID}/emails", "/accounts/{accountID}", "/families/{familyID}", "/families/{familyID}/categories/{categoryID}").hasAuthority("familyAdministrator")
+                .antMatchers(HttpMethod.OPTIONS, "/families", "/families/{familyID}", "/families/{familyID}/categories", "/people", "people/{personID}").hasAuthority("familyAdministrator")
+                .antMatchers(HttpMethod.DELETE, "/people/{personID/emails/{email}").hasAuthority("familyAdministrator")
+                .antMatchers(HttpMethod.PATCH, "/families/{familyID}/relations/{relationID}").hasAuthority("familyAdministrator")
+                .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
+                .antMatchers(HttpMethod.GET, "/categories/all", "/categories/{categoryID}").hasAuthority("systemManager")
+                .antMatchers(HttpMethod.OPTIONS, "/categories", "/families").hasAuthority("systemManager")
+                .antMatchers(HttpMethod.POST, "/people/{personID}/emails", "/accounts").hasAuthority("familyMember")
+                .antMatchers(HttpMethod.GET, "/people/{personID}", "/accounts/{accountID}").hasAuthority("familyMember")
+                .antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAuthority("familyMember")
+                .antMatchers(HttpMethod.DELETE, "/people/{personID/emails/{email}").hasAuthority("familyMember")*/
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().

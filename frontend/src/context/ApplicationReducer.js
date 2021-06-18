@@ -35,7 +35,8 @@ import {
     FETCH_USER_NAME_SUCCESS,
     LOADING_LANDING_PAGE_FALSE,
     LOGOUT,
-    UPDATE_NAME
+    UPDATE_NAME,
+    DELETE_EMAIL_STARTED, DELETE_EMAIL_FAILURE, DELETE_EMAIL_SUCCESS
 } from './Actions'
 
 function reducer(state, action) {
@@ -557,6 +558,38 @@ function reducer(state, action) {
                 ...state,
                 landingPage: {
                     loading: false,
+                }
+            }
+
+        case DELETE_EMAIL_STARTED:
+            return{
+                ...state,
+                loading: true,
+                error: null,
+            }
+
+        case DELETE_EMAIL_SUCCESS:
+            return{
+                ...state,
+                refresh: true,
+                /*
+                profile: {
+                    loading: false,
+                    error: null,
+                    profileData: {
+                        emails: action.payload
+                    }
+                }
+
+                 */
+            }
+
+        case DELETE_EMAIL_FAILURE:
+            return {
+                ...state,
+                profile: {
+                    loading: false,
+                    error: action.payload
                 }
             }
 

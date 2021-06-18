@@ -14,10 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
-import switchtwentytwenty.project.dto.person.AddEmailDTO;
-import switchtwentytwenty.project.dto.person.AddFamilyMemberDTO;
-import switchtwentytwenty.project.dto.person.OutputEmailDTO;
-import switchtwentytwenty.project.dto.person.OutputPersonDTO;
+import switchtwentytwenty.project.dto.person.*;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IPersonRESTController;
 
 import java.util.ArrayList;
@@ -240,6 +237,20 @@ class PersonRESTControllerITDB {
         assertEquals(expected.getStatusCode(), result.getStatusCode());
 
 
+    }
+
+    @Test
+    void removeEmailSuccess() {
+        OutputRemoveEmailDTO expectedOutputRemoveEmailDTO = new OutputRemoveEmailDTO();
+        List<String> expectedEmailsString = new ArrayList<>();
+        expectedEmailsString.add("tonytony@yahoo.com");
+        expectedOutputRemoveEmailDTO.setEmailAddresses(expectedEmailsString);
+
+        ResponseEntity<OutputRemoveEmailDTO> expected = new ResponseEntity<>(expectedOutputRemoveEmailDTO, HttpStatus.OK);
+
+        ResponseEntity<Object> result = personRESTController.removeEmailAddress("tonyzeBackup@yahoo.com", "tonyze@latinlover.com");
+
+        assertEquals(expected, result);
     }
 
 }

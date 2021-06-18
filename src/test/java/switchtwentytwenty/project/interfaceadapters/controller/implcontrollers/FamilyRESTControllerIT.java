@@ -1,14 +1,10 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -17,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
@@ -28,7 +23,6 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.aggregates.category.Category;
 import switchtwentytwenty.project.domain.aggregates.category.CategoryFactory;
 import switchtwentytwenty.project.domain.aggregates.category.CustomCategory;
-import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.*;
@@ -50,7 +44,6 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -233,6 +226,9 @@ class FamilyRESTControllerIT {
     @DisplayName("Family Members And Relations IT - Success")
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
+        PersonRepository personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
+        FamilyRepository familyRepository = new FamilyRepository(iFamilyRepositoryJPA, familyDataDomainAssembler);
+
         IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
 
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
@@ -240,6 +236,9 @@ class FamilyRESTControllerIT {
 
         // Mocking
         // Person Repo
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA("@tonyze@email.com");
+        when(personDataDomainAssembler.createFamilyID(any(FamilyID.class))).thenReturn(familyIDJPA);
+
         when(personDataDomainAssembler.createFamilyID(any(FamilyID.class))).thenReturn(new FamilyIDJPA("@tonyze@email.com"));
 
         List<PersonJPA> personJPAList = new ArrayList();
@@ -262,8 +261,8 @@ class FamilyRESTControllerIT {
 
         Optional<FamilyJPA> optionalFamilyJPA = Optional.of(familyJPA);
 
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(optionalFamilyJPA);
-
         when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(new FamilyID("@tonyze@email.com"));
         when(familyDataDomainAssembler.createFamilyName(any(FamilyJPA.class))).thenReturn(new FamilyName("Zés"));
         when(familyDataDomainAssembler.createRegistrationDate(any(FamilyJPA.class))).thenReturn(new RegistrationDate("27/05/2021"));
@@ -327,6 +326,8 @@ class FamilyRESTControllerIT {
     @DisplayName("Add a custom category to the family - Success")
     @Test
     void addCustomCategorySuccess() {
+        CategoryRepository categoryRepository = new CategoryRepository(mockCategoryRepositoryJPA, categoryDataDomainAssembler, categoryFactory);
+
         ICreateCustomCategoryService createCustomCategoryService = new CreateCustomCategoryService(categoryRepository, categoryDTODomainAssembler, categoryFactory);
 
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
@@ -398,7 +399,8 @@ class FamilyRESTControllerIT {
     @DisplayName("Successfully Change relationship designation in a family")
     @Test
     void changeRelationSuccessWithValidInfo() {
-        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, familyDTODomainAssembler);
+        FamilyRepository familyRepository = new FamilyRepository(iFamilyRepositoryJPA, familyDataDomainAssembler);
+        IChangeRelationService changeRelationService = new ChangeRelationService(familyRepository, relationAssembler, familyDTODomainAssembler);
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, getFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
 
@@ -421,6 +423,9 @@ class FamilyRESTControllerIT {
         //Setup for mocking family in persistence
         FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@gmail.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@gmail.com"));
         Optional<FamilyJPA> optionalFamilyJPA = Optional.of(familyJPA);
+
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA("@tonyze@gmail.com");
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
         when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(optionalFamilyJPA);
 
         when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(new FamilyID("@tonyze@gmail.com"));
