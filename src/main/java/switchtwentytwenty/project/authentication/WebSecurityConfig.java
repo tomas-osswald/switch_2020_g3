@@ -62,38 +62,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
-        httpSecurity.csrf().disable().cors().disable()
-                // dont authenticate this particular request
+        httpSecurity.csrf().disable()
+                // dont authenticate these particular requests
                 //.authorizeRequests().anyRequest().permitAll().and()
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/categories").permitAll()
 
+                // allow requests to these urls if token has familyAdministrator authority
                 .antMatchers(HttpMethod.POST, "/people", "/families/{familyID}/relations", "/families/{familyID}/categories").hasAuthority("familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.GET, "/families/{familyID}/relations", "/families/{familyID}/categories", "/families/{familyID}", "/families/{familyID}/categories/{categoryID}").hasAuthority("familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                /*.antMatchers(HttpMethod.OPTIONS, "/families/{familyID}", "/families/{familyID}/categories").hasAuthority("familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()*/
                 .antMatchers(HttpMethod.PATCH, "/families/{familyID}/relations/{relationID}").hasAuthority("familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                //.antMatchers(HttpMethod.OPTIONS, "/families/{familyID}", "/families/{familyID}/categories").hasAuthority("familyAdministrator")
 
+                // allow requests to these urls if token has either familyMember or familyAdministrator authority
                 .antMatchers(HttpMethod.POST, "/people/{personID}/emails", "/accounts").hasAnyAuthority("familyMember", "familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.GET, "/people/{personID}", "/accounts/{accountID}", "/people/{personID}/emails").hasAnyAuthority("familyMember", "familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                /*.antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAnyAuthority("familyMember", "familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()*/
                 .antMatchers(HttpMethod.DELETE, "/people/{personID}/emails/{email}").hasAnyAuthority("familyMember", "familyAdministrator")
-                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers(HttpMethod.GET, "/categories/all", "/categories/{categoryID}").hasAuthority("systemManager")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                /*.antMatchers(HttpMethod.OPTIONS, "/categories", "/families").hasAuthority("systemManager")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()*/
+                //.antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAnyAuthority("familyMember", "familyAdministrator")
 
+                // allow requests to these urls if token has systemManager authority
+                .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
+                .antMatchers(HttpMethod.GET, "/categories/all", "/categories/{categoryID}").hasAuthority("systemManager")
+                //.antMatchers(HttpMethod.OPTIONS, "/categories", "/families").hasAuthority("systemManager")
+
+
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and()
                 // make sure we use stateless session; session won't be used to
