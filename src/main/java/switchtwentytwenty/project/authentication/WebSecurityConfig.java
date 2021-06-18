@@ -63,8 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
-                // dont authenticate these particular requests
-                //.authorizeRequests().anyRequest().permitAll().and()
+
+                // use .authorizeRequests().anyRequest().permitAll() to allow all requests
+
+                // allow the following requests
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/categories").permitAll()
@@ -85,7 +87,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
                 .antMatchers(HttpMethod.GET, "/categories/all", "/categories/{categoryID}").hasAuthority("systemManager")
                 //.antMatchers(HttpMethod.OPTIONS, "/categories", "/families").hasAuthority("systemManager")
-
 
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 // all other requests need to be authenticated
