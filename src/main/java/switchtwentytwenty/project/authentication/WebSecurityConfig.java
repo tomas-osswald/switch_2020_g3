@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsUtils;
 
 //Code adapted from https://www.javainuse.com/spring/boot-jwt and https://www.javainuse.com/spring/boot-jwt-mysql
@@ -52,6 +53,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    CorsFilter corsFilter() {
+        CorsFilter filter = new CorsFilter();
+        return filter;
+    }
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
@@ -78,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*.antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAnyAuthority("familyMember", "familyAdministrator")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()*/
                 .antMatchers(HttpMethod.DELETE, "/people/{personID}/emails/{email}").hasAnyAuthority("familyMember", "familyAdministrator")
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
 
                 .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -95,6 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Add a filter to validate the tokens with every request
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class).addFilterBefore(corsFilter(), SessionManagementFilter.class);
+        //adds your custom CorsFilter
     }
 }

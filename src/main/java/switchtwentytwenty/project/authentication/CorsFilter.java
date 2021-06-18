@@ -1,4 +1,4 @@
-/*
+
 package switchtwentytwenty.project.authentication;
 
 import javax.servlet.*;
@@ -34,4 +34,4 @@ public class CorsFilter implements Filter {
 
 
 }
-*/
+
