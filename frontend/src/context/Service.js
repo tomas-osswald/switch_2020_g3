@@ -227,9 +227,9 @@ export function postNewMember(success, failure, addNewMember, jwt) {
         });
 }
 
-export function deleteEmailFMService(success, failure, email, jwt){
+export function deleteEmailFMService(success, failure, email, id, jwt){
     let authorizationHeader = "Bearer " + jwt;
-    axios.delete(`${URL_API}/{personID}/emails/${email}`, {
+    axios.delete(`${URL_API}/${id}/emails/${email}`, {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',

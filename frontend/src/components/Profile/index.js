@@ -12,6 +12,7 @@ function Profile() {
     const {loading, error, profileData} = profile;
     const [email, setEmail] = useState("");
     const [refresh, setRefresh] = useState(false);
+    //const [profileEmail, setProfileEmail] = useState('');
 
     useEffect(() => {
         fetchProfile(dispatch, id, jwt.jwt);
@@ -38,20 +39,22 @@ function Profile() {
 
     }
 
-    function handleDelete(email) {
-        deleteEmail(dispatch, email, jwt.jwt);
-        console.log(email);
+    function handleDelete(profileEmail) {
+        console.log(profileEmail);
+        deleteEmail(dispatch, profileEmail, id, jwt.jwt);
     }
 
+    //({profileEmail}) => handleDelete({profileEmail})
 
     function EmailsList() {
-        const emailList = profileData.emails.map((email, index) => <div className="font-class button-grid">
-            <p className="info">{index} {email}</p>
+        var profileEmail;
+        const emailList = profileData.emails.map( (profileEmail, index) => { return (<div className="font-class button-grid">
+            <p className="info">{index} {profileEmail}</p>
             <div className="button-profile-alignment">
-                <button className="button-one-small button-profile-alignment" onClick={({email}) => handleDelete({email})}>delete
+                <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(profileEmail) }>delete
                 </button>
             </div>
-        </div>)
+        </div> )} )
         return <div>{emailList}</div>
     }
 

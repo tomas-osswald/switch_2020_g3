@@ -78,6 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*.antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAnyAuthority("familyMember", "familyAdministrator")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()*/
                 .antMatchers(HttpMethod.DELETE, "/people/{personID}/emails/{email}").hasAnyAuthority("familyMember", "familyAdministrator")
+                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 
                 .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
