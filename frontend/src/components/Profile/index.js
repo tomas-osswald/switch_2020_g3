@@ -30,9 +30,7 @@ function Profile() {
     }
 
     function handleSubmit() {
-        if (email == null || email === "") {
-            setRefresh(false);
-        } else {
+        if (email != null ) {
             addEmails();
             setRefresh(true);
         }

@@ -200,7 +200,7 @@ export function addInputedEmailToFamilyMember(success, failure, id, email, jwt) 
     fetch(`${URL_API}/people/${id}/emails`, requestOptions)
         .then(response => response.json())
         .then(response => success(response))
-        .catch(error => failure(error.message))
+        .catch(error => failure(error))
     ;
 }
 
