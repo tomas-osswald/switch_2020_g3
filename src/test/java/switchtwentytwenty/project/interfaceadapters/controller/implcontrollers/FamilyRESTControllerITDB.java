@@ -217,4 +217,21 @@ class FamilyRESTControllerITDB {
 
         assertEquals(expected.toString(), result.toString());
     }
+
+    @Test
+    void changeRelationWrongRelationIDFailure() {
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Amante");
+        String familyID = "@tonyze@latinlover.com";
+        String wrongRelationID = "123";
+
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@latinlover.com", "kvanessa@latina.com", "Amante", "1");
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        outputRelationDTO.add(selfLink);
+
+        ResponseEntity<OutputRelationDTO> expected = new ResponseEntity("Error: null", HttpStatus.NOT_MODIFIED);
+
+        ResponseEntity<OutputRelationDTO> result = familyRESTController.changeRelation(changeRelationDTO, familyID, wrongRelationID);
+
+        assertEquals(expected.toString(), result.toString());
+    }
 }
