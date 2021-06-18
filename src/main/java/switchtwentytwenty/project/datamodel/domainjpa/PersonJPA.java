@@ -26,7 +26,7 @@ public class PersonJPA {
     @Getter
     private String birthdate;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "personID", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "personID", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private List<EmailAddressJPA> emails = new ArrayList<>();
 
