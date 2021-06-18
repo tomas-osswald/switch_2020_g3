@@ -14,7 +14,9 @@ import switchtwentytwenty.project.dto.category.CreateCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.AddFamilyAndSetAdminDTO;
+import switchtwentytwenty.project.dto.family.ChangeRelationDTO;
 import switchtwentytwenty.project.dto.family.OutputFamilyDTO;
+import switchtwentytwenty.project.dto.family.OutputRelationDTO;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 
 import java.util.ArrayList;
@@ -31,7 +33,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 class FamilyRESTControllerITDB {
     AddFamilyAndSetAdminDTO dto = new AddFamilyAndSetAdminDTO("tony@email.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
     AddFamilyAndSetAdminDTO invaliddto = new AddFamilyAndSetAdminDTO("tonyemail.com", "Silva", "12/12/1222", 999999999, 919999999, "Rua", "Cidade", "12B", "4400-123", "password", "Silva", "12/12/2000");
-
 
     @Autowired
     IFamilyRESTController familyRESTController;
@@ -196,6 +197,23 @@ class FamilyRESTControllerITDB {
         ResponseEntity<OutputCategoryDTO> expected = new ResponseEntity(expectedOutputCategoryDTO, HttpStatus.CREATED);
 
         ResponseEntity<OutputCategoryDTO> result = familyRESTController.addCustomCategory(familyIDString, createCategoryDTO);
+
+        assertEquals(expected.toString(), result.toString());
+    }
+
+    @Test
+    void changeRelationSuccess() {
+        ChangeRelationDTO changeRelationDTO = new ChangeRelationDTO("Amante");
+        String familyID = "@tonyze@latinlover.com";
+        String relationID = "-1574017441";
+
+        OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@latinlover.com", "kvanessa@latina.com", "Amante", "1");
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        outputRelationDTO.add(selfLink);
+
+        ResponseEntity<OutputRelationDTO> expected = new ResponseEntity(outputRelationDTO, HttpStatus.OK);
+
+        ResponseEntity<OutputRelationDTO> result = familyRESTController.changeRelation(changeRelationDTO, familyID, relationID);
 
         assertEquals(expected.toString(), result.toString());
     }
