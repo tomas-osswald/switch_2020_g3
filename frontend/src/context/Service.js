@@ -19,8 +19,8 @@ export function authenticateWS(success, failure, userDetails) {
             success(response)
         })
         .catch((err) => {
-            failure(err)
-            console.log(err)
+            failure(err.message)
+            console.log(err.message)
         });
 }
 
@@ -99,8 +99,8 @@ export function changeRelation(success,failure,newRelation,relationID,family_id,
             success(response)
         })
         .catch((err) => {
-            failure(err)
-            console.log(err)
+            failure(err.message)
+            console.log(err.message)
         });
 }
 export function addRelation(success, failure, createRelationDTO, familyID, jwt) {
@@ -116,8 +116,8 @@ export function addRelation(success, failure, createRelationDTO, familyID, jwt) 
             success(response)
         })
         .catch((err) => {
-            failure(err)
-            console.log(err)
+            failure(err.message)
+            console.log(err.message)
         });
 
 }
@@ -160,8 +160,8 @@ export function createFamilySMService(success, failure, createFamily, jwt) {
             success(response)
         })
         .catch((err) => {
-            failure(err)
-            console.log(err)
+            failure(err.message)
+            console.log(err.message)
         });
 }
 
@@ -181,7 +181,7 @@ export function fetchNameWS(success, failure, id, jwt) {
             success(response)
         })
         .catch((err) => {
-            failure(err)
+            failure(err.message)
         });
 }
 
@@ -200,7 +200,7 @@ export function addInputedEmailToFamilyMember(success, failure, id, email, jwt) 
     fetch(`${URL_API}/people/${id}/emails`, requestOptions)
         .then(response => response.json())
         .then(response => success(response))
-        .catch(error => failure(error))
+        .catch(error => failure(error.message))
     ;
 }
 
@@ -222,8 +222,8 @@ export function postNewMember(success, failure, addNewMember, jwt) {
             console.log(response)
         })
         .catch((err) => {
-            failure(err)
-            console.log(err)
+            failure(err.message)
+            console.log(err.message)
         });
 }
 
@@ -241,7 +241,7 @@ export function deleteEmailFMService(success, failure, email, id, jwt){
             success(response)
         })
         .catch((err) => {
-            console.log(err)
-            failure(err)
+            console.log(err.message)
+            failure(err.message)
         });
 }

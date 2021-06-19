@@ -15,10 +15,9 @@ function LandingPage() {
     const {loading, name} = landingPage;
 
     useEffect(() => {
-        /*if (name === '' /*&& loggedUser.role !== 'systemManager') {
-            fetchName(dispatch, loggedUser.id, token)
-        }*/
+        if(loggedUser.role !== 'systemManager'){
         fetchName(dispatch, loggedUser.id, token)
+        }
     }, [])
 
     if (loading === true) {
