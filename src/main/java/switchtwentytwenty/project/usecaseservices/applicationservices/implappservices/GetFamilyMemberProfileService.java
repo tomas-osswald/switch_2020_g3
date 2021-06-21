@@ -16,6 +16,8 @@ import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepositor
 @Service
 public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileService {
 
+    private final static String ACCESS_DENIED_MESSAGE = "Forbidden";
+
     IPersonRepository personRepository;
 
     PersonDTODomainAssembler assembler;
@@ -29,17 +31,18 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
         this.personRepository = iPersonRepository;
     }
 
-    public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO internalGetProfileDTO) throws AccessDeniedException {
-        String userName = jwTokenUtil.getUsernameFromToken(internalGetProfileDTO.unpackJWT().substring(7));
-
-        PersonID userID = new PersonID(userName);
-
-        PersonID personID = assembler.createPersonID(internalGetProfileDTO);
-
-        if(!userID.equals(personID)) throw new AccessDeniedException("Forbidden");
+    public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO inputGetProfileDTO) {
+        validateAuthorization(inputGetProfileDTO);
+        PersonID personID = assembler.createPersonID(inputGetProfileDTO);
         Person person = personRepository.getByID(personID);
-
         return assembler.toDTO(person);
+    }
+
+    private void validateAuthorization(InputGetProfileDTO inputGetProfileDTO) throws AccessDeniedException {
+        String userName = jwTokenUtil.extractUsernameFromHeader(inputGetProfileDTO.unpackJWT());
+        PersonID userID = assembler.createPersonID(userName);
+        PersonID personID = assembler.createPersonID(inputGetProfileDTO);
+        if (!userID.equals(personID)) throw new AccessDeniedException(ACCESS_DENIED_MESSAGE);
     }
 
 }

@@ -17,7 +17,6 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return new Address(inputPersonDTO.unpackStreet(), inputPersonDTO.unpackCity(), inputPersonDTO.unpackZipCode(), inputPersonDTO.unpackHouseNumber());
     }
 
-
     public PhoneNumber createPhoneNumber(IInputPersonDTO inputPersonDTO) {
         return new PhoneNumber(inputPersonDTO.unpackPhone());
     }
@@ -30,7 +29,6 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return new PersonID(inputPersonDTO.unpackEmail());
     }
 
-
     public Name createName(IInputPersonDTO inputPersonDTO) {
         return new Name(inputPersonDTO.unpackName());
     }
@@ -38,7 +36,6 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
     public BirthDate createBirthDate(IInputPersonDTO inputPersonDTO) {
         return new BirthDate(inputPersonDTO.unpackBirthDate());
     }
-
 
     public OutputPersonDTO toDTO(Person savedPerson) {
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
@@ -86,6 +83,10 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
 
     public PersonID createPersonID(InputGetProfileDTO internalGetProfileDTO) {
         return new PersonID(internalGetProfileDTO.unpackID());
+    }
+
+    public PersonID createPersonID(String personEmail) {
+        return new PersonID(personEmail);
     }
 
     public OutputRemoveEmailDTO toOutputRemoveEmailDTO(List<EmailAddress> emails){

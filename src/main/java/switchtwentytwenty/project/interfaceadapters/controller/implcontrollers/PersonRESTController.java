@@ -137,11 +137,11 @@ public class PersonRESTController implements IPersonRESTController {
             return new ResponseEntity<>(outputPersonDTO, HttpStatus.OK);
 
         } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
-
+            //HATEOAS Link for failure situation
             return new ResponseEntity(ERROR + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 
         } catch (AccessDeniedException exception) {
-
+            //HATEOAS Link to Initial Page
             return new ResponseEntity(ERROR + exception.getMessage(), HttpStatus.FORBIDDEN);
 
         }
