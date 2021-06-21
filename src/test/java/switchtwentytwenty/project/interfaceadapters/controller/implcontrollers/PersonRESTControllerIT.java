@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import switchtwentytwenty.project.authentication.JWTokenUtil;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
@@ -77,6 +78,9 @@ class PersonRESTControllerIT {
     @Autowired
     IAddFamilyMemberService iAddFamilyMemberService;
 
+    @Autowired
+    JWTokenUtil jwTokenUtil;
+
     private AutoCloseable closeable;
 
     @BeforeEach
@@ -100,6 +104,7 @@ class PersonRESTControllerIT {
 
         // PersonID
         String personID = "tonyze@gmail.com";
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
 
         // PersonJPA
         PersonJPA personJPA = new PersonJPA();
@@ -156,7 +161,7 @@ class PersonRESTControllerIT {
         ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
 
         // Result
-        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);
+        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,jwt);
 
         // Assert
         assertEquals(expectedResponse.toString(), resultResponse.toString());
@@ -171,7 +176,8 @@ class PersonRESTControllerIT {
         PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService,removeEmailService);
 
         // PersonID
-        String personID = "tonyze@gmail.com";
+        String personID = "tonyze@latinlover.com";
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
 
         // Mocking
         when(iPersonRepositoryJPA.existsById(any(PersonIDJPA.class))).thenReturn(false);
@@ -181,7 +187,7 @@ class PersonRESTControllerIT {
         ResponseEntity expectedResponse = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
 
         // Result
-        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);
+        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,jwt);
 
         // Assert
         assertEquals(expectedResponse.toString(), resultResponse.toString());

@@ -11,7 +11,7 @@ public interface IPersonRESTController {
 
     ResponseEntity<Object> addEmail(AddEmailDTO addEmailDTO, String personID);
 
-    ResponseEntity<OutputPersonDTO> getProfileInfo(String personID);
+    ResponseEntity<OutputPersonDTO> getProfileInfo(String personID, String jwt);
 
     ResponseEntity<OptionsDTO> personOptions(String personID);
 

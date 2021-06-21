@@ -25,9 +25,10 @@ public class PersonInputDTOAssembler {
         return internalAddFamilyMemberDTO;
     }
 
-    public InputGetProfileDTO toInternalGetProfileDTO(String personID){
+    public InputGetProfileDTO toInternalGetProfileDTO(String personID, String jwt){
         InputGetProfileDTO internalGetProfileDTO = new InputGetProfileDTO();
         internalGetProfileDTO.setId(personID);
+        internalGetProfileDTO.setJwt(jwt);
         return internalGetProfileDTO;
     }
 

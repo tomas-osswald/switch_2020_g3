@@ -24,9 +24,10 @@ class PersonInputDTOAssemblerTest {
     @Test
     void toInternalGetProfileDTOTest() {
         String personID = "admin@gmail.com";
-        InputGetProfileDTO expected = new InputGetProfileDTO("admin@gmail.com");
+        String jwt = "";
+        InputGetProfileDTO expected = new InputGetProfileDTO("admin@gmail.com","");
 
-        InputGetProfileDTO result = personInputDTOAssembler.toInternalGetProfileDTO(personID);
+        InputGetProfileDTO result = personInputDTOAssembler.toInternalGetProfileDTO(personID, jwt);
 
         assertEquals(expected,result);
     }

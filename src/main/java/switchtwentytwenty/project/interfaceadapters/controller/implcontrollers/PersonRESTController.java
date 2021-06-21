@@ -6,6 +6,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
@@ -57,7 +58,7 @@ public class PersonRESTController implements IPersonRESTController {
             outputEmailDTO = addEmailService.addEmail(inputEmailDTO);
             status = HttpStatus.OK;
 
-            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withSelfRel();
+            Link personSelfLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID, "")).withSelfRel();
             outputEmailDTO.add(personSelfLink);
             return new ResponseEntity<>(outputEmailDTO, status);
         } catch (IllegalArgumentException | InvalidDataAccessApiUsageException | IllegalStateException e) {
@@ -68,7 +69,7 @@ public class PersonRESTController implements IPersonRESTController {
 
     @Override
     @DeleteMapping(value = "/{personID}/emails/{email}")
-    public ResponseEntity<Object> removeEmailAddress( @PathVariable String email, @PathVariable String personID) {
+    public ResponseEntity<Object> removeEmailAddress(@PathVariable String email, @PathVariable String personID) {
         InputRemoveEmailDTO inputRemoveEmailDTO = personInputDTOAssembler.toInputRemoveEmail(email, personID);
         OutputRemoveEmailDTO outputRemoveEmailDTO;
 
@@ -123,10 +124,10 @@ public class PersonRESTController implements IPersonRESTController {
 
 
     @GetMapping(value = "/{personID}")
-    public ResponseEntity<OutputPersonDTO> getProfileInfo(@PathVariable String personID) {
+    public ResponseEntity<OutputPersonDTO> getProfileInfo(@PathVariable String personID, @RequestHeader("Authorization") String jwt) {
 
         try {
-            InputGetProfileDTO inputGetProfileDTO = profileInternalExternalAssembler.toInternalGetProfileDTO(personID);
+            InputGetProfileDTO inputGetProfileDTO = profileInternalExternalAssembler.toInternalGetProfileDTO(personID, jwt);
             OutputPersonDTO outputPersonDTO = getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO);
 
             Link link = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
@@ -139,9 +140,10 @@ public class PersonRESTController implements IPersonRESTController {
 
             return new ResponseEntity(ERROR + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 
+        } catch (AccessDeniedException exception) {
+
+            return new ResponseEntity(ERROR + exception.getMessage(), HttpStatus.FORBIDDEN);
+
         }
-
     }
-
-
 }

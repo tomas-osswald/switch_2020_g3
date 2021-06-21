@@ -14,6 +14,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import switchtwentytwenty.project.domain.valueobject.PersonID;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -97,7 +99,7 @@ class PersonRESTControllerTest {
     @BeforeEach
     void setUp() {
         // We can create mock based on the Interface or a Class
-//    	templateEngine = mock(TemplateEngine.class);
+        // templateEngine = mock(TemplateEngine.class);
 
         // init mock with annotations
         //MockitoAnnotations.initMocks(this);
@@ -119,7 +121,7 @@ class PersonRESTControllerTest {
         when(mockAddEmailService.addEmail(internalEmailDTO)).thenReturn(outputEmailDTO);
 
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailAddressAsID);
-        Link link = linkTo(methodOn(PersonRESTController.class).getProfileInfo(emailAddressAsID)).withSelfRel();
+        Link link = linkTo(methodOn(PersonRESTController.class).getProfileInfo(emailAddressAsID,"")).withSelfRel();
         expectedOutputEmailDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(expectedOutputEmailDTO, HttpStatus.OK);
@@ -163,10 +165,11 @@ class PersonRESTControllerTest {
     @Test
     void successCaseInGetProfileInfo() {
         String personID = "tony@gmail.com";
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
 
         InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO();
 
-        when(profileInternalExternalAssembler.toInternalGetProfileDTO(any(String.class))).thenReturn(inputGetProfileDTO);
+        when(profileInternalExternalAssembler.toInternalGetProfileDTO(anyString(),anyString())).thenReturn(inputGetProfileDTO);
 
         OutputPersonDTO outputPersonDTO = new OutputPersonDTO();
 
@@ -182,27 +185,49 @@ class PersonRESTControllerTest {
 
         ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
 
-        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID);
+        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,jwt);
 
         //assertEquals(expectedResponse, resultResponse);
         assertEquals(expectedResponse.getBody(), resultResponse.getBody());
         assertEquals(expectedResponse.getStatusCode(), resultResponse.getStatusCode());
     }
 
-    @DisplayName("Unsuccess - Get Profile Info - throws EmailNotRegisteredException")
+    @DisplayName("Failure - Get Profile Info - throws EmailNotRegisteredException")
     @Test
-    void unsuccessCaseInGetProfileInfo() {
+    void failureCaseInGetProfileInfo() {
         String personID = "tony@gmail.com";
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
 
         InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO();
 
-        when(profileInternalExternalAssembler.toInternalGetProfileDTO(any(String.class))).thenReturn(inputGetProfileDTO);
+        when(profileInternalExternalAssembler.toInternalGetProfileDTO(anyString(),anyString())).thenReturn(inputGetProfileDTO);
 
         when(getFamilyMemberProfileService.getFamilyMemberProfile(any(InputGetProfileDTO.class))).thenThrow(new EmailNotRegisteredException());
 
         ResponseEntity expected = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
 
-        ResponseEntity result = personRESTController.getProfileInfo(personID);
+        ResponseEntity result = personRESTController.getProfileInfo(personID,jwt);
+
+        assertEquals(expected.getBody(), result.getBody());
+        assertEquals(expected.getStatusCode(), result.getStatusCode());
+
+    }
+
+    @DisplayName("Failure - Get Profile Info - throws EmailNotRegisteredException")
+    @Test
+    void failureCaseInGetProfileInfoForbidden() {
+        String personID = "tony@gmail.com";
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+
+        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO();
+
+        when(profileInternalExternalAssembler.toInternalGetProfileDTO(anyString(),anyString())).thenReturn(inputGetProfileDTO);
+
+        when(getFamilyMemberProfileService.getFamilyMemberProfile(any(InputGetProfileDTO.class))).thenThrow(new AccessDeniedException("Forbidden"));
+
+        ResponseEntity expected = new ResponseEntity("Error: Forbidden", HttpStatus.FORBIDDEN);
+
+        ResponseEntity result = personRESTController.getProfileInfo(personID,jwt);
 
         assertEquals(expected.getBody(), result.getBody());
         assertEquals(expected.getStatusCode(), result.getStatusCode());
@@ -250,11 +275,11 @@ class PersonRESTControllerTest {
 
 
     @Test
-    void personOptionsSuccesCase() {
+    void personOptionsSuccessCase() {
         OptionsDTO expectedOptionsDTO = new OptionsDTO();
         Link linkToPersonOptions = linkTo(methodOn(PersonRESTController.class).personOptions(personID.toString())).withSelfRel();
         Link linkToAddEmail = linkTo(methodOn(PersonRESTController.class).addEmail(new AddEmailDTO(), personID.toString())).withRel("POST - Add new Email");
-        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID.toString())).withRel("GET - Get Profile Info");
+        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID.toString(),"")).withRel("GET - Get Profile Info");
 
         expectedOptionsDTO.add(linkToPersonOptions);
         expectedOptionsDTO.add(linkToAddEmail);

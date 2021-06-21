@@ -22,7 +22,7 @@ class PersonOptionsServiceTest {
         OptionsDTO expected = new OptionsDTO();
         Link linkToPersonOptions = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
         Link linkToAddEmail = linkTo(methodOn(PersonRESTController.class).addEmail(new AddEmailDTO(), personID)).withRel("POST - Add new Email");
-        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withRel("GET - Get Profile Info");
+        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID,"")).withRel("GET - Get Profile Info");
         expected.add(linkToPersonOptions);
         expected.add(linkToAddEmail);
         expected.add(linkToGetProfileInfo);
@@ -40,7 +40,7 @@ class PersonOptionsServiceTest {
         OptionsDTO expected = new OptionsDTO();
         Link linkToPersonOptions = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
         Link linkToAddEmail = linkTo(methodOn(PersonRESTController.class).addEmail(new AddEmailDTO(), personID)).withRel("POST - Add new Email");
-        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("notanemail")).withRel("GET - Get Profile Info");
+        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo("notanemail","")).withRel("GET - Get Profile Info");
 
         expected.add(linkToPersonOptions);
         expected.add(linkToAddEmail);
