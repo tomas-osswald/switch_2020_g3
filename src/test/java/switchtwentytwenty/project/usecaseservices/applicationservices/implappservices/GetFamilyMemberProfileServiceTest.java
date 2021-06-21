@@ -109,13 +109,15 @@ class GetFamilyMemberProfileServiceTest {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, expectedEmails, expectedPhones, "999999999", VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, VALIDEMAIL);
 
         // Mocking
-        when(mockJWTokenUtil.getUsernameFromToken(anyString())).thenReturn("tonyze@latinlover.com");
+        when(mockJWTokenUtil.extractUsernameFromHeader(anyString())).thenReturn("tonyze@latinlover.com");
+
+        when(mockPersonToDTO.createPersonID(anyString())).thenReturn(personID);
 
         when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
 
         when(personRepository.getByID(any(PersonID.class))).thenReturn(person);
 
-        when(mockPersonToDTO.toDTO(person)).thenReturn(outputPersonDTO);
+        when(mockPersonToDTO.toDTO(any(Person.class))).thenReturn(outputPersonDTO);
 
         // Act
 
@@ -139,7 +141,9 @@ class GetFamilyMemberProfileServiceTest {
 
 
         // Mocking
-        when(mockJWTokenUtil.getUsernameFromToken(anyString())).thenReturn("tonyze@latinlover.com");
+        when(mockJWTokenUtil.extractUsernameFromHeader(anyString())).thenReturn("tonyze@latinlover.com");
+
+        when(mockPersonToDTO.createPersonID(anyString())).thenReturn(personID);
 
         when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
 
@@ -163,7 +167,9 @@ class GetFamilyMemberProfileServiceTest {
 
 
         // Mocking
-        when(mockJWTokenUtil.getUsernameFromToken(anyString())).thenReturn("tonyze@latinlover.com");
+        when(mockJWTokenUtil.extractUsernameFromHeader(anyString())).thenReturn("tonyze@latinlover.com");
+
+        when(mockPersonToDTO.createPersonID(anyString())).thenReturn(new PersonID("tonyze@latinlover.com"));
 
         when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
 

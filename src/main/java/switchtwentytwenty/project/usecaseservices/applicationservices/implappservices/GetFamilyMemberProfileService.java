@@ -12,7 +12,6 @@ import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IGetFamilyMemberProfileService;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
-
 @Service
 public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileService {
 
