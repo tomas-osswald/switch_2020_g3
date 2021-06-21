@@ -946,3 +946,16 @@ Architectural Approaches > Praticamente copy paste dos requisitos não funcionai
 Mapping between Views - > NÃO FAZER.
 
 Referrenced Materials e Glossário não é mandatório mas pode-se fazer.
+
+---
+
+
+Martelado pesado a validade do token para haver um token quase infinito (Testes quebravam por validade do Token)
+
+Nos testes de Integração (IT) tem de se simular apenas o Repositório JPA.
+
+O Springboot por haver anotações Autowired iria buscar instâncias verdadeiras em vez de ir buscar mocks que deveriam ser injetados no teste.
+
+No fundo, têm de instanciar os atributos necessários para o teste correr (exemplo Repos, Services,...) e que são instanciados com os Mocks pretendidos lá dentro.
+
+Isto para forçar a utilização dos Mocks conforme pretendido para os testes.

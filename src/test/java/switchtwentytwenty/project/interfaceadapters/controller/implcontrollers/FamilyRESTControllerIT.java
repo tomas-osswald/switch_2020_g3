@@ -1,11 +1,13 @@
 package switchtwentytwenty.project.interfaceadapters.controller.implcontrollers;
 
+import io.jsonwebtoken.Jwt;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.hateoas.Link;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import switchtwentytwenty.project.authentication.JWTokenUtil;
 import switchtwentytwenty.project.datamodel.assemblerjpa.iassemblersjpa.ICategoryDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.FamilyDataDomainAssembler;
 import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
@@ -143,6 +146,11 @@ class FamilyRESTControllerIT {
     @Autowired
     CategoryFactory categoryFactory;
 
+    @Autowired
+    JWTokenUtil jwTokenUtil;
+
+    String veryDurableJwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTgwMDAwMTYyNDI5MjcxMiwiaWF0IjoxNjI0MjkyNzEyfQ.L0ib9t84dubgRWdtK_WCtHBMagp3QbDcNlcLLACPqSRFt3__sJ0T7ef5tGEARj-aRuGXZdxOhMpOG39BwS6KRg";
+
 
     /*private AutoCloseable closeable;
 
@@ -226,10 +234,13 @@ class FamilyRESTControllerIT {
     @DisplayName("Family Members And Relations IT - Success")
     @Test
     void getFamilyMembersAndRelationsITSuccess() {
+        String veryDurableJwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTgwMDAwMTYyNDI5MjcxMiwiaWF0IjoxNjI0MjkyNzEyfQ.L0ib9t84dubgRWdtK_WCtHBMagp3QbDcNlcLLACPqSRFt3__sJ0T7ef5tGEARj-aRuGXZdxOhMpOG39BwS6KRg";
+
+
         PersonRepository personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
         FamilyRepository familyRepository = new FamilyRepository(iFamilyRepositoryJPA, familyDataDomainAssembler);
 
-        IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
+        IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository, jwTokenUtil);
 
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
@@ -257,7 +268,7 @@ class FamilyRESTControllerIT {
         when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(new FamilyID("@tonyze@email.com")).thenReturn(new FamilyID("@tonyze@email.com"));
 
         // Family Repo
-        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@email.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@email.com"));
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@email.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@latinlover.com"));
 
         Optional<FamilyJPA> optionalFamilyJPA = Optional.of(familyJPA);
 
@@ -266,7 +277,7 @@ class FamilyRESTControllerIT {
         when(familyDataDomainAssembler.createFamilyID(any(FamilyJPA.class))).thenReturn(new FamilyID("@tonyze@email.com"));
         when(familyDataDomainAssembler.createFamilyName(any(FamilyJPA.class))).thenReturn(new FamilyName("Zés"));
         when(familyDataDomainAssembler.createRegistrationDate(any(FamilyJPA.class))).thenReturn(new RegistrationDate("27/05/2021"));
-        when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(new PersonID("tonyze@email.com"));
+        when(familyDataDomainAssembler.createAdminID(any(FamilyJPA.class))).thenReturn(new PersonID("tonyze@latinlover.com"));
 
         List<Relation> relationList = new ArrayList<>();
         Relation relation = new Relation(new PersonID("tony@email.com"), new PersonID("katia@email.com"), new RelationDesignation("Marido"));
@@ -292,14 +303,14 @@ class FamilyRESTControllerIT {
         familyMemberAndRelationsListDTO.addDTO(memberOne);
         familyMemberAndRelationsListDTO.addDTO(memberTwo);
 
-        Link link = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@tonyze@email.com")).withSelfRel();
+        Link link = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@tonyze@email.com", "")).withSelfRel();
         familyMemberAndRelationsListDTO.add(link);
 
         ResponseEntity expected = new ResponseEntity(familyMemberAndRelationsListDTO, HttpStatus.OK);
 
         String familyID = "@tonyze@email.com";
 
-        ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID);
+        ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID, veryDurableJwt);
 
         assertEquals(expected, result);
     }
@@ -307,7 +318,10 @@ class FamilyRESTControllerIT {
     @DisplayName("Family Members And Relations IT - Failure - Family Does not Exist")
     @Test
     void getFamilyMembersAndRelationsITFailure() {
-        IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository);
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+
+
+        IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository, jwTokenUtil);
 
         FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
 
@@ -318,7 +332,9 @@ class FamilyRESTControllerIT {
 
         String familyID = "@tonyze@email.com";
 
-        ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID);
+
+
+        ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID, jwt);
 
         assertEquals(expected, result);
     }
@@ -415,7 +431,7 @@ class FamilyRESTControllerIT {
         String memberOneID = "tonyze@gmail.com";
         String memberTwoID = "moonika@gmail.com";
         OutputRelationDTO expectedDTO = new OutputRelationDTO(memberOneID, memberTwoID, newDesignation, relationID);
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "aqui podias pôr qualquer coisa")).withSelfRel();
         expectedDTO.add(selfLink);
 
         ResponseEntity<OutputRelationDTO> expected = new ResponseEntity(expectedDTO, HttpStatus.OK);

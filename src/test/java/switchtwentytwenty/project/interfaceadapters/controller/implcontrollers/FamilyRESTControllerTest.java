@@ -83,6 +83,9 @@ class FamilyRESTControllerTest {
     @InjectMocks
     FamilyRESTController familyRESTController;
 
+    String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+
+
 
     @Test
     @DisplayName("CreateFamilyAndSetAdmin function success case")
@@ -296,13 +299,13 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations")
     void getFamilyMemberAndRelationsTestValidFamilyID() {
-        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString(), anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
         FamilyMemberAndRelationsListDTO outputDTO = new FamilyMemberAndRelationsListDTO();
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com")).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com", "")).withSelfRel();
         outputDTO.add(selfLink);
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity(outputDTO, HttpStatus.OK);
 
-        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", jwt);
 
         assertEquals(expected, result);
     }
@@ -310,10 +313,10 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations failing because the family is not registered")
     void getFamilyMemberAndRelationsTestFamilyNotRegistered() {
-        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenThrow(IllegalArgumentException.class);
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString(), anyString())).thenThrow(IllegalArgumentException.class);
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.BAD_REQUEST);
 
-        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", jwt);
 
         assertEquals(expected, result);
     }
@@ -334,7 +337,7 @@ class FamilyRESTControllerTest {
         String memberOneID = "tonyze@admin.com";
         String memberTwoID = "moonika@gmail.com";
         OutputRelationDTO outputRelationDTO = new OutputRelationDTO(memberOneID, memberTwoID, relationshipDesignation, relationID);
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "")).withSelfRel();
         outputRelationDTO.add(selfLink);
 
         when(relationAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), anyString(), anyString())).thenReturn(inputChangeRelationDTO);

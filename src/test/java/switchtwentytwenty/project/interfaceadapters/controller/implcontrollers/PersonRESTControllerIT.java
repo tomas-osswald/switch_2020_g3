@@ -10,6 +10,9 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import switchtwentytwenty.project.authentication.JWTokenUtil;
+import switchtwentytwenty.project.datamodel.assemblerjpa.implassemblersjpa.PersonDataDomainAssembler;
+import switchtwentytwenty.project.datamodel.domainjpa.AddressJPA;
+import switchtwentytwenty.project.datamodel.domainjpa.FamilyIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonIDJPA;
 import switchtwentytwenty.project.datamodel.domainjpa.PersonJPA;
 import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
@@ -24,6 +27,7 @@ import switchtwentytwenty.project.usecaseservices.applicationservices.iappservic
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.GetFamilyMemberProfileService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PeopleOptionsService;
 import switchtwentytwenty.project.usecaseservices.applicationservices.implappservices.PersonOptionsService;
+import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,8 +48,8 @@ class PersonRESTControllerIT {
     @Mock
     IPersonRepositoryJPA iPersonRepositoryJPA;
 
-   // @Mock
-   // PersonDataDomainAssembler personDataDomainAssembler;
+    @Autowired
+    PersonDataDomainAssembler personDataDomainAssembler;
 
     // Get Family Member Profile Service
     @Autowired
@@ -92,23 +96,27 @@ class PersonRESTControllerIT {
 
     @DisplayName("Get Profile - Controller - Integration Test - Success")
     @Test
-    @Disabled
     void integrationTestSuccessCase() {
         // Init Classes
-        GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
+
+        IPersonRepository personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
+        GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler, jwTokenUtil);
         PeopleOptionsService peopleOptionsService = new PeopleOptionsService();
         PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService, removeEmailService);
 
+
         // PersonID
-        String personID = "tonyze@gmail.com";
-        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+        String personID = "tonyze@latinlover.com";
+        String veryDurableJwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTgwMDAwMTYyNDI5MjcxMiwiaWF0IjoxNjI0MjkyNzEyfQ.L0ib9t84dubgRWdtK_WCtHBMagp3QbDcNlcLLACPqSRFt3__sJ0T7ef5tGEARj-aRuGXZdxOhMpOG39BwS6KRg";
 
         // PersonJPA
         PersonJPA personJPA = new PersonJPA();
 
+
+
         // Person
         final String VALIDNAME = "TonyZe";
-        final String VALIDEMAIL = "tonyze@latinlover.pt";
+        final String VALIDEMAIL = "tonyze@latinlover.com";
         final int VALIDVATNUMBER = 999999999;
         final Integer VALIDPHONENUMBER = 916969696;
         final String VALIDSTREET = "Rua";
@@ -116,6 +124,16 @@ class PersonRESTControllerIT {
         final String VALIDZIPCODE = "4700-111";
         final String VALIDADDRESSNUMBER = "69";
         final String VALIDBIRTHDATE = "1/03/1990";
+
+        personJPA.setId(new PersonIDJPA(VALIDEMAIL));
+        personJPA.setAddress(new AddressJPA(null, VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, personJPA));
+        personJPA.setBirthdate(VALIDBIRTHDATE);
+        personJPA.setEmails(new ArrayList<>());
+        personJPA.setFamilyid(new FamilyIDJPA("@tonyze@latinlover.com"));
+        personJPA.setName("Senhor");
+        personJPA.setPhones(new ArrayList<>());
+        personJPA.setVat(123456789);
+
 
         Name tonyZeName = new Name(VALIDNAME);
         BirthDate tonyZeBirthDate = new BirthDate(VALIDBIRTHDATE);
@@ -150,7 +168,7 @@ class PersonRESTControllerIT {
         ResponseEntity expectedResponse = new ResponseEntity(expectedOutputPersonDTO, HttpStatus.OK);
 
         // Result
-        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,jwt);
+        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,veryDurableJwt);
 
         // Assert
         assertEquals(expectedResponse.toString(), resultResponse.toString());
@@ -158,16 +176,15 @@ class PersonRESTControllerIT {
 
     @DisplayName("Get Profile - Controller - Integration Test - Failure - EmailNotRegisteredException")
     @Test
-    @Disabled
     void integrationTestFailureCaseEmailNotRegistered() {
         // Init Classes
-        GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler);
+        GetFamilyMemberProfileService getFamilyMemberProfileService = new GetFamilyMemberProfileService(personRepository, personDTODomainAssembler, jwTokenUtil);
         PeopleOptionsService peopleOptionsService = new PeopleOptionsService();
         PersonRESTController personRESTController = new PersonRESTController(peopleOptionsService, personOptionsService, profileInternalExternalAssembler, getFamilyMemberProfileService, iAddFamilyMemberService, personInputDTOAssembler, addEmailService,removeEmailService);
 
         // PersonID
         String personID = "tonyze@latinlover.com";
-        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+        String veryDurableJwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTgwMDAwMTYyNDI5MjcxMiwiaWF0IjoxNjI0MjkyNzEyfQ.L0ib9t84dubgRWdtK_WCtHBMagp3QbDcNlcLLACPqSRFt3__sJ0T7ef5tGEARj-aRuGXZdxOhMpOG39BwS6KRg";
 
         // Mocking
         when(iPersonRepositoryJPA.existsById(any(PersonIDJPA.class))).thenReturn(false);
@@ -177,7 +194,7 @@ class PersonRESTControllerIT {
         ResponseEntity expectedResponse = new ResponseEntity("Error: Email is not registered to any person", HttpStatus.UNPROCESSABLE_ENTITY);
 
         // Result
-        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,jwt);
+        ResponseEntity resultResponse = personRESTController.getProfileInfo(personID,veryDurableJwt);
 
         // Assert
         assertEquals(expectedResponse.toString(), resultResponse.toString());

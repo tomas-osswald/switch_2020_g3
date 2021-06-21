@@ -208,7 +208,7 @@ class FamilyRESTControllerITDB {
         String relationID = "-1574017441";
 
         OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@latinlover.com", "kvanessa@latina.com", "Amante", "1");
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "")).withSelfRel();
         outputRelationDTO.add(selfLink);
 
         ResponseEntity<OutputRelationDTO> expected = new ResponseEntity(outputRelationDTO, HttpStatus.OK);
@@ -225,7 +225,7 @@ class FamilyRESTControllerITDB {
         String wrongRelationID = "123";
 
         OutputRelationDTO outputRelationDTO = new OutputRelationDTO("tonyze@latinlover.com", "kvanessa@latina.com", "Amante", "1");
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "")).withSelfRel();
         outputRelationDTO.add(selfLink);
 
         ResponseEntity<OutputRelationDTO> expected = new ResponseEntity("Error: null", HttpStatus.NOT_MODIFIED);

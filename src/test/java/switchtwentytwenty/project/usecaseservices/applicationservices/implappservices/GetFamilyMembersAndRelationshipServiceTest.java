@@ -5,6 +5,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import switchtwentytwenty.project.authentication.JWTokenUtil;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -34,8 +35,13 @@ class GetFamilyMembersAndRelationshipServiceTest {
     @Mock
     IPersonRepository personRepository;
 
+    @Mock
+    JWTokenUtil mockJwt;
+
     @InjectMocks
     GetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
+
+    String veryDurableJwt = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTgwMDAwMTYyNDI5MjcxMiwiaWF0IjoxNjI0MjkyNzEyfQ.L0ib9t84dubgRWdtK_WCtHBMagp3QbDcNlcLLACPqSRFt3__sJ0T7ef5tGEARj-aRuGXZdxOhMpOG39BwS6KRg";
 
 
     String familyIDString = new String("@tonyze@latinlover.com");
@@ -76,6 +82,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
 
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(familyIDString)).thenReturn(familyID);
+        Mockito.when(mockJwt.extractUsernameFromHeader(anyString())).thenReturn(adminEmail.toString());
         Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
         Mockito.when(personRepository.findAllByFamilyID(familyID)).thenReturn(memberList);
 
@@ -87,7 +94,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
         FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
 
-        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString());
+        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString(), veryDurableJwt);
 
         assertEquals(expectedList, resultList);
         List<FamilyMemberAndRelationsDTO> innerList = resultList.getFamilyMemberAndRelationsDTO();
@@ -95,7 +102,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
         assertFalse(innerList.isEmpty());
     }
 
-   @Test
+    @Test
     void getFamilyMembersAndRelationsExpectingNotEquals() {
         family.addRelation(relation);
         memberList.add(memberA);
@@ -114,6 +121,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
         //Ver anyString
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(anyString())).thenReturn(familyID);
+        Mockito.when(mockJwt.extractUsernameFromHeader(anyString())).thenReturn(adminEmail.toString());
         Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
         Mockito.when(personRepository.findAllByFamilyID(familyID)).thenReturn(memberList);
 
@@ -125,12 +133,11 @@ class GetFamilyMembersAndRelationshipServiceTest {
         FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
 
         FamilyID familyIDTwo = new FamilyID("@to@to.com");
-        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyIDTwo.getId());
+        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyIDTwo.getId(), veryDurableJwt);
 
 
         assertNotEquals(expectedList, resultList);
-}
-
+    }
 
 
 }
