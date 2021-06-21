@@ -36,6 +36,7 @@ class CorsFilterTest {
 
     @Test
     void doFilter() {
+        request.addHeader("Origin", "localhost:3000");
 
         try {
             corsFilter.doFilter(request, response, filterChain);
