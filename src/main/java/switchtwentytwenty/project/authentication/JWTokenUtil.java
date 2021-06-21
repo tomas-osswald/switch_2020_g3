@@ -20,6 +20,7 @@ import java.util.function.Function;
 @Component
 public class JWTokenUtil implements Serializable {
     public static final long JWT_TOKEN_VALIDITY = 5L * 60 * 60;
+    private static final int BEARER_INDEX = 7;
     private static final long serialVersionUID = -2550185165626007488L;
 
     private final String secret;
@@ -31,6 +32,10 @@ public class JWTokenUtil implements Serializable {
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    public String extractUsernameFromHeader(String jwt) {
+        return getUsernameFromToken(jwt.substring(BEARER_INDEX));
     }
 
     //retrieve expiration date from jwt token

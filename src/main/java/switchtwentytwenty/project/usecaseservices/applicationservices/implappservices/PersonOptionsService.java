@@ -19,7 +19,7 @@ public class PersonOptionsService implements IPersonOptionsService {
 
         Link linkToPersonOptions = linkTo(methodOn(PersonRESTController.class).personOptions(personID)).withSelfRel();
         Link linkToAddEmail = linkTo(methodOn(PersonRESTController.class).addEmail(new AddEmailDTO(), personID)).withRel("POST - Add new Email");
-        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID)).withRel("GET - Get Profile Info");
+        Link linkToGetProfileInfo = linkTo(methodOn(PersonRESTController.class).getProfileInfo(personID, "")).withRel("GET - Get Profile Info");
 
         optionsDTO.add(linkToPersonOptions);
         optionsDTO.add(linkToAddEmail);

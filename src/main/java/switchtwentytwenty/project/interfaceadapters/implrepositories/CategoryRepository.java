@@ -64,7 +64,6 @@ public class CategoryRepository implements ICategoryRepository {
 
     }
 
-
     public List<Category> getStandardCategoryList() {
         List<CategoryJPA> categoryListJPA;
         categoryListJPA = categoryRepositoryJPA.findAllByFamilyIDJPAIsNull();

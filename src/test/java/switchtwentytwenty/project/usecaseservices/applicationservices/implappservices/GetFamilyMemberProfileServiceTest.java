@@ -6,20 +6,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.security.access.AccessDeniedException;
+import switchtwentytwenty.project.authentication.JWTokenUtil;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
-import switchtwentytwenty.project.exceptions.EmailAlreadyRegisteredException;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
 
@@ -29,6 +26,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +37,9 @@ class GetFamilyMemberProfileServiceTest {
 
     @Mock
     PersonDTODomainAssembler mockPersonToDTO;
+
+    @Mock
+    JWTokenUtil mockJWTokenUtil;
 
     @InjectMocks
     GetFamilyMemberProfileService getFamilyMemberProfileService;
@@ -61,15 +62,16 @@ class GetFamilyMemberProfileServiceTest {
     @Test
     void getFamilyMemberProfileTest() {
         // Arrange
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
 
-        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO("tonyze@gmail.com");
+        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO("tonyze@latinlover.com",jwt);
 
         // PersonID
-        PersonID personID = new PersonID("tonyze@gmail.com");
+        PersonID personID = new PersonID("tonyze@latinlover.com");
 
         // Person
         final String VALIDNAME = "TonyZe";
-        final String VALIDEMAIL = "tonyze@gmail.com";
+        final String VALIDEMAIL = "tonyze@latinlover.com";
         final int VALIDVATNUMBER = 999999999;
         final Integer VALIDPHONENUMBER = 916969696;
         final String VALIDSTREET = "Rua";
@@ -107,12 +109,15 @@ class GetFamilyMemberProfileServiceTest {
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, expectedEmails, expectedPhones, "999999999", VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, VALIDEMAIL);
 
         // Mocking
+        when(mockJWTokenUtil.extractUsernameFromHeader(anyString())).thenReturn("tonyze@latinlover.com");
+
+        when(mockPersonToDTO.createPersonID(anyString())).thenReturn(personID);
 
         when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
 
         when(personRepository.getByID(any(PersonID.class))).thenReturn(person);
 
-        when(mockPersonToDTO.toDTO(person)).thenReturn(outputPersonDTO);
+        when(mockPersonToDTO.toDTO(any(Person.class))).thenReturn(outputPersonDTO);
 
         // Act
 
@@ -125,16 +130,20 @@ class GetFamilyMemberProfileServiceTest {
 
     @DisplayName("Get Profile - Failure - throw EmailNotRegisteredException")
     @Test
-    void getFamilyMemberProfileTestFailure() {
+    void getFamilyMemberProfileTestFailureEmailNotRegistered() {
         // Arrange
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
 
-        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO("tonyze@gmail.com");
+        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO("tonyze@latinlover.com",jwt);
 
         // PersonID
-        PersonID personID = new PersonID("tonyze@gmail.com");
+        PersonID personID = new PersonID("tonyze@latinlover.com");
 
 
         // Mocking
+        when(mockJWTokenUtil.extractUsernameFromHeader(anyString())).thenReturn("tonyze@latinlover.com");
+
+        when(mockPersonToDTO.createPersonID(anyString())).thenReturn(personID);
 
         when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
 
@@ -143,7 +152,30 @@ class GetFamilyMemberProfileServiceTest {
         // Act & Assert
 
         assertThrows(EmailNotRegisteredException.class, () -> getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO));
-
-
     }
+
+    @DisplayName("Get Profile - Failure - throw EmailNotRegisteredException")
+    @Test
+    void getFamilyMemberProfileTestFailureAccessDenied() {
+        // Arrange
+        String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+
+        InputGetProfileDTO inputGetProfileDTO = new InputGetProfileDTO("tonyze@email.com",jwt);
+
+        // PersonID
+        PersonID personID = new PersonID("tonyze@email.com");
+
+
+        // Mocking
+        when(mockJWTokenUtil.extractUsernameFromHeader(anyString())).thenReturn("tonyze@latinlover.com");
+
+        when(mockPersonToDTO.createPersonID(anyString())).thenReturn(new PersonID("tonyze@latinlover.com"));
+
+        when(mockPersonToDTO.createPersonID(any(InputGetProfileDTO.class))).thenReturn(personID);
+
+        // Act & Assert
+
+        assertThrows(AccessDeniedException.class, () -> getFamilyMemberProfileService.getFamilyMemberProfile(inputGetProfileDTO));
+    }
+
 }

@@ -69,7 +69,7 @@ class PersonRESTControllerITDB {
     void addEmailToFamilyMemberExpectingSuccess() {
         OutputEmailDTO expectedOutputEmailDTO = new OutputEmailDTO(emailToAdd);
 
-        Link expectedLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(adminEmail)).withSelfRel();
+        Link expectedLink = linkTo(methodOn(PersonRESTController.class).getProfileInfo(adminEmail,"")).withSelfRel();
         expectedOutputEmailDTO.add(expectedLink);
 
         ResponseEntity<Object> expected = new ResponseEntity<>(expectedOutputEmailDTO, HttpStatus.OK);

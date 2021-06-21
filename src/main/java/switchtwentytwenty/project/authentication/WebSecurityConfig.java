@@ -25,6 +25,10 @@ import org.springframework.web.cors.CorsUtils;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final static String ROLE_SYSTEM_MANAGER = "systemManager";
+    private final static String ROLE_FAMILY_ADMINISTRATOR = "familyAdministrator";
+    private final static String ROLE_FAMILY_MEMBER = "familyMember";
+
     @Autowired
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -72,21 +76,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/categories").permitAll()
 
                 // allow requests to these urls if token has familyAdministrator authority
-                .antMatchers(HttpMethod.POST, "/people", "/families/{familyID}/relations", "/families/{familyID}/categories").hasAuthority("familyAdministrator")
-                .antMatchers(HttpMethod.GET, "/families/{familyID}/relations", "/families/{familyID}/categories", "/families/{familyID}", "/families/{familyID}/categories/{categoryID}").hasAuthority("familyAdministrator")
-                .antMatchers(HttpMethod.PATCH, "/families/{familyID}/relations/{relationID}").hasAuthority("familyAdministrator")
-                //.antMatchers(HttpMethod.OPTIONS, "/families/{familyID}", "/families/{familyID}/categories").hasAuthority("familyAdministrator")
+                .antMatchers(HttpMethod.POST, "/people", "/families/{familyID}/relations", "/families/{familyID}/categories").hasAuthority(ROLE_FAMILY_ADMINISTRATOR)
+                .antMatchers(HttpMethod.GET, "/families/{familyID}/relations", "/families/{familyID}/categories", "/families/{familyID}", "/families/{familyID}/categories/{categoryID}").hasAuthority(ROLE_FAMILY_ADMINISTRATOR)
+                .antMatchers(HttpMethod.PATCH, "/families/{familyID}/relations/{relationID}").hasAuthority(ROLE_FAMILY_ADMINISTRATOR)
+                //.antMatchers(HttpMethod.OPTIONS, "/families/{familyID}", "/families/{familyID}/categories").hasAuthority(ROLE_FAMILY_ADMINISTRATOR)
 
                 // allow requests to these urls if token has either familyMember or familyAdministrator authority
-                .antMatchers(HttpMethod.POST, "/people/{personID}/emails", "/accounts").hasAnyAuthority("familyMember", "familyAdministrator")
-                .antMatchers(HttpMethod.GET, "/people/{personID}", "/accounts/{accountID}", "/people/{personID}/emails").hasAnyAuthority("familyMember", "familyAdministrator")
-                .antMatchers(HttpMethod.DELETE, "/people/{personID}/emails/{email}").hasAnyAuthority("familyMember", "familyAdministrator")
-                //.antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAnyAuthority("familyMember", "familyAdministrator")
+                .antMatchers(HttpMethod.POST, "/people/{personID}/emails", "/accounts").hasAnyAuthority(ROLE_FAMILY_MEMBER, ROLE_FAMILY_ADMINISTRATOR)
+                .antMatchers(HttpMethod.GET, "/people/{personID}", "/accounts/{accountID}", "/people/{personID}/emails").hasAnyAuthority(ROLE_FAMILY_MEMBER, ROLE_FAMILY_ADMINISTRATOR)
+                .antMatchers(HttpMethod.DELETE, "/people/{personID}/emails/{email}").hasAnyAuthority(ROLE_FAMILY_MEMBER, ROLE_FAMILY_ADMINISTRATOR)
+                //.antMatchers(HttpMethod.OPTIONS,"/people", "/people/{personID}").hasAnyAuthority(ROLE_FAMILY_MEMBER, ROLE_FAMILY_ADMINISTRATOR)
 
                 // allow requests to these urls if token has systemManager authority
-                .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority("systemManager")
-                .antMatchers(HttpMethod.GET, "/categories/all", "/categories/{categoryID}").hasAuthority("systemManager")
-                //.antMatchers(HttpMethod.OPTIONS, "/categories", "/families").hasAuthority("systemManager")
+                .antMatchers(HttpMethod.POST, "/families", "/categories").hasAuthority(ROLE_SYSTEM_MANAGER)
+                .antMatchers(HttpMethod.GET, "/categories/all", "/categories/{categoryID}").hasAuthority(ROLE_SYSTEM_MANAGER)
+                //.antMatchers(HttpMethod.OPTIONS, "/categories", "/families").hasAuthority(ROLE_SYSTEM_MANAGER)
 
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 // all other requests need to be authenticated
