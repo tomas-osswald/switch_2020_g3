@@ -267,7 +267,7 @@ function reducer(state, action) {
                 },
 
                 landingPage: {
-                    loading: true,
+                    loading: false,
                     error: null,
                     name: '',
                     family_id: '',
@@ -603,7 +603,7 @@ function reducer(state, action) {
                 ...state,
                 profile: {
                     loading: false,
-                    error: action.payload,
+                    error: action.payload.error,
                 }
             }
 
