@@ -61,22 +61,26 @@ class JWTUserDetailsServiceTest {
 
     @Test
     void saveSuccess() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(username);
-        userDTO.setPassword(password);
-        userDTO.setRole(role);
+        UserDTO userDTO = new UserDTO(username, password, role);
+
+        DAOUser savedDAOUser = new DAOUser();
+        savedDAOUser.setUsername(username);
+        savedDAOUser.setPassword(password);
+        savedDAOUser.setRole(role);
+
+        when(bcryptEncoder.encode(anyString())).thenReturn(password);
+        when(userDao.save(any())).thenReturn(savedDAOUser);
 
         DAOUser expected = new DAOUser();
         expected.setUsername(username);
         expected.setPassword(password);
         expected.setRole(role);
 
-        when(bcryptEncoder.encode(anyString())).thenReturn(password);
-        when(userDao.save(any())).thenReturn(expected);
-
         DAOUser result = jwtUserDetailsService.save(userDTO);
 
-        assertEquals(expected, result);
+        assertEquals(expected.getUsername(), result.getUsername());
+        assertEquals(expected.getPassword(), result.getPassword());
+        assertEquals(expected.getRole(), result.getRole());
     }
 
     @Test
