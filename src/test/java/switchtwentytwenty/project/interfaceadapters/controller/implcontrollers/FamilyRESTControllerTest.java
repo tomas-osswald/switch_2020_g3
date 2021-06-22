@@ -13,6 +13,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
@@ -24,7 +25,6 @@ import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
 
@@ -319,6 +319,18 @@ class FamilyRESTControllerTest {
         ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", jwt);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Test for the retrieval of the list of a family members and their relations failing because access not authorized")
+    void getFamilyMemberAndRelationsTestAccessDenied() {
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString(), anyString())).thenThrow(AccessDeniedException.class);
+        ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.FORBIDDEN);
+
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", "");
+
+        assertEquals(expected, result);
+        assertNotNull(result);
     }
 
 
