@@ -17,22 +17,11 @@ function MembersRelationsFA() {
 
     const {state, dispatch} = useContext(AppContext);
     let {family, familyData, refresh, jwt} = state;
-    const {familyName} = familyData;
     const {loading, error, data} = family
     const {familyMemberAndRelationsDTO} = data
     const {landingPage} = state;
     const [display, setDisplay] = useState(false)
-    const [editRelation, setEditRelation] = useState(false)
     const {family_id} = landingPage;
-    //const [relationID, setRelationID] = useState("")
-
-    /*const [refreshVariable, setrefreshVariable] = useState(false);
-
-    useEffect(() => {
-
-        fetchFamilyRelationsFA(dispatch, family_id);
-        setrefreshVariable(false);
-    }, [refreshVariable]);*/
 
 
     useEffect(() => {
@@ -67,9 +56,8 @@ function MembersRelationsFA() {
         dispatch(changeView(value))
     }
 
-    function editRelationBegin(memberOneID, memberTwoID) {
-        let relationID = findRelationID(memberOneID, memberTwoID);
-        dispatch(changeViewToEditRelation("changeRelation", relationID))
+    function editRelationBeginHATEOAS(link) {
+        dispatch(changeViewToEditRelation("changeRelation", link))
     }
 
 
@@ -107,7 +95,7 @@ function MembersRelationsFA() {
                         <td className="relation-row-1">{relationsRow.relationDesignation} of {findMemberTwoName(relationsRow.memberTwoID)}
                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
                             <button className="editButton"
-                                    onClick={() => editRelationBegin(relationsRow.memberOneID, relationsRow.memberTwoID)}>
+                                    onClick={() => editRelationBeginHATEOAS(relationsRow._links.self.href)}>
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </button>
                         </td>

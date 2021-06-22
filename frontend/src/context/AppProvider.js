@@ -18,7 +18,7 @@ const initialState = {
 
     mainView: '',
 
-    relationID: '',
+    link: '',
 
     jwt: {
         loading: false,
@@ -80,7 +80,14 @@ const initialState = {
                     memberOneID: "",
                     memberTwoID: "",
                     relationDesignation: "",
-                    relationID: ""
+                    relationID: "",
+                    _links:[
+                        {
+                            self: {
+                                href: ""
+                            }
+                        }
+                    ]
                 }]
             }],
         },

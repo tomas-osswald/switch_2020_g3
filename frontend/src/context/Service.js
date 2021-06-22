@@ -86,9 +86,9 @@ export function familyNameGlobal(success, failure, familyId, jwt) {
         })
     ;
 }
-export function changeRelation(success,failure,newRelation,relationID,family_id,jwt){
+export function changeRelation(success,failure,newRelation, link,jwt){
     let authorizationHeader = "Bearer " + jwt;
-    axios.patch(`${URL_API}/families/${family_id}/relations/${relationID}`, JSON.stringify(newRelation),{
+    axios.patch(link, JSON.stringify(newRelation),{
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
