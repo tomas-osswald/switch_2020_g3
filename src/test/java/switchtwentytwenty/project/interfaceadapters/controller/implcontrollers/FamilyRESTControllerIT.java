@@ -339,6 +339,60 @@ class FamilyRESTControllerIT {
         assertEquals(expected, result);
     }
 
+    @DisplayName("Family Members And Relations IT - Failure - Not Authorized")
+    @Test
+    void getFamilyMembersAndRelationsITFailureNotAuthorized() {
+        String invalidJWT = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDM4MDU4NSwiaWF0IjoxNjI0MzYyNTg1fQ.enz1EEVmaITp0KIGDLXqvLvPO3wkfhnwbbXVxH9xFTOOM3PTZUdh60fBkcIjM-CYIO5k04b0qCXMugHkYp9kjQ";
+
+        PersonRepository personRepository = new PersonRepository(iPersonRepositoryJPA, personDataDomainAssembler);
+        FamilyRepository familyRepository = new FamilyRepository(iFamilyRepositoryJPA, familyDataDomainAssembler);
+
+        IGetFamilyMembersAndRelationshipService iGetFamilyMembersAndRelationshipService = new GetFamilyMembersAndRelationshipService(familyDTODomainAssembler, personRepository, familyRepository, jwTokenUtil);
+
+        FamilyRESTController familyRESTController = new FamilyRESTController(iCreateFamilyService, familyAssembler, relationAssembler, personAssembler, iGetFamilyMembersAndRelationshipService, familiesOptionsService, familyOptionsService, createRelationService, getCustomCategoriesService, getFamilyDataService, categoryInputDTOAssembler, createCustomCategoryService, changeRelationService);
+
+
+        // Mocking
+        // Person Repo
+        FamilyIDJPA familyIDJPA = new FamilyIDJPA("@tonyze@email.com");
+        when(personDataDomainAssembler.createFamilyID(any(FamilyID.class))).thenReturn(familyIDJPA);
+
+        when(personDataDomainAssembler.createFamilyID(any(FamilyID.class))).thenReturn(new FamilyIDJPA("@tonyze@email.com"));
+
+        List<PersonJPA> personJPAList = new ArrayList();
+        personJPAList.add(new PersonJPA(new PersonIDJPA("tony@email.com"), "tony", "19/02/1992", 999999999, new FamilyIDJPA("@tonyze@email.com")));
+        personJPAList.add(new PersonJPA(new PersonIDJPA("katia@email.com"), "katia", "12/03/1999", 999999998, new FamilyIDJPA("@tonyze@email.com")));
+
+        when(iPersonRepositoryJPA.findAllByFamilyid(any(FamilyIDJPA.class))).thenReturn(personJPAList);
+
+        when(personDataDomainAssembler.createPersonID(any(PersonJPA.class))).thenReturn(new PersonID("tony@email.com")).thenReturn(new PersonID("katia@email.com"));
+        when(personDataDomainAssembler.createName(any(PersonJPA.class))).thenReturn(new Name("tony")).thenReturn(new Name("katia"));
+        when(personDataDomainAssembler.createBirthDate(any(PersonJPA.class))).thenReturn(new BirthDate("19/02/1992")).thenReturn(new BirthDate("12/03/1999"));
+        when(personDataDomainAssembler.createEmailAdressList(any(PersonJPA.class))).thenReturn(new ArrayList<>()).thenReturn(new ArrayList<>());
+        when(personDataDomainAssembler.createVATNumber(any(PersonJPA.class))).thenReturn(new VATNumber(999999999)).thenReturn(new VATNumber(999999998));
+        when(personDataDomainAssembler.createPhoneNumberList(any(PersonJPA.class))).thenReturn(new ArrayList<>()).thenReturn(new ArrayList<>());
+        when(personDataDomainAssembler.createAddress(any(PersonJPA.class))).thenReturn(new Address("Rua", "Covilhã", "0000-000", "1")).thenReturn(new Address("Rua", "Covilhã", "0000-000", "1"));
+        when(personDataDomainAssembler.createFamilyID(any(PersonJPA.class))).thenReturn(new FamilyID("@tonyze@email.com")).thenReturn(new FamilyID("@tonyze@email.com"));
+
+        // Family Repo
+        FamilyJPA familyJPA = new FamilyJPA(new FamilyIDJPA("@tonyze@email.com"), "Zés", "27/05/2021", new PersonIDJPA("tonyze@latinlover.com"));
+
+        Optional<FamilyJPA> optionalFamilyJPA = Optional.of(familyJPA);
+
+        when(familyDataDomainAssembler.createFamilyIDJPA(any(FamilyID.class))).thenReturn(familyIDJPA);
+        when(iFamilyRepositoryJPA.findById(any(FamilyIDJPA.class))).thenReturn(optionalFamilyJPA);
+
+        ResponseEntity expected = new ResponseEntity("Error: Not a Family Administrator", HttpStatus.FORBIDDEN);
+
+        String familyID = "@tonyze@email.com";
+
+
+
+        ResponseEntity result = familyRESTController.getFamilyMembersAndRelations(familyID, invalidJWT);
+
+        assertEquals(expected, result);
+    }
+
     @DisplayName("Add a custom category to the family - Success")
     @Test
     void addCustomCategorySuccess() {
