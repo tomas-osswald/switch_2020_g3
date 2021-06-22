@@ -130,8 +130,11 @@ public class FamilyRESTController implements IFamilyRESTController {
         try {
             outputRelationDTO = createRelationService.createRelation(inputRelationDTO);
             status = HttpStatus.CREATED;
-            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
+            Link changeRelationLink = linkTo(methodOn(FamilyRESTController.class).changeRelation(null, familyID, outputRelationDTO.getRelationID())).withSelfRel();
+            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withRel("family options");
+            outputRelationDTO.add(changeRelationLink);
             outputRelationDTO.add(optionsLink);
+
             return new ResponseEntity<>(outputRelationDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
