@@ -16,8 +16,8 @@ class OutputPersonDTOTest {
     String ID = "tony@gmail.com";
     String NAME = "Tony";
     String BIRTHDATE = "12/12/1222";
-    List<String> EMAILLIST = new ArrayList<String>();
-    List<String> EMAILLISTTWO = new ArrayList<String>();
+    List<OutputEmailDTO> EMAILLIST = new ArrayList<OutputEmailDTO>();
+    List<OutputEmailDTO> EMAILLISTTWO = new ArrayList<OutputEmailDTO>();
     List<Integer> PHONELIST = new ArrayList<Integer>();
     List<Integer> PHONELISTTWO = new ArrayList<Integer>();
     String VAT = "123456789";
@@ -68,7 +68,7 @@ class OutputPersonDTOTest {
     @DisplayName("Should return false if two  OutputPersonDTO objects with different Emails are compared using the equals method")
     void testEqualsFalseDifferentEmails() {
         OutputPersonDTO outputPersonDTOOne = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLIST,PHONELIST,VAT, STREET, CITY, ZIPCODE, DOORNUMBER,FAMILYID);
-        EMAILLISTTWO.add("otherEmailOne@gmail.com");
+        EMAILLISTTWO.add(new OutputEmailDTO("otherEmailOne@gmail.com"));
         OutputPersonDTO outputPersonDTOTwo = new OutputPersonDTO(ID,NAME,BIRTHDATE, EMAILLISTTWO,PHONELIST,VAT, STREET, CITY, ZIPCODE, DOORNUMBER,FAMILYID);
 
         Assertions.assertNotEquals(outputPersonDTOOne,outputPersonDTOTwo);
@@ -214,14 +214,14 @@ class OutputPersonDTOTest {
     @Test
     @DisplayName("Test to determine the correct function of the getEmails method")
     void getEmails() {
-        EMAILLIST.add("bla@gmail.com");
-        EMAILLIST.add("ble@gmail.com");
+        EMAILLIST.add(new OutputEmailDTO("bla@gmail.com"));
+        EMAILLIST.add(new OutputEmailDTO("ble@gmail.com"));
         outputPersonDTO.setEmails(EMAILLIST);
-        List<String> expected = new ArrayList<String>();
-        expected.add("bla@gmail.com");
-        expected.add("ble@gmail.com");
+        List<OutputEmailDTO> expected = new ArrayList<OutputEmailDTO>();
+        expected.add(new OutputEmailDTO("bla@gmail.com"));
+        expected.add(new OutputEmailDTO("ble@gmail.com"));
 
-        List<String> result = outputPersonDTO.getEmails();
+        List<OutputEmailDTO> result = outputPersonDTO.getEmails();
 
         Assertions.assertEquals(expected,result);
         Assertions.assertNotSame(expected,result);

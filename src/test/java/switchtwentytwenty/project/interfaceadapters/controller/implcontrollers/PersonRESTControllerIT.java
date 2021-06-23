@@ -19,6 +19,7 @@ import switchtwentytwenty.project.datamodel.repositoryjpa.IPersonRepositoryJPA;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonInputDTOAssembler;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.interfaceadapters.implrepositories.PersonRepository;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.IAddEmailService;
@@ -152,7 +153,7 @@ class PersonRESTControllerIT {
         when(iPersonRepositoryJPA.findById(any(PersonIDJPA.class))).thenReturn(Optional.of(personJPA));
 
         // Expected
-        List<String> expectedEmails = Collections.emptyList();
+        List<OutputEmailDTO> expectedEmails = Collections.emptyList();
 
         List<Integer> expectedPhones = new ArrayList<>();
         expectedPhones.add(VALIDPHONENUMBER);

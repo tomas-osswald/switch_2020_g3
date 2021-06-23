@@ -84,7 +84,7 @@ class PersonRESTControllerITDB {
     void addFamilyMemberSuccess() {
         List<Integer> phones = new ArrayList<>();
         phones.add(919999999);
-        List<String> emails = new ArrayList<>();
+        List<OutputEmailDTO> emails = new ArrayList<>();
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         expectedOutputPersonDTO.setName("Kiko");
         expectedOutputPersonDTO.setId("kiko@gmail.com");
@@ -202,7 +202,7 @@ class PersonRESTControllerITDB {
     void addFamilyMemberFailure() {
         List<Integer> phones = new ArrayList<>();
         phones.add(919999999);
-        List<String> emails = new ArrayList<>();
+        List<OutputEmailDTO> emails = new ArrayList<>();
         OutputPersonDTO expectedOutputPersonDTO = new OutputPersonDTO();
         expectedOutputPersonDTO.setName("Kiko");
         expectedOutputPersonDTO.setId("kiko@gmail.com");
