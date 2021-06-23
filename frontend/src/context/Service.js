@@ -1,10 +1,9 @@
 //const [data, setData] = useState([]);
 import axios from "axios";
 import {doNothing} from "./Actions";
+import {config} from './Constants'
 
-export const URL_API = 'http://localhost:8080';
-
-
+export const URL_API = config.url.API_URL;
 
 
 export function authenticateWS(success, failure, userDetails) {
