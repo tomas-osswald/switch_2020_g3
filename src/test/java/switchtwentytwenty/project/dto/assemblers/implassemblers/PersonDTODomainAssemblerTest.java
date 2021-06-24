@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.hateoas.Link;
 import org.springframework.test.context.junit4.SpringRunner;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -14,11 +15,14 @@ import switchtwentytwenty.project.dto.person.InputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.dto.person.OutputRemoveEmailDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -94,7 +98,6 @@ class PersonDTODomainAssemblerTest {
      */
 
 
-
     @Test
     @DisplayName("Should return a not null PersonDataDTO with a phone number list")
     void createPersonProfileDTOSuccessTestPhoneNumbers() {
@@ -138,9 +141,15 @@ class PersonDTODomainAssemblerTest {
         Mockito.when(person.getFamilyID()).thenReturn(familyID);
         Mockito.when(person.getEmails()).thenReturn(emailAddressList);
 
-        List<String> expected = new ArrayList<>();
-        expected.add("email1@email.com");
-        expected.add("email2@email.com");
+        List<OutputEmailDTO> expected = new ArrayList<>();
+        OutputEmailDTO outputEmailDTO1 = new OutputEmailDTO("email1@email.com");
+        Link selfLink1 = linkTo(methodOn(PersonRESTController.class).removeEmailAddress("email1@email.com", person.id().toString())).withRel("RemoveEmail");
+        outputEmailDTO1.add(selfLink1);
+        expected.add(outputEmailDTO1);
+        OutputEmailDTO outputEmailDTO2 = new OutputEmailDTO("email2@email.com");
+        Link selfLink2 = linkTo(methodOn(PersonRESTController.class).removeEmailAddress("email2@email.com", person.id().toString())).withRel("RemoveEmail");
+        outputEmailDTO2.add(selfLink2);
+        expected.add(outputEmailDTO2);
 
         OutputPersonDTO result = personToDTO.toDTO(person);
 
@@ -157,7 +166,7 @@ class PersonDTODomainAssemblerTest {
 
         Address result = personToDTO.createAddress(inputPersonDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -166,7 +175,7 @@ class PersonDTODomainAssemblerTest {
 
         PhoneNumber result = personToDTO.createPhoneNumber(inputPersonDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -175,7 +184,7 @@ class PersonDTODomainAssemblerTest {
 
         VATNumber result = personToDTO.createVATNumber(inputPersonDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -184,7 +193,7 @@ class PersonDTODomainAssemblerTest {
 
         PersonID result = personToDTO.createPersonID(inputPersonDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -193,7 +202,7 @@ class PersonDTODomainAssemblerTest {
 
         Name result = personToDTO.createName(inputPersonDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -202,17 +211,17 @@ class PersonDTODomainAssemblerTest {
 
         BirthDate result = personToDTO.createBirthDate(inputPersonDTO);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
-    void toDTOTest(){
-        Person person = new Person(personID,name,birthdate,null,vat,null,address,familyID);
-        OutputPersonDTO expected = new OutputPersonDTO("tonyze@gmail.com","TonyZe","12/12/1970",new ArrayList<>(),new ArrayList<>(),"123456789","Rua da amargura","Amadora","4444-111","47","@tonyze@gmail.com");
+    void toDTOTest() {
+        Person person = new Person(personID, name, birthdate, null, vat, null, address, familyID);
+        OutputPersonDTO expected = new OutputPersonDTO("tonyze@gmail.com", "TonyZe", "12/12/1970", new ArrayList<>(), new ArrayList<>(), "123456789", "Rua da amargura", "Amadora", "4444-111", "47", "@tonyze@gmail.com");
 
         OutputPersonDTO result = personToDTO.toDTO(person);
 
-        assertEquals(expected,result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -230,9 +239,9 @@ class PersonDTODomainAssemblerTest {
     @Test
     void getPersonEmailsList() {
         Person person = new Person(personID, name, birthdate, null, vat, null, address, familyID);
-        List<String> expected = new ArrayList<>();
+        List<OutputEmailDTO> expected = new ArrayList<>();
 
-        List<String> result = personToDTO.toDTO(person).getEmails();
+        List<OutputEmailDTO> result = personToDTO.toDTO(person).getEmails();
 
         assertEquals(expected, result);
     }

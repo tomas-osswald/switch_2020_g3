@@ -81,7 +81,7 @@ const initialState = {
                     memberTwoID: "",
                     relationDesignation: "",
                     relationID: "",
-                    _links:[
+                    _links: [
                         {
                             self: {
                                 href: ""
@@ -114,7 +114,16 @@ const initialState = {
             id: "",
             name: "",
             birthdate: "",
-            emails: [],
+            emails: [
+                {
+                    email: "",
+                    _links: {
+                        RemoveEmail: {
+                            href: ""
+                        }
+                    }
+                }
+            ],
             phoneNumbers: [],
             vat: "",
             street: "",

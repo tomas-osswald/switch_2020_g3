@@ -17,7 +17,7 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
     private String id;
     private String name;
     private String birthdate;
-    private List<String> emails = new ArrayList<>();
+    private List<OutputEmailDTO> emails = new ArrayList<>();
     private List<Integer> phoneNumbers = new ArrayList<>();
     private String vat;
     private String street;
@@ -26,7 +26,7 @@ public class OutputPersonDTO extends RepresentationModel<OutputPersonDTO> {
     private String doorNumber;
     private String familyID;
 
-    public OutputPersonDTO(String id, String name, String birthdate, List<String> emails, List<Integer> phoneNumbers, String vat, String street, String city, String zipCode, String doorNumber, String familyID) {
+    public OutputPersonDTO(String id, String name, String birthdate, List<OutputEmailDTO> emails, List<Integer> phoneNumbers, String vat, String street, String city, String zipCode, String doorNumber, String familyID) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
