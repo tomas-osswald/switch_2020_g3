@@ -38,7 +38,7 @@ export const NavbarBodyDiv = styled.div`
   justify-self: center;
   width: 80%;
   display: grid;
-  grid-template-rows: 50px 50px 1fr;
+  grid-template-rows: 50px 50px 50px 1fr;
   grid-row-gap: 10px;
 `
 

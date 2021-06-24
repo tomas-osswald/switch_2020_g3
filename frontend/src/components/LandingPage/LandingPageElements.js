@@ -30,3 +30,5 @@ export const UserName = styled.text`
   -webkit-text-stroke: 2px var(--backgroundBlack);
   text-align: center;
 `
+
+
