@@ -15,3 +15,17 @@ sm -- uc002
 sm -- uc010
 
 @enduml
+
+@startuml
+
+left to right direction
+
+title Front End Use Case Diagram - System Manager
+
+actor "System Manager" as sm
+
+usecase "create a family and set a \nfamily administrator" as uc010
+
+sm -- uc010
+
+@enduml
