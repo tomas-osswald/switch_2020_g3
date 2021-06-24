@@ -45,8 +45,9 @@ function Profile() {
     //({profileEmail}) => handleDelete({profileEmail})
 
     function EmailsList() {
-        const emailList = profileData.emails.map( (emailDTO, index) => { return (<div className="font-class button-grid">
-            <p className="info">{index} {emailDTO.email}</p>
+
+        const emailList = profileData.emails.map( (profileEmail, index) => { return (<div className="font-class button-grid">
+            <p className="info">{profileEmail}</p>
             <div className="button-profile-alignment">
                 <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(emailDTO._links.RemoveEmail.href) }>delete
                 </button>
