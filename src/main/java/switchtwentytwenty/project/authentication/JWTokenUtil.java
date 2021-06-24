@@ -39,10 +39,10 @@ public class JWTokenUtil implements Serializable {
         return getUsernameFromToken(jwt.substring(BEARER_INDEX));
     }
 
-    //retrieve expiration date from jwt token
-    public Date getExpirationDateFromToken(String token) {
+   //retrieve expiration date from jwt token
+    /*     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
-    }
+    }*/
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
