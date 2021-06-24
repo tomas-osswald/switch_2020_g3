@@ -18,7 +18,7 @@ import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @EnabledOnOs(OS.WINDOWS)
-public class UITests {
+public class UITestsITDB {
     WebDriver driver;
 
     @BeforeEach
