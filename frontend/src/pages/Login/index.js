@@ -49,17 +49,23 @@ const Login = () => {
         setLoading(true);
     }
 
-    if ( loading === true ) {
-        function loadingBtn() {
+
+    function loadingBtn() {
+        if (loading === true) {
             return (
-                <div>
+                <button className="login-button" id="login-button">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-                    <button className="buttonload">
-                        <i className="fa fa-spinner fa-spin"></i>Loading
-                    </button>
-                </div>
+                    <i className="fa fa-spinner fa-spin"></i>Loading
+                </button>
+            )
+        } else {
+            return (
+                <Button className="login-button" onClick={() => handleClick(email, password, loginRole)}
+                        id="login-button" to={'/'}>Login
+                </Button>
             )
         }
+
     }
 
     return (
@@ -115,10 +121,7 @@ const Login = () => {
                     {/*<button className="login-button" onClick={() => handleClick(email, password, loginRole)}
                             id="login-button" to={'/'}>Login
                     </button>*/}
-                    <Button className="login-button" onClick={() => handleClick(email, password, loginRole)}
-                            id="login-button" to={'/'}>Login
-                    </Button>
-                    {loadingBtn}
+                    {loadingBtn()}
                 </div>
 
                 {/*<div className="row-selector">
