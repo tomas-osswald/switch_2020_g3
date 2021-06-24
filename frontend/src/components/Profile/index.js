@@ -46,7 +46,7 @@ function Profile() {
 
     function EmailsList() {
         const emailList = profileData.emails.map( (profileEmail, index) => { return (<div className="font-class button-grid">
-            <p className="info">{index} {profileEmail}</p>
+            <p className="info">{profileEmail}</p>
             <div className="button-profile-alignment">
                 <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(profileEmail) }>delete
                 </button>
