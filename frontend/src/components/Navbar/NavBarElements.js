@@ -5,10 +5,14 @@ import styled from 'styled-components';
 
 // Como a row só tem uma partição, apenas se coloca da "linha" 1 à 2
 // Como as colunas são constituidas por duas divisões, a primeirpartição é da linha
+
+
+
 // 1 à 2 enquanto que a restante vai ser definida no outro componente
 export const NavbarDiv = styled.div`
-
-  background-color: #52ec85;
+  
+  //background-color: //{color} ;//#52ec85;
+  background-color: ${props => props.theme};
 
   // Implementar o grid system no Parent através da construção do esqueleto e nos childs definir as dimensões de cada secção.
   display: grid;

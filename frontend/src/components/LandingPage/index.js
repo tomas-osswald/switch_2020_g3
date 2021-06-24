@@ -13,6 +13,7 @@ function LandingPage() {
     const {loggedUser,jwt} = state;
     const {jwt: token} = jwt;
     const {loading, name} = landingPage;
+    const {role} = loggedUser;
 
     useEffect(() => {
         if(loggedUser.role !== 'systemManager'){
@@ -32,8 +33,9 @@ function LandingPage() {
                 <MainText>
                     Welcome
                 </MainText>
-                <UserName>
-                    {name}
+                <UserName className="username">
+                    <p>{role}</p>
+                    <p>{name}</p>
                 </UserName>
             </LandingPageDiv>
         </>

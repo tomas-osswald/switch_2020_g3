@@ -12,7 +12,6 @@ function NavbarBody() {
     const { loggedUser } = state;
     const { role } = loggedUser;
 
-
     switch (role) {
         case 'systemManager':
             return (

@@ -9,8 +9,11 @@ import {
     fetchFamilyRelationsFA,
     postNewRelation
 } from "../../context/Actions";
-import {Button, Table} from 'react-bootstrap';
+//import {Button, Table} from 'react-bootstrap';
+import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 import {MembersRelationsFADiv, RelationsList} from "./MembersRelationsFAElements";
+import Loading from "../Loading";
 
 
 function MembersRelationsFA() {
@@ -87,7 +90,7 @@ function MembersRelationsFA() {
     }
 
 
-    function buildTable() {
+    /*function buildTable() {
         const dto = familyMemberAndRelationsDTO.map((row, index) => {
             const relations = row.relations.map((relation, relationsIndex) => {
                 return (
@@ -112,7 +115,35 @@ function MembersRelationsFA() {
             )
         })
         return (<div>{dto}</div>)
+    }*/
+
+
+
+
+    function buildTable2() {
+        const dto2 = familyMemberAndRelationsDTO.map((row2, index2) => {
+            const relations2 = row2.relations.map((relation2, relationsIndex2) => {
+                return (
+                    <div className="relation-row" key={relationsIndex2}>
+                        <td className="relation-row-1">{relation2.relationDesignation} of {findMemberTwoName(relation2.memberTwoID)}
+                            <button className="editButton" onClick={() => editRelationBeginHATEOAS(relation2._links.self.href)}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                        </td>
+                    </div>
+                )
+            })
+            return (
+                <tr className="table-row font-class" style={{padding: "30px"}} key={index2}>
+                    <td className="table-row-element-1">{row2.name}</td>
+                    <td className="table-row-element-2">{displayRole(index2)}</td>
+                    <RelationsList props={display}>{relations2}</RelationsList>
+                </tr>
+            )
+        })
+        return (<tbody>{dto2}</tbody>)
     }
+
+
+
 
 
     function populateSelection() {
@@ -153,21 +184,20 @@ function MembersRelationsFA() {
     } else {
         if (loading === true) {
             return (
-                <div>
-                    Loading...
-                </div>
-
+                <Loading/>
             )
         } else {
             return (
                 <MembersRelationsFADiv>
                     <div className="relation-add-table">
-                        <Table>
-                            <tr className="table-header font-class">
-                                <th className="table-header-element-1">NAME</th>
-                                <th className="table-header-element-2">ROLE</th>
-                            </tr>
-                            {buildTable()}
+                        <Table bordered hover>
+                            <thead>
+                                <tr className="table-header font-class">
+                                    <th className="table-header-element-1">NAME</th>
+                                    <th className="table-header-element-2">ROLE</th>
+                                </tr>
+                            </thead>
+                            {buildTable2()}
                         </Table>
                     </div>
                     <div className="table-interaction font-class">

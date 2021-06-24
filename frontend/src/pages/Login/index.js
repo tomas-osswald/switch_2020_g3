@@ -8,6 +8,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import '../../styles/login.css'
 import '../../styles/global.css'
 import apes from '../../assets/atr-small.png'
+import Button from 'react-bootstrap/Button';
 
 
 const Login = () => {
@@ -23,6 +24,9 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginRole, setRole] = useState('');
+    const [color, setColor] = useState('');
+    const [loading, setLoading] = useState(false);
+
 
     /*if (token !== null) {
         let path = `/`;
@@ -42,6 +46,20 @@ const Login = () => {
         //userDetails.password = password;
         authenticate(dispatch, userDetails);
         //dispatch(changeUser(email, loginRole));
+        setLoading(true);
+    }
+
+    if ( loading === true ) {
+        function loadingBtn() {
+            return (
+                <div>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+                    <button className="buttonload">
+                        <i className="fa fa-spinner fa-spin"></i>Loading
+                    </button>
+                </div>
+            )
+        }
     }
 
     return (
@@ -94,9 +112,13 @@ const Login = () => {
                 </div>*/}
 
                 <div className="row-button">
-                    <button className="login-button" onClick={() => handleClick(email, password, loginRole)}
+                    {/*<button className="login-button" onClick={() => handleClick(email, password, loginRole)}
                             id="login-button" to={'/'}>Login
-                    </button>
+                    </button>*/}
+                    <Button className="login-button" onClick={() => handleClick(email, password, loginRole)}
+                            id="login-button" to={'/'}>Login
+                    </Button>
+                    {loadingBtn}
                 </div>
 
                 {/*<div className="row-selector">
@@ -126,7 +148,6 @@ const Login = () => {
 
 
         </LoginDiv>
-
 
     )
 }
