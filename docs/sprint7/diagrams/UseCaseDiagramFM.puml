@@ -7,11 +7,9 @@ title Use Case Diagram - Family Member
 actor "Family Member" as fm
 
 usecase "get my profile’s information" as uc150
-usecase "add an email account to my \nprofile" as uc151
-usecase "remove an email account from my profile" as uc152
+usecase "manage email accounts" as uc151
 usecase "create or add personal accounts" as uc170
 
-fm -- uc152
 fm -- uc150
 fm -- uc151
 fm -- uc170
