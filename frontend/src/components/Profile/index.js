@@ -47,7 +47,7 @@ function Profile() {
     function EmailsList() {
 
         const emailList = profileData.emails.map( (emailDTO, index) => { return (<div className="font-class button-grid">
-            <p className="info">{emailDTO}</p>
+            <p className="info">{emailDTO.email}</p>
             <div className="button-profile-alignment">
                 <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(emailDTO._links.RemoveEmail.href) }>
                     delete

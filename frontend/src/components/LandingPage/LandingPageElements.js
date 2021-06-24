@@ -15,7 +15,8 @@ export const LandingPageDiv = styled.div`
 
 export const MainText = styled.text`
   color: var(--backgroundGrey);
-  font-size: 48px;
+  font-size: 88px;
+  font-weight: bold;
   margin-top: -40px;
   margin-bottom: 40px;
   -webkit-text-stroke: 2px var(--backgroundBlack);
@@ -23,8 +24,9 @@ export const MainText = styled.text`
 
 export const UserName = styled.text`
   color: var(--backgroundGrey);
-  font-size: 72px;
+  font-size: 100px;
   margin-top: 8px;
   font-weight: bolder;
   -webkit-text-stroke: 2px var(--backgroundBlack);
+  text-align: center;
 `

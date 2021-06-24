@@ -34,7 +34,6 @@ function LandingPage() {
                     Welcome
                 </MainText>
                 <UserName className="username">
-                    <p>{role}</p>
                     <p>{name}</p>
                 </UserName>
             </LandingPageDiv>

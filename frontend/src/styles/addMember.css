@@ -1,5 +1,18 @@
 .addMember-input{
-    width: 90%;
+    width: 40%;
+}
+
+.center-form {
+    margin: auto !important;
+}
+
+.form-group {
+    margin: 5px !important;
+}
+
+.title {
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
 }
 
 

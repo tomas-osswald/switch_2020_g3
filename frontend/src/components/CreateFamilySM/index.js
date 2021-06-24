@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import AppContext from "../../context/AppContext";
 import {createFamilySM} from "../../context/Actions";
-import {FormControl, FormGroup, FormLabel} from "react-bootstrap";
+import {FormControl, FormGroup, FormLabel, Button} from "react-bootstrap";
 import Loading from "../Loading";
 import "../../styles/createFamily.css"
 import '../../styles/global.css';
@@ -181,7 +181,7 @@ export default function CreateFamilySM() {
                 </form>
                 <br></br>
                 <div className="button-position">
-                    <button className="button-two-small" onClick={submitAndChangeDisplay}>Register Family</button>
+                    <Button className="button-two-small" variant="dark" type="submit" onClick={submitAndChangeDisplay}>Register Family</Button>
                 </div>
             </div>
         )
