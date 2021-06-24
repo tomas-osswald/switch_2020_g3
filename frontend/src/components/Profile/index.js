@@ -46,10 +46,11 @@ function Profile() {
 
     function EmailsList() {
 
-        const emailList = profileData.emails.map( (profileEmail, index) => { return (<div className="font-class button-grid">
-            <p className="info">{profileEmail}</p>
+        const emailList = profileData.emails.map( (emailDTO, index) => { return (<div className="font-class button-grid">
+            <p className="info">{emailDTO}</p>
             <div className="button-profile-alignment">
-                <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(emailDTO._links.RemoveEmail.href) }>delete
+                <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(emailDTO._links.RemoveEmail.href) }>
+                    delete
                 </button>
             </div>
         </div> )} )
