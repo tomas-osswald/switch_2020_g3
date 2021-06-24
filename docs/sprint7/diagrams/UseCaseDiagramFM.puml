@@ -16,3 +16,19 @@ fm -- uc170
 
 
 @enduml
+
+@startuml
+
+left to right direction
+
+title Front End Use Case Diagram - Family Member
+
+actor "Family Member" as fm
+
+usecase "get my profile’s information" as uc150
+usecase "manage email accounts" as uc151
+
+fm -- uc150
+fm -- uc151
+
+@enduml

@@ -19,3 +19,21 @@ fa -- uc110
 fa -- uc111
 
 @enduml
+
+@startuml
+
+left to right direction
+
+title Front End Use Case Diagram - Family Administrator
+
+actor "Family Administrator" as fa
+
+usecase "add family members" as uc101
+usecase "get the list of family members \nand their relations" as uc104
+usecase "manage relations between two \nfamily members" as uc105
+
+fa -- uc101
+fa -- uc104
+fa -- uc105
+
+@enduml
