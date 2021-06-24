@@ -9,8 +9,7 @@ import {changeRelationAction, changeView} from "../../context/Actions";
 
 function ChangeRelation() {
     const {state, dispatch} = useContext(AppContext);
-    const {relationID, jwt, landingPage} = state;
-    const {family_id} = landingPage;
+    const {link, jwt} = state;
     const [designation, setDesignation] = useState('');
 
     function handleClick(){
@@ -18,7 +17,7 @@ function ChangeRelation() {
             newRelationDesignation: designation,
         }
 
-        changeRelationAction(dispatch, newRelation, relationID, family_id, jwt.jwt);
+        changeRelationAction(dispatch, newRelation, link, jwt.jwt);
         dispatch(changeView('family'));
 
     }

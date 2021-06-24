@@ -21,13 +21,13 @@ public class GetFamilyMemberProfileService implements IGetFamilyMemberProfileSer
 
     PersonDTODomainAssembler assembler;
 
-    @Autowired
     JWTokenUtil jwTokenUtil;
 
     @Autowired
-    public GetFamilyMemberProfileService(IPersonRepository iPersonRepository, PersonDTODomainAssembler personDTODomainAssembler) {
+    public GetFamilyMemberProfileService(IPersonRepository iPersonRepository, PersonDTODomainAssembler personDTODomainAssembler, JWTokenUtil jwTokenUtil) {
         this.assembler = personDTODomainAssembler;
         this.personRepository = iPersonRepository;
+        this.jwTokenUtil = jwTokenUtil;
     }
 
     public OutputPersonDTO getFamilyMemberProfile(InputGetProfileDTO inputGetProfileDTO) {

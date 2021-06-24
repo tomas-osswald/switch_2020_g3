@@ -1,13 +1,18 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.iassemblers.IPersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.*;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.PersonRESTController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
@@ -64,11 +69,14 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return phoneNumbers;
     }
 
-    private List<String> getPersonStringEmailList(Person savedPerson) {
-        List<String> emails = new ArrayList<>();
+    private List<OutputEmailDTO> getPersonStringEmailList(Person savedPerson) {
+        List<OutputEmailDTO> emails = new ArrayList<>();
         List<EmailAddress> emailObjects = savedPerson.getEmails();
         for (EmailAddress emailObject : emailObjects) {
-            emails.add(emailObject.toString());
+            OutputEmailDTO outputEmailDTO = new OutputEmailDTO(emailObject.toString());
+            Link selfLink = linkTo(methodOn(PersonRESTController.class).removeEmailAddress(emailObject.toString(), savedPerson.id().toString())).withRel("RemoveEmail");
+            outputEmailDTO.add(selfLink);
+            emails.add(outputEmailDTO);
         }
         return emails;
     }
@@ -89,9 +97,9 @@ public class PersonDTODomainAssembler implements IPersonDTODomainAssembler {
         return new PersonID(personEmail);
     }
 
-    public OutputRemoveEmailDTO toOutputRemoveEmailDTO(List<EmailAddress> emails){
+    public OutputRemoveEmailDTO toOutputRemoveEmailDTO(List<EmailAddress> emails) {
         List<String> convertedEmails = new ArrayList<>();
-        for (EmailAddress email: emails) {
+        for (EmailAddress email : emails) {
             String emailAddress = email.toString();
             convertedEmails.add(emailAddress);
         }

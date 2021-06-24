@@ -48,4 +48,16 @@ class DAOUserTest {
 
         assertEquals(expected,result);
     }
+
+    @Test
+    void setID() {
+        DAOUser daoUser = new DAOUser();
+        Long expected = 3L;
+
+        daoUser.setID(3L);
+        Long result = daoUser.getID();
+
+        assertEquals(expected,result);
+    }
+
 }

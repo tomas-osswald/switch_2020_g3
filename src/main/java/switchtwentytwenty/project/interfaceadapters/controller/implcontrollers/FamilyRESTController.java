@@ -6,6 +6,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
@@ -23,6 +24,8 @@ import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.exceptions.PersonAlreadyRegisteredException;
 import switchtwentytwenty.project.interfaceadapters.controller.icontrollers.IFamilyRESTController;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
+
+
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -126,8 +129,11 @@ public class FamilyRESTController implements IFamilyRESTController {
         try {
             outputRelationDTO = createRelationService.createRelation(inputRelationDTO);
             status = HttpStatus.CREATED;
-            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withSelfRel();
+            Link changeRelationLink = linkTo(methodOn(FamilyRESTController.class).changeRelation(null, familyID, outputRelationDTO.getRelationID())).withSelfRel();
+            Link optionsLink = linkTo(methodOn(FamilyRESTController.class).getFamilyOptions(familyID)).withRel("family options");
+            outputRelationDTO.add(changeRelationLink);
             outputRelationDTO.add(optionsLink);
+
             return new ResponseEntity<>(outputRelationDTO, status);
         } catch (Exception e) {
             status = HttpStatus.UNPROCESSABLE_ENTITY;
@@ -148,7 +154,7 @@ public class FamilyRESTController implements IFamilyRESTController {
         try {
             outputRelationDTO = changeRelationService.changeRelation(inputChangeRelationDTO);
             status = HttpStatus.OK;
-            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "")).withSelfRel();
             outputRelationDTO.add(selfLink);
             return new ResponseEntity<>(outputRelationDTO, status);
         } catch (Exception e) {
@@ -161,16 +167,20 @@ public class FamilyRESTController implements IFamilyRESTController {
 
 
     @GetMapping("/{familyID}/relations")
-    public ResponseEntity<FamilyMemberAndRelationsListDTO> getFamilyMembersAndRelations(@PathVariable String familyID) {
+    public ResponseEntity<FamilyMemberAndRelationsListDTO> getFamilyMembersAndRelations(@PathVariable String familyID, @RequestHeader("Authorization") String jwt) {
         HttpStatus status;
         FamilyMemberAndRelationsListDTO familyMemberAndRelationsListDTO;
         try {
-            familyMemberAndRelationsListDTO = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID);
+            familyMemberAndRelationsListDTO = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID, jwt);
             status = HttpStatus.OK;
-            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+            Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "")).withSelfRel();
             familyMemberAndRelationsListDTO.add(selfLink);
             return new ResponseEntity<>(familyMemberAndRelationsListDTO, status);
-        } catch (IllegalArgumentException | InvalidDataAccessApiUsageException exception) {
+        } catch (AccessDeniedException exception) {
+            status = HttpStatus.FORBIDDEN;
+            return new ResponseEntity(ERROR + exception.getMessage(), status);
+        } catch
+        (IllegalArgumentException | InvalidDataAccessApiUsageException exception) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity(ERROR + exception.getMessage(), status);
         }

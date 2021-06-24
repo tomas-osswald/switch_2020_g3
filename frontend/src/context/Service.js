@@ -1,10 +1,8 @@
 //const [data, setData] = useState([]);
 import axios from "axios";
-import {doNothing} from "./Actions";
+import {config} from './Constants'
 
-export const URL_API = 'http://localhost:8080';
-
-
+export const URL_API = config.url.API_URL;
 
 
 export function authenticateWS(success, failure, userDetails) {
@@ -86,9 +84,10 @@ export function familyNameGlobal(success, failure, familyId, jwt) {
         })
     ;
 }
-export function changeRelation(success,failure,newRelation,relationID,family_id,jwt){
+
+export function changeRelation(success, failure, newRelation, link, jwt) {
     let authorizationHeader = "Bearer " + jwt;
-    axios.patch(`${URL_API}/families/${family_id}/relations/${relationID}`, JSON.stringify(newRelation),{
+    axios.patch(link, JSON.stringify(newRelation), {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
@@ -103,6 +102,7 @@ export function changeRelation(success,failure,newRelation,relationID,family_id,
             console.log(err.message)
         });
 }
+
 export function addRelation(success, failure, createRelationDTO, familyID, jwt) {
     let authorizationHeader = "Bearer " + jwt;
     axios.post(`${URL_API}/families/${familyID}/relations`, JSON.stringify(createRelationDTO), {
@@ -227,9 +227,9 @@ export function postNewMember(success, failure, addNewMember, jwt) {
         });
 }
 
-export function deleteEmailFMService(success, failure, email, id, jwt){
+export function deleteEmailFMService(success, failure, deleteLink, jwt) {
     let authorizationHeader = "Bearer " + jwt;
-    axios.delete(`${URL_API}/people/${id}/emails/${email}`, {
+    axios.delete(deleteLink, {
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',

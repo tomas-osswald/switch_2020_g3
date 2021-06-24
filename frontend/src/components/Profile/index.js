@@ -37,18 +37,19 @@ function Profile() {
 
     }
 
-    function handleDelete(profileEmail) {
-        deleteEmail(dispatch, profileEmail, id, jwt.jwt);
+    function handleDelete(deleteLink) {
+        deleteEmail(dispatch, deleteLink, jwt.jwt);
         setRefresh(true);
     }
 
     //({profileEmail}) => handleDelete({profileEmail})
 
     function EmailsList() {
+
         const emailList = profileData.emails.map( (profileEmail, index) => { return (<div className="font-class button-grid">
-            <p className="info">{index} {profileEmail}</p>
+            <p className="info">{profileEmail}</p>
             <div className="button-profile-alignment">
-                <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(profileEmail) }>delete
+                <button className="button-one-small button-profile-alignment" onClick={ () => handleDelete(emailDTO._links.RemoveEmail.href) }>delete
                 </button>
             </div>
         </div> )} )

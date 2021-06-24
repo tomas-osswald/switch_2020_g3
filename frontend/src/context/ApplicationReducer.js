@@ -245,7 +245,7 @@ function reducer(state, action) {
             }
 
 
-            // Se LOGOUT dá problema, copiar initial state do AppProvider para colar aqui
+        // Se LOGOUT dá problema, copiar initial state do AppProvider para colar aqui
         case
         LOGOUT:
             return {
@@ -392,7 +392,7 @@ function reducer(state, action) {
             return {
                 ...state,
                 mainView: action.payload.mainView,
-                relationID: action.payload.relationID,
+                link: action.payload.link,
             }
 
 
@@ -400,26 +400,33 @@ function reducer(state, action) {
         CHANGE_RELATION_START:
             return {
                 ...state,
-                loading: true,
-                error: null,
+                family: {
+                    loading: true,
+                    error: null,
+                    data: state.family.data
+                }
             }
 
         case CHANGE_RELATION_SUCCESS:
             return {
                 ...state,
-                landingPage: {
+                family: {
                     loading: false,
                     error: null,
+                    data: state.family.data
                 }
+
             }
 
         case CHANGE_RELATION_FAILURE:
             return {
                 ...state,
-                landingPage: {
+                family: {
                     loading: false,
                     error: action.payload,
+                    data: state.family.data
                 }
+
             }
 
 
@@ -585,14 +592,14 @@ function reducer(state, action) {
             }
 
         case DELETE_EMAIL_STARTED:
-            return{
+            return {
                 ...state,
                 loading: true,
                 error: null,
             }
 
         case DELETE_EMAIL_SUCCESS:
-            return{
+            return {
                 ...state,
                 refresh: true,
 

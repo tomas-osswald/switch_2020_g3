@@ -92,6 +92,19 @@ class SecurityUserTest {
     }
 
     @Test
+    void testNotEqualsDifferentObjects() {
+        String notSecurityUser = "Not a security user";
+        assertNotEquals(securityUser, notSecurityUser);
+    }
+
+    @Test
+    void testNotEqualsDifferentFromNull() {
+        String nullString = null;
+        assertNotEquals(securityUser, nullString);
+    }
+
+
+    @Test
     void testHashCodeSameObject() {
         assertEquals(securityUser.hashCode(), securityUser.hashCode());
     }

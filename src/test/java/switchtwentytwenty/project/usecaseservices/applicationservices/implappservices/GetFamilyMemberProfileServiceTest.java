@@ -16,6 +16,7 @@ import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.PersonDTODomainAssembler;
 import switchtwentytwenty.project.dto.person.InputGetProfileDTO;
+import switchtwentytwenty.project.dto.person.OutputEmailDTO;
 import switchtwentytwenty.project.dto.person.OutputPersonDTO;
 import switchtwentytwenty.project.exceptions.EmailNotRegisteredException;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
@@ -92,16 +93,16 @@ class GetFamilyMemberProfileServiceTest {
 
         // OutputPersonDTO
 
-        List<String> emails = Collections.emptyList();
+        List<OutputEmailDTO> emails = Collections.emptyList();
 
         List<Integer> phones = new ArrayList<>();
         phones.add(912837465);
 
-        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(VALIDEMAIL, VALIDNAME, VALIDBIRTHDATE, emails, phones, "999999999", VALIDSTREET, VALIDCITY, VALIDZIPCODE, VALIDADDRESSNUMBER, VALIDEMAIL);
+        OutputPersonDTO outputPersonDTO = new OutputPersonDTO(VALIDEMAIL,VALIDNAME,VALIDBIRTHDATE,emails,phones,String.valueOf(VALIDVATNUMBER),VALIDSTREET,VALIDCITY,VALIDZIPCODE,VALIDADDRESSNUMBER,familyID.toString());
 
         // Expected OutputPersonDTO
 
-        List<String> expectedEmails = Collections.emptyList();
+        List<OutputEmailDTO> expectedEmails = Collections.emptyList();
 
         List<Integer> expectedPhones = new ArrayList<>();
         expectedPhones.add(912837465);
@@ -125,7 +126,7 @@ class GetFamilyMemberProfileServiceTest {
 
         // Assert
 
-        assertEquals(expectedOutputPersonDTO, resultOutputPersonDTO);
+        assertEquals(expectedOutputPersonDTO.toString(), resultOutputPersonDTO.toString());
     }
 
     @DisplayName("Get Profile - Failure - throw EmailNotRegisteredException")

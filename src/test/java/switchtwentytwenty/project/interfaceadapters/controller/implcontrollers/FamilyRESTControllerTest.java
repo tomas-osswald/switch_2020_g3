@@ -13,6 +13,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import switchtwentytwenty.project.dto.OptionsDTO;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.CategoryInputDTOAssembler;
 import switchtwentytwenty.project.dto.assemblers.implassemblers.FamilyInputDTOAssembler;
@@ -24,7 +25,6 @@ import switchtwentytwenty.project.dto.category.OutputCategoryDTO;
 import switchtwentytwenty.project.dto.category.OutputCategoryTreeDTO;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.InputPersonDTO;
-import switchtwentytwenty.project.exceptions.AccountNotRegisteredException;
 import switchtwentytwenty.project.exceptions.InvalidEmailException;
 import switchtwentytwenty.project.usecaseservices.applicationservices.iappservices.*;
 
@@ -82,6 +82,9 @@ class FamilyRESTControllerTest {
 
     @InjectMocks
     FamilyRESTController familyRESTController;
+
+    String jwt = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDExOTUxMCwiaWF0IjoxNjI0MTAxNTEwfQ.cLvrGexHcvyJBZyKiVRHMawNRwLt8qqIx52LOn5fQoKjDdJ8xhymUHEA1lLX3CFc1WicTKab8ned8p3KjSHf_g";
+
 
 
     @Test
@@ -296,13 +299,13 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations")
     void getFamilyMemberAndRelationsTestValidFamilyID() {
-        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString(), anyString())).thenReturn(new FamilyMemberAndRelationsListDTO());
         FamilyMemberAndRelationsListDTO outputDTO = new FamilyMemberAndRelationsListDTO();
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com")).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations("@admin@gmail.com", "")).withSelfRel();
         outputDTO.add(selfLink);
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity(outputDTO, HttpStatus.OK);
 
-        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", jwt);
 
         assertEquals(expected, result);
     }
@@ -310,12 +313,24 @@ class FamilyRESTControllerTest {
     @Test
     @DisplayName("Test for the retrieval of the list of a family members and their relations failing because the family is not registered")
     void getFamilyMemberAndRelationsTestFamilyNotRegistered() {
-        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString())).thenThrow(IllegalArgumentException.class);
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString(), anyString())).thenThrow(IllegalArgumentException.class);
         ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.BAD_REQUEST);
 
-        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com");
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", jwt);
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("Test for the retrieval of the list of a family members and their relations failing because access not authorized")
+    void getFamilyMemberAndRelationsTestAccessDenied() {
+        when(getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(anyString(), anyString())).thenThrow(AccessDeniedException.class);
+        ResponseEntity<FamilyMemberAndRelationsListDTO> expected = new ResponseEntity("Error: null", HttpStatus.FORBIDDEN);
+
+        ResponseEntity<FamilyMemberAndRelationsListDTO> result = familyRESTController.getFamilyMembersAndRelations("@admin@gmail.com", "");
+
+        assertEquals(expected, result);
+        assertNotNull(result);
     }
 
 
@@ -334,7 +349,7 @@ class FamilyRESTControllerTest {
         String memberOneID = "tonyze@admin.com";
         String memberTwoID = "moonika@gmail.com";
         OutputRelationDTO outputRelationDTO = new OutputRelationDTO(memberOneID, memberTwoID, relationshipDesignation, relationID);
-        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID)).withSelfRel();
+        Link selfLink = linkTo(methodOn(FamilyRESTController.class).getFamilyMembersAndRelations(familyID, "")).withSelfRel();
         outputRelationDTO.add(selfLink);
 
         when(relationAssembler.toInputChangeRelationDTO(any(ChangeRelationDTO.class), anyString(), anyString())).thenReturn(inputChangeRelationDTO);

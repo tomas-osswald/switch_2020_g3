@@ -1,0 +1,15 @@
+@startuml
+
+left to right direction
+
+title Use Case Diagram - System User
+
+actor "System User" as su
+
+usecase "login into the application" as uc080
+usecase "role authorization" as uc
+
+su -- uc080
+su -- uc
+
+@enduml

@@ -5,6 +5,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.AccessDeniedException;
+import switchtwentytwenty.project.authentication.JWTokenUtil;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
@@ -14,12 +16,14 @@ import switchtwentytwenty.project.dto.family.OutputPersonRelationDTO;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
 import switchtwentytwenty.project.usecaseservices.irepositories.IFamilyRepository;
 import switchtwentytwenty.project.usecaseservices.irepositories.IPersonRepository;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+
 
 @SpringBootTest
 class GetFamilyMembersAndRelationshipServiceTest {
@@ -34,9 +38,14 @@ class GetFamilyMembersAndRelationshipServiceTest {
     @Mock
     IPersonRepository personRepository;
 
+    @Mock
+    JWTokenUtil mockJwt;
+
     @InjectMocks
     GetFamilyMembersAndRelationshipService getFamilyMembersAndRelationshipService;
 
+    String veryDurableJwt = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTgwMDAwMTYyNDI5MjcxMiwiaWF0IjoxNjI0MjkyNzEyfQ.L0ib9t84dubgRWdtK_WCtHBMagp3QbDcNlcLLACPqSRFt3__sJ0T7ef5tGEARj-aRuGXZdxOhMpOG39BwS6KRg";
+    String invalidJwt = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b255emVAbGF0aW5sb3Zlci5jb20iLCJyb2xlIjoiZmFtaWx5QWRtaW5pc3RyYXRvciIsImV4cCI6MTYyNDM4MDU4NSwiaWF0IjoxNjI0MzYyNTg1fQ.enz1EEVmaITp0KIGDLXqvLvPO3wkfhnwbbXVxH9xFTOOM3PTZUdh60fBkcIjM-CYIO5k04b0qCXMugHkYp9kjQ";
 
     String familyIDString = new String("@tonyze@latinlover.com");
     FamilyName name = new FamilyName("tony");
@@ -76,6 +85,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
 
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(familyIDString)).thenReturn(familyID);
+        Mockito.when(mockJwt.extractUsernameFromHeader(anyString())).thenReturn(adminEmail.toString());
         Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
         Mockito.when(personRepository.findAllByFamilyID(familyID)).thenReturn(memberList);
 
@@ -87,7 +97,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
         FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
 
-        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString());
+        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyID.toString(), veryDurableJwt);
 
         assertEquals(expectedList, resultList);
         List<FamilyMemberAndRelationsDTO> innerList = resultList.getFamilyMemberAndRelationsDTO();
@@ -95,7 +105,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
         assertFalse(innerList.isEmpty());
     }
 
-   @Test
+    @Test
     void getFamilyMembersAndRelationsExpectingNotEquals() {
         family.addRelation(relation);
         memberList.add(memberA);
@@ -114,6 +124,7 @@ class GetFamilyMembersAndRelationshipServiceTest {
 
         //Ver anyString
         Mockito.when(familyDTODomainAssembler.familyIDToDomain(anyString())).thenReturn(familyID);
+        Mockito.when(mockJwt.extractUsernameFromHeader(anyString())).thenReturn(adminEmail.toString());
         Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
         Mockito.when(personRepository.findAllByFamilyID(familyID)).thenReturn(memberList);
 
@@ -125,12 +136,37 @@ class GetFamilyMembersAndRelationshipServiceTest {
         FamilyMemberAndRelationsListDTO resultList = new FamilyMemberAndRelationsListDTO();
 
         FamilyID familyIDTwo = new FamilyID("@to@to.com");
-        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyIDTwo.getId());
+        resultList = getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyIDTwo.getId(), veryDurableJwt);
 
 
         assertNotEquals(expectedList, resultList);
-}
+    }
+
+    @Test
+    void getFamilyMembersAndRelationsExpectingFailureNotAuthorized() {
+        family.addRelation(relation);
+        memberList.add(memberA);
+        memberList.add(memberB);
+        FamilyMemberAndRelationsListDTO expectedList = new FamilyMemberAndRelationsListDTO();
 
 
+        outputPersonRelationDTOList.add(relationDTO);
+        outputPersonRelationDTOList.add(relationDTOTwo);
+        FamilyMemberAndRelationsDTO memberADTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberA.id().toString(), outputPersonRelationDTOList);
+        FamilyMemberAndRelationsDTO memberBDTO = new FamilyMemberAndRelationsDTO(memberAName.toString(), memberB.id().toString(), outputPersonRelationDTOList);
 
+        expectedList.addDTO(memberADTO);
+        //expectedList.addDTO(memberBDTO);
+
+
+        //Ver anyString
+        Mockito.when(familyDTODomainAssembler.familyIDToDomain(anyString())).thenReturn(familyID);
+        Mockito.when(mockJwt.extractUsernameFromHeader(anyString())).thenReturn(nonAdminEmail.toString());
+        Mockito.when(familyRepository.getByID(familyID)).thenReturn(family);
+
+        assertThrows(AccessDeniedException.class, () -> {
+            getFamilyMembersAndRelationshipService.getFamilyMembersAndRelations(familyIDString, invalidJwt);
+        });
+
+    }
 }

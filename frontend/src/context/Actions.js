@@ -120,12 +120,12 @@ export function changeView(value) {
     }
 }
 
-export function changeViewToEditRelation(value, relationID) {
+export function changeViewToEditRelation(value, link) {
     return {
         type: CHANGE_VIEW_RELATION,
         payload: {
             mainView: value,
-            relationID: relationID
+            link: link
         }
     }
 }
@@ -404,9 +404,9 @@ export function addNewMember(dispatch, newMember, jwt) {
 
 }
 
-export function changeRelationAction(dispatch, newRelation, relationID, family_id, jwt) {
+export function changeRelationAction(dispatch, newRelation, link, jwt) {
     dispatch(changeRelationStart())
-    changeRelation((response) => dispatch(changeRelationSuccess(response)), (err) => dispatch(changeRelationFailure(err.message)), newRelation, relationID, family_id, jwt)
+    changeRelation((response) => dispatch(changeRelationSuccess(response)), (err) => dispatch(changeRelationFailure(err.message)), newRelation, link, jwt)
 
 }
 
@@ -455,9 +455,9 @@ export function addNewMemberFailure(error) {
 }
 
 
-export function deleteEmail(dispatch, email, id, jwt) {
+export function deleteEmail(dispatch, deleteLink, jwt) {
     dispatch(deleteEmailStarted())
-    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err.message)),email, id, jwt )
+    deleteEmailFMService((response) => dispatch(deleteEmailSuccess(response)), (err) => dispatch(deleteEmailFailure(err.message)),deleteLink, jwt )
 }
 
 export function deleteEmailStarted(){

@@ -1,0 +1,18 @@
+@startuml
+
+left to right direction
+
+title Use Case Diagram - Family Member
+
+actor "Family Member" as fm
+
+usecase "get my profile’s information" as uc150
+usecase "manage email accounts" as uc151
+usecase "create or add personal accounts" as uc170
+
+fm -- uc150
+fm -- uc151
+fm -- uc170
+
+
+@enduml

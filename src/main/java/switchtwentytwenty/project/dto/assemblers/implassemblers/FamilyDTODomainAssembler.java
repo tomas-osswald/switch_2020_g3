@@ -1,14 +1,19 @@
 package switchtwentytwenty.project.dto.assemblers.implassemblers;
 
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import switchtwentytwenty.project.domain.aggregates.family.Family;
 import switchtwentytwenty.project.domain.aggregates.person.Person;
 import switchtwentytwenty.project.domain.valueobject.*;
 import switchtwentytwenty.project.dto.family.*;
 import switchtwentytwenty.project.dto.person.FamilyMemberAndRelationsDTO;
+import switchtwentytwenty.project.interfaceadapters.controller.implcontrollers.FamilyRESTController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class FamilyDTODomainAssembler {
@@ -72,13 +77,17 @@ public class FamilyDTODomainAssembler {
 
     }
 
-    public OutputPersonRelationDTO toOutputPersonRelationDTO(Relation relation) {
+    public OutputPersonRelationDTO toOutputPersonRelationDTO(Relation relation, String familyID) {
         String personIDOne = relation.getMemberA().toString();
         String personIDTwo = relation.getMemberB().toString();
         String designation = relation.getRelationDesignation().toString();
         String relationID = relation.getId().toString();
+        Link changeRelationLink = linkTo(methodOn(FamilyRESTController.class).changeRelation(null, familyID, relationID)).withSelfRel();
 
-        return new OutputPersonRelationDTO(personIDOne, personIDTwo, designation, relationID);
+        OutputPersonRelationDTO outputPersonRelationDTO = new OutputPersonRelationDTO(personIDOne, personIDTwo, designation, relationID);
+        outputPersonRelationDTO.add(changeRelationLink);
+
+        return outputPersonRelationDTO;
 
     }
 
@@ -100,7 +109,7 @@ public class FamilyDTODomainAssembler {
         List<Relation> personRelationList = family.getRelationsByPersonID(id);
         List<OutputPersonRelationDTO> outputRelationDTOList = new ArrayList<>();
         for (Relation relation : personRelationList) {
-            outputRelationDTOList.add(toOutputPersonRelationDTO(relation));
+            outputRelationDTOList.add(toOutputPersonRelationDTO(relation, family.id().toString()));
         }
         return outputRelationDTOList;
     }

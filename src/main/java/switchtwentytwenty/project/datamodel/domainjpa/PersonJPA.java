@@ -31,7 +31,7 @@ public class PersonJPA {
     private List<EmailAddressJPA> emails = new ArrayList<>();
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhoneNumberJPA> phones = new ArrayList<>();
 
     @Getter

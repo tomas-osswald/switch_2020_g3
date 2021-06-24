@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OutputPersonRelationDTO {
+public class OutputPersonRelationDTO extends RepresentationModel {
 
     private String memberOneID;
     private String memberTwoID;

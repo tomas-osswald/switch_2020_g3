@@ -186,9 +186,10 @@ class FamilyDTODomainAssemblerTest {
 
     @Test
     void toOutputPersonRelationDTO() {
+        String familyID = "@tonyze@latinlover.com";
         Relation relation = new Relation(new PersonID("id@id.com"), new PersonID("id2@id.com"), new RelationDesignation("friends"));
         OutputPersonRelationDTO expected = new OutputPersonRelationDTO("id@id.com", "id2@id.com", "friends", relation.getId().toString());
-        OutputPersonRelationDTO result = familyDTODomainAssembler.toOutputPersonRelationDTO(relation);
+        OutputPersonRelationDTO result = familyDTODomainAssembler.toOutputPersonRelationDTO(relation, familyID);
         assertEquals(expected, result);
 
     }
