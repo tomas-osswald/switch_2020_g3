@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class JWTUserDetailsServiceIT {
@@ -39,6 +36,7 @@ public class JWTUserDetailsServiceIT {
 
         assertEquals(expected.getUsername(), result.getUsername());
         assertNotEquals(expected.getPassword(), result.getPassword());
+        assertNotNull(result.getPassword());
         assertEquals(expected.getRole(), result.getRole());
     }
 }
