@@ -21,7 +21,7 @@ function NavbarBody() {
                               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
                               integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
                               crossOrigin="anonymous" referrerPolicy="no-referrer"/>
-                        <h3><i className="fas fa-user userIcon"></i>System Manager</h3>
+                        <h4><i className="fas fa-user userIcon"></i>System Manager</h4>
                     </div>
                     <NavbarBodyButton className="systemManager-1" valor="createFamily" description="Create a Family"/>
                 </NavbarBodyDiv>
@@ -34,7 +34,7 @@ function NavbarBody() {
                               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
                               integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
                               crossOrigin="anonymous" referrerPolicy="no-referrer"/>
-                        <h3><i className="fas fa-user userIcon"></i>Family Administrator</h3>
+                        <h4><i className="fas fa-user userIcon"></i>Family Administrator</h4>
                     </div>
                     <NavbarBodyButton className="familyAdmin-1" valor="family" description="Family"/>
                     <NavbarBodyButton className="familyAdmin-2" valor="profile" description="Profile"/>
@@ -49,7 +49,7 @@ function NavbarBody() {
                               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
                               integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
                               crossOrigin="anonymous" referrerPolicy="no-referrer"/>
-                        <h3><i className="fas fa-user userIcon"></i>Family Member</h3>
+                        <h4><i className="fas fa-user userIcon"></i>Family Member</h4>
                     </div>
                     <NavbarBodyButton className="familyMember-1" valor="profile" description="Profile"/>
                 </NavbarBodyDiv>

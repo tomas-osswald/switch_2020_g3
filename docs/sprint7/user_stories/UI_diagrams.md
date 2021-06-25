@@ -67,7 +67,6 @@ activate store
 
 activate actor
 actor -> component : request data
-deactivate actor
 activate component
 component -> action : function(dispatch(action, requestData))
 deactivate component
@@ -82,8 +81,9 @@ ref over service
 end
 
 service -> action : success(reponseData)
-activate action
 deactivate service
+activate action
+
 action -> reducer : dispatch(success(reponseData))
 deactivate action
 deactivate action
@@ -91,10 +91,9 @@ activate reducer
 reducer -> store : update state
 deactivate reducer
 store -> component : update component
-activate component
 deactivate store
+activate component
 component -> actor : show changes in UI
-activate actor
 deactivate component
 deactivate actor
 
