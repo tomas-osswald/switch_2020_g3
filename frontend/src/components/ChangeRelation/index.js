@@ -24,7 +24,7 @@ function ChangeRelation() {
 
     return(
         <AddMemberDiv>
-            <h3 align="center">Change Relation</h3>
+            <h3 className="changeHeader" align="center">Change Relation</h3>
             <Form className="center-form">
                 <Form.Group controlId="emailID">
                     <Form.Label>New Relation Description</Form.Label>
@@ -33,11 +33,10 @@ function ChangeRelation() {
                 </Form.Group>
 
                 <div className="button-position">
-                    <Button className="button-two-small" variant="primary" type="submit" onClick={handleClick}>Submit</Button>
+                    <Button className="button-two-small" variant="dark" type="submit" onClick={handleClick}>Submit</Button>
                 </div>
             </Form>
-
-                </AddMemberDiv>
+        </AddMemberDiv>
     )
 
 }
