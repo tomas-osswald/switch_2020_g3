@@ -44,7 +44,7 @@ public class UITestsITDB {
         driver.findElement(By.id("password")).sendKeys("sm");
         driver.findElement(By.id("login-button")).click();
 
-        String expected = "CREATE A FAMILY";
+        String expected = "System Manager";
         String result = driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/div")).getText();
 
         assertEquals(expected, result);
@@ -64,7 +64,7 @@ public class UITestsITDB {
         driver.findElement(By.id("password")).sendKeys("admin");
         driver.findElement(By.id("login-button")).click();
 
-        String expected = "FAMILY";
+        String expected = "Family Administrator";
         String result = driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/div[1]")).getText();
 
         assertEquals(expected, result);
@@ -85,7 +85,7 @@ public class UITestsITDB {
         driver.findElement(By.id("password")).sendKeys("member");
         driver.findElement(By.id("login-button")).click();
 
-        String expected = "PROFILE";
+        String expected = "Family Member";
         String result = driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/div")).getText();
 
         assertEquals(expected, result);
@@ -102,7 +102,7 @@ public class UITestsITDB {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
 
-        driver.findElement(By.id("login-email")).sendKeys("notauser");
+        driver.findElement(By.id("login-email")).sendKeys("UserNotRegistered@gmail.com");
         driver.findElement(By.id("password")).sendKeys("notapassword");
         driver.findElement(By.id("login-button")).click();
 
@@ -128,7 +128,7 @@ public class UITestsITDB {
         driver.findElement(By.id("password")).sendKeys("sm");
         driver.findElement(By.id("login-button")).click();
 
-        driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/div")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div[2]/div[2]")).click();
 
         Robot robot = new Robot();
         for (int i = 0; i < 4; i++) {
