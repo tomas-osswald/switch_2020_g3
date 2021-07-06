@@ -1,17 +1,22 @@
 # README #
 
-![yes](https://imgur.com/XTSl70O.jpg)
-
 This is the repository used for the SWitCH 2020 project
 
 ## What is this repository for? ##
 
-It contains the project developed by the group.
-
+It contains the project developed by group 3.
 
 ## Who do I talk to? ##
-In case you have any problem, please talk to:
-* Ângelo Martins (amm@isep.ipp.pt)
+
+This project was developed by:
+* Bruno Tamames 
+* Diogo Ribeiro 
+* [João Pinto](https://github.com/joaoduartepinto) 
+* Manuel Almeida 
+* Miguel Loureiro 
+* [Ricardo Batista](https://github.com/dev-rbatista) 
+* Ricardo Nogueira 
+* [Tomás Osswald](https://github.com/tomas-osswald) 
 
 ## How was the .gitignore file generated? ##
 .gitignore file was generated based on https://www.gitignore.io/ with the following keywords:
