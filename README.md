@@ -10,7 +10,7 @@ It contains the project developed by group 3.
 
 This project was developed by:
 * Bruno Tamames 
-* Diogo Ribeiro 
+* [Diogo Ribeiro](https://github.com/thediogoribeiro)
 * [João Pinto](https://github.com/joaoduartepinto) 
 * [Manuel Almeida](https://github.com/1201770) 
 * [Miguel Loureiro](https://github.com/mloureiro1181945) 
