@@ -12,8 +12,8 @@ This project was developed by:
 * Bruno Tamames 
 * Diogo Ribeiro 
 * [João Pinto](https://github.com/joaoduartepinto) 
-* Manuel Almeida 
-* Miguel Loureiro 
+* [Manuel Almeida](https://github.com/1201770) 
+* [Miguel Loureiro](https://github.com/mloureiro1181945) 
 * [Ricardo Batista](https://github.com/dev-rbatista) 
 * Ricardo Nogueira 
 * [Tomás Osswald](https://github.com/tomas-osswald) 
